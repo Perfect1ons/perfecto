@@ -1,0 +1,76 @@
+@mixin reset-all-styles {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  outline: none;
+  background: none;
+  border: none;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-style: inherit;
+}
+
+@mixin container($container-width) {
+  max-width: $container-width;
+  margin: 0 auto;
+}
+
+@mixin flex($align: null, $justify: null, $direction: null, $gap: null) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+  gap: $gap;
+}
+
+@mixin button(
+  $padding: null,
+  $shadow: null,
+  $border: null,
+  $radius: null,
+  $bg: null,
+  $f-size: null,
+  $f-weight: null,
+  $f-color: null
+) {
+  cursor: pointer;
+  text-decoration: none;
+  padding: $padding;
+  box-shadow: $shadow;
+  border: $border;
+  border-radius: $radius;
+  background: $bg;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  color: $f-color;
+}
+
+@mixin link($f-size: null, $f-weight: null, $f-color: null) {
+  text-decoration: none;
+  font-size: $f-size;
+  font-weight: $f-weight;
+  color: $f-color;
+}
+
+@mixin font($f-size: null, $f-weight: null, $f-height: null, $f-color: null) {
+  font-size: $f-size;
+  font-weight: $f-weight;
+  line-height: $f-height;
+  color: $f-color;
+}
+
+@mixin make-columns($count) {
+  @for $i from 1 through $count {
+    &-#{$i} {
+      flex-basis: $i / $count * 100%;
+    }
+  }
+}
+
+@mixin position($type, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $type;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
