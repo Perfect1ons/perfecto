@@ -1,0 +1,10 @@
+.catalog {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  &__h1 {
+    font-weight: 400;
+    padding: 5px;
+    color: var(--dark);
+  }
+}
