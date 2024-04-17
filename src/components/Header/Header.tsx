@@ -3,7 +3,6 @@ import styles from './style.module.scss'
 import Logo from '../Logo/Logo';
 import HeaderNav from './HeaderNav/HeaderNav';
 import { SearchIcon, SearchIconWhite } from '../../../public/Icons/Icons';
-import Image from 'next/image';
 import Link from 'next/link';
 
 
