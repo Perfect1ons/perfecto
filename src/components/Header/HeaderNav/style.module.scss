@@ -3,6 +3,11 @@
 .nav{
     width: 320px;
     @include mixin.flex(center, space-between, null, 10px );
+    
+    @media screen and (max-width: 1200px) {
+        width: 100%;
+        gap: 25px;
+    }
 
     &__link{
         @include mixin.flex(center, center,column-reverse,3px);
@@ -21,5 +26,5 @@
 }
 
 .active{
-    color: white;
+    color: var(--white);
 }
