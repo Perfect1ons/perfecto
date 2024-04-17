@@ -1,0 +1,25 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.nav{
+    width: 320px;
+    @include mixin.flex(center, space-between, null, 10px );
+
+    &__link{
+        @include mixin.flex(center, center,column-reverse,3px);
+        text-decoration: none;
+
+        &_title{
+            color: var(--gray-white);
+            transition: 0.3s ease-in-out;
+        }
+
+        &_title:hover{
+            color: var(--white);
+
+        }
+    }
+}
+
+.active{
+    color: white;
+}
