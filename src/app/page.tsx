@@ -1,4 +1,4 @@
-import { getBannerData } from "@/api/requests";
+import { getBannerData, getPopularCategories, getTodayBought } from "@/api/requests";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,17 +14,12 @@ export const metadata: Metadata = {
 export default async function Home() {
 
 const bannerData = await getBannerData()
-
+const popularCategoryData = await getPopularCategories()
+// const boughtTodayData = await getTodayBought();
 
   return (
     <div>
-      {
-        bannerData.map((item)=>{
-          return <h1 key={item.id}>
-            {item.naim}
-          </h1>
-        })
-        }
+    
     </div>
   );
 }
