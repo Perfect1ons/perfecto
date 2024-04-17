@@ -1,3 +1,4 @@
+import { getBannerData } from "@/api/requests";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,11 +11,20 @@ export const metadata: Metadata = {
   robots: "index,follow",
 };
 
-export default function Home() {
+export default async function Home() {
+
+const bannerData = await getBannerData()
+
+
   return (
     <div>
-      <h1>hello home</h1>
-      <h1>We are the best one</h1>
+      {
+        bannerData.map((item)=>{
+          return <h1 key={item.id}>
+            {item.naim}
+          </h1>
+        })
+        }
     </div>
   );
 }

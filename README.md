@@ -6,12 +6,9 @@
    - "@" - путь с папки "src"
    - "@components" - путь с папки "components"
    - "@assets" - путь с папки "assets"
-   - "@pages" - путь с папки "pages"
    - "@shared" - путь с папки "shared"
-   - "@interfaces" - путь с папки "interfaces"
+   - "@types" - путь с папки "types"
    - "@img" - путь с папки "img"
-   - "@routes" - путь с папки "routes"
-   - "@hooks" - путь с папки "hooks"
    - "@mixins" - доступ к папке sass "mixins.scss"
 4. Для работы с mixin'ами в компонентах, подключать таким образом:
 
