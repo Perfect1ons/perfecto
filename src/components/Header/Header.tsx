@@ -20,6 +20,7 @@ const Header = () => {
 
         <div className={styles.search}>
           <input
+            placeholder='Искать товары и категории'
             type="text"
             id="searchInput"
             className={styles.search__input}
