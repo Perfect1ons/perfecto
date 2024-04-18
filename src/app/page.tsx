@@ -1,5 +1,6 @@
-import { getBannerData, getPopularCategories, getTodayBought } from "@/api/requests";
-import Footer from "@/components/Footer/Footer";
+
+import { getPopularCategory } from "@/api/requests";
+import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,12 +15,14 @@ export const metadata: Metadata = {
 
 export default async function Home() {
 
-const bannerData = await getBannerData()
-const popularCategoryData = await getPopularCategories()
-// const boughtTodayData = await getTodayBought();
+  const popularCategoryData = await getPopularCategory()
+  
 
   return (
-    <div>
-    </div>
+    <>
+
+      <PopularCategory category={popularCategoryData}/>
+    </>
   );
 }
+

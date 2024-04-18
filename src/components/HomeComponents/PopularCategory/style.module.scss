@@ -1,0 +1,5 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.popular__category_title{
+  @include mixin.font(20px,600,120%,#424242)
+}
