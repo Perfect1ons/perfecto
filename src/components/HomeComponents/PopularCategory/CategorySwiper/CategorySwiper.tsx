@@ -15,16 +15,18 @@ import {
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const maxkg = "https://max.kg/catalog/";
 
 export default function CategorySwiper({ category }: ICategory) {
+  const router = useRouter();
+
   return (
     <div className={styles.category__swiper}>
       <Swiper
         slidesPerView={6}
         spaceBetween={15}
-        speed={500}
         slidesPerGroup={6}
         navigation={{
           nextEl: ".team__btn_next",
@@ -61,7 +63,7 @@ export default function CategorySwiper({ category }: ICategory) {
           },
         }}
         modules={[Grid, Pagination, Navigation]}
-        className="mySwiper"
+        className={styles.mySwiper}
       >
         {category.map((item) => {
           const imageUrl = item.icon
@@ -70,21 +72,20 @@ export default function CategorySwiper({ category }: ICategory) {
               : `https://max.kg/${item.icon}`
             : "https://max.kg/images/discount/empty-image.png";
           return (
-            <Link
-              key={item.id}
-              href={`https://max.kg/catalog/${item.full_slug}`}
+            <SwiperSlide
+              key={item.idd}
+              onClick={() => router.push(`https://max.kg/catalog/${item.full_slug}`)}
+              className={styles.swiper__slide}
             >
-              <SwiperSlide className={styles.swiper__slide}>
-                <Image
-                  className={styles.swiper__slide_img}
-                  src={imageUrl}
-                  width={93.5}
-                  height={93.5}
-                  alt={item.name}
-                />
-                <h1 className={styles.swiper__slide_title}>{item.name}</h1>
-              </SwiperSlide>
-            </Link>
+              <Image
+                className={styles.swiper__slide_img}
+                src={imageUrl}
+                width={93.5}
+                height={93.5}
+                alt={item.name}
+              />
+              <h1 className={styles.swiper__slide_title}>{item.name}</h1>
+            </SwiperSlide>
           );
         })}
         <div className={styles.team__swiper_buttons}>
