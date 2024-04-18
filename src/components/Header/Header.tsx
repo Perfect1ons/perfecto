@@ -1,10 +1,10 @@
-import cn from 'clsx'
-import styles from './style.module.scss'
-import Logo from '../Logo/Logo';
-import HeaderNav from './HeaderNav/HeaderNav';
-import { SearchIcon, SearchIconWhite } from '../../../public/Icons/Icons';
-import Link from 'next/link';
-
+import cn from "clsx";
+import styles from "./style.module.scss";
+import Logo from "../Logo/Logo";
+import HeaderNav from "./HeaderNav/HeaderNav";
+import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
+import Link from "next/link";
+import HeaderModal from "./HeaderModal/HeaderModal";
 
 const Header = () => {
   return (
@@ -14,9 +14,11 @@ const Header = () => {
           <Logo />
         </div>
 
-        <Link className={styles.catalog} href={'/catalog'}>
-          Каталог
-        </Link>
+        <div className={styles.catalog}>
+          <button className={styles.catalog}>Каталог</button>
+
+          <HeaderModal />
+        </div>
 
         <div className={styles.search}>
           <input
@@ -34,11 +36,11 @@ const Header = () => {
         </div>
 
         <div className={styles.search__white}>
-          <SearchIconWhite/>
+          <SearchIconWhite />
         </div>
       </div>
     </header>
   );
-}
+};
 
-export default Header
+export default Header;
