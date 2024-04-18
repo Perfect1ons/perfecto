@@ -1,4 +1,6 @@
 // import { getBannerData } from "@/api/requests";
+import { getPopularCategory } from "@/api/requests";
+import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,10 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  const popularCategoryData = await getPopularCategory();
   // const bannerData = await getBannerData();
-
   return (
     <div>
+      <PopularCategory category={popularCategoryData} />
       {/* {
         bannerData.map((item)=>{
           return <h1 key={item.id}>
