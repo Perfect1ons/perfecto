@@ -1,9 +1,9 @@
 import cn from 'clsx'
 import styles from './style.module.scss'
-import Logo from '../Logo/Logo';
-import HeaderNav from './HeaderNav/HeaderNav';
 import { SearchIcon, SearchIconWhite } from '../../../public/Icons/Icons';
 import Link from 'next/link';
+import Logo from '../Logo/Logo';
+import HeaderNav from './HeaderNav/HeaderNav';
 
 
 const Header = () => {
