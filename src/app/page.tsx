@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { getBannerData } from "@/api/requests";
 import Catalog from "@/components/Catalog/Catalog";
+=======
+import { getBannerData, getPopularCategories, getTodayBought } from "@/api/requests";
+>>>>>>> 10ab96e1a6d12fd5723bebc77512cdea5965277e
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title:
@@ -12,6 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+<<<<<<< HEAD
   const bannerData = await getBannerData();
 
   return (
@@ -20,6 +25,16 @@ export default async function Home() {
         return <h1 key={item.id}>{item.naim}</h1>;
       })} */}
       <Catalog />
+=======
+
+const bannerData = await getBannerData()
+const popularCategoryData = await getPopularCategories()
+// const boughtTodayData = await getTodayBought();
+
+  return (
+    <div>
+    
+>>>>>>> 10ab96e1a6d12fd5723bebc77512cdea5965277e
     </div>
   );
 }
