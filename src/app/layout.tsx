@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.scss";
+import Footer from "@/components/Footer/Footer";
 
 const inter = Inter ({
   subsets: ["latin", "cyrillic"],
@@ -23,7 +24,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        {children}
+        <Footer/>
+        </body>
     </html>
   );
 }

@@ -1,0 +1,64 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.footerNavItem {
+  flex-basis: 200px;
+  flex-grow: 1;
+  @include mixin.flex(null, null, column, null);
+}
+.footerNavItemTitleContainer {
+  max-width: 250px;
+  @include mixin.flex(center, null, null, 40px);
+  @media screen and (max-width: 1200px) {
+    cursor: pointer;
+  }
+  @media screen and (max-width: 454px) {
+    @include mixin.flex(center, space-between, null, 40px);
+    max-width: 400px;
+  }
+}
+.footerNavItemTitle {   
+    display: block;
+    padding: 10px;
+  user-select: none;
+  @include mixin.font(18px, 700, null, #ffffff);
+  letter-spacing: 1px;
+}
+.footerNavItemArrowIsActive {
+  display: none;
+  user-select: none;
+  transform: rotate(0deg);
+  transition: 0.2s all;
+  @media screen and (max-width: 1200px) {
+    display: block;
+  }
+}
+.footerNavItemArrow {
+  transform: rotate(90deg);
+}
+.footerNavItemContainer {
+  @include mixin.flex(null, null, column, 5px);
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+.hidden{
+    display: none;
+}
+.footerNavItemLinks{
+    @include mixin.flex(null, null, null, null);
+}
+.footerNavItemLink {
+    user-select: none;
+    padding: 5px;
+    display: block;
+  @include mixin.link(16px, 400, #ffffff);
+  filter: brightness(80%);
+  margin-top: 5px;
+  transition: 0.3s all;
+  &:hover {
+    filter: brightness(100%);
+    border: 1px solid #fff;
+    padding: 3px;
+    border-radius: 3px;
+  }
+
+}

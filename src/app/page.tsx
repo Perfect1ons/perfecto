@@ -1,4 +1,5 @@
 import { getBannerData, getPopularCategories, getTodayBought } from "@/api/requests";
+import Footer from "@/components/Footer/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -19,7 +20,6 @@ const popularCategoryData = await getPopularCategories()
 
   return (
     <div>
-    
     </div>
   );
 }
