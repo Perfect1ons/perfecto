@@ -1,0 +1,39 @@
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 28px 46px;
+  border-radius: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: var(--font-roboto);
+  font-weight: 700;
+  font-size: 20px;
+}
+.blue {
+  background: rgb(39, 76, 91);
+  color: white;
+  border: none;
+}
+.yellow {
+  border: none;
+  background: #efd372;
+  color: #274c5b;
+}
+.white {
+  background: #ffffff;
+  color: #274c5b;
+  border: 1px solid #274c5b;
+}
+
+.xs {
+  padding: 20px;
+}
+.wide {
+  display: block;
+}
+@media screen and (max-width: 990px) {
+  .wide {
+    width: 100%;
+  }
+}

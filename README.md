@@ -16,3 +16,6 @@
    -  .class {
    -    @include mixin.mixinName(values)
    -  }
+5. Шрифты, (Если автоматически не подключились): 
+   - font-family: var(--font-montserrat);
+   - font-family: var(--font-inter);

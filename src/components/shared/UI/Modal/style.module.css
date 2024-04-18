@@ -1,0 +1,17 @@
+.modal {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  margin-left: -200px;
+  max-width: 100%;
+  background: #fff;
+  z-index: 100;
+  box-shadow: 0 0 10px -6px rgba(0, 0, 0, 0.5);
+  transform: scale(0);
+  visibility: hidden;
+  transition: 0.3s;
+}
+.show {
+  visibility: visible;
+  transform: scale(1);
+}
