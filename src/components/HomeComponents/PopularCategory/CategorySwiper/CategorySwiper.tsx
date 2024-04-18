@@ -34,6 +34,32 @@ export default function CategorySwiper({ category }: ICategory) {
           rows: 2,
           fill: "row",
         }}
+        breakpoints={{
+          240: {
+            spaceBetween: 10,
+            slidesPerView: 2,
+            slidesPerGroup: 2,
+          },
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            slidesPerGroup: 2,
+          },
+          768: {
+            spaceBetween: 15,
+            slidesPerView: 4,
+            slidesPerGroup: 4,
+          },
+          992: {
+            spaceBetween: 15,
+            slidesPerView: 5,
+            slidesPerGroup: 5,
+          },
+          1200: {
+            slidesPerView: 6,
+            spaceBetween: 15,
+          },
+        }}
         modules={[Grid, Pagination, Navigation]}
         className="mySwiper"
       >
@@ -44,7 +70,10 @@ export default function CategorySwiper({ category }: ICategory) {
               : `https://max.kg/${item.icon}`
             : "https://max.kg/images/discount/empty-image.png";
           return (
-            <Link key={item.id} href={`https://max.kg/catalog/${item.full_slug}`}>
+            <Link
+              key={item.id}
+              href={`https://max.kg/catalog/${item.full_slug}`}
+            >
               <SwiperSlide className={styles.swiper__slide}>
                 <Image
                   className={styles.swiper__slide_img}

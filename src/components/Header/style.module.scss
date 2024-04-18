@@ -2,10 +2,9 @@
 
 
 .header{
-    // background: var(--dark-blue);
     background: linear-gradient(88.03deg, #112B66 1.19%, #991A4E 97.58%);
     &__container{
-    height: 100px;
+    height: 72.5px;
 
         @include mixin.flex(center, space-between, null, 30px)
     }
@@ -62,7 +61,10 @@
         color: var(--black);
         width: 100%;
         transition: 0.3s ease-in-out;
-
+        
+        ::placeholder{
+            color: var(--black);
+        }
         @media screen and (max-width: 992px) {
             display: none;
         }
@@ -78,7 +80,7 @@
     &__icon{
         cursor: pointer;
         position: absolute;
-        right: 10;
+        right: 10px;
     }
 }
 
