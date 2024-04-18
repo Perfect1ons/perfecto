@@ -1,7 +1,6 @@
 import { getBannerData } from "@/api/requests";
 import Catalog from "@/components/Catalog/Catalog";
 import type { Metadata } from "next";
-
 export const metadata: Metadata = {
   title:
     "Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны",

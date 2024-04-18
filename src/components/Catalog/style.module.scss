@@ -1,10 +1,23 @@
+@use "../../assets/scss/common/mixins" as mixin;
+
 .catalog {
+  @include mixin.container(1450px);
   display: grid;
   grid-template-columns: 1fr 2fr;
 
   &__h1 {
+    max-width: 312px;
+    @include mixin.flex(center, space-between, null, 10px);
+    font-size: 15px;
     font-weight: 400;
     padding: 5px;
-    color: var(--dark);
+    color: #424242;
+    cursor: pointer;
+    &:hover {
+      background-color: #f2f2f2;
+    }
   }
+}
+.category {
+  @include mixin.flex(flex-start, null, column, 10px);
 }
