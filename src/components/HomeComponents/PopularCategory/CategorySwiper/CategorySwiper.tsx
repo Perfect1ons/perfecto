@@ -14,10 +14,8 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-const maxkg = "https://max.kg/catalog/";
 
 export default function CategorySwiper({ category }: ICategory) {
   const router = useRouter();
@@ -38,9 +36,9 @@ export default function CategorySwiper({ category }: ICategory) {
         }}
         breakpoints={{
           240: {
-            spaceBetween: 10,
-            slidesPerView: 2,
-            slidesPerGroup: 2,
+            spaceBetween: 25,
+            slidesPerView: 3,
+            slidesPerGroup: 3,
           },
           480: {
             slidesPerView: 2,

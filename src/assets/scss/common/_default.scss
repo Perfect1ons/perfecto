@@ -2,20 +2,6 @@
   @include reset-all-styles;
 }
 
-body {
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    background: var(--white);
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--dark-blue);
-    border-radius: 4px;
-  }
-}
-
 .container {
   @include container(1440px);
   padding: 0 15px;
