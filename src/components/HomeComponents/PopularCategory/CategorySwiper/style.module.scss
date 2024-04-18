@@ -13,7 +13,6 @@
   font-size: 18px;
   background: #ffffff;
   height: calc((100% - 30px) / 2) !important;
-  margin: 20px 0;
   display: flex;
   justify-content: flex-start;
   gap: 10px;
@@ -21,11 +20,33 @@
   flex-direction: column;
   transition: 0.3s ease-in-out;
 
+  @media screen and (max-width: 480px) {
+    min-height: 80px;
+    max-width: 90px;
+    overflow: hidden;
+  }
+
+  &_img{
+    border-radius: 5px;
+    
+    @media screen and (max-width: 480px) {
+      width: 65px;
+      height: 65px;
+    }
+  }
   &_title{
     @include mixin.font(14px,400,150%,#424242);
     text-align: center;
     transition: 0.1s ease-in-out;
     user-select: none;
+
+    @media screen and (max-width: 480px) {
+      font-size: 10px;
+      color: var(--black);
+      font-weight: 400;
+      max-height: 33px;
+      overflow: hidden;
+    }
   }
   &:hover{
     box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
@@ -43,6 +64,8 @@
   padding: 12.5px 14px 10px 15px;
   border-radius: 10px;
   border: none;
+
+
 }
   
 .team__swiper_buttons {

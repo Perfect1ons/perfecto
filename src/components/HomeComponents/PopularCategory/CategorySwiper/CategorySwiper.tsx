@@ -36,14 +36,14 @@ export default function CategorySwiper({ category }: ICategory) {
         }}
         breakpoints={{
           240: {
-            spaceBetween: 25,
+            spaceBetween: 15,
             slidesPerView: 3,
             slidesPerGroup: 3,
           },
           480: {
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 15,
-            slidesPerGroup: 2,
+            slidesPerGroup: 3,
           },
           768: {
             spaceBetween: 15,
