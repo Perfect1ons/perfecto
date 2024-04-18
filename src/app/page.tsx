@@ -1,4 +1,5 @@
-import { getBannerData, getPopularCategory } from "@/api/requests";
+
+import { getPopularCategory } from "@/api/requests";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
@@ -24,3 +25,4 @@ export default async function Home() {
     </>
   );
 }
+
