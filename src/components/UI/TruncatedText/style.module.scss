@@ -11,6 +11,8 @@
   padding-bottom: 20px;
 }
 .truncateToggler {
+  user-select: none;
+  cursor: pointer;
   color: #fff;
   border-bottom: 2px dashed #fff;
 }

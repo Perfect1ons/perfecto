@@ -2,11 +2,9 @@
 
 .not__found{
     @include mixin.flex(center,center);
-    height: 720px;
+    min-height: 100vh;
 
-    @media screen and (max-width:768px) {
-        height: 100vh;
-    }
+
     &_container{
         @include mixin.flex(center,center,column)
     }

@@ -1,5 +1,11 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
-.popular__category_title{
+.popular__category{
+  margin-top: 64px;
+
+  &_title{
   @include mixin.font(20px,600,120%,#424242)
+
+  }
 }
+
