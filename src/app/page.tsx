@@ -1,6 +1,7 @@
 
-import { getPopularCategory } from "@/api/requests";
+import { getPopularCategory, getSeasonCategory } from "@/api/requests";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,12 +17,14 @@ export const metadata: Metadata = {
 export default async function Home() {
 
   const popularCategoryData = await getPopularCategory()
-  
+
+  const seasonCategoryData = await getSeasonCategory();
 
   return (
     <>
 
       <PopularCategory category={popularCategoryData}/>
+      <SeasonCategory seasonItems={seasonCategoryData}/>
     </>
   );
 }
