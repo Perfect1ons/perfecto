@@ -19,7 +19,7 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
               slidesPerView={6}
               spaceBetween={15}
               slidesPerGroup={6}
-              pagination={true}
+              pagination={{clickable: true}}
               navigation={{
                 nextEl: ".team__btn_next",
                 prevEl: ".team__btn_prev",
