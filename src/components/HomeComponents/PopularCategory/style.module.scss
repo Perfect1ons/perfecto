@@ -4,8 +4,8 @@
   margin-top: 64px;
 
   &_title{
-  @include mixin.font(20px,600,120%,#424242)
-
+    @include mixin.font(20px,600,120%,#424242);
+    user-select: none;
   }
 }
 

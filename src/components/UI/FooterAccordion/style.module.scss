@@ -48,7 +48,7 @@
 }
 .footerNavItemLink {
     user-select: none;
-    padding: 5px;
+    padding: 5px 0px;
     display: block;
   @include mixin.link(16px, 400, #ffffff);
   filter: brightness(80%);

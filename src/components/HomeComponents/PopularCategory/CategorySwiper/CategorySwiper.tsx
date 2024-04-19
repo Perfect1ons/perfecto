@@ -36,7 +36,6 @@ export default function CategorySwiper({ category }: ICategory) {
         }}
         breakpoints={{
           240: {
-            spaceBetween: 15,
             slidesPerView: 3,
             slidesPerGroup: 3,
           },
