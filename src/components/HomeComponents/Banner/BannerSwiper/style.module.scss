@@ -14,8 +14,12 @@
   padding-bottom: 40px;
   user-select: none;
   border-radius: 5px;
+
+  @media screen and (max-width: 640px) {
+    padding-bottom: 30px;
+  }
     &_img{
-        border-radius: 5px;
+        border-radius: 1.5%;
         padding: 0 15px;
         width: 100%;
         height: auto;

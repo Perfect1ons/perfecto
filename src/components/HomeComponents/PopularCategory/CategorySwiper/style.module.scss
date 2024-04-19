@@ -2,6 +2,10 @@
 
 .mySwiper{
   padding-bottom: 50px;
+  
+  @media screen and (max-width: 640px) {
+    padding-bottom: 30px;
+  }
 }
 
 .swiper__slide {
@@ -75,8 +79,8 @@
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
-  width: 99%;
-  left: 0.5%;
+  width: 99.5%;
+  left: 0.2%;
 
   @media screen and (max-width: 640px) {
     display: none;
