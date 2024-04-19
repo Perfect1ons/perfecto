@@ -4,9 +4,6 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { ArrowLeftIcon, ArrowRightIcon } from "../../../../public/Icons/Icons";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Grid, Navigation, Pagination } from "swiper/modules";
 import { useRouter } from "next/navigation";
 import SeasonCategorySwiper from "./SeasonCategorySwiper/SeasonCategorySwiper";
 
@@ -15,6 +12,7 @@ interface ISeasonCategoryProps {
 }
 
 const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width:1200px)");
   const startUrl = "https://";
   const image = "https://max.kg/";
@@ -32,7 +30,9 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
               : imageEmpty;
 
             return (
-              <div key={item.id} className={styles.seasonItem}>
+              <div onClick={() =>
+                router.push(`https://max.kg/catalog/${item.full_slug}`)
+              } key={item.id} className={styles.seasonItem}>
                 <Image
                   className={styles.seasonItemImg}
                   src={imageUrl}
