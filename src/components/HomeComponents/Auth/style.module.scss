@@ -3,9 +3,10 @@
 
 .auth__section{
     margin-top: 40px;
-
+    display: none;
     @media screen and (max-width: 640px) {
         margin-top: 20px;
+        display: block;
     }
 }
 
