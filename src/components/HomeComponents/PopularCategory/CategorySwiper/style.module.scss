@@ -1,7 +1,10 @@
 @use '../../../../assets/scss/common/mixins' as mixin;
 
 .mySwiper{
+  padding-top: 5px;
   padding-bottom: 50px;
+  padding-left: 5px;
+  padding-right: 5px;
   
   @media screen and (max-width: 640px) {
     padding-bottom: 30px;
@@ -13,20 +16,26 @@
   min-height: 170px;
   text-align: center;
   padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 5px;
   border-radius: 5px;
   font-size: 18px;
-  background: #ffffff;
+  background: var(--white);
   height: calc((100% - 30px) / 2) !important;
   display: flex;
   justify-content: flex-start;
   gap: 10px;
   align-items: center;
   flex-direction: column;
-  // transition: 0.3s ease-in-out;
+  @media screen and (max-width: 992px) {
+    min-height: 190px;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 200px;
+  }
 
   @media screen and (max-width: 480px) {
-    min-height: 80px;
-    overflow: hidden;
+    min-height: 160px;
   }
 
 
@@ -43,12 +52,13 @@
     text-align: center;
     transition: 0.1s ease-in-out;
     user-select: none;
-
+    padding: 0 10px;
     @media screen and (max-width: 480px) {
-      font-size: 12px;
+      font-size: 15px;
       color: var(--black);
-      font-weight: 500;
-      max-height: 33px;
+      max-width: 120px;
+      overflow-wrap: break-word;
+      max-height: 45px;
       overflow: hidden;
     }
   }

@@ -8,6 +8,7 @@
 
   &_title{
     @include mixin.font(20px,600,120%,#424242);
+    text-transform: uppercase;
     user-select: none;
   }
 }
