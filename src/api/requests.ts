@@ -5,7 +5,7 @@ import { subCatalog } from "@/types/subCatalog";
 import ky from "ky";
 
 const maxkg = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API_KEY,
+  prefixUrl: process.env.PUBLIC_NEXT_API,
   cache: "no-cache",
 });
 const maxkgz = ky.create({
