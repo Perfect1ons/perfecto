@@ -30,7 +30,7 @@
     @include mixin.flex(center,center,null,15px);
     color: var(--white);
     background: var(--dark-blue);
-    max-width: 450px;
+    max-width: 100%;
     width: 100%;
     padding: 10px;
     border-radius: 5px;
