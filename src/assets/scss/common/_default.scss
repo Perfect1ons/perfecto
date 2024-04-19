@@ -2,21 +2,8 @@
   @include reset-all-styles;
 }
 
-body {
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--green);
-    border-radius: 4px;
-  }
-}
-
 .container {
   @include container(1440px);
-  padding: 0 10px;
+  padding: 0 15px;
 }
 

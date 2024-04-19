@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat } from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.scss";
 
-const inter = Inter ({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
-});
+import Footer from "@/components/Footer/Footer";
 
-const montserrat = Montserrat({
+import Header from "@/components/Header/Header";
+
+const rubik = Rubik ({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-montserrat",
-});
+  variable: "--font-rubik",
+})
 
 export const metadata: Metadata = {
   icons: "/img/website-icon.png",
@@ -22,8 +21,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${montserrat.variable}`}>
-      <body className={montserrat.className}>{children}</body>
+    <html lang="en" className={`${rubik.variable}`}>
+      <body className={rubik.className}>
+        <Header/>
+        {children}
+        <Footer/>
+        </body>
     </html>
   );
 }

@@ -1,3 +1,8 @@
+
+import { getPopularCategory } from "@/api/requests";
+import Auth from "@/components/HomeComponents/Auth/Auth";
+import Banner from "@/components/HomeComponents/Banner/Banner";
+import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,14 +13,19 @@ export const metadata: Metadata = {
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
   robots: "index,follow",
-  viewport: "width=device-width, initial-scale=1",
 };
 
-export default function Home() {
+export default async function Home() {
+
+  const popularCategoryData = await getPopularCategory()
+  
+
   return (
-    <div>
-      <h1>hello home</h1>
-      <h1>We are the best one</h1>
-    </div>
+    <>
+      <Banner/>
+      <Auth/>
+      <PopularCategory category={popularCategoryData}/>
+    </>
   );
 }
+

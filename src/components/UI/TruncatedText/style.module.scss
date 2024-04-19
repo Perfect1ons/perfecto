@@ -1,0 +1,18 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.footerMoreSection{
+  @include mixin.flex(center, center, column, null);
+}
+.footerDescBlockTitle {
+  user-select: none;
+  margin-top: 10px;
+  @include mixin.link(14px, 400, #ffffff);
+  filter: brightness(80%);
+  padding-bottom: 20px;
+}
+.truncateToggler {
+  user-select: none;
+  cursor: pointer;
+  color: #fff;
+  border-bottom: 2px dashed #fff;
+}
