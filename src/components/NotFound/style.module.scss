@@ -2,19 +2,24 @@
 
 .not__found{
     @include mixin.flex(center,center);
-    height: 720px;
+    min-height: 100vh;
+
+
     &_container{
         @include mixin.flex(center,center,column)
     }
     &_title{
-        @include mixin.font(40px,500, 120%, var(--black));
+        @include mixin.font(40px,700, 120%, var(--black));
         text-align: center;
         max-width: 1000px;
         margin-bottom: 20px;
-    }
-
-    &_error{
-        @include mixin.font(72px,800,120%,var(--black));
+        text-wrap: wrap;
+        @media screen and (max-width: 768px) {
+            font-size: 28px;
+        }  
+        @media screen and (max-width: 480px) {
+            font-size: 20px;
+        }
     }
 
     &_reasons{
@@ -26,11 +31,21 @@
 }
 
 .error__reason{
-    @include mixin.font(24px,600,150%,var(--gray-dark));
+    @include mixin.font(24px,500,150%,var(--black));
+    text-align: center;
+    @media screen and (max-width: 480px) {
+            font-size: 18px;
+        }
 }
 
 .reason__name{
-    @include mixin.font(20px,500,150%,var(--gray-dark))
+    @include mixin.font(20px,500,150%,var(--black));
+    @media screen and (max-width: 768px) {
+        font-size: 16px;
+    }
+            @media screen and (max-width: 480px) {
+            font-size: 14px;
+        }
 }
 
 .goToMain{

@@ -7,6 +7,8 @@ import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import { useState } from "react";
 import Modal from "../shared/UI/Modal/Modal";
 import Catalog from "../Catalog/Catalog";
+import Link from "next/link";
+import HeaderModal from "./HeaderModal/HeaderModal";
 
 const Header = () => {
   const [close, setClose] = useState(false);
@@ -20,14 +22,15 @@ const Header = () => {
 
         <div className={styles.catalog} onClick={orderCancelled}>
           Каталог
+          <Modal isVisible={close} close={orderCancelled}>
+            <h1>sdhadhjsdhasj</h1>
+            {/* <Catalog /> */}
+          </Modal>
         </div>
-        <Modal isVisible={close} close={orderCancelled}>
-          <h1>sdhadhjsdhasj</h1>
-          {/* <Catalog /> */}
-        </Modal>
 
         <div className={styles.search}>
           <input
+            placeholder="Искать товары и категории"
             type="text"
             id="searchInput"
             className={styles.search__input}

@@ -1,5 +1,6 @@
-import { getBannerData, getCatalog, getCatalogSecond } from "@/api/requests";
-import Catalog from "@/components/Catalog/Catalog";
+// import { getBannerData } from "@/api/requests";
+import { getPopularCategory } from "@/api/requests";
+import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title:
@@ -12,14 +13,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const bannerData = await getBannerData();
-
+  const popularCategoryData = await getPopularCategory();
+  // const bannerData = await getBannerData();
   return (
     <div>
-      {/* {bannerData.map((item) => {
-        return <h1 key={item.id}>{item.naim}</h1>;
-      })} */}
-      <Catalog />
+      <PopularCategory category={popularCategoryData} />
+      {/* {
+        bannerData.map((item)=>{
+          return <h1 key={item.id}>
+            {item.naim}
+          </h1>
+        })
+        } */}
     </div>
   );
 }
