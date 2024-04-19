@@ -4,11 +4,18 @@ import { ICatalogHome } from "@/types/catalogsHome";
 import { subCatalog } from "@/types/subCatalog";
 import ky from "ky";
 
-const maxkg = ky.create({ prefixUrl: process.env.MAXKG, cache: "no-cache" });
+const maxkg = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API_KEY,
+  cache: "no-cache",
+});
+const maxkgz = ky.create({
+  prefixUrl: "https://max.kg/api",
+  cache: "no-cache",
+});
 
-export const getBannerData = (): Promise<IBanner> => {
-  return maxkg.get("baner?pageSize=20&page=1").json();
-};
+// export const getBannerData = (): Promise<IBanner> => {
+//   return maxkg.get("baner?pageSize=20&page=1").json();
+// };
 
 export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
@@ -16,6 +23,6 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
   return maxkg.get("catalog/cathome").json();
 };
-export const getSubCatalogs = (id: number): Promise<subCatalog> => {
-  return maxkg.get(`catalog/${id}`).json();
+export const getSubCatalogs = (path: number): Promise<ICatalogHome> => {
+  return maxkgz.get(`catalog/${path}`).json();
 };

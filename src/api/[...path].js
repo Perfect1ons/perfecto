@@ -1,6 +1,6 @@
 import httpProxy from "http-proxy";
 
-const MAXKG = process.env.MAXKG; // The actual URL of your API
+const MAXKG = process.env.PUBLIC_NEXT_API; // The actual URL of your API
 
 const proxy = httpProxy.createProxyServer();
 
@@ -22,15 +22,3 @@ export default (req, res) => {
   });
 };
 
-// const yourExportedFunction = (req, res) => {
-//   return new Promise((resolve, reject) => {
-//     proxy.web(req, res, { target: MAXKG, changeOrigin: true }, (err) => {
-//       if (err) {
-//         return reject(err);
-//       }
-//       resolve();
-//     });
-//   });
-// };
-
-// export default yourExportedFunction;

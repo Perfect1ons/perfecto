@@ -12,7 +12,7 @@ const HeaderCatalog = ({ catalog }: ICatalogProps) => {
 
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {
-      setSubCatalogs(data);
+      console.log(data);
     });
   };
 
