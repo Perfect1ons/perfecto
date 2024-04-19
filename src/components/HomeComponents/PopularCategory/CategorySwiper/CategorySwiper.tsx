@@ -30,6 +30,7 @@ export default function CategorySwiper({ category }: ICategory) {
           nextEl: ".team__btn_next",
           prevEl: ".team__btn_prev",
         }}
+        pagination={{clickable: true}}
         grid={{
           rows: 2,
           fill: "row",

@@ -2,7 +2,11 @@
 
 
 .auth__section{
-    margin-top: 20px;
+    margin-top: 40px;
+
+    @media screen and (max-width: 640px) {
+        margin-top: 20px;
+    }
 }
 
 .auth__container{
@@ -14,6 +18,9 @@
     @media screen and (max-width: 992px) {
         flex-direction: column;
         gap: 15px;
+    }
+    @media screen and (max-width: 640px) {
+        padding: 20px 5px;
     }
 }
 

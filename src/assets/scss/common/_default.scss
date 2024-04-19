@@ -5,5 +5,9 @@
 .container {
   @include container(1440px);
   padding: 0 15px;
+
+  @media screen and (max-width: 640px) {
+    padding: 0 5px;
+  }
 }
 
