@@ -1,9 +1,9 @@
-
 import { getPopularCategory } from "@/api/requests";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
+import CatalogeHome from "./catalog/page";
 
 export const metadata: Metadata = {
   title:
@@ -16,16 +16,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-
-  const popularCategoryData = await getPopularCategory()
-  
+  const popularCategoryData = await getPopularCategory();
 
   return (
     <>
-      <Banner/>
-      <Auth/>
-      <PopularCategory category={popularCategoryData}/>
+      <Banner />
+      <Auth />
+      <PopularCategory category={popularCategoryData} />
+      <CatalogeHome />
     </>
   );
 }
-

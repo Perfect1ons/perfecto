@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import TextTruncate from "../UI/TruncatedText/TruncatedText";
 import FooterAccordion from "../UI/FooterAccordion/FooterAccordion";
 const Footer = () => {
-
   const linksCompany = [
     {
       id: 1,
@@ -60,7 +59,7 @@ const Footer = () => {
     },
     {
       id: 6,
-      href: "/catalog",
+      href: "/allcatalog",
       content: "Каталог товаров",
     },
     {
@@ -139,28 +138,29 @@ const Footer = () => {
   return (
     <footer className={cn(styles.footer)}>
       <nav className={cn(styles.footerNav, "container")}>
-      <FooterAccordion links={linksCompany} title="Компания"/>
-      <FooterAccordion links={linksClients} title="Покупателям"/>
-      <FooterAccordion links={linksHelp} title="Помощь"/>
-      <FooterAccordion links={linksPartners} title="Партнерам"/>
-      <FooterAccordion links={linksSocials} title="Мы в соцсетях"/>
+        <FooterAccordion links={linksCompany} title="Компания" />
+        <FooterAccordion links={linksClients} title="Покупателям" />
+        <FooterAccordion links={linksHelp} title="Помощь" />
+        <FooterAccordion links={linksPartners} title="Партнерам" />
+        <FooterAccordion links={linksSocials} title="Мы в соцсетях" />
       </nav>
-     <div className={cn(styles.footerDescBlock, "container")}>
-     <p className={styles.footerDescBlockTitle}>
-        © 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте,
-        носят сугубо информационный характер и не являются исчерпывающими. Для
-        более подробной информации следует обращаться к менеджерам компании по
-        указанным на сайте телефонам. Вся представленная на сайте информация,
-        касающаяся комплектации, технических характеристик, цветовых сочетаний,
-        а также стоимости продукции носит информационный характер и ни при каких
-        условиях не является публичной офертой, определяемой положениями
-        Гражданского Кодекса Кыргызской Республики. Указанные цены являются
-        рекомендованными и могут отличаться от действительных цен. Фото и
-        характеристики товаров могут отличаться и уточняется при обращении в
-        Интернет магазин
-      </p>
-      <div className={styles.textTruncate}>
-          <TextTruncate text="© 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте,
+      <div className={cn(styles.footerDescBlock, "container")}>
+        <p className={styles.footerDescBlockTitle}>
+          © 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте,
+          носят сугубо информационный характер и не являются исчерпывающими. Для
+          более подробной информации следует обращаться к менеджерам компании по
+          указанным на сайте телефонам. Вся представленная на сайте информация,
+          касающаяся комплектации, технических характеристик, цветовых
+          сочетаний, а также стоимости продукции носит информационный характер и
+          ни при каких условиях не является публичной офертой, определяемой
+          положениями Гражданского Кодекса Кыргызской Республики. Указанные цены
+          являются рекомендованными и могут отличаться от действительных цен.
+          Фото и характеристики товаров могут отличаться и уточняется при
+          обращении в Интернет магазин
+        </p>
+        <div className={styles.textTruncate}>
+          <TextTruncate
+            text="© 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте,
             носят сугубо информационный характер и не являются исчерпывающими. Для
             более подробной информации следует обращаться к менеджерам компании по
             указанным на сайте телефонам. Вся представленная на сайте информация,
@@ -170,13 +170,15 @@ const Footer = () => {
             Гражданского Кодекса Кыргызской Республики. Указанные цены являются
             рекомендованными и могут отличаться от действительных цен. Фото и
             характеристики товаров могут отличаться и уточняется при обращении в
-            Интернет магазин" maxLength={248}/>
+            Интернет магазин"
+            maxLength={248}
+          />
+        </div>
+        <hr className={styles.footerDescBlockHr} />
+        <p className={styles.footerDescBlockCOPYRIGHT}>
+          Авторские права © max.kg 2016-2024 — Все права защищены
+        </p>
       </div>
-      <hr className={styles.footerDescBlockHr} />
-      <p className={styles.footerDescBlockCOPYRIGHT}>
-      Авторские права © max.kg 2016-2024 — Все права защищены
-      </p>
-     </div>
     </footer>
   );
 };
