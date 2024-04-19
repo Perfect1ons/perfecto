@@ -1,5 +1,6 @@
 
 import { getPopularCategory } from "@/api/requests";
+import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
@@ -20,6 +21,7 @@ export default async function Home() {
 
   return (
     <>
+      <Banner/>
 
       <PopularCategory category={popularCategoryData}/>
     </>

@@ -1,0 +1,22 @@
+.banner {
+  margin-top: 20px;
+}
+
+.swiper-pagination {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+ .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background-color: #ff0000; 
+    opacity: 0.5; 
+    margin: 0 4px;
+ }
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+ }
+
