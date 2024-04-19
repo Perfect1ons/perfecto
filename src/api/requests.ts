@@ -15,7 +15,7 @@ import ky from "ky";
 //   };
 
 const maxkg = ky.create({
-  prefixUrl: "https://max.kg/api/",
+  prefixUrl: process.env.MAXKG,
   cache: "no-cache",
 });
 

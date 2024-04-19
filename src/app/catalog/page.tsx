@@ -1,9 +1,19 @@
+import { getCatalog, getCatalogSecond } from "@/api/requests";
+import Catalog from "@/components/Catalog/Catalog";
 import CatalogOptions from "@/components/Catalog/CatalogOptions/CatalogOptions";
+import { ICatalogFirst } from "@/types/catalogFirst";
+import { ICatalogSecond } from "@/types/catalogSecond";
+
 import React from "react";
 
 export interface IListItem {
   title: string;
   items: string[];
+}
+
+export interface CatalogProps {
+  catalog: ICatalogFirst[];
+  category: ICatalogSecond;
 }
 
 const ListItem: IListItem[] = [
@@ -49,10 +59,14 @@ const ListItem: IListItem[] = [
   },
 ];
 
-const CatalogPage: React.FC = () => {
+const CatalogPage: React.FC = async () => {
+  const catalog = await getCatalog();
+  const category = await getCatalogSecond(2000000464);
+
   return (
     <>
-      <CatalogOptions options={ListItem} />
+      {/* <CatalogOptions options={ListItem} /> */}
+      <Catalog catalog={catalog} category={category} />
     </>
   );
 };

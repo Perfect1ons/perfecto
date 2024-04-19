@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.0",
+    "http-proxy": "^1.18.1",
     "ky": "^1.2.3",
     "next": "14.2.1",
     "react": "^18",
