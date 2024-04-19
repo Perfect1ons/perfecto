@@ -34,9 +34,10 @@
 .seasonItemTitle{
     @include mixin.font(14px, 400, 21px, #424242);
     text-align: center;
-
 }
 .hidden{
     display: none;
 }
-
+.seasonItemsSwiper{
+    margin-top: 20px;
+}

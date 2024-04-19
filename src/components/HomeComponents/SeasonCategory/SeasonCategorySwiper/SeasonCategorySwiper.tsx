@@ -30,18 +30,18 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
               }}
               breakpoints={{
                 240: {
-                  slidesPerView: 2,
-                  slidesPerGroup: 2,
+                  slidesPerView: 3,
+                  slidesPerGroup: 3,
                 },
                 480: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 15,
-                  slidesPerGroup: 2,
+                  slidesPerGroup: 3,
                 },
                 768: {
                   spaceBetween: 15,
-                  slidesPerView: 2,
-                  slidesPerGroup: 2,
+                  slidesPerView: 3,
+                  slidesPerGroup: 3,
                 },
                 992: {
                   spaceBetween: 15,
@@ -49,7 +49,7 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
                   slidesPerGroup: 3,
                 },
                 1200: {
-                  slidesPerView: 2,
+                  slidesPerView: 3,
                   spaceBetween: 15,
                 },
               }}
