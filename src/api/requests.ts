@@ -1,4 +1,3 @@
-
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { ISeasonCategory } from "@/types/seasonCategory";
@@ -17,5 +16,4 @@ const maxkg = ky.create({ prefixUrl: process.env.MAXKG, cache: "no-cache"});
   export const getSeasonCategory = (): Promise<ISeasonCategory> => {
     return maxkg.get("catalog/season-cat").json();
   }
-
 

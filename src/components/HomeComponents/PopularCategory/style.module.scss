@@ -1,11 +1,14 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
 .popular__category{
-  margin-top: 64px;
+  margin-top: 40px;
+   @media screen and (max-width: 640px) {
+        margin-top: 20px;
+    }
 
   &_title{
-  @include mixin.font(20px,600,120%,#424242)
-
+    @include mixin.font(20px,600,120%,#424242);
+    user-select: none;
   }
 }
 
