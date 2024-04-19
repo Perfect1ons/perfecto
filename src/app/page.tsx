@@ -1,5 +1,6 @@
 
 import { getPopularCategory } from "@/api/requests";
+import Auth from "@/components/HomeComponents/Auth/Auth";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
 
@@ -20,7 +21,7 @@ export default async function Home() {
 
   return (
     <>
-
+      <Auth/>
       <PopularCategory category={popularCategoryData}/>
     </>
   );
