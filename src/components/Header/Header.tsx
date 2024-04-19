@@ -23,7 +23,7 @@ const Header = () => {
         </div>
         <Modal isVisible={close} close={orderCancelled}>
           <h1>sdhadhjsdhasj</h1>
-          <Catalog />
+          {/* <Catalog /> */}
         </Modal>
 
         <div className={styles.search}>

@@ -1,4 +1,5 @@
 import { getBannerData, getCatalog, getCatalogSecond } from "@/api/requests";
+import Catalog from "@/components/Catalog/Catalog";
 import type { Metadata } from "next";
 export const metadata: Metadata = {
   title:
@@ -18,7 +19,7 @@ export default async function Home() {
       {/* {bannerData.map((item) => {
         return <h1 key={item.id}>{item.naim}</h1>;
       })} */}
-      {/* <Catalog /> */}
+      <Catalog />
     </div>
   );
 }
