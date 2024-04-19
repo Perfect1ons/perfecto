@@ -1,86 +1,84 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
-
-.header{
-    background: linear-gradient(88.03deg, #112B66 1.19%, #991A4E 97.58%);
-    &__container{
+.header {
+  background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
+  &__container {
     height: 72.5px;
 
-        @include mixin.flex(center, space-between, null, 30px)
-    }
+    @include mixin.flex(center, space-between, null, 30px);
+  }
 
-    &__nav{
-            @media screen and (max-width: 992px) {
-        display: none;
+  &__nav {
+    @media screen and (max-width: 992px) {
+      display: none;
     }
-    }
+  }
 }
 
-.catalog{
-    text-decoration: none;
-    color: var(--black);
+.catalog {
+  text-decoration: none;
+  color: var(--black);
+  background: var(--white);
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+
+  &:hover {
+    color: var(--dark-blue);
+  }
+
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+}
+
+.search {
+  cursor: pointer;
+  position: relative;
+  @include mixin.flex(center, center, null, 15px);
+  width: 600px;
+
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+  &__white {
+    cursor: pointer;
+    display: none;
+    @media screen and (max-width: 992px) {
+      display: block;
+    }
+  }
+  &__input {
     background: var(--white);
-    padding: 13px 30px;
-    border-radius: 5px;
+    opacity: 0.2;
+    padding: 13px 15px;
+    font-family: var(--font-monsterrat);
     font-weight: 600;
-    cursor: pointer;
+    border-radius: 5px;
+    color: var(--black);
+    width: 100%;
     transition: 0.3s ease-in-out;
-    
-    &:hover{
-        color: var(--dark-blue);
-    }
-    
-    @media screen and (max-width: 992px) {
-        display: none;
-    }
-}
 
-.search{
+    ::placeholder {
+      color: var(--black);
+    }
+    @media screen and (max-width: 992px) {
+      display: none;
+    }
+    &:hover {
+      opacity: 1;
+    }
+
+    &:focus {
+      opacity: 1;
+    }
+  }
+
+  &__icon {
     cursor: pointer;
-    position: relative;
-    @include mixin.flex(center,center,null,15px);
-    width: 600px;
-
-    @media screen and (max-width: 992px) {
-        display: none;
-    }
-    &__white{
-        cursor: pointer;
-        display: none;
-        @media screen and (max-width: 992px) {
-            display: block;
-        }
-    }
-    &__input{
-        background: var(--white);
-        opacity: 0.2;
-        padding: 13px 15px;
-        font-family: var(--font-monsterrat);
-        font-weight: 600;
-        border-radius: 5px;
-        color: var(--black);
-        width: 100%;
-        transition: 0.3s ease-in-out;
-        
-        ::placeholder{
-            color: var(--black);
-        }
-        @media screen and (max-width: 992px) {
-            display: none;
-        }
-        &:hover{
-            opacity: 1;
-        }
-
-        &:focus{
-            opacity: 1;
-        }
-    }
-    
-    &__icon{
-        cursor: pointer;
-        position: absolute;
-        right: 10px;
-    }
+    position: absolute;
+    right: 10px;
+  }
 }
-
