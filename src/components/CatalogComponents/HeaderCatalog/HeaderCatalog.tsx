@@ -1,3 +1,4 @@
+"use client";
 import { ICatalogHome } from "@/types/catalogsHome";
 import React, { useState } from "react";
 import styles from "./style.module.scss";
@@ -16,15 +17,18 @@ const HeaderCatalog = ({ catalog }: ICatalogProps) => {
   };
 
   return (
-    <div className={styles.catalogs}>
-      <div>
-        {catalog.map((catalog) => (
-          <h2 className={styles.catalogs__h2} key={catalog.id}>
+    <div>
+      {catalog.map((catalog) => (
+        <div key={catalog.id} className={styles.catalogs}>
+          <h2
+            className={styles.catalogs__h2}
+            onClick={() => handleMouseEnter(catalog.id)}
+          >
             {catalog.name}
           </h2>
-        ))}
-      </div>
-      <div></div>
+        </div>
+      ))}
+      {subCatalogs?.category[0].name}
     </div>
   );
 };
