@@ -1,0 +1,16 @@
+.catalogs {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  max-width: 1450px;
+  margin: 0 auto;
+}
+.catalogs__h2 {
+  color: #424242;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    background: #e6e6e6;
+  }
+}

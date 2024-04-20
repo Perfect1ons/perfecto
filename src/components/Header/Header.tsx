@@ -1,32 +1,20 @@
-"use client";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import HeaderNav from "./HeaderNav/HeaderNav";
-import { useState } from "react";
-import Modal from "../UI/ModalCatalog/Modal/Modal";
-import CatalogeHome from "@/app/catalog/page";
+import Link from "next/link";
 
 const Header = () => {
-  const [isshow, setIsShow] = useState(false);
-  const orderCancelled = () => setIsShow(!isshow);
-
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <div className={styles.logo}>
           <Logo />
         </div>
-
-        <button className={styles.catalog} onClick={orderCancelled}>
+        <Link className={styles.catalog} href={"/catalog"}>
           Каталог
-          <Modal isVisible={isshow} close={orderCancelled}>
-            asdasdad
-            {/* <CatalogeHome /> */}
-          </Modal>
-        </button>
-
+        </Link>
         <div className={styles.search}>
           <input
             placeholder="Искать товары и категории"
