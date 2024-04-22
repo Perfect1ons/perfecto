@@ -1,10 +1,11 @@
 
-import { getBrands, getPopularCategory, getSeasonCategory } from "@/api/requests";
+import { getBoughts, getBrands, getPopularCategory, getSeasonCategory } from "@/api/requests";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import Brands from "@/components/HomeComponents/Brands/Brands";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
+import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,13 +26,16 @@ export default async function Home() {
 
   const brandsData = await getBrands();
 
+  const boughtsData = await getBoughts();
   return (
     <>
       <Banner/>
       <Auth/>
       <PopularCategory category={popularCategoryData}/>
+      <TodayBoughts boughts={boughtsData.lastz}/>
       <SeasonCategory seasonItems={seasonCategoryData}/>
       <Brands brands={brandsData}/>
+      
     </>
   );
 }
