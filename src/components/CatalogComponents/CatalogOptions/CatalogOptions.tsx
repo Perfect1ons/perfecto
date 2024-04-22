@@ -1,25 +1,31 @@
 import { IListItem } from "@/app/catalog/page";
 import React from "react";
 import styles from "./style.module.scss";
+import CatalogNav from "./CatalogNav";
 
-interface IOptionsProps {
-  options: IListItem[];
+export interface IOptionsProps {
+  links: IListItem[];
+  clients: IListItem[];
+  help: IListItem[];
+  partners: IListItem[];
+  socials: IListItem[];
 }
 
-const CatalogOptions: React.FC<IOptionsProps> = ({ options }) => {
+const CatalogOptions: React.FC<IOptionsProps> = ({
+  links,
+  clients,
+  help,
+  partners,
+  socials,
+}) => {
   return (
-    <section className={styles.section}>
-      {options.map((section, index) => (
-        <div className={styles.content_wrap} key={index}>
-          <h2 className={styles.sectionTitle}>{section.title}</h2>
-          <ul>
-            {section.items.map((item, itemIndex) => (
-              <li key={itemIndex}>{item}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </section>
+    <nav className={styles.section}>
+      <CatalogNav links={links} title="Компания" />
+      <CatalogNav links={clients} title="Покупателям" />
+      <CatalogNav links={help} title="Помощь" />
+      <CatalogNav links={partners} title="Партнерам" />
+      <CatalogNav links={socials} title="Мы в соцсетях" />
+    </nav>
   );
 };
 

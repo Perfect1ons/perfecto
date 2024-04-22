@@ -26,7 +26,19 @@ const AllProducts = ({
     <section className={styles.section}>
       {catalog.map((catalog) => (
         <div className={styles.card_wrap}>
-          <Image src={catalog.icon} width={60} height={60} alt="easter" />
+          <div className={styles.img_wrap}>
+            <Image
+              className={styles.img}
+              src={
+                catalog.icon
+                  ? `https://max.kg/${catalog.icon}`
+                  : "https://max.kg/images/discount/empty-image.png"
+              }
+              width={60}
+              height={60}
+              alt="easter"
+            />
+          </div>
           <div className={styles.card_desc}>
             <h3 className={styles.card_title}>{catalog.name}</h3>
             <ul>
