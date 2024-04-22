@@ -3,11 +3,9 @@ import HeaderCatalog from "@/components/CatalogComponents/HeaderCatalog/HeaderCa
 
 const CatalogeHome = async () => {
   const catalogs = await getCatalogs();
-  // const id = catalogs.filter((item) => item.id);
-  const category = await getSubCatalogs(16);
-  // console.log(category);
+  const category = await getSubCatalogs(2000000464);
 
-  return <HeaderCatalog catalog={catalogs} />;
+  return <HeaderCatalog catalog={catalogs} category={category} />;
 };
 
 export default CatalogeHome;

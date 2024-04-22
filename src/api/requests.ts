@@ -1,5 +1,4 @@
 import { ICategory } from "@/types/PopularCategory";
-import { IBanner } from "@/types/bannerRequest";
 import { ICatalogHome } from "@/types/catalogsHome";
 import { subCatalog } from "@/types/subCatalog";
 import ky from "ky";
@@ -23,6 +22,6 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
   return maxkg.get("catalog/cathome").json();
 };
-export const getSubCatalogs = (path: number): Promise<ICatalogHome> => {
-  return maxkgz.get(`catalog/${path}`).json();
+export const getSubCatalogs = (path: number): Promise<subCatalog> => {
+  return maxkgz.get(`catalog/${path}?enable=1`).json();
 };

@@ -117,7 +117,7 @@ export interface Category {
   idd: number;
   id: number;
   sid: number;
-  name: string;
+  ?name: string;
   priority: number;
   priority_home: number;
   priority_menu: any;

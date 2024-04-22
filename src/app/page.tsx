@@ -3,7 +3,6 @@ import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import type { Metadata } from "next";
-import CatalogeHome from "./catalog/page";
 
 export const metadata: Metadata = {
   title:
@@ -23,7 +22,6 @@ export default async function Home() {
       <Banner />
       <Auth />
       <PopularCategory category={popularCategoryData} />
-      <CatalogeHome />
     </>
   );
 }
