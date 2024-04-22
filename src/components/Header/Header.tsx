@@ -14,13 +14,13 @@ const Header = () => {
           <Logo />
         </div>
 
-        <Link className={styles.catalog} href={'/catalog'}>
+        <Link className={styles.catalog} href={"/catalog"}>
           Каталог
         </Link>
 
         <div className={styles.search}>
           <input
-            placeholder='Искать товары и категории'
+            placeholder="Искать товары и категории"
             type="text"
             id="searchInput"
             className={styles.search__input}
@@ -35,7 +35,7 @@ const Header = () => {
         </div>
 
         <div className={styles.search__white}>
-          <SearchIconWhite/>
+          <SearchIconWhite />
         </div>
       </div>
     </header>
