@@ -49,7 +49,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
           <div className="showMore">
             {itemsToShow < totalItems && (
               <button
-                className={styles.promotion__buttons_showMore}
+                className="news__buttons_showMore"
                 onClick={handleLoadMore}
               >
                 Показать ещё
@@ -58,16 +58,13 @@ const Promotion = ({ promotion }: IPromoProps) => {
           </div>
           <div className="hideMore">
             {itemsToShow >= totalItems && itemsToShow > 6 && (
-              <button
-                className={styles.promotion__buttons_showMore}
-                onClick={handleHide}
-              >
+              <button className="news__buttons_showMore" onClick={handleHide}>
                 Скрыть все
               </button>
             )}
           </div>
           <button
-            className={cn(styles.promotion__buttons_showMore, "showAll_button")}
+            className="news__buttons_showMore showAll_button"
             onClick={handleShowAll}
           >
             Показать все
