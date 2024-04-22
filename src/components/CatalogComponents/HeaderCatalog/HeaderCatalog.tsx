@@ -3,12 +3,14 @@ import { ICatalogHome } from "@/types/catalogsHome";
 import React, { useState } from "react";
 import styles from "./style.module.scss";
 import { getSubCatalogs } from "@/api/requests";
-import { subCatalog } from "@/types/subCatalog";
-interface ICatalogProps {
+import { ISubCatalog } from "@/types/subCatalog";
+
+export interface ICatalogProps {
   catalog: ICatalogHome[];
 }
+
 const HeaderCatalog = ({ catalog }: ICatalogProps) => {
-  const [subCatalogs, setSubCatalogs] = useState<subCatalog>();
+  const [subCatalogs, setSubCatalogs] = useState<ISubCatalog>();
 
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {

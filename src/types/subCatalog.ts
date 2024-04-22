@@ -1,7 +1,7 @@
-export interface subCatalog {
+export interface ISubCatalog {
   full_slug: string;
   model: Model[];
-  category: Category;
+  category: Category[];
   totalCount: number;
   model_count: number;
 }

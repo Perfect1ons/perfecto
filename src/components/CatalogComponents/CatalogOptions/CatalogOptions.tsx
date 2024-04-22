@@ -1,5 +1,6 @@
-import React from "react";
 import { IListItem } from "@/app/catalog/page";
+import React from "react";
+import styles from "./style.module.scss";
 
 interface IOptionsProps {
   options: IListItem[];
@@ -7,10 +8,10 @@ interface IOptionsProps {
 
 const CatalogOptions: React.FC<IOptionsProps> = ({ options }) => {
   return (
-    <section>
+    <section className={styles.section}>
       {options.map((section, index) => (
-        <div key={index}>
-          <h2>{section.title}</h2>
+        <div className={styles.content_wrap} key={index}>
+          <h2 className={styles.sectionTitle}>{section.title}</h2>
           <ul>
             {section.items.map((item, itemIndex) => (
               <li key={itemIndex}>{item}</li>

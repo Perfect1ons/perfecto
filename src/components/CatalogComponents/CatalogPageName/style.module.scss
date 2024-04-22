@@ -1,0 +1,10 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include mixin.container(1200px);
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

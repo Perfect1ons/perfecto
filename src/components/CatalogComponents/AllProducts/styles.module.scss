@@ -1,0 +1,15 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 20px;
+}
+
+.card_wrap {
+  @include mixin.item__border(1px, solid, #e6e6e6, 8px);
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
