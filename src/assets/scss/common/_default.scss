@@ -15,9 +15,29 @@
 
 .showMore,
 .hideMore{
+ 
   @media screen and (max-width: 640px) {
     display: none;
   }
+}
+
+.news__buttons_showMore{
+ margin-top: 20px;
+    @include mixin.button(
+      10px 25px,
+      null,
+      2px solid var(--dark-blue),
+      10px,
+      var(--white),
+      18px,
+      600,
+      var(--dark-blue)
+    );
+    transition: 0.2s ease-out; 
+    &:hover {
+      background: var(--dark-blue);
+      color: var(--white);
+    }
 }
 
 .showAll_button{
@@ -40,6 +60,12 @@
 .promotion,
 .season,
 .popular__category,
-.application{
+.application,
+.brands{
   margin-top: 30px;
+}
+
+
+.news__buttons {
+  @include mixin.flex(center, center);
 }

@@ -1,6 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-.brands {
-  margin-top: 40px;
+.brands__container {
   display: flex;
   flex-direction: column;
 }
@@ -46,16 +45,9 @@
   @include mixin.font(16px, 600, 21px, #424242);
   text-align: center;
 }
-.brandsShowMoreBtn {
-  align-self: center;
+
+
+.brandsButton{
   max-width: 200px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  @include mixin.button(15px, 16px, none, 8px, #112b66, 1rem, 700, #ffffff);
-  border: 2px solid #112b66;
-  transition: 0.4s all;
-}
-.brandsShowMoreBtn:hover {
-  background: none;
-  color: #112b66;
+  margin: 20px auto 0px auto;
 }
