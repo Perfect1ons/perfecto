@@ -14,13 +14,13 @@ const AllProducts = ({
   catalog: ICatalogHome[];
   category: ISubCatalog;
 }) => {
-  // const [subCatalogs, setSubCatalogs] = useState<subCatalog>();
+  const [subCatalogs, setSubCatalogs] = useState<ISubCatalog>();
 
-  // const handleMouseEnter = (id: number) => {
-  //   getSubCatalogs(id).then((data) => {
-  //     console.log(data);
-  //   });
-  // };
+  const handleMouseEnter = (id: number) => {
+    getSubCatalogs(id).then((data) => {
+      console.log(data);
+    });
+  };
 
   return (
     <section className={styles.section}>

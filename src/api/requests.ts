@@ -23,6 +23,6 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
   return maxkg.get("catalog/cathome").json();
 };
-export const getSubCatalogs = (path: number): Promise<ICatalogHome[]> => {
-  return maxkg.get(`catalog/${path}?enable=1`).json();
+export const getSubCatalogs = (path: number): Promise<ISubCatalog> => {
+  return maxkgz.get(`catalog/${path}`).json();
 };

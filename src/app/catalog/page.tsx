@@ -20,7 +20,7 @@ export interface IListItem {
 export default async function catalog() {
   const catalogs = await getCatalogs();
   // const id = catalogs.filter((item) => item.id);
-  const category = await getSubCatalogs(1);
+  const category = await getSubCatalogs(2000000464);
   // console.log(category);
 
   return (
