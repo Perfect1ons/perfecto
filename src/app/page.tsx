@@ -4,6 +4,7 @@ import {
   getPromotion,
   getSeasonCategory,
 } from "@/api/requests";
+import Application from "@/components/HomeComponents/Application/Application";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import News from "@/components/HomeComponents/News/News";
@@ -36,6 +37,7 @@ export default async function Home() {
       <News news={newsData}/>
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
+      <Application/>
     </>
   );
 }

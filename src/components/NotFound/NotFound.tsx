@@ -16,8 +16,9 @@ const NotFounded = () => {
           />
         </div>
 
+        <span className={styles.not__found_error}>Ошибка #404</span>
         <h1 className={styles.not__found_title}>
-          К сожалению запрошенная вами страница не существует - Ошибка #404
+          К сожалению запрошенная вами страница не существует
         </h1>
 
         <div className={styles.not__found_reasons}>

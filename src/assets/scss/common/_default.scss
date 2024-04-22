@@ -23,7 +23,7 @@
 .showAll_button{
     display: none;
 
-    @media screen and (max-width:768px) {
+    @media screen and (max-width:640px) {
         display: block;
     }
 }
@@ -39,6 +39,7 @@
 .news,
 .promotion,
 .season,
-.popular__category{
+.popular__category,
+.application{
   margin-top: 30px;
 }
