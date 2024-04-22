@@ -57,7 +57,7 @@
 
   .swiper__slide_title{
     @include mixin.font(15px,400,150%,#424242);
-    @media screen and (max-width: 378px) {
+    @media screen and (max-width: 360px) {
       @include mixin.font(14px,400,150%,#424242);
     }
   }

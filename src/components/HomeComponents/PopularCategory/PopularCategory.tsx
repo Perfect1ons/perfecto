@@ -11,7 +11,7 @@ export interface ICategory {
 
 const PopularCategory = ({category}: ICategory ) => {
   return (
-    <section className={styles.popular__category}>
+    <section className="popular__category">
       <div className="container">
         <div className={styles.popular__category_content}>
           <h1 className="sections__title">Популярные категории</h1>

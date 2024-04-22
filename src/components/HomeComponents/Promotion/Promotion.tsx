@@ -28,7 +28,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
   };
 
   return (
-    <section className={styles.promotion}>
+    <section className="promotion">
       <div className={"container"}>
         <h1 className="sections__title">Акции</h1>
         <div className={styles.promotion__container}>

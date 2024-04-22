@@ -1,10 +1,12 @@
 import {
+  getNews,
   getPopularCategory,
   getPromotion,
   getSeasonCategory,
 } from "@/api/requests";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
+import News from "@/components/HomeComponents/News/News";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import Promotion from "@/components/HomeComponents/Promotion/Promotion"; // Импортируем компонент Promotion
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
@@ -22,15 +24,16 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const popularCategoryData = await getPopularCategory();
-  const seasonCategoryData = await getSeasonCategory();
-
+  const newsData = await getNews();
   const promotionData = await getPromotion(); 
+  const seasonCategoryData = await getSeasonCategory();
 
   return (
     <>
       <Banner />
       <Auth />
       <PopularCategory category={popularCategoryData} />
+      <News news={newsData}/>
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
     </>

@@ -18,8 +18,8 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
   const image = "https://max.kg/";
   const imageEmpty = "https://max.kg/images/discount/empty-image.png";
   return (
-    <>
-      <section className={cn(styles.season, "container")}>
+    <section className="season">
+      <div className="container">
         <h4 className="sections__title">Сезонные Категории</h4>
         <div className={cn(styles.seasonItems, isMobile && styles.hidden)}>
           {seasonItems.map((item) => {
@@ -54,8 +54,8 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
         >
           <SeasonCategorySwiper seasonItems={seasonItems} />
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 };
 

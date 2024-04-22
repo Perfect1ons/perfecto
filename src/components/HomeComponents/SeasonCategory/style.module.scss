@@ -1,8 +1,5 @@
 @use '../../../assets/scss/common/mixins' as mixin;
-.season{
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
+
 .seasonTitle{
     @include mixin.font(1.25rem, 600, 1.35rem, #424242);
     text-transform: uppercase;
@@ -13,7 +10,7 @@
     @media screen and (max-width: 1200px) {
         grid-template-columns: repeat(3,1fr);
     }
-    @media screen and (max-width: 778px) {
+    @media screen and (max-width: 768px) {
         grid-template-columns: repeat(2,1fr);
     }
 }

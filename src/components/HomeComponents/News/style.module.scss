@@ -1,5 +1,6 @@
 @use '../../../assets/scss/common/mixins' as mixin;
-.promotion__container {
+
+.news__container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
@@ -15,7 +16,9 @@
 
 }
 
-.promotion__buttons {
+
+
+.news__buttons {
   @include mixin.flex(center, center);
 
   &_showMore {
