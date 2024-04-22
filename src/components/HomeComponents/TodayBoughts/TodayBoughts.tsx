@@ -32,7 +32,7 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
     );
 
     return (
-        <section className={styles.boughts}>
+        <section className="boughts">
             <div className={cn(styles.boughtsContainer, "container")}>
                 {boughts.slice(0, visibleItems).map((item) => {
                     let imageUrl = imageEmpty;

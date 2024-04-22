@@ -22,30 +22,38 @@ const Brands = ({ brands }: IBrandsProps) => {
   };
 
   return (
-    <section className={cn(styles.brands, "container")}>
-      <h4 className={styles.brandsTitle}>Бренды</h4>
-      <div className={styles.brandsContainer}>
-        {brands.slice(0, pageSize).map((item) => {
-          return (
-            <Link
-              href={`/brand/${item.name.toLowerCase()}-${item.id}`}
-              className={styles.brandsItem}
-              key={item.id}
-            >
-              <p className={styles.brandsItemName}>{item.name}</p>
-            </Link>
-          );
-        })}
+    <section className="brands">
+      <div className={cn(styles.brands__container, "container")}>
+        <h4 className="sections__title">Бренды</h4>
+        <div className={styles.brandsContainer}>
+          {brands.slice(0, pageSize).map((item) => {
+            return (
+              <Link
+                href={`/brand/${item.name.toLowerCase()}-${item.id}`}
+                className={styles.brandsItem}
+                key={item.id}
+              >
+                <p className={styles.brandsItemName}>{item.name}</p>
+              </Link>
+            );
+          })}
+        </div>
+        {pageSize < 24 ? (
+          <button
+            className={cn(styles.brandsButton, "news__buttons_showMore")}
+            onClick={handleShowMore}
+          >
+            Показать еще
+          </button>
+        ) : (
+          <Link
+            className={cn(styles.brandsButton, "news__buttons_showMore")}
+            href="/brand"
+          >
+            Показать все
+          </Link>
+        )}
       </div>
-      {pageSize < 24 ? (
-        <button className={styles.brandsShowMoreBtn} onClick={handleShowMore}>
-          Показать еще
-        </button>
-      ) : (
-        <Link className={styles.brandsShowMoreBtn} href="/brand">
-          Показать все
-        </Link>
-      )}
     </section>
   );
 };

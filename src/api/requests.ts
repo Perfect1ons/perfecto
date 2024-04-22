@@ -1,5 +1,7 @@
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
+import { INews } from "@/types/news";
+import { IPromotion} from "@/types/promotion";
 import { IBrands } from "@/types/brands";
 import { IBoughts } from "@/types/lastBoughts";
 import { ISeasonCategory } from "@/types/seasonCategory";
@@ -15,6 +17,13 @@ export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
 };
 
+export const getPromotion = (): Promise<IPromotion[]> => {
+  return maxkg.get(`ak`).json();
+};
+
+export const getNews = (): Promise<INews[]> => {
+  return maxkg.get('news').json();
+}
 export const getSeasonCategory = (): Promise<ISeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
