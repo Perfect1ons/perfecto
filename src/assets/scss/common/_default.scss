@@ -1,3 +1,5 @@
+@use '../common/mixins' as mixin;
+
 * {
   @include reset-all-styles;
 }
@@ -11,3 +13,25 @@
   }
 }
 
+.showMore,
+.hideMore{
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
+}
+
+.showAll_button{
+    display: none;
+
+    @media screen and (max-width:768px) {
+        display: block;
+    }
+}
+
+.sections__title{
+    @include mixin.font(20px,600,120%,#424242);
+    text-transform: uppercase;
+
+    margin-bottom: 25px;
+    user-select: none;
+}

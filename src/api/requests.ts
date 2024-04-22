@@ -1,5 +1,6 @@
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
+import { IPromotion, IPromotionResponse } from "@/types/promotion";
 import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 
@@ -17,3 +18,6 @@ const maxkg = ky.create({ prefixUrl: process.env.MAXKG, cache: "no-cache"});
     return maxkg.get("catalog/season-cat").json();
   }
 
+export const getPromotion = (): Promise<IPromotion[]> => {
+  return maxkg.get(`ak`).json();
+};

@@ -14,9 +14,7 @@ const PopularCategory = ({category}: ICategory ) => {
     <section className={styles.popular__category}>
       <div className="container">
         <div className={styles.popular__category_content}>
-          <h1 className={styles.popular__category_title}>
-            Популярные категории
-          </h1>
+          <h1 className="sections__title">Популярные категории</h1>
         </div>
         <div className={styles.popular__category_content}>
           <CategorySwiper category={category} />
