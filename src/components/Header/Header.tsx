@@ -15,13 +15,6 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
-
-        <Link className={styles.catalog} href={"/catalog"}>
-          Каталог
-        </Link>
         {/* <button className={styles.catalog} onClick={handleClick}>
           Каталог
         </button>
@@ -29,20 +22,31 @@ const Header = () => {
           <CatalogeHome />
           <h1>asdasd</h1>
         </Modal> */}
-        <div className={styles.search}>
-          <input
-            placeholder="Искать товары и категории"
-            type="text"
-            id="searchInput"
-            className={styles.search__input}
-          />
-          <label htmlFor="searchInput" className={styles.search__icon}>
-            <SearchIcon />
-          </label>
+
+        <Logo />
+
+        <div className={styles.header__container_form}>
+          <Link className={styles.catalog} href={"/catalog"}>
+            Каталог
+          </Link>
+
+          <div className={styles.search}>
+            <input
+              placeholder="Искать товары и категории"
+              type="text"
+              id="searchInput"
+              className={styles.search__input}
+            />
+            <label htmlFor="searchInput" className={styles.search__icon}>
+              <SearchIcon />
+            </label>
+          </div>
         </div>
+
         <div className={styles.header__nav}>
           <HeaderNav />
         </div>
+
         <div className={styles.search__white}>
           <SearchIconWhite />
         </div>

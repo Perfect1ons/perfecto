@@ -10,17 +10,17 @@ interface IDiscountsProps{
 }
 
 const Discounts = ({discounts}: IDiscountsProps) => {
-  const [itemsToShow, setItemsToShow] = useState<number>(6);
+  const [itemsToShow, setItemsToShow] = useState<number>(8);
   const totalItems = discounts.length;
   const router = useRouter();
   const newsRef = useRef<HTMLDivElement>(null);
 
   const handleLoadMore = () => {
-    setItemsToShow((prevItems) => prevItems + 6);
+    setItemsToShow((prevItems) => prevItems + 8);
   };
 
  const handleHide = () => {
-   setItemsToShow(6);
+   setItemsToShow(8);
    if (newsRef.current) {
      newsRef.current.scrollIntoView({ behavior: "auto" });
    }};
@@ -39,7 +39,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
                 router.push(`https://max.kg/discount/${item.promotion_id}`)
               }
               className={styles.discount__card}
-              key={item.number_of_usages}
+              key={item.name}
             >
               <div className={styles.discount__card_images}>
                 <Image
@@ -86,7 +86,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
             )}
           </div>
           <div className="hideMore">
-            {itemsToShow >= totalItems && itemsToShow > 6 && (
+            {itemsToShow >= totalItems && itemsToShow > 8 && (
               <button className="news__buttons_showMore" onClick={handleHide}>
                 Скрыть все
               </button>

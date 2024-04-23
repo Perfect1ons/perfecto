@@ -41,6 +41,7 @@
 
   &_img{
     border-radius: 5px;
+    user-select: none;
     
     @media screen and (max-width: 480px) {
       width: 65px;
