@@ -23,6 +23,7 @@
 
 .news__buttons_showMore{
  margin-top: 20px;
+ user-select: none;
  @include mixin.flex(center,center);
     @include mixin.button(
       10px 25px,

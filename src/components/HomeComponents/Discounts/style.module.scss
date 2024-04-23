@@ -59,6 +59,8 @@
 .discount__card_img {
   object-fit: cover;
   width: 100%;
+  border-radius: 10px;
+  user-select: none;
 
   @media screen and (max-width: 1200px) {
     height: 200px;
