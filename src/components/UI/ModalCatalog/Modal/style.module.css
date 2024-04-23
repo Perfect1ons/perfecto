@@ -6,11 +6,13 @@
   background: #fff;
   z-index: 100;
   box-shadow: 0 0 10px -6px rgba(0, 0, 0, 0.5);
-  transform: scale(0);
+  display: none;
+  /* transform: scale(0); */
   visibility: hidden;
   transition: 0.3s;
 }
 .show {
   visibility: visible;
-  transform: scale(1);
+  display: block;
+  /* transform: scale(1); */
 }

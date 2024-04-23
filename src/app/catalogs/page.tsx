@@ -1,17 +1,20 @@
+"use client";
 import { subCatalog } from "@/types/subCatalog";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   catalog: subCatalog;
 }
 
 const Catalogs = ({ catalog }: IProps) => {
+  const router = useRouter();
   return (
     <div className={styles.container}>
       <ol className={styles.breadcrumb}>
-        <li>
+        <li className={styles.links}>
           <Link href="/" className={styles.link}>
             Главная
           </Link>
@@ -20,25 +23,43 @@ const Catalogs = ({ catalog }: IProps) => {
           </Link>
         </li>
       </ol>
-      <div>
+      <div className={styles.contain}>
         <h1 className={styles.container__h1}>{catalog.category.name}</h1>
         <div className={styles.row}>
-          <ul>
-            {catalog.category &&
+          <ul className={styles.wrapps}>
+            {/* {catalog.category &&
               Object.values(catalog.category).map((category, index) => {
                 return (
-                  <li key={index}>
-                    <h3 className={styles.catalog__lih3}>{category?.name}</h3>
-                  </li>
+                  <h3 key={index} className={styles.catalog__lih3}>
+                    {category?.name}
+                  </h3>
                 );
-              })}
+              })} */}
+            {catalog.category && Object.values(catalog.category).length > 0 && (
+              <>
+                {Object.values(catalog.category).map((category, index) => (
+                  <h3 key={index} className={styles.catalog__lih3}>
+                    {category?.name}
+                  </h3>
+                ))}
+              </>
+            )}
           </ul>
+
           <ul className={styles.row__9}>
             {catalog.category &&
               Object.values(catalog.category).map((category, index) => {
                 if (category?.name) {
                   return (
-                    <li key={index} className={styles.row__9li}>
+                    <li
+                      key={index}
+                      className={styles.row__9li}
+                      onClick={() => router.push(`products/${category?.id}`)}
+                      // onClick={() => {
+                      //   console.log(category.id); // Выводим id в консоль
+                      //   router.push(`products/${category?.id}`);
+                      // }}
+                    >
                       <Image
                         src={
                           category.icon
@@ -49,17 +70,11 @@ const Catalogs = ({ catalog }: IProps) => {
                         width={60}
                         height={60}
                       />
-                      {/* <Image
-                      src={`https://max.kg/${category.icon}`}
-                      alt={category?.name}
-                      width={100}
-                      height={100}
-                    /> */}
                       <h3 className={styles.name__h3}>{category?.name}</h3>
                     </li>
                   );
                 }
-                return null; // Если имя категории отсутствует, вернем null
+                return null;
               })}
           </ul>
         </div>
