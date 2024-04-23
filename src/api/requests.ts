@@ -9,6 +9,7 @@ import { IBoughts } from "@/types/lastBoughts";
 import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
+import { IFiltersBrand } from "@/types/filtersBrand";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -31,6 +32,9 @@ export const getCatalogs = (): Promise<ICatalogHome[]> => {
 };
 export const getSubCatalogs = (path: number): Promise<subCatalog> => {
   return maxkgz.get(`catalog/${path}?enable=1`).json();
+};
+export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
+  return maxkgz.get(`catalog/listfilter?id_cat=${id}?enable=1`).json();
 };
 
 export const getBannerData = (): Promise<IBanner> => {

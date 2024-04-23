@@ -1,9 +1,11 @@
 import { subCatalog } from "@/types/subCatalog";
 import styles from "./style.module.scss";
 import Image from "next/image";
+import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IProps {
   product: subCatalog;
+  brand: IFiltersBrand;
 }
 const heart = () => (
   <svg
@@ -152,13 +154,84 @@ const starFill = () => (
     />
   </svg>
 );
-const ProductsPage = ({ product }: IProps) => {
+const ProductsPage = ({ product, brand }: IProps) => {
+  console.log(brand.filter?.[11]?.type_name);
   return (
     <div className={styles.container}>
-      <div>
-        {product.model.map((filter) => {
-          return <h1>{filter.trademark}</h1>;
-        })}
+      <div className={styles.fitersContainer}>
+        <h1>Фильтры</h1>
+        <div>
+          <form className={styles.form}>
+            <h1>Цена:</h1>
+            <div className={styles.formContainer}>
+              <input className={styles.input} type="text" placeholder="от 0" />
+              <input className={styles.input} type="text" placeholder="до 0" />
+            </div>
+          </form>
+        </div>
+        <div>
+          <h2>Бренд</h2>
+          {brand.brand.map((item) => {
+            return (
+              <div className={styles.check}>
+                <input type="checkbox" />
+                <li key={item} className={styles.brand}>
+                  {item}
+                </li>
+              </div>
+            );
+          })}
+        </div>
+        <div>
+          <h2>Срок доставки</h2>
+          <ul>
+            {brand.variant_day.map((day) => {
+              const days = day.split("-");
+              let deliveryTime;
+
+              if (days.length === 1) {
+                deliveryTime = "1 день";
+              } else {
+                const minDays = parseInt(days[0]);
+                const maxDays = parseInt(days[1]);
+                if (maxDays - minDays === 1) {
+                  deliveryTime = "1-2 дня";
+                } else {
+                  deliveryTime = `${minDays}-${maxDays} дней`;
+                }
+              }
+
+              return (
+                <div className={styles.check}>
+                  <input type="checkbox" />
+                  <li key={day} className={styles.brand}>
+                    {deliveryTime}
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
+        </div>
+        <div>
+          {brand &&
+            brand.filter &&
+            Object.values(brand.filter).map((filterType) => (
+              <div key={filterType.id_type}>
+                <h3>{filterType.type_name}</h3>
+                <ul>
+                  {filterType.filter &&
+                    Object.values(filterType.filter).map((filter) => (
+                      <div className={styles.check}>
+                        <input type="checkbox" />
+                        <li key={filter?.id_filter}>
+                          {filter?.name}: {filter?.kol}
+                        </li>
+                      </div>
+                    ))}
+                </ul>
+              </div>
+            ))}
+        </div>
       </div>
       <div className={styles.containerProducts}>
         <div className={styles.sortsContainer}>
@@ -182,7 +255,7 @@ const ProductsPage = ({ product }: IProps) => {
                   <div className={styles.images}>
                     {item?.photos && item.photos.length > 0 ? (
                       <Image
-                        src={`https://max.kg/nal/img/${item.images[0].id_post}/l_${item.photos[0]?.url_part}`}
+                        src={`https://max.kg/nal/img/${item.images[0]?.id_post}/l_${item.photos[0]?.url_part}`}
                         alt={item.naim}
                         width={180}
                         height={180}
@@ -200,7 +273,7 @@ const ProductsPage = ({ product }: IProps) => {
                     className={styles.product__price}
                   >{`${item.price} ⃀.`}</h1>
                   <li className={styles.product__name}>
-                    {item.naim.split(" ").slice(0, 8).join(" ")}
+                    {item.naim.split(" ").slice(0, 4).join(" ")}
                   </li>
                   <h2 className={styles.product__code}>Код: {item?.art}</h2>
                 </div>

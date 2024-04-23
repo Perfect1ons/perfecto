@@ -24,8 +24,9 @@ const Header = () => {
         </Link>
         {/* <button className={styles.catalog} onClick={handleClick}>
           Каталог
-        </button> */}
-        {/* <Modal close={handleClick} isVisible={show}>
+        </button>
+        <Modal close={handleClick} isVisible={show}>
+          <CatalogeHome />
           <h1>asdasd</h1>
         </Modal> */}
         <div className={styles.search}>
