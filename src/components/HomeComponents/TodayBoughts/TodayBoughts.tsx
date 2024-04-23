@@ -67,10 +67,10 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
             return (
               <div key={item.id} className="cardItem">
                 <Image
-                  className="cardItemIm"
+                  className="cardItemImg"
                   src={imageUrl}
-                  width={150}
-                  height={150}
+                  width={230}
+                  height={230}
                   alt={item.naim}
                 />
                 <p className="cardItemPrice">{item.price} ⃀.</p>

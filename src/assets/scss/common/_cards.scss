@@ -11,7 +11,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   @media screen and (max-width:1200px){
     grid-template-columns: repeat(4, 1fr);
   }
@@ -27,13 +27,14 @@
   }
 }
 .cardItem {
+    cursor: pointer;
   border-radius: 5px;
-  max-width: 215px;
-  height: 340px;
-  margin-bottom: 20px;
-  padding: 10px 10px 0px 10px;
+  max-width: 230px;
+  height: 390px;
+  margin-bottom: 40px;
+  padding: 0px 10px 0px 0px;
   transition: 0.3s all;
-  @include mixin.flex(center, null, column, null);
+  @include mixin.flex(null, null, column, null);
   &:hover {
     box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
     .cardItemBtns {
@@ -42,9 +43,10 @@
   }
 }
 .cardItemImg {
-  border-radius: 5px;
+  border-radius: 5px 5px 0px 0px;
 }
 .cardItemPrice {
+    padding-left: 10px;
     align-self: flex-start;
   @include mixin.font(16px, 700, 24px, #424242);
 }
@@ -52,19 +54,23 @@
   @include mixin.font(14px, 400, 16.8px, #62656a);
   max-width: 200px;
   max-height: 35px;
+  padding-left: 10px;
   overflow: hidden;
 }
 .cardItemDelivery {
+    padding-left: 10px;
   margin-top: 3px;
   @include mixin.flex(center, null, null, 3px);
   max-width: 240px;
 }
 .cardItemDeliveryTitle {
-  @include mixin.font(12px, 400, 14.4px, #0c54a1);
-  max-width: 160px;
+    margin-top: 10px;
+  @include mixin.font(14px, 400, 14.4px, #0c54a1);
+  max-width: 170px;
 }
 .cardItemBtns {
-  margin-top: 20px;
+  margin-top: 10px;
+  padding-left: 10px;
   display: none;
   @media screen and (max-width:1200px){
     display: block;
@@ -75,7 +81,7 @@
 }
 .cardItemBtnsAddBucket {
   @include mixin.button(
-    10px 35px,
+    10px 45px,
     null,
     null,
     5px,
