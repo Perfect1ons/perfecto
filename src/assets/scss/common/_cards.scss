@@ -5,13 +5,27 @@
 }
 .cardContainer {
     user-select: none;
-  @include mixin.flex(null, null, column, null);
+    @include mixin.flex(null, null, column, null);
 }
 .cardItemContainer {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width:1200px){
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width:992px){
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;   
 }
-
+@media screen and (max-width:576px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width:480px){
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
 .cardItem {
   border-radius: 5px;
   max-width: 215px;
@@ -52,6 +66,9 @@
 .cardItemBtns {
   margin-top: 20px;
   display: none;
+  @media screen and (max-width:1200px){
+    display: block;
+  }
 }
 .cardItemBtnsContainer {
   @include mixin.flex(center, null, null, 10px);
