@@ -23,6 +23,7 @@
 
 .news__buttons_showMore{
  margin-top: 20px;
+ max-height: 45px;
     @include mixin.button(
       10px 25px,
       null,
@@ -61,7 +62,8 @@
 .season,
 .popular__category,
 .application,
-.brands{
+.brands,
+.discounts{
   margin-top: 30px;
 }
 

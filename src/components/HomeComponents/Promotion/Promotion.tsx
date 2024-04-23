@@ -1,10 +1,9 @@
 "use client"
-import { useState } from "react";
+import React, { useState, useRef } from "react";
 import { IPromotion } from "@/types/promotion";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import cn from "clsx";
 
 interface IPromoProps {
   promotion: IPromotion[];
@@ -14,6 +13,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
   const [itemsToShow, setItemsToShow] = useState<number>(6);
   const totalItems = promotion.length;
   const router = useRouter();
+  const promotionRef = useRef<HTMLDivElement>(null);
 
   const handleLoadMore = () => {
     setItemsToShow((prevItems) => prevItems + 6);
@@ -21,14 +21,17 @@ const Promotion = ({ promotion }: IPromoProps) => {
 
   const handleHide = () => {
     setItemsToShow(6);
+    if (promotionRef.current) {
+      promotionRef.current.scrollIntoView({ behavior: "auto" });
+    }
   };
 
   const handleShowAll = () => {
-    router.push("/all-promotions"); 
+    router.push("/all-promotions");
   };
 
   return (
-    <section className="promotion">
+    <section className="promotion" ref={promotionRef}>
       <div className={"container"}>
         <h1 className="sections__title">Акции</h1>
         <div className={styles.promotion__container}>
@@ -76,4 +79,5 @@ const Promotion = ({ promotion }: IPromoProps) => {
 };
 
 export default Promotion;
+
 

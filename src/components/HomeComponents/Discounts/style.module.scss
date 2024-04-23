@@ -1,0 +1,159 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+
+.discount__container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.discount__data{
+  @include mixin.flex(flex-start,center,column, 3px)
+}
+
+.discount__card {
+  @include mixin.flex(null,null,column);
+  background: var(--gray-white);
+  border-radius: 5px;
+  padding: 7px;
+  cursor: pointer;
+  height: auto;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0px 0px 5px 0px var(--black);
+
+    .discount__item_title{
+      color: var(--violet)
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    min-width: 230px;
+  }
+}
+.discount__card_images {
+  @include mixin.flex(null,center);
+  background-color: white; 
+  padding: 5px;
+  border-radius: 5px;
+    @media screen and (max-width: 992px) {
+    max-height: 165px;
+  }
+      @media screen and (max-width: 768px) {
+    max-height: 200px;
+  }
+}
+
+.discount__card_img {
+  object-fit: cover;
+  width: 100%;
+
+  @media screen and (max-width: 1200px) {
+    height: 200px;
+    width: 100%;
+  }
+  @media screen and (max-width: 992px) {
+    height: auto;
+  }
+}
+
+.discount__item_days{
+  @include mixin.font(18px, 600, 125%, var(--dark-blue));
+      @media screen and (max-width: 1200px) {
+      font-size: 16px;
+  }
+}
+
+.discount__item_fromTo{
+  @include mixin.font(12px, 700, 125%, var(--secondary))
+}
+
+.discount__card_content {
+  @include mixin.flex(flex-start,space-between,null,20px);
+  margin-top: 5px;
+  height: 100%;
+  padding: 5px 5px 0px 5px;
+      @media screen and (max-width: 1200px) {
+      align-items: center;
+    }
+    @media screen and (max-width: 992px) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 5px;
+      width: 100%;
+    }
+}
+
+.discount__item_title {
+  @include mixin.font(18px,500,120%,#484848);
+  max-width: 250px;
+    @media screen and (max-width: 1200px) {
+      font-size: 16px;
+  }
+      @media screen and (max-width: 992px) {
+      min-width: 100%;
+  }
+}
+
+
+.discount__by{
+      @media screen and (max-width: 1200px) {
+      max-height: 150px;
+    }
+    @media screen and (max-width: 992px) {
+      min-width: 100%;   
+    }
+  &_percent{
+    @include mixin.flex(center,center,column,4px);
+    @include mixin.font(20px,500,120%,var(--white));
+    background: var(--violet);
+    height: 100%;
+    border-radius: 10px;
+    padding: 15px 10px;
+    text-transform: uppercase;
+    @media screen and (max-width: 1200px) {
+      font-size: 18px;
+    }
+    @media screen and (max-width: 992px) {
+      min-width: 100%;
+      flex-direction: initial;
+    }
+    &_custom{
+      text-transform: uppercase;
+      font-size: 28px;
+      font-weight: 700;
+      @media screen and (max-width: 1200px) {
+      font-size: 22px;
+    }
+    @media screen and (max-width: 992px) {
+      font-size: 18px;
+      font-weight: 500;
+    }
+    }
+  }
+
+}
+
+.discount__card:not(.discount__card--shown) {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); 
+  }
+}

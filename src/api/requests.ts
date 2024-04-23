@@ -5,6 +5,7 @@ import { IPromotion} from "@/types/promotion";
 import { IBrands } from "@/types/brands";
 import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
+import { IDiscounts } from "@/types/discounts";
 
 const maxkg = ky.create({ prefixUrl: process.env.MAXKG, cache: "no-cache" });
 
@@ -28,4 +29,8 @@ export const getSeasonCategory = (): Promise<ISeasonCategory> => {
 };
 export const getBrands = (): Promise<IBrands> =>{
 return maxkg.get("brand?pageSize=36").json()
+}
+
+export const getDiscounts = (): Promise<IDiscounts[]> => {
+  return maxkg.get("discount").json();
 }
