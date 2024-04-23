@@ -10,9 +10,8 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
+
+        <Logo />
 
         <Link className={styles.catalog} href={"/catalog"}>
           Каталог

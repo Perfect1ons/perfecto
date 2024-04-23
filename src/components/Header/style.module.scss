@@ -21,7 +21,7 @@
     color: var(--black);
     background: var(--white);
     padding: 0px 30px;
-    height: 45px;
+    height: 40px;
     @include mixin.flex(center,center);
     border-radius: 5px;
     font-weight: 600;
@@ -42,7 +42,7 @@
     position: relative;
     @include mixin.flex(center,center,null,15px);
     width: 600px;
-    max-height: 45px;
+    height: 25px;
 
     @media screen and (max-width: 992px) {
         display: none;
@@ -58,7 +58,7 @@
     &__input{
         background: var(--white);
         opacity: 0.2;
-        height: 45px;
+        height: 40px;
         padding: 0px 15px;
         font-family: var(--font-monsterrat);
         font-weight: 600;

@@ -5,6 +5,7 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useRouter } from "next/navigation";
 
 
 interface IBrandsProps {
@@ -12,9 +13,9 @@ interface IBrandsProps {
 }
 
 const Brands = ({ brands }: IBrandsProps) => {
-  const isMobile = useMediaQuery("(max-width: 778px)");
   const initialPageSize = 12;
   const [pageSize, setPageSize] = useState(initialPageSize);
+  const router = useRouter()
 
   const handleShowMore = () => {
     const newPageSize = pageSize + 12 > 24 ? 24 : pageSize + 12;
@@ -44,9 +45,9 @@ const Brands = ({ brands }: IBrandsProps) => {
               Показать еще
             </button>
           ) : (
-            <Link className="news__buttons_showMore" href="/brand">
+            <button onClick={() => router.push('./all-brends')} className="news__buttons_showMore">
               Показать все
-            </Link>
+            </button>
           )}
         </div>
       </div>
