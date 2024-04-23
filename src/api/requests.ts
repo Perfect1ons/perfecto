@@ -3,6 +3,7 @@ import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
 import { IPromotion} from "@/types/promotion";
 import { IBrands } from "@/types/brands";
+import { IBoughts } from "@/types/lastBoughts";
 import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 
@@ -27,5 +28,8 @@ export const getSeasonCategory = (): Promise<ISeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
 export const getBrands = (): Promise<IBrands> =>{
-return maxkg.get("brand?pageSize=36").json()
+return maxkg.get("brand?pageSize=36").json();
+}
+export const getBoughts = (): Promise<IBoughts> =>{
+  return maxkg.get("site/lastz?page=1").json();
 }
