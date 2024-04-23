@@ -12,19 +12,25 @@
     &__link{
         @include mixin.flex(center, center,column-reverse,3px);
         text-decoration: none;
+        opacity: 0.6;
+            transition: 0.1s;
 
         &_title{
             color: var(--gray-white);
-            transition: 0.3s ease-in-out;
         }
 
         &_title:hover{
             color: var(--white);
+        }
 
+        &:hover{
+            opacity: 1;
         }
     }
 }
 
 .active{
     color: var(--white);
+    opacity: 1;
+
 }
