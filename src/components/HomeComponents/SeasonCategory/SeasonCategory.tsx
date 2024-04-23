@@ -20,7 +20,7 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
   return (
     <section className="season">
       <div className="container">
-        <h4 className="sections__title">Сезонные Категории</h4>
+        <h1 className="sections__title">Сезонные Категории</h1>
         <div className={cn(styles.seasonItems, isMobile && styles.hidden)}>
           {seasonItems.map((item) => {
             const imageUrl = item.icon
@@ -44,7 +44,7 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
                   height={94}
                   alt={item.name}
                 ></Image>
-                <p className={styles.seasonItemTitle}>{item.name}</p>
+                <h2 className={styles.seasonItemTitle}>{item.name}</h2>
               </div>
             );
           })}

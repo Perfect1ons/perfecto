@@ -39,7 +39,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
                 router.push(`https://max.kg/discount/${item.promotion_id}`)
               }
               className={styles.discount__card}
-              key={item.number_of_usages}
+              key={item.name}
             >
               <div className={styles.discount__card_images}>
                 <Image
