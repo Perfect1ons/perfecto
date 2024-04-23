@@ -30,6 +30,7 @@ export default function CategorySwiper({ category }: ICategory) {
           nextEl: ".team__btn_next",
           prevEl: ".team__btn_prev",
         }}
+        pagination={{ clickable: true }}
         grid={{
           rows: 2,
           fill: "row",
@@ -38,14 +39,15 @@ export default function CategorySwiper({ category }: ICategory) {
           240: {
             slidesPerView: 3,
             slidesPerGroup: 3,
+            spaceBetween: 3,
           },
           480: {
             slidesPerView: 3,
-            spaceBetween: 15,
+            spaceBetween: 3,
             slidesPerGroup: 3,
           },
           768: {
-            spaceBetween: 15,
+            spaceBetween: 3,
             slidesPerView: 4,
             slidesPerGroup: 4,
           },
@@ -71,7 +73,9 @@ export default function CategorySwiper({ category }: ICategory) {
           return (
             <SwiperSlide
               key={item.idd}
-              onClick={() => router.push(`https://max.kg/catalog/${item.full_slug}`)}
+              onClick={() =>
+                router.push(`https://max.kg/catalog/${item.full_slug}`)
+              }
               className={styles.swiper__slide}
             >
               <Image

@@ -1,0 +1,52 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.brands__container {
+  display: flex;
+  flex-direction: column;
+}
+.brandsTitle {
+  @include mixin.font(1.25rem, 600, 1.35rem, #424242);
+  text-transform: uppercase;
+}
+.brandsContainer {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 576px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.brandsItem {
+  padding: 0px 20px;
+  max-width: 230px;
+  height: 100px;
+  box-shadow: 0 2px 8px 0px rgba(34, 60, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: #424242;
+  &:hover {
+    .brandsItemName {
+      color: var(--violet);
+    }
+  }
+  @media screen and (max-width: 1200px) {
+    max-width: 260px;
+  }
+}
+.brandsItemName {
+  @include mixin.font(16px, 600, 21px, #424242);
+  text-align: center;
+}
+
+
+.brandsButton{
+  max-width: 200px;
+  margin: 0 auto;
+}

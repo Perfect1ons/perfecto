@@ -1,7 +1,14 @@
 @use '../../../../assets/scss/common/mixins' as mixin;
 
 .mySwiper{
-  padding: 15px;
+  padding-top: 5px;
+  padding-bottom: 50px;
+  padding-left: 5px;
+  padding-right: 5px;
+  
+  @media screen and (max-width: 640px) {
+    padding-bottom: 30px;
+  }
 }
 
 .swiper__slide {
@@ -9,20 +16,26 @@
   min-height: 170px;
   text-align: center;
   padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 5px;
   border-radius: 5px;
   font-size: 18px;
-  background: #ffffff;
+  background: var(--white);
   height: calc((100% - 30px) / 2) !important;
   display: flex;
   justify-content: flex-start;
   gap: 10px;
   align-items: center;
   flex-direction: column;
-  // transition: 0.3s ease-in-out;
+  @media screen and (max-width: 992px) {
+    min-height: 190px;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 180px;
+  }
 
   @media screen and (max-width: 480px) {
-    min-height: 80px;
-    overflow: hidden;
+    min-height: 160px;
   }
 
 
@@ -35,16 +48,17 @@
     }
   }
   &_title{
-    @include mixin.font(14px,400,150%,#424242);
+    @include mixin.font(1rem,400,150%,#424242);
     text-align: center;
     transition: 0.1s ease-in-out;
     user-select: none;
-
+    padding: 0 10px;
     @media screen and (max-width: 480px) {
-      font-size: 10px;
+      font-size: 15px;
       color: var(--black);
-      font-weight: 400;
-      max-height: 33px;
+      max-width: 120px;
+      overflow-wrap: break-word;
+      max-height: 45px;
       overflow: hidden;
     }
   }
@@ -71,10 +85,14 @@
 .team__swiper_buttons {
   position: absolute;
   z-index: 10;
-  top: 50%;
+  top: 43%;
   transform: translateY(-50%);
   display: flex;
   justify-content: space-between;
-  width: 99%;
-  left: 0.5%;
+  width: 99.5%;
+  left: 0.2%;
+
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
 }

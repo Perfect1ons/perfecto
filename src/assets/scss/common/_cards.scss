@@ -1,0 +1,102 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.showMoreBtn {
+  max-width: 200px;
+  align-self: center;
+}
+.cardContainer {
+    user-select: none;
+    @include mixin.flex(null, null, column, null);
+}
+.cardItemContainer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width:1200px){
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width:992px){
+    grid-template-columns: repeat(3, 1fr);
+    margin: 0 auto;   
+}
+@media screen and (max-width:576px){
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width:480px){
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.cardItem {
+  border-radius: 5px;
+  max-width: 215px;
+  height: 340px;
+  margin-bottom: 20px;
+  padding: 10px 10px 0px 10px;
+  transition: 0.3s all;
+  @include mixin.flex(center, null, column, null);
+  &:hover {
+    box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
+    .cardItemBtns {
+      display: block;
+    }
+  }
+}
+.cardItemImg {
+  border-radius: 5px;
+}
+.cardItemPrice {
+    align-self: flex-start;
+  @include mixin.font(16px, 700, 24px, #424242);
+}
+.cardItemName {
+  @include mixin.font(14px, 400, 16.8px, #62656a);
+  max-width: 200px;
+  max-height: 35px;
+  overflow: hidden;
+}
+.cardItemDelivery {
+  margin-top: 3px;
+  @include mixin.flex(center, null, null, 3px);
+  max-width: 240px;
+}
+.cardItemDeliveryTitle {
+  @include mixin.font(12px, 400, 14.4px, #0c54a1);
+  max-width: 160px;
+}
+.cardItemBtns {
+  margin-top: 20px;
+  display: none;
+  @media screen and (max-width:1200px){
+    display: block;
+  }
+}
+.cardItemBtnsContainer {
+  @include mixin.flex(center, null, null, 10px);
+}
+.cardItemBtnsAddBucket {
+  @include mixin.button(
+    10px 35px,
+    null,
+    null,
+    5px,
+    linear-gradient(88.03deg, #112B66 60.19%, #341052 97.58%),
+    null,
+    null,
+    #fff
+    );
+    text-wrap: nowrap;
+    &:hover {
+        background: linear-gradient(88.03deg, #112B66 1.19%, #991A4E 97.58%);
+    }
+}
+.hearthIcon {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 7px;
+  background: rgba(246, 246, 246, 1);
+  &:hover {
+      outline: 2px solid #991A4E;
+    }
+}

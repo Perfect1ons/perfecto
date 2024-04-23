@@ -1,7 +1,9 @@
 "use client"
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from './style.module.scss'
+
+import './pagination.scss'
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -18,10 +20,15 @@ interface ISlide {
 const BannerSwiper = ({slides}: ISlide) => {
     const router = useRouter()
   return (
-    <div>
       <Swiper
-        pagination={true}
-        modules={[Pagination, Navigation]}
+        pagination={{
+          clickable: true,
+        }}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
+        modules={[Pagination, Navigation, Autoplay]}
         navigation={{
           nextEl: ".team__btn_next",
           prevEl: ".team__btn_prev",
@@ -61,7 +68,6 @@ const BannerSwiper = ({slides}: ISlide) => {
           </div>
         </div>
       </Swiper>
-    </div>
   );
 }
 

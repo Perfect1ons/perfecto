@@ -1,0 +1,10 @@
+.swiper-pagination-bullet {
+  cursor: pointer;
+  background: var(--dark-blue) !important;
+  padding: 5px 10px;
+  border-radius: 50px !important;
+
+  @media screen and (max-width: 640px) {
+    padding: 3px 7px;
+  }
+}

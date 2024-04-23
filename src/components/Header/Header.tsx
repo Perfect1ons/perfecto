@@ -18,6 +18,7 @@ const Header = () => {
         <div className={styles.logo}>
           <Logo />
         </div>
+
         <Link className={styles.catalog} href={"/catalog"}>
           Каталог
         </Link>

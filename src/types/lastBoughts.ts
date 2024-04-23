@@ -1,8 +1,8 @@
-export interface IBoughtToday {
-    items: TodayItem[]
+export interface IBoughts {
+    lastz: IBoughtItem[]
   }
   
-  export interface TodayItem {
+  export interface IBoughtItem {
     id: number
     art3: any
     art: number
@@ -25,7 +25,7 @@ export interface IBoughtToday {
     minQty: number
     isNovelty?: number
     country_id: any
-    country?: string
+    country: string
     stuff?: string
     size: string
     keep_package: any
@@ -46,7 +46,7 @@ export interface IBoughtToday {
     weight?: number
     description?: string
     short_description?: string
-    trademark: string
+    trademark?: string
     cert?: string
     pli?: number
     naim_word: any
@@ -54,7 +54,7 @@ export interface IBoughtToday {
     img2big?: string
     art_post?: string
     id_user_add: any
-    price_cost?: string
+    price_cost: string
     price_update?: string
     naim_add: any
     naim_add_manual?: string
@@ -73,8 +73,8 @@ export interface IBoughtToday {
     id_micro_serv?: number
     d_min?: string
     d_max?: string
-    percent_sum?: string
-    update_period?: number
+    percent_sum: string
+    update_period: number
     show_price: number
     show_opt: number
     active_img?: number
@@ -82,6 +82,7 @@ export interface IBoughtToday {
     images: Image[]
     price: number
     before_markup: number
+    apply_test_per?: string
     discount: number
     discount_prc: number
     promotions: any[]
@@ -94,7 +95,6 @@ export interface IBoughtToday {
     ocenka: number
     before_round?: number
     round_test?: string
-    apply_test_per?: string
   }
   
   export interface Image {

@@ -21,6 +21,7 @@
     color: var(--black);
     background: var(--white);
     padding: 13px 30px;
+    max-height: 45px;
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
@@ -29,7 +30,7 @@
     &:hover{
         color: var(--dark-blue);
     }
-    
+
     @media screen and (max-width: 992px) {
         display: none;
     }
@@ -40,10 +41,12 @@
     position: relative;
     @include mixin.flex(center,center,null,15px);
     width: 600px;
+    max-height: 45px;
 
     @media screen and (max-width: 992px) {
         display: none;
     }
+
     &__white{
         cursor: pointer;
         display: none;
