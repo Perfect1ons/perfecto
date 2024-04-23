@@ -1,9 +1,10 @@
 
-import { getBoughts, getBrands, getNews, getPopularCategory, getPromotion, getSeasonCategory } from "@/api/requests";
+import { getBoughts, getBrands, getDiscounts, getNews, getPopularCategory, getPromotion, getSeasonCategory } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import Brands from "@/components/HomeComponents/Brands/Brands";
+import Discounts from "@/components/HomeComponents/Discounts/Discounts";
 import News from "@/components/HomeComponents/News/News";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import Promotion from "@/components/HomeComponents/Promotion/Promotion";
@@ -26,7 +27,8 @@ export default async function Home() {
   const newsData = await getNews();
   const promotionData = await getPromotion(); 
   const seasonCategoryData = await getSeasonCategory();
-
+  const discounts = await getDiscounts();
+  
   const brandsData = await getBrands();
 
   const boughtsData = await getBoughts();
@@ -37,6 +39,7 @@ export default async function Home() {
       <PopularCategory category={popularCategoryData}/>
       <TodayBoughts boughts={boughtsData.lastz}/>
       <News news={newsData}/>
+      <Discounts discounts={discounts}/>
       <Promotion promotion={promotionData}/>
       <SeasonCategory seasonItems={seasonCategoryData}/>
       <Brands brands={brandsData}/>

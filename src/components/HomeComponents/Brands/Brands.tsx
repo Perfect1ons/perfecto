@@ -38,21 +38,17 @@ const Brands = ({ brands }: IBrandsProps) => {
             );
           })}
         </div>
-        {pageSize < 24 ? (
-          <button
-            className={cn(styles.brandsButton, "news__buttons_showMore")}
-            onClick={handleShowMore}
-          >
-            Показать еще
-          </button>
-        ) : (
-          <Link
-            className={cn(styles.brandsButton, "news__buttons_showMore")}
-            href="/brand"
-          >
-            Показать все
-          </Link>
-        )}
+        <div className="news__buttons">
+          {pageSize < 24 ? (
+            <button className="news__buttons_showMore" onClick={handleShowMore}>
+              Показать еще
+            </button>
+          ) : (
+            <Link className="news__buttons_showMore" href="/brand">
+              Показать все
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

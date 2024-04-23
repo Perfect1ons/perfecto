@@ -1,39 +1,42 @@
 "use client"
-import { INews } from '@/types/news'
-import styles from './style.module.scss'
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import cn from 'clsx';
+import React, { useRef, useState } from "react";
+import Image from "next/image";
+import { INews } from "@/types/news";
+import styles from "./style.module.scss";
+import { useRouter } from "next/navigation";
 
 export interface INew {
-    news: INews[]
+  news: INews[];
 }
 
-const News = ({news}: INew ) => {
-      const [itemsToShow, setItemsToShow] = useState<number>(6);
-      const totalItems = news.length;
-      const router = useRouter();
+const News = ({ news }: INew) => {
+  const [itemsToShow, setItemsToShow] = useState<number>(6);
+  const totalItems = news.length;
+  const router = useRouter();
+  const newsRef = useRef<HTMLDivElement>(null);
 
-      const handleLoadMore = () => {
-        setItemsToShow((prevItems) => prevItems + 6);
-      };
+  const handleLoadMore = () => {
+    setItemsToShow((prevItems) => prevItems + 6);
+  };
 
-      const handleHide = () => {
-        setItemsToShow(6);
-      };
+  const handleHide = () => {
+    setItemsToShow(6);
+    if (newsRef.current) {
+      newsRef.current.scrollIntoView({ behavior: "auto" });
+    }
+  };
 
-      const handleShowAll = () => {
-        router.push("/all-news");
-      };
+  const handleShowAll = () => {
+    router.push("/all-news");
+  };
 
   return (
-    <section className="news">
+    <section className="news" ref={newsRef}>
       <div className="container">
         <h1 className="sections__title">Новости</h1>
         <div className={styles.news__container}>
-          {news.slice(0, itemsToShow).map((item) => (
-            <div className={styles.promotion__card} key={item.naim}>
+          {news.slice(0, itemsToShow).map((item, index) => (
+            <div className={styles.promotion__card} key={index}>
               <Image
                 onClick={() => router.push(`https://max.kg/promo/${item.id}`)}
                 className={styles.promotion__card_img}
@@ -73,6 +76,6 @@ const News = ({news}: INew ) => {
       </div>
     </section>
   );
-}
+};
 
-export default News
+export default News;
