@@ -1,11 +1,13 @@
 import {
   getBoughts,
   getBrands,
+  getCatalogs,
   getDiscounts,
   getNews,
   getPopularCategory,
   getPromotion,
   getSeasonCategory,
+  getSubCatalogs,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import Auth from "@/components/HomeComponents/Auth/Auth";
@@ -30,15 +32,21 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  // запрос на популярные категории
   const popularCategoryData = await getPopularCategory();
+  // купили сегодня
+  const boughtsData = await getBoughts();
+  // запрос на новости
   const newsData = await getNews();
-  const promotionData = await getPromotion();
-  const seasonCategoryData = await getSeasonCategory();
+  // скидки
   const discounts = await getDiscounts();
-
+  // акции
+  const promotionData = await getPromotion();
+  // сезонные товары
+  const seasonCategoryData = await getSeasonCategory();
+  // бренды
   const brandsData = await getBrands();
 
-  const boughtsData = await getBoughts();
   return (
     <>
       <Banner />

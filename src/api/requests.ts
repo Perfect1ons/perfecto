@@ -1,4 +1,5 @@
 import { ICategory } from "@/types/PopularCategory";
+// import { IBanner } from "@/types/bannerRequest";
 import { ICatalogHome } from "@/types/catalogsHome";
 import { subCatalog } from "@/types/subCatalog";
 import { IBanner } from "@/types/bannerRequest";
@@ -16,7 +17,7 @@ const maxkg = ky.create({
   cache: "no-cache",
 });
 const maxkgz = ky.create({
-  prefixUrl: "https://max.kg/api",
+  prefixUrl: "https://max.kg/api/",
   cache: "no-cache",
 });
 
@@ -24,15 +25,21 @@ const maxkgz = ky.create({
 //   return maxkg.get("baner?pageSize=20&page=1").json();
 // };
 
+// запрос на главный каталог
+export const getCatalogs = (): Promise<ICatalogHome[]> => {
+  return maxkgz.get("catalog/cathome").json();
+};
+
+// подкаталоги от getCatalogs
+export const getSubCatalogs = (path: number): Promise<subCatalog> => {
+  return maxkgz.get(`catalog/${path}`).json();
+};
+
+// на популярные категории
 export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
 };
-export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkg.get("catalog/cathome").json();
-};
-export const getSubCatalogs = (path: number): Promise<subCatalog> => {
-  return maxkgz.get(`catalog/${path}?enable=1`).json();
-};
+
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkgz.get(`catalog/listfilter?id_cat=${id}?enable=1`).json();
 };

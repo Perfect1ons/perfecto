@@ -97,7 +97,7 @@ export interface Model {
   from_date: number;
   valuteVal: string;
   date_dost: string;
-  ddos:string;
+  ddos: string;
   photos: Photo[];
   ocenka: number;
 }
@@ -119,7 +119,7 @@ export interface Category {
   idd: number;
   id: number;
   sid: number;
-  ?name: string;
+  name: string;
   priority: number;
   priority_home: number;
   priority_menu: any;

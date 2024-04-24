@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-interface IFooterAccordionProps {
+export interface IFooterAccordionProps {
   links: IFooterAccordionLink[];
   title: string;
 }
@@ -17,7 +17,7 @@ const FooterAccordion = ({ links, title }: IFooterAccordionProps) => {
   const isMobile = useMediaQuery("(max-width: 1200px)");
 
   useEffect(() => {
-    setIsOpen(!isMobile); 
+    setIsOpen(!isMobile);
   }, [isMobile]);
 
   const openToggler = () => {
@@ -33,14 +33,19 @@ const FooterAccordion = ({ links, title }: IFooterAccordionProps) => {
           {title}
         </h6>
         <Image
-          className={cn(styles.footerNavItemArrowIsActive, isOpen && styles.footerNavItemArrow)}
+          className={cn(
+            styles.footerNavItemArrowIsActive,
+            isOpen && styles.footerNavItemArrow
+          )}
           src="/img/footerArrow.svg"
           width={30}
           height={30}
           alt="footerArrow"
         />
       </div>
-      <div className={cn(styles.footerNavItemContainer, !isOpen && styles.hidden)}>
+      <div
+        className={cn(styles.footerNavItemContainer, !isOpen && styles.hidden)}
+      >
         {links.map((item) => {
           return (
             <div key={item.id} className={styles.footerNavItemLinks}>

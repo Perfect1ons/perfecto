@@ -1,57 +1,48 @@
 "use client";
-import cn from "clsx";
-import styles from "./style.module.scss";
+import { useState } from "react";
+
+import HeaderNav from "./HeaderNav/HeaderNav";
+
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
-import HeaderNav from "./HeaderNav/HeaderNav";
-import { useState } from "react";
 import Modal from "../UI/ModalCatalog/Modal/Modal";
-import Link from "next/link";
+
+import cn from "clsx";
+import styles from "./style.module.scss";
+import { ICatalogHome } from "@/types/catalogsHome";
+import { subCatalog } from "@/types/subCatalog";
 import HeaderCatalog from "../CatalogComponents/HeaderCatalog/HeaderCatalog";
 
-const Header = () => {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
+export interface ICatalogProps {
+  catalog: ICatalogHome[];
+  category: subCatalog;
+}
+
+const Header = ({ catalog, category }: ICatalogProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <Logo />
 
         <div className={styles.header__container_form}>
-          {/* <Link
-            className={styles.catalog}
-            href={"/catalog"}
-            onClick={handleClick}
-          >
-            <button
-              className={cn(styles.hamburger, styles.hamburger_3dy, {
-                [styles.is_active]: show,
-              })}
-              type="button"
-            >
-              <span className={styles.hamburger_box}>
-                <span className={styles.hamburger_inner}></span>
-              </span>
-            </button>
+          {/* <Link className={styles.catalog} href={"/catalog"}>
             Каталог
           </Link> */}
-          <div className={styles.catalog} onClick={handleClick}>
+
+          <div className={styles.catalog_modal}>
             <button
-              className={cn(styles.hamburger, styles.hamburger_3dy, {
-                [styles.is_active]: show,
-              })}
-              type="button"
+              className={styles.catalog}
+              onClick={() => setIsOpen(!isOpen)}
             >
-              <span className={styles.hamburger_box}>
-                <span className={styles.hamburger_inner}></span>
-              </span>
+              Каталог
             </button>
-            Каталог
+            <Modal open={isOpen} setOpen={setIsOpen} containerId="portal">
+              <HeaderCatalog catalog={catalog} category={category} />
+            </Modal>
           </div>
-          <Modal close={handleClick} isVisible={show}>
-            <HeaderCatalog />
-            <h1>asdasd</h1>
-          </Modal>
+
           <div className={styles.search}>
             <input
               placeholder="Искать товары и категории"
@@ -64,11 +55,9 @@ const Header = () => {
             </label>
           </div>
         </div>
-
         <div className={styles.header__nav}>
           <HeaderNav />
         </div>
-
         <div className={styles.search__white}>
           <SearchIconWhite />
         </div>

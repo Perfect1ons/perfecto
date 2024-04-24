@@ -121,7 +121,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
       <div className={styles.catalogs__9}>
         <h3
           className={styles.catalogs__9h3}
-          // onClick={() => router.push(`catalogs/${subCatalogs?.category.id}}`)}
+          // onClick={() => router.push(catalogs/${subCatalogs?.category.id}})}
         >
           {subCatalogs?.category?.name}
         </h3>
@@ -145,7 +145,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
                           key={index}
                           className={styles.category__li__h33}
                           onClick={() =>
-                            router.push(`catalogs/products/${subCategory?.id}`)
+                            router.push(catalogs/products/${subCategory?.id})
                           }
                         >
                           {subCategory?.name}

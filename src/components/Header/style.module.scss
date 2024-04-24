@@ -22,6 +22,8 @@
   @media screen and (max-width: 640px) {
     height: 55px;
   }
+  position: relative;
+  z-index: 1000;
 }
 
 .catalog {
@@ -29,6 +31,7 @@
   color: var(--black);
   background: var(--white);
   padding: 10px 10px;
+  padding: 0px 30px;
   height: 40px;
   @include mixin.flex(center, center);
   border-radius: 5px;
@@ -178,4 +181,15 @@
 }
 .hamburger_3dy.is_active .hamburger_inner::after {
   transform: translate3d(0, -5px, 0) rotate(-45deg);
+}
+.modal_cont_wrap {
+  @include mixin.flex(center, space-between, row);
+  width: 100%;
+  padding: 20px 30px;
+}
+
+.modal_cont_wrap {
+  @include mixin.flex(center, space-between, row);
+  width: 100%;
+  padding: 20px 30px;
 }
