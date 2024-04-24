@@ -1,11 +1,11 @@
 "use client"
-import styles from "./style.module.scss"
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "../../../../../public/Icons/Icons";
 import { Grid, Navigation, Pagination } from "swiper/modules";
 import { ISeasonCategoryItem } from "@/types/seasonCategory";
 import { useRouter } from "next/navigation";
+import styles from "./style.module.scss"
 
 interface ISeasonCategorySwiperProps{
     seasonItems: ISeasonCategoryItem[];
@@ -77,7 +77,7 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
                       height={93.5}
                       alt={item.name}
                     />
-                    <h1 className={styles.swiper__slide_title}>{item.name}</h1>
+                    <h1 className="category__item_title">{item.name}</h1>
                   </SwiperSlide>
                 );
               })}

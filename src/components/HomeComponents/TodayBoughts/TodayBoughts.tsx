@@ -35,14 +35,14 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
   const showMoreButton =
     visibleItems < boughts.length ? (
       <button
-        className="showMoreBtn news__buttons_showMore"
+        className="default__buttons_showMore"
         onClick={handleShowMore}
       >
         Показать еще
       </button>
     ) : (
       <button
-        className="showMoreBtn news__buttons_showMore"
+        className="default__buttons_showMore"
         onClick={() => setVisibleItems(initialVisibleItems)}
       >
         Скрыть
@@ -91,7 +91,9 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
             );
           })}
         </div>
-        {showMoreButton}
+        <div className="default__buttons">
+          {showMoreButton}
+        </div>
       </div>
     </section>
   );

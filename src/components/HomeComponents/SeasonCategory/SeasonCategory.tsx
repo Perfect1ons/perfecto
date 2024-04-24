@@ -35,7 +35,7 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
                   router.push(`https://max.kg/catalog/${item.full_slug}`)
                 }
                 key={item.id}
-                className={styles.seasonItem}
+                className="swiper__slide "
               >
                 <Image
                   className={styles.seasonItemImg}
@@ -44,7 +44,7 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
                   height={94}
                   alt={item.name}
                 ></Image>
-                <h2 className={styles.seasonItemTitle}>{item.name}</h2>
+                <h2 className="category__item_title">{item.name}</h2>
               </div>
             );
           })}
