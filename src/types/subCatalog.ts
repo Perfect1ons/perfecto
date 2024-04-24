@@ -1,7 +1,7 @@
 export interface subCatalog {
   full_slug: string;
   model: Model[];
-  category: Category[];
+  category: Category;
   totalCount: number;
   model_count: number;
 }
@@ -97,7 +97,7 @@ export interface Model {
   from_date: number;
   valuteVal: string;
   date_dost: string;
-  ddos:string;
+  ddos: string;
   photos: Photo[];
   ocenka: number;
 }

@@ -25,15 +25,21 @@ const maxkgz = ky.create({
 //   return maxkg.get("baner?pageSize=20&page=1").json();
 // };
 
-export const getPopularCategory = (): Promise<ICategory> => {
-  return maxkg.get("catalog/season").json();
-};
+// запрос на главный каталог
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkg.get("catalog/cathome").json();
+  return maxkgz.get("catalog/cathome").json();
 };
+
+// подкаталоги от getCatalogs
 export const getSubCatalogs = (path: number): Promise<subCatalog> => {
   return maxkgz.get(`catalog/${path}`).json();
 };
+
+// на популярные категории
+export const getPopularCategory = (): Promise<ICategory> => {
+  return maxkg.get("catalog/season").json();
+};
+
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkgz.get(`catalog/listfilter?id_cat=${id}?enable=1`).json();
 };

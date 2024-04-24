@@ -4,19 +4,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { getSubCatalogs } from "@/api/requests";
 import { subCatalog } from "@/types/subCatalog";
-
 import cn from "clsx";
 import { useRouter } from "next/navigation";
-
 interface ICatalogProps {
   catalog: ICatalogHome[];
-  category: subCatalog[];
+  category: subCatalog;
 }
-
 const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
-  const [hoveredSubCatalogs, setHoveredSubCatalogs] = useState<subCatalog[]>(
-    []
-  );
+  const [subCatalogs, setSubCatalogs] = useState<subCatalog>();
   const [activeCatalogId, setActiveCatalogId] = useState<number | null>(null);
   const [subCatalogId, setSubCatalogId] = useState<number[]>();
   const [subsCatalogs, setSubsCatalogs] = useState<{
@@ -25,7 +20,6 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
   const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
     useState<boolean>(false);
   const router = useRouter();
-  const [visibleCount, setVisibleCount] = useState(5);
   const ChevronRightIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -44,34 +38,28 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
     </svg>
   );
 
-  // для мышки
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {
-      setHoveredSubCatalogs(data);
+      setSubCatalogs(data);
       setActiveCatalogId(id);
     });
   };
-
-  // для ховера
   useEffect(() => {
-    setHoveredSubCatalogs(category);
-    setActiveCatalogId(category.category.name);
-  }, [category]);
-
-  // проверка ховера
+    setSubCatalogs(category);
+    setActiveCatalogId(category?.category?.id);
+  }, []);
   useEffect(() => {
-    if (hoveredSubCatalogs && hoveredSubCatalogs.category) {
-      const categoryIds = Object.values(hoveredSubCatalogs.category)
+    if (subCatalogs && subCatalogs.category) {
+      const categoryIds = Object.values(subCatalogs.category)
         .map((category) => category?.id)
         .filter((id) => id !== null && id !== undefined);
-      setSubCatalogIds(categoryIds);
+      setSubCatalogId(categoryIds);
     }
-  }, [hoveredSubCatalogs]);
-
-  // проверка подкаталога
+  }, [subCatalogs]);
   useEffect(() => {
-    if (subCatalogIds && subCatalogIds.length > 0) {
-      subCatalogIds.forEach((id) => {
+    // Проверяем, есть ли какие-либо id подкаталогов
+    if (subCatalogId && subCatalogId.length > 0) {
+      subCatalogId.forEach((id) => {
         getSubCatalogs(id).then((data) => {
           setSubsCatalogs((prevSubsCatalogs) => ({
             ...prevSubsCatalogs,
@@ -80,8 +68,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
         });
       });
     }
-  }, [subCatalogIds]);
-
+  }, [subCatalogId]); // Зависимость от subCatalogId, чтобы эффект выполнялся при его обновлении
   const toggle = () => {
     setIsSubsCatalogsVisible(!isSubsCatalogaVisible);
   };
@@ -115,7 +102,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
     <div className={styles.catalogs}>
       <div className={styles.catalogs__3}>
         <span className={styles.triangle}></span>
-        {catalog.map((catalog) => (
+        {catalog?.map((catalog) => (
           <h2
             key={catalog.id}
             className={cn(
@@ -124,6 +111,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
             )}
             onClick={() => router.push(`catalogs/${catalog.id}`)}
             onMouseEnter={() => handleMouseEnter(catalog.id)}
+            // onMouseLeave={() => handleMouseLeave(catalog.id)}
           >
             {catalog.name}
             {ChevronRightIcon()}
@@ -131,8 +119,11 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
         ))}
       </div>
       <div className={styles.catalogs__9}>
-        <h3 className={styles.catalogs__9h3}>
-          {hoveredSubCatalogs?.category?.name}
+        <h3
+          className={styles.catalogs__9h3}
+          // onClick={() => router.push(catalogs/${subCatalogs?.category.id}})}
+        >
+          {subCatalogs?.category?.name}
         </h3>
         <ul className={styles.category__ul}>
           {subCatalogs &&
@@ -154,7 +145,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
                           key={index}
                           className={styles.category__li__h33}
                           onClick={() =>
-                            router.push(`catalogs/products/${subCategory?.id}`)
+                            router.push(catalogs/products/${subCategory?.id})
                           }
                         >
                           {subCategory?.name}

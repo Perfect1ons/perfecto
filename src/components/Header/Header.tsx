@@ -1,33 +1,29 @@
 "use client";
+import { useState } from "react";
 
 import HeaderNav from "./HeaderNav/HeaderNav";
-import CatalogeHome from "@/app/catalog/page";
 
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
-import { useState } from "react";
 import Modal from "../UI/ModalCatalog/Modal/Modal";
-import Link from "next/link";
-import HCFirst from "./HeaderCatalog/HCFirst";
-import HCSecond from "./HeaderCatalog/HCSecond";
 
 import cn from "clsx";
 import styles from "./style.module.scss";
+import { ICatalogHome } from "@/types/catalogsHome";
+import { subCatalog } from "@/types/subCatalog";
+import HeaderCatalog from "../CatalogComponents/HeaderCatalog/HeaderCatalog";
 
-const Header = () => {
+export interface ICatalogProps {
+  catalog: ICatalogHome[];
+  category: subCatalog;
+}
+
+const Header = ({ catalog, category }: ICatalogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        {/* <button className={styles.catalog} onClick={handleClick}>
-          Каталог
-        </button>
-        <Modal close={handleClick} isVisible={show}>
-          <CatalogeHome />
-          <h1>asdasd</h1>
-        </Modal> */}
-
         <Logo />
 
         <div className={styles.header__container_form}>
@@ -42,13 +38,10 @@ const Header = () => {
             >
               Каталог
             </button>
+            <Modal open={isOpen} setOpen={setIsOpen} containerId="portal">
+              <HeaderCatalog catalog={catalog} category={category} />
+            </Modal>
           </div>
-          <Modal open={isOpen} containerId="portal">
-            <div className={styles.modal_cont_wrap}>
-              <HCFirst />
-              <HCSecond />
-            </div>
-          </Modal>
 
           <div className={styles.search}>
             <input
