@@ -73,6 +73,7 @@
 .news__buttons {
   @include mixin.flex(center, center);
 }
+
 #portal {
   position: relative;
   z-index: 999;

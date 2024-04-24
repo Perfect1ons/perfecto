@@ -1,21 +1,22 @@
 "use client";
-import cn from "clsx";
-import styles from "./style.module.scss";
+
+import HeaderNav from "./HeaderNav/HeaderNav";
+import CatalogeHome from "@/app/catalog/page";
+
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
-import HeaderNav from "./HeaderNav/HeaderNav";
 import { useState } from "react";
 import Modal from "../UI/ModalCatalog/Modal/Modal";
-import CatalogeHome from "@/app/catalog/page";
 import Link from "next/link";
-import Modal from "../Modal/Modal";
-import { useState } from "react";
 import HCFirst from "./HeaderCatalog/HCFirst";
 import HCSecond from "./HeaderCatalog/HCSecond";
 
+import cn from "clsx";
+import styles from "./style.module.scss";
+
 const Header = () => {
-  const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
@@ -30,9 +31,24 @@ const Header = () => {
         <Logo />
 
         <div className={styles.header__container_form}>
-          <Link className={styles.catalog} href={"/catalog"}>
+          {/* <Link className={styles.catalog} href={"/catalog"}>
             Каталог
-          </Link>
+          </Link> */}
+
+          <div className={styles.catalog_modal}>
+            <button
+              className={styles.catalog}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              Каталог
+            </button>
+          </div>
+          <Modal open={isOpen} containerId="portal">
+            <div className={styles.modal_cont_wrap}>
+              <HCFirst />
+              <HCSecond />
+            </div>
+          </Modal>
 
           <div className={styles.search}>
             <input
