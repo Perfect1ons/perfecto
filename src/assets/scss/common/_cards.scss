@@ -61,7 +61,7 @@
 .cardItemPrices {
   margin-top: 5px; // Margin at the top of the price section
   display: flex; // Use flexbox for layout
-  gap: 15px; // Gap between elements in the flex container
+  gap: 10px; // Gap between elements in the flex container
   align-items: center; // Align items to the center vertically
 }
 
@@ -76,7 +76,7 @@
 .cardItemOldPrice {
   padding-left: 10px; // Left padding of the old price
   align-self: flex-start; // Align the old price to the start of the cross axis
-  @include mixin.font(16px, 400, 24px, #62656a); // Apply font styles using a mixin
+  @include mixin.font(16px, 700, 24px, #99a3ae); // Apply font styles using a mixin
   position: relative; // Position relative for the strikethrough line
   &::after {
     content: ""; // Create a pseudo-element for the strikethrough line
@@ -84,13 +84,16 @@
     bottom: 11px; // Position the line at the bottom
     left: 5px; // Position the line to the left
     width: 96%; // Line width
-    height: 3px; // Line thickness
-    background-color: #62656a; // Line color
+    height: 1px; // Line thickness
+    background: #99a3ae; // Line color
     border-radius: 5px; // Border radius for the line
-    transform: rotate(8deg); // Rotate the line for a diagonal effect
+    transform: rotate(-3deg); // Rotate the line for a diagonal effect
   }
 }
-
+.cardItemDiscount{
+  color: #991a4e;
+  font-weight: 700
+}
 .cardItemName {
   @include mixin.font(14px, 400, 16.8px, #62656a); // Apply font styles using a mixin
   max-width: 200px; // Maximum width of the item name
