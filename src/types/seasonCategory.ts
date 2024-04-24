@@ -1,6 +1,6 @@
-export type IPopularCategory = ICategoryItem[]
+export type ISeasonCategory = ISeasonCategoryItem[]
 
-export interface ICategoryItem {
+export interface ISeasonCategoryItem {
   idd: number
   id: number
   sid: number
@@ -39,7 +39,7 @@ export interface ICategoryItem {
   count_skid?: number
   count_hit?: number
   parent: number
-  e_id?: number
+  e_id: any
   main_type: string
   sort: number
   sort_menu: number

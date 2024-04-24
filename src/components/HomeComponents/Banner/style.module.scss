@@ -1,0 +1,7 @@
+.intro__banner{
+    margin-top: 40px;
+
+    @media screen and (max-width: 640px) {
+        margin-top: 20px;
+    }
+}

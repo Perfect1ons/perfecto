@@ -1,0 +1,88 @@
+@use '../../../../assets/scss/common/mixins' as mixin; 
+.mySwiper{
+    padding-bottom: 40px;
+  }
+  
+  .swiper__slide {
+    cursor: pointer;
+    min-height: 170px;
+    text-align: center;
+    padding: 15px 0px;
+    border-radius: 5px;
+    font-size: 18px;
+    background: #ffffff;
+    height: calc((100% - 30px) / 2) !important;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    flex-direction: column;
+  
+    @media screen and (max-width: 480px) {
+      min-height: 80px;
+      overflow: hidden;
+    }
+  
+  
+    &_img{
+      border-radius: 5px;
+      
+      @media screen and (max-width: 480px) {
+        width: 65px;
+        height: 65px;
+      }
+    }
+    &_title{
+      @include mixin.font(14px,400,150%,#424242);
+      text-align: center;
+      transition: 0.1s ease-in-out;
+      user-select: none;
+  
+      @media screen and (max-width: 480px) {
+        font-size: 10px;
+        color: var(--black);
+        font-weight: 400;
+        max-height: 45px;
+        overflow: hidden;
+      }
+    }
+    &:hover{
+      box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+      
+      .swiper__slide_title{
+          color: var(--violet);
+      }
+    }
+  }
+
+  .swiper__slide_title{
+    @include mixin.font(15px,400,150%,#424242);
+    @media screen and (max-width: 360px) {
+      @include mixin.font(14px,400,150%,#424242);
+    }
+  }
+  
+  .team__swiper_btn {
+    cursor: pointer;
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    background: #fff;
+    padding: 12.5px 14px 10px 15px;
+    border-radius: 10px;
+    border: none;
+  
+  
+  }
+    
+  .team__swiper_buttons {
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 99%;
+    left: 0.5%;
+    @media screen and (max-width: 640px) {
+      display: none;
+    }
+  }

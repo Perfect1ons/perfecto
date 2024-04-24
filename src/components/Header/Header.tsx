@@ -4,6 +4,9 @@ import styles from "./style.module.scss";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import HeaderNav from "./HeaderNav/HeaderNav";
+import { useState } from "react";
+import Modal from "../UI/ModalCatalog/Modal/Modal";
+import CatalogeHome from "@/app/catalog/page";
 import Link from "next/link";
 import Modal from "../Modal/Modal";
 import { useState } from "react";
@@ -11,40 +14,37 @@ import HCFirst from "./HeaderCatalog/HCFirst";
 import HCSecond from "./HeaderCatalog/HCSecond";
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
+  const [show, setShow] = useState(false);
+  const handleClick = () => setShow(!show);
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <div className={styles.logo}>
-          <Logo />
-        </div>
-        {/* <Link className={styles.catalog} href={"/catalog"}>
+        {/* <button className={styles.catalog} onClick={handleClick}>
           Каталог
-        </Link> */}
+        </button>
+        <Modal close={handleClick} isVisible={show}>
+          <CatalogeHome />
+          <h1>asdasd</h1>
+        </Modal> */}
 
-        <div className={styles.catalog_modal}>
-          <button className={styles.catalog} onClick={() => setIsOpen(!isOpen)}>
+        <Logo />
+
+        <div className={styles.header__container_form}>
+          <Link className={styles.catalog} href={"/catalog"}>
             Каталог
-          </button>
-        </div>
-        <Modal open={isOpen} containerId="portal">
-          <div className={styles.modal_cont_wrap}>
-            <HCFirst />
-            <HCSecond />
-          </div>
-        </Modal>
+          </Link>
 
-        <div className={styles.search}>
-          <input
-            placeholder="Искать товары и категории"
-            type="text"
-            id="searchInput"
-            className={styles.search__input}
-          />
-          <label htmlFor="searchInput" className={styles.search__icon}>
-            <SearchIcon />
-          </label>
+          <div className={styles.search}>
+            <input
+              placeholder="Искать товары и категории"
+              type="text"
+              id="searchInput"
+              className={styles.search__input}
+            />
+            <label htmlFor="searchInput" className={styles.search__icon}>
+              <SearchIcon />
+            </label>
+          </div>
         </div>
         <div className={styles.header__nav}>
           <HeaderNav />

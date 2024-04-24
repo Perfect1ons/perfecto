@@ -97,7 +97,9 @@ export interface Model {
   from_date: number;
   valuteVal: string;
   date_dost: string;
+  ddos:string;
   photos: Photo[];
+  ocenka: number;
 }
 
 export interface Image {

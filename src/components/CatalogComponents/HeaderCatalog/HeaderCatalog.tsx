@@ -18,13 +18,31 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
     []
   );
   const [activeCatalogId, setActiveCatalogId] = useState<number | null>(null);
-  const [subCatalogIds, setSubCatalogIds] = useState<number[]>([]);
+  const [subCatalogId, setSubCatalogId] = useState<number[]>();
   const [subsCatalogs, setSubsCatalogs] = useState<{
     [key: number]: subCatalog;
   }>({});
-  const [visibleSubCatalogsCount, setVisibleSubCatalogsCount] = useState(5);
-
+  const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
+    useState<boolean>(false);
   const router = useRouter();
+  const [visibleCount, setVisibleCount] = useState(5);
+  const ChevronRightIcon = () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="icon icon-tabler icon-tabler-chevron-right"
+      width="24"
+      height="24"
+      viewBox="0 0 25 25"
+      strokeWidth="1.8"
+      stroke="#777"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M9 6l6 6l-6 6" />
+    </svg>
+  );
 
   // для мышки
   const handleMouseEnter = (id: number) => {
@@ -65,7 +83,32 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
   }, [subCatalogIds]);
 
   const toggle = () => {
-    setVisibleSubCatalogsCount((count) => count + 10);
+    setIsSubsCatalogsVisible(!isSubsCatalogaVisible);
+  };
+  const goToCatalogOrProduct = (categoryId: number) => {
+    // Получаем категорию по ее ID
+
+    // Проверяем, есть ли непосредственные подкатегории у данной категории
+    const hasSubcategories =
+      category &&
+      category.category &&
+      Object.values(category.category).length > 0;
+
+    // Проверяем, есть ли у категории продукты (модели)
+    const hasProducts = category && category.model && category.model.length > 0;
+
+    // Если есть подкатегории, перенаправляем на страницу каталогов
+    if (hasSubcategories) {
+      console.log("Redirecting to catalog page...");
+      window.location.href = `/catalogs/${categoryId}`;
+    }
+    // Если есть продукты, перенаправляем на страницу продуктов
+    else if (hasProducts) {
+      console.log("Redirecting to products page...");
+      window.location.href = `/products/${categoryId}`;
+    } else {
+      console.log("No subcategories or products found for this category.");
+    }
   };
 
   return (
@@ -83,15 +126,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
             onMouseEnter={() => handleMouseEnter(catalog.id)}
           >
             {catalog.name}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              style={{ fill: "#777" }}
-            >
-              <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
-            </svg>
+            {ChevronRightIcon()}
           </h2>
         ))}
       </div>
@@ -100,27 +135,62 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
           {hoveredSubCatalogs?.category?.name}
         </h3>
         <ul className={styles.category__ul}>
-          {hoveredSubCatalogs &&
-            hoveredSubCatalogs.category &&
-            Object.values(hoveredSubCatalogs.category).map(
-              (category, index) => (
-                <li key={index} className={styles.category__li}>
-                  <h3 className={styles.category__li__h3}>{category?.name}</h3>
-                  <div>
-                    {category &&
-                      subsCatalogs[category.id] &&
-                      Object.values(subsCatalogs[category.id]?.category)
-                        .slice(0, visibleSubCatalogsCount)
+          {subCatalogs &&
+            subCatalogs.category &&
+            Object.values(subCatalogs.category).map((category, index) => (
+              <li key={index} className={styles.category__li}>
+                <h3
+                  className={styles.category__li__h3}
+                  onClick={() => goToCatalogOrProduct(category?.id)}
+                >
+                  {category?.name}
+                </h3>
+                {/* <div>
+                  {category &&
+                    subsCatalogs[category.id] &&
+                    Object.values(subsCatalogs[category.id]?.category).map(
+                      (subCategory, index) => (
+                        <h3
+                          key={index}
+                          className={styles.category__li__h33}
+                          onClick={() =>
+                            router.push(`catalogs/products/${subCategory?.id}`)
+                          }
+                        >
+                          {subCategory?.name}
+                        </h3>
+                      )
+                    )}
+                </div> */}
+                <div>
+                  {category && subsCatalogs[category.id]?.category && (
+                    <>
+                      {Object.values(subsCatalogs[category.id]?.category)
+                        .slice(0, isSubsCatalogaVisible ? undefined : 5) // Отображаем только первые пять подкатегорий, если showAllSubcategories равно false
                         .map((subCategory, index) => (
-                          <h3 key={index} className={styles.category__li__h33}>
+                          <h3
+                            key={index}
+                            className={styles.category__li__h33}
+                            onClick={() =>
+                              router.push(
+                                `catalogs/products/${subCategory?.id}`
+                              )
+                            }
+                          >
                             {subCategory?.name}
                           </h3>
                         ))}
-                  </div>
-                  {/* <button>Показать ещё</button> */}
-                </li>
-              )
-            )}
+                      {Object.values(subsCatalogs[category.id]?.category)
+                        .length > 5 && (
+                        <button onClick={toggle}>
+                          {isSubsCatalogaVisible ? "Свернуть" : "Показать еще"}
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
+              </li>
+            ))}
         </ul>
       </div>
     </div>

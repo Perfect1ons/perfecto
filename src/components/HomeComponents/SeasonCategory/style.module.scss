@@ -1,0 +1,40 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.seasonTitle{
+    @include mixin.font(1.25rem, 600, 1.35rem, #424242);
+    text-transform: uppercase;
+}
+.seasonItems{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(3,1fr);
+    }
+    @media screen and (max-width: 768px) {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+.seasonItem{
+    padding: 15px 0px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+        .seasonItemTitle{
+            color: var(--violet)
+        }
+    }
+}
+.seasonItemTitle{
+    @include mixin.font(14px, 400, 21px, #424242);
+    text-align: center;
+}
+.hidden{
+    display: none;
+}
+.seasonItemsSwiper{
+    margin-top: 20px;
+}

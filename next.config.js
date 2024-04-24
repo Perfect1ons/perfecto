@@ -4,21 +4,25 @@ module.exports = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'max.kg',
+        protocol: "https",
+        hostname: "max.kg",
       },
       {
-        protocol: 'https',
-        hostname: 'cdn2.static1-sima-land.com',
+        protocol: "https",
+        hostname: "cdn2.static1-sima-land.com",
+      },
+      {
+        protocol: "https",
+        hostname: "goods-photos.static1-sima-land.com",
       },
     ],
   },
   async headers() {
     return [
       {
-        source: '/api/:path*',
+        source: "/api/:path*",
         headers: [
-          { key: 'Content-Type', value: 'application/json' },
+          { key: "Content-Type", value: "application/json" },
           // Добавьте другие заголовки, если это необходимо для вашего API
         ],
       },
@@ -27,13 +31,13 @@ module.exports = {
   async rewrites() {
     return [
       {
-        source: '/api/:path*',
+        source: "/api/:path*",
         destination: `/:path*`,
       },
       {
-        source: '/catalog/cathome/:path*',
+        source: "/catalog/cathome/:path*",
         destination: `${MAXKG}/catalog/:path*`, // Обработка запросов к /catalog/*
       },
-    ]
+    ];
   },
 };

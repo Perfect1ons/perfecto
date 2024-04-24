@@ -1,11 +1,13 @@
+"use client"
 import Image from 'next/image'
-import Link from 'next/link'
 import styles from './style.module.scss'
+import { useRouter } from 'next/navigation'
 
 const Logo = () => {
+  const router = useRouter()
   return (
-    <Link href={"/"}>
       <Image
+      onClick={() => router.push('/')}
         className={styles.logo}
         src={"/img/logo.svg"}
         width={211}
@@ -13,7 +15,6 @@ const Logo = () => {
         alt="logo"
         priority
       />
-    </Link>
   );
 }
 

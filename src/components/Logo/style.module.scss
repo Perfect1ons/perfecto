@@ -1,9 +1,14 @@
 .logo{
     width: 210px;
-    height: 85px;
+    height: 35px;
+    cursor: pointer;
 
     @media screen and (max-width: 992px) {
         width: 180px;
         height: 65px;
+    }
+        @media screen and (max-width: 640px) {
+        width: 140px;
+        height: 45px;
     }
 }
