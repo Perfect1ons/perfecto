@@ -80,12 +80,12 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
       item.old_price !== item.price ? "priceWithOld" : ""
     }`}
   >
-    {item.price.toLocaleString()} с
+    {item.price.toLocaleString('ru-RU')} с
   </p>
   {item.old_price && item.old_price !== item.price && (
     <>
       <p className="cardItemOldPrice">
-        {item.old_price.toLocaleString()} с
+        {item.old_price.toLocaleString('ru-RU')} с
       </p>
     </>
   )}
