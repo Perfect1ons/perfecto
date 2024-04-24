@@ -3,10 +3,7 @@
   display: flex;
   flex-direction: column;
 }
-.brandsTitle {
-  @include mixin.font(1.25rem, 600, 1.35rem, #424242);
-  text-transform: uppercase;
-}
+
 .brandsContainer {
   display: grid;
   align-items: center;
@@ -31,23 +28,13 @@
   justify-content: center;
   cursor: pointer;
   text-decoration: none;
-  color: #424242;
+   @include mixin.font(16px, 600, 21px, #424242);
+  text-align: center;
+
   &:hover {
-    .brandsItemName {
       color: var(--violet);
-    }
   }
   @media screen and (max-width: 1200px) {
     max-width: 260px;
   }
-}
-.brandsItemName {
-  @include mixin.font(16px, 600, 21px, #424242);
-  text-align: center;
-}
-
-
-.brandsButton{
-  max-width: 200px;
-  margin: 0 auto;
 }

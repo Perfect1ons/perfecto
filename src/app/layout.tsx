@@ -14,7 +14,7 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  icons: "/img/website-icon.png",
+  icons: "/img/favicon.ico",
 };
 
 export default async function RootLayout({

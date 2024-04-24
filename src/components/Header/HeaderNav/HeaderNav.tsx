@@ -1,10 +1,9 @@
 "use client"
-import Link from 'next/link';
 import styles from './style.module.scss'
 import { AuthIcon, CartIcon, FavoritesIcon } from '../../../../public/Icons/Icons';
 import { ReactNode } from 'react';
 import cn from 'clsx';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface ILinks {
     href: string,
@@ -36,16 +35,16 @@ const navLinks: ILinks[] = [
 
 const HeaderNav = () => {
   const pathname = usePathname();
-
+  const router = useRouter();
   return (
     <nav className={styles.nav}>
         {
             navLinks.map((links) => {
                 return (
-                  <Link
+                  <p
                     className={cn(styles.nav__link, pathname === links.href && styles.active)}
                     key={links.id}
-                    href={links.href}
+                    onClick={() => router.push(links.href)}
                   >
                     <span
                       className={cn(
@@ -55,7 +54,7 @@ const HeaderNav = () => {
                       {links.title}
                     </span>
                     {links.icon}
-                  </Link>
+                  </p>
                 );
             })
         }

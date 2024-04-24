@@ -62,7 +62,7 @@ export default function CategorySwiper({ category }: ICategory) {
           },
         }}
         modules={[Grid, Pagination, Navigation]}
-        className={styles.mySwiper}
+        className="myCategory__swiper"
       >
         {category.map((item) => {
           const imageUrl = item.icon
@@ -76,7 +76,7 @@ export default function CategorySwiper({ category }: ICategory) {
               onClick={() =>
                 router.push(`https://max.kg/catalog/${item.full_slug}`)
               }
-              className={styles.swiper__slide}
+              className="swiper__slide"
             >
               <Image
                 className={styles.swiper__slide_img}
@@ -85,7 +85,7 @@ export default function CategorySwiper({ category }: ICategory) {
                 height={93.5}
                 alt={item.name}
               />
-              <h1 className={styles.swiper__slide_title}>{item.name}</h1>
+              <h1 className="category__item_title">{item.name}</h1>
             </SwiperSlide>
           );
         })}

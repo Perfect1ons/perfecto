@@ -4,7 +4,9 @@ import {
   getCatalogs,
   getDiscounts,
   getNews,
+  getNewsByLimit,
   getPopularCategory,
+  getPopularGoods,
   getPromotion,
   getSeasonCategory,
   getSubCatalogs,
@@ -16,10 +18,12 @@ import Brands from "@/components/HomeComponents/Brands/Brands";
 import Discounts from "@/components/HomeComponents/Discounts/Discounts";
 import News from "@/components/HomeComponents/News/News";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import PopularGoods from "@/components/HomeComponents/PopularGoods/PopularGoods";
 import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title:
@@ -47,6 +51,7 @@ export default async function Home() {
   // бренды
   const brandsData = await getBrands();
 
+  const popularGoodsData = await getPopularGoods();
   return (
     <>
       <Banner />
@@ -58,6 +63,7 @@ export default async function Home() {
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
+      <PopularGoods goods={popularGoodsData} />
       <Application />
     </>
   );
