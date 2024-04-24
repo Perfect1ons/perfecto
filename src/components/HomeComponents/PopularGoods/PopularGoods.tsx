@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { IBoughtItem } from "@/types/lastBoughts";
 import Image from "next/image";
 import {
   DeliveryIcon,
@@ -8,12 +7,13 @@ import {
   HearthIconRed,
 } from "../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
+import { IPopularGood } from "@/types/popularGoods";
 
-interface ITodayBoughtsProps {
-  boughts: IBoughtItem[];
+interface IPopularGoodsProps {
+  goods: IPopularGood[];
 }
 
-const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
+const PopularGoods = ({ goods }: IPopularGoodsProps) => {
   const imageEmpty = "https://max.kg/images/discount/empty-image.png";
   const startUrl = "https://max.kg/nal/img/";
   const initialVisibleItems = 10;
@@ -25,7 +25,7 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
 
   const handleShowMore = () => {
     const newVisibleItems = visibleItems + 10;
-    setVisibleItems(Math.min(newVisibleItems, boughts.length));
+    setVisibleItems(Math.min(newVisibleItems, goods.length));
   };
 
   const toggleLike = (id: number) => {
@@ -36,26 +36,32 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
   };
 
   const handleShowAll = () => {
-    router.push("/boughts");
+    router.push("/all-boughts");
   };
 
   const showMoreButton =
-    visibleItems < boughts.length ? (
-      <button className="default__buttons_showMore" onClick={handleShowMore}>
+    visibleItems < goods.length ? (
+      <button
+        className="showMoreBtn news__buttons_showMore"
+        onClick={handleShowMore}
+      >
         Показать еще
       </button>
     ) : (
-      <button className="default__buttons_showMore" onClick={handleShowAll}>
+      <button
+        className="showMoreBtn news__buttons_showMore"
+        onClick={handleShowAll}
+      >
         Показать все
       </button>
     );
 
   return (
-    <section className="boughts">
+    <section className="goods">
       <div className="cardContainer container">
-        <h2 className="sections__title">Сегодня купили</h2>
+        <h2 className="sections__title">Популярные товары</h2>
         <div className="cardItemContainer">
-          {boughts.slice(0, visibleItems).map((item) => {
+          {goods.slice(0, visibleItems).map((item) => {
             let imageUrl = imageEmpty;
 
             if (item.photos && item.photos.length > 0) {
@@ -74,23 +80,22 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
                   height={230}
                   alt={item.naim}
                 />
-              <div className="cardItemPrices">
-  <p
-    className={`cardItemPrice ${
-      item.old_price !== item.price ? "priceWithOld" : ""
-    }`}
-  >
-    {item.price.toLocaleString()} с
-  </p>
-  {item.old_price && item.old_price !== item.price && (
-    <>
-      <p className="cardItemOldPrice">
-        {item.old_price.toLocaleString()} с
-      </p>
-    </>
-  )}
-</div>
-
+                <div className="cardItemPrices">
+                  <p
+                    className={`cardItemPrice ${
+                      item.old_price !== item.price ? "priceWithOld" : ""
+                    }`}
+                  >
+                    {item.price.toLocaleString()} с
+                  </p>
+                  {item.old_price !== item.price && (
+                    <>
+                      <p className="cardItemOldPrice">
+                        {item.old_price.toLocaleString()} с
+                      </p>
+                    </>
+                  )}
+                </div>
                 <p className="cardItemName">{item.naim}</p>
                 <div className="cardItemDelivery">
                   <DeliveryIcon />
@@ -111,12 +116,10 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
             );
           })}
         </div>
-        <div className="default__buttons">
-          {showMoreButton}
-        </div>
+        {showMoreButton}
       </div>
     </section>
   );
 };
 
-export default TodayBoughts;
+export default PopularGoods;

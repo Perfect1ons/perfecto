@@ -10,6 +10,7 @@ import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import { IPopularGood } from "@/types/popularGoods";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -68,3 +69,6 @@ export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
+export const getPopularGoods = (): Promise<IPopularGood[]> => {
+  return maxkg.get("site/popular?page=1").json();
+};
