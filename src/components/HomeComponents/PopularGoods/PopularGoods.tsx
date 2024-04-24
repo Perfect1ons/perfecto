@@ -39,6 +39,10 @@ const PopularGoods = ({ goods }: IPopularGoodsProps) => {
     router.push("/all-boughts");
   };
 
+  function formatNumber(number : number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+
   const showMoreButton =
     visibleItems < goods.length ? (
       <button
@@ -86,12 +90,12 @@ const PopularGoods = ({ goods }: IPopularGoodsProps) => {
                       item.old_price !== item.price ? "priceWithOld" : ""
                     }`}
                   >
-                    {item.price.toLocaleString('ru-RU')} с
+                    {formatNumber(item.old_price)} с
                   </p>
                   {item.old_price !== item.price && (
                     <>
                       <p className="cardItemOldPrice">
-                        {item.old_price.toLocaleString('ru-RU')} с
+                      {formatNumber(item.old_price)} с
                       </p>
                     </>
                   )}
