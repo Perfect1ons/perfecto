@@ -1,7 +1,7 @@
 "use client";
 import { getSubCatalogs } from "@/api/requests";
 import { useState } from "react";
-import { ISubCatalog } from "@/types/subCatalog";
+import { subCatalog } from "@/types/subCatalog";
 
 import styles from "./styles.module.scss";
 import Image from "next/image";
@@ -12,9 +12,9 @@ const AllProducts = ({
   category,
 }: {
   catalog: ICatalogHome[];
-  category: ISubCatalog;
+  category: subCatalog;
 }) => {
-  const [subCatalogs, setSubCatalogs] = useState<ISubCatalog>();
+  const [subCatalogs, setSubCatalogs] = useState<subCatalog>();
 
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {
@@ -25,7 +25,7 @@ const AllProducts = ({
   return (
     <section className={styles.section}>
       {catalog.map((catalog) => (
-        <div className={styles.card_wrap}>
+        <div className={styles.card_wrap} key={catalog.id}>
           <div className={styles.img_wrap}>
             <Image
               className={styles.img}

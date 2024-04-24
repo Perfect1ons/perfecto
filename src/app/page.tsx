@@ -1,4 +1,8 @@
-import { getPopularCategory } from "@/api/requests";
+import {
+  getCatalogs,
+  getPopularCategory,
+  getSubCatalogs,
+} from "@/api/requests";
 import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";

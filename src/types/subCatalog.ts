@@ -1,4 +1,4 @@
-export interface ISubCatalog {
+export interface subCatalog {
   full_slug: string;
   model: Model[];
   category: Category[];

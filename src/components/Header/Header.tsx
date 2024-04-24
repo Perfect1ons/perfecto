@@ -1,20 +1,40 @@
+"use client";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import HeaderNav from "./HeaderNav/HeaderNav";
 import Link from "next/link";
+import Modal from "../Modal/Modal";
+import { useState } from "react";
+import HCFirst from "./HeaderCatalog/HCFirst";
+import HCSecond from "./HeaderCatalog/HCSecond";
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <div className={styles.logo}>
           <Logo />
         </div>
-        <Link className={styles.catalog} href={"/catalog"}>
+        {/* <Link className={styles.catalog} href={"/catalog"}>
           Каталог
-        </Link>
+        </Link> */}
+
+        <div className={styles.catalog_modal}>
+          <button className={styles.catalog} onClick={() => setIsOpen(!isOpen)}>
+            Каталог
+          </button>
+        </div>
+        <Modal open={isOpen} containerId="portal">
+          <div className={styles.modal_cont_wrap}>
+            <HCFirst />
+            <HCSecond />
+          </div>
+        </Modal>
+
         <div className={styles.search}>
           <input
             placeholder="Искать товары и категории"
@@ -26,11 +46,9 @@ const Header = () => {
             <SearchIcon />
           </label>
         </div>
-
         <div className={styles.header__nav}>
           <HeaderNav />
         </div>
-
         <div className={styles.search__white}>
           <SearchIconWhite />
         </div>

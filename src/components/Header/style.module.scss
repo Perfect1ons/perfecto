@@ -13,6 +13,8 @@
       display: none;
     }
   }
+  position: relative;
+  z-index: 1000;
 }
 
 .catalog {
@@ -81,4 +83,10 @@
     position: absolute;
     right: 10px;
   }
+}
+
+.modal_cont_wrap {
+  @include mixin.flex(center, space-between, row);
+  width: 100%;
+  padding: 20px 30px;
 }
