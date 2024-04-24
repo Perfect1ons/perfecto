@@ -2,7 +2,7 @@ import {
   getBoughts,
   getBrands,
   getDiscounts,
-  getNews,
+  getNewsByLimit,
   getPopularCategory,
   getPromotion,
   getSeasonCategory,
@@ -18,6 +18,7 @@ import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title:
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const popularCategoryData = await getPopularCategory();
-  const newsData = await getNews();
+  const newsData = await getNewsByLimit();
   const promotionData = await getPromotion();
   const seasonCategoryData = await getSeasonCategory();
   const discounts = await getDiscounts();
@@ -41,6 +42,12 @@ export default async function Home() {
   const boughtsData = await getBoughts();
   return (
     <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
       <Banner />
       <Auth />
       <PopularCategory category={popularCategoryData} />

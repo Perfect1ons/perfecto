@@ -1,6 +1,6 @@
+import Application from "@/components/HomeComponents/Application/Application";
 import NotFounded from "@/components/NotFound/NotFound";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Страница не найдена | MaxKg",
@@ -10,7 +10,10 @@ export const metadata: Metadata = {
 
 const NotFound = () => {
   return (
+    <>
     <NotFounded/>
+    <Application/>
+    </>
   );
 };
 

@@ -45,19 +45,26 @@ export const getPromotion = (): Promise<IPromotion[]> => {
   return maxkg.get(`ak`).json();
 };
 
+export const getNewsByLimit = (): Promise<INews[]> => {
+  return maxkg.get("news?pageSize=6").json();
+};
+
 export const getNews = (): Promise<INews[]> => {
-  return maxkg.get("news").json();
+  return maxkg.get("news?pageSize=40").json();
 };
 export const getSeasonCategory = (): Promise<ISeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
-export const getBrands = (): Promise<IBrands> => {
-  return maxkg.get("brand?pageSize=36").json();
-};
-export const getBoughts = (): Promise<IBoughts> => {
+
+export const getBrands = (): Promise<IBrands> =>{
+return maxkg.get("brand?pageSize=36").json();
+}
+
+export const getBoughts = (): Promise<IBoughts> =>{
   return maxkg.get("site/lastz?page=1").json();
-};
+}
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
+

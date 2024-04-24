@@ -73,6 +73,42 @@
   }
 }
 
+//! пагинация страниц показать больше
+.pagination{
+  @include mixin.flex(center,center,null,10px);
+  margin-bottom: 25px;
+  margin-top: 30px;
+  &__button{
+    @include mixin.font(16px,600,143%,var(--dark-blue));
+    @include mixin.flex(center,center);
+    cursor: pointer;
+    border: 2px solid var(--dark-blue);
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: 0.2s ease-out;
+    &:hover{
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+
+    &_custom{
+      border: 2px solid var(--secondary);
+      @include mixin.font(16px,600,143%,var(--dark-blue));
+      cursor: pointer;
+      padding: 10px 15px;
+    transition: 0.2s ease-out;
+
+      border-radius: 10px;
+      &:hover{
+        background: var(--secondary);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+
+
 //! стили названий карточек категорий 
 .myCategory__swiper{
   padding-bottom: 50px !important;
@@ -128,5 +164,23 @@
     overflow-wrap: break-word;
     max-height: 45px;
     overflow: hidden;
+  }
+}
+
+
+//! Стиль тайтла страниц когда нажимаешь показать все
+.default__showMore_title{
+  @include mixin.font(18px,500,120%,#212529);
+  margin-top: 20px;
+}
+
+//! Стиль тайтла карточки новости на странице новости
+.allNews__content_title{
+  @include mixin.font(18px,600,120%,var(--gray-dark));
+  @include mixin.flex(flex-start,flex-start);
+  width: 100%;
+  cursor: pointer;
+  &:hover{
+    color: var(--violet);
   }
 }

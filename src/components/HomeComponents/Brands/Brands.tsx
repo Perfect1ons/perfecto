@@ -48,7 +48,7 @@ const Brands = ({ brands }: IBrandsProps) => {
             </button>
           ) : (
             <button
-              onClick={() => router.push("/all-brends")}
+              onClick={() => router.push("/brends")}
               className="default__buttons_showMore"
             >
               Показать все

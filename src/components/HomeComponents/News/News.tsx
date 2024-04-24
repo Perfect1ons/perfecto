@@ -14,7 +14,7 @@ const News = ({ news }: INew) => {
 
 
   const handleShowAll = () => {
-    router.push("/all-news");
+    router.push("/news");
   };
 
   return (

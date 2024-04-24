@@ -7,6 +7,8 @@ import {
   HearthIcon,
   HearthIconRed,
 } from "../../../../public/Icons/Icons";
+import { useRouter } from "next/navigation";
+
 
 interface ITodayBoughtsProps {
   boughts: IBoughtItem[];
@@ -20,6 +22,8 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
 
   const [likedItems, setLikedItems] = useState<{[key: string]: boolean}>({});
 
+  const router = useRouter();
+
   const handleShowMore = () => {
     const newVisibleItems = visibleItems + 10;
     setVisibleItems(Math.min(newVisibleItems, boughts.length));
@@ -32,20 +36,18 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
     }));
   };
 
+  const handleShowAll = () => {
+    router.push("/boughts");
+  };
+
   const showMoreButton =
     visibleItems < boughts.length ? (
-      <button
-        className="default__buttons_showMore"
-        onClick={handleShowMore}
-      >
+      <button className="default__buttons_showMore" onClick={handleShowMore}>
         Показать еще
       </button>
     ) : (
-      <button
-        className="default__buttons_showMore"
-        onClick={() => setVisibleItems(initialVisibleItems)}
-      >
-        Скрыть
+      <button className="default__buttons_showMore" onClick={handleShowAll}>
+        Показать все
       </button>
     );
 
@@ -73,7 +75,7 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
                   height={230}
                   alt={item.naim}
                 />
-                <p className="cardItemPrice">{item.price} ⃀.</p>
+                <p className="cardItemPrice">{item.price.toLocaleString()} с</p>
                 <p className="cardItemName">{item.naim}</p>
                 <div className="cardItemDelivery">
                   <DeliveryIcon />
