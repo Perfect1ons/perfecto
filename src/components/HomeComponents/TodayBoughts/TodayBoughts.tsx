@@ -80,20 +80,23 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
                   height={230}
                   alt={item.naim}
                 />
-                <div className="cardItemPrices">
-                  <p
-                    className={`cardItemPrice ${
-                      item.old_price !== item.price ? "priceWithOld" : ""
-                    }`}
-                  >
-                    {item.price.toLocaleString()} с
-                  </p>
-                  {item.old_price !== item.price && (
-                    <p className="cardItemOldPrice">
-                      {item.old_price.toLocaleString()} с
-                    </p>
-                  )}
-                </div>
+              <div className="cardItemPrices">
+  <p
+    className={`cardItemPrice ${
+      item.old_price !== item.price ? "priceWithOld" : ""
+    }`}
+  >
+    {item.price.toLocaleString()} с
+  </p>
+  {item.old_price && item.old_price !== item.price && (
+    <>
+      <p className="cardItemOldPrice">
+        {item.old_price.toLocaleString()} с
+      </p>
+    </>
+  )}
+</div>
+
                 <p className="cardItemName">{item.naim}</p>
                 <div className="cardItemDelivery">
                   <DeliveryIcon />

@@ -89,9 +89,11 @@ const PopularGoods = ({ goods }: IPopularGoodsProps) => {
                     {item.price.toLocaleString()} с
                   </p>
                   {item.old_price !== item.price && (
-                    <p className="cardItemOldPrice">
-                      {item.old_price.toLocaleString()} с
-                    </p>
+                    <>
+                      <p className="cardItemOldPrice">
+                        {item.old_price.toLocaleString()} с
+                      </p>
+                    </>
                   )}
                 </div>
                 <p className="cardItemName">{item.naim}</p>
