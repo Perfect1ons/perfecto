@@ -1,95 +1,135 @@
-@use "../../../assets/scss/common/mixins" as mixin;
+@use "../../../assets/scss/common/mixins" as mixin; // Importing mixins from a common SCSS file
+
 .showMoreBtn {
-  max-width: 200px;
-  align-self: center;
+  max-width: 200px; // Maximum width of the button
+  align-self: center; // Align the button to the center vertically
 }
+
 .cardContainer {
-  user-select: none;
-  @include mixin.flex(null, null, column, null);
+  user-select: none; // Disable text selection within the container
+  @include mixin.flex(null, null, column, null); // Apply flexbox with column direction
 }
+
 .cardItemContainer {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  justify-content: center;
-  align-items: flex-start;
+  display: grid; // Use CSS grid for layout
+  grid-template-columns: repeat(5, 1fr); // 5 columns with equal width
+  justify-content: center; // Center the grid items horizontally
+  align-items: flex-start; // Align the items to the start of the cross axis
   @media screen and (max-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr); // Change to 4 columns on smaller screens
   }
   @media screen and (max-width: 992px) {
-    grid-template-columns: repeat(3, 1fr);
-    margin: 0 auto;
+    grid-template-columns: repeat(3, 1fr); // Change to 3 columns on even smaller screens
+    margin: 0 auto; // Center the grid container horizontally
   }
   @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); // Change to 2 columns on mobile screens
   }
 }
+
 .cardItem {
-  cursor: pointer;
-  border-radius: 5px;
-  max-width: 230px;
-  height: 390px;
-  margin-bottom: 40px;
-  padding: 0px 10px 0px 0px;
-  transition: 0.3s all;
-  @include mixin.flex(null, null, column, null);
+  cursor: pointer; // Show pointer cursor on hover
+  border-radius: 5px; // Apply border radius to the item
+  max-width: 230px; // Maximum width of the item
+  height: 390px; // Fixed height of the item
+  margin-bottom: 40px; // Margin at the bottom of each item
+  padding: 0px 10px 0px 0px; // Padding of the item
+  transition: 0.3s all; // Apply transition effect for smooth hover
+  @include mixin.flex(null, null, column, null); // Apply flexbox with column direction
   &:hover {
-    box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2); // Box shadow on hover
     .cardItemBtns {
-      display: block;
+      display: block; // Show buttons on hover
     }
-    .cardItemName{
-      color: #424242;
+    .cardItemName {
+      color: #424242; // Change text color on hover
     }
   }
-  @media screen and (max-width: 480px){
-    max-width: 180px;
+  @media screen and (max-width: 480px) {
+    max-width: 180px; // Change maximum width on smaller screens
+    height: 290px; // Change height on smaller screens
   }
 }
 .cardItemImg {
-  border-radius: 5px 5px 0px 0px;
+  border-radius: 5px 5px 0px 0px; // Border radius for the top corners of the image
   @media screen and (max-width: 480px) {
-    max-width: 130px;
-    height: 130px;
+    max-width: 130px; // Maximum width of the image on smaller screens
+    height: 130px; // Height of the image on smaller screens
   }
 }
-.cardItemPrice {
-  padding-left: 10px;
-  align-self: flex-start;
-  @include mixin.font(16px, 700, 24px, #424242);
-}
-.cardItemName {
-  @include mixin.font(14px, 400, 16.8px, #62656a);
-  max-width: 200px;
-  max-height: 35px;
-  padding-left: 10px;
-  overflow: hidden;
-}
-.cardItemDelivery {
-  padding-left: 10px;
-  margin-top: 3px;
-  @include mixin.flex(center, null, null, 3px);
-  max-width: 240px;
-}
-.cardItemDeliveryTitle {
-  margin-top: 10px;
-  @include mixin.font(14px, 400, 14.4px, #0c54a1);
-  max-width: 170px;
-}
-.cardItemBtns {
-  margin-top: 10px;
-  padding-left: 10px;
-  display: none;
-  @media screen and (max-width: 1200px) {
-    display: block;
-  }
-}
-.cardItemBtnsContainer {
-  @include mixin.flex(center, null, null, 10px);
-  @media screen and (max-width: 480px){
-    @include mixin.flex(center, null, null, 5px);
 
+.cardItemPrices {
+  margin-top: 5px; // Margin at the top of the price section
+  display: flex; // Use flexbox for layout
+  gap: 15px; // Gap between elements in the flex container
+  align-items: center; // Align items to the center vertically
+}
+
+.cardItemPrice {
+  padding-left: 10px; // Left padding of the price
+  align-self: flex-start; // Align the price to the start of the cross axis
+  @include mixin.font(16px, 700, 24px, #424242); // Apply font styles using a mixin
+}
+.priceWithOld{
+  color: #991a4e; // additional color class prices
+}
+.cardItemOldPrice {
+  padding-left: 10px; // Left padding of the old price
+  align-self: flex-start; // Align the old price to the start of the cross axis
+  @include mixin.font(16px, 400, 24px, #62656a); // Apply font styles using a mixin
+  position: relative; // Position relative for the strikethrough line
+  &::after {
+    content: ""; // Create a pseudo-element for the strikethrough line
+    position: absolute; // Absolute positioning for the line
+    bottom: 11px; // Position the line at the bottom
+    left: 5px; // Position the line to the left
+    width: 96%; // Line width
+    height: 3px; // Line thickness
+    background-color: #62656a; // Line color
+    border-radius: 5px; // Border radius for the line
+    transform: rotate(8deg); // Rotate the line for a diagonal effect
   }
 }
+
+.cardItemName {
+  @include mixin.font(14px, 400, 16.8px, #62656a); // Apply font styles using a mixin
+  max-width: 200px; // Maximum width of the item name
+  max-height: 35px; // Maximum height of the item name
+  padding-left: 10px; // Left padding of the item name
+  overflow: hidden; // Hide overflow text
+}
+
+.cardItemDelivery {
+  padding-left: 10px; // Left padding of the delivery section
+  margin-top: 3px; // Margin at the top of the delivery section
+  @include mixin.flex(center, null, null, 3px); // Apply flexbox with specific settings
+  max-width: 240px; // Maximum width of the delivery section
+}
+
+.cardItemDeliveryTitle {
+  margin-top: 10px; // Margin at the top of the delivery title
+  @include mixin.font(14px, 400, 14.4px, #0c54a1); // Apply font styles using a mixin
+  max-width: 170px; // Maximum width of the delivery title
+  max-height: 28px; // Maximum height of the delivery title
+  overflow: hidden; // Hide overflow text
+}
+
+.cardItemBtns {
+  margin-top: 10px; // Margin at the top of the buttons section
+  padding-left: 10px; // Left padding of the buttons section
+  display: none; // Initially hide the buttons
+  @media screen and (max-width: 1200px) {
+    display: block; // Display the buttons on smaller screens
+  }
+}
+
+.cardItemBtnsContainer {
+  @include mixin.flex(center, null, null, 10px); // Apply flexbox with specific settings
+  @media screen and (max-width: 480px) {
+    @include mixin.flex(center, null, null, 5px); // Apply different settings for smaller screens
+  }
+}
+
 .cardItemBtnsAddBucket {
   @include mixin.button(
     10px 45px,
@@ -100,13 +140,13 @@
     null,
     null,
     #fff
-  );
-  text-wrap: nowrap;
-  text-align: center;
+  ); // Apply button styles using a mixin
+  text-wrap: nowrap; // Prevent text wrapping in the button
+  text-align: center; // Center text in the button
   &:hover {
-    background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
+    background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%); // Change background on hover
   }
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     @include mixin.button(
       8px 8px,
       null,
@@ -116,17 +156,18 @@
       null,
       null,
       #fff
-    );
+    ); // Apply different button styles for smaller screens
   }
 }
+
 .hearthIcon {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  border-radius: 5px;
-  padding: 7px;
-  background: rgba(246, 246, 246, 1);
+  cursor: pointer; // Show pointer cursor
+  display: flex; // Use flexbox for layout
+  justify-content: center; // Center content horizontally
+  border-radius: 5px; // Apply border radius to the icon container
+  padding: 7px; // Padding around the icon
+  background: rgba(246, 246, 246, 1); // Background color of the icon container
   &:hover {
-    outline: 2px solid #991a4e;
+    outline: 2px solid #991a4e; // Show outline on hover
   }
 }
