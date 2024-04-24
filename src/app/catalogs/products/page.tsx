@@ -271,7 +271,7 @@ const ProductsPage = ({ product, brand }: IProps) => {
                   </div>
                   <h1
                     className={styles.product__price}
-                  >{`${item.price} ⃀.`}</h1>
+                  >{`${item.price.toLocaleString()} ⃀.`}</h1>
                   <li className={styles.product__name}>
                     {item.naim.split(" ").slice(0, 4).join(" ")}
                   </li>

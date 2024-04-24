@@ -61,3 +61,15 @@ export const getBoughts = (): Promise<IBoughts> => {
 export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
+
+const getFilterPrice = (
+  id: number,
+  cena_min: number,
+  cena_max: number
+): Promise<subCatalog> => {
+  return maxkgz
+    .get(
+      `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
+    )
+    .json();
+};

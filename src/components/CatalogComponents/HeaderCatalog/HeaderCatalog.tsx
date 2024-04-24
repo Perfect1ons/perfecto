@@ -20,7 +20,6 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
   const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
     useState<boolean>(false);
   const router = useRouter();
-  const [visibleCount, setVisibleCount] = useState(5);
   const ChevronRightIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +46,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
   };
   useEffect(() => {
     setSubCatalogs(category);
-    setActiveCatalogId(category.category.id);
+    setActiveCatalogId(category?.category?.id);
   }, []);
   useEffect(() => {
     if (subCatalogs && subCatalogs.category) {
@@ -103,7 +102,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
     <div className={styles.catalogs}>
       <div className={styles.catalogs__3}>
         <span className={styles.triangle}></span>
-        {catalog.map((catalog) => (
+        {catalog?.map((catalog) => (
           <h2
             key={catalog.id}
             className={cn(
