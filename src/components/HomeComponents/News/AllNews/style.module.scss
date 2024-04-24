@@ -49,8 +49,10 @@
     }
 }
 
+
 .active{
     color: var(--violet);
+    border-bottom: 2px solid (var(--violet));
 }
 
 .pagination__button_active {

@@ -4,6 +4,7 @@ import styles from './style.module.scss'
 import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { url } from '@/components/temporary/data';
 
 interface IDiscountsProps{
     discounts: IDiscounts[]
@@ -22,7 +23,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
           {discounts.slice(0, 8).map((item) => (
             <div
               onClick={() =>
-                router.push(`https://max.kg/discount/${item.promotion_id}`)
+                router.push(`discount/${item.promotion_id}`)
               }
               className={styles.discount__card}
               key={item.name}
@@ -30,7 +31,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
               <div className={styles.discount__card_images}>
                 <Image
                   className={styles.discount__card_img}
-                  src={`https://max.kg/${item.image}`}
+                  src={`${url}${item.image}`}
                   width={400}
                   height={250}
                   alt={item.name}

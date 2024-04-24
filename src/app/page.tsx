@@ -20,6 +20,7 @@ import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title:
@@ -37,8 +38,11 @@ export default async function Home() {
   const promotionData = await getPromotion();
   const seasonCategoryData = await getSeasonCategory();
   const discounts = await getDiscounts();
+
   const brandsData = await getBrands();
+
   const boughtsData = await getBoughts();
+
   const popularGoodsData = await getPopularGoods();
   return (
     <>
