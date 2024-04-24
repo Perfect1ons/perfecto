@@ -39,6 +39,10 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
     router.push("/boughts");
   };
 
+  function formatNumber(number : number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  }
+
   const showMoreButton =
     visibleItems < boughts.length ? (
       <button className="default__buttons_showMore" onClick={handleShowMore}>
@@ -80,12 +84,12 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
       item.old_price !== item.price ? "priceWithOld" : ""
     }`}
   >
-    {item.price.toLocaleString()} с
+    {formatNumber(item.price)} с
   </p>
   {item.old_price && item.old_price !== item.price && (
     <>
       <p className="cardItemOldPrice">
-        {item.old_price.toLocaleString()} с
+      {formatNumber(item.old_price)} с
       </p>
     </>
   )}
