@@ -18,35 +18,13 @@
 
 
 
-.news__buttons {
-  @include mixin.flex(center, center);
-
-  &_showMore {
-    margin-top: 20px;
-    @include mixin.button(
-      10px 25px,
-      null,
-      2px solid var(--dark-blue),
-      10px,
-      var(--white),
-      18px,
-      500,
-      var(--black)
-    );
-    transition: 0.2s ease-out; 
-    &:hover {
-      background: var(--dark-blue);
-      color: var(--white);
-    }
-  }
-}
-
 .promotion__card {
   opacity: 0; 
   transition: opacity 0.5s ease; 
   &_img{
     transition: 0.3s;
     user-select: none;
+    border-radius: 10px;
 
   cursor: pointer;
     width: 100%;

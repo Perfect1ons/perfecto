@@ -43,16 +43,14 @@ const HeaderNav = () => {
             navLinks.map((links) => {
                 return (
                   <Link
-                    className={styles.nav__link}
+                    className={cn(styles.nav__link, pathname === links.href && styles.active)}
                     key={links.id}
                     href={links.href}
                   >
                     <span
                       className={cn(
-                        styles.nav__link_title,
-                        pathname === links.href && styles.active
+                        styles.nav__link_title
                       )}
-
                     >
                       {links.title}
                     </span>

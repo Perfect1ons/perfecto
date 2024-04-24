@@ -2,7 +2,8 @@
 
 .nav{
     width: 320px;
-    @include mixin.flex(center, space-between, null, 10px );
+    height: 40px;
+    @include mixin.flex(center, space-around, null );
     
     @media screen and (max-width: 1200px) {
         width: 100%;
@@ -10,21 +11,34 @@
     }
 
     &__link{
+        list-style: none;
+        outline: none;
+        background: none;
+        border: none;
+        box-sizing: border-box;
+        font-size: inherit;
+        font-style: inherit;
         @include mixin.flex(center, center,column-reverse,3px);
         text-decoration: none;
+        opacity: 0.8;
+            transition: 0.2s;
 
         &_title{
             color: var(--gray-white);
-            transition: 0.3s ease-in-out;
         }
 
         &_title:hover{
             color: var(--white);
+        }
 
+        &:hover{
+            opacity: 1;
         }
     }
 }
 
 .active{
     color: var(--white);
+    opacity: 1;
+
 }

@@ -39,9 +39,9 @@ const bannerData: IBanner[] = [
 
 const Banner = () => {
   return (
-    <section className={styles.intro__banner}>
+    <section className="intro__banner">
       <div className={cn(styles.intro__banner_container, "container")}>
-        <BannerSwiper slides={bannerData}/>
+        <BannerSwiper slides={bannerData} />
       </div>
     </section>
   );
