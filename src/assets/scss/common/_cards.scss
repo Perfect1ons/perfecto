@@ -4,30 +4,27 @@
   align-self: center;
 }
 .cardContainer {
-    user-select: none;
-    @include mixin.flex(null, null, column, null);
+  user-select: none;
+  @include mixin.flex(null, null, column, null);
 }
 .cardItemContainer {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-content: center;
   align-items: flex-start;
-  @media screen and (max-width:1200px){
+  @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(4, 1fr);
   }
-  @media screen and (max-width:992px){
+  @media screen and (max-width: 992px) {
     grid-template-columns: repeat(3, 1fr);
-    margin: 0 auto;   
-}
-@media screen and (max-width:576px){
-    grid-template-columns: repeat(2, 1fr);
+    margin: 0 auto;
   }
-  @media screen and (max-width:480px){
-    grid-template-columns: repeat(1, 1fr);
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 .cardItem {
-    cursor: pointer;
+  cursor: pointer;
   border-radius: 5px;
   max-width: 230px;
   height: 390px;
@@ -40,14 +37,24 @@
     .cardItemBtns {
       display: block;
     }
+    .cardItemName{
+      color: #424242;
+    }
+  }
+  @media screen and (max-width: 480px){
+    max-width: 180px;
   }
 }
 .cardItemImg {
   border-radius: 5px 5px 0px 0px;
+  @media screen and (max-width: 480px) {
+    max-width: 130px;
+    height: 130px;
+  }
 }
 .cardItemPrice {
-    padding-left: 10px;
-    align-self: flex-start;
+  padding-left: 10px;
+  align-self: flex-start;
   @include mixin.font(16px, 700, 24px, #424242);
 }
 .cardItemName {
@@ -58,13 +65,13 @@
   overflow: hidden;
 }
 .cardItemDelivery {
-    padding-left: 10px;
+  padding-left: 10px;
   margin-top: 3px;
   @include mixin.flex(center, null, null, 3px);
   max-width: 240px;
 }
 .cardItemDeliveryTitle {
-    margin-top: 10px;
+  margin-top: 10px;
   @include mixin.font(14px, 400, 14.4px, #0c54a1);
   max-width: 170px;
 }
@@ -72,12 +79,16 @@
   margin-top: 10px;
   padding-left: 10px;
   display: none;
-  @media screen and (max-width:1200px){
+  @media screen and (max-width: 1200px) {
     display: block;
   }
 }
 .cardItemBtnsContainer {
   @include mixin.flex(center, null, null, 10px);
+  @media screen and (max-width: 480px){
+    @include mixin.flex(center, null, null, 5px);
+
+  }
 }
 .cardItemBtnsAddBucket {
   @include mixin.button(
@@ -85,15 +96,28 @@
     null,
     null,
     5px,
-    linear-gradient(88.03deg, #112B66 60.19%, #341052 97.58%),
+    linear-gradient(88.03deg, #112b66 60.19%, #341052 97.58%),
     null,
     null,
     #fff
+  );
+  text-wrap: nowrap;
+  text-align: center;
+  &:hover {
+    background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
+  }
+  @media screen and (max-width: 480px){
+    @include mixin.button(
+      8px 8px,
+      null,
+      null,
+      5px,
+      linear-gradient(88.03deg, #112b66 60.19%, #341052 97.58%),
+      null,
+      null,
+      #fff
     );
-    text-wrap: nowrap;
-    &:hover {
-        background: linear-gradient(88.03deg, #112B66 1.19%, #991A4E 97.58%);
-    }
+  }
 }
 .hearthIcon {
   cursor: pointer;
@@ -103,6 +127,6 @@
   padding: 7px;
   background: rgba(246, 246, 246, 1);
   &:hover {
-      outline: 2px solid #991A4E;
-    }
+    outline: 2px solid #991a4e;
+  }
 }
