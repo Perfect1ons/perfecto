@@ -1,4 +1,6 @@
+import { getPopularGoods } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
+import PopularGoods from "@/components/HomeComponents/PopularGoods/PopularGoods";
 import NotFounded from "@/components/NotFound/NotFound";
 import { Metadata } from "next";
 
@@ -8,10 +10,13 @@ export const metadata: Metadata = {
     "К сожалению запрошенная вами страница не существует - Ошибка #404",
 };
 
-const NotFound = () => {
+const NotFound = async () => {
+  const popularGoodsData = await getPopularGoods();
+
   return (
     <>
     <NotFounded/>
+    <PopularGoods goods={popularGoodsData}/>
     <Application/>
     </>
   );

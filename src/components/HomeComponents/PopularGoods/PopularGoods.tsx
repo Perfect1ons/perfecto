@@ -42,14 +42,14 @@ const PopularGoods = ({ goods }: IPopularGoodsProps) => {
   const showMoreButton =
     visibleItems < goods.length ? (
       <button
-        className="showMoreBtn news__buttons_showMore"
+        className="default__buttons_showMore"
         onClick={handleShowMore}
       >
         Показать еще
       </button>
     ) : (
       <button
-        className="showMoreBtn news__buttons_showMore"
+        className="default__buttons_showMore"
         onClick={handleShowAll}
       >
         Показать все
@@ -116,7 +116,7 @@ const PopularGoods = ({ goods }: IPopularGoodsProps) => {
             );
           })}
         </div>
-        {showMoreButton}
+        <div className="default__buttons">{showMoreButton}</div>
       </div>
     </section>
   );
