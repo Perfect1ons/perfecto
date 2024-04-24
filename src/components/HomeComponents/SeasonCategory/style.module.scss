@@ -14,6 +14,10 @@
         grid-template-columns: repeat(2,1fr);
     }
 }
+.seasonItemImg{
+    user-select: none;
+}
+
 .seasonItem{
     padding: 15px 0px;
     border-radius: 5px;
@@ -23,7 +27,7 @@
     cursor: pointer;
     &:hover{
         box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-        .seasonItemTitle{
+        .category__item_title{
             color: var(--violet)
         }
     }

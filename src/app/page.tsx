@@ -2,7 +2,7 @@ import {
   getBoughts,
   getBrands,
   getDiscounts,
-  getNews,
+  getNewsByLimit,
   getPopularCategory,
   getPopularGoods,
   getPromotion,
@@ -33,15 +33,12 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const popularCategoryData = await getPopularCategory();
-  const newsData = await getNews();
+  const newsData = await getNewsByLimit();
   const promotionData = await getPromotion();
   const seasonCategoryData = await getSeasonCategory();
   const discounts = await getDiscounts();
-
   const brandsData = await getBrands();
-
   const boughtsData = await getBoughts();
-
   const popularGoodsData = await getPopularGoods();
   return (
     <>

@@ -4,7 +4,6 @@ import { IBrandItem } from "@/types/brands";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
-import useMediaQuery from "@/hooks/useMediaQuery";
 import { useRouter } from "next/navigation";
 
 
@@ -34,18 +33,24 @@ const Brands = ({ brands }: IBrandsProps) => {
                 className={styles.brandsItem}
                 key={item.id}
               >
-                <p className={styles.brandsItemName}>{item.name}</p>
+                {item.name}
               </Link>
             );
           })}
         </div>
-        <div className="news__buttons">
+        <div className="default__buttons">
           {pageSize < 24 ? (
-            <button className="news__buttons_showMore" onClick={handleShowMore}>
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowMore}
+            >
               Показать еще
             </button>
           ) : (
-            <button onClick={() => router.push('./all-brends')} className="news__buttons_showMore">
+            <button
+              onClick={() => router.push("/brends")}
+              className="default__buttons_showMore"
+            >
               Показать все
             </button>
           )}

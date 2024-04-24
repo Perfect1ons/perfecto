@@ -13,15 +13,10 @@
   }
 }
 
-.showMore,
-.hideMore{
- 
-  @media screen and (max-width: 640px) {
-    display: none;
-  }
-}
 
-.news__buttons_showMore{
+//! Показать больше - Показать все кнопки
+
+.default__buttons_showMore{
  margin-top: 20px;
  user-select: none;
  @include mixin.flex(center,center);
@@ -42,24 +37,19 @@
     }
 }
 
-.showAll_button{
-    display: none;
-
-    @media screen and (max-width:640px) {
-        display: block;
-    }
+.default__buttons {
+  @include mixin.flex(center, center);
 }
 
+//! Названия категорий которые указываем в секциях
 .sections__title{
     @include mixin.font(20px,600,120%,#424242);
     text-transform: uppercase;
-
     margin-bottom: 25px;
     user-select: none;
 }
 
-//! If you don't know how to use it - it's not my guilt
-
+//! отступ всех секций(блоков контента)
 .news,
 .promotion,
 .season,
@@ -71,7 +61,126 @@
   margin-top: 30px;
 }
 
+//! стили пагинации 
+.swiper-pagination-bullet {
+  cursor: pointer;
+  background: var(--dark-blue) !important;
+  padding: 5px 10px;
+  border-radius: 50px !important;
 
-.news__buttons {
-  @include mixin.flex(center, center);
+  @media screen and (max-width: 640px) {
+    padding: 3px 7px;
+  }
+}
+
+//! пагинация страниц показать больше
+.pagination{
+  @include mixin.flex(center,center,null,10px);
+  margin-bottom: 25px;
+  margin-top: 30px;
+  &__button{
+    @include mixin.font(16px,600,143%,var(--dark-blue));
+    @include mixin.flex(center,center);
+    cursor: pointer;
+    border: 2px solid var(--dark-blue);
+    padding: 10px 16px;
+    border-radius: 10px;
+    transition: 0.2s ease-out;
+    &:hover{
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+
+    &_custom{
+      border: 2px solid var(--secondary);
+      @include mixin.font(16px,600,143%,var(--dark-blue));
+      cursor: pointer;
+      padding: 10px 15px;
+    transition: 0.2s ease-out;
+
+      border-radius: 10px;
+      &:hover{
+        background: var(--secondary);
+        color: var(--white);
+      }
+    }
+  }
+}
+
+
+
+//! стили названий карточек категорий 
+.myCategory__swiper{
+  padding-bottom: 50px !important;
+  
+  @media screen and (max-width: 640px) {
+    padding-bottom: 30px;
+  }
+}
+
+.swiper__slide {
+  margin-top: 1px;
+  margin-right: 2px;
+  cursor: pointer;
+  height: 180px !important;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+  background: var(--white);
+  @include mixin.flex(center,flex-start,column,10px);
+  @media screen and (max-width: 992px) {
+    min-height: 190px;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 180px;
+  }
+
+  @media screen and (max-width: 480px) {
+    min-height: 160px;
+  }
+
+  &:hover{
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    
+    .category__item_title{
+        color: var(--violet);
+    }
+  }
+}
+
+.category__item_title{
+  @include mixin.font(1rem,400,150%,#424242);
+  text-align: center;
+  transition: 0.1s ease-in-out;
+  user-select: none;
+  padding: 0 10px;
+  @media screen and (max-width: 480px) {
+    font-size: 15px;
+    color: var(--black);
+    max-width: 120px;
+    overflow-wrap: break-word;
+    max-height: 45px;
+    overflow: hidden;
+  }
+}
+
+
+//! Стиль тайтла страниц когда нажимаешь показать все
+.default__showMore_title{
+  @include mixin.font(18px,500,120%,#212529);
+  margin-top: 20px;
+}
+
+//! Стиль тайтла карточки новости на странице новости
+.allNews__content_title{
+  @include mixin.font(18px,600,120%,var(--gray-dark));
+  @include mixin.flex(flex-start,flex-start);
+  width: 100%;
+  cursor: pointer;
+  &:hover{
+    color: var(--violet);
+  }
 }

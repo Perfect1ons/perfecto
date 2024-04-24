@@ -10,32 +10,18 @@ interface IPromoProps {
 }
 
 const Promotion = ({ promotion }: IPromoProps) => {
-  const [itemsToShow, setItemsToShow] = useState<number>(6);
-  const totalItems = promotion.length;
   const router = useRouter();
-  const promotionRef = useRef<HTMLDivElement>(null);
-
-  const handleLoadMore = () => {
-    setItemsToShow((prevItems) => prevItems + 6);
-  };
-
-  const handleHide = () => {
-    setItemsToShow(6);
-    if (promotionRef.current) {
-      promotionRef.current.scrollIntoView({ behavior: "auto" });
-    }
-  };
 
   const handleShowAll = () => {
-    router.push("/all-promotions");
+    router.push("promotions");
   };
 
   return (
-    <section className="promotion" ref={promotionRef}>
+    <section className="promotion">
       <div className={"container"}>
         <h1 className="sections__title">Акции</h1>
         <div className={styles.promotion__container}>
-          {promotion.slice(0, itemsToShow).map((item) => (
+          {promotion.slice(0, 6).map((item) => (
             <div className={styles.promotion__card} key={item.naim}>
               <Image
                 onClick={() => router.push(`https://max.kg/promo/${item.id}`)}
@@ -48,26 +34,9 @@ const Promotion = ({ promotion }: IPromoProps) => {
             </div>
           ))}
         </div>
-        <div className={styles.promotion__buttons}>
-          <div className="showMore">
-            {itemsToShow < totalItems && (
-              <button
-                className="news__buttons_showMore"
-                onClick={handleLoadMore}
-              >
-                Показать ещё
-              </button>
-            )}
-          </div>
-          <div className="hideMore">
-            {itemsToShow >= totalItems && itemsToShow > 6 && (
-              <button className="news__buttons_showMore" onClick={handleHide}>
-                Скрыть все
-              </button>
-            )}
-          </div>
+        <div className="default__buttons">
           <button
-            className="news__buttons_showMore showAll_button"
+            className="default__buttons_showMore"
             onClick={handleShowAll}
           >
             Показать все
