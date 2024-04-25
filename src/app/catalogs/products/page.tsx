@@ -1,4 +1,4 @@
-import { subCatalog } from "@/types/subCatalog";
+import { subCatalog } from "@/types/Catalog/subCatalog";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { IFiltersBrand } from "@/types/filtersBrand";
