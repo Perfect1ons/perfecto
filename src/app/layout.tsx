@@ -4,8 +4,6 @@ import "./globals.scss";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
-import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
 
@@ -36,7 +34,7 @@ export default async function RootLayout({
       <body className={rubik.className}>
         {/* <Header /> */}
         <HeaderWrap />
-        <DownloadAppMobile/>
+        <DownloadAppMobile />
         <div id="portal" />
         {children}
         <Footer />
