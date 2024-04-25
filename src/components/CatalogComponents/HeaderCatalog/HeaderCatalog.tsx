@@ -1,24 +1,25 @@
 "use client";
-import { ICatalogHome } from "@/types/catalogsHome";
+import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { getSubCatalogs } from "@/api/requests";
-import { subCatalog } from "@/types/subCatalog";
 import cn from "clsx";
 import { useRouter } from "next/navigation";
+import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 interface ICatalogProps {
   catalog: ICatalogHome[];
-  category: subCatalog;
+  category: ICatalogsChild;
+  close: () => void;
 }
-const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
-  const [subCatalogs, setSubCatalogs] = useState<subCatalog>();
+const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
+  const [subCatalogs, setSubCatalogs] = useState<ICatalogsChild>();
   const [activeCatalogId, setActiveCatalogId] = useState<number | null>(null);
-  const [subCatalogId, setSubCatalogId] = useState<number[]>();
-  const [subsCatalogs, setSubsCatalogs] = useState<{
-    [key: number]: subCatalog;
-  }>({});
-  const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
-    useState<boolean>(false);
+  // const [subCatalogId, setSubCatalogId] = useState<number[]>();
+  // const [subsCatalogs, setSubsCatalogs] = useState<{
+  //   [key: number]: subCatalog;
+  // }>({});
+  // const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
+  //   useState<boolean>(false);
   const router = useRouter();
   const ChevronRightIcon = () => (
     <svg
@@ -46,56 +47,61 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
   };
   useEffect(() => {
     setSubCatalogs(category);
-    setActiveCatalogId(category?.category?.id);
+    setActiveCatalogId(category?.parent?.id);
   }, []);
-  useEffect(() => {
-    if (subCatalogs && subCatalogs.category) {
-      const categoryIds = Object.values(subCatalogs.category)
-        .map((category) => category?.id)
-        .filter((id) => id !== null && id !== undefined);
-      setSubCatalogId(categoryIds);
-    }
-  }, [subCatalogs]);
-  useEffect(() => {
-    // Проверяем, есть ли какие-либо id подкаталогов
-    if (subCatalogId && subCatalogId.length > 0) {
-      subCatalogId.forEach((id) => {
-        getSubCatalogs(id).then((data) => {
-          setSubsCatalogs((prevSubsCatalogs) => ({
-            ...prevSubsCatalogs,
-            [id]: data,
-          }));
-        });
-      });
-    }
-  }, [subCatalogId]); // Зависимость от subCatalogId, чтобы эффект выполнялся при его обновлении
-  const toggle = () => {
-    setIsSubsCatalogsVisible(!isSubsCatalogaVisible);
-  };
-  const goToCatalogOrProduct = (categoryId: number) => {
-    // Получаем категорию по ее ID
+  // useEffect(() => {
+  //   if (subCatalogs && subCatalogs.category) {
+  //     const categoryIds = Object.values(subCatalogs.category)
+  //       .map((category) => category?.id)
+  //       .filter((id) => id !== null && id !== undefined);
+  //     setSubCatalogId(categoryIds);
+  //   }
+  // }, [subCatalogs]);
+  // useEffect(() => {
+  //   // Проверяем, есть ли какие-либо id подкаталогов
+  //   if (subCatalogId && subCatalogId.length > 0) {
+  //     subCatalogId.forEach((id) => {
+  //       getSubCatalogs(id).then((data) => {
+  //         setSubsCatalogs((prevSubsCatalogs) => ({
+  //           ...prevSubsCatalogs,
+  //           [id]: data,
+  //         }));
+  //       });
+  //     });
+  //   }
+  // }, [subCatalogId]); // Зависимость от subCatalogId, чтобы эффект выполнялся при его обновлении
+  // const toggle = () => {
+  //   setIsSubsCatalogsVisible(!isSubsCatalogaVisible);
+  // };
+  // const goToCatalogOrProduct = (categoryId: number) => {
+  //   // Получаем категорию по ее ID
 
-    // Проверяем, есть ли непосредственные подкатегории у данной категории
-    const hasSubcategories =
-      category &&
-      category.category &&
-      Object.values(category.category).length > 0;
+  //   // Проверяем, есть ли непосредственные подкатегории у данной категории
+  //   const hasSubcategories =
+  //     category &&
+  //     category.category &&
+  //     Object.values(category.category).length > 0;
 
-    // Проверяем, есть ли у категории продукты (модели)
-    const hasProducts = category && category.model && category.model.length > 0;
+  //   // Проверяем, есть ли у категории продукты (модели)
+  //   const hasProducts = category && category.model && category.model.length > 0;
 
-    // Если есть подкатегории, перенаправляем на страницу каталогов
-    if (hasSubcategories) {
-      console.log("Redirecting to catalog page...");
-      window.location.href = `/catalogs/${categoryId}`;
-    }
-    // Если есть продукты, перенаправляем на страницу продуктов
-    else if (hasProducts) {
-      console.log("Redirecting to products page...");
-      window.location.href = `/products/${categoryId}`;
-    } else {
-      console.log("No subcategories or products found for this category.");
-    }
+  //   // Если есть подкатегории, перенаправляем на страницу каталогов
+  //   if (hasSubcategories) {
+  //     console.log("Redirecting to catalog page...");
+  //     window.location.href = `/catalogs/${categoryId}`;
+  //   }
+  //   // Если есть продукты, перенаправляем на страницу продуктов
+  //   else if (hasProducts) {
+  //     console.log("Redirecting to products page...");
+  //     window.location.href = `/products/${categoryId}`;
+  //   } else {
+  //     console.log("No subcategories or products found for this category.");
+  //   }
+  //   close();
+  // };
+  const clicks = (id: number) => {
+    router.push(`catalogs/${id}`);
+    close();
   };
 
   return (
@@ -109,7 +115,8 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
               styles.catalogs__h2,
               catalog.id === activeCatalogId && styles.active
             )}
-            onClick={() => router.push(`catalogs/${catalog.id}`)}
+            // onClick={() => router.push(`catalogs/${catalog.id}`)}
+            onClick={() => clicks(catalog.id)}
             onMouseEnter={() => handleMouseEnter(catalog.id)}
             // onMouseLeave={() => handleMouseLeave(catalog.id)}
           >
@@ -118,7 +125,7 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
           </h2>
         ))}
       </div>
-      <div className={styles.catalogs__9}>
+      {/* <div className={styles.catalogs__9}>
         <h3
           className={styles.catalogs__9h3}
           // onClick={() => router.push(catalogs/${subCatalogs?.category.id}})}
@@ -136,28 +143,11 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
                 >
                   {category?.name}
                 </h3>
-                {/* <div>
-                  {category &&
-                    subsCatalogs[category.id] &&
-                    Object.values(subsCatalogs[category.id]?.category).map(
-                      (subCategory, index) => (
-                        <h3
-                          key={index}
-                          className={styles.category__li__h33}
-                          onClick={() =>
-                            router.push(catalogs/products/${subCategory?.id})
-                          }
-                        >
-                          {subCategory?.name}
-                        </h3>
-                      )
-                    )}
-                </div> */}
                 <div>
                   {category && subsCatalogs[category.id]?.category && (
                     <>
                       {Object.values(subsCatalogs[category.id]?.category)
-                        .slice(0, isSubsCatalogaVisible ? undefined : 5) // Отображаем только первые пять подкатегорий, если showAllSubcategories равно false
+                        .slice(0, isSubsCatalogaVisible ? undefined : 5) 
                         .map((subCategory, index) => (
                           <h3
                             key={index}
@@ -183,6 +173,11 @@ const HeaderCatalog = ({ catalog, category }: ICatalogProps) => {
               </li>
             ))}
         </ul>
+      </div> */}
+      <div className={styles.catalogs__9}>
+        {subCatalogs?.child.map((child) => {
+          return <li key={child?.id}>{child.name}</li>;
+        })}
       </div>
     </div>
   );

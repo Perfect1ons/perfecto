@@ -1,11 +1,11 @@
 "use client";
 import { getSubCatalogs } from "@/api/requests";
 import { useState } from "react";
-import { subCatalog } from "@/types/subCatalog";
+import { subCatalog } from "@/types/Catalog/subCatalog";
 
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import { ICatalogHome } from "@/types/catalogsHome";
+import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 
 const AllProducts = ({
   catalog,

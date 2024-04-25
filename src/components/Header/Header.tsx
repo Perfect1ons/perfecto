@@ -3,22 +3,24 @@ import { useState } from "react";
 import HeaderNav from "./HeaderNav/HeaderNav";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
-import Modal from "../UI/ModalCatalog/Modal/Modal";
-
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ICatalogHome } from "@/types/catalogsHome";
-import { subCatalog } from "@/types/subCatalog";
+import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 import HeaderCatalog from "../CatalogComponents/HeaderCatalog/HeaderCatalog";
 import ModalHeaders from "../UI/ModalHeaders/Modal/Modal";
+import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 
 export interface ICatalogProps {
   catalog: ICatalogHome[];
-  category: subCatalog;
+  category: ICatalogsChild;
 }
 
 const Header = ({ catalog, category }: ICatalogProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const open = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <header className={styles.header}>
@@ -31,7 +33,7 @@ const Header = ({ catalog, category }: ICatalogProps) => {
           </Link> */}
 
           <div className={styles.catalog_modal}>
-            <div className={styles.catalog} onClick={() => setIsOpen(!isOpen)}>
+            <div className={styles.catalog} onClick={open}>
               <button
                 className={cn(styles.hamburger, styles.hamburger_3dy, {
                   [styles.is_active]: isOpen,
@@ -45,7 +47,11 @@ const Header = ({ catalog, category }: ICatalogProps) => {
               Каталог
             </div>
             <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-              <HeaderCatalog catalog={catalog} category={category} />
+              <HeaderCatalog
+                catalog={catalog}
+                category={category}
+                close={open}
+              />
             </ModalHeaders>
           </div>
 
