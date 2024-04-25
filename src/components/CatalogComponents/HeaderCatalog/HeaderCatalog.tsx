@@ -14,12 +14,6 @@ interface ICatalogProps {
 const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
   const [subCatalogs, setSubCatalogs] = useState<ICatalogsChild>();
   const [activeCatalogId, setActiveCatalogId] = useState<number | null>(null);
-  // const [subCatalogId, setSubCatalogId] = useState<number[]>();
-  // const [subsCatalogs, setSubsCatalogs] = useState<{
-  //   [key: number]: subCatalog;
-  // }>({});
-  // const [isSubsCatalogaVisible, setIsSubsCatalogsVisible] =
-  //   useState<boolean>(false);
   const router = useRouter();
   const ChevronRightIcon = () => (
     <svg
@@ -38,7 +32,6 @@ const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
       <path d="M9 6l6 6l-6 6" />
     </svg>
   );
-
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {
       setSubCatalogs(data);
@@ -49,56 +42,6 @@ const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
     setSubCatalogs(category);
     setActiveCatalogId(category?.parent?.id);
   }, []);
-  // useEffect(() => {
-  //   if (subCatalogs && subCatalogs.category) {
-  //     const categoryIds = Object.values(subCatalogs.category)
-  //       .map((category) => category?.id)
-  //       .filter((id) => id !== null && id !== undefined);
-  //     setSubCatalogId(categoryIds);
-  //   }
-  // }, [subCatalogs]);
-  // useEffect(() => {
-  //   // Проверяем, есть ли какие-либо id подкаталогов
-  //   if (subCatalogId && subCatalogId.length > 0) {
-  //     subCatalogId.forEach((id) => {
-  //       getSubCatalogs(id).then((data) => {
-  //         setSubsCatalogs((prevSubsCatalogs) => ({
-  //           ...prevSubsCatalogs,
-  //           [id]: data,
-  //         }));
-  //       });
-  //     });
-  //   }
-  // }, [subCatalogId]); // Зависимость от subCatalogId, чтобы эффект выполнялся при его обновлении
-  // const toggle = () => {
-  //   setIsSubsCatalogsVisible(!isSubsCatalogaVisible);
-  // };
-  // const goToCatalogOrProduct = (categoryId: number) => {
-  //   // Получаем категорию по ее ID
-
-  //   // Проверяем, есть ли непосредственные подкатегории у данной категории
-  //   const hasSubcategories =
-  //     category &&
-  //     category.category &&
-  //     Object.values(category.category).length > 0;
-
-  //   // Проверяем, есть ли у категории продукты (модели)
-  //   const hasProducts = category && category.model && category.model.length > 0;
-
-  //   // Если есть подкатегории, перенаправляем на страницу каталогов
-  //   if (hasSubcategories) {
-  //     console.log("Redirecting to catalog page...");
-  //     window.location.href = `/catalogs/${categoryId}`;
-  //   }
-  //   // Если есть продукты, перенаправляем на страницу продуктов
-  //   else if (hasProducts) {
-  //     console.log("Redirecting to products page...");
-  //     window.location.href = `/products/${categoryId}`;
-  //   } else {
-  //     console.log("No subcategories or products found for this category.");
-  //   }
-  //   close();
-  // };
   const clicks = (id: number) => {
     router.push(`catalogs/${id}`);
     close();
@@ -115,7 +58,6 @@ const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
               styles.catalogs__h2,
               catalog.id === activeCatalogId && styles.active
             )}
-            // onClick={() => router.push(`catalogs/${catalog.id}`)}
             onClick={() => clicks(catalog.id)}
             onMouseEnter={() => handleMouseEnter(catalog.id)}
             // onMouseLeave={() => handleMouseLeave(catalog.id)}
@@ -175,9 +117,16 @@ const HeaderCatalog = ({ catalog, category, close }: ICatalogProps) => {
         </ul>
       </div> */}
       <div className={styles.catalogs__9}>
-        {subCatalogs?.child.map((child) => {
-          return <li key={child?.id}>{child.name}</li>;
-        })}
+        <h3 className={styles.catalogs__9h3}>{subCatalogs?.parent.name}</h3>
+        <ul className={styles.category__ul}>
+          {subCatalogs?.child.map((child) => {
+            return (
+              <h3 key={child?.id} className={styles.category__li__h3}>
+                {child.name}
+              </h3>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );
