@@ -4,11 +4,7 @@ import "./globals.scss";
 
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
-import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
-import IMenu from "@/components/CatalogComponents/HeaderCatalog";
-
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
@@ -36,7 +32,6 @@ export default async function RootLayout({
       <body className={rubik.className}>
         {/* <Header /> */}
         <HeaderWrap />
-        <IMenu />
         <div id="portal" />
         {children}
         <Footer />

@@ -5,17 +5,15 @@ import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ICatalogHome } from "@/types/Catalog/catalogsHome";
-import HeaderCatalog from "../CatalogComponents/HeaderCatalog/HeaderCatalog";
 import ModalHeaders from "../UI/ModalHeaders/Modal/Modal";
-import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 
 export interface ICatalogProps {
-  catalog: ICatalogHome[];
-  category: ICatalogsChild;
+  catalog: ICatalogMenu;
 }
 
-const Header = ({ catalog, category }: ICatalogProps) => {
+const Header = ({ catalog }: ICatalogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
@@ -47,11 +45,12 @@ const Header = ({ catalog, category }: ICatalogProps) => {
               Каталог
             </div>
             <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-              <HeaderCatalog
+              <CatalogMenu catalog={catalog} close={open} />
+              {/* <HeaderCatalog
                 catalog={catalog}
                 category={category}
                 close={open}
-              />
+              /> */}
             </ModalHeaders>
           </div>
 

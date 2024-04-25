@@ -14,19 +14,10 @@
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
   }
-  &__9h3 {
-    padding: 0 5px;
-    font-size: 18px;
-    font-weight: 700;
-    margin: 10px 1%;
-    color: #424242;
-  }
 }
 .catalogs__9h3 {
-  padding: 0 5px;
   font-size: 18px;
   font-weight: 700;
-  margin: 10px 1%;
   color: #424242;
 }
 .triangle {
@@ -63,8 +54,9 @@
 .category__ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start;
+  list-style-type: none;
+  gap: 16px;
 }
 .category__li {
   order: 1;
@@ -72,10 +64,8 @@
   margin: 0 1%;
 }
 .category__li__h3 {
-  margin: 10px 0;
   font-size: 14px;
   display: block;
-  padding: 0 5px;
   color: #424242;
   font-weight: 600;
   line-height: 14px;
@@ -85,7 +75,12 @@
   }
 }
 .itemContainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
   width: 25%;
+  height: max-content;
 }
 .category__li__h33 {
   margin: 10px 0;
@@ -99,6 +94,27 @@
   &:hover {
     color: var(--violet);
   }
+}
+.subCatalogsUl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &__li {
+    cursor: pointer;
+    font-size: 14px;
+    color: #424242;
+    font-weight: 400;
+    line-height: 14px;
+    &:hover {
+      color: var(--violet);
+    }
+  }
+}
+.subMenu {
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 5px;
+  margin: 10px 1%;
 }
 @media screen and (max-width: 992px) {
   .triangle {

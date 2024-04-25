@@ -3,20 +3,20 @@ import { ICatalogMenu, N29879 } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
 import { useState } from "react";
 import cn from "clsx";
+import { useRouter } from "next/navigation";
+import React from "react";
 
 interface IProps {
   catalog: ICatalogMenu;
+  close: () => void;
 }
-const CatalogMenu = ({ catalog }: IProps) => {
+const CatalogMenu = ({ catalog, close }: IProps) => {
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(
     2000000464
   );
-  //   const [showMore, setShowMore] = useState<boolean>(false);
-  //   const [activeId, setActiveId] = useState<number | null>(null);
   const [showMoreCategories, setShowMoreCategories] = useState<{
     [key: number]: boolean;
   }>({});
-
   const handleShowMore = (categoryId: number) => {
     setShowMoreCategories((prevCategories) => ({
       ...prevCategories,
@@ -32,7 +32,6 @@ const CatalogMenu = ({ catalog }: IProps) => {
   const handleMouseEnter = (id: number) => {
     setActiveCategoryId(id);
   };
-
   const ChevronRightIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -50,23 +49,36 @@ const CatalogMenu = ({ catalog }: IProps) => {
       <path d="M9 6l6 6l-6 6" />
     </svg>
   );
+  const router = useRouter();
+  const handleClick = (id: number) => {
+    router.push(`/catalogs/${id}`);
+    close();
+  };
+  const productsClick = (id: number) => {
+    router.push(`/catalogs/products/${id}`);
+    close();
+  };
 
   return (
     <div className={styles.catalogs}>
       <div className={styles.catalogs__3}>
         {catalog.map((item) => {
           return (
-            <h2
-              className={cn(
-                styles.catalogs__h2,
-                item.id === activeCategoryId && styles.active
-              )}
-              onMouseEnter={() => handleMouseEnter(item.id)}
-              key={item.name}
-            >
-              {item.name}
-              {ChevronRightIcon()}
-            </h2>
+            <React.Fragment key={item.name}>
+              <span className={styles.triangle}></span>
+              <h2
+                className={cn(
+                  styles.catalogs__h2,
+                  item.id === activeCategoryId && styles.active
+                )}
+                onMouseEnter={() => handleMouseEnter(item.id)}
+                onClick={() => handleClick(item.id)}
+                key={item.name}
+              >
+                {item.name}
+                {ChevronRightIcon()}
+              </h2>
+            </React.Fragment>
           );
         })}
       </div>
@@ -76,9 +88,9 @@ const CatalogMenu = ({ catalog }: IProps) => {
           return (
             <div
               key={item.id}
-              className="submenu"
+              className={styles.subMenu}
               style={{
-                display: activeCategoryId === item.id ? "block" : "none",
+                display: activeCategoryId === item.id ? "flex" : "none",
                 overflowX: "hidden",
               }}
             >
@@ -103,14 +115,56 @@ const CatalogMenu = ({ catalog }: IProps) => {
 
                     return (
                       <div key={childItem.id} className={styles.itemContainer}>
-                        <li className={styles.category__li__h3}>
+                        <li
+                          className={styles.category__li__h3}
+                          onClick={() => {
+                            if (childItem.child_cat_level3) {
+                              const childCatLevel3Keys = Object.keys(
+                                childItem.child_cat_level3
+                              );
+                              if (childCatLevel3Keys.length > 0) {
+                                router.push(`catalogs/${childItem.id}`);
+                              } else {
+                                router.push(
+                                  `catalogs/products/${childItem.id}`
+                                );
+                              }
+                            } else {
+                              router.push(`catalogs/products/${childItem.id}`);
+                            }
+                            close();
+                          }}
+                        >
                           {childItem.name}
                         </li>
-                        <ul>
+                        <ul className={styles.subCatalogsUl}>
                           {childCatLevel3Keys
                             .slice(0, isExpanded ? undefined : 5)
                             .map((key) => (
-                              <li key={childCatLevel3[key]?.id}>
+                              <li
+                                key={childCatLevel3[key]?.id}
+                                className={styles.subCatalogsUl__li}
+                                onClick={() => {
+                                  if (childCatLevel3[key]?.child_cat_level3) {
+                                    const childCatLevel3Keyss = Object.keys(
+                                      childCatLevel3[key]?.child_cat_level3
+                                    );
+                                    if (childCatLevel3Keyss.length > 0) {
+                                      router.push(
+                                        `catalogs/${childCatLevel3[key]?.id}`
+                                      );
+                                    } else {
+                                      router.push(
+                                        `catalogs/products/${childCatLevel3[key]?.id}`
+                                      );
+                                    }
+                                  } else {
+                                    router.push(
+                                      `catalogs/products/${childCatLevel3[key]?.id}`
+                                    );
+                                  }
+                                }}
+                              >
                                 {childCatLevel3[key]?.name}
                               </li>
                             ))}
