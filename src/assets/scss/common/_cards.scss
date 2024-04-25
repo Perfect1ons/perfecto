@@ -25,6 +25,9 @@
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr); // Change to 2 columns on mobile screens
   }
+  @media screen and (max-width: 480px){
+    gap: 5px;
+  }
 }
 
 .cardItem {
@@ -46,14 +49,14 @@
     }
   }
   @media screen and (max-width: 480px) {
-    max-width: 180px; // Change maximum width on smaller screens
+    max-width: 152px; // Change maximum width on smaller screens
     height: 290px; // Change height on smaller screens
   }
 }
 .cardItemImg {
   border-radius: 5px 5px 0px 0px; // Border radius for the top corners of the image
   @media screen and (max-width: 480px) {
-    max-width: 130px; // Maximum width of the image on smaller screens
+    max-width: 152px; // Maximum width of the image on smaller screens
     height: 130px; // Height of the image on smaller screens
   }
 }
@@ -63,12 +66,19 @@
   display: flex; // Use flexbox for layout
   gap: 10px; // Gap between elements in the flex container
   align-items: center; // Align items to the center vertically
+  @media screen and (max-width: 480px){
+    gap: 0px;
+  }
 }
 
 .cardItemPrice {
   padding-left: 10px; // Left padding of the price
   align-self: flex-start; // Align the price to the start of the cross axis
   @include mixin.font(16px, 700, 24px, #424242); // Apply font styles using a mixin
+  @media screen and (max-width: 480px){
+    font-size: 14px;
+    padding-left: 5px;
+  }
 }
 .priceWithOld{
   color: #991a4e; // additional color class prices
@@ -89,6 +99,10 @@
     border-radius: 5px; // Border radius for the line
     transform: rotate(-3deg); // Rotate the line for a diagonal effect
   }
+  @media screen and (max-width: 480px){
+    font-size: 13px;
+    padding-left: 5px;
+  }
 }
 .cardItemDiscount{
   color: #991a4e;
@@ -100,6 +114,9 @@
   max-height: 35px; // Maximum height of the item name
   padding-left: 10px; // Left padding of the item name
   overflow: hidden; // Hide overflow text
+  @media screen and (max-width: 480px){
+    padding-left: 5px;
+  }
 }
 
 .cardItemDelivery {
@@ -107,6 +124,9 @@
   margin-top: 3px; // Margin at the top of the delivery section
   @include mixin.flex(center, null, null, 3px); // Apply flexbox with specific settings
   max-width: 240px; // Maximum width of the delivery section
+  @media screen and (max-width: 480px){
+    padding-left: 5px;
+  }
 }
 
 .cardItemDeliveryTitle {
@@ -123,6 +143,7 @@
   display: none; // Initially hide the buttons
   @media screen and (max-width: 1200px) {
     display: block; // Display the buttons on smaller screens
+    padding-left: 5px;
   }
 }
 

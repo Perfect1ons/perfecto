@@ -5,6 +5,8 @@ import "./globals.scss";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
+import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
+
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
@@ -32,6 +34,7 @@ export default async function RootLayout({
       <body className={rubik.className}>
         {/* <Header /> */}
         <HeaderWrap />
+        <DownloadAppMobile />
         <div id="portal" />
         {children}
         <Footer />
