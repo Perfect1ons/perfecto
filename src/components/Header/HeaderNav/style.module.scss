@@ -2,7 +2,6 @@
 
 .nav{
     width: 320px;
-    height: 40px;
     @include mixin.flex(center, space-around, null );
     
     @media screen and (max-width: 1200px) {
@@ -17,15 +16,8 @@
         @include mixin.flex(center, center,column-reverse,3px);
         text-decoration: none;
         opacity: 0.8;
-            transition: 0.2s;
-
-        &_title{
-            color: var(--gray-white);
-        }
-
-        &_title:hover{
-            color: var(--white);
-        }
+        transition: 0.2s;
+        color: var(--gray-white);
 
         &:hover{
             opacity: 1;

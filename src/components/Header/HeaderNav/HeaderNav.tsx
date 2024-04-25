@@ -4,6 +4,7 @@ import { AuthIcon, CartIcon, FavoritesIcon } from '../../../../public/Icons/Icon
 import { ReactNode } from 'react';
 import cn from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ILinks {
     href: string,
@@ -35,26 +36,19 @@ const navLinks: ILinks[] = [
 
 const HeaderNav = () => {
   const pathname = usePathname();
-  const router = useRouter();
   return (
     <nav className={styles.nav}>
         {
             navLinks.map((links) => {
                 return (
-                  <p
+                  <Link
+                    href={links.href}
                     className={cn(styles.nav__link, pathname === links.href && styles.active)}
                     key={links.id}
-                    onClick={() => router.push(links.href)}
                   >
-                    <span
-                      className={cn(
-                        styles.nav__link_title
-                      )}
-                    >
-                      {links.title}
-                    </span>
+                    {links.title}
                     {links.icon}
-                  </p>
+                  </Link>
                 );
             })
         }

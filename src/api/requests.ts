@@ -76,6 +76,14 @@ export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
+export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
+  return maxkg.get(`discount?pageSize=20&page=1`).json();
+};
+
+export const getDiscountsPageTwo = (): Promise<IDiscounts[]> => {
+  return maxkg.get(`discount?pageSize=20&page=2`).json();
+};
+
 const getFilterPrice = (
   id: number,
   cena_min: number,

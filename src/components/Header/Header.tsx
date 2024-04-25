@@ -61,9 +61,11 @@ const Header = ({ catalog, category }: ICatalogProps) => {
             </label>
           </div>
         </div>
+
         <div className={styles.header__nav}>
           <HeaderNav />
         </div>
+        
         <div className={styles.search__white}>
           <SearchIconWhite />
         </div>
