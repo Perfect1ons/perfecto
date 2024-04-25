@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 
 import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
+import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -35,6 +36,7 @@ export default async function RootLayout({
       <body className={rubik.className}>
         {/* <Header /> */}
         <HeaderWrap />
+        <DownloadAppMobile/>
         <div id="portal" />
         {children}
         <Footer />
