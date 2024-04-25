@@ -46,14 +46,14 @@
     }
   }
   @media screen and (max-width: 480px) {
-    max-width: 180px; // Change maximum width on smaller screens
+    max-width: 157px; // Change maximum width on smaller screens
     height: 290px; // Change height on smaller screens
   }
 }
 .cardItemImg {
   border-radius: 5px 5px 0px 0px; // Border radius for the top corners of the image
   @media screen and (max-width: 480px) {
-    max-width: 130px; // Maximum width of the image on smaller screens
+    max-width: 157px; // Maximum width of the image on smaller screens
     height: 130px; // Height of the image on smaller screens
   }
 }
@@ -63,12 +63,18 @@
   display: flex; // Use flexbox for layout
   gap: 10px; // Gap between elements in the flex container
   align-items: center; // Align items to the center vertically
+  @media screen and (max-width: 480px){
+    gap: 0px;
+  }
 }
 
 .cardItemPrice {
   padding-left: 10px; // Left padding of the price
   align-self: flex-start; // Align the price to the start of the cross axis
   @include mixin.font(16px, 700, 24px, #424242); // Apply font styles using a mixin
+  @media screen and (max-width: 480px){
+    font-size: 15px;
+  }
 }
 .priceWithOld{
   color: #991a4e; // additional color class prices
@@ -88,6 +94,9 @@
     background: #99a3ae; // Line color
     border-radius: 5px; // Border radius for the line
     transform: rotate(-3deg); // Rotate the line for a diagonal effect
+  }
+  @media screen and (max-width: 480px){
+    font-size: 15px;
   }
 }
 .cardItemDiscount{
