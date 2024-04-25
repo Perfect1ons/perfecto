@@ -7,6 +7,7 @@ import Footer from "@/components/Footer/Footer";
 
 import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
+import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
 const rubik = Rubik({
@@ -35,6 +36,7 @@ export default async function RootLayout({
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <HeaderWrap />
+        <DownloadAppMobile />
         <div id="portal" />
         <MobileMenu />
         {children}
