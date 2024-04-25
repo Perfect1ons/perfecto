@@ -1,5 +1,4 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-
 .boughtsContainer {
   @include mixin.flex(null, null, column, null);
 }

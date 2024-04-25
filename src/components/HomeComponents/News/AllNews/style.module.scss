@@ -1,0 +1,75 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+.all__news_directions{
+    @include mixin.flex(center,flex-start,null, 5px);
+    margin-top: 20px;
+    &_link{
+        @include mixin.font(16px,400,150%, var(--dark-blue));
+        cursor: pointer;
+
+        &:hover{
+            color: var(--violet);
+        }
+    }
+}
+
+.allNews__container_content{
+    width: 100%;
+    margin-top: 10px;
+    @include mixin.flex(flex-start,center,column,25px);
+}
+
+.test{
+    max-width: 450px;
+}
+
+.allNews__content{
+    @include mixin.flex(null,space-between,null,30px);
+    width: 100%;
+    &_image{
+        cursor: pointer;
+        min-width: 100%;
+        height: auto;
+        object-fit: contain;
+        border-radius: 10px;
+        box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
+    }
+
+    &_info{
+        max-width: 100%;
+        width: 100%;
+        @include mixin.flex(center,space-between,column);
+        height: auto
+    }
+
+    &_data{
+        @include mixin.flex(center,space-between,null, null);
+        width: 100%;
+        @include mixin.font(12px,400,150%,#424242);
+    }
+}
+
+
+.active{
+    color: var(--violet);
+    border-bottom: 2px solid (var(--violet));
+}
+
+.pagination__button_active {
+  background-color: var(--dark-blue);
+      color: var(--white);
+
+}
+
+.pagination__button_disactive{
+      background-color: var(--light);
+      border: 2px solid var(--dark-blue);
+      cursor: not-allowed;
+
+      &:hover{
+            background-color: var(--light) !important;
+            color: var(--black) !important;
+      }
+
+    color: var(--dark-blue);
+}

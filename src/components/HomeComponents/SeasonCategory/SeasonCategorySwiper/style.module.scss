@@ -1,6 +1,6 @@
 @use '../../../../assets/scss/common/mixins' as mixin; 
 .mySwiper{
-    padding-bottom: 40px;
+    padding-bottom: 50px !important;
   }
   
   .swiper__slide {
@@ -25,6 +25,7 @@
   
   
     &_img{
+      user-select: none;
       border-radius: 5px;
       
       @media screen and (max-width: 480px) {
@@ -32,26 +33,8 @@
         height: 65px;
       }
     }
-    &_title{
-      @include mixin.font(14px,400,150%,#424242);
-      text-align: center;
-      transition: 0.1s ease-in-out;
-      user-select: none;
-  
-      @media screen and (max-width: 480px) {
-        font-size: 10px;
-        color: var(--black);
-        font-weight: 400;
-        max-height: 45px;
-        overflow: hidden;
-      }
-    }
     &:hover{
       box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-      
-      .swiper__slide_title{
-          color: var(--violet);
-      }
     }
   }
 

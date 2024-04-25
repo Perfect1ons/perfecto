@@ -10,32 +10,19 @@ export interface INew {
 }
 
 const News = ({ news }: INew) => {
-  const [itemsToShow, setItemsToShow] = useState<number>(6);
-  const totalItems = news.length;
   const router = useRouter();
-  const newsRef = useRef<HTMLDivElement>(null);
 
-  const handleLoadMore = () => {
-    setItemsToShow((prevItems) => prevItems + 6);
-  };
-
-  const handleHide = () => {
-    setItemsToShow(6);
-    if (newsRef.current) {
-      newsRef.current.scrollIntoView({ behavior: "auto" });
-    }
-  };
 
   const handleShowAll = () => {
-    router.push("/all-news");
+    router.push("/news");
   };
 
   return (
-    <section className="news" ref={newsRef}>
+    <section className="news" >
       <div className="container">
         <h1 className="sections__title">Новости</h1>
         <div className={styles.news__container}>
-          {news.slice(0, itemsToShow).map((item, index) => (
+          {news.slice(0, 6).map((item, index) => (
             <div className={styles.promotion__card} key={index}>
               <Image
                 onClick={() => router.push(`https://max.kg/promo/${item.id}`)}
@@ -48,26 +35,10 @@ const News = ({ news }: INew) => {
             </div>
           ))}
         </div>
-        <div className="news__buttons">
-          <div className="showMore">
-            {itemsToShow < totalItems && (
-              <button
-                className="news__buttons_showMore"
-                onClick={handleLoadMore}
-              >
-                Показать ещё
-              </button>
-            )}
-          </div>
-          <div className="hideMore">
-            {itemsToShow >= totalItems && itemsToShow > 6 && (
-              <button className="news__buttons_showMore" onClick={handleHide}>
-                Скрыть все
-              </button>
-            )}
-          </div>
+        <div className="default__buttons">
+    
           <button
-            className="news__buttons_showMore showAll_button"
+            className="default__buttons_showMore"
             onClick={handleShowAll}
           >
             Показать все

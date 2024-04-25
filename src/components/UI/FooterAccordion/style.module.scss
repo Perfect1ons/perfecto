@@ -36,7 +36,7 @@
   transform: rotate(90deg);
 }
 .footerNavItemContainer {
-  @include mixin.flex(null, null, column, 5px);
+  @include mixin.flex(null, null, column, 0px);
   margin-top: 16px;
   letter-spacing: 0.5px;
 }
@@ -52,7 +52,7 @@
     display: block;
   @include mixin.link(16px, 400, #ffffff);
   filter: brightness(80%);
-  margin-top: 5px;
+  margin-top: 1px;
   transition: 0.3s all;
   &:hover {
     filter: brightness(100%);

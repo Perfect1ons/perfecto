@@ -11,6 +11,7 @@ import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import { IPopularGood } from "@/types/popularGoods";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -52,15 +53,21 @@ export const getPromotion = (): Promise<IPromotion[]> => {
   return maxkg.get(`ak`).json();
 };
 
+export const getNewsByLimit = (): Promise<INews[]> => {
+  return maxkg.get("news?pageSize=6").json();
+};
+
 export const getNews = (): Promise<INews[]> => {
-  return maxkg.get("news").json();
+  return maxkg.get("news?pageSize=40").json();
 };
 export const getSeasonCategory = (): Promise<ISeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
+
 export const getBrands = (): Promise<IBrands> => {
   return maxkg.get("brand?pageSize=36").json();
 };
+
 export const getBoughts = (): Promise<IBoughts> => {
   return maxkg.get("site/lastz?page=1").json();
 };
@@ -79,4 +86,7 @@ const getFilterPrice = (
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
     )
     .json();
+};
+export const getPopularGoods = (): Promise<IPopularGood[]> => {
+  return maxkg.get("site/popular?page=1").json();
 };

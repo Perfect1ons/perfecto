@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
-
 import HeaderNav from "./HeaderNav/HeaderNav";
-
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import Modal from "../UI/ModalCatalog/Modal/Modal";
@@ -12,6 +10,7 @@ import styles from "./style.module.scss";
 import { ICatalogHome } from "@/types/catalogsHome";
 import { subCatalog } from "@/types/subCatalog";
 import HeaderCatalog from "../CatalogComponents/HeaderCatalog/HeaderCatalog";
+import ModalHeaders from "../UI/ModalHeaders/Modal/Modal";
 
 export interface ICatalogProps {
   catalog: ICatalogHome[];
@@ -32,15 +31,22 @@ const Header = ({ catalog, category }: ICatalogProps) => {
           </Link> */}
 
           <div className={styles.catalog_modal}>
-            <button
-              className={styles.catalog}
-              onClick={() => setIsOpen(isOpen)}
-            >
+            <div className={styles.catalog} onClick={() => setIsOpen(!isOpen)}>
+              <button
+                className={cn(styles.hamburger, styles.hamburger_3dy, {
+                  [styles.is_active]: isOpen,
+                })}
+                type="button"
+              >
+                <span className={styles.hamburger_box}>
+                  <span className={styles.hamburger_inner}></span>
+                </span>
+              </button>
               Каталог
-            </button>
-            <Modal open={isOpen} setOpen={setIsOpen} containerId="portal">
+            </div>
+            <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
               <HeaderCatalog catalog={catalog} category={category} />
-            </Modal>
+            </ModalHeaders>
           </div>
 
           <div className={styles.search}>
