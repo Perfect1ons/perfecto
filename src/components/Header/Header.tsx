@@ -35,13 +35,13 @@ const Header = ({ catalog, category }: ICatalogProps) => {
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
-                className={cn(styles.hamburger, styles.hamburger_3dy, {
-                  [styles.is_active]: isOpen,
+                className={cn("hamburger", "hamburger_3dy", {
+                  ["is_active"]: isOpen,
                 })}
                 type="button"
               >
-                <span className={styles.hamburger_box}>
-                  <span className={styles.hamburger_inner}></span>
+                <span className="hamburger_box">
+                  <span className="hamburger_inner"></span>
                 </span>
               </button>
               Каталог

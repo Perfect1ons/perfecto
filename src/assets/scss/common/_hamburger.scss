@@ -1,0 +1,77 @@
+.hamburger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-property: opacity, filter;
+  transition-duration: 0.15s;
+  transition-timing-function: linear;
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  margin: 0;
+  overflow: visible;
+}
+.hamburger_box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: relative;
+}
+.hamburger_inner {
+  display: block;
+  top: 50%;
+  margin-top: -2px;
+}
+.hamburger_inner,
+.hamburger_inner::before,
+.hamburger_inner::after {
+  width: 20px;
+  height: 2px;
+  background-color: black;
+  border-radius: 4px;
+  position: absolute;
+  transition-property: transform;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+.hamburger_inner::before,
+.hamburger_inner::after {
+  content: "";
+  display: block;
+}
+.hamburger_inner::before {
+  top: -5px;
+}
+.hamburger_inner::after {
+  bottom: -5px;
+}
+.hamburger_inner.is_active {
+  display: none;
+}
+/*
+ * 3DY
+ */
+.hamburger_3dy .hamburger_box {
+  perspective: 100px !important;
+}
+.hamburger_3dy .hamburger_inner {
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+    background-color 0s 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.hamburger_3dy .hamburger_inner::before,
+.hamburger_3dy .hamburger_inner::after {
+  transition: transform 0s 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+.hamburger_3dy.is_active .hamburger_inner {
+  background-color: transparent !important;
+  transform: rotateX(-180deg);
+}
+.hamburger_3dy.is_active .hamburger_inner::before {
+  transform: translate3d(0, 5px, 0) rotate(45deg);
+}
+.hamburger_3dy.is_active .hamburger_inner::after {
+  transform: translate3d(0, -5px, 0) rotate(-45deg);
+}

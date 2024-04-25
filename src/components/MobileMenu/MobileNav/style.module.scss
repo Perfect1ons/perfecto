@@ -1,0 +1,46 @@
+.section {
+  display: none;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  border-top: 1px solid #f2f2f2;
+  z-index: 999;
+  padding: 5px 0;
+  @media screen and (max-width: 992px) {
+    display: block;
+  }
+}
+
+.ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+
+  height: 55px;
+  padding: 5px 0;
+}
+
+.option {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  user-select: none;
+
+  text-decoration: none;
+  color: #000000;
+}
+
+.option_span {
+  text-decoration: none;
+  color: #000000;
+}
+
+@media screen and (max-width: 530px) {
+  .option,
+  .mod_hamburger {
+    font-size: 0.8rem;
+  }
+}
