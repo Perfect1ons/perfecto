@@ -34,7 +34,7 @@ const Header = ({ catalog, category }: ICatalogProps) => {
           <div className={styles.catalog_modal}>
             <button
               className={styles.catalog}
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsOpen(isOpen)}
             >
               Каталог
             </button>
