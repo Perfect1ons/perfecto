@@ -4,7 +4,6 @@ import {
   getDiscounts,
   getNews,
   getPopularCategory,
-  getPopularGoods,
   getPromotion,
   getSeasonCategory,
 } from "@/api/requests";
@@ -42,7 +41,7 @@ export default async function Home() {
 
   const boughtsData = await getBoughts();
 
-  const popularGoodsData = await getPopularGoods();
+
   return (
     <>
       <Banner />
@@ -54,7 +53,7 @@ export default async function Home() {
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      <PopularGoods goods={popularGoodsData}/>
+      <PopularGoods/>
       <Application />
     </>
   );
