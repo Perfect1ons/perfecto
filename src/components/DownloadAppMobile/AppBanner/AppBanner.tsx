@@ -6,11 +6,17 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+
+interface WindowWithOpenURL extends Window {
+  openURL?: (url: string) => void;
+}
+
 const AppBanner = () => {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [appLink, setAppLink] = useState("");
   const [isBannerVisible, setIsBannerVisible] = useState(false);
+  const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -29,12 +35,19 @@ const AppBanner = () => {
     }
   }, []);
 
-
-
   const handleCloseBanner = () => {
     setIsBannerVisible(true);
   };
 
+  const handleOpenApp = () => {
+    const windowWithOpenURL = window as WindowWithOpenURL;
+    if (windowWithOpenURL.openURL) {
+      windowWithOpenURL.openURL(appLink);
+      setIsInstalled(true)
+    } else {
+      window.open(appLink, '_blank');
+    }
+  };
   return (
     <div className={cn(isMobile ? styles.appBanner : styles.hidden, isBannerVisible && styles.hidden)}>
       <button onClick={handleCloseBanner} className={styles.appBannerCrossBtn}></button>
@@ -51,9 +64,8 @@ const AppBanner = () => {
           <h2 className={styles.appBannerInfoTextTitle}>max.kg</h2>
         </div>
       </div>
-      <button onClick={() => window.open(appLink, "_blank")}
-        className={styles.appBannerOpenBtn}>
-        Открыть
+      <button onClick={handleOpenApp} className={styles.appBannerOpenBtn}>
+      Открыть
       </button>
     </div>
   );

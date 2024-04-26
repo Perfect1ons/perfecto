@@ -1,124 +1,48 @@
 "use client";
-import React, { useState } from "react";
-import { IBoughtItem } from "@/types/lastBoughts";
-import Image from "next/image";
-import {
-  DeliveryIcon,
-  HearthIcon,
-  HearthIconRed,
-} from "../../../../public/Icons/Icons";
+import styles from "./style.module.scss";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { IBoughtItem } from "@/types/lastBoughts";
+import TodayBoughtsSection from "./TodayBoughtsSection/TodayBoughtsSection";
 
-interface ITodayBoughtsProps {
-  boughts: IBoughtItem[];
+interface IPopularGoodsProps {
+  pageOne: IBoughtItem[];
+  pageTwo: IBoughtItem[];
+  pageThree: IBoughtItem[];
 }
 
-const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
-  const imageEmpty = "https://max.kg/images/discount/empty-image.png";
-  const startUrl = "https://max.kg/nal/img/";
-  const initialVisibleItems = 10;
-  const [visibleItems, setVisibleItems] = useState(initialVisibleItems);
-
-  const [likedItems, setLikedItems] = useState<{ [key: string]: boolean }>({});
-
+export default function PopularGoods({
+  pageOne,
+  pageTwo,
+  pageThree,
+}: IPopularGoodsProps) {
+  const [page, setPage] = useState(1);
   const router = useRouter();
+  console.log(pageOne);
 
   const handleShowMore = () => {
-    const newVisibleItems = visibleItems + 10;
-    setVisibleItems(Math.min(newVisibleItems, boughts.length));
+    const nextPage = page + 1;
+    setPage(nextPage);
+    if (page >= 3) {
+      router.push("/all-popular-goods");
+    }
   };
-
-  const toggleLike = (id: number) => {
-    setLikedItems((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
-  };
-
-  const handleShowAll = () => {
-    router.push("/boughts");
-  };
-
-  function formatNumber(number: number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  }
-
-  const showMoreButton =
-    visibleItems < boughts.length ? (
-      <button className="default__buttons_showMore" onClick={handleShowMore}>
-        Показать еще
-      </button>
-    ) : (
-      <button className="default__buttons_showMore" onClick={handleShowAll}>
-        Показать все
-      </button>
-    );
 
   return (
-    <section className="boughts">
-      <div className="cardContainer container">
-        <h2 className="sections__title">Сегодня купили</h2>
-        <div className="cardItemContainer">
-          {boughts.slice(0, visibleItems).map((item) => {
-            let imageUrl = imageEmpty;
-
-            if (item.photos && item.photos.length > 0) {
-              const photoUrl = item.photos[0].url_part.startsWith("https://")
-                ? `https://goods-photos.static1-sima-land.com/items/${item.art}/0/280.jpg`
-                : `${startUrl}${item.images[0].id_post}/l_${item.photos[0].url_part}`;
-              imageUrl = photoUrl;
-            }
-
-            return (
-              <div key={item.id} className="cardItem">
-                <Image
-                  className="cardItemImg"
-                  src={imageUrl}
-                  width={230}
-                  height={230}
-                  alt={item.naim}
-                />
-                <div className="cardItemPrices">
-                  <p
-                    className={`cardItemPrice ${
-                      item.old_price !== item.price ? "priceWithOld" : ""
-                    }`}
-                  >
-                    {formatNumber(item.price)} с
-                  </p>
-                  {item.old_price && item.old_price !== item.price && (
-                    <>
-                      <p className="cardItemOldPrice">
-                        {formatNumber(item.old_price)} с
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                <p className="cardItemName">{item.naim}</p>
-                <div className="cardItemDelivery">
-                  <DeliveryIcon />
-                  <p className="cardItemDeliveryTitle">{item.ddos}</p>
-                </div>
-                <div className="cardItemBtns">
-                  <div className="cardItemBtnsContainer">
-                    <button className="cardItemBtnsAddBucket">В корзину</button>
-                    <div
-                      className="hearthIcon"
-                      onClick={() => toggleLike(item.id)}
-                    >
-                      {likedItems[item.id] ? <HearthIconRed /> : <HearthIcon />}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+    <div className="boughts">
+      <div className="container">
+        <div className="cardContainer">
+          <h2 className="sections__title">Сегодня купили</h2>
+          <TodayBoughtsSection boughts={pageOne} />
+          {page >= 2 && <TodayBoughtsSection boughts={pageTwo} />}
+          {page >= 3 && <TodayBoughtsSection boughts={pageThree} />}
+          <div className="showMoreBtn">
+            <button className="news__buttons_showMore" onClick={handleShowMore}>
+              {page < 3 ? "Показать еще" : "Показать все"}
+            </button>
+          </div>
         </div>
-        <div className="default__buttons">{showMoreButton}</div>
       </div>
-    </section>
+    </div>
   );
-};
-
-export default TodayBoughts;
+}

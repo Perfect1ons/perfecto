@@ -23,7 +23,7 @@ import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
-import Head from "next/head";
+
 
 export const metadata: Metadata = {
   title:
@@ -38,8 +38,10 @@ export const metadata: Metadata = {
 export default async function Home() {
   // запрос на популярные категории
   const popularCategoryData = await getPopularCategory();
-  // купили сегодня
-  const boughtsData = await getBoughts();
+  // todays boughts requests 
+  const boughtsPageOne = await getBoughts(1);
+  const boughtsPageTwo = await getBoughts(2);
+  const boughtsPageThree = await getBoughts(3);
   // запрос на новости
   const newsData = await getNews();
   // скидки
@@ -51,19 +53,24 @@ export default async function Home() {
   // бренды
   const brandsData = await getBrands();
 
-  const popularGoodsData = await getPopularGoods();
+  // popular goods requests 
+  const goodsPageOne = await getPopularGoods(1);
+  const goodsPageTwo = await getPopularGoods(2);
+  const goodsPageThree = await getPopularGoods(3);
+
+
   return (
     <>
       <Banner />
       <Auth />
       <PopularCategory category={popularCategoryData} />
-      <TodayBoughts boughts={boughtsData.lastz} />
+      <TodayBoughts pageOne={boughtsPageOne.lastz} pageTwo={boughtsPageTwo.lastz} pageThree={boughtsPageThree.lastz}/>
       <News news={newsData} />
       <Discounts discounts={discounts} />
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      <PopularGoods goods={popularGoodsData} />
+      <PopularGoods pageOne={goodsPageOne} pageTwo={goodsPageTwo} pageThree={goodsPageThree}/>
       <Application />
     </>
   );

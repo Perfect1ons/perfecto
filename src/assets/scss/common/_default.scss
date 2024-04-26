@@ -120,27 +120,56 @@
     @include mixin.font(16px, 600, 143%, var(--dark-blue));
     @include mixin.flex(center, center);
     cursor: pointer;
-    border: 2px solid var(--dark-blue);
-    padding: 10px 16px;
-    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px 17px;
+
+    border-radius: 5px;
     transition: 0.2s ease-out;
     &:hover {
-      background: var(--dark-blue);
-      color: var(--white);
+      border: 1px solid var(--dark-blue);
     }
 
+    @media screen and (max-width: 640px) {
+      padding: 5px 11px;
+      font-size: 14px;
+    }
+
+
     &_custom {
-      border: 2px solid var(--secondary);
+      border: 1px solid var(--secondary);
       @include mixin.font(16px, 600, 143%, var(--dark-blue));
       cursor: pointer;
-      padding: 10px 15px;
+      padding: 10px 13px;
       transition: 0.2s ease-out;
-
-      border-radius: 10px;
+      background: var(--secondary);
+      border-radius: 5px;
       &:hover {
         background: var(--secondary);
-        color: var(--white);
       }
+      @media screen and (max-width: 640px) {
+        padding: 5px 7px;
+        font-size: 14px;
+      }
+      @media screen and (max-width: 360px) {
+        display: none;
+      }
+    }
+
+    &_disactive{
+      background-color: var(--secondary);
+      border: 1px solid #ddd;
+      cursor: not-allowed;
+
+      &:hover{
+            background-color: transparent !important;
+            color: var(--black) !important;
+      }
+
+    color: var(--dark-blue);
+    }
+
+    &_active{
+      border: 1px solid var(--dark-blue);
     }
   }
 }
@@ -218,4 +247,30 @@
   &:hover {
     color: var(--violet);
   }
+}
+
+
+//! Стили направлений для страниц показать все
+.all__directions{
+    @include mixin.flex(center,flex-start,null, 10px);
+    margin-top: 20px;
+    &_link{
+        @include mixin.font(16px,400,150%, var(--gray-dark));
+        cursor: pointer;
+        background: var(--light-white);
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: 0.2s ease-in;
+        text-decoration: none;
+        &:hover{
+            color: var(--white);
+          background: var(--dark-blue);
+
+        }
+    }
+
+    &_linkActive{
+          background: var(--dark-blue);
+          color: var(--white);
+    }
 }
