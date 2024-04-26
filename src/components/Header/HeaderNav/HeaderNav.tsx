@@ -43,11 +43,14 @@ const HeaderNav = () => {
                 return (
                   <Link
                     href={links.href}
-                    className={cn(styles.nav__link, pathname === links.href && styles.active)}
+                    className={cn(
+                      styles.nav__link,
+                      pathname === links.href && styles.active
+                    )}
                     key={links.id}
                   >
-                    {links.title}
                     {links.icon}
+                    <span>{links.title}</span>
                   </Link>
                 );
             })

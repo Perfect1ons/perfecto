@@ -1,9 +1,9 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
 .application{
-    margin-top: 100px;
     background: var(--gray-white);
     &__container{
+        max-height: 300px;
         @include mixin.flex(center, space-around, null, 30px);
         @media screen and (max-width: 768px) {
             display: block;
@@ -30,7 +30,6 @@
 }
 .application__phone_img{
     width: 100%;
-    height: auto;
         user-select: none;
 
     @media screen and (max-width: 768px){

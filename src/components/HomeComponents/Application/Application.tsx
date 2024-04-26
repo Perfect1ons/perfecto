@@ -49,7 +49,7 @@ const Application = () => {
               "https://max.kg/images/banner_app/xmockup.png.pagespeed.ic.KUwe5oHaW-.webp"
             }
             width={513}
-            height={347}
+            height={300}
             alt="phone"
           />
         </div>
