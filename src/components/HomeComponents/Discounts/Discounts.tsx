@@ -2,7 +2,6 @@
 import { IDiscounts } from '@/types/discounts';
 import styles from './style.module.scss'
 import Image from 'next/image';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { url } from '@/components/temporary/data';
 
@@ -13,7 +12,7 @@ interface IDiscountsProps{
 const Discounts = ({discounts}: IDiscountsProps) => {
   const router = useRouter();
   const handleShowAll = () => {
-    router.push("/discounts");
+    router.push("/discounts?page=1");
   };
   return (
     <section className="discounts">

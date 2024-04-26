@@ -1,45 +1,61 @@
 @use '../../../../assets/scss/common/mixins' as mixin;
 
-.all__news_directions{
-    @include mixin.flex(center,flex-start,null, 5px);
-    margin-top: 20px;
-    &_link{
-        @include mixin.font(16px,400,150%, var(--dark-blue));
-        cursor: pointer;
-
-        &:hover{
-            color: var(--violet);
-        }
-    }
-}
-
 .allNews__container_content{
     width: 100%;
     margin-top: 10px;
     @include mixin.flex(flex-start,center,column,25px);
 }
 
-.test{
-    max-width: 450px;
+.allNews__desc{
+    height: 100%;
+    width: 100%;
+    &_link{
+        color: var(--dark-blue);
+        text-decoration: none;
+        border-bottom: 2px dashed var(--dark-blue);
+    }
 }
 
 .allNews__content{
     @include mixin.flex(null,space-between,null,30px);
+
+    @media screen and (max-width: 640px) {
+        flex-direction: column;
+        gap: 20px;
+    }
     width: 100%;
+
+    &_images{
+        max-width: 480px;
+        @media screen and (max-width: 640px) {
+            max-width: 100%;
+        }
+    }
     &_image{
         cursor: pointer;
-        min-width: 100%;
+        object-fit: cover;
         height: auto;
-        object-fit: contain;
         border-radius: 10px;
         box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
+
+        @media screen and (max-width: 992px) {
+            width: 380px;
+        }
+        @media screen and (max-width: 640px) {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 
     &_info{
         max-width: 100%;
         width: 100%;
-        @include mixin.flex(center,space-between,column);
-        height: auto
+        @include mixin.flex(center,space-between,column, 10px);
+        height: auto;
+
+        @media screen and (max-width: 992px)  {
+            max-width: 600px;
+        }
     }
 
     &_data{
@@ -50,26 +66,3 @@
 }
 
 
-.active{
-    color: var(--violet);
-    border-bottom: 2px solid (var(--violet));
-}
-
-.pagination__button_active {
-  background-color: var(--dark-blue);
-      color: var(--white);
-
-}
-
-.pagination__button_disactive{
-      background-color: var(--light);
-      border: 2px solid var(--dark-blue);
-      cursor: not-allowed;
-
-      &:hover{
-            background-color: var(--light) !important;
-            color: var(--black) !important;
-      }
-
-    color: var(--dark-blue);
-}
