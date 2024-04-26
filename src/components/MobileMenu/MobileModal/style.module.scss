@@ -1,0 +1,9 @@
+.modal {
+  display: none;
+  position: absolute;
+  border: 1px solid red;
+}
+
+.modal_active {
+  display: block;
+}

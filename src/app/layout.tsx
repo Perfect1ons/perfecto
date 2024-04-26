@@ -35,7 +35,7 @@ export default async function RootLayout({
       <body className={rubik.className}>
         <HeaderWrap />
         <DownloadAppMobile />
-        <div id="portal" />
+        {/* ниже меню для мобильной версии */}
         <MobileMenu />
         {children}
         <Footer />
