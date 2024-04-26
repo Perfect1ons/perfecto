@@ -74,3 +74,8 @@
   bottom: $bottom;
   left: $left;
 }
+
+@mixin item__border($thickness, $type, $color, $radius) {
+  border: $thickness $type $color;
+  border-radius: $radius;
+}

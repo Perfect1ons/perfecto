@@ -1,10 +1,10 @@
 "use client"
-import Link from 'next/link';
 import styles from './style.module.scss'
 import { AuthIcon, CartIcon, FavoritesIcon } from '../../../../public/Icons/Icons';
 import { ReactNode } from 'react';
 import cn from 'clsx';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ILinks {
     href: string,
@@ -36,24 +36,17 @@ const navLinks: ILinks[] = [
 
 const HeaderNav = () => {
   const pathname = usePathname();
-
   return (
     <nav className={styles.nav}>
         {
             navLinks.map((links) => {
                 return (
                   <Link
+                    href={links.href}
                     className={cn(styles.nav__link, pathname === links.href && styles.active)}
                     key={links.id}
-                    href={links.href}
                   >
-                    <span
-                      className={cn(
-                        styles.nav__link_title
-                      )}
-                    >
-                      {links.title}
-                    </span>
+                    {links.title}
                     {links.icon}
                   </Link>
                 );

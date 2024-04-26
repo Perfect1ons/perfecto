@@ -1,12 +1,15 @@
 import {
   getBoughts,
   getBrands,
+  getCatalogs,
   getDiscounts,
   getNews,
+  getNewsByLimit,
   getPopularCategory,
   getPopularGoods,
   getPromotion,
   getSeasonCategory,
+  getSubCatalogs,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import Auth from "@/components/HomeComponents/Auth/Auth";
@@ -20,6 +23,7 @@ import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title:
@@ -32,13 +36,21 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  // запрос на популярные категории
   const popularCategoryData = await getPopularCategory();
+  // купили сегодня
+  const boughtsData = await getBoughts();
+  // запрос на новости
   const newsData = await getNews();
-  const promotionData = await getPromotion();
-  const seasonCategoryData = await getSeasonCategory();
+  // скидки
   const discounts = await getDiscounts();
-
+  // акции
+  const promotionData = await getPromotion();
+  // сезонные товары
+  const seasonCategoryData = await getSeasonCategory();
+  // бренды
   const brandsData = await getBrands();
+
 
   const boughtsData = await getBoughts();
 
@@ -46,6 +58,8 @@ export default async function Home() {
   const goodsPageOne = await getPopularGoods(1);
   const goodsPageTwo = await getPopularGoods(2);
   const goodsPageThree = await getPopularGoods(3);
+
+
   return (
     <>
       <Banner />

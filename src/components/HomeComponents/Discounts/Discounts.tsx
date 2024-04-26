@@ -2,41 +2,27 @@
 import { IDiscounts } from '@/types/discounts';
 import styles from './style.module.scss'
 import Image from 'next/image';
-import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { url } from '@/components/temporary/data';
 
 interface IDiscountsProps{
     discounts: IDiscounts[]
 }
 
 const Discounts = ({discounts}: IDiscountsProps) => {
-  const [itemsToShow, setItemsToShow] = useState<number>(8);
-  const totalItems = discounts.length;
   const router = useRouter();
-  const newsRef = useRef<HTMLDivElement>(null);
-
-  const handleLoadMore = () => {
-    setItemsToShow((prevItems) => prevItems + 8);
-  };
-
- const handleHide = () => {
-   setItemsToShow(8);
-   if (newsRef.current) {
-     newsRef.current.scrollIntoView({ behavior: "auto" });
-   }};
-
   const handleShowAll = () => {
-    router.push("/all-discounts");
+    router.push("/discounts?page=1");
   };
   return (
-    <section className="discounts" ref={newsRef}>
+    <section className="discounts">
       <div className="container">
         <h1 className="sections__title">Скидки</h1>
         <div className={styles.discount__container}>
-          {discounts.slice(0, itemsToShow).map((item) => (
+          {discounts.slice(0, 8).map((item) => (
             <div
               onClick={() =>
-                router.push(`https://max.kg/discount/${item.promotion_id}`)
+                router.push(`discount/${item.promotion_id}`)
               }
               className={styles.discount__card}
               key={item.name}
@@ -44,7 +30,7 @@ const Discounts = ({discounts}: IDiscountsProps) => {
               <div className={styles.discount__card_images}>
                 <Image
                   className={styles.discount__card_img}
-                  src={`https://max.kg/${item.image}`}
+                  src={`${url}${item.image}`}
                   width={400}
                   height={250}
                   alt={item.name}
@@ -74,26 +60,9 @@ const Discounts = ({discounts}: IDiscountsProps) => {
           ))}
         </div>
 
-        <div className="news__buttons">
-          <div className="showMore">
-            {itemsToShow < totalItems && (
-              <button
-                className="news__buttons_showMore"
-                onClick={handleLoadMore}
-              >
-                Показать ещё
-              </button>
-            )}
-          </div>
-          <div className="hideMore">
-            {itemsToShow >= totalItems && itemsToShow > 8 && (
-              <button className="news__buttons_showMore" onClick={handleHide}>
-                Скрыть все
-              </button>
-            )}
-          </div>
+        <div className="default__buttons">
           <button
-            className="news__buttons_showMore showAll_button"
+            className="default__buttons_showMore"
             onClick={handleShowAll}
           >
             Показать все

@@ -36,7 +36,7 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
   };
 
   const handleShowAll = () => {
-    router.push("/all-boughts");
+    router.push("/boughts");
   };
 
   function formatNumber(number : number) {
@@ -45,17 +45,11 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
 
   const showMoreButton =
     visibleItems < boughts.length ? (
-      <button
-        className="showMoreBtn news__buttons_showMore"
-        onClick={handleShowMore}
-      >
+      <button className="default__buttons_showMore" onClick={handleShowMore}>
         Показать еще
       </button>
     ) : (
-      <button
-        className="showMoreBtn news__buttons_showMore"
-        onClick={handleShowAll}
-      >
+      <button className="default__buttons_showMore" onClick={handleShowAll}>
         Показать все
       </button>
     );
@@ -121,7 +115,9 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
             );
           })}
         </div>
-        {showMoreButton}
+        <div className="default__buttons">
+          {showMoreButton}
+        </div>
       </div>
     </section>
   );

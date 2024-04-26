@@ -2,31 +2,43 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.scss";
 
-import Footer from "@/components/Footer/Footer";
-
 import Header from "@/components/Header/Header";
+import Footer from "@/components/Footer/Footer";
+import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
+import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
 
-const rubik = Rubik ({
+const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
-})
+});
 
 export const metadata: Metadata = {
-  icons: "/img/website-icon.png",
+  icons: "/img/favicon.ico",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // запрос на главные каталоги
+  // const catalogs = await getCatalogs();
+  // // const id = catalogs.filter((item) => item.id);
+
+  // // на дочерниe каталоги главных каталогов
+  // const category = await getSubCatalogs(2000000464);
+  // // console.log(category);
+
   return (
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
-        <Header/>
+        {/* <Header /> */}
+        <HeaderWrap />
+        <DownloadAppMobile />
+        <div id="portal" />
         {children}
-        <Footer/>
-        </body>
+        <Footer />
+      </body>
     </html>
   );
 }

@@ -1,0 +1,84 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.appBanner{
+    width: 100%;
+    margin: 0 auto;
+    @include mixin.flex(center, space-between, null, 15px); 
+    position: relative;
+    padding: 10px 25px 10px 0;
+    box-shadow: 0px 2px 4px 0px #999999;
+}
+.hidden{
+    display: none;
+}
+.appBannerCrossBtn{
+    z-index: 101;
+    padding: 20px 20px 20px 20px;
+    
+    top: 15px;
+    left: 5px;
+    position: absolute;
+    &::before{
+        background: #999;
+        border-radius: 2px;
+        content: "";
+        display: block;
+        height: 15px;
+        left: 17px;
+        position: absolute;
+        top: 11px;
+        width: 2px;
+        transform: rotate(45deg);
+    }
+    &::after{
+        background: #999;
+        border-radius: 2px;
+        content: "";
+        display: block;
+        height: 15px;
+        left: 17px;
+        position: absolute;
+        top: 11px;
+        width: 2px;
+        transform: rotate(-45deg);
+    }
+}
+.appBannerInfo{
+@include mixin.flex(center, space-between, null, 5px);
+margin-left: 50px;
+@media screen and (max-width: 480px){
+    margin-left: 40px;
+}
+}
+.appBannerInfoIconImg{
+    border-radius: 10px;
+}
+.appBannerInfoText{
+    @include mixin.flex(null, center, column, 5px);
+}
+.appBannerInfoTextDesc{
+    @include mixin.font(0.9375rem, 300, null, #999999);
+}
+.appBannerInfoTextTitle{
+    @include mixin.font(1.25rem, 500, null, #000);
+}
+.appBannerOpenBtn{
+    @include mixin.flex(center, center);
+    @include mixin.button(
+        5px 20px,
+        null,
+        2px solid var(--dark-blue),
+        10px,
+        var(--dark-blue),
+        0.9375rem,
+        500,
+         var(--white)
+      );
+      transition: 0.2s ease-out;
+      &:hover {
+        background: none;
+        color: var(--dark-blue);
+      }
+    @media screen and (max-width: 480px) {
+        padding: 5px 12px;
+    }
+}

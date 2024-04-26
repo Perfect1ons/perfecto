@@ -1,22 +1,37 @@
-import cn from "clsx";
-import styles from "./style.module.css";
-import Backdrop from "../Backdrop/Backdrop";
+import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+
+import styles from "./style.module.scss";
 
 interface ModalProps {
-  isVisible: boolean;
-  close: () => void;
   children: React.ReactNode;
+  open: boolean;
+  setOpen: (isOpen: boolean) => void;
+  containerId: string;
 }
 
-const Modal = ({ children, isVisible, close }: ModalProps) => {
-  return (
-    <>
-      <Backdrop isVisible={isVisible} close={close} />
-      <div className={cn(styles.modal, isVisible && styles.show)}>
-        {children}
-      </div>
-    </>
-  );
-};
+export default function Modal({
+  children,
+  open,
+  setOpen,
+  containerId,
+}: ModalProps) {
+  const ref = useRef<Element | null>(null);
+  useEffect(() => {
+    ref.current = document.getElementById(containerId);
+  }, [containerId]);
 
-export default Modal;
+  const closeModal = () => {
+    setOpen(!open);
+  };
+
+  return !open && ref.current
+    ? createPortal(
+        <>
+          <div className={styles.overlay} onClick={closeModal}></div>
+          <div className={styles.child_wrap}>{children}</div>
+        </>,
+        ref.current
+      )
+    : null;
+}

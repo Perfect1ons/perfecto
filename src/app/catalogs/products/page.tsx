@@ -1,10 +1,10 @@
-import { subCatalog } from "@/types/subCatalog";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 
 interface IProps {
-  product: subCatalog;
+  product: ICatalogsChild;
   brand: IFiltersBrand;
 }
 const heart = () => (
@@ -248,7 +248,8 @@ const ProductsPage = ({ product, brand }: IProps) => {
           </div>
         </div>
         <ul className={styles.products}>
-          {product.model.map((item) => {
+          {product.parent.name}
+          {/* {product.model.map((item) => {
             return (
               <div className={styles.product}>
                 <div className={styles.product__head}>
@@ -271,7 +272,7 @@ const ProductsPage = ({ product, brand }: IProps) => {
                   </div>
                   <h1
                     className={styles.product__price}
-                  >{`${item.price} ⃀.`}</h1>
+                  >{`${item.price.toLocaleString("ru-RU")} ⃀.`}</h1>
                   <li className={styles.product__name}>
                     {item.naim.split(" ").slice(0, 4).join(" ")}
                   </li>
@@ -308,7 +309,7 @@ const ProductsPage = ({ product, brand }: IProps) => {
                 </div>
               </div>
             );
-          })}
+          })} */}
         </ul>
       </div>
     </div>
