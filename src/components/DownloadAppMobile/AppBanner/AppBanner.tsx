@@ -65,7 +65,7 @@ const AppBanner = () => {
         </div>
       </div>
       <button onClick={handleOpenApp} className={styles.appBannerOpenBtn}>
-        {isInstalled ? "Открыть" : "Установить"}
+      Открыть
       </button>
     </div>
   );
