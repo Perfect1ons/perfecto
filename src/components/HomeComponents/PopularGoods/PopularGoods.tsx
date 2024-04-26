@@ -36,7 +36,7 @@ console.log(pageOne);
           {
             page >= 3 && <PopularGoodsSection goods={pageThree} />
           }
-          <div className={styles.showMoreBtn}>
+          <div className="showMoreBtn">
             <button className="news__buttons_showMore" onClick={handleShowMore}>
               {page < 3 ? "Показать еще" : "Показать все"}
             </button>
