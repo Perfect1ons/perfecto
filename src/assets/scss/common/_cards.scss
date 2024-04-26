@@ -7,7 +7,12 @@
 
 .cardContainer {
   user-select: none; // Disable text selection within the container
-  @include mixin.flex(null, null, column, null); // Apply flexbox with column direction
+  @include mixin.flex(
+    null,
+    null,
+    column,
+    null
+  ); // Apply flexbox with column direction
 }
 
 .cardItemContainer {
@@ -16,16 +21,25 @@
   justify-content: center; // Center the grid items horizontally
   align-items: flex-start; // Align the items to the start of the cross axis
   @media screen and (max-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr); // Change to 4 columns on smaller screens
+    grid-template-columns: repeat(
+      4,
+      1fr
+    ); // Change to 4 columns on smaller screens
   }
   @media screen and (max-width: 992px) {
-    grid-template-columns: repeat(3, 1fr); // Change to 3 columns on even smaller screens
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); // Change to 3 columns on even smaller screens
     margin: 0 auto; // Center the grid container horizontally
   }
   @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); // Change to 2 columns on mobile screens
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); // Change to 2 columns on mobile screens
   }
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     gap: 5px;
   }
 }
@@ -38,7 +52,12 @@
   margin-bottom: 40px; // Margin at the bottom of each item
   padding: 0px 10px 0px 0px; // Padding of the item
   transition: 0.3s all; // Apply transition effect for smooth hover
-  @include mixin.flex(null, null, column, null); // Apply flexbox with column direction
+  @include mixin.flex(
+    null,
+    null,
+    column,
+    null
+  ); // Apply flexbox with column direction
   &:hover {
     box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2); // Box shadow on hover
     .cardItemBtns {
@@ -54,6 +73,7 @@
   }
 }
 .cardItemImg {
+  object-fit: cover;
   border-radius: 5px 5px 0px 0px; // Border radius for the top corners of the image
   @media screen and (max-width: 480px) {
     max-width: 152px; // Maximum width of the image on smaller screens
@@ -66,7 +86,7 @@
   display: flex; // Use flexbox for layout
   gap: 10px; // Gap between elements in the flex container
   align-items: center; // Align items to the center vertically
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     gap: 0px;
   }
 }
@@ -74,19 +94,29 @@
 .cardItemPrice {
   padding-left: 10px; // Left padding of the price
   align-self: flex-start; // Align the price to the start of the cross axis
-  @include mixin.font(16px, 700, 24px, #424242); // Apply font styles using a mixin
-  @media screen and (max-width: 480px){
+  @include mixin.font(
+    16px,
+    700,
+    24px,
+    #424242
+  ); // Apply font styles using a mixin
+  @media screen and (max-width: 480px) {
     font-size: 14px;
     padding-left: 5px;
   }
 }
-.priceWithOld{
+.priceWithOld {
   color: #991a4e; // additional color class prices
 }
 .cardItemOldPrice {
   padding-left: 10px; // Left padding of the old price
   align-self: flex-start; // Align the old price to the start of the cross axis
-  @include mixin.font(16px, 700, 24px, #99a3ae); // Apply font styles using a mixin
+  @include mixin.font(
+    16px,
+    700,
+    24px,
+    #99a3ae
+  ); // Apply font styles using a mixin
   position: relative; // Position relative for the strikethrough line
   &::after {
     content: ""; // Create a pseudo-element for the strikethrough line
@@ -99,22 +129,27 @@
     border-radius: 5px; // Border radius for the line
     transform: rotate(-3deg); // Rotate the line for a diagonal effect
   }
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     font-size: 13px;
     padding-left: 5px;
   }
 }
-.cardItemDiscount{
+.cardItemDiscount {
   color: #991a4e;
-  font-weight: 700
+  font-weight: 700;
 }
 .cardItemName {
-  @include mixin.font(14px, 400, 16.8px, #62656a); // Apply font styles using a mixin
+  @include mixin.font(
+    14px,
+    400,
+    16.8px,
+    #62656a
+  ); // Apply font styles using a mixin
   max-width: 200px; // Maximum width of the item name
   max-height: 35px; // Maximum height of the item name
   padding-left: 10px; // Left padding of the item name
   overflow: hidden; // Hide overflow text
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     padding-left: 5px;
   }
 }
@@ -122,16 +157,26 @@
 .cardItemDelivery {
   padding-left: 10px; // Left padding of the delivery section
   margin-top: 3px; // Margin at the top of the delivery section
-  @include mixin.flex(center, null, null, 3px); // Apply flexbox with specific settings
+  @include mixin.flex(
+    center,
+    null,
+    null,
+    3px
+  ); // Apply flexbox with specific settings
   max-width: 240px; // Maximum width of the delivery section
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 480px) {
     padding-left: 5px;
   }
 }
 
 .cardItemDeliveryTitle {
   margin-top: 10px; // Margin at the top of the delivery title
-  @include mixin.font(14px, 400, 14.4px, #0c54a1); // Apply font styles using a mixin
+  @include mixin.font(
+    14px,
+    400,
+    14.4px,
+    #0c54a1
+  ); // Apply font styles using a mixin
   max-width: 170px; // Maximum width of the delivery title
   max-height: 28px; // Maximum height of the delivery title
   overflow: hidden; // Hide overflow text
@@ -148,9 +193,19 @@
 }
 
 .cardItemBtnsContainer {
-  @include mixin.flex(center, null, null, 10px); // Apply flexbox with specific settings
+  @include mixin.flex(
+    center,
+    null,
+    null,
+    10px
+  ); // Apply flexbox with specific settings
   @media screen and (max-width: 480px) {
-    @include mixin.flex(center, null, null, 5px); // Apply different settings for smaller screens
+    @include mixin.flex(
+      center,
+      null,
+      null,
+      5px
+    ); // Apply different settings for smaller screens
   }
 }
 
@@ -168,7 +223,11 @@
   text-wrap: nowrap; // Prevent text wrapping in the button
   text-align: center; // Center text in the button
   &:hover {
-    background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%); // Change background on hover
+    background: linear-gradient(
+      88.03deg,
+      #112b66 1.19%,
+      #991a4e 97.58%
+    ); // Change background on hover
   }
   @media screen and (max-width: 480px) {
     @include mixin.button(

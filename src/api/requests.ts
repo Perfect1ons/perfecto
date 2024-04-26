@@ -12,6 +12,7 @@ import { IPopularGood } from "@/types/popularGoods";
 import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -36,9 +37,11 @@ export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
 
 // подкаталоги от getCatalogs
 export const getSubCatalogs = (path: number): Promise<ICatalogsChild> => {
-  return maxkgz.get(`catalog/catmenu?id=${path}`).json();
+  return maxkg.get(`catalog/catmenu?id=${path}`).json();
 };
-
+export const getCatalogsProducts = (id: number): Promise<ICatalogsProducts> => {
+  return maxkg.get(`catalog/${id}?_format=json`).json();
+};
 // на популярные категории
 export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();

@@ -91,10 +91,6 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
     router.push(`/catalogs/${id}`);
     close();
   };
-  const productsClick = (id: number) => {
-    router.push(`/catalogs/products/${id}`);
-    close();
-  };
 
   return (
     <div className={styles.catalogs}>
@@ -141,109 +137,112 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
               </h2>
               {/* Отображение подкатегорий второго уровня */}
               <ul className={styles.category__ul}>
-                {childLevel2
-                  // Сортировка подкатегорий по наличию подкатегорий третьего уровня
-                  .sort((a, b) => {
-                    if (a.child_cat_level3 && !b.child_cat_level3) {
-                      return -1;
-                    }
-                    if (!a.child_cat_level3 && b.child_cat_level3) {
-                      return 1;
-                    }
-                    return 0;
-                  })
-                  .map((childItem) => {
-                    const childCatLevel3 = childItem.child_cat_level3 || {};
-                    const isExpanded =
-                      showMoreCategories[childItem.id] || false;
-                    // Проверка, раскрыты ли дополнительные подкатегории
-                    const childCatLevel3Keys = Object.keys(childCatLevel3);
-                    const remainingItems = childCatLevel3Keys.length - 5;
-                    return (
-                      <div key={childItem.id} className={styles.itemContainer}>
-                        <li
-                          className={styles.category__li__h3}
-                          onClick={() => {
-                            // Переход к соответствующей категории или продуктам
-                            if (childItem.child_cat_level3) {
-                              const childCatLevel3Keys = Object.keys(
-                                childItem.child_cat_level3
-                              );
-                              if (childCatLevel3Keys.length > 0) {
-                                router.push(`catalogs/${childItem.id}`);
-                              } else {
-                                router.push(
-                                  `catalogs/products/${childItem.id}`
-                                );
-                              }
-                            } else {
-                              router.push(`catalogs/products/${childItem.id}`);
-                            }
-                            close();
-                          }}
-                        >
-                          {childItem.name}
-                        </li>
-                        <ul className={styles.subCatalogsUl}>
-                          {/* Отображение подкатегорий третьего уровня */}
-                          {childCatLevel3Keys
-                            .slice(0, isExpanded ? undefined : 5)
-                            .map((key) => (
-                              <li
-                                key={childCatLevel3[key]?.id}
-                                className={styles.subCatalogsUl__li}
-                                onClick={() => {
-                                  // Переход к соответствующей категории или продуктам
-                                  if (childCatLevel3[key]?.child_cat_level3) {
-                                    const childCatLevel3Keyss = Object.keys(
-                                      childCatLevel3[key]?.child_cat_level3
+                {[...Array(3)].map((_, divIndex) => {
+                  const startIdx = divIndex * 5;
+                  const endIdx = Math.min(startIdx + 5, childLevel2.length);
+                  const itemsInDiv = childLevel2.slice(startIdx, endIdx);
+
+                  return (
+                    <div
+                      key={`div-${divIndex}`}
+                      className={styles.itemContainer}
+                    >
+                      {itemsInDiv.map((childItem) => {
+                        const childCatLevel3 = childItem.child_cat_level3 || {};
+                        const isExpanded =
+                          showMoreCategories[childItem.id] || false;
+                        // Проверка, раскрыты ли дополнительные подкатегории
+                        const childCatLevel3Keys = Object.keys(childCatLevel3);
+                        const remainingItems = childCatLevel3Keys?.length - 5;
+
+                        return (
+                          <ul
+                            key={childItem.id}
+                            className={styles.itemConteinerUL}
+                          >
+                            <li
+                              className={styles.category__li__h3}
+                              onClick={() => {
+                                if (childItem.child_cat_level3) {
+                                  const childCatLevel3Keys = Object.keys(
+                                    childItem.child_cat_level3
+                                  );
+                                  if (childCatLevel3Keys.length > 0) {
+                                    router.push(`catalogs/${childItem.id}`);
+                                  } else {
+                                    router.push(
+                                      `catalogs/products/${childItem.id}`
                                     );
-                                    if (childCatLevel3Keyss.length > 0) {
-                                      router.push(
-                                        `catalogs/${childCatLevel3[key]?.id}`
+                                  }
+                                } else {
+                                  router.push(
+                                    `catalogs/products/${childItem.id}`
+                                  );
+                                }
+                                close();
+                              }}
+                            >
+                              {childItem.name}
+                            </li>
+                            {childCatLevel3Keys
+                              .slice(0, isExpanded ? undefined : 5)
+                              .map((key) => (
+                                <li
+                                  key={childCatLevel3[key]?.id}
+                                  className={styles.subCatalogsUl__li}
+                                  onClick={() => {
+                                    if (childCatLevel3[key]?.child_cat_level3) {
+                                      const childCatLevel3Keyss = Object.keys(
+                                        childCatLevel3[key]?.child_cat_level3
                                       );
+                                      if (childCatLevel3Keyss.length > 0) {
+                                        router.push(
+                                          `catalogs/${childCatLevel3[key]?.id}`
+                                        );
+                                      } else {
+                                        router.push(
+                                          `catalogs/products/${childCatLevel3[key]?.id}`
+                                        );
+                                      }
                                     } else {
                                       router.push(
                                         `catalogs/products/${childCatLevel3[key]?.id}`
                                       );
                                     }
-                                  } else {
-                                    router.push(
-                                      `catalogs/products/${childCatLevel3[key]?.id}`
-                                    );
-                                  }
-                                }}
-                              >
-                                {childCatLevel3[key]?.name}
-                              </li>
-                            ))}
-                        </ul>
-                        {/* Кнопка "Ещё" для дополнительных подкатегорий */}
-                        {childCatLevel3Keys.length > 5 &&
-                          (!isExpanded ? (
-                            <button
-                              onClick={() => handleShowMore(childItem.id)}
-                              className={styles.buttonsCatalogs}
-                            >
-                              Eщё
-                              <span className={styles.buttonsSpanCatalogs}>
-                                {chevronDownIcon()}
-                              </span>
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => handleCollapse(childItem.id)}
-                              className={styles.buttonsCatalogs}
-                            >
-                              Свернуть
-                              <span className={styles.buttonsSpanCatalogs}>
-                                {chevronUpIcon()}
-                              </span>
-                            </button>
-                          ))}
-                      </div>
-                    );
-                  })}
+                                    close();
+                                  }}
+                                >
+                                  {childCatLevel3[key]?.name}
+                                </li>
+                              ))}
+                            {childCatLevel3Keys.length > 5 &&
+                              (!isExpanded ? (
+                                <button
+                                  onClick={() => handleShowMore(childItem.id)}
+                                  className={styles.buttonsCatalogs}
+                                >
+                                  Eщё {remainingItems}
+                                  <span className={styles.buttonsSpanCatalogs}>
+                                    {chevronDownIcon()}
+                                  </span>
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() => handleCollapse(childItem.id)}
+                                  className={styles.buttonsCatalogs}
+                                >
+                                  Свернуть
+                                  <span className={styles.buttonsSpanCatalogs}>
+                                    {chevronUpIcon()}
+                                  </span>
+                                </button>
+                              ))}
+                          </ul>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
               </ul>
             </div>
           );
