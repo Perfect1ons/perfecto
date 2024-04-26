@@ -3,7 +3,7 @@ import styles from './style.module.scss'
 import { AuthIcon, CartIcon, FavoritesIcon } from '../../../../public/Icons/Icons';
 import { ReactNode } from 'react';
 import cn from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 interface ILinks {
@@ -49,8 +49,10 @@ const HeaderNav = () => {
                     )}
                     key={links.id}
                   >
-                    {links.icon}
-                    <span>{links.title}</span>
+                    <div className={styles.nav__link_items}>
+                      <div className={styles.nav__link_items_icon}>{links.icon}</div>
+                      <h6 className={styles.nav__link_items_title}>{links.title}</h6>
+                    </div>
                   </Link>
                 );
             })
