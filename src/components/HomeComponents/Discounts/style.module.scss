@@ -90,7 +90,6 @@
   margin-top: 5px;
   height: 100%;
   width: 100%;
-  padding: 5px 5px 0px 5px;
 
 }
 
@@ -116,7 +115,7 @@
     }
   &_percent{
     @include mixin.flex(center,center,null, 5px);
-    @include mixin.font(20px,500,120%,var(--white));
+    @include mixin.font(18px,500,120%,var(--white));
     background: var(--violet);
     height: 100%;
     border-radius: 10px;

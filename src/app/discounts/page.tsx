@@ -1,10 +1,6 @@
 import { getDiscountsPageOne, getDiscountsPageTwo } from "@/api/requests";
-import dynamic from "next/dynamic";
-
-const AllDiscount = dynamic(() => import("@/components/HomeComponents/Discounts/AllDiscounts/AllDiscounts"));
-const App = dynamic(
-  () => import("@/components/HomeComponents/Application/Application")
-);
+import Application from "@/components/HomeComponents/Application/Application";
+import AllDiscounts from "@/components/HomeComponents/Discounts/AllDiscounts/AllDiscounts";
 
 export default async function page() {
   const [discountsOne, discountsTwo] = await Promise.all([
@@ -14,8 +10,8 @@ export default async function page() {
 
   return (
     <>
-      <AllDiscount discountsOne={discountsOne} discountsTwo={discountsTwo} />
-      <App />
+      <AllDiscounts discountsOne={discountsOne} discountsTwo={discountsTwo} />
+      <Application />
     </>
   );
 }

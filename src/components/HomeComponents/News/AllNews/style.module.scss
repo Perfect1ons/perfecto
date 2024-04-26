@@ -2,6 +2,7 @@
 
 .allNews__container_content{
     width: 100%;
+    user-select: none;
     margin-top: 10px;
     @include mixin.flex(flex-start,center,column,25px);
 }
@@ -61,7 +62,7 @@
     &_data{
         @include mixin.flex(center,space-between,null, null);
         width: 100%;
-        @include mixin.font(12px,400,150%,#424242);
+        @include mixin.font(16px,400,150%,#424242);
     }
 }
 
