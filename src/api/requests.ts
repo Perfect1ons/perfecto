@@ -79,6 +79,9 @@ export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
+export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
+  return maxkg.get(`site/popular?page=${page}`).json();
+}
 export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=1`).json();
 };
@@ -97,7 +100,4 @@ const getFilterPrice = (
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
     )
     .json();
-};
-export const getPopularGoods = (): Promise<IPopularGood[]> => {
-  return maxkg.get("site/popular?page=1").json();
 };

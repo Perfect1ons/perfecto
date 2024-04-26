@@ -1,6 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-.showMoreBtn{
-    align-self: center;
+.showMoreBtn {
+  max-width: 200px;
+  align-self: center;
 }
 .boughtsContainer {
   @include mixin.flex(null, null, column, null);
@@ -47,4 +48,3 @@
     #fff
   );
 }
-
