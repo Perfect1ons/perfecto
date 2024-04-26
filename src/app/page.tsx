@@ -51,7 +51,15 @@ export default async function Home() {
   // бренды
   const brandsData = await getBrands();
 
-  const popularGoodsData = await getPopularGoods();
+
+  const boughtsData = await getBoughts();
+
+  // popular goods requests 
+  const goodsPageOne = await getPopularGoods(1);
+  const goodsPageTwo = await getPopularGoods(2);
+  const goodsPageThree = await getPopularGoods(3);
+
+
   return (
     <>
       <Banner />
@@ -63,7 +71,7 @@ export default async function Home() {
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      <PopularGoods goods={popularGoodsData} />
+      <PopularGoods pageOne={goodsPageOne} pageTwo={goodsPageTwo} pageThree={goodsPageThree}/>
       <Application />
     </>
   );
