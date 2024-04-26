@@ -39,8 +39,8 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
     router.push("/boughts");
   };
 
-  function formatNumber(number : number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  function formatNumber(number: number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   }
 
   const showMoreButton =
@@ -78,22 +78,22 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
                   height={230}
                   alt={item.naim}
                 />
-              <div className="cardItemPrices">
-  <p
-    className={`cardItemPrice ${
-      item.old_price !== item.price ? "priceWithOld" : ""
-    }`}
-  >
-    {formatNumber(item.price)} с
-  </p>
-  {item.old_price && item.old_price !== item.price && (
-    <>
-      <p className="cardItemOldPrice">
-      {formatNumber(item.old_price)} с
-      </p>
-    </>
-  )}
-</div>
+                <div className="cardItemPrices">
+                  <p
+                    className={`cardItemPrice ${
+                      item.old_price !== item.price ? "priceWithOld" : ""
+                    }`}
+                  >
+                    {formatNumber(item.price)} с
+                  </p>
+                  {item.old_price && item.old_price !== item.price && (
+                    <>
+                      <p className="cardItemOldPrice">
+                        {formatNumber(item.old_price)} с
+                      </p>
+                    </>
+                  )}
+                </div>
 
                 <p className="cardItemName">{item.naim}</p>
                 <div className="cardItemDelivery">
@@ -115,9 +115,7 @@ const TodayBoughts = ({ boughts }: ITodayBoughtsProps) => {
             );
           })}
         </div>
-        <div className="default__buttons">
-          {showMoreButton}
-        </div>
+        <div className="default__buttons">{showMoreButton}</div>
       </div>
     </section>
   );
