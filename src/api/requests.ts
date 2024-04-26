@@ -66,5 +66,6 @@ export const getDiscounts = (): Promise<IDiscounts[]> => {
 };
  
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
-  return maxkgz.get(`site/popular?page=${page}`).json();
+  return maxkg.get(`site/popular?page=${page}`).json();
 };
+

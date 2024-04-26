@@ -15,9 +15,6 @@ interface IPopularGoodsSectionProps {
 const PopularGoodsSection = ({ goods }: IPopularGoodsSectionProps) => {
   const imageEmpty = "https://max.kg/images/discount/empty-image.png";
   const startUrl = "https://max.kg/nal/img/";
-  const initialVisibleItems = 10;
-  const [visibleItems] = useState(initialVisibleItems);
-
   const [likedItems, setLikedItems] = useState<{ [key: string]: boolean }>({});
 
 
@@ -39,7 +36,7 @@ const PopularGoodsSection = ({ goods }: IPopularGoodsSectionProps) => {
     <section className="goods">
       <div className="cardContainer container">
         <div className="cardItemContainer">
-          {goods.slice(0, visibleItems).map((item) => {
+          {goods.map((item) => {
             let imageUrl = imageEmpty;
 
             if (item.photos && item.photos.length > 0) {
