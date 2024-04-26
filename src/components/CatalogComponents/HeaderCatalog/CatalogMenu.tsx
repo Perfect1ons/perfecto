@@ -110,7 +110,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                 key={item.name}
               >
                 {item.name}
-                {ChevronRightIcon()}
+                <span>{ChevronRightIcon()}</span>
               </h2>
             </React.Fragment>
           );
