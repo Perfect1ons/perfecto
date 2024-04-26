@@ -71,8 +71,8 @@ export const getBrands = (): Promise<IBrands> => {
   return maxkg.get("brand?pageSize=36").json();
 };
 
-export const getBoughts = (): Promise<IBoughts> => {
-  return maxkg.get("site/lastz?page=1").json();
+export const getBoughts = (page: number): Promise<IBoughts> => {
+  return maxkg.get(`site/lastz?${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
