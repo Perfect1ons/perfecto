@@ -16,6 +16,7 @@ export const metadata: Metadata = {
 
 
 export default async function news() {
+  // await new Promise((resolve) => setTimeout(resolve, 10000))
   const newsData = await getNews();
 
   return (
