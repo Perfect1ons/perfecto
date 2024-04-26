@@ -51,9 +51,6 @@ export default async function Home() {
   // бренды
   const brandsData = await getBrands();
 
-
-  const boughtsData = await getBoughts();
-
   // popular goods requests 
   const goodsPageOne = await getPopularGoods(1);
   const goodsPageTwo = await getPopularGoods(2);
