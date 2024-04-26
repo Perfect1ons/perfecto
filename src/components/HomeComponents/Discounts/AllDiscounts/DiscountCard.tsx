@@ -19,7 +19,6 @@ const DiscountCard: FC<DiscountCardProps> = ({ item, onClick }) => (
         height={250}
         alt={item.name}
         quality={100}
-        title={item.name}
         loading="lazy" 
       />
     </div>

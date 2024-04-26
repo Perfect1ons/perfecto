@@ -5,12 +5,12 @@ import Link from 'next/link';
 
 const Logo = () => {
   return (
-    <Link href={'/'}>
+    <Link className={styles.logo} href={'/'}>
       <Image
-        className={styles.logo}
         src={"/img/logo.svg"}
-        width={211}
-        height={83}
+        className={styles.logo__img}
+        width={210}
+        height={40}
         alt="logo"
         priority
       />

@@ -2,13 +2,16 @@
 
 .header {
   background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
-  height: 72.5px;
+  height: 72px;
   &__container {
+    display: flex;
+    align-items: center;
     height: 100%;
-    @include mixin.flex(center, space-between, null, 30px);
-
+    gap: 50px;
+    
     &_form {
-      @include mixin.flex(center, center, null, 30px);
+      @include mixin.flex();
+      gap: 30px;
       max-width: 100%;
       width: 100%;
     }
@@ -22,8 +25,7 @@
   @media screen and (max-width: 640px) {
     height: 55px;
   }
-  position: relative;
-  z-index: 1000;
+
 }
 
 .catalog {
@@ -31,14 +33,12 @@
   text-decoration: none;
   color: var(--black);
   background: var(--white);
-  padding: 10px 10px;
-  height: 40px;
+  padding: 11px 10px;
   @include mixin.flex(center, center, null, 10px);
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s ease-in-out;
-  gap: 5px;
 
   &:hover {
     color: var(--dark-blue);
@@ -51,10 +51,8 @@
 
 .search {
   cursor: pointer;
-  position: relative;
-  @include mixin.flex(center, center, null, 15px);
   width: 100%;
-  height: 25px;
+  position: relative;
 
   @media screen and (max-width: 992px) {
     display: none;
@@ -65,18 +63,27 @@
     display: none;
     @media screen and (max-width: 992px) {
       display: block;
+      width: 30px;
+      height: 30px;
     }
     @media screen and (max-width: 640px) {
-      width: 25px;
-      height: auto;
+      width: 20px;
+      height: 20px;
+    }
+
+    svg{
+      width: 30px;
+      height: 30px;
+          @media screen and (max-width: 640px) {
+      width: 20px;
+      height: 20px;
+    }
     }
   }
   &__input {
     background: var(--white);
     opacity: 0.2;
-    height: 40px;
-    padding: 0px 15px;
-    font-family: var(--font-monsterrat);
+    padding: 12px 15px;
     font-weight: 600;
     border-radius: 5px;
     color: var(--black);
@@ -100,9 +107,11 @@
 
   &__icon {
     cursor: pointer;
+    display: flex;
+
     position: absolute;
     right: 10px;
-    display: flex;
+    top: 27%;
   }
 }
 

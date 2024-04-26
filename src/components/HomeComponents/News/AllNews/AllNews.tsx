@@ -102,6 +102,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
                     <Link
                       className={styles.allNews__desc_link}
                       href={`/news/${news.id}`}
+                      title="Нажмите чтобы получить подробную информацию"
                     >
                       Подробнее
                     </Link>
