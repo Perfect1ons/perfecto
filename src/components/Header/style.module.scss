@@ -30,18 +30,19 @@
   user-select: none;
   text-decoration: none;
   color: var(--black);
-  background: var(--white);
+  background: #e6e6e6;
   padding: 10px 10px;
   height: 40px;
   @include mixin.flex(center, center, null, 10px);
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
   gap: 5px;
 
   &:hover {
-    color: var(--dark-blue);
+    background: white;
   }
 
   @media screen and (max-width: 992px) {
