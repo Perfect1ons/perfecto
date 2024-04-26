@@ -18,7 +18,7 @@
   justify-content: space-around;
 
   height: 55px;
-  padding: 5px 0;
+  padding: 8px 0;
 }
 
 .option {
@@ -38,9 +38,12 @@
   color: #000000;
 }
 
+.optionSpan_active {
+  color: #991a4e;
+}
+
 @media screen and (max-width: 530px) {
-  .option,
-  .mod_hamburger {
+  .option {
     font-size: 0.8rem;
   }
 }
