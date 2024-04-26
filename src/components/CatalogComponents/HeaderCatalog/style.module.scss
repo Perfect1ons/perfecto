@@ -95,6 +95,12 @@
     color: var(--violet);
   }
 }
+.itemConteinerUL {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .subCatalogsUl {
   display: flex;
   flex-direction: column;
@@ -111,10 +117,30 @@
   }
 }
 .subMenu {
+  cursor: pointer;
   flex-direction: column;
   gap: 20px;
   padding: 0 5px;
   margin: 10px 1%;
+}
+.buttonsCatalogs {
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: rgba(0, 0, 0, 0.4);
+  transition: color 0.12s ease-out;
+  touch-action: manipulation;
+  outline: 0;
+  &:hover {
+    color: var(--violet);
+  }
+}
+.buttonsSpanCatalogs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (max-width: 992px) {
   .triangle {

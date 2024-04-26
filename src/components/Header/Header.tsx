@@ -24,7 +24,9 @@ const Header = ({ catalog }: ICatalogProps) => {
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <Logo />
-
+        <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
+          <CatalogMenu catalog={catalog} close={open} />
+        </ModalHeaders>
         <div className={styles.header__container_form}>
           {/* <Link className={styles.catalog} href={"/catalog"}>
             Каталог
@@ -44,14 +46,6 @@ const Header = ({ catalog }: ICatalogProps) => {
               </button>
               Каталог
             </div>
-            <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-              <CatalogMenu catalog={catalog} close={open} />
-              {/* <HeaderCatalog
-                catalog={catalog}
-                category={category}
-                close={open}
-              /> */}
-            </ModalHeaders>
           </div>
 
           <div className={styles.search}>
