@@ -170,6 +170,8 @@
 
     &_active{
       border: 1px solid var(--dark-blue);
+      background: var(--dark-blue);
+      color: var(--white);
     }
   }
 }

@@ -12,7 +12,6 @@ import {
   getSubCatalogs,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
-import Auth from "@/components/HomeComponents/Auth/Auth";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import Brands from "@/components/HomeComponents/Brands/Brands";
 import Discounts from "@/components/HomeComponents/Discounts/Discounts";
@@ -62,7 +61,6 @@ export default async function Home() {
   return (
     <>
       <Banner />
-      <Auth />
       <PopularCategory category={popularCategoryData} />
       <TodayBoughts pageOne={boughtsPageOne.lastz} pageTwo={boughtsPageTwo.lastz} pageThree={boughtsPageThree.lastz}/>
       <News news={newsData} />
