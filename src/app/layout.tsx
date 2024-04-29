@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
-
-import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-
-import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default async function RootLayout({
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <HeaderWrap />
-        <DownloadAppMobile/>
+        <DownloadAppMobile />
         <div id="portal" />
         {children}
         <Footer />

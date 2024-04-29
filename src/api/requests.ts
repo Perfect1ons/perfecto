@@ -1,7 +1,4 @@
 import { ICategory } from "@/types/PopularCategory";
-// import { IBanner } from "@/types/bannerRequest";
-import { ICatalogHome } from "@/types/catalogsHome";
-import { subCatalog } from "@/types/subCatalog";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
 import { IPromotion } from "@/types/promotion";
@@ -12,6 +9,10 @@ import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
+import { ICatalogHome } from "@/types/Catalog/catalogsHome";
+import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -30,19 +31,24 @@ const maxkgz = ky.create({
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
   return maxkgz.get("catalog/cathome").json();
 };
-
-// подкаталоги от getCatalogs
-export const getSubCatalogs = (path: number): Promise<subCatalog> => {
-  return maxkgz.get(`catalog/${path}`).json();
+export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
+  return maxkgz.get("catalog/cat-list-menu").json();
 };
 
+// подкаталоги от getCatalogs
+export const getSubCatalogs = (path: number): Promise<ICatalogsChild> => {
+  return maxkg.get(`catalog/catmenu?id=${path}`).json();
+};
+export const getCatalogsProducts = (id: number): Promise<ICatalogsProducts> => {
+  return maxkg.get(`catalog/${id}?_format=json`).json();
+};
 // на популярные категории
 export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
 };
 
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
-  return maxkgz.get(`catalog/listfilter?id_cat=${id}?enable=1`).json();
+  return maxkgz.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
 
 export const getBannerData = (): Promise<IBanner> => {
@@ -68,25 +74,33 @@ export const getBrands = (): Promise<IBrands> => {
   return maxkg.get("brand?pageSize=36").json();
 };
 
-export const getBoughts = (): Promise<IBoughts> => {
-  return maxkg.get("site/lastz?page=1").json();
+export const getBoughts = (page: number): Promise<IBoughts> => {
+  return maxkg.get(`site/lastz?${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
+export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
+  return maxkg.get(`site/popular?page=${page}`).json();
+}
+export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
+  return maxkg.get(`discount?pageSize=20&page=1`).json();
+};
+
+export const getDiscountsPageTwo = (): Promise<IDiscounts[]> => {
+  return maxkg.get(`discount?pageSize=20&page=2`).json();
+};
+
 const getFilterPrice = (
   id: number,
   cena_min: number,
   cena_max: number
-): Promise<subCatalog> => {
+): Promise<ICatalogsChild> => {
   return maxkgz
     .get(
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
     )
     .json();
-};
-export const getPopularGoods = (): Promise<IPopularGood[]> => {
-  return maxkg.get("site/popular?page=1").json();
 };

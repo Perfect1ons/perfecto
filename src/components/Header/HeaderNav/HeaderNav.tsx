@@ -3,7 +3,8 @@ import styles from './style.module.scss'
 import { AuthIcon, CartIcon, FavoritesIcon } from '../../../../public/Icons/Icons';
 import { ReactNode } from 'react';
 import cn from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 interface ILinks {
     href: string,
@@ -35,26 +36,24 @@ const navLinks: ILinks[] = [
 
 const HeaderNav = () => {
   const pathname = usePathname();
-  const router = useRouter();
   return (
     <nav className={styles.nav}>
         {
             navLinks.map((links) => {
                 return (
-                  <p
-                    className={cn(styles.nav__link, pathname === links.href && styles.active)}
+                  <Link
+                    href={links.href}
+                    className={cn(
+                      styles.nav__link,
+                      pathname === links.href && styles.active
+                    )}
                     key={links.id}
-                    onClick={() => router.push(links.href)}
                   >
-                    <span
-                      className={cn(
-                        styles.nav__link_title
-                      )}
-                    >
-                      {links.title}
-                    </span>
-                    {links.icon}
-                  </p>
+                    <div className={styles.nav__link_items}>
+                      <div className={styles.nav__link_items_icon}>{links.icon}</div>
+                      <h6 className={styles.nav__link_items_title}>{links.title}</h6>
+                    </div>
+                  </Link>
                 );
             })
         }
