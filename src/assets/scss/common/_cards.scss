@@ -40,10 +40,7 @@
     ); // Change to 2 columns on mobile screens
   }
   @media screen and (max-width: 480px) {
-    gap: 5px;
-    @media screen and (max-width: 480px) {
-      gap: 10px; //gap on mobile
-    }
+    gap: 10px; // gap on mobile
   }
 }
 
@@ -51,7 +48,7 @@
   cursor: pointer; // Show pointer cursor on hover
   border-radius: 5px; // Apply border radius to the item
   max-width: 230px; // Maximum width of the item
-  height: 390px; // Fixed height of the item
+  height: 410px; // Fixed height of the item
   margin-bottom: 40px; // Margin at the bottom of each item
   padding: 0px 10px 0px 0px; // Padding of the item
   transition: 0.3s all; // Apply transition effect for smooth hover
@@ -95,13 +92,11 @@
   display: flex; // Use flexbox for layout
   gap: 10px; // Gap between elements in the flex container
   align-items: center; // Align items to the center vertically
-  @media screen and (max-width: 480px) {
-    gap: 0px;
     @media screen and (max-width: 480px) {
       gap: 0px; // gap on mobile screens
     }
   }
-}
+
 
 .cardItemPrice {
   padding-left: 10px; // Left padding of the price
@@ -113,18 +108,7 @@
     #424242
   ); // Apply font styles using a mixin
   @media screen and (max-width: 480px) {
-    font-size: 14px;
     padding-left: 5px;
-    @include mixin.font(
-      1rem,
-      700,
-      24px,
-      #424242
-    ); // Apply font styles using a mixin
-    @media screen and (max-width: 480px) {
-      font-size: 0.75rem; // font-size on mobile screens
-      padding-left: 5px; // padding left on mobile screens
-    }
   }
 }
 .priceWithOld {
@@ -133,12 +117,6 @@
 .cardItemOldPrice {
   padding-left: 10px; // Left padding of the old price
   align-self: flex-start; // Align the old price to the start of the cross axis
-  @include mixin.font(
-    16px,
-    700,
-    24px,
-    #99a3ae
-  ); // Apply font styles using a mixin
   @include mixin.font(
     1rem,
     700,
@@ -157,22 +135,13 @@
     border-radius: 5px; // Border radius for the line
     transform: rotate(-3deg); // Rotate the line for a diagonal effect
   }
-  @media screen and (max-width: 480px) {
-    font-size: 13px;
-    padding-left: 5px;
     @media screen and (max-width: 480px) {
-      font-size: 0.75rem; // font-size on mobile screens
       padding-left: 5px; // padding left on mobile screens
     }
   }
-}
 .cardItemDiscount {
   color: #991a4e;
   font-weight: 700;
-  .cardItemDiscount {
-    color: #991a4e; //font color
-    font-weight: 700; // font weight
-  }
 }
 .cardItemName {
   @include mixin.font(
@@ -187,21 +156,20 @@
     16.8px,
     #62656a
   ); // Apply font styles using a mixin
+  margin-top: 10px; // margin top of the item name
   max-width: 200px; // Maximum width of the item name
   max-height: 35px; // Maximum height of the item name
   padding-left: 10px; // Left padding of the item name
   overflow: hidden; // Hide overflow text
-  @media screen and (max-width: 480px) {
-    padding-left: 5px;
     @media screen and (max-width: 480px) {
       padding-left: 5px; // padding left on mobile screens
     }
   }
-}
+
 
 .cardItemDelivery {
   padding-left: 10px; // Left padding of the delivery section
-  margin-top: 3px; // Margin at the top of the delivery section
+  margin-top: -3px; // Margin at the top of the delivery section
   @include mixin.flex(
     center,
     null,
@@ -209,23 +177,15 @@
     3px
   ); // Apply flexbox with specific settings
   max-width: 240px; // Maximum width of the delivery section
-  @media screen and (max-width: 480px) {
-    padding-left: 5px;
     @media screen and (max-width: 480px) {
       padding-left: 5px; // padding left on mobile screens
     }
   }
-}
+
   .cardItemDeliveryTitle {
-    margin-top: 10px; // Margin at the top of the delivery title
+    margin-top: 15px; // Margin at the top of the delivery title
     @include mixin.font(
-      14px,
-      400,
-      14.4px,
-      #0c54a1
-    ); // Apply font styles using a mixin
-    @include mixin.font(
-      0.8125rem,
+      0.875rem,
       400,
       14.4px,
       #0c54a1
@@ -238,10 +198,12 @@
   .cardItemBtns {
     margin-top: 10px; // Margin at the top of the buttons section
     padding-left: 10px; // Left padding of the buttons section
+    padding-bottom: 10px; // padding bottom of the buttons section
     display: none; // Initially hide the buttons
     @media screen and (max-width: 1200px) {
       display: block; // Display the buttons on smaller screens
       padding-left: 5px; // padding left on smaller screens
+      padding-bottom: 5px; // padding bottom on smaller screens
     }
   }
 
@@ -253,12 +215,6 @@
       10px
     ); // Apply flexbox with specific settings
     @media screen and (max-width: 480px) {
-      @include mixin.flex(
-        center,
-        null,
-        null,
-        5px
-      ); // Apply different settings for smaller screens
       @include mixin.flex(
         center,
         null,
