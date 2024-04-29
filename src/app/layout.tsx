@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
-import Footer from "@/components/Footer/Footer";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
+import Footer from "@/components/Footer/Footer";
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -39,7 +39,7 @@ export default async function RootLayout({
         <DownloadAppMobile />
         <div id="portal" />
         {children}
-        <Footer />
+        <Footer/>
       </body>
     </html>
   );

@@ -1,13 +1,14 @@
-import { IFooterAccordionLink } from "@/types/footerAccordionLinks";
+
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { IFooterItem } from "@/types/footerRequest";
 
 export interface IFooterAccordionProps {
-  links: IFooterAccordionLink[];
+  links: IFooterItem[];
   title: string;
 }
 

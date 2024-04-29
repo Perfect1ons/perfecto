@@ -13,6 +13,7 @@ import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
+import { IFooter } from "@/types/footerRequest";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -104,3 +105,11 @@ const getFilterPrice = (
     )
     .json();
 };
+
+export const getFooter = (): Promise<IFooter> => {
+  return maxkg.get("site/footer-menu").json();
+}
+
+// export const getFooterPages = (): Promise<> => {
+//   return maxkg.get("").json();
+// }

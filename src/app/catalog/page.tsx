@@ -9,7 +9,7 @@ import {
   linksHelp,
   linksPartners,
   linksSocials,
-} from "@/components/Footer/Footer";
+} from "@/components/Footer/FooterSection/FooterSection";
 
 export interface IListItem {
   id: number;
