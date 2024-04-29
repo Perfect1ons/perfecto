@@ -134,7 +134,6 @@
       font-size: 14px;
     }
 
-
     &_custom {
       border: 1px solid var(--secondary);
       @include mixin.font(16px, 600, 143%, var(--dark-blue));
@@ -155,20 +154,20 @@
       }
     }
 
-    &_disactive{
+    &_disactive {
       background-color: var(--secondary);
       border: 1px solid #ddd;
       cursor: not-allowed;
 
-      &:hover{
-            background-color: transparent !important;
-            color: var(--black) !important;
+      &:hover {
+        background-color: transparent !important;
+        color: var(--black) !important;
       }
 
-    color: var(--dark-blue);
+      color: var(--dark-blue);
     }
 
-    &_active{
+    &_active {
       border: 1px solid var(--dark-blue);
     }
   }
@@ -249,28 +248,26 @@
   }
 }
 
-
 //! Стили направлений для страниц показать все
-.all__directions{
-    @include mixin.flex(center,flex-start,null, 10px);
-    margin-top: 20px;
-    &_link{
-        @include mixin.font(16px,400,150%, var(--gray-dark));
-        cursor: pointer;
-        background: var(--light-white);
-        padding: 5px 10px;
-        border-radius: 5px;
-        transition: 0.2s ease-in;
-        text-decoration: none;
-        &:hover{
-            color: var(--white);
-          background: var(--dark-blue);
-
-        }
+.all__directions {
+  @include mixin.flex(center, flex-start, null, 10px);
+  margin-top: 20px;
+  &_link {
+    @include mixin.font(16px, 400, 150%, var(--gray-dark));
+    cursor: pointer;
+    background: var(--light-white);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: 0.2s ease-in;
+    text-decoration: none;
+    &:hover {
+      color: var(--white);
+      background: var(--dark-blue);
     }
+  }
 
-    &_linkActive{
-          background: var(--dark-blue);
-          color: var(--white);
-    }
+  &_linkActive {
+    background: var(--dark-blue);
+    color: var(--white);
+  }
 }

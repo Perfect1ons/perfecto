@@ -5,6 +5,11 @@ import { useState } from "react";
 import cn from "clsx";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  ChevronRightIcon,
+  chevronDownIcon,
+  chevronUpIcon,
+} from "../../../../public/Icons/Icons";
 
 interface IProps {
   catalog: ICatalogMenu;
@@ -14,9 +19,11 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(
     2000000464
   );
+
   const [showMoreCategories, setShowMoreCategories] = useState<{
     [key: number]: boolean;
   }>({});
+
   // Функция для обработки отображения дополнительных категорий
   const handleShowMore = (categoryId: number) => {
     setShowMoreCategories((prevCategories) => ({
@@ -24,6 +31,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
       [categoryId]: true,
     }));
   };
+
   // Функция для обработки сворачивания категорий
   const handleCollapse = (categoryId: number) => {
     setShowMoreCategories((prevCategories) => ({
@@ -31,62 +39,16 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
       [categoryId]: false,
     }));
   };
+
   // Функция для обработки наведения мыши на категорию
   const handleMouseEnter = (id: number) => {
     setActiveCategoryId(id);
   };
-  const ChevronRightIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-chevron-right"
-      width="16"
-      height="16"
-      viewBox="0 0 25 25"
-      strokeWidth="1.8"
-      stroke="#777"
-      fill="none"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M9 6l6 6l-6 6" />
-    </svg>
-  );
-  const chevronUpIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-chevron-up"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M6 15l6 -6l6 6" />
-    </svg>
-  );
-  const chevronDownIcon = () => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-chevron-down"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      fill="none"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M6 9l6 6l6 -6" />
-    </svg>
-  );
+
+  // для роутинга
   const router = useRouter();
+
+  // при нажатии ведет на подкаталоги
   const handleClick = (id: number) => {
     router.push(`/catalogs/${id}`);
     close();

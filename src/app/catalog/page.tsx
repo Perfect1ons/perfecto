@@ -2,7 +2,7 @@ import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import AllProducts from "@/components/CatalogComponents/AllProducts/AllProducts";
 import CatalogOptions from "@/components/CatalogComponents/CatalogOptions/CatalogOptions";
 import CatalogPageMain from "@/components/CatalogComponents/CatalogPageName/CatalogPageMain";
-import HeaderCatalog from "@/components/CatalogComponents/HeaderCatalog/HeaderCatalog";
+
 import {
   linksClients,
   linksCompany,

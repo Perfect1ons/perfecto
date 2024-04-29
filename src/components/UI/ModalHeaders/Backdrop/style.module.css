@@ -3,7 +3,7 @@
   top: 70px;
   left: 0;
   width: 100%;
-  height: 400vh;
+  height: calc(1145vh);
   background: rgba(0, 0, 0, 0.8);
   z-index: 99;
   transition: 0.15s;
@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
 }
+
 @media screen and (max-width: 640px) {
   .backDrop {
     top: 50px;

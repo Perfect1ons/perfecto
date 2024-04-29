@@ -5,9 +5,9 @@ import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import ModalHeaders from "../UI/ModalHeaders/Modal/Modal";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
+import Modal from "../UI/ModalHeaders/Modal/Modal";
 
 export interface ICatalogProps {
   catalog: ICatalogMenu;
@@ -24,9 +24,9 @@ const Header = ({ catalog }: ICatalogProps) => {
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <Logo />
-        <ModalHeaders isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
+        <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
           <CatalogMenu catalog={catalog} close={open} />
-        </ModalHeaders>
+        </Modal>
         <div className={styles.header__container_form}>
           {/* <Link className={styles.catalog} href={"/catalog"}>
             Каталог
@@ -35,13 +35,13 @@ const Header = ({ catalog }: ICatalogProps) => {
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
-                className={cn(styles.hamburger, styles.hamburger_3dy, {
-                  [styles.is_active]: isOpen,
+                className={cn("hamburger", "hamburger_3dy", {
+                  ["is_active"]: isOpen,
                 })}
                 type="button"
               >
-                <span className={styles.hamburger_box}>
-                  <span className={styles.hamburger_inner}></span>
+                <span className="hamburger_box">
+                  <span className="hamburger_inner"></span>
                 </span>
               </button>
               Каталог
@@ -64,7 +64,7 @@ const Header = ({ catalog }: ICatalogProps) => {
         <div className={styles.header__nav}>
           <HeaderNav />
         </div>
-        
+
         <div className={styles.search__white}>
           <SearchIconWhite />
         </div>
