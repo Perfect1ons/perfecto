@@ -1,6 +1,3 @@
-import { ICatalogProps } from "@/components/Header/Header";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-
 import cn from "clsx";
 import styles from "./style.module.scss";
 import React from "react";

@@ -15,12 +15,10 @@
 .show {
   visibility: visible;
   display: block;
-  overflow-y: auto;
   /* transform: scale(1); */
 }
 
 .childwrap {
-  overflow-y: auto;
   height: max-content;
 }
 

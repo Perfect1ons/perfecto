@@ -15,14 +15,16 @@ import {
   FavoritesIconDark,
   HomeIcon,
   HomeIconActive,
+  SearchIcon,
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
+import MobileCatalog from "../MobileCatalog/MobileCatalog";
 
 // пропсы
-interface MobNavProps {
+export interface MobNavProps {
   catalog: ICatalogMenu;
 }
 
@@ -39,82 +41,102 @@ export default function MobileNav({ catalog }: MobNavProps) {
   const pathname = usePathname();
 
   return (
-    <section className={styles.section}>
+    <>
       <MobileModal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-        <div>its here</div>
+        <div className={styles.catalog_wrap}>
+          <div className={styles.search_bar}>
+            <input
+              placeholder="Поиск товаров"
+              type="text"
+              id="searchInput"
+              className={styles.search__input}
+            />
+            <label htmlFor="searchInput" className={styles.search__icon}>
+              <SearchIcon />
+            </label>
+          </div>
+
+          <MobileCatalog catalog={catalog} />
+        </div>
       </MobileModal>
-
-      <ul className={styles.ul}>
-        <Link href="/" className={styles.option}>
-          {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
-          <span
-            className={
-              pathname === "/"
-                ? `${cn(styles.option_span, styles.optionSpan_active)}`
-                : styles.option
-            }
-          >
-            Главная
-          </span>
-        </Link>
-
-        <li className={styles.option} onClick={open}>
-          <button
-            className={cn(styles.mod_hamburger, "hamburger", "hamburger_3dy", {
-              ["is_active"]: isOpen,
-            })}
-            type="button"
-          >
-            <span className="hamburger_box">
-              <span className="hamburger_inner"></span>
+      <section className={styles.mobile_menu}>
+        <ul className={styles.ul}>
+          <Link href="/" className={styles.option}>
+            {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
+            <span
+              className={
+                pathname === "/"
+                  ? `${cn(styles.option_span, styles.optionSpan_active)}`
+                  : styles.option
+              }
+            >
+              Главная
             </span>
-          </button>
-          <span>Каталог</span>
-        </li>
+          </Link>
 
-        <Link href="/favorites" className={styles.option}>
-          {pathname === "/favorites" ? (
-            <FavoritesIconActive />
-          ) : (
-            <FavoritesIconDark />
-          )}
-          <span
-            className={
-              pathname === "/favorites"
-                ? `${cn(styles.option_span, styles.optionSpan_active)}`
-                : styles.option
-            }
-          >
-            Избранные
-          </span>
-        </Link>
+          <li className={styles.option} onClick={open}>
+            <button
+              className={cn(
+                styles.mod_hamburger,
+                "hamburger",
+                "hamburger_3dy",
+                {
+                  ["is_active"]: isOpen,
+                }
+              )}
+              type="button"
+            >
+              <span className="hamburger_box">
+                <span className="hamburger_inner"></span>
+              </span>
+            </button>
+            <span>Каталог</span>
+          </li>
 
-        <Link href="/cart" className={styles.option}>
-          {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
-          <span
-            className={
-              pathname === "/cart"
-                ? `${cn(styles.option_span, styles.optionSpan_active)}`
-                : styles.option
-            }
-          >
-            Корзинка
-          </span>
-        </Link>
+          <Link href="/favorites" className={styles.option}>
+            {pathname === "/favorites" ? (
+              <FavoritesIconActive />
+            ) : (
+              <FavoritesIconDark />
+            )}
+            <span
+              className={
+                pathname === "/favorites"
+                  ? `${cn(styles.option_span, styles.optionSpan_active)}`
+                  : styles.option
+              }
+            >
+              Избранные
+            </span>
+          </Link>
 
-        <Link href="/auth" className={styles.option}>
-          {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
-          <span
-            className={
-              pathname === "/auth"
-                ? `${cn(styles.option_span, styles.optionSpan_active)}`
-                : styles.option
-            }
-          >
-            Профиль
-          </span>
-        </Link>
-      </ul>
-    </section>
+          <Link href="/cart" className={styles.option}>
+            {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
+            <span
+              className={
+                pathname === "/cart"
+                  ? `${cn(styles.option_span, styles.optionSpan_active)}`
+                  : styles.option
+              }
+            >
+              Корзинка
+            </span>
+          </Link>
+
+          <Link href="/auth" className={styles.option}>
+            {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
+            <span
+              className={
+                pathname === "/auth"
+                  ? `${cn(styles.option_span, styles.optionSpan_active)}`
+                  : styles.option
+              }
+            >
+              Профиль
+            </span>
+          </Link>
+        </ul>
+      </section>
+    </>
   );
 }

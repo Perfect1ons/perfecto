@@ -22,14 +22,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // запрос на главные каталоги
-  // const catalogs = await getCatalogs();
-  // // const id = catalogs.filter((item) => item.id);
-
-  // // на дочерниe каталоги главных каталогов
-  // const category = await getSubCatalogs(2000000464);
-  // // console.log(category);
-
   return (
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>

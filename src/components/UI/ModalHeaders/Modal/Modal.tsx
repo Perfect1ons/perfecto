@@ -21,22 +21,22 @@ const Modal = ({ children, isVisible, close }: ModalProps) => {
   }, [close]);
 
   // блокирует скролл по странице при открытой модалке
-  useEffect(() => {
-    isVisible
-      ? (document.body.style.overflow = "hidden")
-      : (document.body.style.overflow = "unset");
-    return (): void => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isVisible]);
+  // useEffect(() => {
+  //   isVisible
+  //     ? (document.body.style.overflow = "hidden")
+  //     : (document.body.style.overflow = "unset");
+  //   return (): void => {
+  //     document.body.style.overflow = "unset";
+  //   };
+  // }, [isVisible]);
 
   return (
-    <>
-      {/* <Backdrop isVisible={isVisible} close={close} /> */}
+    <div className={styles.wrap}>
+      <Backdrop isVisible={isVisible} close={close} />
       <div className={cn(styles.modal, isVisible && styles.show)}>
-        <div className={styles.childwrap}>{children}</div>
+        {children}
       </div>
-    </>
+    </div>
   );
 };
 
