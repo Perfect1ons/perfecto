@@ -18,7 +18,6 @@ export default function PopularGoods({
 }: IPopularGoodsProps) {
   const [page, setPage] = useState(1);
   const router = useRouter();
-  console.log(pageOne);
 
   const handleShowMore = () => {
     const nextPage = page + 1;
@@ -37,7 +36,10 @@ export default function PopularGoods({
           {page >= 2 && <TodayBoughtsSection boughts={pageTwo} />}
           {page >= 3 && <TodayBoughtsSection boughts={pageThree} />}
           <div className="showMoreBtn">
-            <button className="news__buttons_showMore" onClick={handleShowMore}>
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowMore}
+            >
               {page < 3 ? "Показать еще" : "Показать все"}
             </button>
           </div>
