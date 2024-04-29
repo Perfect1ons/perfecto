@@ -1,40 +1,56 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.nav{
+.nav {
     width: 320px;
-    height: 40px;
-    @include mixin.flex(center, space-around, null );
+    height: 100%;
+    @include mixin.flex(null, space-around, null);
     
     @media screen and (max-width: 1200px) {
         width: 100%;
         gap: 25px;
     }
 
-    &__link{
+    &__link {
         cursor: pointer;
-        padding: 0;
-        margin: 0;
-        @include mixin.flex(center, center,column-reverse,3px);
-        text-decoration: none;
-        opacity: 0.8;
-            transition: 0.2s;
+        @include mixin.link(16px,400,var(--white));
+        opacity: 0.7;
+        transition: 0.2s;
+        max-height: 100%;
 
-        &_title{
-            color: var(--gray-white);
-        }
-
-        &_title:hover{
-            color: var(--white);
-        }
-
-        &:hover{
+        &:hover {
             opacity: 1;
+        }
+
+        span {
+            width: 100%;
+            text-align: center;
+            height: 20px; 
+            margin: 0; 
+            padding: 0;
+            margin: 0;
+        }
+
+        &_items{
+            height: 100%;
+            @include mixin.flex(center,space-between,column,10px);
+            &_icon{
+                max-width: 20px;
+                max-height: 20px;
+            }
+
+            &_title{
+                max-width: 100%;
+                height: auto;
+                line-height: 100%;
+                font-weight: 400;
+                font-size: 16px;
+            }
         }
     }
 }
 
-.active{
+.active {
     color: var(--white);
     opacity: 1;
-
 }
+

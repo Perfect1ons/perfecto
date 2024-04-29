@@ -1,74 +1,20 @@
-import { subCatalog } from "@/types/subCatalog";
+"use client";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
+import {
+  DeliveryIcon,
+  HearthIcon,
+  HearthIconRed,
+} from "../../../../public/Icons/Icons";
+import { useState } from "react";
+import Link from "next/link";
 
 interface IProps {
-  product: subCatalog;
+  product: ICatalogsProducts;
   brand: IFiltersBrand;
 }
-const heart = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-heart-filled"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="#777"
-    fill="#777"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z"
-      stroke-width="0"
-      fill="#777"
-    />
-  </svg>
-);
-const basket = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-shopping-cart-filled"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="currentColor"
-    fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M6 2a1 1 0 0 1 .993 .883l.007 .117v1.068l13.071 .935a1 1 0 0 1 .929 1.024l-.01 .114l-1 7a1 1 0 0 1 -.877 .853l-.113 .006h-12v2h10a3 3 0 1 1 -2.995 3.176l-.005 -.176l.005 -.176c.017 -.288 .074 -.564 .166 -.824h-5.342a3 3 0 1 1 -5.824 1.176l-.005 -.176l.005 -.176a3.002 3.002 0 0 1 1.995 -2.654v-12.17h-1a1 1 0 0 1 -.993 -.883l-.007 -.117a1 1 0 0 1 .883 -.993l.117 -.007h2zm0 16a1 1 0 1 0 0 2a1 1 0 0 0 0 -2zm11 0a1 1 0 1 0 0 2a1 1 0 0 0 0 -2z"
-      stroke-width="0"
-      fill="#ffffff"
-    />
-  </svg>
-);
-const delivery = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-truck-delivery"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="#0c54a1"
-    fill="none"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-    <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-    <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5" />
-    <path d="M3 9l4 0" />
-  </svg>
-);
 const category = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -156,9 +102,22 @@ const starFill = () => (
 );
 const ProductsPage = ({ product, brand }: IProps) => {
   console.log(brand.filter?.[11]?.type_name);
+  const imageEmpty = "https://max.kg/images/discount/empty-image.png";
+  const startUrl = "https://max.kg/nal/img/";
+  const [likedItems, setLikedItems] = useState<{ [key: string]: boolean }>({});
+  function formatNumber(number: number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  }
+  const toggleLike = (id: number) => {
+    setLikedItems((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.fitersContainer}>
+      {/* <div className={styles.fitersContainer}>
         <h1>Фильтры</h1>
         <div>
           <form className={styles.form}>
@@ -232,8 +191,18 @@ const ProductsPage = ({ product, brand }: IProps) => {
               </div>
             ))}
         </div>
-      </div>
-      <div className={styles.containerProducts}>
+      </div> */}
+      <ol className={styles.breadcrumb}>
+        <li className={styles.links}>
+          <Link href="/" className={styles.link}>
+            Главная
+          </Link>
+          <Link href="/" className={styles.link}>
+            {product.category.name}
+          </Link>
+        </li>
+      </ol>
+      <section className="boughts">
         <div className={styles.sortsContainer}>
           <div className={styles.sortContainer}>
             <h4 className={styles.sortsItem}>Сортировать:</h4>
@@ -247,37 +216,43 @@ const ProductsPage = ({ product, brand }: IProps) => {
             <button>{list()}</button>
           </div>
         </div>
-        <ul className={styles.products}>
+        <div className="cardItemContainer">
           {product.model.map((item) => {
+            let imageUrl = imageEmpty;
+            if (item.photos && item.photos.length > 0) {
+              const photoUrl = item.photos[0].url_part.startsWith("https://")
+                ? `https://goods-photos.static1-sima-land.com/items/${item.art}/0/280.jpg`
+                : `${startUrl}${item.images[0].id_post}/l_${item.photos[0].url_part}`;
+              imageUrl = photoUrl;
+            }
             return (
-              <div className={styles.product}>
-                <div className={styles.product__head}>
-                  <div className={styles.images}>
-                    {item?.photos && item.photos.length > 0 ? (
-                      <Image
-                        src={`https://max.kg/nal/img/${item.images[0]?.id_post}/l_${item.photos[0]?.url_part}`}
-                        alt={item.naim}
-                        width={180}
-                        height={180}
-                      />
-                    ) : (
-                      <Image
-                        src="https://max.kg/images/discount/empty-image.png"
-                        alt={item.naim}
-                        width={193}
-                        height={157}
-                      />
-                    )}
-                  </div>
-                  <h1
-                    className={styles.product__price}
-                  >{`${item.price.toLocaleString("ru-RU")} ⃀.`}</h1>
-                  <li className={styles.product__name}>
-                    {item.naim.split(" ").slice(0, 4).join(" ")}
-                  </li>
-                  <h2 className={styles.product__code}>Код: {item?.art}</h2>
+              <div key={item.id} className="cardItem">
+                <Image
+                  className="cardItemImg"
+                  src={imageUrl}
+                  width={230}
+                  height={230}
+                  alt={item.naim}
+                />
+                <div className="cardItemPrices">
+                  <p
+                    className={`cardItemPrice ${
+                      item.old_price !== item.price ? "priceWithOld" : ""
+                    }`}
+                  >
+                    {formatNumber(item.price)} с
+                  </p>
+                  {item.old_price && item.old_price !== item.price && (
+                    <>
+                      <p className="cardItemOldPrice">
+                        {formatNumber(item.old_price)} с
+                      </p>
+                    </>
+                  )}
                 </div>
-                <div className={styles.product__foot}>
+                <p className="cardItemName">{item.naim}</p>
+                <div className={styles.codeProduct}>
+                  <h2 className={styles.product__code}>Код: {item?.art}</h2>
                   <div className={styles.rating}>
                     {Array.from({ length: Math.floor(item.ocenka) }).map(
                       (_, index) => (
@@ -295,22 +270,24 @@ const ProductsPage = ({ product, brand }: IProps) => {
                       )
                     )}
                   </div>
-                  <li className={styles.delivery}>
-                    {delivery()}{" "}
-                    <span className={styles.delivery__span}>{item?.ddos}</span>
-                  </li>
-                  <div className={styles.buttons}>
-                    <button className={styles.buttons__busket}>
-                      {basket()} В корзину
-                    </button>
-                    <button className={styles.buttons__heart}>{heart()}</button>
+                </div>
+                <div className="cardItemDelivery">
+                  <DeliveryIcon />
+                  <p className="cardItemDeliveryTitle">{item.ddos}</p>
+                </div>
+                <div className="cardItemBtns">
+                  <div className="cardItemBtnsContainer">
+                    <button className="cardItemBtnsAddBucket">В корзину</button>
+                    <div onClick={() => toggleLike(item.id)}>
+                      {likedItems[item.id] ? <HearthIconRed /> : <HearthIcon />}
+                    </div>
                   </div>
                 </div>
               </div>
             );
           })}
-        </ul>
-      </div>
+        </div>
+      </section>
     </div>
   );
 };

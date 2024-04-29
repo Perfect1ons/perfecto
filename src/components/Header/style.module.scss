@@ -2,13 +2,17 @@
 
 .header {
   background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
-  height: 72.5px;
+  height: 72px;
+  user-select: none;
   &__container {
+    display: flex;
+    align-items: center;
     height: 100%;
     @include mixin.flex(center, space-between, null, 30px);
 
     &_form {
-      @include mixin.flex(center, center, null, 30px);
+      @include mixin.flex();
+      gap: 30px;
       max-width: 100%;
       width: 100%;
     }
@@ -26,22 +30,28 @@
   z-index: 1000;
 }
 
+.catalog_modal {
+  max-height: 42px;
+  height: 42px;
+}
+
 .catalog {
   user-select: none;
   text-decoration: none;
   color: var(--black);
-  background: var(--white);
+  background: #e6e6e6;
   padding: 10px 10px;
-  height: 40px;
+  height: 100%;
   @include mixin.flex(center, center, null, 10px);
   border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
-  transition: 0.3s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
   gap: 5px;
 
   &:hover {
-    color: var(--dark-blue);
+    background: white;
   }
 
   @media screen and (max-width: 992px) {
@@ -51,10 +61,10 @@
 
 .search {
   cursor: pointer;
-  position: relative;
-  @include mixin.flex(center, center, null, 15px);
   width: 100%;
-  height: 25px;
+  position: relative;
+  display: flex;
+  align-items: center;
 
   @media screen and (max-width: 992px) {
     display: none;
@@ -65,6 +75,8 @@
     display: none;
     @media screen and (max-width: 992px) {
       display: block;
+      width: 30px;
+      height: 30px;
     }
     @media screen and (max-width: 640px) {
       width: 25px;
@@ -74,9 +86,7 @@
   &__input {
     background: var(--white);
     opacity: 0.2;
-    height: 40px;
-    padding: 0px 15px;
-    font-family: var(--font-monsterrat);
+    padding: 12px 15px;
     font-weight: 600;
     border-radius: 5px;
     color: var(--black);
@@ -100,9 +110,11 @@
 
   &__icon {
     cursor: pointer;
+    display: flex;
+
     position: absolute;
     right: 10px;
-    display: flex;
+    top: 27%;
   }
 }
 

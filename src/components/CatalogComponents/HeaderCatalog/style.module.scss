@@ -1,5 +1,4 @@
 .catalogs {
-  user-select: none;
   display: grid;
   grid-template-columns: 1fr 3fr;
   max-width: 1450px;
@@ -15,13 +14,11 @@
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
   }
-  &__9h3 {
-    padding: 0 5px;
-    font-size: 18px;
-    font-weight: 700;
-    margin: 10px 1%;
-    color: #424242;
-  }
+}
+.catalogs__9h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #424242;
 }
 .triangle {
   display: inline-flex;
@@ -57,27 +54,33 @@
 .category__ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start;
+  list-style-type: none;
+  gap: 16px;
 }
 .category__li {
   order: 1;
-  width: 25%;
   text-align: left;
   margin: 0 1%;
 }
 .category__li__h3 {
-  margin: 10px 0;
   font-size: 14px;
   display: block;
-  padding: 0 5px;
   color: #424242;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 14px;
   cursor: pointer;
   &:hover {
     color: var(--violet);
   }
+}
+.itemContainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+  width: 25%;
+  height: max-content;
 }
 .category__li__h33 {
   margin: 10px 0;
@@ -91,6 +94,53 @@
   &:hover {
     color: var(--violet);
   }
+}
+.itemConteinerUL {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.subCatalogsUl {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  &__li {
+    cursor: pointer;
+    font-size: 14px;
+    color: #424242;
+    font-weight: 400;
+    line-height: 14px;
+    &:hover {
+      color: var(--violet);
+    }
+  }
+}
+.subMenu {
+  cursor: pointer;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 5px;
+  margin: 10px 1%;
+}
+.buttonsCatalogs {
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: rgba(0, 0, 0, 0.4);
+  transition: color 0.12s ease-out;
+  touch-action: manipulation;
+  outline: 0;
+  &:hover {
+    color: var(--violet);
+  }
+}
+.buttonsSpanCatalogs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 @media screen and (max-width: 992px) {
   .triangle {
