@@ -87,8 +87,8 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
     </svg>
   );
   const router = useRouter();
-  const handleClick = (id: number) => {
-    router.push(`/catalogs/${id}`);
+  const handleClick = (path: string) => {
+    router.push(`catalogs/${path}`);
     close();
   };
 
@@ -106,7 +106,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                   item.id === activeCategoryId && styles.active
                 )}
                 onMouseEnter={() => handleMouseEnter(item.id)}
-                onClick={() => handleClick(item.id)}
+                onClick={() => handleClick(item.full_slug)}
                 key={item.name}
               >
                 {item.name}
@@ -118,135 +118,164 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
       </div>
       <div className={styles.catalogs__9}>
         {/* Отображение подменю для каждой категории  */}
-        {catalog.map((item) => {
-          const childLevel2 = Object.values(item.child_level2);
-          return (
-            <div
-              key={item.id}
-              className={styles.subMenu}
-              style={{
-                display: activeCategoryId === item.id ? "flex" : "none", // Показывать подменю только для активной категории
-                overflowX: "hidden",
-              }}
-            >
-              <h2
-                className={styles.catalogs__9h3}
-                onClick={() => handleClick(item.id)}
+        {catalog
+          .sort((a, b) => {
+            return a.sort_menu - b.sort_menu;
+          })
+          .map((item) => {
+            const childLevel2 = Object.values(item.child_level2);
+            return (
+              <div
+                key={item.id}
+                className={styles.subMenu}
+                style={{
+                  display: activeCategoryId === item.id ? "flex" : "none", // Показывать подменю только для активной категории
+                }}
               >
-                {item.name}
-              </h2>
-              {/* Отображение подкатегорий второго уровня */}
-              <ul className={styles.category__ul}>
-                {[...Array(3)].map((_, divIndex) => {
-                  const startIdx = divIndex * 5;
-                  const endIdx = Math.min(startIdx + 5, childLevel2.length);
-                  const itemsInDiv = childLevel2.slice(startIdx, endIdx);
-
-                  return (
-                    <div
-                      key={`div-${divIndex}`}
-                      className={styles.itemContainer}
-                    >
-                      {itemsInDiv.map((childItem) => {
-                        const childCatLevel3 = childItem.child_cat_level3 || {};
-                        const isExpanded =
-                          showMoreCategories[childItem.id] || false;
-                        // Проверка, раскрыты ли дополнительные подкатегории
-                        const childCatLevel3Keys = Object.keys(childCatLevel3);
-                        const remainingItems = childCatLevel3Keys?.length - 5;
-
-                        return (
-                          <ul
-                            key={childItem.id}
-                            className={styles.itemConteinerUL}
-                          >
-                            <li
-                              className={styles.category__li__h3}
-                              onClick={() => {
-                                if (childItem.child_cat_level3) {
-                                  const childCatLevel3Keys = Object.keys(
-                                    childItem.child_cat_level3
-                                  );
-                                  if (childCatLevel3Keys.length > 0) {
-                                    router.push(`catalogs/${childItem.id}`);
-                                  } else {
-                                    router.push(
-                                      `catalogs/products/${childItem.id}`
-                                    );
-                                  }
-                                } else {
-                                  router.push(
-                                    `catalogs/products/${childItem.id}`
-                                  );
-                                }
-                                close();
-                              }}
-                            >
-                              {childItem.name}
-                            </li>
-                            {childCatLevel3Keys
-                              .slice(0, isExpanded ? undefined : 5)
-                              .map((key) => (
-                                <li
-                                  key={childCatLevel3[key]?.id}
-                                  className={styles.subCatalogsUl__li}
-                                  onClick={() => {
-                                    if (childCatLevel3[key]?.child_cat_level3) {
-                                      const childCatLevel3Keyss = Object.keys(
-                                        childCatLevel3[key]?.child_cat_level3
-                                      );
-                                      if (childCatLevel3Keyss.length > 0) {
-                                        router.push(
-                                          `catalogs/${childCatLevel3[key]?.id}`
+                <h2
+                  className={styles.catalogs__9h3}
+                  onClick={() => handleClick(item.full_slug)}
+                >
+                  {item.name}
+                </h2>
+                {/* Отображение подкатегорий второго уровня */}
+                <ul className={styles.category__ul}>
+                  {[...Array(3)]
+                    .sort((a, b) => {
+                      return a.sort_menu - b.sort_menu;
+                    })
+                    .map((_, divIndex) => {
+                      const startIdx = divIndex * 5;
+                      const endIdx = Math.min(startIdx + 5, childLevel2.length);
+                      const itemsInDiv = childLevel2.slice(startIdx, endIdx);
+                      return (
+                        <div
+                          key={`div-${divIndex}`}
+                          className={styles.itemContainer}
+                        >
+                          {itemsInDiv
+                            .sort((a, b) => {
+                              return a.sort_menu - b.sort_menu;
+                            })
+                            .map((childItem) => {
+                              const childCatLevel3 =
+                                childItem.child_cat_level3 || {};
+                              const isExpanded =
+                                showMoreCategories[childItem.id] || false;
+                              // Проверка, раскрыты ли дополнительные подкатегории
+                              const childCatLevel3Keys =
+                                Object.keys(childCatLevel3);
+                              const remainingItems =
+                                childCatLevel3Keys?.length - 5;
+                              return (
+                                <ul
+                                  key={childItem.id}
+                                  className={styles.itemConteinerUL}
+                                >
+                                  <li
+                                    className={styles.category__li__h3}
+                                    onClick={() => {
+                                      if (childItem.child_cat_level3) {
+                                        const childCatLevel3Keys = Object.keys(
+                                          childItem.child_cat_level3
                                         );
+                                        if (childCatLevel3Keys.length > 0) {
+                                          router.push(
+                                            `catalogs/${childItem.full_slug}`
+                                          );
+                                        } else {
+                                          router.push(
+                                            `catalogs/products/${childItem.full_slug}`
+                                          );
+                                        }
                                       } else {
                                         router.push(
-                                          `catalogs/products/${childCatLevel3[key]?.id}`
+                                          `catalogs/products/${childItem.full_slug}`
                                         );
                                       }
-                                    } else {
-                                      router.push(
-                                        `catalogs/products/${childCatLevel3[key]?.id}`
-                                      );
-                                    }
-                                    close();
-                                  }}
-                                >
-                                  {childCatLevel3[key]?.name}
-                                </li>
-                              ))}
-                            {childCatLevel3Keys.length > 5 &&
-                              (!isExpanded ? (
-                                <button
-                                  onClick={() => handleShowMore(childItem.id)}
-                                  className={styles.buttonsCatalogs}
-                                >
-                                  Eщё {remainingItems}
-                                  <span className={styles.buttonsSpanCatalogs}>
-                                    {chevronDownIcon()}
-                                  </span>
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => handleCollapse(childItem.id)}
-                                  className={styles.buttonsCatalogs}
-                                >
-                                  Свернуть
-                                  <span className={styles.buttonsSpanCatalogs}>
-                                    {chevronUpIcon()}
-                                  </span>
-                                </button>
-                              ))}
-                          </ul>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
-              </ul>
-            </div>
-          );
-        })}
+                                      close();
+                                    }}
+                                  >
+                                    {childItem.name}
+                                  </li>
+                                  {childCatLevel3Keys
+                                    .slice(0, isExpanded ? undefined : 5)
+                                    .map((key) => (
+                                      <li
+                                        key={childCatLevel3[key]?.id}
+                                        className={styles.subCatalogsUl__li}
+                                        onClick={() => {
+                                          if (
+                                            childCatLevel3[key]
+                                              ?.child_cat_level3
+                                          ) {
+                                            const childCatLevel3Keyss =
+                                              Object.keys(
+                                                childCatLevel3[key]
+                                                  ?.child_cat_level3
+                                              );
+                                            if (
+                                              childCatLevel3Keyss.length > 0
+                                            ) {
+                                              router.push(
+                                                `catalogs/${childCatLevel3[key]?.full_slug}`
+                                              );
+                                            } else {
+                                              router.push(
+                                                `catalogs/products/${childCatLevel3[key]?.full_slug}`
+                                              );
+                                            }
+                                          } else {
+                                            router.push(
+                                              `catalogs/products/${childCatLevel3[key]?.full_slug}`
+                                            );
+                                          }
+                                          close();
+                                        }}
+                                      >
+                                        {childCatLevel3[key]?.name}
+                                      </li>
+                                    ))}
+                                  {childCatLevel3Keys.length > 5 &&
+                                    (!isExpanded ? (
+                                      <button
+                                        onClick={() =>
+                                          handleShowMore(childItem.id)
+                                        }
+                                        className={styles.buttonsCatalogs}
+                                      >
+                                        Eщё {remainingItems}
+                                        <span
+                                          className={styles.buttonsSpanCatalogs}
+                                        >
+                                          {chevronDownIcon()}
+                                        </span>
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() =>
+                                          handleCollapse(childItem.id)
+                                        }
+                                        className={styles.buttonsCatalogs}
+                                      >
+                                        Свернуть
+                                        <span
+                                          className={styles.buttonsSpanCatalogs}
+                                        >
+                                          {chevronUpIcon()}
+                                        </span>
+                                      </button>
+                                    ))}
+                                </ul>
+                              );
+                            })}
+                        </div>
+                      );
+                    })}
+                </ul>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

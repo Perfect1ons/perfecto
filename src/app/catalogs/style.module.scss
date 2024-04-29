@@ -3,14 +3,14 @@
   margin: 0 auto;
   margin-top: 20px;
   padding: 0 15px 15px 15px;
-  &__h1 {
-    margin-bottom: 8px;
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 25px;
-    line-height: 120%;
-    color: #212529;
-  }
+}
+.container__h1 {
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 120%;
+  color: #212529;
 }
 .row {
   display: flex;
@@ -26,7 +26,6 @@
   }
 }
 .catalog__lih3 {
-  padding: 5px;
   font-family: var(--font-family);
   font-weight: 500;
   font-size: 16px;
@@ -70,6 +69,21 @@
 .links {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+.subCatalogUL {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.subCatalogLI {
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+}
+.subCatalogsContainerUL {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 @media screen and (max-width: 1200px) {

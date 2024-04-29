@@ -2,12 +2,12 @@ import { getCatalogsProducts, getFiltersBrand } from "@/api/requests";
 import ProductsPage from "../page";
 
 interface Params {
-  params: { id: number };
+  params: { path: string };
 }
 
-export default async function page({ params: { id } }: Params) {
-  const brand = await getFiltersBrand(id);
-  const data = await getCatalogsProducts(id);
+export default async function page({ params: { path } }: Params) {
+  const brand = await getFiltersBrand(path);
+  const data = await getCatalogsProducts(path);
   return (
     <div>
       <ProductsPage product={data} brand={brand} />
