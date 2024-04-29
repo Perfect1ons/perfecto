@@ -11,11 +11,17 @@
   visibility: hidden;
   transition: 0.3s;
 }
+
 .show {
   visibility: visible;
   display: block;
   /* transform: scale(1); */
 }
+
+.childwrap {
+  height: max-content;
+}
+
 @media screen and (max-width: 640px) {
   .modal {
     top: 50px;

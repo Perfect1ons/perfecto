@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
-import Footer from "@/components/Footer/Footer";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
+import Footer from "@/components/Footer/Footer";
+import MobileMenu from "@/components/MobileMenu/MobileMenu";
+
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -24,22 +26,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // запрос на главные каталоги
-  // const catalogs = await getCatalogs();
-  // // const id = catalogs.filter((item) => item.id);
-
-  // // на дочерниe каталоги главных каталогов
-  // const category = await getSubCatalogs(2000000464);
-  // // console.log(category);
-
   return (
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <HeaderWrap />
         <DownloadAppMobile />
-        <div id="portal" />
+        {/* ниже меню для мобильной версии */}
+        <MobileMenu />
         {children}
-        <Footer />
+        <Footer/>
       </body>
     </html>
   );

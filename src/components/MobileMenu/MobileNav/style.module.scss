@@ -1,0 +1,72 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.mobile_menu {
+  display: none;
+  width: 100%;
+  height: auto;
+
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+
+  -webkit-box-shadow: 0px -3px 19px -4px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px -3px 19px -4px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px -3px 19px -4px rgba(0, 0, 0, 0.4);
+
+  background-color: #fff;
+  padding: 5px 0;
+  @media screen and (max-width: 992px) {
+    display: block;
+  }
+}
+
+.ul {
+  @include mixin.flex(null, space-around, row, null);
+
+  border-top: 1px solid #f2f2f2;
+  height: 55px;
+  padding: 8px 0;
+}
+
+.option {
+  @include mixin.flex(center, space-between, column, null);
+
+  user-select: none;
+
+  text-decoration: none;
+  color: #000000;
+}
+
+.option_span {
+  text-decoration: none;
+  color: #000000;
+}
+
+.optionSpan_active {
+  color: #991a4e;
+}
+
+.search_bar {
+  @include mixin.flex(center, space, null, 8px);
+  margin-bottom: 15px;
+}
+
+.search__input {
+  background: #e0e0e0;
+  color: #000000;
+
+  border-radius: 20px;
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.catalog_wrap {
+  margin: 10px 15px 90px;
+}
+
+@media screen and (max-width: 530px) {
+  .option,
+  .mod_hamburger {
+    font-size: 0.8rem;
+  }
+}

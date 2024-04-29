@@ -126,6 +126,7 @@
 .subMenu {
   cursor: pointer;
   flex-direction: column;
+  overflow: hidden;
   gap: 20px;
   padding: 0 5px;
   margin: 10px 1%;

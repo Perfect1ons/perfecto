@@ -2,14 +2,14 @@ import { getCatalogs, getSubCatalogs } from "@/api/requests";
 import AllProducts from "@/components/CatalogComponents/AllProducts/AllProducts";
 import CatalogOptions from "@/components/CatalogComponents/CatalogOptions/CatalogOptions";
 import CatalogPageMain from "@/components/CatalogComponents/CatalogPageName/CatalogPageMain";
-import HeaderCatalog from "@/components/CatalogComponents/HeaderCatalog/HeaderCatalog";
+
 import {
   linksClients,
   linksCompany,
   linksHelp,
   linksPartners,
   linksSocials,
-} from "@/components/Footer/Footer";
+} from "@/components/Footer/FooterSection/FooterSection";
 
 export interface IListItem {
   id: number;
