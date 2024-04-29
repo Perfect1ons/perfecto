@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
-
-import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
@@ -37,7 +35,6 @@ export default async function RootLayout({
   return (
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
-        {/* <Header /> */}
         <HeaderWrap />
         <DownloadAppMobile />
         <div id="portal" />

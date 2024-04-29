@@ -3,6 +3,7 @@
 .header {
   background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
   height: 72px;
+  user-select: none;
   &__container {
     display: flex;
     align-items: center;
@@ -29,13 +30,18 @@
   z-index: 1000;
 }
 
+.catalog_modal {
+  max-height: 42px;
+  height: 42px;
+}
+
 .catalog {
   user-select: none;
   text-decoration: none;
   color: var(--black);
   background: #e6e6e6;
   padding: 10px 10px;
-  height: 40px;
+  height: 100%;
   @include mixin.flex(center, center, null, 10px);
   border-radius: 5px;
   font-weight: 600;
@@ -57,6 +63,8 @@
   cursor: pointer;
   width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
 
   @media screen and (max-width: 992px) {
     display: none;
