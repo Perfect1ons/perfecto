@@ -1,4 +1,4 @@
-@use "../../../assets/scss/common/mixins" as mixin; // Importing mixins from a common SCSS file
+@use "../common/mixins" as mixin; // Importing mixins from a common SCSS file
 
 .showMoreBtn {
   max-width: 200px; // Maximum width of the button
@@ -76,7 +76,7 @@
   }
 }
 .cardItemImg {
-  object-fit: cover;
+  object-fit: cover; //object fit property for image
   border-radius: 5px 5px 0px 0px; // Border radius for the top corners of the image
   @media screen and (max-width: 480px) {
     max-width: 145px; // Maximum width of the image on smaller screens
@@ -215,7 +215,7 @@
       padding-left: 5px; // padding left on mobile screens
     }
   }
-
+}
   .cardItemDeliveryTitle {
     margin-top: 10px; // Margin at the top of the delivery title
     @include mixin.font(
@@ -321,4 +321,4 @@
       outline: 2px solid #991a4e; // Show outline on hover
     }
   }
-}
+
