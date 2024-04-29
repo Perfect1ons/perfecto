@@ -17,7 +17,6 @@ const AllProducts = ({
 
   const handleMouseEnter = (id: number) => {
     getSubCatalogs(id).then((data) => {
-      console.log(data);
     });
   };
 

@@ -38,7 +38,7 @@ export default async function RootLayout({
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         {/* <Header /> */}
-        <HeaderWrap />
+        {/* <HeaderWrap /> */}
         <DownloadAppMobile />
         <div id="portal" />
         {children}

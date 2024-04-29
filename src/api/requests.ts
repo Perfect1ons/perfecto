@@ -13,14 +13,13 @@ import { ICatalogHome } from "@/types/Catalog/catalogsHome";
 import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
+import { INewsByPath } from "@/types/News/NewsById";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
 });
 const maxkgz = ky.create({
   prefixUrl: "https://max.kg/api/",
-  cache: "no-cache",
 });
 
 // export const getBannerData = (): Promise<IBanner> => {
@@ -104,3 +103,8 @@ const getFilterPrice = (
     )
     .json();
 };
+
+
+export const getNewsById = (id: number): Promise<INewsByPath> => {
+  return maxkg.get(`news/${id}`).json();
+}

@@ -13,27 +13,6 @@
   }
 }
 
-.news__buttons_showMore {
-  margin-top: 20px;
-  user-select: none;
-  @include mixin.flex(center, center);
-  @include mixin.button(
-    10px 25px,
-    null,
-    2px solid var(--dark-blue),
-    10px,
-    var(--white),
-    18px,
-    600,
-    var(--dark-blue)
-  );
-  transition: 0.2s ease-out;
-  &:hover {
-    background: var(--dark-blue);
-    color: var(--white);
-  }
-}
-
 .showAll_button {
   display: none;
 
@@ -42,13 +21,6 @@
   }
 }
 
-.sections__title {
-  @include mixin.font(20px, 600, 120%, #424242);
-  text-transform: uppercase;
-
-  margin-bottom: 25px;
-  user-select: none;
-}
 
 //! Показать больше - Показать все кнопки
 
@@ -219,7 +191,7 @@
 }
 
 .category__item_title {
-  @include mixin.font(1rem, 400, 150%, #424242);
+  @include mixin.font(14px, 400, 150%, #424242);
   text-align: center;
   transition: 0.1s ease-in-out;
   user-select: none;

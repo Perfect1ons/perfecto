@@ -1,3 +1,5 @@
+const { hostname } = require("os");
+
 const MAXKG = process.env.PUBLIC_NEXT_API;
 
 module.exports = {
@@ -14,6 +16,10 @@ module.exports = {
       {
         protocol: "https",
         hostname: "goods-photos.static1-sima-land.com",
+      },
+      {
+        protocol: "https",
+        hostname: "megabike74.ru",
       },
     ],
   },
