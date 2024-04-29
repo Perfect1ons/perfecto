@@ -60,45 +60,47 @@ const TodayBoughtsSection = ({ boughts }: ITodayBoughtsSectionProps) => {
                   <Image
                     className="cardItemImg"
                     src={imageUrl}
-                    width={230}
+                    width={256}
                     height={230}
                     alt={item.naim}
                   />
-                  <div className="cardItemPrices">
-                    <p
-                      className={`cardItemPrice ${
-                        item.old_price !== item.price ? "priceWithOld" : ""
-                      }`}
-                    >
-                      {formatNumber(item.old_price)} с
-                    </p>
-                    {item.old_price !== item.price && (
-                      <>
-                        <p className="cardItemOldPrice">
-                          {formatNumber(item.old_price)} с
-                        </p>
-                      </>
-                    )}
-                  </div>
-                  <p className="cardItemName">{item.naim}</p>
-                  <div className="cardItemDelivery">
-                    <DeliveryIcon />
-                    <p className="cardItemDeliveryTitle">{item.ddos}</p>
-                  </div>
-                  <div className="cardItemBtns">
-                    <div className="cardItemBtnsContainer">
-                      <button className="cardItemBtnsAddBucket">
-                        В корзину
-                      </button>
-                      <div
-                        className="hearthIcon"
-                        onClick={() => toggleLike(item.id)}
+                <div className="cardItemInfo">
+                    <div className="cardItemPrices">
+                      <p
+                        className={`cardItemPrice ${
+                          item.old_price !== item.price ? "priceWithOld" : ""
+                        }`}
                       >
-                        {likedItems[item.id] ? (
-                          <HearthIconRed />
-                        ) : (
-                          <HearthIcon />
-                        )}
+                        {formatNumber(item.old_price)} с
+                      </p>
+                      {item.old_price !== item.price && (
+                        <>
+                          <p className="cardItemOldPrice">
+                            {formatNumber(item.old_price)} с
+                          </p>
+                        </>
+                      )}
+                    </div>
+                    <p className="cardItemName">{item.naim}</p>
+                    <div className="cardItemDelivery">
+                      <DeliveryIcon />
+                      <p className="cardItemDeliveryTitle">{item.ddos}</p>
+                    </div>
+                    <div className="cardItemBtns">
+                      <div className="cardItemBtnsContainer">
+                        <button className="cardItemBtnsAddBucket">
+                          В корзину
+                        </button>
+                        <div
+                          className="hearthIcon"
+                          onClick={() => toggleLike(item.id)}
+                        >
+                          {likedItems[item.id] ? (
+                            <HearthIconRed />
+                          ) : (
+                            <HearthIcon />
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
