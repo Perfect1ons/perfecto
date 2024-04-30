@@ -15,6 +15,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
 import { INewsByPath } from "@/types/News/NewsById";
+import { ITruncate } from "@/types/truncatedText";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -111,9 +112,9 @@ export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
 }
 
-// export const getFooterPages = (): Promise<> => {
-//   return maxkg.get("").json();
-// }
+export const getFooterPages = (): Promise<ITruncate> => {
+  return maxkg.get("site/get-page?url=o-kompanii").json();
+}
 
 export const getNewsById = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}`).json();
