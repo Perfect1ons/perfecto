@@ -2,7 +2,7 @@
 import styles from "./style.module.scss";
 import cn from "clsx";
 import TextTruncate from "../../UI/TruncatedText/TruncatedText";
-import { IFooterItem } from "@/types/footerRequest";
+import { IFooter, IFooterItem } from "@/types/footerRequest";
 import { useEffect, useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import Image from "next/image";

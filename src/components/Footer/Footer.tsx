@@ -2,9 +2,9 @@ import { getFooter } from "@/api/requests";
 import FooterSection from "./FooterSection/FooterSection";
 
 export default async function Footer() {
-    const footerData = getFooter();
+    const footerData = await getFooter();
+    
     return(
-        <></>
-        // <FooterSection links={footerData}/>
+        <FooterSection links={footerData}/>
     )
 }
