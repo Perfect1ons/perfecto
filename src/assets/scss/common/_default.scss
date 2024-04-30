@@ -4,6 +4,20 @@
   @include reset-all-styles;
 }
 
+body{
+  &::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--light-gray); /* Цвет фона скроллбара */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-blue); /* Красный цвет ползунка скроллбара */
+  }
+}
+
 .container {
   @include container(1440px);
   padding: 0 15px;
@@ -209,6 +223,9 @@
 .default__showMore_title {
   @include mixin.font(18px, 500, 120%, #212529);
   margin-top: 20px;
+  @media screen and (max-width:480px) {
+    margin-top: 10px;
+  }
 }
 
 //! Стиль тайтла карточки новости на странице новости
@@ -226,6 +243,10 @@
 .all__directions {
   @include mixin.flex(center, flex-start, null, 10px);
   margin-top: 20px;
+  padding-bottom: 10px;
+  overflow-x: auto; /* Добавлено для горизонтального скролла */
+  overflow-y: hidden; /* Скрытие вертикального скроллбара, если он не нужен */
+  
   &_link {
     @include mixin.font(16px, 400, 150%, var(--gray-dark));
     cursor: pointer;
@@ -234,6 +255,8 @@
     border-radius: 5px;
     transition: 0.2s ease-in;
     text-decoration: none;
+    white-space: nowrap; /* Запрет переноса строк для ссылок */
+    
     &:hover {
       color: var(--white);
       background: var(--dark-blue);
@@ -244,4 +267,17 @@
     background: var(--dark-blue);
     color: var(--white);
   }
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--light-gray); /* Цвет фона скроллбара */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-blue); /* Красный цвет ползунка скроллбара */
+    border-radius: 5px; /* Закругленные края ползунка */
+  }
 }
+

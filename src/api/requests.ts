@@ -15,6 +15,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
 import { INewsByPath } from "@/types/News/NewsById";
+import { IPromoById } from "@/types/Promo/PromoById";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -115,6 +116,26 @@ export const getFooter = (): Promise<IFooter> => {
 //   return maxkg.get("").json();
 // }
 
-export const getNewsById = (id: number): Promise<INewsByPath> => {
-  return maxkg.get(`news/${id}`).json();
+export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
+  return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
 }
+
+export const getNewsByIdTwo = (id: number): Promise<INewsByPath> => {
+  return maxkg.get(`news/${id}?pageSize=20&page=2`).json();
+};
+
+export const getNewsByIdThree = (id: number): Promise<INewsByPath> => {
+  return maxkg.get(`news/${id}?pageSize=20&page=3`).json();
+};
+
+export const getPromoByIdOne = (id: number): Promise<IPromoById> => {
+  return maxkg.get(`ak/${id}?pageSize=20&page=1`).json();
+}
+
+export const getPromoByIdTwo = (id: number): Promise<IPromoById> => {
+  return maxkg.get(`ak/${id}?pageSize=20&page=2`).json();
+};
+
+export const getPromoByIdThree = (id: number): Promise<IPromoById> => {
+  return maxkg.get(`ak/${id}?pageSize=20&page=3`).json();
+};

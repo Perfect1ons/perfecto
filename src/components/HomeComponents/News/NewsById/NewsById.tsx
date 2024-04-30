@@ -27,7 +27,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
   };
 
     return (
-      <section className="">
+      <section className="news__by_path">
         <div className="container">
           <div className="all__directions">
             <Link href={"/"} className="all__directions_link">
@@ -86,14 +86,10 @@ const NewsById = ({news, main}: INewsByIdProps) => {
               </div>
             </div>
           </div>
-          <div className={styles.main__news_cards}>
-            {
-                news.map((item, index) => {
-                    return(
-                        <NewsCards newData={item} key={index}/>
-                    )
-                })
-            }
+          <div className="main__news_cards">
+            {news.map((item, index) => {
+              return <NewsCards newData={item} key={index} />;
+            })}
           </div>
         </div>
       </section>
