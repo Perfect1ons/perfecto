@@ -1,5 +1,5 @@
 "use client";
-import { ICatalogMenu, N29879 } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
 import { useState } from "react";
 import cn from "clsx";
@@ -83,7 +83,11 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
             return a.sort_menu - b.sort_menu;
           })
           .map((item) => {
-            const childLevel2 = Object.values(item.child_level2);
+            const childLevel2 = Object.values(item.child_level2).sort(
+              (a, b) => {
+                return a.sort_menu - b.sort_menu;
+              }
+            );
             return (
               <div
                 key={item.id}
@@ -101,6 +105,9 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                 {/* Отображение подкатегорий второго уровня */}
                 <ul className={styles.category__ul}>
                   {[...Array(3)]
+                    .map((_, index) => ({
+                      sort_menu: index + 1, // Пример значения sort_menu для каждого элемента
+                    }))
                     .sort((a, b) => {
                       return a.sort_menu - b.sort_menu;
                     })
@@ -123,8 +130,15 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                               const isExpanded =
                                 showMoreCategories[childItem.id] || false;
                               // Проверка, раскрыты ли дополнительные подкатегории
-                              const childCatLevel3Keys =
-                                Object.keys(childCatLevel3);
+                              const childCatLevel3Keys = Object.keys(
+                                childCatLevel3
+                              ).sort((a, b) => {
+                                // Убедитесь, что 'a' и 'b' определены
+                                return (
+                                  (childCatLevel3[a]?.sort_menu || 0) -
+                                  (childCatLevel3[b]?.sort_menu || 0)
+                                );
+                              });
                               const remainingItems =
                                 childCatLevel3Keys?.length - 5;
                               return (
@@ -160,6 +174,13 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                   </li>
                                   {childCatLevel3Keys
                                     .slice(0, isExpanded ? undefined : 5)
+                                    .sort((a, b) => {
+                                      // Убедитесь, что 'a' и 'b' определены
+                                      return (
+                                        (childCatLevel3[a]?.sort_menu || 0) -
+                                        (childCatLevel3[b]?.sort_menu || 0)
+                                      );
+                                    })
                                     .map((key) => (
                                       <li
                                         key={childCatLevel3[key]?.id}

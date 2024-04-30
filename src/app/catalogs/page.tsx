@@ -1,7 +1,6 @@
 "use client";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
-import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -89,7 +88,7 @@ const Catalogs = ({ catalog, path }: IProps) => {
             {filteredCatalogs.map((catalog) => {
               const childLevel2 = Object.values(catalog.child_level2);
               return (
-                <div>
+                <div key={catalog.id}>
                   <ul className={styles.subCatalogsContainerUL}>
                     {childLevel2
                       .sort((a, b) => {
@@ -151,7 +150,7 @@ const Catalogs = ({ catalog, path }: IProps) => {
             {filteredCatalogs.map((catalog) => {
               const childLevel2 = Object.values(catalog.child_level2);
               return (
-                <div className={styles.row__9}>
+                <div className={styles.row__9} key={catalog.id}>
                   {childLevel2
                     .sort((a, b) => {
                       return a.sort_menu - b.sort_menu;
@@ -159,6 +158,7 @@ const Catalogs = ({ catalog, path }: IProps) => {
                     .map((item) => {
                       return (
                         <div
+                          key={item.id}
                           className={styles.row__9li}
                           onClick={() => {
                             if (childLevel2?.child_cat_level3) {
