@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import TextTruncate from "../../UI/TruncatedText/TruncatedText";
@@ -168,9 +168,7 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                 onClick={openToggler}
                 className={styles.footerNavItemTitleContainer}
               >
-                <h6 className={styles.footerNavItemTitle}>
-                  {item.name}
-                </h6>
+                <h6 className={styles.footerNavItemTitle}>{item.name}</h6>
                 <Image
                   className={cn(
                     styles.footerNavItemArrowIsActive,
@@ -189,13 +187,10 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                 )}
               >
                 {links.map((podItem) => {
-                  const url = `/page/${podItem.pod_menu[4]}`
+                  const url = `/page/${podItem.pod_menu[4]}`;
                   return (
                     <div key={podItem.id} className={styles.footerNavItemLinks}>
-                      <Link
-                        className={styles.footerNavItemLink}
-                        href={url}
-                      >
+                      <Link className={styles.footerNavItemLink} href="/">
                         {}
                       </Link>
                     </div>

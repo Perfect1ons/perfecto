@@ -10,6 +10,7 @@ import {
   chevronDownIcon,
   chevronUpIcon,
 } from "../../../../public/Icons/Icons";
+import Link from "next/link";
 
 interface IProps {
   catalog: ICatalogMenu;
@@ -48,7 +49,14 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
   // для роутинга
   const router = useRouter();
   const handleClick = (path: string) => {
-    router.push(`catalogs/${path}`);
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
+    close();
+  };
+  const goToCatalog = (path: string) => {
+    // Проверяем, содержит ли путь уже "/catalog/".
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
     close();
   };
 
@@ -148,27 +156,30 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                 >
                                   <li
                                     className={styles.category__li__h3}
-                                    onClick={() => {
-                                      if (childItem.child_cat_level3) {
-                                        const childCatLevel3Keys = Object.keys(
-                                          childItem.child_cat_level3
-                                        );
-                                        if (childCatLevel3Keys.length > 0) {
-                                          router.push(
-                                            `catalogs/${childItem.full_slug}`
-                                          );
-                                        } else {
-                                          router.push(
-                                            `catalogs/products/${childItem.full_slug}`
-                                          );
-                                        }
-                                      } else {
-                                        router.push(
-                                          `catalogs/products/${childItem.full_slug}`
-                                        );
-                                      }
-                                      close();
-                                    }}
+                                    onClick={() =>
+                                      handleClick(childItem.full_slug)
+                                    }
+                                    // onClick={() => {
+                                    //   if (childItem.child_cat_level3) {
+                                    //     const childCatLevel3Keys = Object.keys(
+                                    //       childItem.child_cat_level3
+                                    //     );
+                                    //     if (childCatLevel3Keys.length > 0) {
+                                    //       router.push(
+                                    //         `catalogs/${childItem.full_slug}`
+                                    //       );
+                                    //     } else {
+                                    //       router.push(
+                                    //         `catalogs/products/${childItem.full_slug}`
+                                    //       );
+                                    //     }
+                                    //   } else {
+                                    //     router.push(
+                                    //       `catalogs/products/${childItem.full_slug}`
+                                    //     );
+                                    //   }
+                                    //   close();
+                                    // }}
                                   >
                                     {childItem.name}
                                   </li>
@@ -185,34 +196,34 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                       <li
                                         key={childCatLevel3[key]?.id}
                                         className={styles.subCatalogsUl__li}
-                                        onClick={() => {
-                                          if (
-                                            childCatLevel3[key]
-                                              ?.child_cat_level3
-                                          ) {
-                                            const childCatLevel3Keyss =
-                                              Object.keys(
-                                                childCatLevel3[key]
-                                                  ?.child_cat_level3
-                                              );
-                                            if (
-                                              childCatLevel3Keyss.length > 0
-                                            ) {
-                                              router.push(
-                                                `catalogs/${childCatLevel3[key]?.full_slug}`
-                                              );
-                                            } else {
-                                              router.push(
-                                                `catalogs/products/${childCatLevel3[key]?.full_slug}`
-                                              );
-                                            }
-                                          } else {
-                                            router.push(
-                                              `catalogs/products/${childCatLevel3[key]?.full_slug}`
-                                            );
-                                          }
-                                          close();
-                                        }}
+                                        // onClick={() => {
+                                        //   if (
+                                        //     childCatLevel3[key]
+                                        //       ?.child_cat_level3
+                                        //   ) {
+                                        //     const childCatLevel3Keyss =
+                                        //       Object.keys(
+                                        //         childCatLevel3[key]
+                                        //           ?.child_cat_level3
+                                        //       );
+                                        //     if (
+                                        //       childCatLevel3Keyss.length > 0
+                                        //     ) {
+                                        //       router.push(
+                                        //         `catalog/${childCatLevel3[key]?.full_slug}`
+                                        //       );
+                                        //     } else {
+                                        //       router.push(
+                                        //         `catalog/products/${childCatLevel3[key]?.full_slug}`
+                                        //       );
+                                        //     }
+                                        //   } else {
+                                        //     router.push(
+                                        //       `catalogs/products/${childCatLevel3[key]?.full_slug}`
+                                        //     );
+                                        //   }
+                                        //   close();
+                                        // }}
                                       >
                                         {childCatLevel3[key]?.name}
                                       </li>
