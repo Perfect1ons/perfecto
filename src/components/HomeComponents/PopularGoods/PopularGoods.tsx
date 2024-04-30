@@ -14,7 +14,6 @@ interface IPopularGoodsProps {
 export default function PopularGoods({ pageOne, pageTwo, pageThree }: IPopularGoodsProps) {
   const [page, setPage] = useState(1);
   const router = useRouter();
-console.log(pageOne);
 
   const handleShowMore = () => {
     const nextPage = page + 1;
@@ -30,14 +29,13 @@ console.log(pageOne);
         <div className="cardContainer">
           <h2 className="sections__title">Популярные товары</h2>
           <PopularGoodsSection goods={pageOne} />
-          {
-            page >= 2 && <PopularGoodsSection goods={pageTwo} />
-          }
-          {
-            page >= 3 && <PopularGoodsSection goods={pageThree} />
-          }
+          {page >= 2 && <PopularGoodsSection goods={pageTwo} />}
+          {page >= 3 && <PopularGoodsSection goods={pageThree} />}
           <div className="showMoreBtn">
-            <button className="news__buttons_showMore" onClick={handleShowMore}>
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowMore}
+            >
               {page < 3 ? "Показать еще" : "Показать все"}
             </button>
           </div>
