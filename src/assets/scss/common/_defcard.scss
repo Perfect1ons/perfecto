@@ -21,7 +21,7 @@
         @media screen and (max-width: 640px) {
             grid-template-columns: repeat(2,1fr);
             gap: 10px;
-            background: #f2f2f2;
+            background: var(--gray-white);
             padding: 10px;
             border-radius: 15px;
         }
@@ -44,8 +44,13 @@
     border-radius: 10px;
     width: 100%;
     @include mixin.flex(flex-start,center,column);
+    transition: all 0.3s ease;
     &:hover{
-        box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); // Box shadow on hover
+        box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
+
+        .default__card_name{
+            color: var(--gray-dark);
+        }
     }
     &_images{
         max-width: 100%;
@@ -91,15 +96,15 @@
     }
 
     &_name{
-        @include mixin.font(14px,400,100%,#62656a);
+        @include mixin.font(14px,400,100%,var(--gray-dark));
         max-height: 28px;
         overflow: hidden;
     }
 
     &_info{
         padding: 10px 10px;
-        @include mixin.flex(flex-start,space-between,column);
-        min-height: 190px;
+        @include mixin.flex(flex-start,space-between,column,10px);
+        min-height: 210px;
         width: 100%;
 
         @media screen and (max-width: 480px) {
@@ -109,6 +114,7 @@
             min-height: 165px;
         }
     }
+
 }
 
 .add__to{
@@ -140,8 +146,8 @@
     }
 
     &_fav{
-        background: #f6f6f6;
-        border: 2px solid #f6f6f6;
+        background: var(--gray-white);
+        border: 2px solid var(--gray-white);
         padding: 10px; 
         cursor: pointer;
         border-radius: 5px;
@@ -165,7 +171,7 @@
 
 .ddos{
     @include mixin.flex(center,center,null, 5px);
-    @include mixin.font(14px,400,100%,#0c54a1);
+    @include mixin.font(14px,400,100%,var(--light-blue));
 
     &__icon{
         width: 20px;

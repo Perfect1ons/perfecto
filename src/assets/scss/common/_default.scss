@@ -7,14 +7,19 @@
 body{
   &::-webkit-scrollbar {
     width: 7px;
+    position: relative;
   }
 
   &::-webkit-scrollbar-track {
     background: var(--light-gray); /* Цвет фона скроллбара */
+    position: relative;
+
+    
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--dark-blue); /* Красный цвет ползунка скроллбара */
+    background: var(--dark-blue); 
+    position: relative;
   }
 }
 
@@ -65,7 +70,7 @@ body{
 
 //! Названия категорий которые указываем в секциях
 .sections__title {
-  @include mixin.font(20px, 600, 120%, #424242);
+  @include mixin.font(20px, 600, 120%, var(--gray-dark));
   text-transform: uppercase;
   margin-bottom: 25px;
   user-select: none;
@@ -106,7 +111,7 @@ body{
     @include mixin.font(16px, 600, 143%, var(--dark-blue));
     @include mixin.flex(center, center);
     cursor: pointer;
-    border: 1px solid #ddd;
+    border: 1px solid var(--secondary-white);
     padding: 10px 17px;
 
     border-radius: 5px;
@@ -142,7 +147,7 @@ body{
 
     &_disactive {
       background-color: var(--secondary);
-      border: 1px solid #ddd;
+      border: 1px solid var(--secondary-white);
       cursor: not-allowed;
 
       &:hover {
@@ -204,7 +209,7 @@ body{
 }
 
 .category__item_title {
-  @include mixin.font(14px, 400, 150%, #424242);
+  @include mixin.font(14px, 400, 150%, var(--gray-dark));
   text-align: center;
   transition: 0.1s ease-in-out;
   user-select: none;
@@ -221,7 +226,7 @@ body{
 
 //! Стиль тайтла страниц когда нажимаешь показать все
 .default__showMore_title {
-  @include mixin.font(18px, 500, 120%, #212529);
+  @include mixin.font(18px, 500, 120%, var(--dark));
   margin-top: 20px;
   @media screen and (max-width:480px) {
     margin-top: 10px;

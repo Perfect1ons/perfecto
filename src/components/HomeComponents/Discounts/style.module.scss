@@ -35,7 +35,7 @@
   transition: box-shadow 0.2s ease;
 
   &:hover {
-      box-shadow: 0px 0px 6px 3px rgba(34, 60, 80, 0.2);
+    box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
     .discount__item_title{
       color: var(--violet)
     }
@@ -47,7 +47,7 @@
 }
 .discount__card_images {
   @include mixin.flex(null,center);
-  background-color: white; 
+  background-color: var(--white); 
   border-radius: 10px;
     @media screen and (max-width: 992px) {
     max-height: 165px;
@@ -94,7 +94,7 @@
 }
 
 .discount__item_title {
-  @include mixin.font(18px,500,120%,#484848);
+  @include mixin.font(18px,500,120%,var(--gray-dark));
   max-width: 100%;
     @media screen and (max-width: 1200px) {
       font-size: 16px;
