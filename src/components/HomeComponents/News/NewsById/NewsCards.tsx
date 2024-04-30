@@ -1,6 +1,6 @@
 "use client"
+import { useState, useEffect } from "react";
 import { NewsResult } from "@/types/News/NewsById";
-import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import {
@@ -10,7 +10,6 @@ import {
   VioletFavoritesIcon,
   YellowStar,
 } from "../../../../../public/Icons/Icons";
-import { useState, useEffect } from "react";
 import cn from "clsx";
 
 interface INewDataProps {
@@ -23,21 +22,27 @@ const NewsCards = ({ newData }: INewDataProps) => {
       ? `${url}nal/img/${newData.id_post}/l_${newData.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
-  // Создаем состояние для хранения оценки
   const [rating, setRating] = useState(0);
 
-  // Создаем состояние для хранения значения избранного
+  // Проверяем, доступен ли localStorage (только на клиентской стороне)
+  const isLocalStorageAvailable =
+    typeof window !== "undefined" && window.localStorage;
+
+  // Используем localStorage только если он доступен
   const [isFavorite, setIsFavorite] = useState(
-    localStorage.getItem(newData.id.toString()) === "true"
+    isLocalStorageAvailable &&
+      localStorage.getItem(newData.id.toString()) === "true"
   );
 
-const handleFavoriteClick = () => {
-  setIsFavorite((prevIsFavorite) => {
-    const newIsFavorite = !prevIsFavorite;
-    localStorage.setItem(newData.id.toString(), newIsFavorite.toString());
-    return newIsFavorite;
-  });
-};
+  const handleFavoriteClick = () => {
+    setIsFavorite((prevIsFavorite) => {
+      const newIsFavorite = !prevIsFavorite;
+      if (isLocalStorageAvailable) {
+        localStorage.setItem(newData.id.toString(), newIsFavorite.toString());
+      }
+      return newIsFavorite;
+    });
+  };
 
   useEffect(() => {
     setRating(Math.floor(newData.ocenka));
@@ -107,4 +112,5 @@ const handleFavoriteClick = () => {
 };
 
 export default NewsCards;
+
 

@@ -11,7 +11,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
     <div className={styles.grid}>
       {catalog.map((item) => {
         return (
-          <div className={styles.grid_item}>
+          <div className={styles.grid_item} key={item.id}>
             <div className={styles.item_title}>
               <span key={item.name}>{item.name}</span>
             </div>

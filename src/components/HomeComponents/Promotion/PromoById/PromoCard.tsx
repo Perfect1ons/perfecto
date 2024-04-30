@@ -1,5 +1,6 @@
 "use client";
-import styles from "./style.module.scss";
+import { useState, useEffect } from "react";
+import { IPromoProduct } from "@/types/Promo/PromoById";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import {
@@ -9,9 +10,7 @@ import {
   VioletFavoritesIcon,
   YellowStar,
 } from "../../../../../public/Icons/Icons";
-import { useState, useEffect } from "react";
 import cn from "clsx";
-import { IPromoProduct } from "@/types/Promo/PromoById";
 
 interface INewDataProps {
   promo: IPromoProduct;
@@ -25,17 +24,26 @@ const PromoCards = ({ promo }: INewDataProps) => {
 
   const [rating, setRating] = useState(0);
 
+  // Проверяем, доступен ли localStorage (только на клиентской стороне)
+  const isLocalStorageAvailable =
+    typeof window !== "undefined" && window.localStorage;
+
+  // Используем localStorage только если он доступен
   const [isFavorite, setIsFavorite] = useState(
-    localStorage.getItem(promo.id.toString()) === "true"
+    isLocalStorageAvailable &&
+      localStorage.getItem(promo.id.toString()) === "true"
   );
 
   const handleFavoriteClick = () => {
     setIsFavorite((prevIsFavorite) => {
       const newIsFavorite = !prevIsFavorite;
-      localStorage.setItem(promo.id.toString(), newIsFavorite.toString());
+      if (isLocalStorageAvailable) {
+        localStorage.setItem(promo.id.toString(), newIsFavorite.toString());
+      }
       return newIsFavorite;
     });
   };
+
   useEffect(() => {
     setRating(Math.floor(promo.ocenka));
   }, [promo.ocenka]);
