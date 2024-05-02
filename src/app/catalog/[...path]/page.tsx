@@ -16,8 +16,8 @@ export default async function page({ params: { path } }: Params) {
       fullPath = path;
     }
     try {
-      // const catalogs = await getCatalogsMenu();
-      const catalogs = await getCatalogsProducts(fullPath);
+      const catalogs = await getCatalogsMenu();
+      // const catalogs = await getCatalogsProducts(fullPath);
       return (
         <div>
           <Catalogs catalog={catalogs} path={fullPath} />

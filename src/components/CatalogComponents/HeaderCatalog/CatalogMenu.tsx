@@ -85,7 +85,6 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
         })}
       </div>
       <div className={styles.catalogs__9}>
-        {/* Отображение подменю для каждой категории  */}
         {catalog
           .sort((a, b) => {
             return a.sort_menu - b.sort_menu;
@@ -110,7 +109,6 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                 >
                   {item.name}
                 </h2>
-                {/* Отображение подкатегорий второго уровня */}
                 <ul className={styles.category__ul}>
                   {[...Array(3)]
                     .map((_, index) => ({
