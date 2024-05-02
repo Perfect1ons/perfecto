@@ -122,6 +122,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                             key={childItem.id}
                             className={styles.itemConteinerUL}
                           >
+                            {/*  */}
                             <li
                               className={styles.category__li__h3}
                               onClick={() => {
@@ -146,6 +147,9 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                             >
                               {childItem.name}
                             </li>
+                            {/*  */}
+
+                            {/*  */}
                             {childCatLevel3Keys
                               .slice(0, isExpanded ? undefined : 5)
                               .map((key) => (
@@ -177,6 +181,9 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                   {childCatLevel3[key]?.name}
                                 </li>
                               ))}
+                            {/*  */}
+
+                            {/*  */}
                             {childCatLevel3Keys.length > 5 &&
                               (!isExpanded ? (
                                 <button
@@ -199,6 +206,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                   </span>
                                 </button>
                               ))}
+                            {/*  */}
                           </ul>
                         );
                       })}
