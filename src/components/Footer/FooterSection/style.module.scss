@@ -21,6 +21,8 @@
     @include mixin.flex(null, null, column, null);
   }
   .footerNavItemTitleContainer {
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
     max-width: 250px;
     @include mixin.flex(center, null, null, 40px);
     @media screen and (max-width: 1200px) {
@@ -63,6 +65,7 @@
   }
   .footerNavItemLink {
       user-select: none;
+      -webkit-tap-highlight-color: transparent;
       padding: 5px 0px;
       display: block;
     @include mixin.link(16px, 400, var(--white));
@@ -98,6 +101,7 @@
     filter: brightness(80%);
 }
 .textTruncate{
+  -webkit-tap-highlight-color: transparent;
     display: none;
     @media screen and (max-width:960px) {
         display: block;
