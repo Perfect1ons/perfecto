@@ -11,6 +11,17 @@ interface IPromoProps {
 
 const Promotion = ({ promotion }: IPromoProps) => {
   const router = useRouter();
+  const [showAll, setShowAll] = useState(false);
+  const [visiblePromotions, setVisiblePromotions] = useState(
+    promotion.slice(0, 6)
+  );
+
+  const handleShowMore = () => {
+    setVisiblePromotions(promotion.slice(0, visiblePromotions.length + 6));
+    if (visiblePromotions.length + 6 >= 12) {
+      setShowAll(true);
+    }
+  };
 
   const handleShowAll = () => {
     router.push("promotions");
@@ -21,10 +32,10 @@ const Promotion = ({ promotion }: IPromoProps) => {
       <div className={"container"}>
         <h1 className="sections__title">Акции</h1>
         <div className={styles.promotion__container}>
-          {promotion.slice(0, 6).map((item) => (
+          {visiblePromotions.map((item) => (
             <div className={styles.promotion__card} key={item.naim}>
               <Image
-                onClick={() => router.push(`https://max.kg/promo/${item.id}`)}
+                onClick={() => router.push(`promotions/${item.id}`)}
                 className={styles.promotion__card_img}
                 src={`https://max.kg/${item.logo}`}
                 width={400}
@@ -35,12 +46,21 @@ const Promotion = ({ promotion }: IPromoProps) => {
           ))}
         </div>
         <div className="default__buttons">
-          <button
-            className="default__buttons_showMore"
-            onClick={handleShowAll}
-          >
-            Показать все
-          </button>
+          {!showAll ? (
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowMore}
+            >
+              Показать ещё
+            </button>
+          ) : (
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowAll}
+            >
+              Показать все
+            </button>
+          )}
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 @use "../../assets/scss/common/mixins" as mixin;
 .app{
-    background: #fff;
+    background: var(--white);
     position: -webkit-sticky;
     position: sticky;
     top: 0;

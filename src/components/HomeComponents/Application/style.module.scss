@@ -40,7 +40,7 @@
 .application__content{
 
     &_title{
-        @include mixin.font(24px,700,150%,#212121);
+        @include mixin.font(24px,700,150%,var(--dark));
         text-align: center;
         @media screen and (max-width: 640px) {
             font-size: 20px;

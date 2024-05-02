@@ -29,7 +29,7 @@ const News = ({ news }: INewProps) => {
           {news.slice(0, shownCount).map((item, index) => (
             <div className={styles.promotion__card} key={index}>
               <Image
-                onClick={() => router.push(`https://max.kg/promo/${item.id}`)}
+                onClick={() => router.push(`news/${item.id}`)}
                 className={styles.promotion__card_img}
                 src={`https://max.kg/${item.logo}`}
                 width={400}

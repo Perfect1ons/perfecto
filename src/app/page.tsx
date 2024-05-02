@@ -62,13 +62,13 @@ export default async function Home() {
     <>
       <Banner />
       <PopularCategory category={popularCategoryData} />
-      <TodayBoughts pageOne={boughtsPageOne.lastz} pageTwo={boughtsPageTwo.lastz} pageThree={boughtsPageThree.lastz}/>
+      {/* <TodayBoughts pageOne={boughtsPageOne.lastz} pageTwo={boughtsPageTwo.lastz} pageThree={boughtsPageThree.lastz}/> */}
       <News news={newsData} />
       <Discounts discounts={discounts} />
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      <PopularGoods pageOne={goodsPageOne} pageTwo={goodsPageTwo} pageThree={goodsPageThree}/>
+      {/* <PopularGoods pageOne={goodsPageOne} pageTwo={goodsPageTwo} pageThree={goodsPageThree}/> */}
       <Application />
     </>
   );

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
-import { NewsResult } from "@/types/News/NewsById";
+import { IPromoProduct } from "@/types/Promo/PromoById";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import {
@@ -13,13 +13,13 @@ import {
 import cn from "clsx";
 
 interface INewDataProps {
-  newData: NewsResult;
+  promo: IPromoProduct;
 }
 
-const NewsCards = ({ newData }: INewDataProps) => {
+const PromoCards = ({ promo }: INewDataProps) => {
   const imageUrl =
-    newData.photos.length > 0
-      ? `${url}nal/img/${newData.id_post}/l_${newData.photos[0].url_part}`
+    promo.photos.length > 0
+      ? `${url}nal/img/${promo.id_post}/l_${promo.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
@@ -31,22 +31,22 @@ const NewsCards = ({ newData }: INewDataProps) => {
   // Используем localStorage только если он доступен
   const [isFavorite, setIsFavorite] = useState(
     isLocalStorageAvailable &&
-      localStorage.getItem(newData.id.toString()) === "true"
+      localStorage.getItem(promo.id.toString()) === "true"
   );
 
   const handleFavoriteClick = () => {
     setIsFavorite((prevIsFavorite) => {
       const newIsFavorite = !prevIsFavorite;
       if (isLocalStorageAvailable) {
-        localStorage.setItem(newData.id.toString(), newIsFavorite.toString());
+        localStorage.setItem(promo.id.toString(), newIsFavorite.toString());
       }
       return newIsFavorite;
     });
   };
 
   useEffect(() => {
-    setRating(Math.floor(newData.ocenka));
-  }, [newData.ocenka]);
+    setRating(Math.floor(promo.ocenka));
+  }, [promo.ocenka]);
 
   return (
     <div className="default__card">
@@ -56,18 +56,19 @@ const NewsCards = ({ newData }: INewDataProps) => {
           src={imageUrl}
           width={200}
           height={200}
-          alt={newData.naim}
+          alt={promo.naim}
           quality={100}
           loading="lazy"
         />
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {newData.cenaok}
+          {promo.cenaok}
           <span className="default__card_price_custom"> с</span>
         </span>
-        <h2 className="default__card_name">{newData.naim}</h2>
+        <h2 className="default__card_name">{promo.naim}</h2>
         <div className="ocenka">
+          {/* Отображение звезд в зависимости от округленной оценки */}
           {[...Array(5)].map((_, index) => (
             <span key={index}>
               {index < rating ? <YellowStar /> : <GrayStar />}
@@ -81,7 +82,7 @@ const NewsCards = ({ newData }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {newData.ddos}
+          {promo.ddos}
         </div>
         <div className="add__to">
           <button
@@ -101,6 +102,7 @@ const NewsCards = ({ newData }: INewDataProps) => {
             })}
             onClick={handleFavoriteClick}
           >
+            {/* Рендерим серые или фиолетовые иконки в зависимости от состояния */}
             <span className="add__to_fav_icon">
               {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
             </span>
@@ -111,6 +113,4 @@ const NewsCards = ({ newData }: INewDataProps) => {
   );
 };
 
-export default NewsCards;
-
-
+export default PromoCards;

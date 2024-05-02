@@ -1,7 +1,7 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
 .header {
-  background: linear-gradient(88.03deg, #112b66 1.19%, #991a4e 97.58%);
+  background: linear-gradient(88.03deg, var(--dark-blue) 1.19%,var(--violet) 97.58%);
   height: 72px;
   user-select: none;
   &__container {
@@ -39,7 +39,7 @@
   user-select: none;
   text-decoration: none;
   color: var(--black);
-  background: #e6e6e6;
+  background: var(--secondary);
   padding: 10px 10px;
   height: 100%;
   @include mixin.flex(center, center, null, 10px);
@@ -51,7 +51,7 @@
   gap: 5px;
 
   &:hover {
-    background: white;
+    background: var(--white);
   }
 
   @media screen and (max-width: 992px) {
@@ -150,7 +150,7 @@
 .hamburger_inner::after {
   width: 20px;
   height: 2px;
-  background-color: black;
+  background-color: var(--black);
   border-radius: 4px;
   position: absolute;
   transition-property: transform;

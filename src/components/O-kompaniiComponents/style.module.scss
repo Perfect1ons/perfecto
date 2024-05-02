@@ -1,0 +1,15 @@
+@use '../../assets/scss/common/mixins' as mixin;
+.aboutCompany{
+    @include mixin.flex(null, center, null, null);
+}
+
+.aboutCompanyInfo{
+    padding: 0px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    @include mixin.flex(center, null, column, 20px);
+}
+.aboutCompanyItem{
+    @include mixin.font(14px, 400, 20px, var(--dark));
+    max-width: 1200px;
+}

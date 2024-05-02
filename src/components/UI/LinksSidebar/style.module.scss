@@ -1,0 +1,35 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.sidebar{
+    user-select: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-width: 200px;
+    padding: 20px;
+    outline: 1px solid var(--super-light-white);
+    border-radius: 10px;
+    @include mixin.flex(null, null, column, 30px);
+}
+.sidebarItem {
+  @include mixin.flex(null, null, column, null);
+}
+.sidebarItemInfoTitle {
+  @include mixin.font(16px, 700, null, var(--gray-dark));
+}
+.sidebarItemLinks {
+  margin-top: 10px;
+  @include mixin.flex(null, null, column, 5px);
+}
+.sidebarItemLinksLink {
+  @include mixin.link(14px, 400, var(--gray-dark));
+  transition: .1s all;
+  &:hover {
+    color: var(--violet)
+  }
+}
+.sidebarItemLinksLinkActive{
+    @include mixin.link(14px, 500, var(--gray-dark));
+    transition: .1s all;
+    &:hover {
+        color: var(--violet)
+      }
+}

@@ -1,14 +1,15 @@
 import {
-  getNewsByIdOne,
-  getNewsByIdThree,
-  getNewsByIdTwo,
+  getPromoByIdOne,
+  getPromoByIdThree,
+  getPromoByIdTwo,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
-import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
+import PromoById from "@/components/HomeComponents/Promotion/PromoById/PromoById";
 
 export async function generateMetadata({ params: { id } }: any) {
-  const data = await getNewsByIdOne(id);
-  const title = data.news.naim;
+  const data = await getPromoByIdOne(id);
+  const title = data.ak.naim;
+  
   return {
     title: title,
   };
@@ -17,20 +18,18 @@ export async function generateMetadata({ params: { id } }: any) {
 export default async function IDPage({ params: { id } }: any) {
   // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
-    getNewsByIdOne(id),
-    getNewsByIdTwo(id),
-    getNewsByIdThree(id),
+    getPromoByIdOne(id),
+    getPromoByIdTwo(id),
+    getPromoByIdThree(id),
   ]);
-
-  
+  ;
 
   // Объединяем данные из всех запросов в один общий массив
-  const result = [dataOne.result, dataTwo.result, dataThree.result].flat();
-  // console.log(result);
-  
+  const result = [dataOne.items, dataTwo.items, dataThree.items].flat();
+
   return (
     <>
-      <NewsById news={result} main={dataOne.news} />
+      <PromoById promo={result} main={dataOne.ak} />
       <Application />
     </>
   );
