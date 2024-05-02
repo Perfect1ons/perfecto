@@ -99,6 +99,9 @@
   @include mixin.font(14px, 400, null, var(--white));
   margin-top: 19.5px;
   filter: brightness(80%);
+  @media screen and (max-width: 992px) {
+    margin-bottom: 55px;
+  }
 }
 .textTruncate {
   display: none;
