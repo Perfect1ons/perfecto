@@ -1,4 +1,4 @@
-import { getFooterPages } from "@/api/requests";
+import { getFooter, getFooterPages } from "@/api/requests";
 import OKompanii from "@/components/O-kompaniiComponents/OKompanii";
 import { Metadata } from "next";
 
@@ -14,10 +14,11 @@ export const metadata: Metadata = {
 export default async function page() {
 
     const aboutCompany = await getFooterPages("o-kompanii");
+    const sidebarLinks = await getFooter();
 
   return (
     <>
-    <OKompanii about={aboutCompany}/>
+    <OKompanii about={aboutCompany} links={sidebarLinks}/>
     </>
   );
 }

@@ -1,16 +1,13 @@
 @use '../../assets/scss/common/mixins' as mixin;
 .aboutCompany{
-    position: relative;
+    @include mixin.flex(null, center, null, null);
 }
-.aboutCompanyLinksBar{
-    position: absolute;
-    left: 0;
-}
+
 .aboutCompanyInfo{
-    padding: 0px 10px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    @include mixin.flex(center, null, column, 15px);
+    padding: 0px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    @include mixin.flex(center, null, column, 20px);
 }
 .aboutCompanyItem{
     @include mixin.font(14px, 400, 20px, var(--dark));
