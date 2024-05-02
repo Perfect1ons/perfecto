@@ -3,6 +3,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 import styles from "./style.module.scss";
 import cn from "clsx";
+import { ChevronLeftIcon } from "../../../../public/Icons/Icons";
 
 interface SubCatalProps {
   open: boolean;
@@ -24,7 +25,12 @@ export default function MobileSubCatalog({
           ? `${cn(styles.sub_catalog_wrap, styles.sub_catalog_wrap_active)}`
           : styles.sub_catalog_wrap
       }
-      onClick={close}
-    ></div>
+    >
+      <div className={styles.menu_wrap} onClick={close}>
+        <div className={styles.icon_wrap}>
+          <ChevronLeftIcon />
+        </div>
+      </div>
+    </div>
   );
 }

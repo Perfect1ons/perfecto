@@ -11,11 +11,13 @@ import {
   AuthIconDark,
   CartIconActive,
   CartIconDark,
+  CatalogSearchIcon,
   FavoritesIconActive,
   FavoritesIconDark,
   HomeIcon,
   HomeIconActive,
   SearchIcon,
+  XMark,
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
@@ -59,6 +61,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
           <MobileCatalog catalog={catalog} />
         </div>
       </MobileModal>
+
       <section className={styles.mobile_menu}>
         <ul className={styles.ul}>
           <Link href="/" className={styles.option}>
@@ -75,21 +78,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
           </Link>
 
           <li className={styles.option} onClick={open}>
-            <button
-              className={cn(
-                styles.mod_hamburger,
-                "hamburger",
-                "hamburger_3dy",
-                {
-                  ["is_active"]: isOpen,
-                }
-              )}
-              type="button"
-            >
-              <span className="hamburger_box">
-                <span className="hamburger_inner"></span>
-              </span>
-            </button>
+            {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
             <span>Каталог</span>
           </li>
 
