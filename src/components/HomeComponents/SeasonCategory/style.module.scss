@@ -19,6 +19,7 @@
 }
 
 .seasonItem{
+    -webkit-tap-highlight-color: transparent;
     padding: 15px 0px;
     border-radius: 5px;
     @include mixin.flex(center, null, column, null );

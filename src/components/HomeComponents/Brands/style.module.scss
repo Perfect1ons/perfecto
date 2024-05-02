@@ -17,6 +17,8 @@
   }
 }
 .brandsItem {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   border-radius: 5px;
   padding: 0px 20px;
   max-width: 230px;

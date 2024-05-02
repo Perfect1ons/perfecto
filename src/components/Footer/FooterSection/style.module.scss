@@ -26,6 +26,7 @@
 }
 .footerNavItemTitleContainer {
   max-width: 250px;
+  -webkit-tap-highlight-color: transparent;
   @include mixin.flex(center, null, null, 40px);
   @media screen and (max-width: 1200px) {
     cursor: pointer;
@@ -66,6 +67,7 @@
   @include mixin.flex(null, null, null, null);
 }
 .footerNavItemLink {
+  -webkit-tap-highlight-color: transparent;
   user-select: none;
   padding: 5px 0px;
   display: block;
@@ -79,6 +81,7 @@
 }
 
 .footerDescBlock {
+  -webkit-tap-highlight-color: transparent;
   margin-top: 40px;
 }
 .footerDescBlockTitle {
