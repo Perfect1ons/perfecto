@@ -5,7 +5,7 @@
     @include mixin.flex(center, space-between, null, 15px); 
     position: relative;
     padding: 10px 25px 10px 0;
-    box-shadow: 0px 2px 4px 0px #999999;
+    box-shadow: 0px 2px 4px 0px var(--light-gray);
 }
 .hidden{
     display: none;
@@ -17,7 +17,7 @@
     left: 5px;
     position: absolute;
     &::before{
-        background: #999;
+        background: var(--light-gray);
         border-radius: 2px;
         content: "";
         display: block;
@@ -29,7 +29,7 @@
         transform: rotate(45deg);
     }
     &::after{
-        background: #999;
+        background: var(--light-gray);
         border-radius: 2px;
         content: "";
         display: block;
@@ -55,10 +55,10 @@ margin-left: 50px;
     @include mixin.flex(null, center, column, 5px);
 }
 .appBannerInfoTextDesc{
-    @include mixin.font(0.9375rem, 300, null, #999999);
+    @include mixin.font(0.9375rem, 300, null, var(--light-gray));
 }
 .appBannerInfoTextTitle{
-    @include mixin.font(1.25rem, 500, null, #000);
+    @include mixin.font(1.25rem, 500, null, var(--black));
 }
 .appBannerOpenBtn{
     @include mixin.flex(center, center);
