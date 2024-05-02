@@ -1,0 +1,43 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+
+.main__discount{
+    margin-top: 10px;
+    @include mixin.flex(null,null,null, 15px);
+
+    @media screen and (max-width: 640px) {
+        flex-direction: column;
+    }
+     &_images{
+        max-width: 480px;
+        @media screen and (max-width: 640px) {
+            max-width: 100%;
+        }
+    }
+    &_image{
+        cursor: pointer;
+        object-fit: cover;
+        user-select: none;
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+
+
+
+        @media screen and (max-width: 992px) {
+            width: 380px;
+        }
+        @media screen and (max-width: 640px) {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+    &_data{
+        @include mixin.flex(null,center,column,10px)
+    }
+}
+
+
+
+
+

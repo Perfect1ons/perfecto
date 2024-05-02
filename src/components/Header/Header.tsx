@@ -8,12 +8,25 @@ import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
+import { useRouter } from "next/navigation";
 
-export interface ICatalogProps {
+interface HeaderProps {
   catalog: ICatalogMenu;
 }
 
-const Header = ({ catalog }: ICatalogProps) => {
+const Header: React.FC<HeaderProps> = ({ catalog }) => {
+  const [searchTerm, setSearchTerm] = useState(""); // Состояние для хранения значения поиска
+  const router = useRouter();
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    router.push(`/search=${searchTerm}`); // Переход на страницу поиска с параметрами
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
@@ -28,10 +41,6 @@ const Header = ({ catalog }: ICatalogProps) => {
           <CatalogMenu catalog={catalog} close={open} />
         </Modal>
         <div className={styles.header__container_form}>
-          {/* <Link className={styles.catalog} href={"/catalog"}>
-            Каталог
-          </Link> */}
-
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
@@ -49,24 +58,28 @@ const Header = ({ catalog }: ICatalogProps) => {
           </div>
 
           <div className={styles.search}>
-            <input
-              placeholder="Искать товары и категории"
-              type="text"
-              id="searchInput"
-              className={styles.search__input}
-            />
-            <label htmlFor="searchInput" className={styles.search__icon}>
-              <SearchIcon />
-            </label>
+            <form onSubmit={handleSearchSubmit} className={styles.search__form}>
+              <input
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Искать товары и категории"
+                type="text"
+                id="searchInput"
+                className={styles.search__input}
+              />
+              <button type="submit" className={styles.search__icon}>
+                <SearchIcon />
+              </button>
+            </form>
           </div>
-        </div>
 
-        <div className={styles.header__nav}>
-          <HeaderNav />
-        </div>
+          <div className={styles.header__nav}>
+            <HeaderNav />
+          </div>
 
-        <div className={styles.search__white}>
-          <SearchIconWhite />
+          <div className={styles.search__white}>
+            <SearchIconWhite />
+          </div>
         </div>
       </div>
     </header>

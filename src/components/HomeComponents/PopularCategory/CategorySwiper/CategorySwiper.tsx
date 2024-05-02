@@ -79,7 +79,7 @@ export default function CategorySwiper({ category }: ICategory) {
               className="swiper__slide"
             >
               <Image
-                className={styles.swiper__slide_img}
+                className="swiper__slide_img"
                 src={imageUrl}
                 width={93.5}
                 height={93.5}

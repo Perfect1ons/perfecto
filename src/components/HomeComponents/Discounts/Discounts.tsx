@@ -29,7 +29,7 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
         <div className={styles.discount__container}>
           {discounts.slice(0, shownCount).map((item, index) => (
             <div
-              onClick={() => router.push(`discount/${item.promotion_id}`)}
+              onClick={() => router.push(`discounts/${item.promotion_id}`)}
               className={styles.discount__card}
               key={index}
             >

@@ -55,7 +55,7 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
               <DiscountCard
                 key={index}
                 item={item}
-                onClick={() => router.push(`discount/${item.promotion_id}`)}
+                onClick={() => router.push(`discounts/${item.promotion_id}`)}
               />
             ))}
           </div>
