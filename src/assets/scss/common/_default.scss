@@ -34,7 +34,7 @@ body{
 
 .showAll_button {
   display: none;
-
+  -webkit-tap-highlight-color: transparent;
   @media screen and (max-width: 640px) {
     display: block;
   }
@@ -44,6 +44,7 @@ body{
 //! Показать больше - Показать все кнопки
 
 .default__buttons_showMore {
+  -webkit-tap-highlight-color: transparent;
   margin-top: 20px;
   user-select: none;
   @include mixin.flex(center, center);
