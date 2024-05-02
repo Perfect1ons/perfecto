@@ -1,7 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .brands__container {
-  display: flex;
-  flex-direction: column;
+  @include mixin.flex(null, null, column, null );
 }
 
 .brandsContainer {
@@ -18,17 +17,17 @@
   }
 }
 .brandsItem {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
   border-radius: 5px;
   padding: 0px 20px;
   max-width: 230px;
   height: 100px;
   box-shadow: 0 2px 8px 0px rgba(34, 60, 80, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mixin.flex(center, center, null, null );
   cursor: pointer;
   text-decoration: none;
-   @include mixin.font(16px, 600, 21px, #424242);
+   @include mixin.font(16px, 600, 21px, var(--gray-dark));
   text-align: center;
 
   &:hover {

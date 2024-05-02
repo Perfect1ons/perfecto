@@ -1,5 +1,5 @@
 "use client";
-import { ICatalogMenu, N29879 } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
 import { useState } from "react";
 import cn from "clsx";
@@ -10,6 +10,7 @@ import {
   chevronDownIcon,
   chevronUpIcon,
 } from "../../../../public/Icons/Icons";
+import Link from "next/link";
 
 interface IProps {
   catalog: ICatalogMenu;
@@ -48,7 +49,14 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
   // для роутинга
   const router = useRouter();
   const handleClick = (path: string) => {
-    router.push(`catalogs/${path}`);
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
+    close();
+  };
+  const goToCatalog = (path: string) => {
+    // Проверяем, содержит ли путь уже "/catalog/".
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
     close();
   };
 
@@ -77,13 +85,16 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
         })}
       </div>
       <div className={styles.catalogs__9}>
-        {/* Отображение подменю для каждой категории  */}
         {catalog
           .sort((a, b) => {
             return a.sort_menu - b.sort_menu;
           })
           .map((item) => {
-            const childLevel2 = Object.values(item.child_level2);
+            const childLevel2 = Object.values(item.child_level2).sort(
+              (a, b) => {
+                return a.sort_menu - b.sort_menu;
+              }
+            );
             return (
               <div
                 key={item.id}
@@ -98,9 +109,11 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                 >
                   {item.name}
                 </h2>
-                {/* Отображение подкатегорий второго уровня */}
                 <ul className={styles.category__ul}>
                   {[...Array(3)]
+                    .map((_, index) => ({
+                      sort_menu: index + 1, // Пример значения sort_menu для каждого элемента
+                    }))
                     .sort((a, b) => {
                       return a.sort_menu - b.sort_menu;
                     })
@@ -123,8 +136,15 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                               const isExpanded =
                                 showMoreCategories[childItem.id] || false;
                               // Проверка, раскрыты ли дополнительные подкатегории
-                              const childCatLevel3Keys =
-                                Object.keys(childCatLevel3);
+                              const childCatLevel3Keys = Object.keys(
+                                childCatLevel3
+                              ).sort((a, b) => {
+                                // Убедитесь, что 'a' и 'b' определены
+                                return (
+                                  (childCatLevel3[a]?.sort_menu || 0) -
+                                  (childCatLevel3[b]?.sort_menu || 0)
+                                );
+                              });
                               const remainingItems =
                                 childCatLevel3Keys?.length - 5;
                               return (
@@ -134,64 +154,74 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
                                 >
                                   <li
                                     className={styles.category__li__h3}
-                                    onClick={() => {
-                                      if (childItem.child_cat_level3) {
-                                        const childCatLevel3Keys = Object.keys(
-                                          childItem.child_cat_level3
-                                        );
-                                        if (childCatLevel3Keys.length > 0) {
-                                          router.push(
-                                            `catalogs/${childItem.full_slug}`
-                                          );
-                                        } else {
-                                          router.push(
-                                            `catalogs/products/${childItem.full_slug}`
-                                          );
-                                        }
-                                      } else {
-                                        router.push(
-                                          `catalogs/products/${childItem.full_slug}`
-                                        );
-                                      }
-                                      close();
-                                    }}
+                                    onClick={() =>
+                                      handleClick(childItem.full_slug)
+                                    }
+                                    // onClick={() => {
+                                    //   if (childItem.child_cat_level3) {
+                                    //     const childCatLevel3Keys = Object.keys(
+                                    //       childItem.child_cat_level3
+                                    //     );
+                                    //     if (childCatLevel3Keys.length > 0) {
+                                    //       router.push(
+                                    //         `catalogs/${childItem.full_slug}`
+                                    //       );
+                                    //     } else {
+                                    //       router.push(
+                                    //         `catalogs/products/${childItem.full_slug}`
+                                    //       );
+                                    //     }
+                                    //   } else {
+                                    //     router.push(
+                                    //       `catalogs/products/${childItem.full_slug}`
+                                    //     );
+                                    //   }
+                                    //   close();
+                                    // }}
                                   >
                                     {childItem.name}
                                   </li>
                                   {childCatLevel3Keys
                                     .slice(0, isExpanded ? undefined : 5)
+                                    .sort((a, b) => {
+                                      // Убедитесь, что 'a' и 'b' определены
+                                      return (
+                                        (childCatLevel3[a]?.sort_menu || 0) -
+                                        (childCatLevel3[b]?.sort_menu || 0)
+                                      );
+                                    })
                                     .map((key) => (
                                       <li
                                         key={childCatLevel3[key]?.id}
                                         className={styles.subCatalogsUl__li}
-                                        onClick={() => {
-                                          if (
-                                            childCatLevel3[key]
-                                              ?.child_cat_level3
-                                          ) {
-                                            const childCatLevel3Keyss =
-                                              Object.keys(
-                                                childCatLevel3[key]
-                                                  ?.child_cat_level3
-                                              );
-                                            if (
-                                              childCatLevel3Keyss.length > 0
-                                            ) {
-                                              router.push(
-                                                `catalogs/${childCatLevel3[key]?.full_slug}`
-                                              );
-                                            } else {
-                                              router.push(
-                                                `catalogs/products/${childCatLevel3[key]?.full_slug}`
-                                              );
-                                            }
-                                          } else {
-                                            router.push(
-                                              `catalogs/products/${childCatLevel3[key]?.full_slug}`
-                                            );
-                                          }
-                                          close();
-                                        }}
+                                        // onClick={() => {
+                                        //   if (
+                                        //     childCatLevel3[key]
+                                        //       ?.child_cat_level3
+                                        //   ) {
+                                        //     const childCatLevel3Keyss =
+                                        //       Object.keys(
+                                        //         childCatLevel3[key]
+                                        //           ?.child_cat_level3
+                                        //       );
+                                        //     if (
+                                        //       childCatLevel3Keyss.length > 0
+                                        //     ) {
+                                        //       router.push(
+                                        //         `catalog/${childCatLevel3[key]?.full_slug}`
+                                        //       );
+                                        //     } else {
+                                        //       router.push(
+                                        //         `catalog/products/${childCatLevel3[key]?.full_slug}`
+                                        //       );
+                                        //     }
+                                        //   } else {
+                                        //     router.push(
+                                        //       `catalogs/products/${childCatLevel3[key]?.full_slug}`
+                                        //     );
+                                        //   }
+                                        //   close();
+                                        // }}
                                       >
                                         {childCatLevel3[key]?.name}
                                       </li>

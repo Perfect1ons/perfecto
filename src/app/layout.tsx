@@ -6,7 +6,6 @@ import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile"
 import Footer from "@/components/Footer/Footer";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
 
-
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
@@ -33,8 +32,8 @@ export default async function RootLayout({
         <DownloadAppMobile />
         {/* ниже меню для мобильной версии */}
         <MobileMenu />
-        {children}
-        <Footer/>
+        <main id="main">{children}</main>
+        <Footer />
       </body>
     </html>
   );

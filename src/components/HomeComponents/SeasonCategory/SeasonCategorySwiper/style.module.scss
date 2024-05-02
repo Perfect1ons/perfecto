@@ -4,6 +4,7 @@
   }
   
   .swiper__slide {
+    -webkit-tap-highlight-color: transparent;
     cursor: pointer;
     min-height: 170px;
     text-align: center;

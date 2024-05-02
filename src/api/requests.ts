@@ -19,6 +19,7 @@ import { IPromoById } from "@/types/Promo/PromoById";
 import { ITruncate } from "@/types/truncatedText";
 import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
+import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -115,8 +116,10 @@ export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
 }
 
-export const getFooterPages = (): Promise<ITruncate> => {
-  return maxkg.get("site/get-page?url=o-kompanii").json();
+//footer pages request
+
+export const getFooterPages = (url : string): Promise<IFooterPage> => {
+  return maxkg.get(`site/get-page?url=${url}`).json();
 }
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {

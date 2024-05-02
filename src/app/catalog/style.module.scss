@@ -1,6 +1,7 @@
+@use "../../assets/scss/common/mixins" as mixin;
+
 .container {
-  width: 80%;
-  margin: 0 auto;
+  @include mixin.container(1440px);
   margin-top: 20px;
   padding: 0 15px 15px 15px;
 }
@@ -15,8 +16,7 @@
 .row {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  gap: 30px;
+  gap: 50px;
   &__9 {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -33,11 +33,7 @@
   color: #212529;
 }
 .row__9li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
+  @include mixin.flex(center, center, column, 10px);
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
@@ -67,14 +63,10 @@
   padding: 0.75rem 0rem;
 }
 .links {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  @include mixin.flex(center, null, null, 10px);
 }
 .subCatalogUL {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  @include mixin.flex(null, null, column, 5px);
 }
 .subCatalogLI {
   font-weight: 400;
@@ -82,9 +74,13 @@
   color: #000;
 }
 .subCatalogsContainerUL {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  @include mixin.flex(null, null, column, 10px);
+}
+.buttonsCatalogs {
+  @include mixin.flex(center, center, null, 2px);
+  color: #0c54a1;
+  font-size: 12px;
+  cursor: pointer;
 }
 @media screen and (max-width: 1200px) {
   .row__9 {
