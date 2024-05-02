@@ -40,10 +40,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
         {catalog.map((item) => {
           return (
             <div className={styles.grid_wrap} key={item.id}>
-              <div
-                className={styles.grid_item}
-                onClick={() => openAndSetSubCategory(item.id)}
-              >
+              <div className={styles.grid_item} onClick={open}>
                 <div className={styles.item_title}>
                   <span>{item.name}</span>
                 </div>

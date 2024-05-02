@@ -12,18 +12,17 @@ interface SubCatalProps {
   open: boolean;
   close: () => void;
   catalog: ICatalogMenu;
-  activeCategoryId: number | null; // Добавляем activeCategoryId в Props
 }
+// activeCategoryId: number | null; // Добавляем activeCategoryId в Props
 
 export default function MobileSubCatalog({
   open,
   close,
   catalog,
-  activeCategoryId,
 }: SubCatalProps) {
-  const filteredSubCatalogs = activeCategoryId
-    ? catalog.find((cat) => cat.id === activeCategoryId)?.child_level2
-    : null; // Фильтруем подкаталоги по активному categoryId
+  // const filteredSubCatalogs = activeCategoryId
+  //   ? catalog.find((cat) => cat.id === activeCategoryId)?.child_level2
+  //   : null; // Фильтруем подкаталоги по активному categoryId
 
   return (
     <div
