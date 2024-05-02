@@ -113,9 +113,11 @@ export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
 }
 
-export const getFooterPages = (): Promise<ITruncate> => {
-  return maxkg.get("site/get-page?url=o-kompanii").json();
-}
+//footer pges request
+
+// export const getFooterPages = (): Promise<ITruncate> => {
+//   return maxkg.get("site/get-page?url=o-kompanii").json();
+// }
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
