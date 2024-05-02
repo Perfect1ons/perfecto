@@ -6,7 +6,7 @@
 .footerDescBlockTitle {
   user-select: none;
   margin-top: 10px;
-  @include mixin.link(14px, 400, #ffffff);
+  @include mixin.link(14px, 400, var(--white));
   filter: brightness(80%);
   padding-bottom: 20px;
 }
@@ -14,6 +14,6 @@
   padding: 10px 0px;
   user-select: none;
   cursor: pointer;
-  color: #fff;
-  border-bottom: 2px dashed #fff;
+  color: var(--white);
+  border-bottom: 2px dashed var(--white);
 }

@@ -2,7 +2,7 @@
 .footer{
     user-select: none;
     border-radius: 10px 10px 0px 0px;
-    background: linear-gradient(88.03deg, #112B66 1.19%, #991A4E 97.58%);
+    background: linear-gradient(88.03deg, var(--dark-blue) 1.19%, var(--violet) 97.58%);
     padding-bottom: 30px;
     padding-top: 50px;
     height: 100%;
@@ -35,7 +35,7 @@
       display: block;
       padding: 10px 0;
     user-select: none;
-    @include mixin.font(18px, 700, null, #ffffff);
+    @include mixin.font(18px, 700, null, var(--white));
     letter-spacing: 1px;
   }
   .footerNavItemArrowIsActive {
@@ -65,7 +65,7 @@
       user-select: none;
       padding: 5px 0px;
       display: block;
-    @include mixin.link(16px, 400, #ffffff);
+    @include mixin.link(16px, 400, var(--white));
     filter: brightness(80%);
     margin-top: 1px;
     transition: 0.3s all;
@@ -79,7 +79,7 @@
     margin-top: 40px;
 }
 .footerDescBlockTitle{
-    @include mixin.link(14px, 400, #ffffff);
+    @include mixin.link(14px, 400, var(--white));
     filter: brightness(80%);
     @media screen and (max-width:960px) {
         display: none;
@@ -88,12 +88,12 @@
 .footerDescBlockHr{
     margin-top: 20px;
     height: 1px;
-    background: #FFFFFF;
+    background: var(--white);
     filter: brightness(80%);
 }
 .footerDescBlockCOPYRIGHT{
     user-select: none;
-    @include mixin.font(14px, 400, null, #FFFFFF, );
+    @include mixin.font(14px, 400, null, var(--white));
     margin-top: 19.5px;
     filter: brightness(80%);
 }
