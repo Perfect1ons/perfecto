@@ -10,23 +10,18 @@ interface ModalProps {
 }
 
 const Modal = ({ children, isVisible, close }: ModalProps) => {
-  // добавляет выход из модалки через клавишу esc
-  useEffect(() => {
-    const closeOnEscKey = (e: KeyboardEvent) =>
-      e.key === "Escape" ? close() : null;
-    document.body.addEventListener("keydown", closeOnEscKey);
-    return () => {
-      document.body.removeEventListener("keydown", closeOnEscKey);
-    };
-  }, [close]);
-
   // блокирует скролл по странице при открытой модалке
   // useEffect(() => {
-  //   isVisible
-  //     ? (document.body.style.overflow = "hidden")
-  //     : (document.body.style.overflow = "unset");
+  //   const mainElement = document.getElementById("main");
+  //   if (mainElement) {
+  //     mainElement.style.overflow = isVisible ? "hidden" : "unset";
+  //     console.log("there is no void ");
+  //   }
   //   return (): void => {
-  //     document.body.style.overflow = "unset";
+  //     if (mainElement) {
+  //       mainElement.style.overflow = "unset";
+  //       console.log("there is the void");
+  //     }
   //   };
   // }, [isVisible]);
 

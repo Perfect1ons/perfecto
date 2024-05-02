@@ -3,17 +3,10 @@
   top: 70px;
   left: 0;
   width: 100%;
-  height: calc(1145vh);
-  background: rgba(0, 0, 0, 0.8);
+  height: 400vh;
   z-index: 99;
-  transition: 0.15s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-@media screen and (max-width: 640px) {
-  .backDrop {
-    top: 50px;
-  }
+  background: rgb(0, 0, 0);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 1) 0%, rgba(255, 255, 255, 0) 92%);
+  transition: 0.15s;
 }

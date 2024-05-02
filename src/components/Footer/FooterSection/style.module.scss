@@ -1,106 +1,112 @@
-@use '../../../assets/scss/common/mixins' as mixin;
-.footer{
-    user-select: none;
-    border-radius: 10px 10px 0px 0px;
-    background: linear-gradient(88.03deg, var(--dark-blue) 1.19%, var(--violet) 97.58%);
-    padding-bottom: 30px;
-    padding-top: 50px;
-    height: 100%;
+@use "../../../assets/scss/common/mixins" as mixin;
+.footer {
+  user-select: none;
+  border-radius: 10px 10px 0px 0px;
+  background: linear-gradient(
+    88.03deg,
+    var(--dark-blue) 1.19%,
+    var(--violet) 97.58%
+  );
+  padding-bottom: 30px;
+  padding-top: 50px;
+  height: 100%;
 }
-.footerNav{
-    @include mixin.flex(null, space-between, null, 20px);
-    flex-wrap: wrap;
-    @media screen and (max-width: 454px) {
-        @include mixin.flex(null, space-between, null, null);
-    }
-    padding: 0px 10px;
+.footerNav {
+  @include mixin.flex(null, space-between, null, 20px);
+  flex-wrap: wrap;
+  @media screen and (max-width: 454px) {
+    @include mixin.flex(null, space-between, null, null);
+  }
+  padding: 0px 10px;
 }
 .footerNavItem {
-    flex-basis: 200px;
-    flex-grow: 1;
-    @include mixin.flex(null, null, column, null);
+  flex-basis: 200px;
+  flex-grow: 1;
+  @include mixin.flex(null, null, column, null);
+}
+.footerNavItemTitleContainer {
+  max-width: 250px;
+  @include mixin.flex(center, null, null, 40px);
+  @media screen and (max-width: 1200px) {
+    cursor: pointer;
   }
-  .footerNavItemTitleContainer {
-    max-width: 250px;
-    @include mixin.flex(center, null, null, 40px);
-    @media screen and (max-width: 1200px) {
-      cursor: pointer;
-    }
-    @media screen and (max-width: 454px) {
-      @include mixin.flex(center, space-between, null, 40px);
-      max-width: 400px;
-    }
+  @media screen and (max-width: 454px) {
+    @include mixin.flex(center, space-between, null, 40px);
+    max-width: 400px;
   }
-  .footerNavItemTitle {   
-      display: block;
-      padding: 10px 0;
-    user-select: none;
-    @include mixin.font(18px, 700, null, var(--white));
-    letter-spacing: 1px;
+}
+.footerNavItemTitle {
+  display: block;
+  padding: 10px 0;
+  user-select: none;
+  @include mixin.font(18px, 700, null, var(--white));
+  letter-spacing: 1px;
+}
+.footerNavItemArrowIsActive {
+  display: none;
+  user-select: none;
+  transform: rotate(0deg);
+  transition: 0.1s all;
+  @media screen and (max-width: 1200px) {
+    display: block;
   }
-  .footerNavItemArrowIsActive {
+}
+.footerNavItemArrow {
+  transform: rotate(90deg);
+}
+.footerNavItemContainer {
+  @include mixin.flex(null, null, column, 0px);
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+.hidden {
+  display: none;
+}
+.footerNavItemLinks {
+  @include mixin.flex(null, null, null, null);
+}
+.footerNavItemLink {
+  user-select: none;
+  padding: 5px 0px;
+  display: block;
+  @include mixin.link(16px, 400, var(--white));
+  filter: brightness(80%);
+  margin-top: 1px;
+  transition: 0.3s all;
+  &:hover {
+    filter: brightness(100%);
+  }
+}
+
+.footerDescBlock {
+  margin-top: 40px;
+}
+.footerDescBlockTitle {
+  @include mixin.link(14px, 400, var(--white));
+  filter: brightness(80%);
+  @media screen and (max-width: 960px) {
     display: none;
-    user-select: none;
-    transform: rotate(0deg);
-    transition: 0.1s all;
-    @media screen and (max-width: 1200px) {
-      display: block;
-    }
   }
-  .footerNavItemArrow {
-    transform: rotate(90deg);
-  }
-  .footerNavItemContainer {
-    @include mixin.flex(null, null, column, 0px);
-    margin-top: 16px;
-    letter-spacing: 0.5px;
-  }
-  .hidden{
-      display: none;
-  }
-  .footerNavItemLinks{
-      @include mixin.flex(null, null, null, null);
-  }
-  .footerNavItemLink {
-      user-select: none;
-      padding: 5px 0px;
-      display: block;
-    @include mixin.link(16px, 400, var(--white));
-    filter: brightness(80%);
-    margin-top: 1px;
-    transition: 0.3s all;
-    &:hover {
-      filter: brightness(100%);
-    }
-  
-  }
-  
-.footerDescBlock{
-    margin-top: 40px;
 }
-.footerDescBlockTitle{
-    @include mixin.link(14px, 400, var(--white));
-    filter: brightness(80%);
-    @media screen and (max-width:960px) {
-        display: none;
-    }
+.footerDescBlockHr {
+  margin-top: 20px;
+  height: 1px;
+  background: var(--white);
+  filter: brightness(80%);
 }
-.footerDescBlockHr{
-    margin-top: 20px;
-    height: 1px;
-    background: var(--white);
-    filter: brightness(80%);
+.footerDescBlockCOPYRIGHT {
+  user-select: none;
+  @include mixin.font(14px, 400, null, var(--white));
+  margin-top: 19.5px;
+  filter: brightness(80%);
+  @media screen and (max-width: 992px) {
+    margin-bottom: 55px;
+  }
 }
-.footerDescBlockCOPYRIGHT{
-    user-select: none;
-    @include mixin.font(14px, 400, null, var(--white));
-    margin-top: 19.5px;
-    filter: brightness(80%);
-}
-.textTruncate{
-    display: none;
-    @media screen and (max-width:960px) {
-        display: block;
-        cursor: pointer;
-    }
+.textTruncate {
+  display: none;
+  @media screen and (max-width: 960px) {
+    display: block;
+    cursor: pointer;
+  }
 }
