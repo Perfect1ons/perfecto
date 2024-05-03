@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 const Seek = dynamic(() => import("@/components/Seek/Seek"));
 const SeekNotFound = dynamic(() => import("@/components/NotFound/SeekNotFound"));
 
+
+
 export async function generateMetadata({ params: { path } }: any) {
   const decodedPath = decodeURIComponent(path);
   const searchIndex = decodedPath.indexOf("search=");
@@ -14,6 +16,8 @@ export async function generateMetadata({ params: { path } }: any) {
   const title = `${searchData}`;
   return {
     title: title,
+    description:
+      "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   };
 }
 

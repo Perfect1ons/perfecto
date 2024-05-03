@@ -3,6 +3,7 @@ import {
   getBrands,
   getDiscounts,
   getNews,
+  getNewsByLimit,
   getPopularCategory,
   getPopularGoods,
   getPromotion,
@@ -28,7 +29,6 @@ export const metadata: Metadata = {
     "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-  robots: "index,follow",
 };
 
 export default async function Home() {
@@ -42,7 +42,7 @@ export default async function Home() {
   ]);
   const boughtsAll = [boughtsOne.lastz, boughtsTwo.lastz, boughtsThree.lastz].flat();
   // запрос на новости
-  const newsData = await getNews();
+  const newsData = await getNewsByLimit();
   // скидки
   const discounts = await getDiscounts();
   // акции

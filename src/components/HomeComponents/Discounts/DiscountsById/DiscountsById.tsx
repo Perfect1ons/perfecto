@@ -23,7 +23,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          <Link href={"/discounts"} className="all__directions_link">
+          <Link  href={"/discounts"} className="all__directions_link">
             Скидки
           </Link>
           <Link

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";

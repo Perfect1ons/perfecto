@@ -36,6 +36,10 @@ body{
 
 
 //! Показать больше - Показать все кнопки
+.link{
+  text-decoration: none;
+}
+
 .showAll_button {
   display: none;
   -webkit-tap-highlight-color: transparent;
@@ -46,6 +50,7 @@ body{
 
 .default__buttons_showMore {
   -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
   margin-top: 20px;
   user-select: none;
   @include mixin.flex(center, center);
