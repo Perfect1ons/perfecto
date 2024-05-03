@@ -427,8 +427,8 @@ export const ChevronRightIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="icon icon-tabler icon-tabler-chevron-right"
-    width="16"
-    height="16"
+    width="20"
+    height="20"
     viewBox="0 0 25 25"
     strokeWidth="1.8"
     stroke="#777"
