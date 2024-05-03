@@ -11,7 +11,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
 
-  const open = () => {
+  const openOrClose = () => {
     setIsOpen(!isOpen);
   };
 
@@ -24,7 +24,12 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
     setActiveCategoryId(categoryId);
   };
 
-  // для роутинга
+  // передает название выбранного каталога
+  const [selectedCategoryName, setSelectedCategoryName] = useState<
+    string | null
+  >(null);
+
+  // для роутинга (пока не используется)
   // const router = useRouter();
 
   // при нажатии ведет на подкаталоги
@@ -36,11 +41,23 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   return (
     <>
       <div className={styles.grid}>
-        <MobileSubCatalog open={isOpen} close={open} catalog={catalog} />
+        <MobileSubCatalog
+          open={isOpen}
+          close={openOrClose}
+          catalog={catalog}
+          activeCategoryId={activeCategoryId}
+          selectedCategoryName={selectedCategoryName}
+        />
         {catalog.map((item) => {
           return (
             <div className={styles.grid_wrap} key={item.id}>
-              <div className={styles.grid_item} onClick={open}>
+              <div
+                className={styles.grid_item}
+                onClick={() => {
+                  openAndSetSubCategory(item.id);
+                  setSelectedCategoryName(item.name);
+                }}
+              >
                 <div className={styles.item_title}>
                   <span>{item.name}</span>
                 </div>

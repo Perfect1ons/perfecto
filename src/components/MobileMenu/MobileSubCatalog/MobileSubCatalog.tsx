@@ -12,17 +12,20 @@ interface SubCatalProps {
   open: boolean;
   close: () => void;
   catalog: ICatalogMenu;
+  activeCategoryId: number | null | undefined;
+  selectedCategoryName: string | null;
 }
-// activeCategoryId: number | null; // Добавляем activeCategoryId в Props
 
 export default function MobileSubCatalog({
   open,
   close,
   catalog,
+  activeCategoryId,
+  selectedCategoryName,
 }: SubCatalProps) {
-  // const filteredSubCatalogs = activeCategoryId
-  //   ? catalog.find((cat) => cat.id === activeCategoryId)?.child_level2
-  //   : null; // Фильтруем подкаталоги по активному categoryId
+  const childLevel2Keys = Object.keys(
+    catalog.find((cat) => cat.id === activeCategoryId)?.child_level2 ?? {}
+  );
 
   return (
     <div
@@ -36,28 +39,27 @@ export default function MobileSubCatalog({
         </div>
         <span>На главную</span>
       </div>
+      {selectedCategoryName && (
+        <div className={cn(styles.menu_wrap, styles.subCatalogsName)}>
+          <div className={styles.icon_wrap}>
+            <ChevronLeftIcon />
+          </div>
+          <span>{selectedCategoryName}</span>
+        </div>
+      )}
+      <hr className={styles.hr} />
       <ul className={styles.subCatalogsList}>
-        {/* {filteredSubCatalogs &&
-          filteredSubCatalogs.map((subCat) => {
-            const childLevel2 = Object.values(subCat.child_level2).sort(
-              (a, b) => {
-                return a.sort_menu - b.sort_menu;
+        {childLevel2Keys.map((key) => (
+          <li className={styles.subCatalogsListItem} key={key}>
+            <span>
+              {
+                catalog.find((cat) => cat.id === activeCategoryId)
+                  ?.child_level2[key].name
               }
-            );
-            return <li key={subCat.id}>{subCat.name}</li>;
-          })} */}
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 1</span>
-          <ChevronRightIcon />
-        </li>
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 2</span>
-          <ChevronRightIcon />
-        </li>
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 3</span>
-          <ChevronRightIcon />
-        </li>
+            </span>
+            <ChevronRightIcon />
+          </li>
+        ))}
       </ul>
     </div>
   );

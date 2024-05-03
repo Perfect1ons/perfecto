@@ -480,23 +480,17 @@ export const chevronDownIcon = () => (
 export const ChevronLeftIcon = () => {
   return (
     <svg
-      width="12"
-      height="21"
-      viewBox="0 0 12 21"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_78_2)">
-        <path
-          d="M0.439306 9.44098C-0.146435 10.0267 -0.146435 10.978 0.439306 11.5637L9.43629 20.5607C10.022 21.1464 10.9733 21.1464 11.559 20.5607C12.1448 19.975 12.1448 19.0237 11.559 18.438L3.62105 10.5L11.5543 2.56203C12.1401 1.97629 12.1401 1.02505 11.5543 0.439306C10.9686 -0.146435 10.0174 -0.146435 9.43161 0.439306L0.43462 9.43629L0.439306 9.44098Z"
-          fill="black"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_78_2">
-          <rect width="11.9983" height="21" fill="white" />
-        </clipPath>
-      </defs>
+      <path
+        d="M9.6001 11.5199L5.7601 7.6799L9.6001 3.8399"
+        stroke="#777777"
+        strokeWidth="0.64"
+      />
     </svg>
   );
 };
