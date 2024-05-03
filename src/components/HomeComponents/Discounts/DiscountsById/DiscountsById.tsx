@@ -23,7 +23,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          <Link  href={"/discounts"} className="all__directions_link">
+          <Link href={"/discounts"} className="all__directions_link">
             Скидки
           </Link>
           <Link
@@ -72,7 +72,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           </div>
         </div>
       </div>
-      <div className="main__news_cards">
+      <div className="main__news_cards top pad">
         {discount.product.map((item, index) => {
           return <Cards cardData={item} key={index} />;
         })}

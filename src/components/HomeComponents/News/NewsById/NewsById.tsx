@@ -87,7 +87,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
             </div>
           </div>
         </div>
-        <div className="main__news_cards">
+        <div className="main__news_cards ">
           {news.map((item, index) => {
             return <NewsCards newData={item} key={index} />;
           })}
