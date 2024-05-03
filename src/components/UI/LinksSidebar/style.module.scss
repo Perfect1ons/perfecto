@@ -1,35 +1,55 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-.sidebar{
-    user-select: none;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    max-width: 200px;
-    padding: 20px;
-    outline: 1px solid var(--super-light-white);
-    border-radius: 10px;
-    @include mixin.flex(null, null, column, 30px);
+.sidebar {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  margin-left: 20px;
+  user-select: none;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 200px;
+  padding: 20px;
+  outline: 1px solid var(--super-light-white);
+  border-radius: 10px;
+  @include mixin.flex(null, null, column, 25px);
+  @media screen and (max-width: 480px) {
+    padding: 10px;
+    margin-left: 10px;
+  }
 }
 .sidebarItem {
   @include mixin.flex(null, null, column, null);
 }
 .sidebarItemInfoTitle {
-  @include mixin.font(16px, 700, null, var(--gray-dark));
-}
-.sidebarItemLinks {
-  margin-top: 10px;
-  @include mixin.flex(null, null, column, 5px);
-}
-.sidebarItemLinksLink {
-  @include mixin.link(14px, 400, var(--gray-dark));
-  transition: .1s all;
-  &:hover {
-    color: var(--violet)
+  @include mixin.font(1rem, 700, null, var(--gray-dark));
+  @media screen and (max-width: 480px) {
+    font-size: 0.9375rem;
   }
 }
-.sidebarItemLinksLinkActive{
-    @include mixin.link(14px, 500, var(--gray-dark));
-    transition: .1s all;
-    &:hover {
-        color: var(--violet)
-      }
+.sidebarItemLinks {
+  padding: 8px 0px;
+  margin-top: 10px;
+  @include mixin.flex(null, null, column, 2px);
+  @media screen and (max-width: 480px){
+    gap: 8px;
+  }
+}
+.sidebarItemLinksLink {
+  @include mixin.link(0.875rem, 400, var(--gray-dark));
+  transition: 0.1s all;
+  &:hover {
+    color: var(--violet);
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 0.8125rem;
+  }
+}
+.sidebarItemLinksLinkActive {
+  @include mixin.link(0.875rem, 600, var(--gray-dark));
+  transition: 0.1s all;
+  &:hover {
+    color: var(--violet);
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 0.8125rem;
+  }
 }
