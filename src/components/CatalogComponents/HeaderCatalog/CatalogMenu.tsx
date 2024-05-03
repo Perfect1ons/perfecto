@@ -52,6 +52,7 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
     router.push(fullPath);
     close();
   };
+
   return (
     <div className={styles.catalogs}>
       <div className={styles.catalogs__3}>
@@ -96,9 +97,9 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
               <ul className={styles.category__ul}>
                 {[...Array(3)].map((_, index) => (
                   <div key={`div-${index}`} className={styles.itemContainer}>
-                    {item.child_level2
-                      .slice(index * 5, (index + 1) * 5)
-                      .map((childItem) => (
+                    {item?.child_level2
+                      ?.slice(index * 5, (index + 1) * 5)
+                      ?.map((childItem) => (
                         <ul
                           key={childItem.id}
                           className={styles.itemConteinerUL}

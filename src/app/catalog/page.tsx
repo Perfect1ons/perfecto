@@ -1,108 +1,62 @@
-// "use client";
-// import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-// import styles from "./style.module.scss";
-// import Image from "next/image";
-// import Link from "next/link";
-// import { useRouter } from "next/navigation";
-// import { useMemo, useState } from "react";
-// import {
-//   chevronUpIcon,
-//   chevronDownIcon,
-//   ChevronRightIcon,
-// } from "../../../public/Icons/Icons";
-// import CatalogsLeaf from "@/components/CatalogComponents/Catalogs/CatalogsLeaf";
-// import CatalogProducts from "@/components/CatalogComponents/CatalogProducts/CatalogProducts";
+import React from "react";
 
-// interface IProps {
-//   catalog: ICatalogMenu;
-//   // catalog: ICatalogsProducts;
-//   path: string | string[];
-// }
-// interface ICatalogItem {
-//   id: number;
-//   name: string;
-//   path: string;
-//   level: number;
-//   icon: string;
-//   full_slug?: string;
-//   parent?: number;
-//   enable: number;
-//   sort_menu: number;
-// }
+import { ChildLevel2, ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import CatalogsLeaf from "@/components/CatalogComponents/Catalogs/CatalogsLeaf";
+import CatalogProducts from "@/components/CatalogComponents/CatalogProducts/CatalogProducts";
 
-// interface IChildCatLevel3 extends ICatalogItem {}
+interface IProps {
+  catalog: ICatalogMenu;
+  path: string;
+}
 
-// interface IChildLevel2 {
-//   [key: string]: ICatalogItem & { child_cat_level3?: IChildCatLevel3 };
-// }
+const Catalogs: React.FC<IProps> = ({ catalog, path }) => {
+  const hasPathMatch = (item: any, path: string): boolean => {
+    return (
+      item.full_slug === path ||
+      (item.child_level2 &&
+        item.child_level2.some(
+          (child: ChildLevel2) => child.full_slug === path
+        ))
+    );
+  };
 
-// interface ICatalogMenus extends ICatalogItem {
-//   child_level2?: IChildLevel2;
-// }
-// const Catalogs = ({ catalog, path }: IProps) => {
-//   // const router = useRouter();
-//   const filteredCatalogs = useMemo(() => {
-//     if (!catalog) return [];
+  const filteredCatalog = catalog.filter((item) => hasPathMatch(item, path));
 
-//     const filterCatalogs = (
-//       catalogItem: ICatalogMenus,
-//       path: string | string[]
-//     ) => {
-//       const filtered: ICatalogMenus[] = [];
-//       if (catalogItem.full_slug === path) {
-//         filtered.push(catalogItem);
-//       }
-//       if (catalogItem.child_level2) {
-//         filterChildLevel2(catalogItem.child_level2, path, filtered);
-//       }
-//       return filtered;
-//     };
+  return (
+    <>
+      {filteredCatalog.map((item) => {
+        if (item.is_leaf === 0) {
+          return (
+            <CatalogsLeaf
+              key={item.id}
+              catalog={item}
+              path={path}
+              leaf={item.is_leaf}
+            />
+          );
+        } else if (item.is_leaf === 1) {
+          return <CatalogProducts key={item.id} />;
+        } else if (item.child_level2) {
+          return item.child_level2.map((child) => {
+            if (child.is_leaf === 0) {
+              return (
+                <CatalogsLeaf
+                  key={child.id}
+                  catalog={child}
+                  path={path}
+                  leaf={child.is_leaf}
+                />
+              );
+            } else if (child.is_leaf === 1) {
+              return <CatalogProducts key={child.id} />;
+            }
+            return null;
+          });
+        }
+        return null;
+      })}
+    </>
+  );
+};
 
-//     const filterChildLevel2 = (
-//       childLevel2: IChildLevel2,
-//       path: string | string[],
-//       filtered: ICatalogMenus[]
-//     ) => {
-//       Object.values(childLevel2).forEach((child) => {
-//         if (child.full_slug === path) {
-//           filtered.push(child);
-//         }
-//         if (child.child_cat_level3) {
-//           filterChildCatLevel3(child.child_cat_level3, path, filtered);
-//         }
-//       });
-//     };
-
-//     const filterChildCatLevel3 = (
-//       childCatLevel3: IChildCatLevel3,
-//       path: string | string[],
-//       filtered: ICatalogMenus[]
-//     ) => {
-//       Object.values(childCatLevel3).forEach((subChild) => {
-//         if (subChild.full_slug === path) {
-//           filtered.push(subChild);
-//         }
-//         // Add more levels if needed
-//       });
-//     };
-
-//     const filtered: ICatalogMenus[] = [];
-//     catalog.forEach((catalogItem) => {
-//       const result = filterCatalogs(catalogItem, path);
-//       if (result.length > 0) {
-//         filtered.push(...result);
-//       }
-//     });
-
-//     return filtered;
-//   }, [catalog, path]); // Добавляем showMoreCategories сюда
-
-//   return (
-//     <>
-//       <CatalogsLeaf catalog={filteredCatalogs} path={path} />
-//       <CatalogProducts />
-//     </>
-//   );
-// };
-
-// export default Catalogs;
+export default Catalogs;
