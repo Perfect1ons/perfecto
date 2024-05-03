@@ -1,11 +1,11 @@
 "use client"
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useRef } from "react";
 import clsx from "clsx";
-import DiscountCard from "./DiscountCard";
 import { IDiscounts } from "@/types/discounts";
-import styles from '../style.module.scss'
+import styles from "../style.module.scss";
+import DiscountCard from "./DiscountCard";
 
 interface IDiscountsProps {
   discountsOne: IDiscounts[];
@@ -16,13 +16,8 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
   const searchParams = useSearchParams();
   const pageNumber = parseInt(searchParams.get("page") ?? "1");
 
-  const router = useRouter();
   const pathname = usePathname();
   const topRef = useRef<HTMLDivElement>(null);
-
-  const goToPage = (page: number) => {
-    router.push(`?page=${page}`);
-  };
 
   const totalPages = Math.max(Math.ceil(discountsOne.length / 10), 1);
   const pageNumbers = Array.from(
@@ -38,7 +33,7 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
             Главная
           </Link>
           <Link
-            href={"/news"}
+            href={"/discounts"}
             className={clsx(
               "all__directions_link",
               pathname === "/discounts" && "all__directions_linkActive"
@@ -51,55 +46,58 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
         <div className={styles.all__discounts_container}>
           <h1 className="default__showMore_title">Скидки</h1>
           <div className={styles.discount__container}>
-            {(pageNumber === 1 ? discountsOne : discountsTwo).map((item, index) => (
-              <DiscountCard
-                key={index}
-                item={item}
-                onClick={() => router.push(`discount/${item.promotion_id}`)}
-              />
-            ))}
+            {(pageNumber === 1 ? discountsOne : discountsTwo).map(
+              (item, index) => (
+                <Link className="link" href={`discounts/${item.promotion_id}`} key={index}>
+                    <DiscountCard item={item} />
+                </Link>
+              )
+            )}
           </div>
         </div>
       </div>
       <div className="pagination">
-        <button
-          onClick={() => goToPage(pageNumber - 1)}
-          disabled={pageNumber === 1}
-          className={clsx(
-            "pagination__button",
-            pageNumber === 1 && "pagination__button_disactive"
-          )}
-        >
-          {"<"}
-        </button>
-        {pageNumbers.map((page) => (
+        <Link className="link" href={`?page=${pageNumber - 1}`} passHref>
           <button
-            key={page}
-            onClick={() => goToPage(page)}
+            disabled={pageNumber === 1}
             className={clsx(
               "pagination__button",
-              page === pageNumber && "pagination__button_active"
+              pageNumber === 1 && "pagination__button_disactive"
             )}
           >
-            {page}
+            {"<"}
           </button>
+        </Link>
+        {pageNumbers.map((page) => (
+          <Link className="link" href={`?page=${page}`} key={page} passHref>
+            <button
+              className={clsx(
+                "pagination__button",
+                page === pageNumber && "pagination__button_active"
+              )}
+            >
+              {page}
+            </button>
+          </Link>
         ))}
-        <button
-          onClick={() => goToPage(pageNumber + 1)}
-          disabled={pageNumber === totalPages}
-          className={clsx(
-            "pagination__button",
-            pageNumber === totalPages && "pagination__button_disactive"
-          )}
-        >
-          {">"}
-        </button>
+        <Link className="link" href={`?page=${pageNumber + 1}`} passHref>
+          <button
+            disabled={pageNumber === totalPages}
+            className={clsx(
+              "pagination__button",
+              pageNumber === totalPages && "pagination__button_disactive"
+            )}
+          >
+            {">"}
+          </button>
+        </Link>
       </div>
     </section>
   );
 };
 
 export default AllDiscounts;
+
 
 
 

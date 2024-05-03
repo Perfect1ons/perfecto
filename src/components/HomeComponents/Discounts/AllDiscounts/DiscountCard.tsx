@@ -6,11 +6,10 @@ import { IDiscounts } from "@/types/discounts";
 
 interface DiscountCardProps {
   item: IDiscounts;
-  onClick: () => void;
 }
 
-const DiscountCard: FC<DiscountCardProps> = ({ item, onClick }) => (
-  <div onClick={onClick} className={styles.discount__card} key={item.name}>
+const DiscountCard: FC<DiscountCardProps> = ({ item }) => (
+  <div className={styles.discount__card} key={item.name}>
     <div className={styles.discount__card_images}>
       <Image
         className={styles.discount__card_img}
@@ -19,7 +18,7 @@ const DiscountCard: FC<DiscountCardProps> = ({ item, onClick }) => (
         height={250}
         alt={item.name}
         quality={100}
-        loading="lazy" 
+        loading="lazy"
       />
     </div>
 
@@ -30,8 +29,6 @@ const DiscountCard: FC<DiscountCardProps> = ({ item, onClick }) => (
           {item.word} {item.days} {item.word_day}
         </span>
         <span className={styles.discount__item_fromTo}>{item.message}</span>
-      </div>
-      <div className={styles.discount__by}>
         <span className={styles.discount__by_percent}>
           Скидка
           <span className={styles.discount__by_percent_custom}>

@@ -21,6 +21,10 @@ module.exports = {
         protocol: "https",
         hostname: "megabike74.ru",
       },
+      {
+        protocol: "https",
+        hostname: "cdn3.static1-sima-land.com",
+      },
     ],
   },
   async headers() {

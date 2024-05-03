@@ -1,7 +1,6 @@
 import {
   getBoughts,
   getBrands,
-  getCatalogs,
   getDiscounts,
   getNews,
   getNewsByLimit,
@@ -9,7 +8,6 @@ import {
   getPopularGoods,
   getPromotion,
   getSeasonCategory,
-  getSubCatalogs,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import Banner from "@/components/HomeComponents/Banner/Banner";
@@ -31,18 +29,20 @@ export const metadata: Metadata = {
     "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-  robots: "index,follow",
 };
 
 export default async function Home() {
   // запрос на популярные категории
   const popularCategoryData = await getPopularCategory();
   // todays boughts requests 
-  const boughtsPageOne = await getBoughts(1);
-  const boughtsPageTwo = await getBoughts(2);
-  const boughtsPageThree = await getBoughts(3);
+  const [boughtsOne, boughtsTwo, boughtsThree] = await Promise.all([
+    getBoughts(1),
+    getBoughts(2),
+    getBoughts(3),
+  ]);
+  const boughtsAll = [boughtsOne.lastz, boughtsTwo.lastz, boughtsThree.lastz].flat();
   // запрос на новости
-  const newsData = await getNews();
+  const newsData = await getNewsByLimit();
   // скидки
   const discounts = await getDiscounts();
   // акции
@@ -53,22 +53,26 @@ export default async function Home() {
   const brandsData = await getBrands();
 
   // popular goods requests 
-  const goodsPageOne = await getPopularGoods(1);
-  const goodsPageTwo = await getPopularGoods(2);
-  const goodsPageThree = await getPopularGoods(3);
+  const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
+    getPopularGoods(1),
+    getPopularGoods(2),
+    getPopularGoods(3),
+  ])
+  const goods = [goodsOne, goodsTwo, goodsThree].flat();
+  
 
 
   return (
     <>
       <Banner />
       <PopularCategory category={popularCategoryData} />
-      {/* <TodayBoughts pageOne={boughtsPageOne.lastz} pageTwo={boughtsPageTwo.lastz} pageThree={boughtsPageThree.lastz}/> */}
+      <TodayBoughts boughts={boughtsAll}/>
       <News news={newsData} />
       <Discounts discounts={discounts} />
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      {/* <PopularGoods pageOne={goodsPageOne} pageTwo={goodsPageTwo} pageThree={goodsPageThree}/> */}
+      <PopularGoods goods={goods}/>
       <Application />
     </>
   );

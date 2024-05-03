@@ -1,6 +1,5 @@
-"use client"
+"use client";
 import { useState, useEffect } from "react";
-import { NewsResult } from "@/types/News/NewsById";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import {
@@ -11,15 +10,16 @@ import {
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
+import { IPopularGood} from "@/types/popularGoods";
 
-interface INewDataProps {
-  newData: NewsResult;
+interface IgoodsProps {
+  goods: IPopularGood;
 }
 
-const NewsCards = ({ newData }: INewDataProps) => {
-  const imageUrl = 
-    newData.photos.length > 0
-      ? `${url}nal/img/${newData.id_post}/l_${newData.photos[0].url_part}`
+const PopularGoodsCards = ({ goods }: IgoodsProps) => {
+  const imageUrl =
+    goods.photos.length > 0
+      ? `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
@@ -31,22 +31,22 @@ const NewsCards = ({ newData }: INewDataProps) => {
   // Используем localStorage только если он доступен
   const [isFavorite, setIsFavorite] = useState(
     isLocalStorageAvailable &&
-      localStorage.getItem(newData.id.toString()) === "true"
+      localStorage.getItem(goods.id.toString()) === "true"
   );
 
   const handleFavoriteClick = () => {
     setIsFavorite((prevIsFavorite) => {
       const newIsFavorite = !prevIsFavorite;
       if (isLocalStorageAvailable) {
-        localStorage.setItem(newData.id.toString(), newIsFavorite.toString());
+        localStorage.setItem(goods.id.toString(), newIsFavorite.toString());
       }
       return newIsFavorite;
     });
   };
 
   useEffect(() => {
-    setRating(Math.floor(newData.ocenka));
-  }, [newData.ocenka]);
+    setRating(Math.floor(goods.ocenka));
+  }, [goods.ocenka]);
 
   return (
     <div className="default__card">
@@ -56,17 +56,17 @@ const NewsCards = ({ newData }: INewDataProps) => {
           src={imageUrl}
           width={200}
           height={200}
-          alt={newData.naim}
+          alt={goods.naim}
           quality={100}
           loading="lazy"
         />
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {newData.cenaok}
+          {goods.cenaok}
           <span className="default__card_price_custom"> с</span>
         </span>
-        <h2 className="default__card_name">{newData.naim}</h2>
+        <h2 className="default__card_name">{goods.naim}</h2>
         <div className="ocenka">
           {[...Array(5)].map((_, index) => (
             <span key={index}>
@@ -81,7 +81,9 @@ const NewsCards = ({ newData }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {newData.ddos}
+          <p className="ddos__text">
+           {goods.ddos}
+          </p>
         </div>
         <div className="add__to">
           <button
@@ -111,6 +113,4 @@ const NewsCards = ({ newData }: INewDataProps) => {
   );
 };
 
-export default NewsCards;
-
-
+export default PopularGoodsCards;

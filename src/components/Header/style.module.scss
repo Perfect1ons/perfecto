@@ -15,6 +15,11 @@
       gap: 30px;
       max-width: 100%;
       width: 100%;
+      @media screen and (max-width: 992px) {
+        justify-content: flex-end;
+        align-items: center;
+        padding-right: 10px;
+      }
     }
   }
 
@@ -65,6 +70,10 @@
   position: relative;
   display: flex;
   align-items: center;
+
+  &__form{
+    width: 100%;
+  }
 
   @media screen and (max-width: 992px) {
     display: none;
