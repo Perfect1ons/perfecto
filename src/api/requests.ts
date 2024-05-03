@@ -21,6 +21,7 @@ import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache",
 });
 const maxkgz = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,

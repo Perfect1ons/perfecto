@@ -7,6 +7,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "../../../../public/Icons/Icons";
+import Link from "next/link";
 
 interface SubCatalProps {
   open: boolean;
@@ -55,10 +56,16 @@ export default function MobileSubCatalog({
           return childLevel2
             .filter((childItem) => childItem.parent === activeCategoryId)
             .map((filteredChildItem, key) => (
-              <li className={styles.subCatalogsListItem} key={key}>
-                <span>{filteredChildItem.name}</span>
-                <ChevronRightIcon />
-              </li>
+              <a
+                href={`https://max.kg/catalog/${filteredChildItem.full_slug}`}
+                key={key}
+                className={styles.subCatalogsListItem_a}
+              >
+                <li className={styles.subCatalogsListItem}>
+                  <span>{filteredChildItem.name}</span>
+                  <ChevronRightIcon />
+                </li>
+              </a>
             ));
         })}
       </ul>
