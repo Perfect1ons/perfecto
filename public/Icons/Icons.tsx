@@ -423,80 +423,102 @@ export const HomeIconActive = () => {
   );
 };
 
-export const ChevronRightIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-right"
-    width="20"
-    height="20"
-    viewBox="0 0 25 25"
-    strokeWidth="1.8"
-    stroke="#777"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M9 6l6 6l-6 6" />
-  </svg>
-);
+export const ChevronRightIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M5.76001 3.83997L9.60001 7.67997L5.76001 11.52"
+        stroke="#777777"
+        strokeWidth="0.64"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
 
-export const chevronUpIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-up"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M6 15l6 -6l6 6" />
-  </svg>
-);
+export const chevronUpIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_89_2)">
+        <path
+          d="M4 9.83997L7.84 5.99997L11.68 9.83997"
+          stroke="#777777"
+          strokeWidth="0.64"
+          strokeLinecap="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_89_2">
+          <rect
+            width="16"
+            height="16"
+            fill="white"
+            transform="matrix(0 -1 1 0 0 16)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
 
-export const chevronDownIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-down"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M6 9l6 6l6 -6" />
-  </svg>
-);
+export const chevronDownIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_89_2)">
+        <path
+          d="M12 6.16003L8.16 10L4.32 6.16003"
+          stroke="#777777"
+          strokeWidth="0.64"
+          strokeLinecap="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_89_2">
+          <rect
+            width="16"
+            height="16"
+            fill="white"
+            transform="matrix(0 1 -1 0 16 0)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
 
 export const ChevronLeftIcon = () => {
   return (
     <svg
-      width="12"
-      height="21"
-      viewBox="0 0 12 21"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clipPath="url(#clip0_78_2)">
-        <path
-          d="M0.439306 9.44098C-0.146435 10.0267 -0.146435 10.978 0.439306 11.5637L9.43629 20.5607C10.022 21.1464 10.9733 21.1464 11.559 20.5607C12.1448 19.975 12.1448 19.0237 11.559 18.438L3.62105 10.5L11.5543 2.56203C12.1401 1.97629 12.1401 1.02505 11.5543 0.439306C10.9686 -0.146435 10.0174 -0.146435 9.43161 0.439306L0.43462 9.43629L0.439306 9.44098Z"
-          fill="black"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_78_2">
-          <rect width="11.9983" height="21" fill="white" />
-        </clipPath>
-      </defs>
+      <path
+        d="M10.24 12.16L6.39999 8.32003L10.24 4.48003"
+        stroke="#777777"
+        strokeWidth="0.64"
+        strokeLinecap="round"
+      />
     </svg>
   );
 };

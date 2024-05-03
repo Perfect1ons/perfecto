@@ -119,7 +119,6 @@ export const getFooter = (): Promise<IFooter> => {
 };
 
 //footer pages request
-
 export const getFooterPages = (url: string): Promise<IFooterPage> => {
   return maxkg.get(`site/get-page/${url}`).json();
 };
