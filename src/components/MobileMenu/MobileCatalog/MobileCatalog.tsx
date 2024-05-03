@@ -28,6 +28,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
     string | null
   >(null);
 
+  ////////////////////////////////////////
   // для роутинга (пока не используется)
   // const router = useRouter();
 
@@ -36,20 +37,23 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   //   router.push(`/catalogs/${id}`);
   //   close();
   // };
+  ///////////////////////////////////////
 
   return (
-    <>
-      <div className={styles.grid}>
-        <MobileSubCatalog
-          open={isOpen}
-          close={openOrClose}
-          catalog={catalog}
-          activeCategoryId={activeCategoryId}
-          selectedCategoryName={selectedCategoryName}
-        />
+    <section className={styles.catalog_main}>
+      <MobileSubCatalog
+        open={isOpen}
+        close={openOrClose}
+        catalog={catalog}
+        activeCategoryId={activeCategoryId}
+        selectedCategoryName={selectedCategoryName}
+      />
+      <div
+        className={isOpen === false ? styles.grid_active : styles.grid_inactive}
+      >
         {catalog.map((item) => {
           return (
-            <div className={styles.grid_wrap} key={item.id}>
+            <div className={styles.grid_item_wrap} key={item.id}>
               <div
                 className={styles.grid_item}
                 onClick={() => {
@@ -77,6 +81,6 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
           );
         })}
       </div>
-    </>
+    </section>
   );
 }

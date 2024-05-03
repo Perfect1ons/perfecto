@@ -7,7 +7,7 @@
 .sub_catalog_wrap_active {
   display: block;
   width: 100%;
-  height: 100%;
+  height: max-content;
   background: #fff;
 
   position: absolute;
@@ -43,6 +43,10 @@
 .hr {
   @include mixin.item__border(2px, solid, #e1e1e1, 8px);
   margin: 10px 20px;
+}
+
+.subCatalogsList {
+  margin-bottom: 70px;
 }
 
 .subCatalogsListItem {
