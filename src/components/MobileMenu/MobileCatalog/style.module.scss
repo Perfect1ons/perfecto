@@ -1,19 +1,18 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.grid {
+.catalog_main {
+  position: relative;
+}
+
+.grid_inactive {
+  display: none;
+}
+
+.grid_active {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: auto;
   gap: 10px;
-
-  position: relative;
-
-  // @media screen and (max-width: 450px) {
-  //   grid-template-columns: repeat(2, 1fr);
-  // }
-  // @media screen and (max-width: 360px) {
-  //   grid-template-columns: repeat(1, 1fr);
-  // }
 }
 
 .grid_item {
@@ -30,7 +29,7 @@
   }
 }
 
-.grid_wrap {
+.grid_item_wrap {
   position: relative;
   width: 100%;
   overflow: hidden;

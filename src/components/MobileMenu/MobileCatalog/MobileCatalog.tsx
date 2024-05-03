@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 import { MobNavProps } from "../MobileNav/MobileNav";
 
@@ -11,7 +11,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
 
-  const open = () => {
+  const openOrClose = () => {
     setIsOpen(!isOpen);
   };
 
@@ -19,12 +19,17 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>();
 
   const openAndSetSubCategory = (categoryId: number) => {
-    setIsOpen(!isOpen);
-
     setActiveCategoryId(categoryId);
+    setIsOpen(!isOpen);
   };
 
-  // для роутинга
+  // передает название выбранного каталога
+  const [selectedCategoryName, setSelectedCategoryName] = useState<
+    string | null
+  >(null);
+
+  ////////////////////////////////////////
+  // для роутинга (пока не используется)
   // const router = useRouter();
 
   // при нажатии ведет на подкаталоги
@@ -32,15 +37,31 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   //   router.push(`/catalogs/${id}`);
   //   close();
   // };
+  ///////////////////////////////////////
 
   return (
-    <>
-      <div className={styles.grid}>
-        <MobileSubCatalog open={isOpen} close={open} catalog={catalog} />
+    <section className={styles.catalog_main}>
+      <MobileSubCatalog
+        open={isOpen}
+        close={openOrClose}
+        catalog={catalog}
+        activeCategoryId={activeCategoryId}
+        selectedCategoryName={selectedCategoryName}
+      />
+      <div
+        className={isOpen === false ? styles.grid_active : styles.grid_inactive}
+      >
         {catalog.map((item) => {
           return (
-            <div className={styles.grid_wrap} key={item.id}>
-              <div className={styles.grid_item} onClick={open}>
+            <div className={styles.grid_item_wrap} key={item.id}>
+              <div
+                className={styles.grid_item}
+                onClick={() => {
+                  openOrClose;
+                  openAndSetSubCategory(item.id);
+                  setSelectedCategoryName(item.name);
+                }}
+              >
                 <div className={styles.item_title}>
                   <span>{item.name}</span>
                 </div>
@@ -60,6 +81,6 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
           );
         })}
       </div>
-    </>
+    </section>
   );
 }
