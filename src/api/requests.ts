@@ -119,9 +119,9 @@ export const getFooter = (): Promise<IFooter> => {
 };
 
 //footer pages request
-export const getFooterPages = (url : string): Promise<IFooterPage> => {
+export const getFooterPages = (url: string): Promise<IFooterPage> => {
   return maxkg.get(`site/get-page/${url}`).json();
-}
+};
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
@@ -149,11 +149,11 @@ export const getPromoByIdThree = (id: number): Promise<IPromoById> => {
 
 export const getDiscountsById = (id: number): Promise<IDiscountsById> => {
   return maxkg.get(`discount/${id}`).json();
-}
+};
 
 export const getSearchItem = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=1`).json();
-}
+};
 
 export const getSearchItemTwo = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=2`).json();
@@ -162,4 +162,3 @@ export const getSearchItemTwo = (path: string): Promise<ISeek> => {
 export const getSearchItemThree = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=3`).json();
 };
-
