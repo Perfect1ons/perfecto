@@ -1,6 +1,5 @@
 import { getFooter, getFooterPages } from "@/api/requests";
 import FooterPageRenderer from "@/components/UI/FooterPageRenderer/FooterPageRenderer";
-import OKompanii from "@/components/UI/FooterPageRenderer/FooterPageRenderer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
   robots: "index,follow",
 };
 export default async function page() {
-  const aboutCompany = await getFooterPages("o-kompanii");
+  const aboutCompany = await getFooterPages("kompaniya/o-kompanii");
   const sidebarLinks = await getFooter();
 
   return (
