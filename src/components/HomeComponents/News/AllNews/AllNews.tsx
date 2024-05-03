@@ -1,8 +1,8 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./style.module.scss";
 import { INews } from "@/types/news";
@@ -13,34 +13,30 @@ interface IAllNewsProps {
 }
 
 const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [currentPage, setCurrentPage] = useState(1);
+const [currentPage, setCurrentPage] = useState(() => {
+  if (typeof window !== "undefined") {
+    const urlParams = new URLSearchParams(window.location.search);
+    return parseInt(urlParams.get("page") || "1", 10);
+  }
+  return 1; // По умолчанию
+});
+
   const itemsPerPage = 10;
   const maxPage = Math.ceil(allnews.length / itemsPerPage);
+
   const topRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-
-  // Получение параметра "page" из URL и установка текущей страницы
   useEffect(() => {
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    setCurrentPage(page);
-  }, [searchParams]);
-
-  const handlePageChange = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= maxPage) {
-      setCurrentPage(pageNumber);
-      const newUrl = `/news?page=${pageNumber}`;
-      router.push(newUrl);
-      scrollToTop();
-    }
-  };
-
-  const scrollToTop = () => {
     if (topRef.current) {
       topRef.current.scrollIntoView({ behavior: "auto" });
     }
-  };
+  }, [currentPage]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set("page", String(currentPage));
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState({}, "", newUrl);
+  }, [currentPage]);
 
   const formatNewsDate = (dateString: string) => {
     const dateObject = new Date(dateString);
@@ -52,14 +48,9 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
     }${month}.${year}`;
   };
 
-  // Рассчитать индексы первого и последнего элементов для текущей страницы
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = allnews.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
-    <section className="all__news">
-      <div ref={topRef} className="container">
+    <section className="all__news" ref={topRef}>
+      <div className="container">
         <div className="all__directions">
           <Link href={"/"} className="all__directions_link">
             Главная
@@ -68,7 +59,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
             href={"/news"}
             className={clsx(
               "all__directions_link",
-              pathname === "/news" && "all__directions_linkActive"
+                "all__directions_linkActive"
             )}
           >
             Новости
@@ -77,43 +68,50 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
         <div className={styles.all__news_container}>
           <h1 className="default__showMore_title">Новости</h1>
           <div className={styles.allNews__container_content}>
-            {currentItems.map((news) => (
-              <div key={news.id} className={styles.allNews__content}>
-                <div className={styles.allNews__content_images}>
-                  <Image
-                    onClick={() => router.push(`/news/${news.id}`)}
-                    className={styles.allNews__content_image}
-                    src={`${url}${news.logo}`}
-                    width={450}
-                    height={280}
-                    title={news.naim}
-                    alt={news.naim}
-                  />
-                </div>
-
-                <div className={styles.allNews__content_info}>
-                  <h1
-                    onClick={() => router.push(`/news/${news.id}`)}
-                    className="allNews__content_title"
-                  >
-                    {news.naim}
-                  </h1>
-                  <div className={styles.allNews__desc}>
-                    <Link
-                      className={styles.allNews__desc_link}
-                      href={`/news/${news.id}`}
-                      title="Нажмите чтобы получить подробную информацию"
-                    >
-                      Подробнее
+            {allnews
+              .slice(
+                (currentPage - 1) * itemsPerPage,
+                currentPage * itemsPerPage
+              )
+              .map((news, index) => (
+                <div key={news.id} className={styles.allNews__content}>
+                  <div className={styles.allNews__content_images}>
+                    <Link href={`/news/${news.id}`}>
+                      <Image
+                        className={styles.allNews__content_image}
+                        src={`${url}${news.logo}`}
+                        width={450}
+                        height={280}
+                        title={news.naim}
+                        alt={news.naim}
+                      />
                     </Link>
                   </div>
-                  <div className={styles.allNews__content_data}>
-                    <span>{formatNewsDate(news.dat1)}</span>
-                    <span>Просмотров: {news.view}</span>
+                  <div className={styles.allNews__content_info}>
+                    <h1 className="allNews__content_title">
+                      <Link
+                        className={styles.allNews__content_link}
+                        href={`/news/${news.id}`}
+                      >
+                        {news.naim}
+                      </Link>
+                    </h1>
+                    <div className={styles.allNews__desc}>
+                      <Link
+                        className={styles.allNews__desc_link}
+                        href={`/news/${news.id}`}
+                        title="Нажмите чтобы получить подробную информацию"
+                      >
+                        Подробнее
+                      </Link>
+                    </div>
+                    <div className={styles.allNews__content_data}>
+                      <span>{formatNewsDate(news.dat1)}</span>
+                      <span>Просмотров: {news.view}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
         <div className="pagination">
@@ -122,7 +120,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
               "pagination__button_custom",
               currentPage === 1 && "pagination__button_disactive"
             )}
-            onClick={() => handlePageChange(1)}
+            onClick={() => setCurrentPage(1)}
             disabled={currentPage === 1}
           >
             {"<<"}
@@ -132,7 +130,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
               "pagination__button",
               currentPage === 1 && "pagination__button_disactive"
             )}
-            onClick={() => handlePageChange(currentPage - 1)}
+            onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
             disabled={currentPage === 1}
           >
             {"<"}
@@ -144,7 +142,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
                 currentPage === index + 1 && "pagination__button_active"
               )}
               key={index}
-              onClick={() => handlePageChange(index + 1)}
+              onClick={() => setCurrentPage(index + 1)}
             >
               {index + 1}
             </button>
@@ -154,7 +152,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
               "pagination__button",
               currentPage === maxPage && "pagination__button_disactive"
             )}
-            onClick={() => handlePageChange(currentPage + 1)}
+            onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
             disabled={currentPage === maxPage}
           >
             {">"}
@@ -164,7 +162,7 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
               "pagination__button_custom",
               currentPage === maxPage && "pagination__button_disactive"
             )}
-            onClick={() => handlePageChange(maxPage)}
+            onClick={() => setCurrentPage(maxPage)}
             disabled={currentPage === maxPage}
           >
             {">>"}
@@ -176,4 +174,3 @@ const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
 };
 
 export default AllNews;
-

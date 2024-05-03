@@ -25,7 +25,13 @@
         gap: 20px;
     }
     width: 100%;
-
+    &_link{
+        color: var(--gray-dark);
+        text-decoration: none;
+        &:hover{
+            color: var(--violet);
+        }
+    }
     &_images{
         max-width: 480px;
         @media screen and (max-width: 640px) {

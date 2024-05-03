@@ -7,12 +7,10 @@
 body{
   &::-webkit-scrollbar {
     width: 10px;
-    position: relative;
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--light-gray); /* Цвет фона скроллбара */
-    position: relative;
+    background: var(--white); /* Цвет фона скроллбара */
 
     
   }
@@ -20,7 +18,8 @@ body{
   &::-webkit-scrollbar-thumb {
     background: var(--dark-blue); 
     border-radius: 5px;
-    position: relative;
+      cursor: pointer;
+
   }
 }
 
@@ -36,6 +35,10 @@ body{
 
 
 //! Показать больше - Показать все кнопки
+.link{
+  text-decoration: none;
+}
+
 .showAll_button {
   display: none;
   -webkit-tap-highlight-color: transparent;
@@ -46,6 +49,7 @@ body{
 
 .default__buttons_showMore {
   -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
   margin-top: 20px;
   user-select: none;
   @include mixin.flex(center, center);
@@ -334,6 +338,59 @@ body{
     &_active{
       background: var(--dark-blue);
       color: var(--white);
+    }
+  }
+}
+
+.seek__catalog{
+
+  &_title{
+    margin-top: 15px;
+    @include mixin.font(18px,500,100%,var(--gray-dark))
+  }
+
+  &_card{
+    @include mixin.flex(center,center,column);
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    min-width: 200px;
+    cursor: pointer;
+    max-width: 200px;
+    height: 150px;
+    width: 100%;
+    &:hover{
+      .seek__catalog_card_title{
+        color: var(--violet);
+      }
+    }
+    &_image{
+      border-radius: 5px;
+    }
+    &_title{
+      @include mixin.font(16px,400,100%,var(--gray-dark));
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+  &_cards{
+    margin-top: 10px;
+    user-select: none;
+    @include mixin.flex(center, space-between,null,20px);
+    overflow-x: auto;
+    padding-bottom: 20px;
+    padding: 5px 5px 15px 5px;
+    &::-webkit-scrollbar {
+      height: 7px;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--white); /* Цвет фона скроллбара */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background: var(--dark-blue); 
+      border-radius: 5px;
     }
   }
 }
