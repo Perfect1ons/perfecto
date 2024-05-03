@@ -26,7 +26,7 @@ const LinksSidebar = ({ links }: ILinksSidebarProps) => {
               {item.pod_menu.map((podItem) => {
                 const linkUrl = podItem.url.startsWith("https://")
                   ? podItem.url
-                  : `/${podItem.url}`;
+                  : `/page/${podItem.url}`;
                 return (
                   <React.Fragment key={podItem.id}>
                     <Link className={cn(pathname === linkUrl ? styles.sidebarItemLinksLinkActive : styles.sidebarItemLinksLink)} href={linkUrl}>
