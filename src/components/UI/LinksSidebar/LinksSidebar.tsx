@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
+import React from "react";
 
 interface ILinksSidebarProps {
   links: IFooterItem[];
@@ -25,13 +26,13 @@ const LinksSidebar = ({ links }: ILinksSidebarProps) => {
               {item.pod_menu.map((podItem) => {
                 const linkUrl = podItem.url.startsWith("https://")
                   ? podItem.url
-                  : `page/${podItem.url}`;
+                  : `/${podItem.url}`;
                 return (
-                  <>
+                  <React.Fragment key={podItem.id}>
                     <Link className={cn(pathname === linkUrl ? styles.sidebarItemLinksLinkActive : styles.sidebarItemLinksLink)} href={linkUrl}>
                       {podItem.naim}
                     </Link>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </div>
