@@ -3,21 +3,20 @@ import FooterPageRenderer from "@/components/UI/FooterPageRenderer/FooterPageRen
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:
-    "Вакансии работа в маркетплейс",
+  title: "Контакты max.kg в Бишкеке",
   description:
-    "Мы рады приветствовать вас и предложить уникальные возможности для карьерного роста в нашей компании.",
+    "Маркетплейс max.kg Контакты , Адрес г. Бишкек ул. матыева 148",
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
   robots: "index,follow",
 };
 export default async function page() {
-  const vacancii = await getFooterPages("kompaniya/vacancii");
+  const contacts = await getFooterPages("kompaniya/kontakty");
   const sidebarLinks = await getFooter();
 
   return (
     <>
-      <FooterPageRenderer data={vacancii} links={sidebarLinks} />
+      <FooterPageRenderer data={contacts} links={sidebarLinks} />
     </>
   );
 }
