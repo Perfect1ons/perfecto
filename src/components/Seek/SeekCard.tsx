@@ -1,8 +1,6 @@
-"use client";
-import { useState, useEffect } from "react";
-import { NewsResult } from "@/types/News/NewsById";
+"use client"
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { url } from "@/components/temporary/data";
 import cn from "clsx";
 import {
   CartIcon,
@@ -12,43 +10,41 @@ import {
   YellowStar,
 } from "../../../public/Icons/Icons";
 import { ISeekItem } from "@/types/Search/seek";
+import { url } from "../temporary/data";
 
-interface IcardDataProps {
+interface ICardDataProps {
   cardData: ISeekItem;
 }
 
-const SeekCards = ({ cardData }: IcardDataProps) => {
-  const imageUrl =
+const SeekCards = ({ cardData }: ICardDataProps) => {
+const imageUrl = useMemo(() => {
+  if (
     cardData.photos[0]?.url_part &&
-    cardData.photos[0].url_part.startsWith("https://") // Проверяем, начинается ли URL с "https://"
-      ? cardData.photos[0].url_part + "280.jpg" // Если да, используем его
-      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg"; // Иначе используем заглушку
+    cardData.photos[0].url_part.startsWith("https://")
+  ) {
+    return cardData.photos[0].url_part + "280.jpg";
+  } else if (cardData.photos[0]?.url_part) {
+    return `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`;
+  } else {
+    return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  }
+}, [cardData]);
+
 
   const [rating, setRating] = useState(0);
-
-  // Проверяем, доступен ли localStorage (только на клиентской стороне)
-  const isLocalStorageAvailable =
-    typeof window !== "undefined" && window.localStorage;
-
-  // Используем localStorage только если он доступен
-  const [isFavorite, setIsFavorite] = useState(
-    isLocalStorageAvailable &&
-      localStorage.getItem(cardData.id.toString()) === "true"
-  );
-
-  const handleFavoriteClick = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      if (isLocalStorageAvailable) {
-        localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
-      }
-      return newIsFavorite;
-    });
-  };
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-  }, [cardData.ocenka]);
+    const favoriteStatus = localStorage.getItem(cardData.id.toString());
+    setIsFavorite(favoriteStatus === "true");
+  }, [cardData]);
+
+  const handleFavoriteClick = () => {
+    const newIsFavorite = !isFavorite;
+    setIsFavorite(newIsFavorite);
+    localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
+  };
 
   return (
     <div className="default__card">
@@ -60,7 +56,7 @@ const SeekCards = ({ cardData }: IcardDataProps) => {
           height={200}
           alt={cardData.naim}
           quality={100}
-          loading="lazy"
+          loading="lazy" 
         />
       </div>
       <div className="default__card_info">
@@ -83,7 +79,9 @@ const SeekCards = ({ cardData }: IcardDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {cardData.ddos}
+          <p className="ddos__text">
+            {cardData.ddos}
+          </p>
         </div>
         <div className="add__to">
           <button

@@ -10,6 +10,7 @@ import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
 
+
 interface HeaderProps {
   catalog: ICatalogMenu;
 }
@@ -24,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/search=${searchTerm}`); // Переход на страницу поиска с параметрами
+    router.push(`/seek/search=${searchTerm}`); // Переход на страницу поиска с параметрами
   };
 
   const [isOpen, setIsOpen] = useState(false);

@@ -107,7 +107,7 @@
     &_info{
         padding: 10px 10px;
         @include mixin.flex(flex-start,space-between,column,10px);
-        min-height: 210px;
+        min-height: 200px;
         width: 100%;
 
         @media screen and (max-width: 480px) {
@@ -173,13 +173,16 @@
 .ddos{
     @include mixin.flex(center,center,null, 5px);
     @include mixin.font(14px,400,100%,var(--light-blue));
-
     &__icon{
         width: 20px;
         height: 20px;
     }
     @media screen and (max-width: 360px) {
         max-height: 30px;
+        overflow: hidden;
+    }
+    &__text{
+        max-height: 28px;
         overflow: hidden;
     }
 }

@@ -17,7 +17,7 @@ interface INewDataProps {
 }
 
 const NewsCards = ({ newData }: INewDataProps) => {
-  const imageUrl =
+  const imageUrl = 
     newData.photos.length > 0
       ? `${url}nal/img/${newData.id_post}/l_${newData.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
