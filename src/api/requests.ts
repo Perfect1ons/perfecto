@@ -17,6 +17,8 @@ import { IFooter } from "@/types/footerRequest";
 import { INewsByPath } from "@/types/News/NewsById";
 import { IPromoById } from "@/types/Promo/PromoById";
 import { ITruncate } from "@/types/truncatedText";
+import { IDiscountsById } from "@/types/Discounts/discountById";
+import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 
 const maxkg = ky.create({
@@ -67,7 +69,7 @@ export const getPromotion = (): Promise<IPromotion[]> => {
 };
 
 export const getNewsByLimit = (): Promise<INews[]> => {
-  return maxkg.get("news?pageSize=6").json();
+  return maxkg.get("news?pageSize=18").json();
 };
 
 export const getNews = (): Promise<INews[]> => {
@@ -82,14 +84,14 @@ export const getBrands = (): Promise<IBrands> => {
 };
 
 export const getBoughts = (page: number): Promise<IBoughts> => {
-  return maxkg.get(`site/lastz?${page}`).json();
+  return maxkg.get(`site/lastz?page=${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
-export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
+export const getPopularGoods = (page: number): Promise<IPopularGood> => {
   return maxkg.get(`site/popular?page=${page}`).json();
 };
 export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
@@ -117,10 +119,9 @@ export const getFooter = (): Promise<IFooter> => {
 };
 
 //footer pages request
-
-export const getFooterPages = (url: string): Promise<IFooterPage> => {
-  return maxkg.get(`site/get-page?url=${url}`).json();
-};
+export const getFooterPages = (url : string): Promise<IFooterPage> => {
+  return maxkg.get(`site/get-page/${url}`).json();
+}
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
@@ -145,3 +146,20 @@ export const getPromoByIdTwo = (id: number): Promise<IPromoById> => {
 export const getPromoByIdThree = (id: number): Promise<IPromoById> => {
   return maxkg.get(`ak/${id}?pageSize=20&page=3`).json();
 };
+
+export const getDiscountsById = (id: number): Promise<IDiscountsById> => {
+  return maxkg.get(`discount/${id}`).json();
+}
+
+export const getSearchItem = (path: string): Promise<ISeek> => {
+  return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=1`).json();
+}
+
+export const getSearchItemTwo = (path: string): Promise<ISeek> => {
+  return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=2`).json();
+};
+
+export const getSearchItemThree = (path: string): Promise<ISeek> => {
+  return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=3`).json();
+};
+

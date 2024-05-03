@@ -1,25 +1,25 @@
 "use client";
-import styles from "./style.module.scss";
-import { IPopularGood } from "@/types/popularGoods";
-import PopularGoodsSection from "./PopularGoodsSection/PopularGoodsSection";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
+import { IPopularGood } from "@/types/popularGoods";
 
 interface IPopularGoodsProps {
-  pageOne: IPopularGood[];
-  pageTwo: IPopularGood[];
-  pageThree: IPopularGood[];
+  goods: IPopularGood[];
 }
 
-export default function PopularGoods({ pageOne, pageTwo, pageThree }: IPopularGoodsProps) {
+export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const [page, setPage] = useState(1);
+  const [showAll, setShowAll] = useState(false);
+  const perPage = 10;
+  const maxPagesToShowMore = 3; // Maximum number of times "Show more" button can be clicked
   const router = useRouter();
 
   const handleShowMore = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    if (page >= 3) {
-      router.push("/all-popular-goods");
+    if (nextPage >= maxPagesToShowMore) {
+      setShowAll(true);
     }
   };
 
@@ -28,19 +28,36 @@ export default function PopularGoods({ pageOne, pageTwo, pageThree }: IPopularGo
       <div className="container">
         <div className="cardContainer">
           <h2 className="sections__title">Популярные товары</h2>
-          <PopularGoodsSection goods={pageOne} />
-          {page >= 2 && <PopularGoodsSection goods={pageTwo} />}
-          {page >= 3 && <PopularGoodsSection goods={pageThree} />}
-          <div className="showMoreBtn">
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowMore}
-            >
-              {page < 3 ? "Показать еще" : "Показать все"}
-            </button>
+          <div className="main__news_cards">
+            {goods.slice(0, page * perPage).map((item, index) => (
+              <PopularGoodsCards goods={item} key={index} />
+            ))}
           </div>
+
+          {!showAll && page < maxPagesToShowMore && (
+            <div className="showMoreBtn">
+              <button
+                className="default__buttons_showMore"
+                onClick={handleShowMore}
+              >
+                Показать еще
+              </button>
+            </div>
+          )}
+
+          {showAll && (
+            <div className="showMoreBtn">
+              <button
+                className="default__buttons_showMore"
+                onClick={() => router.push("/all-popular-goods")}
+              >
+                Показать все
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 }
+
