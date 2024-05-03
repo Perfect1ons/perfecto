@@ -72,7 +72,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           </div>
         </div>
       </div>
-      <div className="main__news_cards">
+      <div className="main__news_cards top pad">
         {discount.product.map((item, index) => {
           return <Cards cardData={item} key={index} />;
         })}

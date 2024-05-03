@@ -68,7 +68,7 @@ export const getPromotion = (): Promise<IPromotion[]> => {
 };
 
 export const getNewsByLimit = (): Promise<INews[]> => {
-  return maxkg.get("news?pageSize=6").json();
+  return maxkg.get("news?pageSize=18").json();
 };
 
 export const getNews = (): Promise<INews[]> => {

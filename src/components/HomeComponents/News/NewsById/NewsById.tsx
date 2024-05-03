@@ -33,7 +33,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
             <Link href={"/"} className="all__directions_link">
               Главная
             </Link>
-            <Link href={"/news"} className="all__directions_link">
+            <Link href={"/news?page=1"} className="all__directions_link">
               Новости
             </Link>
             <Link
@@ -87,7 +87,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
             </div>
           </div>
         </div>
-        <div className="main__news_cards">
+        <div className="main__news_cards ">
           {news.map((item, index) => {
             return <NewsCards newData={item} key={index} />;
           })}

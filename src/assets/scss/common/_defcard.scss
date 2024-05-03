@@ -3,8 +3,7 @@
 .main__news{
     &_cards{
         max-width: 1440px;
-        margin: 30px auto 30px auto;
-        padding: 0 15px;
+        margin: 0 auto;
         display: grid;
         align-items: flex-start;
         grid-template-columns: repeat(5,1fr);
@@ -38,6 +37,13 @@
     }
 }
 
+.top{
+    margin-top: 30px;
+}
+
+.pad{
+    padding: 0 15px;
+}
 
 .default__card{
     background: var(--white);
