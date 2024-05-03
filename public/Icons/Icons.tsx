@@ -425,55 +425,76 @@ export const HomeIconActive = () => {
 
 export const ChevronRightIcon = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-right"
     width="16"
     height="16"
-    viewBox="0 0 25 25"
-    strokeWidth="1.8"
-    stroke="#777"
+    viewBox="0 0 16 16"
     fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M9 6l6 6l-6 6" />
+    <path
+      d="M5.76001 3.83997L9.60001 7.67997L5.76001 11.52"
+      stroke="#777777"
+      strokeWidth="0.64"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
 export const chevronUpIcon = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-up"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
     fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M6 15l6 -6l6 6" />
+    <g clipPath="url(#clip0_89_2)">
+      <path
+        d="M4 9.83997L7.84 5.99997L11.68 9.83997"
+        stroke="#777777"
+        strokeWidth="0.64"
+        strokeLinecap="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_89_2">
+        <rect
+          width="16"
+          height="16"
+          fill="white"
+          transform="matrix(0 -1 1 0 0 16)"
+        />
+      </clipPath>
+    </defs>
   </svg>
 );
 
 export const chevronDownIcon = () => (
   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-down"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
     fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path d="M6 9l6 6l6 -6" />
+    <g clipPath="url(#clip0_89_2)">
+      <path
+        d="M12 6.16003L8.16 10L4.32 6.16003"
+        stroke="#777777"
+        strokeWidth="0.64"
+        strokeLinecap="round"
+      />
+    </g>
+    <defs>
+      <clipPath id="clip0_89_2">
+        <rect
+          width="16"
+          height="16"
+          fill="white"
+          transform="matrix(0 1 -1 0 16 0)"
+        />
+      </clipPath>
+    </defs>
   </svg>
 );
 
@@ -487,9 +508,10 @@ export const ChevronLeftIcon = () => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M9.6001 11.5199L5.7601 7.6799L9.6001 3.8399"
+        d="M10.24 12.16L6.39999 8.32003L10.24 4.48003"
         stroke="#777777"
         strokeWidth="0.64"
+        strokeLinecap="round"
       />
     </svg>
   );

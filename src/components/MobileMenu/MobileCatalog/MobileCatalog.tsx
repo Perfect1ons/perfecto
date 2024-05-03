@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 import { MobNavProps } from "../MobileNav/MobileNav";
 
@@ -19,9 +19,8 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>();
 
   const openAndSetSubCategory = (categoryId: number) => {
-    setIsOpen(!isOpen);
-
     setActiveCategoryId(categoryId);
+    setIsOpen(!isOpen);
   };
 
   // передает название выбранного каталога
@@ -54,6 +53,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
               <div
                 className={styles.grid_item}
                 onClick={() => {
+                  openOrClose;
                   openAndSetSubCategory(item.id);
                   setSelectedCategoryName(item.name);
                 }}

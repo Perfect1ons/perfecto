@@ -45,9 +45,6 @@
   margin: 10px 20px;
 }
 
-.subCatalogsList {
-}
-
 .subCatalogsListItem {
   @include mixin.flex(center, space-between, null, null);
 

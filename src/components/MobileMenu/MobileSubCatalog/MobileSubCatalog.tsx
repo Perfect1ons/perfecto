@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu, ChildLevel2 } from "@/types/Catalog/catalogMenu"; // Assuming ChildLevel2 is exported from your types
 
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -23,10 +23,6 @@ export default function MobileSubCatalog({
   activeCategoryId,
   selectedCategoryName,
 }: SubCatalProps) {
-  const childLevel2Keys = Object.keys(
-    catalog.find((cat) => cat.id === activeCategoryId)?.child_level2 ?? {}
-  );
-
   return (
     <div
       className={
@@ -39,6 +35,7 @@ export default function MobileSubCatalog({
         </div>
         <span>На главную</span>
       </div>
+
       {selectedCategoryName && (
         <div className={cn(styles.menu_wrap, styles.subCatalogsName)}>
           <div className={styles.icon_wrap}>
@@ -47,19 +44,23 @@ export default function MobileSubCatalog({
           <span>{selectedCategoryName}</span>
         </div>
       )}
+
       <hr className={styles.hr} />
+
       <ul className={styles.subCatalogsList}>
-        {childLevel2Keys.map((key) => (
-          <li className={styles.subCatalogsListItem} key={key}>
-            <span>
-              {
-                catalog.find((cat) => cat.id === activeCategoryId)
-                  ?.child_level2[key].name
-              }
-            </span>
-            <ChevronRightIcon />
-          </li>
-        ))}
+        {catalog.flatMap((rootItem) => {
+          const childLevel2 = Array.isArray(rootItem.child_level2)
+            ? rootItem.child_level2
+            : [];
+          return childLevel2
+            .filter((childItem) => childItem.parent === activeCategoryId)
+            .map((filteredChildItem, key) => (
+              <li className={styles.subCatalogsListItem} key={key}>
+                <span>{filteredChildItem.name}</span>
+                <ChevronRightIcon />
+              </li>
+            ));
+        })}
       </ul>
     </div>
   );
