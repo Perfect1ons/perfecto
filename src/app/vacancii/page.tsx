@@ -1,25 +1,23 @@
 import { getFooter, getFooterPages } from "@/api/requests";
-import OKompanii from "@/components/O-kompaniiComponents/OKompanii";
-import Vacancii from "@/components/VacanciiComponents/Vacancii";
+import FooterPageRenderer from "@/components/UI/FooterPageRenderer/FooterPageRenderer";
 import { Metadata } from "next";
-
 
 export const metadata: Metadata = {
   title:
-    "О компании max.kg",
+    "Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны.",
   description:
-    "Маркетплейс №1 в Кыргызстане, самый большой выбор товаров, бесплатная доставка, пункты выдачи, все виды оплат.",
+    "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия ☎️ 0(553)93 1111, 0(500)93 1111",
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
+  robots: "index,follow",
 };
 export default async function page() {
-
-    const vacanciiData = await getFooterPages("vacancii");
-    const sidebarLinks = await getFooter();
+  const vacancii = await getFooterPages("vacancii");
+  const sidebarLinks = await getFooter();
 
   return (
     <>
-    <Vacancii vacancii={vacanciiData} links={sidebarLinks}/>
+      <FooterPageRenderer data={vacancii} links={sidebarLinks} />
     </>
   );
 }

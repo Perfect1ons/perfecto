@@ -6,31 +6,38 @@
   user-select: none;
   margin-top: 20px;
   margin-bottom: 20px;
-  max-width: 200px;
-  padding: 20px;
+  max-width: 280px;
+  padding: 30px;
   outline: 1px solid var(--super-light-white);
   border-radius: 10px;
   @include mixin.flex(null, null, column, 25px);
-  @media screen and (max-width: 480px) {
-    padding: 10px;
-    margin-left: 10px;
+  @media screen and (max-width: 576px) {
+    margin-left: 8px;
+    padding: 8px;
   }
 }
 .sidebarItem {
   @include mixin.flex(null, null, column, null);
 }
 .sidebarItemInfoTitle {
-  @include mixin.font(1rem, 700, null, var(--gray-dark));
+  @include mixin.font(16px, 700, null, var(--gray-dark));
+  @media screen and (max-width: 576px) {
+    font-size: 0.875rem;
+  }
   @media screen and (max-width: 480px) {
-    font-size: 0.9375rem;
+    font-size: 0.8125rem;
+
   }
 }
 .sidebarItemLinks {
   padding: 8px 0px;
   margin-top: 10px;
   @include mixin.flex(null, null, column, 2px);
-  @media screen and (max-width: 480px){
+  @media screen and (max-width: 576px){
     gap: 8px;
+  }
+  @media screen and (max-width: 480px) {
+    gap: 5px;
   }
 }
 .sidebarItemLinksLink {
@@ -39,8 +46,11 @@
   &:hover {
     color: var(--violet);
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 576px){
     font-size: 0.8125rem;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 0.625rem;
   }
 }
 .sidebarItemLinksLinkActive {
@@ -49,7 +59,10 @@
   &:hover {
     color: var(--violet);
   }
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 576px) {
     font-size: 0.8125rem;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 0.625rem;
   }
 }
