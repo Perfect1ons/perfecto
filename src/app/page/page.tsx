@@ -4,14 +4,15 @@ import { IFooterItem } from '@/types/footerRequest';
 import React, { useEffect, useState } from 'react'
 import styles from "./style.module.scss"
 import LinksSidebar from '@/components/UI/LinksSidebar/LinksSidebar';
-import NotFound from '../not-found';
-
+import Link from 'next/link';
+import cn from "clsx"
 interface IAboutCompanyProps {
     data: IFooterPage | undefined;
     links: IFooterItem[];
+    breadcrumb: string | undefined
 }
 
-const FooterPage = ({ data, links }: IAboutCompanyProps) => {
+const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
 
     const [isClient, setIsClient] = useState(false);
 
@@ -25,7 +26,31 @@ const FooterPage = ({ data, links }: IAboutCompanyProps) => {
 
     const html = data.model.text.split("</p>\r\n<p>");
 
+
+    const filterBreadcrumb = () => {
+        return links.filter(item => item.pod_menu.some(subitem => subitem.url === breadcrumb));
+    }
+    
+    const breadcrumbNames = filterBreadcrumb().map(item => {
+        const subitem = item.pod_menu.find(subitem => subitem.url === breadcrumb);
+        return subitem ? subitem.naim : ''; // Возвращаем только naim подходящего элемента или пустую строку, если элемент не найден
+    });
     return (
+        <div className='container'>
+          <div className="all__directions">
+          <Link href={"/"} className="all__directions_link">
+            Главная
+          </Link>
+          <Link
+            href={"/news"}
+            className={cn(
+              "all__directions_link",
+                "all__directions_linkActive"
+            )}
+          >
+           {breadcrumbNames.join(', ')}
+          </Link>
+        </div>
         <div className={styles.wrap}>
             <div className={styles.wrapSidebar}>
                 <LinksSidebar links={links} />
@@ -40,6 +65,7 @@ const FooterPage = ({ data, links }: IAboutCompanyProps) => {
                         />
                     ))}
             </div>
+        </div>
         </div>
     )
 }

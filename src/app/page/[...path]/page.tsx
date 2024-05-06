@@ -21,6 +21,6 @@ export default async function page({params: {path}}: Params) {
     
     
   return (
-    <FooterPage  data={data} links={sidebarLinks}/>
+    <FooterPage  data={data} links={sidebarLinks} breadcrumb={fullPath}/>
   )
 }

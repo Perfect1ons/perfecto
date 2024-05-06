@@ -1,7 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .sidebar {
-  position: absolute;
-  left: 0;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   margin-left: 20px;
