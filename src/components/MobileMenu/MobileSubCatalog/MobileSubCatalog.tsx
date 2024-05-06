@@ -8,6 +8,7 @@ import {
   ChevronRightIcon_Mobile,
 } from "../../../../public/Icons/Mobile_Icons";
 import Image from "next/image";
+import Link from "next/link";
 
 interface SubCatalProps {
   open: boolean;
@@ -52,20 +53,20 @@ export default function MobileSubCatalog({
           return childLevel2
             .filter((childItem) => childItem.parent === activeCategoryId)
             .map((filteredChildItem, key) => (
-              <a
-                href={`https://max.kg/catalog/${filteredChildItem.full_slug}`}
+              <div
+                // href={`https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}`}
                 key={key}
                 className={styles.subCatalogsListItem_a}
-                // onClick={() => {
-                //   console.log(
-                //     `https://max.kg/api/catalog/cathome/${filteredChildItem.id}${filteredChildItem.icon}`
-                //   );
-                // }}
+                onClick={() => {
+                  console.log(
+                    `https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}  `
+                  );
+                }}
               >
                 <li className={styles.subCatalogsListItem}>
                   <div className={styles.subCatItem_name}>
                     <Image
-                      src={`https://max.kg/${filteredChildItem.icon}`}
+                      src={`https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}${filteredChildItem.icon}`}
                       width={50}
                       height={50}
                       alt=""
@@ -74,7 +75,7 @@ export default function MobileSubCatalog({
                   </div>
                   <ChevronRightIcon_Mobile />
                 </li>
-              </a>
+              </div>
             ));
         })}
       </ul>
