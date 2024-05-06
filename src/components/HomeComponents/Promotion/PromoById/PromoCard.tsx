@@ -82,7 +82,7 @@ const PromoCards = ({ promo }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {promo.ddos}
+          <p className="ddos__text">{promo.ddos}</p>
         </div>
         <div className="add__to">
           <button

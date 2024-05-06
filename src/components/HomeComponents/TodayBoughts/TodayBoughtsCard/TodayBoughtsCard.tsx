@@ -83,7 +83,7 @@ const imageUrl =
             height={20}
             alt="delivery_icon"
           />
-          {goods.ddos}
+          <p className="ddos__text">{goods.ddos}</p>
         </div>
         <div className="add__to">
           <button

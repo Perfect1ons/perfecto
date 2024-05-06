@@ -81,7 +81,7 @@ const Cards = ({ cardData }: IcardDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {cardData.ddos}
+          <p className="ddos__text">{cardData.ddos}</p>
         </div>
         <div className="add__to">
           <button
