@@ -76,6 +76,9 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
                       width={93.5}
                       height={93.5}
                       alt={item.name}
+                      placeholder="blur"
+                      loading="lazy"
+                      blurDataURL={imageUrl}
                     />
                     <h1 className="category__item_title">{item.name}</h1>
                   </SwiperSlide>

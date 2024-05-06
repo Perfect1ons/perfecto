@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
@@ -12,7 +11,6 @@ interface WindowWithOpenURL extends Window {
 }
 
 const AppBanner = () => {
-  const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [appLink, setAppLink] = useState("");
   const [isBannerVisible, setIsBannerVisible] = useState(false);
@@ -58,6 +56,9 @@ const AppBanner = () => {
           width={45}
           height={45}
           alt="maxKgLogoApp"
+          placeholder="blur"
+          loading="lazy"
+          blurDataURL="/img/logoApp.svg"
         ></Image>
         <div className={styles.appBannerInfoText}>
           <p className={styles.appBannerInfoTextDesc}>Приложение</p>
