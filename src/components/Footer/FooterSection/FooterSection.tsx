@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface IFooterSectionProps {
   links: IFooterItem[];
@@ -19,6 +20,7 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
     new Date().getFullYear()
   );
   const isMobile = useMediaQuery("(max-width: 1200px)");
+  const router = useRouter()
 
   useEffect(() => {
     setIsOpen(!isMobile);
@@ -68,13 +70,13 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                     const url = podItem.url.startsWith("https://")
                       ? podItem.url
                       : `/page/${podItem.url}`;
-
+                    
                     return (
                       <div
                         key={podItem.id}
                         className={styles.footerNavItemLinks}
                       >
-                        <Link className={styles.footerNavItemLink} href={url}>
+                        <Link onClick={()=>router.push(url)} className={styles.footerNavItemLink} href={url}>
                           {podItem.naim}
                         </Link>
                       </div>
@@ -121,7 +123,7 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                         key={podItem.id}
                         className={styles.footerNavItemLinks}
                       >
-                        <Link className={styles.footerNavItemLink} href={url}>
+                        <Link onClick={()=>router.push(url)} className={styles.footerNavItemLink} href={url}>
                           {podItem.naim}
                         </Link>
                       </div>
