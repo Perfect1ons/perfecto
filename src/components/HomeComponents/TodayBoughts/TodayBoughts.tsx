@@ -27,8 +27,9 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
   return (
     <div className="goods">
       <div className="container">
-        <div className="cardContainer">
           <h2 className="sections__title">Сегодня купили</h2>
+      </div>
+        <div className="cardContainer">
           <div className="main__news_cards">
             {boughts.slice(0, page * perPage).map((item, index) => (
               <TodayBoughtsCards goods={item} key={index} />
@@ -57,7 +58,6 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }

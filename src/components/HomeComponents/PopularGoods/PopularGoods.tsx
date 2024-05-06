@@ -26,8 +26,9 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   return (
     <div className="goods">
       <div className="container">
+        <h2 className="sections__title">Популярные товары</h2>
+      </div>
         <div className="cardContainer">
-          <h2 className="sections__title">Популярные товары</h2>
           <div className="main__news_cards">
             {goods.slice(0, page * perPage).map((item, index) => (
               <PopularGoodsCards goods={item} key={index} />
@@ -56,7 +57,6 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 }

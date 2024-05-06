@@ -1,19 +1,22 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import { ISeekCatalog, ISeekItem } from "@/types/Search/seek";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import ProductList from "./ProductList";
+import CustomSelect from "./CustomSelect";
+
 const SeekCards = dynamic(() => import("@/components/Seek/SeekCard"));
 
-export interface ISeekProps {
+interface SeekProps {
   catalog: ISeekCatalog[];
   product: ISeekItem[];
 }
 
-const Seek: React.FC<ISeekProps> = ({ catalog, product }) => {
+const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
   const [items, setItems] = useState<ISeekItem[]>(product);
   const [sortOrder, setSortOrder] = useState<
-    "cheap" | "expensive" | "rating" | null
+    "default" | "cheap" | "expensive" | "rating" | null
   >(null);
 
   useEffect(() => {
@@ -25,14 +28,14 @@ const Seek: React.FC<ISeekProps> = ({ catalog, product }) => {
         sortParam === "expensive" ||
         sortParam === "rating")
     ) {
-      setSortOrder(sortParam);
+      setSortOrder(sortParam as "cheap" | "expensive" | "rating");
     } else {
-      setSortOrder(null);
+      setSortOrder("default");
     }
   }, []);
 
   useEffect(() => {
-    if (sortOrder !== null) {
+    if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
   }, [sortOrder]);
@@ -55,7 +58,18 @@ const Seek: React.FC<ISeekProps> = ({ catalog, product }) => {
     setItems(sortedItems);
   };
 
-  const handleSort = (order: "cheap" | "expensive" | "rating") => {
+const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
+  if (order === "default") {
+    setSortOrder(null); // Сброс порядка сортировки
+    setItems(product); // Возвращение изначальных данных
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.delete("sort"); // Удаление параметра sort из URL
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams.toString()}`
+    );
+  } else {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("sort", order);
@@ -64,7 +78,9 @@ const Seek: React.FC<ISeekProps> = ({ catalog, product }) => {
       "",
       `${window.location.pathname}?${queryParams.toString()}`
     );
-  };
+  }
+};
+
 
   return (
     <section className="seek">
@@ -91,40 +107,20 @@ const Seek: React.FC<ISeekProps> = ({ catalog, product }) => {
             })}
           </div>
         </div>
-
         <div className="sort__buttons">
-          <h2 className="sort__buttons_title">Сортировать:</h2>
-          <button
-            className={`sort__buttons_button ${
-              sortOrder === "cheap" ? "sort__buttons_button_active" : ""
-            }`}
-            onClick={() => handleSort("cheap")}
-          >
-            Сначала дешевле
-          </button>
-          <button
-            className={`sort__buttons_button ${
-              sortOrder === "expensive" ? "sort__buttons_button_active" : ""
-            }`}
-            onClick={() => handleSort("expensive")}
-          >
-            Сначала дороже
-          </button>
-          <button
-            className={`sort__buttons_button ${
-              sortOrder === "rating" ? "sort__buttons_button_active" : ""
-            }`}
-            onClick={() => handleSort("rating")}
-          >
-            По рейтингу
-          </button>
+          <CustomSelect
+            value={sortOrder || "default"}
+            options={[
+              { label: "По умолчанию", value: "default" },
+              { label: "Сначала дешевле", value: "cheap" },
+              { label: "Сначала дороже", value: "expensive" },
+              { label: "По рейтингу", value: "rating" },
+            ]}
+            onChange={(value) => handleSort(value)}
+          />
         </div>
       </div>
-      <div className="main__news_cards">
-        {items.map((item, index) => (
-          <SeekCards key={index} cardData={item} />
-        ))}
-      </div>
+      <ProductList items={items} />
     </section>
   );
 };
