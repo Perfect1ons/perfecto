@@ -18,6 +18,7 @@
   }
 }
 .catalogs__9h3 {
+  text-decoration: none;
   font-size: 18px;
   font-weight: 700;
   color: #424242;
@@ -35,22 +36,32 @@
   border-color: transparent transparent #fff;
   content: "";
 }
+.catalogLinkContainer {
+  border-radius: 4px;
+  &:hover {
+    background: #f2f2f2;
+  }
+  &.catalogActive {
+    background: #f2f2f2;
+  }
+}
 .catalogs__h2 {
+  text-decoration: none;
   @include mixin.flex(center, space-between, null, null);
   text-decoration: none;
-  margin-left: 20px;
+  margin-left: 10px;
   color: #424242;
   font-size: 15px;
   font-weight: 400;
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
-  &:hover {
-    background: #f2f2f2;
-  }
-  &.active {
-    background: #f2f2f2;
-  }
+  // &:hover {
+  //   background: #f2f2f2;
+  // }
+  // &.active {
+  //   background: #f2f2f2;
+  // }
 }
 .spanChevron {
   @include mixin.flex(center, center, null, null);
@@ -68,6 +79,7 @@
   margin: 0 1%;
 }
 .category__li__h3 {
+  text-decoration: none;
   font-size: 14px;
   display: block;
   color: #424242;
@@ -103,6 +115,7 @@
 .subCatalogsUl {
   @include mixin.flex(null, null, column, 10px);
   &__li {
+    text-decoration: none;
     cursor: pointer;
     font-size: 14px;
     color: #424242;
@@ -138,6 +151,11 @@
 }
 .buttonsSpanCatalogs {
   @include mixin.flex(center, center, null, null);
+}
+@media screen and (min-width: 1440px) {
+  .catalogs__h2 {
+    padding: 0;
+  }
 }
 @media screen and (max-width: 992px) {
   .triangle {
