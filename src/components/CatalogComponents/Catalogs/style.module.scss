@@ -1,4 +1,4 @@
-@use "../../assets/scss/common/mixins" as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
 .container {
   @include mixin.container(1440px);

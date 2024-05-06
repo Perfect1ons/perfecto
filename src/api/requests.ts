@@ -23,10 +23,11 @@ import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache:"no-cache"
+  cache: "no-cache",
 });
 const maxkgz = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache",
 });
 
 // export const getBannerData = (): Promise<IBanner> => {
@@ -115,17 +116,16 @@ const getFilterPrice = (
 
 export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
-}
+};
 
 //footer pages request
-
-export const getFooterPages = (url : string): Promise<IFooterPage> => {
+export const getFooterPages = (url: string): Promise<IFooterPage> => {
   return maxkg.get(`site/get-page/${url}`).json();
-}
+};
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
-}
+};
 
 export const getNewsByIdTwo = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=2`).json();
@@ -137,7 +137,7 @@ export const getNewsByIdThree = (id: number): Promise<INewsByPath> => {
 
 export const getPromoByIdOne = (id: number): Promise<IPromoById> => {
   return maxkg.get(`ak/${id}?pageSize=20&page=1`).json();
-}
+};
 
 export const getPromoByIdTwo = (id: number): Promise<IPromoById> => {
   return maxkg.get(`ak/${id}?pageSize=20&page=2`).json();
@@ -149,11 +149,11 @@ export const getPromoByIdThree = (id: number): Promise<IPromoById> => {
 
 export const getDiscountsById = (id: number): Promise<IDiscountsById> => {
   return maxkg.get(`discount/${id}`).json();
-}
+};
 
 export const getSearchItem = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=1`).json();
-}
+};
 
 export const getSearchItemTwo = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=2`).json();

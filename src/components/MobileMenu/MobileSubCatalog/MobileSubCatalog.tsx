@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu, ChildLevel2 } from "@/types/Catalog/catalogMenu"; // Assuming ChildLevel2 is exported from your types
 
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -7,23 +7,23 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "../../../../public/Icons/Icons";
+import Link from "next/link";
 
 interface SubCatalProps {
   open: boolean;
   close: () => void;
   catalog: ICatalogMenu;
+  activeCategoryId: number | null | undefined;
+  selectedCategoryName: string | null;
 }
-// activeCategoryId: number | null; // Добавляем activeCategoryId в Props
 
 export default function MobileSubCatalog({
   open,
   close,
   catalog,
+  activeCategoryId,
+  selectedCategoryName,
 }: SubCatalProps) {
-  // const filteredSubCatalogs = activeCategoryId
-  //   ? catalog.find((cat) => cat.id === activeCategoryId)?.child_level2
-  //   : null; // Фильтруем подкаталоги по активному categoryId
-
   return (
     <div
       className={
@@ -36,28 +36,38 @@ export default function MobileSubCatalog({
         </div>
         <span>На главную</span>
       </div>
+
+      {selectedCategoryName && (
+        <div className={cn(styles.menu_wrap, styles.subCatalogsName)}>
+          <div className={styles.icon_wrap}>
+            <ChevronLeftIcon />
+          </div>
+          <span>{selectedCategoryName}</span>
+        </div>
+      )}
+
+      <hr className={styles.hr} />
+
       <ul className={styles.subCatalogsList}>
-        {/* {filteredSubCatalogs &&
-          filteredSubCatalogs.map((subCat) => {
-            const childLevel2 = Object.values(subCat.child_level2).sort(
-              (a, b) => {
-                return a.sort_menu - b.sort_menu;
-              }
-            );
-            return <li key={subCat.id}>{subCat.name}</li>;
-          })} */}
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 1</span>
-          <ChevronRightIcon />
-        </li>
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 2</span>
-          <ChevronRightIcon />
-        </li>
-        <li className={styles.subCatalogsListItem}>
-          <span>Дочерний 3</span>
-          <ChevronRightIcon />
-        </li>
+        {catalog.flatMap((rootItem) => {
+          const childLevel2 = Array.isArray(rootItem.child_level2)
+            ? rootItem.child_level2
+            : [];
+          return childLevel2
+            .filter((childItem) => childItem.parent === activeCategoryId)
+            .map((filteredChildItem, key) => (
+              <a
+                href={`https://max.kg/catalog/${filteredChildItem.full_slug}`}
+                key={key}
+                className={styles.subCatalogsListItem_a}
+              >
+                <li className={styles.subCatalogsListItem}>
+                  <span>{filteredChildItem.name}</span>
+                  <ChevronRightIcon />
+                </li>
+              </a>
+            ));
+        })}
       </ul>
     </div>
   );
