@@ -1,5 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .footer {
+  margin-top: 800px;
   user-select: none;
   border-radius: 10px 10px 0px 0px;
   background: linear-gradient(
@@ -67,9 +68,9 @@
   @include mixin.flex(null, null, null, null);
 }
 .footerNavItemLink {
+  padding: 1px 0;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
-  padding: 5px 0px;
   display: block;
   @include mixin.link(16px, 400, var(--white));
   filter: brightness(80%);
@@ -77,6 +78,9 @@
   transition: 0.3s all;
   &:hover {
     filter: brightness(100%);
+  }
+  @media screen and (max-width: 1200px) {
+    padding: 5px 0px;
   }
 }
 

@@ -1,5 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .sidebar {
+  position: absolute;
+  left: 0;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   margin-left: 20px;
@@ -30,11 +32,11 @@
   }
 }
 .sidebarItemLinks {
-  padding: 8px 0px;
   margin-top: 10px;
   @include mixin.flex(null, null, column, 2px);
   @media screen and (max-width: 576px){
     gap: 8px;
+    padding: 5px 0px;
   }
   @media screen and (max-width: 480px) {
     gap: 5px;
