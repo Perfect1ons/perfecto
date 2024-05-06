@@ -21,7 +21,6 @@ export default async function promotions() {
   return (
     <>
       <AllPromo allpromo={promotionData}/>
-      <Application/>
     </>
   )
 }

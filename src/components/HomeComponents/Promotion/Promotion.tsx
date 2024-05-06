@@ -3,14 +3,13 @@ import React, { useState, useRef } from "react";
 import { IPromotion } from "@/types/promotion";
 import styles from "./style.module.scss";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface IPromoProps {
   promotion: IPromotion[];
 }
 
 const Promotion = ({ promotion }: IPromoProps) => {
-  const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [visiblePromotions, setVisiblePromotions] = useState(
     promotion.slice(0, 6)
@@ -23,10 +22,6 @@ const Promotion = ({ promotion }: IPromoProps) => {
     }
   };
 
-  const handleShowAll = () => {
-    router.push("promotions");
-  };
-
   return (
     <section className="promotion">
       <div className={"container"}>
@@ -34,14 +29,15 @@ const Promotion = ({ promotion }: IPromoProps) => {
         <div className={styles.promotion__container}>
           {visiblePromotions.map((item) => (
             <div className={styles.promotion__card} key={item.naim}>
-              <Image
-                onClick={() => router.push(`promotions/${item.id}`)}
-                className={styles.promotion__card_img}
-                src={`https://max.kg/${item.logo}`}
-                width={400}
-                height={250}
-                alt={item.naim}
-              />
+              <Link href={`promotions/${item.id}`} passHref>
+                  <Image
+                    className={styles.promotion__card_img}
+                    src={`https://max.kg/${item.logo}`}
+                    width={400}
+                    height={250}
+                    alt={item.naim}
+                  />
+              </Link>
             </div>
           ))}
         </div>
@@ -54,12 +50,11 @@ const Promotion = ({ promotion }: IPromoProps) => {
               Показать ещё
             </button>
           ) : (
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowAll}
-            >
-              Показать все
-            </button>
+            <Link href="promotions" passHref>
+              <button className="default__buttons_showMore">
+                Показать все
+              </button>
+            </Link>
           )}
         </div>
       </div>
@@ -68,5 +63,6 @@ const Promotion = ({ promotion }: IPromoProps) => {
 };
 
 export default Promotion;
+
 
 

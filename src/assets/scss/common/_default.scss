@@ -103,6 +103,12 @@ body{
   }
 }
 
+.secondBanner, .thirdBanner{
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
 //! стили пагинации
 .swiper-pagination-bullet {
   cursor: pointer;
@@ -213,6 +219,7 @@ body{
 
 
   &_img{
+    user-select: none;
     @media screen and (max-width: 640px) {
       width: 63px;
       height: auto;

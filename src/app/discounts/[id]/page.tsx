@@ -19,7 +19,6 @@ export default async function IDPage({ params: { id } }: any) {
   return (
     <>
       <DiscountsById discount={data}/>
-      <Application />
     </>
   );
 }

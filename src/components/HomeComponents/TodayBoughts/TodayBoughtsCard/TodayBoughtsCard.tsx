@@ -65,7 +65,7 @@ const imageUrl =
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {goods.cenaok}
+          {Number(goods.cenaok).toLocaleString()}
           <span className="default__card_price_custom"> с</span>
         </span>
         <h2 className="default__card_name">{goods.naim}</h2>

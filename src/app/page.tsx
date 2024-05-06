@@ -13,7 +13,6 @@ import {
   getSecondBanner,
   getThirdBanner,
 } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import SecondBanner from "@/components/HomeComponents/Banner/SecondBanner";
 import ThirdBanner from "@/components/HomeComponents/Banner/ThirdBanner";
