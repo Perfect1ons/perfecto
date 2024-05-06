@@ -86,7 +86,6 @@ export default async function Home() {
       <Brands brands={brandsData} />
       <PopularGoods goods={goods}/>
       <ThirdBanner banner={thirdBanner.baner}/>
-      <Application />
     </>
   );
 }
