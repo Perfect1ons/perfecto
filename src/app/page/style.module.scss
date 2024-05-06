@@ -1,9 +1,10 @@
 @use "../../assets/scss/common/mixins" as mixin;
-.aboutCompany {
-  @include mixin.flex(null, center, null, null);
+.wrap {
+  @include mixin.flex(null, flex-start, null, 20px);
+  margin-bottom: 390px;
 }
 
-.aboutCompanyInfo {
+.wrapInfo {
   padding: 0px 20px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -19,7 +20,7 @@
     margin-top: 8px;
   }
 }
-.aboutCompanyItem {
+.wrapInfoItem {
   @include mixin.font(16px, 400, 20px, var(--dark));
   max-width: 1200px;
   @media screen and (max-width: 576px) {

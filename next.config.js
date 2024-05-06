@@ -25,6 +25,34 @@ module.exports = {
         protocol: "https",
         hostname: "cdn3.static1-sima-land.com",
       },
+      {
+        protocol: "https",
+        hostname: "ostrov-sokrovisch.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.pandashop.md",
+      },
+      // {
+      //   protocol: "https",
+      //   hostname: "lh3.googleusercontent.com",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "lh3.googleusercontent.com",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "lh3.googleusercontent.com",
+      // },
+      // {
+      //   protocol: "https",
+      //   hostname: "lh3.googleusercontent.com",
+      // },
     ],
   },
   async headers() {

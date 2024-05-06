@@ -5,7 +5,6 @@
   margin-left: 20px;
   user-select: none;
   margin-top: 20px;
-  margin-bottom: 20px;
   max-width: 280px;
   padding: 30px;
   outline: 1px solid var(--super-light-white);
@@ -30,11 +29,11 @@
   }
 }
 .sidebarItemLinks {
-  padding: 8px 0px;
   margin-top: 10px;
   @include mixin.flex(null, null, column, 2px);
   @media screen and (max-width: 576px){
     gap: 8px;
+    padding: 5px 0px;
   }
   @media screen and (max-width: 480px) {
     gap: 5px;

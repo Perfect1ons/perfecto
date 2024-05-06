@@ -43,6 +43,9 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
                   width={94}
                   height={94}
                   alt={item.name}
+                  placeholder="blur"
+                  loading="lazy"
+                  blurDataURL={imageUrl}
                 ></Image>
                 <h2 className="category__item_title">{item.name}</h2>
               </div>
