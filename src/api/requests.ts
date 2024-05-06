@@ -28,7 +28,7 @@ const maxkg = ky.create({
 });
 const maxkgz = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
+  // cache: "no-cache",
 });
 
 // export const getBannerData = (): Promise<IBanner> => {
@@ -57,7 +57,7 @@ export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
 };
 
-export const getFiltersBrand = (id: string): Promise<IFiltersBrand> => {
+export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkgz.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
 
