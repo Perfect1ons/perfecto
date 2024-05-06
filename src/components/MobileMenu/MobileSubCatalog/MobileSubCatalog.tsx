@@ -4,10 +4,10 @@ import { ICatalogMenu, ChildLevel2 } from "@/types/Catalog/catalogMenu"; // Assu
 import styles from "./style.module.scss";
 import cn from "clsx";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "../../../../public/Icons/Icons";
-import Link from "next/link";
+  ChevronLeftIcon_Mobile,
+  ChevronRightIcon_Mobile,
+} from "../../../../public/Icons/Mobile_Icons";
+import Image from "next/image";
 
 interface SubCatalProps {
   open: boolean;
@@ -30,17 +30,13 @@ export default function MobileSubCatalog({
         open === true ? styles.sub_catalog_wrap_active : styles.sub_catalog_wrap
       }
     >
-      <div className={styles.menu_wrap} onClick={close}>
-        <div className={styles.icon_wrap}>
-          <ChevronLeftIcon />
-        </div>
-        <span>На главную</span>
-      </div>
-
       {selectedCategoryName && (
-        <div className={cn(styles.menu_wrap, styles.subCatalogsName)}>
+        <div
+          className={cn(styles.menu_wrap, styles.subCatalogsName)}
+          onClick={close}
+        >
           <div className={styles.icon_wrap}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon_Mobile />
           </div>
           <span>{selectedCategoryName}</span>
         </div>
@@ -60,10 +56,23 @@ export default function MobileSubCatalog({
                 href={`https://max.kg/catalog/${filteredChildItem.full_slug}`}
                 key={key}
                 className={styles.subCatalogsListItem_a}
+                // onClick={() => {
+                //   console.log(
+                //     `https://max.kg/api/catalog/cathome/${filteredChildItem.id}${filteredChildItem.icon}`
+                //   );
+                // }}
               >
                 <li className={styles.subCatalogsListItem}>
-                  <span>{filteredChildItem.name}</span>
-                  <ChevronRightIcon />
+                  <div className={styles.subCatItem_name}>
+                    <Image
+                      src={`https://max.kg/${filteredChildItem.icon}`}
+                      width={50}
+                      height={50}
+                      alt=""
+                    />
+                    <span>{filteredChildItem.name}</span>
+                  </div>
+                  <ChevronRightIcon_Mobile />
                 </li>
               </a>
             ));
