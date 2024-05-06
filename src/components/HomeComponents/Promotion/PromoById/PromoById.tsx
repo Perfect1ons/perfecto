@@ -83,17 +83,16 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                 </div>
                 <div className={styles.main__news_data}>
                   <span>{formatNewsDate(main.dat1)}</span>
-                  <span>Просмотров: {main.view}</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="main__news_cards">
-          {promo.map((item, index) => {
-            return <PromoCards promo={item} key={index} />;
-          })}
-        </div>
+      </div>
+      <div className="main__news_cards top">
+        {promo.map((item, index) => {
+          return <PromoCards promo={item} key={index} />;
+        })}
       </div>
     </section>
   );

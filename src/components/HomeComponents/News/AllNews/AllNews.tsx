@@ -107,7 +107,6 @@ const [currentPage, setCurrentPage] = useState(() => {
                     </div>
                     <div className={styles.allNews__content_data}>
                       <span>{formatNewsDate(news.dat1)}</span>
-                      <span>Просмотров: {news.view}</span>
                     </div>
                   </div>
                 </div>

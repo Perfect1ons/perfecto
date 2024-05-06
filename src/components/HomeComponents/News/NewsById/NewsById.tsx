@@ -80,14 +80,13 @@ const NewsById = ({news, main}: INewsByIdProps) => {
                   </div>
                   <div className={styles.main__news_data}>
                     <span>{formatNewsDate(main.dat1)}</span>
-                    <span>Просмотров: {main.view}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="main__news_cards ">
+        <div className="main__news_cards top">
           {news.map((item, index) => {
             return <NewsCards newData={item} key={index} />;
           })}
