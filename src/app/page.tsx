@@ -73,7 +73,6 @@ export default async function Home() {
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
       <PopularGoods goods={goods}/>
-      <Application />
     </>
   );
 }
