@@ -59,7 +59,7 @@ const AppBanner = () => {
           placeholder="blur"
           loading="lazy"
           blurDataURL="/img/logoApp.svg"
-        ></Image>
+         ></Image>
         <div className={styles.appBannerInfoText}>
           <p className={styles.appBannerInfoTextDesc}>Приложение</p>
           <h2 className={styles.appBannerInfoTextTitle}>max.kg</h2>
