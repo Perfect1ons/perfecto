@@ -1,16 +1,22 @@
 import {
   getBoughts,
   getBrands,
+  getDekstopData,
   getDiscounts,
+  getMobileData,
   getNews,
   getNewsByLimit,
   getPopularCategory,
   getPopularGoods,
   getPromotion,
   getSeasonCategory,
+  getSecondBanner,
+  getThirdBanner,
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import Banner from "@/components/HomeComponents/Banner/Banner";
+import SecondBanner from "@/components/HomeComponents/Banner/SecondBanner";
+import ThirdBanner from "@/components/HomeComponents/Banner/ThirdBanner";
 import Brands from "@/components/HomeComponents/Brands/Brands";
 import Discounts from "@/components/HomeComponents/Discounts/Discounts";
 import News from "@/components/HomeComponents/News/News";
@@ -32,8 +38,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  // запрос на популярные категории
   const popularCategoryData = await getPopularCategory();
+  // запрос на популярные категории
+  const mobileData = await getMobileData();
+  const desktopData = await getDekstopData();
   // todays boughts requests 
   const [boughtsOne, boughtsTwo, boughtsThree] = await Promise.all([
     getBoughts(1),
@@ -45,6 +53,8 @@ export default async function Home() {
   const newsData = await getNewsByLimit();
   // скидки
   const discounts = await getDiscounts();
+  
+  const secondBanner = await getSecondBanner();
   // акции
   const promotionData = await getPromotion();
   // сезонные товары
@@ -59,20 +69,23 @@ export default async function Home() {
     getPopularGoods(3),
   ])
   const goods = [goodsOne, goodsTwo, goodsThree].flat();
+  const thirdBanner = await getThirdBanner()
   
 
 
   return (
     <>
-      <Banner />
+      <Banner mobileData={mobileData} deskstopData={desktopData}/>
       <PopularCategory category={popularCategoryData} />
       <TodayBoughts boughts={boughtsAll}/>
       <News news={newsData} />
       <Discounts discounts={discounts} />
+      <SecondBanner banner={secondBanner.baner}/>
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
       <PopularGoods goods={goods}/>
+      <ThirdBanner banner={thirdBanner.baner}/>
       <Application />
     </>
   );

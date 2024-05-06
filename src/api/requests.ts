@@ -20,6 +20,7 @@ import { ITruncate } from "@/types/truncatedText";
 import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
+import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -160,4 +161,19 @@ export const getSearchItemTwo = (path: string): Promise<ISeek> => {
 
 export const getSearchItemThree = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=3`).json();
+};
+
+export const getMobileData = (): Promise<IIntroBanner> => {
+  return maxkg.get("baner/position?id=1").json();
+}
+export const getDekstopData = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=1").json();
+};
+
+export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=3").json();
+}
+
+export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=5").json();
 };
