@@ -63,9 +63,10 @@ const NewsCards = ({ newData }: INewDataProps) => {
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {newData.cenaok}
+          {Number(newData.cenaok).toLocaleString()}
           <span className="default__card_price_custom"> с</span>
         </span>
+
         <h2 className="default__card_name">{newData.naim}</h2>
         <div className="ocenka">
           {[...Array(5)].map((_, index) => (
@@ -81,7 +82,7 @@ const NewsCards = ({ newData }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {newData.ddos}
+          <p className="ddos__text">{newData.ddos}</p>
         </div>
         <div className="add__to">
           <button

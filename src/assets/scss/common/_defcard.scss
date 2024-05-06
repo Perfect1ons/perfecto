@@ -193,6 +193,9 @@
     &__text{
         max-height: 28px;
         overflow: hidden;
+        @media screen and (max-width: 640px) {
+            
+        }
     }
 }
 

@@ -21,7 +21,6 @@ export default async function news() {
   return (
     <>
       <AllNews allnews={newsData}/>
-      <Application/>
     </>
   )
 }
