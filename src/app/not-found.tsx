@@ -27,7 +27,6 @@ const NotFound = async () => {
     <>
     <NotFounded/>
     <PopularGoods goods={goods}/>
-    <Application/>
     </>
   );
 };

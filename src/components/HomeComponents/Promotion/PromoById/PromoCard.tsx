@@ -63,7 +63,7 @@ const PromoCards = ({ promo }: INewDataProps) => {
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {promo.cenaok}
+          {Number(promo.cenaok).toLocaleString()}
           <span className="default__card_price_custom"> с</span>
         </span>
         <h2 className="default__card_name">{promo.naim}</h2>
@@ -82,7 +82,7 @@ const PromoCards = ({ promo }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          {promo.ddos}
+          <p className="ddos__text">{promo.ddos}</p>
         </div>
         <div className="add__to">
           <button
