@@ -24,6 +24,7 @@ import PopularGoods from "@/components/HomeComponents/PopularGoods/PopularGoods"
 import Promotion from "@/components/HomeComponents/Promotion/Promotion";
 import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCategory";
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
+import ThemeToggler from "@/components/UI/ThemeToggler/ThemeToggler";
 import type { Metadata } from "next";
 
 
