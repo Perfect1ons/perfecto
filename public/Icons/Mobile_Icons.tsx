@@ -113,36 +113,17 @@ export const HearthIconRed = () => {
 export const ChevronRightIcon_Mobile = () => {
   return (
     <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M5.76001 3.83997L9.60001 7.67997L5.76001 11.52"
+        d="M3.27271 1.09094L8.33452 6.15276L3.27271 11.2146"
         stroke="#777777"
-        strokeWidth="0.64"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-};
-
-export const ChevronLeftIcon_Mobile = () => {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 16 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M10.24 12.16L6.39999 8.32003L10.24 4.48003"
-        stroke="#777777"
-        strokeWidth="0.64"
-        strokeLinecap="round"
+        stroke-width="1.2"
+        stroke-linecap="round"
       />
     </svg>
   );

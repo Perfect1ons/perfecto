@@ -26,10 +26,9 @@ import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCat
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title:
-    "Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны",
+    "[test]Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны",
   description:
     "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   keywords:
@@ -37,6 +36,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+
   const [popularCategoryData,mobileData,desktopData,newsData,discounts,secondBanner,promotionData,seasonCategoryData, brandsData,thirdBanner ] = await Promise.all([
     getPopularCategory(),
     getMobileData(),
@@ -49,34 +49,34 @@ export default async function Home() {
     getBrands(),
     getThirdBanner(),
   ])
+  
   const [boughtsOne, boughtsTwo, boughtsThree] = await Promise.all([
     getBoughts(1),
     getBoughts(2),
     getBoughts(3),
   ]);
-  const boughtsAll = [boughtsOne.lastz, boughtsTwo.lastz, boughtsThree.lastz].flat();
   const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
     getPopularGoods(1),
     getPopularGoods(2),
     getPopularGoods(3),
-  ])
+  ]);
   const goods = [goodsOne, goodsTwo, goodsThree].flat();
-  
-
 
   return (
     <>
       <Banner mobileData={mobileData} deskstopData={desktopData}/>
       <PopularCategory category={popularCategoryData} />
-      <TodayBoughts boughts={boughtsAll}/>
+      <TodayBoughts boughts={boughtsAll} />
       <News news={newsData} />
       <Discounts discounts={discounts} />
       <SecondBanner banner={secondBanner.baner}/>
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
+
       <PopularGoods goods={goods}/>
       <ThirdBanner banner={thirdBanner.baner}/>
+
     </>
   );
 }

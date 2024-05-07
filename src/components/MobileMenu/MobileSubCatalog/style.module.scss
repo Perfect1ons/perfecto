@@ -8,7 +8,7 @@
   display: block;
   width: 100%;
   height: max-content;
-  background: #fff;
+  background: var(--white);
 
   position: absolute;
   top: 0;
@@ -16,32 +16,28 @@
   z-index: 100;
 }
 
-.menu_wrap {
-  @include mixin.flex(center, space-between, null, null);
+.selectedCat_wrap {
+  @include mixin.flex(center, null, null, 10px);
+  margin-top: 5px;
 
   max-height: 22px;
   width: auto;
 
-  background: #e8e8e8;
+  background: var(--light-white);
   border-radius: 10px;
   padding: 20px 10px;
 }
 
-.icon_wrap {
-  margin-top: 3px;
-  margin-right: 15px;
+.leftIcon_wrap {
+  rotate: 180deg;
 }
 
 .menu_wrap span {
   width: 100%;
 }
 
-.subCatalogsName {
-  margin-top: 5px;
-}
-
 .hr {
-  @include mixin.item__border(2px, solid, #e1e1e1, 8px);
+  @include mixin.item__border(2px, solid, var(--super-light-white), 8px);
   margin: 10px 20px;
 }
 
@@ -52,7 +48,7 @@
 .subCatalogsListItem {
   @include mixin.flex(center, space-between, null, null);
 
-  background: #e8e8e8;
+  background: var(--light-white);
   border-radius: 10px;
   padding: 15px;
   margin-bottom: 5px;
@@ -60,7 +56,7 @@
 
 .subCatalogsListItem_a {
   text-decoration: none;
-  color: #000;
+  color: var(--black);
 }
 
 .subCatItem_name {
