@@ -11,6 +11,7 @@
   "dependencies": {
     "@plaiceholder/next": "^3.0.0",
     "clsx": "^2.1.0",
+    "html-react-parser": "^5.1.10",
     "http-proxy": "^1.18.1",
     "ky": "^1.2.3",
     "next": "14.2.1",

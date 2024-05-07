@@ -10,7 +10,7 @@ import {
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
-import { IPopularGood} from "@/types/popularGoods";
+import { IPopularGood } from "@/types/popularGoods";
 
 interface IgoodsProps {
   goods: IPopularGood;
@@ -63,7 +63,7 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {goods.cenaok}
+          {goods.cenaok.toLocaleString("ru-RU")}
           <span className="default__card_price_custom"> с</span>
         </span>
         <h2 className="default__card_name">{goods.naim}</h2>
@@ -81,9 +81,7 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">
-           {goods.ddos}
-          </p>
+          <p className="ddos__text">{goods.ddos}</p>
         </div>
         <div className="add__to">
           <button

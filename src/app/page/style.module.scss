@@ -1,9 +1,9 @@
 @use "../../assets/scss/common/mixins" as mixin;
-.aboutCompany {
-  @include mixin.flex(null, center, null, null);
+.wrap {
+  @include mixin.flex(null, flex-start, null, 20px);
 }
 
-.aboutCompanyInfo {
+.wrapInfo {
   padding: 0px 20px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -19,9 +19,12 @@
     margin-top: 8px;
   }
 }
-.aboutCompanyItem {
-  @include mixin.font(16px, 400, 20px, var(--dark));
+.wrapInfoItem {
+  @include mixin.flex(null, null, column, 10px);
   max-width: 1200px;
+}
+.wrapInfoItemTitle{
+  text-align: justify;
   @media screen and (max-width: 576px) {
     max-width: 600px;
     font-size: 0.8125rem;
@@ -31,3 +34,15 @@
     font-size: 10px;
   }
 }
+.wrapInfoItemDesc{
+  text-align: justify;
+  @media screen and (max-width: 576px) {
+    max-width: 600px;
+    font-size: 0.8125rem;
+  }
+  @media screen and (max-width: 480px) {
+    max-width: 300px;
+    font-size: 10px;
+  }
+} 
+

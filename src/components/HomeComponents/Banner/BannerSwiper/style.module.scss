@@ -8,10 +8,12 @@
   }
 }
 
+.slideWithPadding{
+  padding-bottom: 40px;
+}
 
 .swiper__slide {
   cursor: pointer;
-  padding-bottom: 40px;
   user-select: none;
   border-radius: 5px;
 
@@ -19,8 +21,7 @@
     padding-bottom: 30px;
   }
     &_img{
-        border-radius: 1.5%;
-        padding: 0 15px;
+        border-radius: 10px;
         width: 100%;
         height: auto;
         
@@ -47,6 +48,7 @@
   padding: 12.5px 14px 10px 15px;
   border-radius: 10px;
   border: none;
+  
 }
   
 .team__swiper_buttons {
@@ -58,7 +60,7 @@
   display: flex;
   justify-content: space-between;
   width: 99.5%;
-  left: 0.2%;
+  left: 0.05%;
 
   @media screen and (max-width: 768px) {
     display: none;

@@ -1,14 +1,19 @@
-import Image from 'next/image';
-import PopularGoods from '../HomeComponents/PopularGoods/PopularGoods';
-import styles from './style.module.scss'
-import Link from 'next/link';
-import clsx from 'clsx';
+"use client"
+import Image from "next/image";
+import PopularGoods from "../HomeComponents/PopularGoods/PopularGoods";
+import styles from "./style.module.scss";
+import Link from "next/link";
+import clsx from "clsx";
 
 export interface IPopularProps {
-  goods: any
+  goods: any;
+  search: string
 }
 
-const SeekNotFound = ({ goods }: IPopularProps) => {
+const SeekNotFound = ({ goods, search }: IPopularProps) => {
+  const formattedSearch = search.replace("search=", "");
+
+
   return (
     <section className="seek__not_founded">
       <div className={clsx(styles.not__found_container, "container")}>
@@ -23,7 +28,7 @@ const SeekNotFound = ({ goods }: IPopularProps) => {
 
         <span className={styles.not__found_error}>Упс...</span>
         <h1 className={styles.not__found_title}>
-          По вашему запросу товаров не найдено
+          По запросу {formattedSearch} ничего не найдено
         </h1>
 
         <Link className={styles.goToMain} href={"/"}>
@@ -39,4 +44,6 @@ const SeekNotFound = ({ goods }: IPopularProps) => {
   );
 };
 
-export default SeekNotFound
+export default SeekNotFound;
+
+

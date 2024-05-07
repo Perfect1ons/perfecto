@@ -31,7 +31,6 @@ export default async function IDPage({ params: { id } }: any) {
   return (
     <>
       <NewsById news={result} main={dataOne.news} />
-      <Application />
     </>
   );
 }

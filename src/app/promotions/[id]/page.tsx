@@ -30,7 +30,6 @@ export default async function IDPage({ params: { id } }: any) {
   return (
     <>
       <PromoById promo={result} main={dataOne.ak} />
-      <Application />
     </>
   );
 }

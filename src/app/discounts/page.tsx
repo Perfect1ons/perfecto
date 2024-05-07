@@ -21,7 +21,6 @@ export default async function page() {
   return (
     <>
       <AllDiscounts discountsOne={discountsOne} discountsTwo={discountsTwo} />
-      <Application />
     </>
   );
 }

@@ -26,7 +26,7 @@
 }
 .footerNavItemTitleContainer {
   max-width: 250px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: var(--tap-select);
   @include mixin.flex(center, null, null, 40px);
   @media screen and (max-width: 1200px) {
     cursor: pointer;
@@ -67,9 +67,9 @@
   @include mixin.flex(null, null, null, null);
 }
 .footerNavItemLink {
-  -webkit-tap-highlight-color: transparent;
+  padding: 1px 0;
+  -webkit-tap-highlight-color: var(--tap-select);
   user-select: none;
-  padding: 5px 0px;
   display: block;
   @include mixin.link(16px, 400, var(--white));
   filter: brightness(80%);
@@ -78,10 +78,14 @@
   &:hover {
     filter: brightness(100%);
   }
+  @media screen and (max-width: 1200px) {
+    padding: 5px 0px;
+  }
 }
 
 .footerDescBlock {
-  -webkit-tap-highlight-color: transparent;
+  text-align: justify;
+  -webkit-tap-highlight-color: var(--tap-select);
   margin-top: 40px;
 }
 .footerDescBlockTitle {

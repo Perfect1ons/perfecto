@@ -18,6 +18,7 @@
   }
 }
 .catalogs__9h3 {
+  text-decoration: none;
   font-size: 18px;
   font-weight: 700;
   color: #424242;
@@ -32,25 +33,35 @@
   height: 0;
   border-style: solid;
   border-width: 0 8px 8px;
-  border-color: transparent transparent #fff;
+  border-color: transparent transparent var(--white);
   content: "";
 }
+.catalogLinkContainer {
+  border-radius: 4px;
+  &:hover {
+    background: var(--gray-white);
+  }
+  &.catalogActive {
+    background: var(--gray-white);
+  }
+}
 .catalogs__h2 {
+  text-decoration: none;
   @include mixin.flex(center, space-between, null, null);
   text-decoration: none;
-  margin-left: 20px;
-  color: #424242;
+  margin-left: 10px;
+  color: var(--gray-dark);
   font-size: 15px;
   font-weight: 400;
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
-  &:hover {
-    background: #f2f2f2;
-  }
-  &.active {
-    background: #f2f2f2;
-  }
+  // &:hover {
+  //   background: #f2f2f2;
+  // }
+  // &.active {
+  //   background: #f2f2f2;
+  // }
 }
 .spanChevron {
   @include mixin.flex(center, center, null, null);
@@ -68,9 +79,10 @@
   margin: 0 1%;
 }
 .category__li__h3 {
+  text-decoration: none;
   font-size: 14px;
   display: block;
-  color: #424242;
+  color: var(--gray-dark);
   font-weight: 600;
   line-height: 14px;
   cursor: pointer;
@@ -88,7 +100,7 @@
   font-size: 14px;
   display: block;
   padding: 0 5px;
-  color: #424242;
+  color: var(--gray-dark);
   font-weight: 400;
   line-height: 14px;
   cursor: pointer;
@@ -103,9 +115,10 @@
 .subCatalogsUl {
   @include mixin.flex(null, null, column, 10px);
   &__li {
+    text-decoration: none;
     cursor: pointer;
     font-size: 14px;
-    color: #424242;
+    color: var(--gray-dark);
     font-weight: 400;
     line-height: 14px;
     &:hover {
@@ -136,8 +149,19 @@
     color: var(--violet);
   }
 }
+.chevronRightIconCatalog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #737373;
+}
 .buttonsSpanCatalogs {
   @include mixin.flex(center, center, null, null);
+}
+@media screen and (min-width: 1440px) {
+  .catalogs__h2 {
+    padding: 0;
+  }
 }
 @media screen and (max-width: 992px) {
   .triangle {
@@ -158,10 +182,6 @@
   .catalogs {
     width: 100%;
   }
-  // .category__ul {
-  //   display: grid;
-  //   grid-template-columns: 1fr 1fr;
-  // }
 }
 @media screen and (max-width: 420px) {
   .catalogs__h2 {

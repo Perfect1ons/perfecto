@@ -20,6 +20,7 @@ import { ITruncate } from "@/types/truncatedText";
 import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
+import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -27,7 +28,7 @@ const maxkg = ky.create({
 });
 const maxkgz = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
+  // cache: "no-cache",
 });
 
 // export const getBannerData = (): Promise<IBanner> => {
@@ -36,10 +37,10 @@ const maxkgz = ky.create({
 
 // запрос на главный каталог
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkgz.get("catalog/cathome").json();
+  return maxkg.get("catalog/cathome").json();
 };
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkgz.get("catalog/cat-list-menu").json();
+  return maxkg.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs
@@ -56,8 +57,8 @@ export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
 };
 
-export const getFiltersBrand = (id: string): Promise<IFiltersBrand> => {
-  return maxkgz.get(`catalog/listfilter?id_cat=${id}?`).json();
+export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
+  return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
 
 export const getBannerData = (): Promise<IBanner> => {
@@ -107,7 +108,7 @@ const getFilterPrice = (
   cena_min: number,
   cena_max: number
 ): Promise<ICatalogsChild> => {
-  return maxkgz
+  return maxkg
     .get(
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
     )
@@ -119,9 +120,9 @@ export const getFooter = (): Promise<IFooter> => {
 };
 
 //footer pages request
-export const getFooterPages = (url : string): Promise<IFooterPage> => {
+export const getFooterPages = (url: string): Promise<IFooterPage> => {
   return maxkg.get(`site/get-page/${url}`).json();
-}
+};
 
 export const getNewsByIdOne = (id: number): Promise<INewsByPath> => {
   return maxkg.get(`news/${id}?pageSize=20&page=1`).json();
@@ -149,11 +150,11 @@ export const getPromoByIdThree = (id: number): Promise<IPromoById> => {
 
 export const getDiscountsById = (id: number): Promise<IDiscountsById> => {
   return maxkg.get(`discount/${id}`).json();
-}
+};
 
 export const getSearchItem = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=1`).json();
-}
+};
 
 export const getSearchItemTwo = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=2`).json();
@@ -163,3 +164,17 @@ export const getSearchItemThree = (path: string): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?${path}&cat=-1&page=3`).json();
 };
 
+export const getMobileData = (): Promise<IIntroBanner> => {
+  return maxkg.get("baner/position?id=1").json();
+};
+export const getDekstopData = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=1").json();
+};
+
+export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=3").json();
+};
+
+export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=5").json();
+};
