@@ -4,6 +4,7 @@
   @include mixin.flex(center, center, column, null);
 }
 .footerDescBlockTitle {
+  text-align: justify;
   user-select: none;
   margin-top: 10px;
   @include mixin.link(14px, 400, var(--white));
