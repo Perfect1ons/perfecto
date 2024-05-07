@@ -86,7 +86,7 @@ const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     <section className="seek">
       <div className="container">
         <div className="seek__catalog">
-          <h1 className="seek__catalog_title">Найдено в категорях</h1>
+          <h1 className="seek__catalog_title">Найдено в категориях</h1>
           <div className="seek__catalog_cards">
             {catalog.map((catalog, index) => {
               const iconSrc = catalog.icon.startsWith("https://")

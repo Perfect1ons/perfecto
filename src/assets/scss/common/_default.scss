@@ -4,24 +4,6 @@
   @include reset-all-styles;
 }
 
-body{
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--white); /* Цвет фона скроллбара */
-
-    
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--dark-blue); 
-    border-radius: 5px;
-      cursor: pointer;
-
-  }
-}
 
 .container {
   @include container(1440px);
@@ -185,12 +167,14 @@ body{
   }
 }
 
+
+
 //! стили популярных категорий
 .myCategory__swiper {
-  padding-bottom: 50px !important;
+  padding-bottom: 30px !important;
 
   @media screen and (max-width: 640px) {
-    padding-bottom: 30px;
+    padding-bottom: 20px;
   }
 }
 
@@ -393,62 +377,79 @@ body{
 }
 
 .select-header {
-  @include mixin.flex(center,null,null,5px);
-  @include mixin.font(16px, 600, 150%, var(--dark-blue));
-  border: 2px solid var(--dark-blue);
+  @include mixin.flex(center);
   text-align: center;
   border-radius: 5px;
-  margin: 5px 5px;
-  background-color: var(--dark-blue);
   cursor: pointer; /* Изменение курсора при наведении */
-  padding: 3px 10px;
 
   &_sort{
-    color: white;
+    color: var(--black);
   }
 
   &_sorted{
-    background: var(--dark-blue);
+    @include mixin.flex(center,null,null,10px);
     border-radius: 5px;
-    color: var(--white);
-    padding: 8px 12px; /* Отступы внутри заголовка */
+    color: var(--dark-blue);
+    padding: 8px 12px; 
+    
+    p{
+      color: var(--dark-blue);
+      transform: rotate(90deg);
+    }
+
+    &:hover{
+      color: var(--violet);
+      p{
+        color: var(--violet);
+      }
+    }
   }
+  
 }
+
+/* CustomSelect.css */
+.open p {
+  color: var(--violet);
+  transform: rotate(270deg);
+}
+
+.open .select-header_sorted {
+  color: var(--violet);
+}
+
 
 .options {
   position: absolute;
+  overflow: hidden;
   top: calc(100% + 5px); /* Расстояние от заголовка до опций */
   left: 0;
   width: 100%;
   z-index: 100;
   background-color: #fff; /* Цвет фона опций */
   border: 1px solid #ccc; /* Граница */
-  border-radius: 4px; /* Скругленные углы */
+  border-radius: 10px; /* Скругленные углы */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень */
+  border: 2px solid var(--secondary);
 }
 
 .option {
-  @include mixin.font(16px, 600, 150%, var(--dark-blue));
-  background: var(--secondary-white);
-  margin: 5px 5px;
+  @include mixin.font(16px, 600, 150%, var(--black));
   cursor: pointer;
   padding: 10px 5px;
-  border-radius: 5px;
   text-wrap: nowrap;
 }
 
 
 .option:hover {
-  background-color: var(--dark-blue);
-  color: var(--white);
-  margin: 5px 5px;
+  background-color: #112b663d;
+    color: var(--black);
+
 }
 
 .selected {
-  border-radius: 5px;
-  margin: 5px 5px;
-  color: var(--white);
-  background-color: var(--dark-blue); /* Цвет фона выбранной опции */
+  color: var(--black);
+  background-color: #112b663d;
+
 }
 
 
@@ -468,3 +469,10 @@ body{
   background: var(--dark-blue); 
   border-radius: 5px;
 }
+
+
+
+.slideWithPadding{
+  padding-bottom: 40px;
+}
+

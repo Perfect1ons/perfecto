@@ -56,12 +56,12 @@ const imageUrl = useMemo(() => {
           height={200}
           alt={cardData.naim}
           quality={100}
-          loading="lazy" 
+          loading="lazy"
         />
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {cardData.cenaok}
+          {cardData.cenaok.toLocaleString("ru-RU")}
           <span className="default__card_price_custom"> с</span>
         </span>
         <h2 className="default__card_name">{cardData.naim}</h2>
@@ -79,9 +79,7 @@ const imageUrl = useMemo(() => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">
-            {cardData.ddos}
-          </p>
+          <p className="ddos__text">{cardData.ddos}</p>
         </div>
         <div className="add__to">
           <button

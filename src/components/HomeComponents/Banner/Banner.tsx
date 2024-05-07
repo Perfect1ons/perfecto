@@ -12,12 +12,11 @@ interface IBannerProps {
 
 const Banner = ({ mobileData, deskstopData }: IBannerProps) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const direction = "/news/454";
 
   return (
     <section className="intro__banner">
       <div className={cn(styles.intro__banner_container, "container")}>
-        <BannerSwiper slides={isMobile ? mobileData.product : deskstopData.baner} direction={direction} />
+        <BannerSwiper slides={isMobile ? mobileData.product : deskstopData.baner}  />
       </div>
     </section>
   );

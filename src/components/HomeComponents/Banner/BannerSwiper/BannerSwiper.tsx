@@ -14,12 +14,11 @@ import Link from "next/link";
 
 interface ISlide {
   slides: IIntro[];
-  direction: string;
 }
 
 
 
-const BannerSwiper = ({ slides, direction }: ISlide) => {
+const BannerSwiper = ({ slides}: ISlide) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
@@ -28,7 +27,7 @@ const BannerSwiper = ({ slides, direction }: ISlide) => {
         clickable: true,
       }}
       autoplay={{
-        delay: 3000,
+        delay: 30000,
         disableOnInteraction: false,
       }}
       modules={[Pagination, Navigation, Autoplay]}
@@ -44,10 +43,10 @@ const BannerSwiper = ({ slides, direction }: ISlide) => {
           <SwiperSlide
             key={slide.id}
             className={`${styles.swiper__slide} ${
-              slides.length > 2 ? styles.slideWithPadding : ""
+              slides.length === 2 ? "slideWithPadding" : "notmorethentwo"
             }`}
           >
-            <Link href={`${direction}`}>
+            <Link href={slide.url.replace("https://max.kg/", "")}>
               <Image
                 className={styles.swiper__slide_img}
                 src={

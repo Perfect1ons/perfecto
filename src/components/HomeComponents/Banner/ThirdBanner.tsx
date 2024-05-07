@@ -6,11 +6,10 @@ interface IThirdBannerProps{
 }
 
 const ThirdBanner = ({banner}: IThirdBannerProps) => {
-    const direction = "/news/454"
   return (
     <section className="thirdBanner">
         <div className="container">
-            <BannerSwiper slides={banner} direction={direction}/>
+            <BannerSwiper slides={banner} />
         </div>
     </section>
   )

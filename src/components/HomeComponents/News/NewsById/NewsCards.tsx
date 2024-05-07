@@ -63,7 +63,7 @@ const NewsCards = ({ newData }: INewDataProps) => {
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {Number(newData.cenaok).toLocaleString()}
+          {newData.cenaok.toLocaleString("ru-RU")}
           <span className="default__card_price_custom"> с</span>
         </span>
 
