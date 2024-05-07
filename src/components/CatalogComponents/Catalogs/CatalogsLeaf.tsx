@@ -49,13 +49,30 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
     }
   };
   return (
-    <div>
+    <div className={styles.container}>
+      <ol className={styles.breadcrumb}>
+        <li className={styles.links}>
+          <Link href="/" className={styles.link}>
+            Главная {ChevronRightIcon()}
+          </Link>
+          <Link
+            href={catalog.category.full_slug || "sadas"}
+            className={styles.link}
+          >
+            {catalog.category.name}
+          </Link>
+        </li>
+      </ol>
       <h1>{catalog.category.name}</h1>
       {catalog &&
         catalog.category &&
         Object.keys(catalog.category).map((key, index) => {
           const category = catalog?.category[key];
-          return <h1 key={index}>{category?.name}</h1>;
+          return (
+            <div className={styles.row} key={index}>
+              <li className={styles.catalog__lih3}>{category?.name}</li>
+            </div>
+          );
         })}
     </div>
     // <div>

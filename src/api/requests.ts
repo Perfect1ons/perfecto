@@ -37,10 +37,10 @@ const maxkgz = ky.create({
 
 // запрос на главный каталог
 export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkgz.get("catalog/cathome").json();
+  return maxkg.get("catalog/cathome").json();
 };
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkgz.get("catalog/cat-list-menu").json();
+  return maxkg.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs
@@ -58,7 +58,7 @@ export const getPopularCategory = (): Promise<ICategory> => {
 };
 
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
-  return maxkgz.get(`catalog/listfilter?id_cat=${id}?`).json();
+  return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
 
 export const getBannerData = (): Promise<IBanner> => {
@@ -108,7 +108,7 @@ const getFilterPrice = (
   cena_min: number,
   cena_max: number
 ): Promise<ICatalogsChild> => {
-  return maxkgz
+  return maxkg
     .get(
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
     )
@@ -166,14 +166,14 @@ export const getSearchItemThree = (path: string): Promise<ISeek> => {
 
 export const getMobileData = (): Promise<IIntroBanner> => {
   return maxkg.get("baner/position?id=1").json();
-}
+};
 export const getDekstopData = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=1").json();
 };
 
 export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=3").json();
-}
+};
 
 export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=5").json();

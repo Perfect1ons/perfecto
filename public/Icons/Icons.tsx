@@ -360,7 +360,7 @@ export const chevronDownIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-chevron-down"
+      className="icon icon-tabler icon-tabler-chevron-down "
       width="20"
       height="20"
       viewBox="0 0 24 24"
@@ -375,7 +375,6 @@ export const chevronDownIcon = () => {
     </svg>
   );
 };
-
 export const ChevronLeftIcon = () => {
   return (
     <svg

@@ -10,7 +10,6 @@ import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
 
-
 interface HeaderProps {
   catalog: ICatalogMenu;
 }
@@ -33,11 +32,16 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   const open = () => {
     setIsOpen(!isOpen);
   };
+  const onClose = () => {
+    setIsOpen(false);
+  };
 
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <Logo />
+        <div onClick={onClose}>
+          <Logo />
+        </div>
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
           <CatalogMenu catalog={catalog} close={open} />
         </Modal>
@@ -58,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
             </div>
           </div>
 
-          <div className={styles.search}>
+          <div className={styles.search} onClick={onClose}>
             <form onSubmit={handleSearchSubmit} className={styles.search__form}>
               <input
                 value={searchTerm}
@@ -74,11 +78,11 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
             </form>
           </div>
 
-          <div className={styles.header__nav}>
+          <div className={styles.header__nav} onClick={onClose}>
             <HeaderNav />
           </div>
 
-          <div className={styles.search__white}>
+          <div className={styles.search__white} onClick={onClose}>
             <SearchIconWhite />
           </div>
         </div>
