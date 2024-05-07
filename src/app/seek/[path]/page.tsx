@@ -22,6 +22,7 @@ export async function generateMetadata({ params: { path } }: any) {
 }
 
 export async function PathPage({ params: { path } }: any) {
+  
     const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
       getPopularGoods(1),
       getPopularGoods(2),
@@ -46,7 +47,7 @@ export async function PathPage({ params: { path } }: any) {
         (!data.model || !data.model.items || data.model.items.length === 0)) ||
       data.id_qseek === 0
     ) {
-      return <SeekNotFound goods={goods}/>;
+      return <SeekNotFound goods={goods} search={decodedPath}/>;
     }
 
     return <Seek catalog={data.catalog} product={result} />;

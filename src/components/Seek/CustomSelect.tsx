@@ -1,4 +1,5 @@
 'use client'
+// CustomSelect.tsx
 import React, { useState } from "react";
 
 interface CustomSelectProps {
@@ -17,13 +18,18 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className={`custom-select ${isOpen ? "open" : ""}`}>
-      <div className="select-header" onClick={() => setIsOpen(!isOpen)}>
-        <span className="select-header_sort">Сортировать: </span>
-        <span className="select-header_sorted">
+      <div className="select-header" onClick={toggleOpen}>
+        <span className="select-header_sort">Сортировка: </span>
+        <span className={`select-header_sorted ${isOpen ? "open" : ""}`}>
           {options.find((option) => option.value === value)?.label ||
             "По умолчанию"}
+          <p className={isOpen ? "open" : ""}>&#10095;</p>
         </span>
       </div>
       {isOpen && (
@@ -47,6 +53,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
 };
 
 export default CustomSelect;
+
+
+
 
 
 

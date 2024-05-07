@@ -37,38 +37,30 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const popularCategoryData = await getPopularCategory();
-  // запрос на популярные категории
-  const mobileData = await getMobileData();
-  const desktopData = await getDekstopData();
-  // todays boughts requests 
+  const [popularCategoryData,mobileData,desktopData,newsData,discounts,secondBanner,promotionData,seasonCategoryData, brandsData,thirdBanner ] = await Promise.all([
+    getPopularCategory(),
+    getMobileData(),
+    getDekstopData(),
+    getNewsByLimit(),
+    getDiscounts(),
+    getSecondBanner(),
+    getPromotion(),
+    getSeasonCategory(),
+    getBrands(),
+    getThirdBanner(),
+  ])
   const [boughtsOne, boughtsTwo, boughtsThree] = await Promise.all([
     getBoughts(1),
     getBoughts(2),
     getBoughts(3),
   ]);
   const boughtsAll = [boughtsOne.lastz, boughtsTwo.lastz, boughtsThree.lastz].flat();
-  // запрос на новости
-  const newsData = await getNewsByLimit();
-  // скидки
-  const discounts = await getDiscounts();
-  
-  const secondBanner = await getSecondBanner();
-  // акции
-  const promotionData = await getPromotion();
-  // сезонные товары
-  const seasonCategoryData = await getSeasonCategory();
-  // бренды
-  const brandsData = await getBrands();
-
-  // popular goods requests 
   const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
     getPopularGoods(1),
     getPopularGoods(2),
     getPopularGoods(3),
   ])
   const goods = [goodsOne, goodsTwo, goodsThree].flat();
-  const thirdBanner = await getThirdBanner()
   
 
 

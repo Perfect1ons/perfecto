@@ -62,3 +62,7 @@
   text-decoration: none;
   color: #000;
 }
+
+.subCatItem_name {
+  @include mixin.flex(center, center, null, 10px);
+}

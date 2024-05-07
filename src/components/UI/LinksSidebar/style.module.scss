@@ -53,11 +53,10 @@
   }
 }
 .sidebarItemLinksLinkActive {
+  border-radius: 5px;
+  padding: 2px 4px;
+  background: var(--gray-white);
   @include mixin.link(0.875rem, 600, var(--gray-dark));
-  transition: 0.1s all;
-  &:hover {
-    color: var(--violet);
-  }
   @media screen and (max-width: 576px) {
     font-size: 0.8125rem;
   }

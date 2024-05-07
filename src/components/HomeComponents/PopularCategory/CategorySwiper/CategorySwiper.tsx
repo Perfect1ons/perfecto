@@ -84,7 +84,7 @@ export default function CategorySwiper({ category }: ICategory) {
                 width={93.5}
                 height={93.5}
                 alt={item.name}
-                priority
+                loading="lazy"
               />
               <h1 className="category__item_title">{item.name}</h1>
             </SwiperSlide>

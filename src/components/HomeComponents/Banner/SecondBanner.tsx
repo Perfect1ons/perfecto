@@ -9,12 +9,11 @@ interface ISecondBannerProps{
 
 
 const SecondBanner = ({banner}: ISecondBannerProps) => {
-    const direction = "/discounts/696"
 
   return (
     <section className='secondBanner'>
         <div className="container">
-            <BannerSwiper slides={banner} direction={direction}/>
+            <BannerSwiper slides={banner}/>
         </div>
     </section>
   )

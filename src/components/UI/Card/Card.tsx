@@ -63,7 +63,7 @@ const Cards = ({ cardData }: IcardDataProps) => {
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {Number(cardData.cenaok).toLocaleString()}
+          {cardData.cenaok.toLocaleString("ru-RU")}
           <span className="default__card_price_custom"> с</span>
         </span>
         <h2 className="default__card_name">{cardData.naim}</h2>
