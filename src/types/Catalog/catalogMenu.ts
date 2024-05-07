@@ -1,6 +1,6 @@
-export type ICatalogMenu = ICatalogObject[];
+export type ICatalogMenu = Root2[];
 
-export interface ICatalogObject {
+export interface Root2 {
   id: number;
   name: string;
   path: string;

@@ -1,62 +1,24 @@
 import React from "react";
-
-import { ChildLevel2, ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import CatalogsLeaf from "@/components/CatalogComponents/Catalogs/CatalogsLeaf";
+import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import CatalogProducts from "@/components/CatalogComponents/CatalogProducts/CatalogProducts";
+import { getFiltersBrand } from "@/api/requests";
 
 interface IProps {
-  catalog: ICatalogMenu;
+  catalog: ICatalogsProducts;
   path: string;
 }
 
-const Catalogs: React.FC<IProps> = ({ catalog, path }) => {
-  const hasPathMatch = (item: any, path: string): boolean => {
-    return (
-      item.full_slug === path ||
-      (item.child_level2 &&
-        item.child_level2.some(
-          (child: ChildLevel2) => child.full_slug === path
-        ))
-    );
+const Catalogs = async ({ catalog, path }: IProps) => {
+  const filterProduct = await getFiltersBrand(catalog.category.id);
+  const filteredCatalog = () => {
+    if (catalog.category.is_leaf === 1) {
+      return <CatalogProducts catalog={catalog} filter={filterProduct} />;
+    } else {
+      return <CatalogsLeaf catalog={catalog} path={path} />;
+    }
   };
-
-  const filteredCatalog = catalog.filter((item) => hasPathMatch(item, path));
-
-  return (
-    <>
-      {filteredCatalog.map((item) => {
-        if (item.is_leaf === 0) {
-          return (
-            <CatalogsLeaf
-              key={item.id}
-              catalog={item}
-              path={path}
-              leaf={item.is_leaf}
-            />
-          );
-        } else if (item.is_leaf === 1) {
-          return <CatalogProducts key={item.id} />;
-        } else if (item.child_level2) {
-          return item.child_level2.map((child) => {
-            if (child.is_leaf === 0) {
-              return (
-                <CatalogsLeaf
-                  key={child.id}
-                  catalog={child}
-                  path={path}
-                  leaf={child.is_leaf}
-                />
-              );
-            } else if (child.is_leaf === 1) {
-              return <CatalogProducts key={child.id} />;
-            }
-            return null;
-          });
-        }
-        return null;
-      })}
-    </>
-  );
+  return <div>{filteredCatalog()}</div>;
 };
 
 export default Catalogs;
