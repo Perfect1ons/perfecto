@@ -26,7 +26,7 @@
 }
 .footerNavItemTitleContainer {
   max-width: 250px;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: var(--tap-select);
   @include mixin.flex(center, null, null, 40px);
   @media screen and (max-width: 1200px) {
     cursor: pointer;
