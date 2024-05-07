@@ -29,6 +29,20 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
     return null;
   }
 
+  // Разбиваем текст на предложения
+  const sentences = data.model.text.match(/[^.!?]+[.!?]/g);
+
+  if (!sentences) {
+    return null;
+  }
+
+  // Первое предложение для <h1>, остальные для <p>
+  const h1Sentence = sentences[0];
+  const pSentences = sentences.slice(1);
+
+  const h1Html = parse(`<h1>${h1Sentence}</h1>`);
+  const pHtml = pSentences.map((sentence) => parse(`<p>${sentence}</p>`));
+
   const filterBreadcrumb = () => {
     return links.filter((item) =>
       item.pod_menu.some((subitem) => subitem.url === breadcrumb)
@@ -57,8 +71,12 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
           <LinksSidebar links={links} />
         </div>
         <div className={styles.wrapInfo}>
-          {isClient && <div className={styles.wrapInfoItem}>
-          {parse(data.model.text)}</div>}
+          {isClient && (
+            <div className={styles.wrapInfoItem}>
+              <div className={styles.wraInfoItemTitle}>{h1Html}</div>
+              <div className={styles.wraInfoItemDesc}>{pHtml}</div>
+            </div>
+          )}
         </div>
       </div>
     </div>
