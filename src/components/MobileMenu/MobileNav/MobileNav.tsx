@@ -110,7 +110,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
                   : styles.option
               }
             >
-              Корзинка
+              Корзина
             </span>
           </Link>
 

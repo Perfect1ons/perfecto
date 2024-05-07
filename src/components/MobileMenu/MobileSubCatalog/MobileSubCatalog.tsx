@@ -3,12 +3,10 @@ import { ICatalogMenu, ChildLevel2 } from "@/types/Catalog/catalogMenu"; // Assu
 
 import styles from "./style.module.scss";
 import cn from "clsx";
-import {
-  ChevronLeftIcon_Mobile,
-  ChevronRightIcon_Mobile,
-} from "../../../../public/Icons/Mobile_Icons";
+import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Mobile_Icons";
 import Image from "next/image";
 import Link from "next/link";
+import { getImageUrl } from "@/lib/getImageUrl";
 
 interface SubCatalProps {
   open: boolean;
@@ -32,12 +30,9 @@ export default function MobileSubCatalog({
       }
     >
       {selectedCategoryName && (
-        <div
-          className={cn(styles.menu_wrap, styles.subCatalogsName)}
-          onClick={close}
-        >
-          <div className={styles.icon_wrap}>
-            <ChevronLeftIcon_Mobile />
+        <div className={styles.selectedCat_wrap} onClick={close}>
+          <div className={styles.leftIcon_wrap}>
+            <ChevronRightIcon_Mobile />
           </div>
           <span>{selectedCategoryName}</span>
         </div>
@@ -53,29 +48,28 @@ export default function MobileSubCatalog({
           return childLevel2
             .filter((childItem) => childItem.parent === activeCategoryId)
             .map((filteredChildItem, key) => (
-              <div
-                // href={`https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}`}
+              <Link
+                href={`${filteredChildItem.full_slug}`}
                 key={key}
                 className={styles.subCatalogsListItem_a}
-                onClick={() => {
-                  console.log(
-                    `https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}  `
-                  );
-                }}
               >
                 <li className={styles.subCatalogsListItem}>
                   <div className={styles.subCatItem_name}>
                     <Image
-                      src={`https://max.kg/api/catalog/cat-list-menu/${filteredChildItem.full_slug}${filteredChildItem.icon}`}
-                      width={50}
-                      height={50}
+                      src={
+                        filteredChildItem.icon
+                          ? `https://max.kg/${filteredChildItem.icon}`
+                          : "https://max.kg/images/discount/empty-image.png"
+                      }
+                      width={30}
+                      height={30}
                       alt=""
                     />
                     <span>{filteredChildItem.name}</span>
                   </div>
                   <ChevronRightIcon_Mobile />
                 </li>
-              </div>
+              </Link>
             ));
         })}
       </ul>
