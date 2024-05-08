@@ -6,5 +6,7 @@ import MobileNav from "./MobileNav/MobileNav";
 export default async function MobileMenu() {
   const catalogs = await getCatalogsMenu();
 
+  // const { base64, img } = await getImage(getCatalogsMenu());
+
   return <MobileNav catalog={catalogs} />;
 }

@@ -64,6 +64,11 @@
   }
 }
 
+.search__history{
+  position: relative;
+  z-index: 100;
+}
+
 .search {
   cursor: pointer;
   width: 100%;

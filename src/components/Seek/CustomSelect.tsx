@@ -43,6 +43,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                 setIsOpen(false);
               }}
             >
+              <span className="option__cyrcle"></span>
               {option.label}
             </div>
           ))}

@@ -37,8 +37,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [popularCategoryData,mobileData,desktopData,newsData,discounts,secondBanner,promotionData,seasonCategoryData, brandsData,thirdBanner ] = await Promise.all([
-    getPopularCategory(),
+  const popularCategoryData = await getPopularCategory();
+  const [
+    mobileData,
+    desktopData,
+    newsData,
+    discounts,
+    secondBanner,
+    promotionData,
+    seasonCategoryData,
+    brandsData,
+    thirdBanner,
+  ] = await Promise.all([
     getMobileData(),
     getDekstopData(),
     getNewsByLimit(),
@@ -48,35 +58,37 @@ export default async function Home() {
     getSeasonCategory(),
     getBrands(),
     getThirdBanner(),
-  ])
+  ]);
   const [boughtsOne, boughtsTwo, boughtsThree] = await Promise.all([
     getBoughts(1),
     getBoughts(2),
     getBoughts(3),
   ]);
-  const boughtsAll = [boughtsOne.lastz, boughtsTwo.lastz, boughtsThree.lastz].flat();
+  const boughtsAll = [
+    boughtsOne.lastz,
+    boughtsTwo.lastz,
+    boughtsThree.lastz,
+  ].flat();
   const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
     getPopularGoods(1),
     getPopularGoods(2),
     getPopularGoods(3),
-  ])
+  ]);
   const goods = [goodsOne, goodsTwo, goodsThree].flat();
-  
-
 
   return (
     <>
-      <Banner mobileData={mobileData} deskstopData={desktopData}/>
+      <Banner mobileData={mobileData} deskstopData={desktopData} />
       <PopularCategory category={popularCategoryData} />
-      <TodayBoughts boughts={boughtsAll}/>
+      <TodayBoughts boughts={boughtsAll} />
       <News news={newsData} />
       <Discounts discounts={discounts} />
-      <SecondBanner banner={secondBanner.baner}/>
+      <SecondBanner banner={secondBanner.baner} />
       <Promotion promotion={promotionData} />
       <SeasonCategory seasonItems={seasonCategoryData} />
       <Brands brands={brandsData} />
-      <PopularGoods goods={goods}/>
-      <ThirdBanner banner={thirdBanner.baner}/>
+      <PopularGoods goods={goods} />
+      <ThirdBanner banner={thirdBanner.baner} />
     </>
   );
 }
