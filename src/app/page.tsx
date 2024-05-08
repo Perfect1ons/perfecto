@@ -26,6 +26,7 @@ import SeasonCategory from "@/components/HomeComponents/SeasonCategory/SeasonCat
 import TodayBoughts from "@/components/HomeComponents/TodayBoughts/TodayBoughts";
 import type { Metadata } from "next";
 
+
 export const metadata: Metadata = {
   title:
     "Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны",
@@ -36,8 +37,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
+  const popularCategoryData = await getPopularCategory();
   const [
-    popularCategoryData,
     mobileData,
     desktopData,
     newsData,
@@ -48,7 +49,6 @@ export default async function Home() {
     brandsData,
     thirdBanner,
   ] = await Promise.all([
-    getPopularCategory(),
     getMobileData(),
     getDekstopData(),
     getNewsByLimit(),

@@ -69,6 +69,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
                 onChange={handleSearchChange}
                 placeholder="Искать товары и категории"
                 type="text"
+                maxLength={45}
                 id="searchInput"
                 className={styles.search__input}
               />

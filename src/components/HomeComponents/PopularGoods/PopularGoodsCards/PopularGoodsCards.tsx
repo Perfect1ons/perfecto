@@ -23,20 +23,26 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  // Проверяем, доступен ли localStorage (только на клиентской стороне)
-  const isLocalStorageAvailable =
-    typeof window !== "undefined" && window.localStorage;
+  useEffect(() => {
+    // Проверяем, доступен ли localStorage (только на клиентской стороне)
+    const isLocalStorageAvailable =
+      typeof window !== "undefined" && window.localStorage;
 
-  // Используем localStorage только если он доступен
-  const [isFavorite, setIsFavorite] = useState(
-    isLocalStorageAvailable &&
-      localStorage.getItem(goods.id.toString()) === "true"
-  );
+    // Используем localStorage только если он доступен
+    if (isLocalStorageAvailable) {
+      const favoriteStatus = localStorage.getItem(goods.id.toString());
+      setIsFavorite(favoriteStatus === "true");
+    }
+  }, [goods.id]);
 
   const handleFavoriteClick = () => {
     setIsFavorite((prevIsFavorite) => {
       const newIsFavorite = !prevIsFavorite;
+      // Проверяем, доступен ли localStorage (только на клиентской стороне)
+      const isLocalStorageAvailable =
+        typeof window !== "undefined" && window.localStorage;
       if (isLocalStorageAvailable) {
         localStorage.setItem(goods.id.toString(), newIsFavorite.toString());
       }
@@ -112,3 +118,4 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
 };
 
 export default PopularGoodsCards;
+

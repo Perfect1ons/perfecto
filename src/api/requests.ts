@@ -26,6 +26,16 @@ const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   cache: "no-cache",
 });
+
+const maxkgtimeout = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  timeout: 1000
+});
+
+export const getPopularGoods = (page: number): Promise<IPopularGood> => {
+  return maxkgtimeout.get(`site/popular?page=${page}`).json();
+};
+
 const maxkgz = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   // cache: "no-cache",
@@ -92,9 +102,6 @@ export const getDiscounts = (): Promise<IDiscounts[]> => {
   return maxkg.get("discount").json();
 };
 
-export const getPopularGoods = (page: number): Promise<IPopularGood> => {
-  return maxkg.get(`site/popular?page=${page}`).json();
-};
 export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=1`).json();
 };
