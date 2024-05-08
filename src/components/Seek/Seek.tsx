@@ -18,6 +18,7 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
+  const [isColumnView, setIsColumnView] = useState(false);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -58,29 +59,32 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
     setItems(sortedItems);
   };
 
-const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
-  if (order === "default") {
-    setSortOrder(null); // Сброс порядка сортировки
-    setItems(product); // Возвращение изначальных данных
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.delete("sort"); // Удаление параметра sort из URL
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams.toString()}`
-    );
-  } else {
-    setSortOrder(order);
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("sort", order);
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams.toString()}`
-    );
-  }
-};
+  const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
+    if (order === "default") {
+      setSortOrder(null); // Сброс порядка сортировки
+      setItems(product); // Возвращение изначальных данных
+      const queryParams = new URLSearchParams(window.location.search);
+      queryParams.delete("sort"); // Удаление параметра sort из URL
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${queryParams.toString()}`
+      );
+    } else {
+      setSortOrder(order);
+      const queryParams = new URLSearchParams(window.location.search);
+      queryParams.set("sort", order);
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${queryParams.toString()}`
+      );
+    }
+  };
 
+  const handleViewChange = (isColumn: boolean) => {
+    setIsColumnView(isColumn);
+  };
 
   return (
     <section className="seek">
@@ -118,11 +122,41 @@ const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
             ]}
             onChange={(value) => handleSort(value)}
           />
+          <div className="default__sort_style">
+            <button
+              className="default__sort_icons"
+              onClick={() => handleViewChange(false)}
+            >
+              {[...Array(4)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`default__sort_icon ${
+                    !isColumnView ? "sort__button_icons_active" : ""
+                  }`}
+                ></div>
+              ))}
+            </button>
+
+            <button
+              className="default__sort_icons_column"
+              onClick={() => handleViewChange(true)}
+            >
+              {[...Array(2)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`default__sort_icon_column ${
+                    isColumnView ? "sort__button_icons_active" : ""
+                  }`}
+                ></div>
+              ))}
+            </button>
+          </div>
         </div>
       </div>
-      <ProductList items={items} />
+      <ProductList items={items} isColumnView={isColumnView} />
     </section>
   );
 };
 
 export default Seek;
+

@@ -1,5 +1,6 @@
 @use '../common/mixins' as mixin;
 
+
 .main__news{
     &_cards{
         max-width: 1440px;
@@ -35,6 +36,10 @@
             gap: 5px;
         }
     }
+}
+
+.sort__button_cards_active{
+    color: red;
 }
 
 .top{
@@ -217,3 +222,55 @@
 .default__card_name{
     opacity: 0.7;
 }
+
+.default__sort_icons {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    gap: 2px;
+
+    &:hover {
+        .default__sort_icon {
+            border: 2px solid var(--violet);
+        }
+    }
+}
+
+.default__sort_icons_column{
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: repeat(1,2fr);
+    gap: 2px;
+    &:hover {
+        .default__sort_icon_column {
+            border: 2px solid var(--violet);
+    }
+    }
+}
+
+.default__sort_icon_column{
+    border: 2px solid var(--gray-dark);
+    width: 20px;
+    height: 10px;
+    border-radius: 4px;
+    &.sort__button_icons_active{
+        border: 2px solid var(--violet);
+
+    }
+    &:hover {
+        .default__sort_icon {
+            border: 2px solid var(--violet);
+        }
+    }
+}
+
+.default__sort_icon {
+    border: 2px solid var(--gray-dark);
+    width: 10px;
+    height: 10px;
+    border-radius: 4px;
+    &.sort__button_icons_active{
+        border: 2px solid var(--violet);
+    }
+}
+

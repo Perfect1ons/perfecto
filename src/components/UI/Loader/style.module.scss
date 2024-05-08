@@ -15,6 +15,21 @@
   animation: spin 1s linear infinite;
 }
 
+.main__loader_container {
+  @include mixin.flex(center,center,column,30px);
+  min-height: 80vh;
+  border-radius: 10px;
+}
+
+.main__loader {
+  border: 5px solid var(--dark-blue);
+  border-top: 5px solid #112b6670 ;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

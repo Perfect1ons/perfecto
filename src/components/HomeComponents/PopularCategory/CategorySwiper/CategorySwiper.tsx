@@ -19,23 +19,31 @@ import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
 
 export default function CategorySwiper({ category }: ICategory) {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true); // Изначально установите значение loading в true
-const [cachedData, setCachedData] = useState<IPopularCategory[]>([]);
+    const router = useRouter();
+    const [loading, setLoading] = useState(true);
+    const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(
+      null
+    );
 
-  useEffect(() => {
-    // Попробуем получить данные из кеша
-    const cachedCategory = localStorage.getItem("cachedCategory");
-    if (cachedCategory) {
-      setCachedData(JSON.parse(cachedCategory));
-      setLoading(false); // Устанавливаем loading в false, так как данные доступны из кеша
-    } else {
-      // Если данные отсутствуют в кеше, загружаем их и сохраняем в кеш
-      localStorage.setItem("cachedCategory", JSON.stringify(category));
-      setCachedData(category);
-      setLoading(false); // Устанавливаем loading в false после загрузки и сохранения данных
-    }
-  }, [category]); // Запускаем useEffect при изменении категории
+    useEffect(() => {
+      const cachedCategory = localStorage.getItem("cachedCategory");
+
+      if (cachedCategory) {
+        setCachedData(JSON.parse(cachedCategory));
+        setLoading(false);
+      } else {
+        localStorage.setItem("cachedCategory", JSON.stringify(category));
+        setCachedData(category);
+        setLoading(false);
+      }
+    }, [category]);
+
+    useEffect(() => {
+      // Сохраняем категории в локальное хранилище при каждом изменении
+      if (cachedData !== null) {
+        localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
+      }
+    }, [cachedData]);
 
   return (
     <div className={styles.category__swiper}>
