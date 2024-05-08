@@ -15,9 +15,16 @@
 
   background-color: var(--white);
   padding: 5px 0;
+  transition: transform 0.3s ease; // добавляем transition для плавности анимации
+  transform: translateY(0); // по умолчанию меню видно
+
   @media screen and (max-width: 992px) {
     display: block;
   }
+}
+
+.scrolled {
+  transform: translateY(100%);
 }
 
 .ul {

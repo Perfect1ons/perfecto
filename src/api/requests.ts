@@ -62,6 +62,7 @@ export const getCatalogsProducts = (
 ): Promise<ICatalogsProducts> => {
   return maxkg.get(`catalog/${path}`).json();
 };
+
 // на популярные категории
 export const getPopularCategory = (): Promise<ICategory> => {
   return maxkg.get("catalog/season").json();
