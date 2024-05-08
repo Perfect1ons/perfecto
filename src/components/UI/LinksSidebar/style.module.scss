@@ -5,11 +5,14 @@
   margin-left: 20px;
   user-select: none;
   margin-top: 20px;
-  max-width: 280px;
+  min-width: 300px;
   padding: 30px;
   outline: 1px solid var(--super-light-white);
   border-radius: 10px;
   @include mixin.flex(null, null, column, 25px);
+  @media screen and (max-width: 1200px) {
+    display: none; 
+  }
   @media screen and (max-width: 576px) {
     margin-left: 8px;
     padding: 8px;
@@ -40,6 +43,7 @@
   }
 }
 .sidebarItemLinksLink {
+  text-wrap: nowrap;
   @include mixin.link(0.875rem, 400, var(--gray-dark));
   transition: 0.1s all;
   &:hover {
@@ -53,9 +57,9 @@
   }
 }
 .sidebarItemLinksLinkActive {
-  border-radius: 5px;
-  padding: 2px 4px;
-  background: var(--gray-white);
+  position: relative;
+  display: inline-block;  
+  text-wrap: nowrap;
   @include mixin.link(0.875rem, 600, var(--gray-dark));
   @media screen and (max-width: 576px) {
     font-size: 0.8125rem;
@@ -63,4 +67,17 @@
   @media screen and (max-width: 480px) {
     font-size: 0.625rem;
   }
+}
+.sidebarItemLinksLinkActive::after {
+  width: 100%;
+  border-radius: 2px;
+  padding: 8px 0px;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -8px;
+  right: 0;
+  background: var(--gray-white);
+  z-index: -1; 
 }

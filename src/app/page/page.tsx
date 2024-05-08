@@ -41,7 +41,7 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
   const pSentences = sentences.slice(1);
 
   const h1Html = parse(`<h1>${h1Sentence}</h1>`);
-  const pHtml = pSentences.map((sentence) => parse(`<p>${sentence}</p>`));
+  const pHtml = pSentences.map((sentence) => parse(sentence));
 
   const filterBreadcrumb = () => {
     return links.filter((item) =>
