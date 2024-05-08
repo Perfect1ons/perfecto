@@ -1,6 +1,9 @@
 @use "../../assets/scss/common/mixins" as mixin;
 .wrap {
   @include mixin.flex(null, flex-start, null, 20px);
+  @media screen and (max-width: 1200px) {
+    gap: 0;
+  }
 }
 
 .wrapInfo {
@@ -27,22 +30,18 @@
   text-align: justify;
   @media screen and (max-width: 576px) {
     max-width: 600px;
-    font-size: 0.8125rem;
   }
   @media screen and (max-width: 480px) {
     max-width: 300px;
-    font-size: 10px;
   }
 }
 .wrapInfoItemDesc{
   text-align: justify;
   @media screen and (max-width: 576px) {
     max-width: 600px;
-    font-size: 0.8125rem;
   }
   @media screen and (max-width: 480px) {
     max-width: 300px;
-    font-size: 10px;
   }
 } 
 
