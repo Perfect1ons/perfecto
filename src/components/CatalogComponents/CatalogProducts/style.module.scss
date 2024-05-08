@@ -54,17 +54,23 @@
 }
 .filtersContainer {
   @include mixin.flex(center, flex-start, null, 12px);
-  margin: 20px 0;
+  margin: 1 0px 0;
 }
 .showFiltersUlContainer {
   @include mixin.flex(center, center, null, 10px);
   &__check {
-    display: block;
+    @include mixin.flex(center, center, null, null);
     width: 22px;
     height: 22px;
     background: var(--white);
     border: 1px solid #d3d4dd;
     border-radius: 6px;
+  }
+  &__checkActive {
+    color: white;
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    border: 0;
   }
 }
 .buttonShowBrand {
@@ -125,7 +131,7 @@
   }
 }
 .breadcrumb {
-  padding: 0.75rem 1rem 0.75rem 0;
+  margin-bottom: 30px;
 }
 .links {
   @include mixin.flex(center, flex-start, null, 6px);

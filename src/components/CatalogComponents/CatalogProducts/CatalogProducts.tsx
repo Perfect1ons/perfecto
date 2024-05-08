@@ -7,6 +7,7 @@ import { IFiltersBrand } from "@/types/filtersBrand";
 import cn from "clsx";
 import {
   ChevronRightIcon,
+  checkIcon,
   chevronDownIcon,
 } from "../../../../public/Icons/Icons";
 // import styles from "../CatalogProducts/CatalogProductsCard/style.module.scss";
@@ -26,11 +27,16 @@ export default function CatalogProducts({
   const [filtersIsShow, setFiltersIsShow] = useState(false);
   const [brandIsShow, setBrandsIsShow] = useState(false);
   const [buttonResetShow, setButtonResetShow] = useState(false);
+  const [clickCheck, setClickCheck] = useState(false);
+  const checked = () => {
+    setClickCheck(!clickCheck);
+  };
   const showButtonReset = () => {
     setButtonResetShow(true);
   };
   const isShowButtonReset = () => {
     setButtonResetShow(false);
+    setClickCheck(false);
   };
   const brandShowAll = () => {
     setBrandsIsShow(true); // Устанавливаем состояние для показа всех элементов
@@ -100,11 +106,25 @@ export default function CatalogProducts({
                     return null;
                   }
                   return (
-                    <div key={item} className={styles.showFiltersUlContainer}>
+                    <div
+                      key={item}
+                      className={styles.showFiltersUlContainer}
+                      // onClick={(showButtonReset)}
+                      onClick={() => {
+                        showButtonReset();
+                        checked();
+                      }}
+                    >
                       <span
-                        onClick={showButtonReset}
-                        className={styles.showFiltersUlContainer__check}
-                      ></span>
+                        className={cn(styles.showFiltersUlContainer__check, {
+                          [styles.showFiltersUlContainer__checkActive]:
+                            clickCheck,
+                        })}
+                        // className={styles.showFiltersUlContainer__check}
+                      >
+                        {clickCheck && checkIcon()}
+                        {/* {checkIcon()} */}
+                      </span>
                       <li className={styles.showFiltersUl__li}>{item}</li>
                     </div>
                   );
@@ -119,109 +139,6 @@ export default function CatalogProducts({
                 )}
                 {/* Показываем кнопки только если showAll равен true */}
                 <div className={styles.buttonsContainer}>
-                  {/* <button>Сбросить</button> */}
-                  {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
-                    <button
-                      className={styles.buttonsContainer__button}
-                      onClick={isShowButtonReset}
-                    >
-                      Сбросить
-                    </button>
-                  )}
-                  <button className={styles.buttonsContainer__button}>
-                    Готово
-                  </button>
-                </div>
-              </ul>
-            </div>
-            <div className={styles.brandContainer}>
-              <button onClick={showFilters} className={styles.buttonBrand}>
-                Срок доставки
-                <span
-                  className={cn(
-                    styles.footerNavItemArrowIsActive,
-                    filtersIsShow && styles.footerNavItemArrow
-                  )}
-                >
-                  {chevronDownIcon()}
-                </span>
-              </button>
-              <ul
-                className={cn(styles.showFiltersUl, {
-                  [styles.showFiltersActive]: filtersIsShow,
-                })}
-              >
-                {filter.variant_day.map((item, index) => {
-                  if (!brandIsShow && index >= 7) {
-                    return null;
-                  }
-                  return (
-                    <div key={item} className={styles.showFiltersUlContainer}>
-                      <span
-                        onClick={showButtonReset}
-                        className={styles.showFiltersUlContainer__check}
-                      ></span>
-                      <li className={styles.showFiltersUl__li}>{item}</li>
-                    </div>
-                  );
-                })}
-                {!brandIsShow && filter.brand.length > 7 && (
-                  <button
-                    onClick={brandShowAll}
-                    className={styles.buttonShowBrand}
-                  >
-                    Показать все
-                  </button>
-                )}
-                {/* Показываем кнопки только если showAll равен true */}
-                <div className={styles.buttonsContainer}>
-                  {/* <button>Сбросить</button> */}
-                  {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
-                    <button
-                      className={styles.buttonsContainer__button}
-                      onClick={isShowButtonReset}
-                    >
-                      Сбросить
-                    </button>
-                  )}
-                  <button className={styles.buttonsContainer__button}>
-                    Готово
-                  </button>
-                </div>
-              </ul>
-            </div>
-            <div className={styles.brandContainer}>
-              <button onClick={showFilters} className={styles.buttonBrand}>
-                Цена
-                <span
-                  className={cn(
-                    styles.footerNavItemArrowIsActive,
-                    filtersIsShow && styles.footerNavItemArrow
-                  )}
-                >
-                  {chevronDownIcon()}
-                </span>
-              </button>
-              <ul
-                className={cn(styles.showFiltersUl, {
-                  [styles.showFiltersActive]: filtersIsShow,
-                })}
-              >
-                <div className={styles.showFiltersUlContainer}>
-                  <input type="text" className={styles.inputPrice} />
-                  <input type="text" className={styles.inputPrice} />
-                </div>
-                {!brandIsShow && filter.brand.length > 7 && (
-                  <button
-                    onClick={brandShowAll}
-                    className={styles.buttonShowBrand}
-                  >
-                    Показать все
-                  </button>
-                )}
-                {/* Показываем кнопки только если showAll равен true */}
-                <div className={styles.buttonsContainer}>
-                  {/* <button>Сбросить</button> */}
                   {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
                     <button
                       className={styles.buttonsContainer__button}
@@ -238,9 +155,15 @@ export default function CatalogProducts({
             </div>
           </div>
           <div className="main__news_cards">
-            {catalog.model.slice(0, page * perPage).map((item, index) => (
-              <CatalogProductsCard catalog={item} key={index} filter={filter} />
-            ))}
+            {catalog.category.tov
+              .slice(0, page * perPage)
+              .map((item, index) => (
+                <CatalogProductsCard
+                  catalog={item}
+                  key={index}
+                  filter={filter}
+                />
+              ))}
           </div>
 
           {/* {!showAll && page < maxPagesToShowMore && (
@@ -269,3 +192,105 @@ export default function CatalogProducts({
     </div>
   );
 }
+// <div className={styles.brandContainer}>
+//   <button onClick={showFilters} className={styles.buttonBrand}>
+//     Срок доставки
+//     <span
+//       className={cn(
+//         styles.footerNavItemArrowIsActive,
+//         filtersIsShow && styles.footerNavItemArrow
+//       )}
+//     >
+//       {chevronDownIcon()}
+//     </span>
+//   </button>
+//   <ul
+//     className={cn(styles.showFiltersUl, {
+//       [styles.showFiltersActive]: filtersIsShow,
+//     })}
+//   >
+//     {filter.variant_day.map((item, index) => {
+//       if (!brandIsShow && index >= 7) {
+//         return null;
+//       }
+//       return (
+//         <div key={item} className={styles.showFiltersUlContainer}>
+//           <span
+//             onClick={showButtonReset}
+//             className={styles.showFiltersUlContainer__check}
+//           ></span>
+//           <li className={styles.showFiltersUl__li}>{item}</li>
+//         </div>
+//       );
+//     })}
+//     {!brandIsShow && filter.brand.length > 7 && (
+//       <button
+//         onClick={brandShowAll}
+//         className={styles.buttonShowBrand}
+//       >
+//         Показать все
+//       </button>
+//     )}
+//     {/* Показываем кнопки только если showAll равен true */}
+//     <div className={styles.buttonsContainer}>
+//       {/* <button>Сбросить</button> */}
+//       {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
+//         <button
+//           className={styles.buttonsContainer__button}
+//           onClick={isShowButtonReset}
+//         >
+//           Сбросить
+//         </button>
+//       )}
+//       <button className={styles.buttonsContainer__button}>
+//         Готово
+//       </button>
+//     </div>
+//   </ul>
+// </div>
+// <div className={styles.brandContainer}>
+//   <button onClick={showFilters} className={styles.buttonBrand}>
+//     Цена
+//     <span
+//       className={cn(
+//         styles.footerNavItemArrowIsActive,
+//         filtersIsShow && styles.footerNavItemArrow
+//       )}
+//     >
+//       {chevronDownIcon()}
+//     </span>
+//   </button>
+//   <ul
+//     className={cn(styles.showFiltersUl, {
+//       [styles.showFiltersActive]: filtersIsShow,
+//     })}
+//   >
+//     <div className={styles.showFiltersUlContainer}>
+//       <input type="text" className={styles.inputPrice} />
+//       <input type="text" className={styles.inputPrice} />
+//     </div>
+//     {!brandIsShow && filter.brand.length > 7 && (
+//       <button
+//         onClick={brandShowAll}
+//         className={styles.buttonShowBrand}
+//       >
+//         Показать все
+//       </button>
+//     )}
+//     {/* Показываем кнопки только если showAll равен true */}
+//     <div className={styles.buttonsContainer}>
+//       {/* <button>Сбросить</button> */}
+//       {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
+//         <button
+//           className={styles.buttonsContainer__button}
+//           onClick={isShowButtonReset}
+//         >
+//           Сбросить
+//         </button>
+//       )}
+//       <button className={styles.buttonsContainer__button}>
+//         Готово
+//       </button>
+//     </div>
+//   </ul>
+// </div>

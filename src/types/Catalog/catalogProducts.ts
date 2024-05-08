@@ -1,11 +1,26 @@
 export interface ICatalogsProducts {
   full_slug: string;
-  model: ICatlogProductsModel[];
   category: Category;
   totalCount: number;
   model_count: number;
 }
-export interface ICatlogProductsModel {
+
+export interface Category {
+  id: number;
+  name: string;
+  path: string;
+  level: number;
+  icon: string;
+  full_slug: string;
+  parent: number;
+  enable: number;
+  sort_menu: number;
+  is_leaf: number;
+  tov: ICatlogProducts[];
+  child: any[];
+}
+
+export interface ICatlogProducts {
   id: number;
   art3: any;
   art: number;
@@ -20,7 +35,7 @@ export interface ICatlogProductsModel {
   naim: string;
   url: string;
   prim?: string;
-  img: string;
+  img?: string;
   idt: any;
   notfound: number;
   id_city: number;
@@ -93,9 +108,8 @@ export interface ICatlogProductsModel {
   to_date: number;
   from_date: number;
   valuteVal: string;
-  ddos: string;
+  date_dost: string;
   photos: Photo[];
-  ocenka: number;
 }
 
 export interface Image {
@@ -109,57 +123,4 @@ export interface Image {
 
 export interface Photo {
   url_part: string;
-}
-
-export interface Category {
-  idd: number;
-  id: number;
-  sid: number;
-  name: string;
-  priority: number;
-  priority_home: number;
-  priority_menu: number;
-  is_hidden_in_menu: number;
-  path: string;
-  path_for_pli: string;
-  level: number;
-  type: number;
-  photo: any;
-  icon: string;
-  top_image: any;
-  is_leaf: number;
-  full_slug_old: string;
-  full_slug: string;
-  level1: number;
-  level2: number;
-  level3: number;
-  level4: number;
-  level5: number;
-  level6: number;
-  level7: number;
-  level8: number;
-  level9: number;
-  level10: number;
-  nal: number;
-  opis: string;
-  html: any;
-  nazv: string;
-  title: string;
-  description: string;
-  keywords: string;
-  count_skid: number;
-  count_hit: number;
-  parent: number;
-  e_id: any;
-  main_type: string;
-  sort: number;
-  sort_menu: number;
-  manual: number;
-  enable: number;
-  sim_enable: number;
-  status: any;
-  seo_title: string;
-  seo_description: string;
-  seo_keyword: string;
-  parent_for_pli: any;
 }
