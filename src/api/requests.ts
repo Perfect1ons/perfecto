@@ -60,7 +60,7 @@ export const getSubCatalogs = (path: string): Promise<ICatalogMenu> => {
 export const getCatalogsProducts = (
   path: string
 ): Promise<ICatalogsProducts> => {
-  return maxkg.get(`catalog/${path}`).json();
+  return maxkg.get(`catalog/cat-product/${path}`).json();
 };
 
 // на популярные категории

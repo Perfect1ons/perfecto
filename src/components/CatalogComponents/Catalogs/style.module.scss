@@ -26,15 +26,24 @@
   }
 }
 .catalog__lih3 {
-  font-family: var(--font-family);
-  font-weight: 500;
+  cursor: pointer;
   font-size: 16px;
-  line-height: 125%;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  word-break: break-word;
+  color: #212529;
+  &:hover {
+    color: var(--violet);
+  }
+}
+.imageChild {
   color: #212529;
 }
 .row__9li {
   cursor: pointer;
   @include mixin.flex(center, center, column, 10px);
+  text-decoration: none;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
