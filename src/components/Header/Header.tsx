@@ -69,7 +69,9 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
                 onChange={handleSearchChange}
                 placeholder="Искать товары и категории"
                 type="text"
+                maxLength={100}
                 id="searchInput"
+                autoComplete="off"
                 className={styles.search__input}
               />
               <button type="submit" className={styles.search__icon}>

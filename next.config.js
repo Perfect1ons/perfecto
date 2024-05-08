@@ -37,14 +37,14 @@ module.exports = {
         protocol: "https",
         hostname: "www.pandashop.md",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "lh3.googleusercontent.com",
-      // },
-      // {
-      //   protocol: "https",
-      //   hostname: "lh3.googleusercontent.com",
-      // },
+      {
+        protocol: "https",
+        hostname: "www.jtcrussia.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "www.jtcrussia.ru",
+      },
       // {
       //   protocol: "https",
       //   hostname: "lh3.googleusercontent.com",

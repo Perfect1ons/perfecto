@@ -28,7 +28,7 @@ const SeekNotFound = ({ goods, search }: IPopularProps) => {
 
         <span className={styles.not__found_error}>Упс...</span>
         <h1 className={styles.not__found_title}>
-          По запросу {formattedSearch} ничего не найдено
+          По запросу <span>{formattedSearch}</span> ничего не найдено
         </h1>
 
         <Link className={styles.goToMain} href={"/"}>

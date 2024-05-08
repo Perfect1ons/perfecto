@@ -50,7 +50,9 @@ export async function PathPage({ params: { path } }: any) {
       return <SeekNotFound goods={goods} search={decodedPath}/>;
     }
 
-    return <Seek catalog={data.catalog} product={result} />;
+    return (
+        <Seek catalog={data.catalog} product={result} />
+    );
   };
 
 

@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import DownloadAppMobile from "@/components/DownloadAppMobile/DownloadAppMobile";
-import Footer from "@/components/Footer/Footer";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import MobileMenu from "@/components/MobileMenu/MobileMenu";
-import Application from "@/components/HomeComponents/Application/Application";
+import Header from "@/components/Header/Header";
+
+const Application = dynamic(
+  () => import("@/components/HomeComponents/Application/Application")
+);
+
+const Footer = dynamic(() => import("@/components/Footer/Footer"));
+
+
+
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -31,11 +40,10 @@ export default async function RootLayout({
     <html lang="en" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <HeaderWrap />
+          <main id="main">{children}</main>
         <DownloadAppMobile />
-        {/* ниже меню для мобильной версии */}
         <MobileMenu />
-        <main id="main">{children}</main>
-        <Application/>
+        <Application />
         <Footer />
       </body>
     </html>

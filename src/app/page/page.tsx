@@ -29,19 +29,19 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
     return null;
   }
 
-  // Разбиваем текст на предложения
+
   const sentences = data.model.text.match(/[^.!?]+[.!?]/g);
 
   if (!sentences) {
     return null;
   }
 
-  // Первое предложение для <h1>, остальные для <p>
+
   const h1Sentence = sentences[0];
   const pSentences = sentences.slice(1);
 
   const h1Html = parse(`<h1>${h1Sentence}</h1>`);
-  const pHtml = pSentences.map((sentence) => parse(`<p>${sentence}</p>`));
+  const pHtml = pSentences.map((sentence) => parse(sentence));
 
   const filterBreadcrumb = () => {
     return links.filter((item) =>
@@ -51,7 +51,7 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
 
   const breadcrumbNames = filterBreadcrumb().map((item) => {
     const subitem = item.pod_menu.find((subitem) => subitem.url === breadcrumb);
-    return subitem ? subitem.naim : ""; // Возвращаем только naim подходящего элемента или пустую строку, если элемент не найден
+    return subitem ? subitem.naim : ""; 
   });
   return (
     <div className="container">
