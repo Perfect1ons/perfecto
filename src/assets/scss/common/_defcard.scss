@@ -19,10 +19,11 @@
             gap: 10px;
         }
         @media screen and (max-width: 768px) {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         @media screen and (max-width: 640px) {
             grid-template-columns: repeat(2,1fr);
+            align-items: center;
             gap: 10px;
             background: var(--gray-white);
             padding: 10px;

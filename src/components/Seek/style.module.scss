@@ -1,0 +1,60 @@
+@use '../../assets/scss/common/mixins' as mixin;
+
+.team__swiper_btn {
+  cursor: pointer;
+  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
+  background: var(--white);
+  padding: 12.5px 14px 10px 15px;
+  border-radius: 10px;
+  border: none;
+}
+
+.team__swiper_buttons {
+  position: absolute;
+  z-index: 10;
+  top: 40%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 99.7%;
+  left: 0.2%;
+
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
+}
+
+.seek__catalog{
+  &_title{
+    margin-top: 15px;
+    @include mixin.font(18px, 500, 100%, var(--gray-dark));
+  }
+
+  &_card {
+    display: flex !important;
+    @include mixin.flex(center, center, column);
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    border-radius: 5px;
+    cursor: pointer;
+    min-height: 150px;
+    max-height: 150px;
+    width: 100%;
+    &:hover {
+      .seek__catalog_card_title {
+        color: var(--violet);
+      }
+    }
+    &_image {
+      border-radius: 5px;
+    }
+    &_title {
+      @include mixin.font(16px, 400, 100%, var(--gray-dark));
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+}
+
+.mySwiper{
+  padding-bottom: 40px;
+}

@@ -75,7 +75,7 @@ const CatalogProductsCard = ({ catalog, filter }: IProps) => {
         </div>
         <div className="default__card_info">
           <span className="default__card_price">
-            {Number(catalog.cenaok).toLocaleString()}
+            {catalog.cenaok.toLocaleString("ru-RU")}
             <span className="default__card_price_custom"> с</span>
           </span>
           <h2 className="default__card_name">{catalog.naim}</h2>

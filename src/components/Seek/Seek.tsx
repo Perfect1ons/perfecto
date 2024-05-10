@@ -1,13 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ISeekCatalog, ISeekItem } from "@/types/Search/seek";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import ProductList from "./ProductList";
 import CustomSelect from "./CustomSelect";
-
-const SeekCards = dynamic(() => import("@/components/Seek/SeekCard"));
-
+import SeekCatalog from "./SeekCatalog";
 interface SeekProps {
   catalog: ISeekCatalog[];
   product: ISeekItem[];
@@ -89,28 +86,8 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
   return (
     <section className="seek">
       <div className="container">
-        <div className="seek__catalog">
           <h1 className="seek__catalog_title">Найдено в категориях</h1>
-          <div className="seek__catalog_cards">
-            {catalog.map((catalog, index) => {
-              const iconSrc = catalog.icon.startsWith("https://")
-                ? catalog.icon
-                : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-              return (
-                <div key={index} className="seek__catalog_card">
-                  <Image
-                    className="seek__catalog_card_image"
-                    src={iconSrc}
-                    width={65}
-                    height={65}
-                    alt={catalog.name}
-                  />
-                  <h1 className="seek__catalog_card_title">{catalog.name}</h1>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+          <SeekCatalog catalog={catalog}/>
         <div className="sort__buttons">
           <CustomSelect
             value={sortOrder || "default"}
