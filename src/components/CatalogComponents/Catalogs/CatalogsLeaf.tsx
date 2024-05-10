@@ -71,70 +71,63 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
     //       );
     //     })}
     // </div>
-    <div>
-      <div className={styles.container}>
-        <ol className={styles.breadcrumb}>
-          <li className={styles.links}>
-            <Link href="/" className={styles.link}>
-              Главная {ChevronRightIcon()}
-            </Link>
-            <Link
-              href={catalog.category.full_slug || "sadas"}
-              className={styles.link}
-            >
-              {catalog.category.full_slug}
-            </Link>
-            <Link
-              href={catalog.category.full_slug || "sadas"}
-              className={styles.link}
-            >
-              {catalog.category.name}
-            </Link>
-          </li>
-        </ol>
-        <div>
-          <h1 className={styles.container__h1}>{catalog.category.name}</h1>
-          <div className={styles.row}>
-            <div className={styles.wrapps}>
-              <div>
-                <ul className={styles.subCatalogsContainerUL}>
-                  {catalog.category.child.map((catalogItem) => (
-                    <Link
-                      href={catalogItem.full_slug}
-                      key={catalogItem.id}
-                      className={styles.catalog__lih3}
-                      onClick={() => handleClick(catalogItem.full_slug)}
-                    >
-                      {catalogItem.name}
-                    </Link>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className={styles.wrpps}>
-              <div className={styles.row__9}>
+
+    <div className={styles.container}>
+      <ol className={styles.breadcrumb}>
+        <li className={styles.links}>
+          <Link href="/" className={styles.link}>
+            Главная
+          </Link>
+          <Link
+            href={catalog.category.full_slug || "sadas"}
+            className={styles.link}
+          >
+            {catalog.category.name}
+          </Link>
+        </li>
+      </ol>
+      <div>
+        <h1 className={styles.container__h1}>{catalog.category.name}</h1>
+        <div className={styles.row}>
+          <div className={styles.wrapps}>
+            <div>
+              <ul className={styles.subCatalogsContainerUL}>
                 {catalog.category.child.map((catalogItem) => (
                   <div
-                    // href={catalogItem.full_slug.slice()}
+                    // href={catalogItem.full_slug}
                     key={catalogItem.id}
-                    className={styles.row__9li}
+                    className={styles.catalog__lih3}
                     onClick={() => handleClick(catalogItem.full_slug)}
                   >
-                    <Image
-                      className={styles.imageChild}
-                      src={
-                        catalogItem.icon
-                          ? `https://max.kg/${catalogItem.icon}`
-                          : "https://max.kg/images/discount/empty-image.png"
-                      }
-                      alt={catalogItem.name}
-                      width={60}
-                      height={60}
-                    />
-                    <li className={styles.name__h3}>{catalogItem.name}</li>
+                    {catalogItem.name}
                   </div>
                 ))}
-              </div>
+              </ul>
+            </div>
+          </div>
+          <div className={styles.wrpps}>
+            <div className={styles.row__9}>
+              {catalog.category.child.map((catalogItem) => (
+                <div
+                  // href={catalogItem.full_slug.slice()}
+                  key={catalogItem.id}
+                  className={styles.row__9li}
+                  onClick={() => handleClick(catalogItem.full_slug)}
+                >
+                  <Image
+                    className={styles.imageChild}
+                    src={
+                      catalogItem.icon
+                        ? `https://max.kg/${catalogItem.icon}`
+                        : "https://max.kg/images/discount/empty-image.png"
+                    }
+                    alt={catalogItem.name}
+                    width={60}
+                    height={60}
+                  />
+                  <li className={styles.name__h3}>{catalogItem.name}</li>
+                </div>
+              ))}
             </div>
           </div>
         </div>
