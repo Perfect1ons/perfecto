@@ -122,8 +122,8 @@ export const ChevronRightIcon_Mobile = () => {
       <path
         d="M3.27271 1.09094L8.33452 6.15276L3.27271 11.2146"
         stroke="#777777"
-        stroke-width="1.2"
-        stroke-linecap="round"
+        strokeWidth="1.2"
+        strokeLinecap="round"
       />
     </svg>
   );

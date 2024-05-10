@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 // импорты стилей и иконок
@@ -44,6 +44,26 @@ export default function MobileNav({ catalog }: MobNavProps) {
   // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей
   const pathname = usePathname();
 
+  // для отображения при пролистывании
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
+
+  useEffect(() => {
+    let prevScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      setIsScrollingDown(scrollTop > 0 && scrollTop > prevScrollY);
+      prevScrollY = scrollTop;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       <MobileModal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
@@ -64,7 +84,12 @@ export default function MobileNav({ catalog }: MobNavProps) {
         </div>
       </MobileModal>
 
-      <section className={styles.mobile_menu}>
+      <section
+        className={cn(
+          styles.mobile_menu,
+          `${isScrollingDown ? styles.scrolled : ""}`
+        )}
+      >
         <ul className={styles.ul}>
           <Link href="/" className={styles.option}>
             {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}

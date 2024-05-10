@@ -1,11 +1,134 @@
 export interface ICatalogsProducts {
   full_slug: string;
-  model: ICatlogProductsModel[];
   category: Category;
   totalCount: number;
   model_count: number;
 }
-export interface ICatlogProductsModel {
+
+export interface Category {
+  id: number;
+  name: string;
+  path: string;
+  level: number;
+  icon: string;
+  full_slug: string;
+  parent: number;
+  enable: number;
+  sort_menu: number;
+  is_leaf: number;
+  tov: ICatlogProducts[];
+  child: Child[];
+}
+export interface Child {
+  id: number;
+  name: string;
+  path: string;
+  level: number;
+  icon: string;
+  full_slug: string;
+  parent: number;
+  enable: number;
+  sort_menu: number;
+  is_leaf: number;
+  tov: Tov[];
+}
+
+export interface Tov {
+  id: number;
+  art3: any;
+  art: number;
+  cena0: string;
+  cena4: any;
+  cena_dos?: string;
+  cenaok: number;
+  cena0r: any;
+  cena4r: any;
+  cena_dosr: any;
+  cena_kyrs: any;
+  naim: string;
+  url: string;
+  prim?: string;
+  img: string;
+  idt?: string;
+  notfound: number;
+  id_city: number;
+  dat1: any;
+  minQty: number;
+  isNovelty?: number;
+  country_id: any;
+  country?: string;
+  stuff?: string;
+  size: string;
+  keep_package: any;
+  is_paid_delivery: any;
+  discountPercent: any;
+  currencySign: string;
+  supply_period: any;
+  balance: string;
+  id_post: number;
+  id_cat: number;
+  bazedin: string;
+  id_cat1c: any;
+  naim_cat1c: any;
+  id_idcat: any;
+  moder: number;
+  id_tov: number;
+  copy: any;
+  weight?: number;
+  description?: string;
+  short_description?: string;
+  trademark?: string;
+  cert?: string;
+  pli?: number;
+  naim_word?: string;
+  img1sm?: string;
+  img2big?: string;
+  art_post?: string;
+  id_user_add?: number;
+  price_cost: string;
+  price_update?: string;
+  naim_add?: string;
+  naim_add_manual?: string;
+  id_user_add_manual?: number;
+  id_status: string;
+  video?: string;
+  pli_update?: string;
+  meta_title?: string;
+  meta_description?: string;
+  meta_keywords?: string;
+  trademark_id: any;
+  in_box?: string;
+  box?: string;
+  img_url?: string;
+  status: number;
+  id_micro_serv?: number;
+  d_min?: string;
+  d_max?: string;
+  show_price: number;
+  show_opt: number;
+  percent_sum: string;
+  update_period: number;
+  active_img?: number;
+  active_percent_sum: number;
+  images: Image[];
+  price: number;
+  before_markup: number;
+  apply_test_per?: string;
+  discount: number;
+  discount_prc: number;
+  promotions: any[];
+  old_price: number;
+  to_date: number;
+  from_date: number;
+  valuteVal: string;
+  ddos: string;
+  photos: Photo[];
+  ocenka: number;
+  before_round?: number;
+  round_test?: string;
+}
+
+export interface ICatlogProducts {
   id: number;
   art3: any;
   art: number;
@@ -20,7 +143,7 @@ export interface ICatlogProductsModel {
   naim: string;
   url: string;
   prim?: string;
-  img: string;
+  img?: string;
   idt: any;
   notfound: number;
   id_city: number;
@@ -93,9 +216,8 @@ export interface ICatlogProductsModel {
   to_date: number;
   from_date: number;
   valuteVal: string;
-  ddos: string;
+  date_dost: string;
   photos: Photo[];
-  ocenka: number;
 }
 
 export interface Image {
@@ -109,57 +231,4 @@ export interface Image {
 
 export interface Photo {
   url_part: string;
-}
-
-export interface Category {
-  idd: number;
-  id: number;
-  sid: number;
-  name: string;
-  priority: number;
-  priority_home: number;
-  priority_menu: number;
-  is_hidden_in_menu: number;
-  path: string;
-  path_for_pli: string;
-  level: number;
-  type: number;
-  photo: any;
-  icon: string;
-  top_image: any;
-  is_leaf: number;
-  full_slug_old: string;
-  full_slug: string;
-  level1: number;
-  level2: number;
-  level3: number;
-  level4: number;
-  level5: number;
-  level6: number;
-  level7: number;
-  level8: number;
-  level9: number;
-  level10: number;
-  nal: number;
-  opis: string;
-  html: any;
-  nazv: string;
-  title: string;
-  description: string;
-  keywords: string;
-  count_skid: number;
-  count_hit: number;
-  parent: number;
-  e_id: any;
-  main_type: string;
-  sort: number;
-  sort_menu: number;
-  manual: number;
-  enable: number;
-  sim_enable: number;
-  status: any;
-  seo_title: string;
-  seo_description: string;
-  seo_keyword: string;
-  parent_for_pli: any;
 }

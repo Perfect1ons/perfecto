@@ -158,7 +158,7 @@
 .buttonsSpanCatalogs {
   @include mixin.flex(center, center, null, null);
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1640px) {
   .catalogs__h2 {
     padding: 0;
   }
