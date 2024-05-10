@@ -28,7 +28,7 @@ const News = ({ news }: INewProps) => {
         <div className={styles.news__container}>
           {news.slice(0, shownCount).map((item, index) => (
             <div className={styles.promotion__card} key={index}>
-              <Link href={`news/${item.id}`}>
+              <Link className={styles.promotion__card_link} href={`news/${item.id}`}>
                   <Image
                     className={styles.promotion__card_img}
                     src={`https://max.kg/${item.logo}`}
