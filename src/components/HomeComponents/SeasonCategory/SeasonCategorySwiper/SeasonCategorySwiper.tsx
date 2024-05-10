@@ -66,7 +66,7 @@ const SeasonCategorySwiper = ({seasonItems}: ISeasonCategorySwiperProps) => {
                   <SwiperSlide
                     key={item.idd}
                     onClick={() =>
-                      router.push(`https://max.kg/catalog/${item.full_slug}`)
+                      router.push(`catalog/${item.full_slug}`)
                     }
                     className={styles.swiper__slide}
                   >

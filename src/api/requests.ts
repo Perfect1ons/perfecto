@@ -1,3 +1,5 @@
+import { ICatalogsChild } from '@/types/Catalog/catalogsChild';
+import { ICatalogHome } from '@/types/Catalog/catalogsHome';
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
@@ -9,8 +11,6 @@ import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
-import { ICatalogHome } from "@/types/Catalog/catalogsHome";
-import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";

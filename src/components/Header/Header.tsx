@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
                 onChange={handleSearchChange}
                 placeholder={
                   inputEmpty
-                    ? "Вы ничего не ввели!!!"
+                    ? "Введите название товара!!!"
                     : "Искать товары и категории"
                 }
                 type="text"
