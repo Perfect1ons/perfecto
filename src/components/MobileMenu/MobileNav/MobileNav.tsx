@@ -12,7 +12,6 @@ import {
   CatalogSearchIcon,
   FavoritesIconActive,
   FavoritesIconDark,
-  SearchIcon,
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
@@ -26,6 +25,7 @@ import {
   HomeIconActive,
   XMark,
 } from "../../../../public/Icons/Mobile_Icons";
+import MobSearch from "./MobSearch";
 
 // пропсы
 export interface MobNavProps {
@@ -53,7 +53,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
 
     const handleScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      setIsScrollingDown(scrollTop > 0 && scrollTop > prevScrollY);
+      setIsScrollingDown(scrollTop > 20 && scrollTop > prevScrollY);
       prevScrollY = scrollTop;
       setIsScrolled(scrollTop > 0);
     };
@@ -68,18 +68,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
     <>
       <MobileModal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
         <div className={styles.catalog_wrap}>
-          <div className={styles.search_bar}>
-            <input
-              placeholder="Поиск товаров"
-              type="text"
-              id="searchInput"
-              className={styles.search__input}
-            />
-            <label htmlFor="searchInput" className={styles.search__icon}>
-              <SearchIcon />
-            </label>
-          </div>
-
+          <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
           <MobileCatalog catalog={catalog} />
         </div>
       </MobileModal>
@@ -91,7 +80,13 @@ export default function MobileNav({ catalog }: MobNavProps) {
         )}
       >
         <ul className={styles.ul}>
-          <Link href="/" className={styles.option}>
+          <Link
+            href="/"
+            className={styles.option}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
             {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
             <span
               className={
@@ -109,7 +104,13 @@ export default function MobileNav({ catalog }: MobNavProps) {
             <span>Каталог</span>
           </li>
 
-          <Link href="/favorites" className={styles.option}>
+          <Link
+            href="/favorites"
+            className={styles.option}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
             {pathname === "/favorites" ? (
               <FavoritesIconActive />
             ) : (
@@ -126,7 +127,13 @@ export default function MobileNav({ catalog }: MobNavProps) {
             </span>
           </Link>
 
-          <Link href="/cart" className={styles.option}>
+          <Link
+            href="/cart"
+            className={styles.option}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
             {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
             <span
               className={
@@ -139,7 +146,13 @@ export default function MobileNav({ catalog }: MobNavProps) {
             </span>
           </Link>
 
-          <Link href="/auth" className={styles.option}>
+          <Link
+            href="/auth"
+            className={styles.option}
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          >
             {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
             <span
               className={
