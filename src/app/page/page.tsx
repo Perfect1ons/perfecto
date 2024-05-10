@@ -6,7 +6,7 @@ import styles from "./style.module.scss";
 import LinksSidebar from "@/components/UI/LinksSidebar/LinksSidebar";
 import Link from "next/link";
 import cn from "clsx";
-import parse from "html-react-parser";
+import parse, { DOMNode } from "html-react-parser"; 
 interface IAboutCompanyProps {
   data: IFooterPage | undefined;
   links: IFooterItem[];
@@ -40,8 +40,26 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
   const h1Sentence = sentences[0];
   const pSentences = sentences.slice(1);
 
-  const h1Html = parse(`<h1>${h1Sentence}</h1>`);
-  const pHtml = pSentences.map((sentence) => parse(sentence));
+  const h1Html = parse(`<h1>${h1Sentence}</h1>`, {
+    replace: (node) => {
+      if (node.type === 'text' && node.data.trim()) {
+        return node.data;
+      }
+      return null;
+    },
+  }) as string; 
+  const pHtml = pSentences.map((sentence) =>
+    parse(`<p>${sentence}</p>`, {
+      replace: (node) => {
+        if (node.type === 'text' && node.data.trim()) {
+          return node.data;
+        }
+        return null;
+      },
+    }) as string
+  );
+
+
 
   const filterBreadcrumb = () => {
     return links.filter((item) =>

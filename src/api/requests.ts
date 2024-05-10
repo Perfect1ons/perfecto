@@ -1,3 +1,5 @@
+import { ICatalogsChild } from '@/types/Catalog/catalogsChild';
+import { ICatalogHome } from '@/types/Catalog/catalogsHome';
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
@@ -9,8 +11,6 @@ import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
-import { ICatalogHome } from "@/types/Catalog/catalogsHome";
-import { ICatalogsChild } from "@/types/Catalog/catalogsChild";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
@@ -21,6 +21,7 @@ import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -194,3 +195,7 @@ export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
 export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=5").json();
 };
+
+export const getCardProduct = (art: string): Promise<ICardProductItems> =>{
+  return maxkg.get(`naltovarok/itemnal?art=${art}`).json();
+}
