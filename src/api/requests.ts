@@ -29,7 +29,7 @@ const maxkg = ky.create({
 
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  timeout: 1000
+  timeout: 1000,
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood> => {
@@ -71,7 +71,15 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
-
+export const getSortsBrand = (
+  id: number,
+  path: string
+): Promise<IFiltersBrand> => {
+  return maxkg
+    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
+    .json();
+};
+//max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
 export const getBannerData = (): Promise<IBanner> => {
   return maxkg.get("baner?pageSize=20&page=1").json();
 };

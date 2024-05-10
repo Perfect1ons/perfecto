@@ -1,19 +1,14 @@
 "use client";
-import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import CatalogProductsCard from "./CatalogProductsCard/CatalogProductsCard";
+import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
+import { useEffect, useState } from "react";
+// import CatalogProductsCard from "./CatalogProductsCard/CatalogProductsCard";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import cn from "clsx";
-import {
-  ChevronRightIcon,
-  checkIcon,
-  chevronDownIcon,
-} from "../../../../public/Icons/Icons";
-// import styles from "../CatalogProducts/CatalogProductsCard/style.module.scss";
-import styles from "./style.module.scss";
+import CatalogProductList from "./CatalogProductList";
+import CatalogProductsCustom from "./CatalogProductsCustom";
 import Image from "next/image";
+import styles from "./style.module.scss";
 import Link from "next/link";
+import { ChevronRightIcon } from "../../../../public/Icons/Icons";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -24,172 +19,146 @@ export default function CatalogProducts({
   catalog,
   filter,
 }: ICatalogProductsProps) {
-  const [filtersIsShow, setFiltersIsShow] = useState(false);
-  const [brandIsShow, setBrandsIsShow] = useState(false);
-  const [buttonResetShow, setButtonResetShow] = useState(false);
-  const [clickCheck, setClickCheck] = useState(false);
-  const checked = () => {
-    setClickCheck(!clickCheck);
-  };
-  const showButtonReset = () => {
-    setButtonResetShow(true);
-  };
-  const isShowButtonReset = () => {
-    setButtonResetShow(false);
-    setClickCheck(false);
-  };
-  const brandShowAll = () => {
-    setBrandsIsShow(true); // Устанавливаем состояние для показа всех элементов
-  };
-  const showFilters = () => {
-    setFiltersIsShow(!filtersIsShow);
-  };
-  const [page, setPage] = useState(1);
-  const [showAll, setShowAll] = useState(false);
-  const perPage = 20;
-  const maxPagesToShowMore = 3; // Maximum number of times "Show more" button can be clicked
-  const router = useRouter();
-  const handleShowMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    if (nextPage >= maxPagesToShowMore) {
-      setShowAll(true);
+  const initialItems = catalog.category.tov; // Сохраняем исходные данные
+  const [items, setItems] = useState<Tov[]>(initialItems);
+  const [sortOrder, setSortOrder] = useState<
+    "default" | "cheap" | "expensive" | "rating" | null
+  >(null);
+  const [isColumnView, setIsColumnView] = useState(false);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const sortParam = queryParams.get("sort");
+    if (
+      sortParam &&
+      (sortParam === "cheap" ||
+        sortParam === "expensive" ||
+        sortParam === "rating")
+    ) {
+      setSortOrder(sortParam as "cheap" | "expensive" | "rating");
+    } else {
+      setSortOrder("default");
     }
+  }, []);
+
+  useEffect(() => {
+    if (sortOrder !== null && sortOrder !== "default") {
+      sortItems(sortOrder);
+    }
+  }, [sortOrder]);
+
+  const sortItems = (order: "cheap" | "expensive" | "rating") => {
+    const sortedItems = [...initialItems]; // Используем исходные данные для сортировки
+    switch (order) {
+      case "cheap":
+        sortedItems.sort((a, b) => a.cenaok - b.cenaok);
+        break;
+      case "expensive":
+        sortedItems.sort((a, b) => b.cenaok - a.cenaok);
+        break;
+      case "rating":
+        sortedItems.sort((a, b) => b.ocenka - a.ocenka);
+        break;
+      default:
+        break;
+    }
+    setItems(sortedItems);
   };
-  const handleClick = (path: string) => {
-    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
-    router.push(fullPath);
-    close();
+
+  const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
+    setSortOrder(order);
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.set("sort", order);
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams.toString()}`
+    );
   };
+
+  const handleViewChange = (isColumn: boolean) => {
+    setIsColumnView(isColumn);
+  };
+  // const handleClick = (path: string) => {
+  //   const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+  //   router.push(fullPath);
+  //   close();
+  // };
   return (
-    <div className="goods">
+    <section className="seek">
+      <div className={styles.breadContainer}>
+        <ol className={styles.breadcrumb}>
+          <li className={styles.links}>
+            <Link href="/" className={styles.link}>
+              Главная
+            </Link>
+            <Link
+              href={catalog.category.full_slug || "sadas"}
+              className={styles.link}
+            >
+              {catalog.category.name}
+            </Link>
+          </li>
+        </ol>
+        <h1 className={styles.container__h1}>{catalog.category.name}</h1>
+      </div>
       <div className="container">
-        <div className="cardContainer">
-          <ol className={styles.breadcrumb}>
-            <li className={styles.links}>
-              <Link href="/" className={styles.link}>
-                Главная
-              </Link>
-              <Link href="/" className={styles.link}>
-                {catalog.category.parent}
-              </Link>
-              <Link
-                onClick={() => handleClick(catalog.category.full_slug)}
-                href={catalog.category.full_slug}
-                className={styles.link}
-              >
-                {catalog.category.name}
-              </Link>
-            </li>
-          </ol>
-          <h1 className={styles.titleProducth1}>{catalog.category.name}</h1>
-          <div className={styles.filtersContainer}>
-            <div className={styles.brandContainer}>
-              <button onClick={showFilters} className={styles.buttonBrand}>
-                Бренд
-                <span
-                  className={cn(
-                    styles.footerNavItemArrowIsActive,
-                    filtersIsShow && styles.footerNavItemArrow
-                  )}
-                >
-                  {chevronDownIcon()}
-                </span>
-              </button>
-              <ul
-                className={cn(styles.showFiltersUl, {
-                  [styles.showFiltersActive]: filtersIsShow,
-                })}
-              >
-                {filter.brand.map((item, index) => {
-                  if (!brandIsShow && index >= 7) {
-                    return null;
-                  }
-                  return (
-                    <div
-                      key={item}
-                      className={styles.showFiltersUlContainer}
-                      // onClick={(showButtonReset)}
-                      onClick={() => {
-                        showButtonReset();
-                        checked();
-                      }}
-                    >
-                      <span
-                        className={cn(styles.showFiltersUlContainer__check, {
-                          [styles.showFiltersUlContainer__checkActive]:
-                            clickCheck,
-                        })}
-                        // className={styles.showFiltersUlContainer__check}
-                      >
-                        {clickCheck && checkIcon()}
-                        {/* {checkIcon()} */}
-                      </span>
-                      <li className={styles.showFiltersUl__li}>{item}</li>
-                    </div>
-                  );
-                })}
-                {!brandIsShow && filter.brand.length > 7 && (
-                  <button
-                    onClick={brandShowAll}
-                    className={styles.buttonShowBrand}
-                  >
-                    Показать все
-                  </button>
-                )}
-                {/* Показываем кнопки только если showAll равен true */}
-                <div className={styles.buttonsContainer}>
-                  {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
-                    <button
-                      className={styles.buttonsContainer__button}
-                      onClick={isShowButtonReset}
-                    >
-                      Сбросить
-                    </button>
-                  )}
-                  <button className={styles.buttonsContainer__button}>
-                    Готово
-                  </button>
-                </div>
-              </ul>
-            </div>
-          </div>
-          <div className="main__news_cards">
-            {catalog.category.tov
-              .slice(0, page * perPage)
-              .map((item, index) => (
-                <CatalogProductsCard
-                  catalog={item}
+        <div className="sort__buttons">
+          <CatalogProductsCustom
+            productId={catalog.category.id}
+            filter={filter}
+            value={sortOrder || "default"}
+            options={[
+              { label: "По умолчанию", value: "default" },
+              { label: "Сначала дешевле", value: "cheap" },
+              { label: "Сначала дороже", value: "expensive" },
+              { label: "По рейтингу", value: "rating" },
+            ]}
+            onChange={(value) => handleSort(value)}
+          />
+          <div className="default__sort_style">
+            <button
+              className="default__sort_icons"
+              onClick={() => handleViewChange(false)}
+            >
+              {[...Array(4)].map((_, index) => (
+                <div
                   key={index}
-                  filter={filter}
-                />
+                  className={`default__sort_icon ${
+                    !isColumnView ? "sort__button_icons_active" : ""
+                  }`}
+                ></div>
               ))}
+            </button>
+
+            <button
+              className="default__sort_icons_column"
+              onClick={() => handleViewChange(true)}
+            >
+              {[...Array(2)].map((_, index) => (
+                <div
+                  key={index}
+                  className={`default__sort_icon_column ${
+                    isColumnView ? "sort__button_icons_active" : ""
+                  }`}
+                ></div>
+              ))}
+            </button>
           </div>
-
-          {/* {!showAll && page < maxPagesToShowMore && (
-            <div className="showMoreBtn">
-              <button
-                className="default__buttons_showMore"
-                onClick={handleShowMore}
-              >
-                Показать еще
-              </button>
-            </div>
-          )}
-
-          {showAll && (
-            <div className="showMoreBtn">
-              <button
-                className="default__buttons_showMore"
-                onClick={() => router.push("/all-popular-goods")}
-              >
-                Показать все
-              </button>
-            </div>
-          )} */}
         </div>
       </div>
-    </div>
+      {/* Проверяем, есть ли товары в каталоге */}
+      {items.length === 0 ? (
+        <div className={styles.containerUndefined}>
+          <Image src="/img/undefinedPage.png" alt="" width={180} height={180} />
+          <p className={styles.containerUndefined__parap}>
+            По вашему запросу товаров не найдено
+          </p>
+        </div>
+      ) : (
+        <CatalogProductList items={items} isColumnView={isColumnView} />
+      )}
+    </section>
   );
 }
 // <div className={styles.brandContainer}>

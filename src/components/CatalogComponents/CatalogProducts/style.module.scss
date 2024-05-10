@@ -1,149 +1,42 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-
-.footerNavItemArrowIsActive {
-  @include mixin.flex(center, center, null, null);
-  user-select: none;
-  transform: rotate(0deg);
-  //   transition: 0.1s all;
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-.footerNavItemArrow {
-  transform: rotate(180deg);
-}
-.brandContainer {
-  position: relative;
-}
-.buttonBrand {
-  cursor: pointer;
-  height: 100%;
-  max-width: 272px;
-  @include mixin.flex(center, center, null, null);
-  padding: 7px 12px 7px 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  font-size: 14px;
-  line-height: 20px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.showFiltersUl {
-  @include mixin.flex(null, null, column, 12px);
-  overflow-y: auto;
-  width: 100%;
-  max-height: 260px;
-  padding-right: 6px;
-  &__li {
-    font-size: 16px;
-    line-height: 22px;
-    color: #242424;
-  }
-  display: none;
-}
-.showFiltersActive {
-  @include mixin.flex(flex-start, null, column, null);
-  width: 296px;
-  max-height: 360px;
-  padding: 20px;
-  position: absolute;
-  top: calc(100% + 20px);
-  left: 0;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  background: #fff;
-  z-index: 10;
-}
-.filtersContainer {
-  @include mixin.flex(center, flex-start, null, 12px);
-  margin: 1 0px 0;
-}
-.showFiltersUlContainer {
+.containerUndefined {
   @include mixin.flex(center, center, null, 10px);
-  &__check {
-    @include mixin.flex(center, center, null, null);
-    width: 22px;
-    height: 22px;
-    background: var(--white);
-    border: 1px solid #d3d4dd;
-    border-radius: 6px;
-  }
-  &__checkActive {
-    color: white;
-    background: var(--dark-blue);
-    border-color: var(--dark-blue);
-    border: 0;
-  }
-}
-.buttonShowBrand {
-  border-bottom: 1px dashed;
-  font-size: 16px;
-  line-height: 22px;
-  border-color: initial;
-  text-decoration: none;
-  background-color: transparent;
-  cursor: pointer;
-  color: #242424;
-  border-color: #868695;
-  // margin-top: 16px;
-}
-.buttonsContainer {
-  @include mixin.flex(center, null, null, 10px);
-  width: calc(100% + 8px);
-  &__button {
-    color: var(--white);
-    background: var(--dark-blue);
-    font-size: 14px;
-    line-height: 20px;
-    padding: 7px 7px;
-    width: 100%;
-    border-radius: 10px;
-    transition: 0.3s all ease;
+  flex-wrap: wrap;
+  &__parap {
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: 0;
-    text-decoration: none;
-    text-align: center;
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    border-radius: 8px;
-    cursor: pointer;
-    color: var(--white);
-    &:hover {
-      background: var(--violet);
-    }
+    color: var(--gray-dark);
   }
 }
-.inputPrice {
-  padding: 6px 12px;
-  height: 36px;
-  background-color: #f1f1f5;
-  border-color: #f1f1f5;
-  transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
-  width: 100%;
-  border: 1px solid #d3d4dd;
-  border-radius: 8px;
-  height: auto;
-  font-size: 16px;
-  line-height: 16px;
-  color: #242424;
-  &:hover {
-    background-color: #e8e8f0;
-    border-color: #e8e8f0;
-  }
+.breadContainer {
+  padding: 0 15px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+.container__h1 {
+  margin-bottom: 8px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 120%;
+  color: #212529;
 }
 .breadcrumb {
-  margin-bottom: 30px;
+  padding: 0.75rem 0rem;
 }
 .links {
-  @include mixin.flex(center, flex-start, null, 6px);
+  @include mixin.flex(center, null, null, 10px);
 }
-
 .link {
-  color: #112b66;
+  @include mixin.flex(center, center, null, null);
+  font-family: var(--font-family);
+  font-weight: 400;
   font-size: 14px;
+  line-height: 150%;
+  color: #112b66;
   text-decoration: none;
-}
-.titleProducth1 {
-  font-size: 25px;
-  font-weight: 500;
-  line-height: 1.2;
+
+  &:hover {
+    color: var(--violet);
+  }
 }
