@@ -11,12 +11,16 @@ import {
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
 import { IPopularGood } from "@/types/popularGoods";
+import { useRouter } from "next/navigation";
 
 interface IgoodsProps {
   goods: IPopularGood;
 }
 
 const PopularGoodsCards = ({ goods }: IgoodsProps) => {
+
+  const router = useRouter();
+
   const imageUrl =
     goods.photos.length > 0
       ? `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}`
@@ -55,7 +59,7 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
   }, [goods.ocenka]);
 
   return (
-    <div className="default__card">
+    <div onClick={()=>router.push(`/item/${goods.art}/${goods.url}`)} className="default__card">
       <div className="default__card_images">
         <Image
           className="default__card_image"

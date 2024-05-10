@@ -21,6 +21,7 @@ import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -186,3 +187,7 @@ export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
 export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=5").json();
 };
+
+export const getCardProduct = (art: string): Promise<ICardProductItems> =>{
+  return maxkg.get(`naltovarok/itemnal?art=${art}`).json();
+}
