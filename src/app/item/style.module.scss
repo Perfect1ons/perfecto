@@ -1,0 +1,23 @@
+@use "../../assets/scss/common/mixins" as mixin;
+.wrap{
+    margin-top: 100px;
+}
+.productContainer{
+    @include mixin.flex(null, space-between, null, null);
+}
+.miniCardsColumn{
+    @include mixin.flex(null, null, column, null);
+}
+.productPreview{
+    cursor: pointer;
+    margin-bottom: 10px;
+} 
+.productOcenka{
+    @include mixin.flex(null, null, null, 5px);
+}
+.productName{
+    margin-top: 10px;
+}
+.productInfoTitle{
+    @include mixin.font(18px, 700, null, var(--gray-dark));
+}
