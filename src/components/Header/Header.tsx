@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   };
 
   // для мобильного поиска
-  const mobSearchClick = () => {};
+  // const mobSearchClick = () => {};
 
   return (
     <header className={styles.header}>
@@ -90,7 +90,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
         </div>
 
         <MobileSearchHeader />
-        <div className={styles.search__white} onClick={}>
+        <div className={styles.search__white}>
           <SearchIconWhite />
         </div>
       </div>
