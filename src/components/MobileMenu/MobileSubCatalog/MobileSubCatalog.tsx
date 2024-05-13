@@ -1,14 +1,11 @@
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 import styles from "./style.module.scss";
-import cn from "clsx";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Mobile_Icons";
-import Image from "next/image";
-import Link from "next/link";
 import { getImageUrl } from "@/lib/getImageUrl";
-import { useRouter } from "next/navigation";
+import SubCatTemplate from "./SubCatTemplate";
 
-interface SubCatalProps {
+export interface SubCatalProps {
   open: boolean;
   close: () => void;
   catalog: ICatalogMenu;
@@ -23,13 +20,6 @@ export default function MobileSubCatalog({
   activeCategoryId,
   selectedCategoryName,
 }: SubCatalProps) {
-  // для роутинга
-  const router = useRouter();
-  const handleClick = (path: string) => {
-    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
-    router.push(fullPath);
-  };
-
   return (
     <div
       className={
@@ -47,44 +37,7 @@ export default function MobileSubCatalog({
 
       <hr className={styles.hr} />
 
-      <ul className={styles.subCatalogsList}>
-        {catalog.flatMap((rootItem) => {
-          const childLevel2 = Array.isArray(rootItem.child_level2)
-            ? rootItem.child_level2
-            : [];
-          return childLevel2
-            .filter((childItem) => childItem.parent === activeCategoryId)
-            .map((filteredChildItem, key) => (
-              <div
-                // href={`catalog/${filteredChildItem.full_slug}`}
-                onClick={() => {
-                  handleClick(filteredChildItem.full_slug);
-                }}
-                key={key}
-                className={styles.subCatalogsListItem_a}
-              >
-                <li className={styles.subCatalogsListItem}>
-                  <div className={styles.subCatItem_name}>
-                    <Image
-                      src={
-                        filteredChildItem.icon
-                          ? `https://max.kg/${filteredChildItem.icon}`
-                          : "https://max.kg/images/discount/empty-image.png"
-                      }
-                      width={30}
-                      height={30}
-                      alt=""
-                    />
-                    <span>{filteredChildItem.name}</span>
-                  </div>
-                  {filteredChildItem.is_leaf === 0 ? (
-                    <ChevronRightIcon_Mobile />
-                  ) : null}
-                </li>
-              </div>
-            ));
-        })}
-      </ul>
+      <SubCatTemplate catalog={catalog} activeCategoryId={activeCategoryId} />
     </div>
   );
 }

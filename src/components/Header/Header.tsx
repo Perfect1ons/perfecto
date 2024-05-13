@@ -9,6 +9,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
+import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 
 interface HeaderProps {
   catalog: ICatalogMenu;
@@ -35,6 +36,9 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   const onClose = () => {
     setIsOpen(false);
   };
+
+  // для мобильного поиска
+  const mobSearchClick = () => {};
 
   return (
     <header className={styles.header}>
@@ -84,7 +88,9 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
             <HeaderNav />
           </div>
         </div>
-        <div className={styles.search__white} onClick={onClose}>
+
+        <MobileSearchHeader />
+        <div className={styles.search__white} onClick={}>
           <SearchIconWhite />
         </div>
       </div>
