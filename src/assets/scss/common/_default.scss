@@ -2,23 +2,13 @@
 
 * {
   @include reset-all-styles;
+  -webkit-tap-highlight-color: var(--tap-select);
 }
 
-// body {
-// &::-webkit-scrollbar {
-//   width: 10px;
-// }
-
-// &::-webkit-scrollbar-track {
-//   background: var(--white); /* Цвет фона скроллбара */
-// }
-
-// &::-webkit-scrollbar-thumb {
-//   background: var(--dark-blue);
-//   border-radius: 5px;
-//   // cursor: pointer;
-// }
-// }
+::selection {
+  color: var(--black);
+  background-color: var(--tap-select); /* Цвет фона при выделении */
+}
 
 
 .container {
@@ -445,7 +435,7 @@
 
 
 .option:hover {
-  background-color: #044fff3d;
+  background-color: var(--gray-white);
     color: var(--black);
 
 }

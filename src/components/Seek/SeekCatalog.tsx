@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -17,6 +17,7 @@ interface ISeekCatalogProps {
 
 const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const swiperRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,12 +28,14 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
     return () => clearTimeout(timer);
   }, []);
 
+
   if (isLoading) {
-    return <SeekCatalogLoader/>;
+    return <SeekCatalogLoader />;
   }
 
   return (
     <Swiper
+      ref={swiperRef}
       slidesPerView={7}
       slidesPerGroup={7}
       spaceBetween={15}
@@ -95,13 +98,21 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
         );
       })}
       <div className={styles.team__swiper_buttons}>
-        <div className="team__btn_prev">
-          <button className={styles.team__swiper_btn}>
+        <div
+          className="team__btn_prev"
+        >
+          <button
+            className={styles.team__swiper_btn}
+          >
             <ArrowLeftIcon />
           </button>
         </div>
-        <div className="team__btn_next">
-          <button className={styles.team__swiper_btn}>
+        <div
+          className="team__btn_next"
+        >
+          <button
+            className={styles.team__swiper_btn}
+          >
             <ArrowRightIcon />
           </button>
         </div>
@@ -111,3 +122,4 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
 };
 
 export default SeekCatalog;
+

@@ -1,7 +1,9 @@
 import { getPromotion } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import AllPromo from "@/components/HomeComponents/Promotion/AllPromo/AllPromo";
+import MainLoader from "@/components/UI/Loader/MainLoader";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -15,12 +17,11 @@ export const metadata: Metadata = {
 
 
 export default async function promotions() {
-//   await new Promise((resolve) => setTimeout(resolve, 10000))
+  // await new Promise((resolve) => setTimeout(resolve, 1000))
   const promotionData = await getPromotion();
-
   return (
-    <>
-      <AllPromo allpromo={promotionData}/>
-    </>
-  )
+    <Suspense fallback={<MainLoader/>}>
+      <AllPromo allpromo={promotionData} />
+    </Suspense>
+  );
 }

@@ -1,7 +1,6 @@
 import {
     getDiscountsById,
 } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import DiscountsById from "@/components/HomeComponents/Discounts/DiscountsById/DiscountsById";
 
 export async function generateMetadata({ params: { id } }: any) {

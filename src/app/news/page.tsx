@@ -1,7 +1,9 @@
 import { getNews } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import AllNews from "@/components/HomeComponents/News/AllNews/AllNews";
+import MainLoader from "@/components/UI/Loader/MainLoader";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -19,9 +21,8 @@ export default async function news() {
   const newsData = await getNews();
 
   return (
-    <>
-      {/* <h1>{page}</h1> */}
-      <AllNews allnews={newsData}/>
-    </>
-  )
+    <Suspense fallback={<MainLoader />}>
+      <AllNews allnews={newsData} />
+    </Suspense>
+  );
 }

@@ -5,6 +5,8 @@ import {
 } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import PromoById from "@/components/HomeComponents/Promotion/PromoById/PromoById";
+import MainLoader from "@/components/UI/Loader/MainLoader";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params: { id } }: any) {
   const data = await getPromoByIdOne(id);
@@ -16,6 +18,7 @@ export async function generateMetadata({ params: { id } }: any) {
 }
 
 export default async function IDPage({ params: { id } }: any) {
+  
   // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
     getPromoByIdOne(id),
@@ -28,8 +31,8 @@ export default async function IDPage({ params: { id } }: any) {
   const result = [dataOne.items, dataTwo.items, dataThree.items].flat();
 
   return (
-    <>
+    <Suspense fallback={<MainLoader />}>
       <PromoById promo={result} main={dataOne.ak} />
-    </>
+    </Suspense>
   );
 }

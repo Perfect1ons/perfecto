@@ -3,8 +3,9 @@ import {
   getNewsByIdThree,
   getNewsByIdTwo,
 } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
+import MainLoader from "@/components/UI/Loader/MainLoader";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params: { id } }: any) {
   const data = await getNewsByIdOne(id);
@@ -29,8 +30,8 @@ export default async function IDPage({ params: { id } }: any) {
   // console.log(result);
   
   return (
-    <>
+    <Suspense fallback={<MainLoader />}>
       <NewsById news={result} main={dataOne.news} />
-    </>
+    </Suspense>
   );
 }

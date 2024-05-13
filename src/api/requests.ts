@@ -24,7 +24,6 @@ import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
 });
 
 const maxkgtimeout = ky.create({
