@@ -21,6 +21,7 @@ import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -28,7 +29,7 @@ const maxkg = ky.create({
 
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  timeout: 1000
+  timeout: 1000,
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood> => {
@@ -70,7 +71,15 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
-
+export const getSortsBrand = (
+  id: number,
+  path: string
+): Promise<IFiltersBrand> => {
+  return maxkg
+    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
+    .json();
+};
+//max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
 export const getBannerData = (): Promise<IBanner> => {
   return maxkg.get("baner?pageSize=20&page=1").json();
 };
@@ -185,3 +194,7 @@ export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
 export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=5").json();
 };
+
+export const getCardProduct = (art: string): Promise<ICardProductItems> =>{
+  return maxkg.get(`naltovarok/itemnal?art=${art}`).json();
+}

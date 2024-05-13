@@ -1,82 +1,69 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { url } from "@/components/temporary/data";
+import cn from "clsx";
 import {
   CartIcon,
   GrayFavoritesIcon,
   GrayStar,
   VioletFavoritesIcon,
   YellowStar,
-} from "../../../../../public/Icons/Icons";
-import cn from "clsx";
-import { IPopularGood } from "@/types/popularGoods";
-import { useRouter } from "next/navigation";
+} from "../../../../public/Icons/Icons";
+import { url } from "@/components/temporary/data";
 
-interface IgoodsProps {
-  goods: IPopularGood;
+import { Tov } from "@/types/Catalog/catalogProducts";
+
+interface ICardDataProps {
+  cardData: Tov;
 }
-
-const PopularGoodsCards = ({ goods }: IgoodsProps) => {
-
-  const router = useRouter();
-
-  const imageUrl =
-    goods.photos.length > 0
-      ? `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}`
-      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
+  const imageUrl = useMemo(() => {
+    if (
+      cardData.photos[0]?.url_part &&
+      cardData.photos[0].url_part.startsWith("https://")
+    ) {
+      return cardData.photos[0].url_part + "280.jpg";
+    } else if (cardData.photos[0]?.url_part) {
+      return `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`;
+    } else {
+      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+    }
+  }, [cardData]);
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    // Проверяем, доступен ли localStorage (только на клиентской стороне)
-    const isLocalStorageAvailable =
-      typeof window !== "undefined" && window.localStorage;
-
-    // Используем localStorage только если он доступен
-    if (isLocalStorageAvailable) {
-      const favoriteStatus = localStorage.getItem(goods.id.toString());
-      setIsFavorite(favoriteStatus === "true");
-    }
-  }, [goods.id]);
+    setRating(Math.floor(cardData.ocenka));
+    const favoriteStatus = localStorage.getItem(cardData.id.toString());
+    setIsFavorite(favoriteStatus === "true");
+  }, [cardData]);
 
   const handleFavoriteClick = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      // Проверяем, доступен ли localStorage (только на клиентской стороне)
-      const isLocalStorageAvailable =
-        typeof window !== "undefined" && window.localStorage;
-      if (isLocalStorageAvailable) {
-        localStorage.setItem(goods.id.toString(), newIsFavorite.toString());
-      }
-      return newIsFavorite;
-    });
+    const newIsFavorite = !isFavorite;
+    setIsFavorite(newIsFavorite);
+    localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
   };
 
-  useEffect(() => {
-    setRating(Math.floor(goods.ocenka));
-  }, [goods.ocenka]);
-
   return (
-    <div onClick={()=>router.push(`/item/${goods.art}/${goods.url}`)} className="default__card">
+    <div className="default__card">
       <div className="default__card_images">
         <Image
           className="default__card_image"
           src={imageUrl}
           width={200}
           height={200}
-          alt={goods.naim}
+          alt={cardData.naim}
           quality={100}
           loading="lazy"
         />
       </div>
       <div className="default__card_info">
         <span className="default__card_price">
-          {goods.cenaok.toLocaleString("ru-RU")}
+          {cardData.cenaok.toLocaleString("ru-RU")}
           <span className="default__card_price_custom"> с</span>
         </span>
-        <h2 className="default__card_name">{goods.naim}</h2>
+        <h2 className="default__card_name">{cardData.naim}</h2>
         <div className="ocenka">
           {[...Array(5)].map((_, index) => (
             <span key={index}>
@@ -91,7 +78,7 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">{goods.ddos}</p>
+          <p className="ddos__text">{cardData.date_dost}</p>
         </div>
         <div className="add__to">
           <button
@@ -121,5 +108,4 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
   );
 };
 
-export default PopularGoodsCards;
-
+export default CatalogProductsCard;

@@ -11,12 +11,14 @@ import {
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
 import { IBoughtItem } from "@/types/lastBoughts";
+import { useRouter } from "next/navigation";
 
 interface IgoodsProps {
   goods: IBoughtItem;
 }
 
 const TodayBoughtsCards = ({ goods }: IgoodsProps) => {
+  const router = useRouter();
 const imageUrl =
   goods.photos.length > 0
     ? goods.photos[0].url_part.startsWith("https://")
@@ -51,7 +53,7 @@ const imageUrl =
   }, [goods.ocenka]);
 
   return (
-    <div className="default__card">
+    <div onClick={()=>router.push(`/item/${goods.id_tov}/${goods.url}`)} className="default__card">
       <div className="default__card_images">
         <Image
           className="default__card_image"
