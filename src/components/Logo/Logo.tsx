@@ -3,18 +3,21 @@ import Image from 'next/image'
 import styles from './style.module.scss'
 import Link from 'next/link';
 
-const Logo = () => {
+interface ILogoProps{
+  gomain: () => void;
+}
+
+const Logo = ({gomain}: ILogoProps) => {
   return (
-    <Link className={styles.logo} href={'/'}>
       <Image
+        onClick={() => gomain()}
         src={"/img/logo.svg"}
-        className={styles.logo__img}
+        className={styles.logo}
         width={210}
         height={40}
         alt="logo"
         priority
       />
-    </Link>
   );
 }
 

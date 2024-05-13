@@ -3,8 +3,18 @@ import {
   getNewsByIdThree,
   getNewsByIdTwo,
 } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
+import { INewsByPath } from "@/types/News/NewsById";
+
+async function delayedRequest(
+  requestFunction: () => Promise<INewsByPath>
+): Promise<INewsByPath> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
+
 
 export async function generateMetadata({ params: { id } }: any) {
   const data = await getNewsByIdOne(id);
@@ -17,20 +27,16 @@ export async function generateMetadata({ params: { id } }: any) {
 export default async function IDPage({ params: { id } }: any) {
   // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
-    getNewsByIdOne(id),
-    getNewsByIdTwo(id),
-    getNewsByIdThree(id),
+    delayedRequest(() => getNewsByIdOne(id)),
+    delayedRequest(() => getNewsByIdTwo(id)),
+    delayedRequest(() => getNewsByIdThree(id)),
   ]);
 
   
 
-  // Объединяем данные из всех запросов в один общий массив
   const result = [dataOne.result, dataTwo.result, dataThree.result].flat();
-  // console.log(result);
   
   return (
-    <>
       <NewsById news={result} main={dataOne.news} />
-    </>
   );
 }

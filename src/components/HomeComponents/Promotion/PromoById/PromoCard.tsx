@@ -11,12 +11,14 @@ import {
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
+import { useRouter } from "next/navigation";
 
 interface INewDataProps {
   promo: IPromoProduct;
 }
 
 const PromoCards = ({ promo }: INewDataProps) => {
+  const router = useRouter()
   const imageUrl =
     promo.photos.length > 0
       ? `${url}nal/img/${promo.id_post}/l_${promo.photos[0].url_part}`
@@ -49,7 +51,10 @@ const PromoCards = ({ promo }: INewDataProps) => {
   }, [promo.ocenka]);
 
   return (
-    <div className="default__card">
+    <div
+      onClick={() => router.push(`/item/${promo.id_tov}/${promo.url}`)}
+      className="default__card"
+    >
       <div className="default__card_images">
         <Image
           className="default__card_image"

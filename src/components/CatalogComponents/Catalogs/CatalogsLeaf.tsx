@@ -37,23 +37,46 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
       [categoryId]: false,
     }));
   };
-  const handleClick = (item: any) => {
-    const fullPath =
-      typeof path === "string" && path.startsWith("/catalog/")
-        ? path
-        : `/catalog/${path}`;
-    if (item.child_cat_level3) {
-      router.push(`/catalog/${item.full_slug}`);
-    } else {
-      alert(item.id);
-    }
+  const handleClick = (pathProduct: string) => {
+    const fullPath = pathProduct.startsWith(`/catalog/${path}/`)
+      ? pathProduct
+      : `/catalog/${pathProduct}`;
+    router.push(fullPath);
   };
+
   return (
+    // <div className={styles.container}>
+    //   <ol className={styles.breadcrumb}>
+    //     <li className={styles.links}>
+    //       <Link href="/" className={styles.link}>
+    //         Главная {ChevronRightIcon()}
+    //       </Link>
+    //       <Link
+    //         href={catalog.category.full_slug || "sadas"}
+    //         className={styles.link}
+    //       >
+    //         {catalog.category.name}
+    //       </Link>
+    //     </li>
+    //   </ol>
+    //   <h1>{catalog.category.name}</h1>
+    //   {catalog &&
+    //     catalog.category &&
+    //     Object.keys(catalog.category).map((key, index) => {
+    //       const category = catalog?.category[key];
+    //       return (
+    //         <div className={styles.row} key={index}>
+    //           <li className={styles.catalog__lih3}>{category?.name}</li>
+    //         </div>
+    //       );
+    //     })}
+    // </div>
+
     <div className={styles.container}>
       <ol className={styles.breadcrumb}>
         <li className={styles.links}>
           <Link href="/" className={styles.link}>
-            Главная {ChevronRightIcon()}
+            Главная
           </Link>
           <Link
             href={catalog.category.full_slug || "sadas"}
@@ -63,137 +86,53 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
           </Link>
         </li>
       </ol>
-      <h1>{catalog.category.name}</h1>
-      {catalog &&
-        catalog.category &&
-        Object.keys(catalog.category).map((key, index) => {
-          const category = catalog?.category[key];
-          return (
-            <div className={styles.row} key={index}>
-              <li className={styles.catalog__lih3}>{category?.name}</li>
+      <div>
+        <h1 className={styles.container__h1}>{catalog.category.name}</h1>
+        <div className={styles.row}>
+          <div className={styles.wrapps}>
+            <div>
+              <ul className={styles.subCatalogsContainerUL}>
+                {catalog.category.child.map((catalogItem) => (
+                  <div
+                    // href={catalogItem.full_slug}
+                    key={catalogItem.id}
+                    className={styles.catalog__lih3}
+                    onClick={() => handleClick(catalogItem.full_slug)}
+                  >
+                    {catalogItem.name}
+                  </div>
+                ))}
+              </ul>
             </div>
-          );
-        })}
+          </div>
+          <div className={styles.wrpps}>
+            <div className={styles.row__9}>
+              {catalog.category.child.map((catalogItem) => (
+                <div
+                  // href={catalogItem.full_slug.slice()}
+                  key={catalogItem.id}
+                  className={styles.row__9li}
+                  onClick={() => handleClick(catalogItem.full_slug)}
+                >
+                  <Image
+                    className={styles.imageChild}
+                    src={
+                      catalogItem.icon
+                        ? `https://max.kg/${catalogItem.icon}`
+                        : "https://max.kg/images/discount/empty-image.png"
+                    }
+                    alt={catalogItem.name}
+                    width={60}
+                    height={60}
+                  />
+                  <li className={styles.name__h3}>{catalogItem.name}</li>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    // <div>
-    //   <div className={styles.container}>
-    //     <ol className={styles.breadcrumb}>
-    //       <li className={styles.links}>
-    //         <Link href="/" className={styles.link}>
-    //           Главная {ChevronRightIcon()}
-    //         </Link>
-    //         {catalog.map((link) => (
-    //           <Link
-    //             key={link.id}
-    //             href={link.full_slug || "sadas"}
-    //             className={styles.link}
-    //           >
-    //             {link.name}
-    //           </Link>
-    //         ))}
-    //       </li>
-    //     </ol>
-    //     <div>
-    //       <h1 className={styles.container__h1}>
-    //         {catalog.map((title) => title.name)}
-    //       </h1>
-    //       <div className={styles.row}>
-    //         <div className={styles.wrapps}>
-    //           {catalog.map((catalogItem) => (
-    //             <div key={catalogItem.id}>
-    //               <ul className={styles.subCatalogsContainerUL}>
-    //                 {(
-    //                   catalogItem.child_level2 ||
-    //                   (catalogItem.child_cat_level3 as any) ||
-    //                   []
-    //                 ).map((childItem) => {
-    //                   const childCatLevel3 = childItem.child_cat_level3 || [];
-    //                   const isExpanded =
-    //                     showMoreCategories[childItem.id] || false;
-    //                   const displayedCatLevel3 = isExpanded
-    //                     ? childCatLevel3
-    //                     : childCatLevel3.slice(0, 5);
-    //                   const remainingItems =
-    //                     childCatLevel3.length - displayedCatLevel3.length;
-    //                   return (
-    //                     <li key={childItem.id} className={styles.catalog__lih3}>
-    //                       {childItem.name}
-    //                       <ul className={styles.subCatalogUL}>
-    //                         {displayedCatLevel3.map((res) => (
-    //                           <li key={res.id} className={styles.subCatalogLI}>
-    //                             {res.name}
-    //                           </li>
-    //                         ))}
-    //                       </ul>
-    //                       {childCatLevel3.length > 5 && (
-    //                         <button
-    //                           onClick={() =>
-    //                             isExpanded
-    //                               ? handleCollapse(childItem.id)
-    //                               : handleShowMore(childItem.id)
-    //                           }
-    //                           className={styles.buttonsCatalogs}
-    //                         >
-    //                           {isExpanded
-    //                             ? `Свернуть`
-    //                             : `Ещё ${remainingItems}`}
-    //                           <span className={styles.buttonsSpanCatalogs}>
-    //                             {isExpanded
-    //                               ? chevronUpIcon()
-    //                               : chevronDownIcon()}
-    //                           </span>
-    //                         </button>
-    //                       )}
-    //                     </li>
-    //                   );
-    //                 })}
-    //               </ul>
-    //             </div>
-    //           ))}
-    //         </div>
-    //         <div className={styles.wrpps}>
-    //           {catalog.map((catalogItem) => (
-    //             <div className={styles.row__9} key={catalogItem.id}>
-    //               {catalogItem.child_level2
-    //                 ? catalogItem.child_level2.map((item) => (
-    //                     <div key={item.id} className={styles.row__9li}>
-    //                       <Image
-    //                         src={
-    //                           item.icon
-    //                             ? `https://max.kg/${item.icon}`
-    //                             : "https://max.kg/images/discount/empty-image.png"
-    //                         }
-    //                         alt={item.name}
-    //                         width={60}
-    //                         height={60}
-    //                         onClick={() => handleClick(item)}
-    //                       />
-    //                       <li className={styles.name__h3}>{item.name}</li>
-    //                     </div>
-    //                   ))
-    //                 : (catalogItem?.child_cat_level3 || []).map((item) => (
-    //                     <div key={item.id} className={styles.row__9li}>
-    //                       <Image
-    //                         src={
-    //                           item.icon
-    //                             ? `https://max.kg/${item.icon}`
-    //                             : "https://max.kg/images/discount/empty-image.png"
-    //                         }
-    //                         alt={item.name}
-    //                         width={60}
-    //                         height={60}
-    //                         onClick={() => handleClick(item)}
-    //                       />
-    //                       <li className={styles.name__h3}>{item.name}</li>
-    //                     </div>
-    //                   ))}
-    //             </div>
-    //           ))}
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

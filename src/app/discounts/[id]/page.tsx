@@ -1,8 +1,8 @@
 import {
     getDiscountsById,
 } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import DiscountsById from "@/components/HomeComponents/Discounts/DiscountsById/DiscountsById";
+import { IDiscountsById } from "@/types/Discounts/discountById";
 
 export async function generateMetadata({ params: { id } }: any) {
      const data = await getDiscountsById(id);
@@ -13,8 +13,17 @@ export async function generateMetadata({ params: { id } }: any) {
   };
 }
 
+async function delayedRequest(
+  requestFunction: () => Promise<IDiscountsById>
+): Promise<IDiscountsById> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
+
 export default async function IDPage({ params: { id } }: any) {
-   const data = await  getDiscountsById(id)
+  const data = await delayedRequest(() => getDiscountsById(id));
   
   return (
     <>

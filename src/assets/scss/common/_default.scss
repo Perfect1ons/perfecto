@@ -2,24 +2,13 @@
 
 * {
   @include reset-all-styles;
+  -webkit-tap-highlight-color: var(--tap-select);
 }
 
-// body {
-// &::-webkit-scrollbar {
-//   width: 10px;
-// }
-
-// &::-webkit-scrollbar-track {
-//   background: var(--white); /* Цвет фона скроллбара */
-// }
-
-// &::-webkit-scrollbar-thumb {
-//   background: var(--dark-blue);
-//   border-radius: 5px;
-//   // cursor: pointer;
-// }
-// }
-
+::selection {
+  color: var(--white);
+  background-color: var(--dark-blue); /* Цвет фона при выделении */
+}
 
 .container {
   @include container(1440px);
@@ -91,7 +80,12 @@
 .goods,
 .seek__not_founded,
 .secondBanner,
-.thirdBanner {
+.thirdBanner,
+.productPageDesc,
+.characteristics,
+.productReview,
+.forClientContainer,
+.similarProducts {
   margin-top: 30px;
 
   @media screen and (max-width: 640px) {
@@ -99,7 +93,8 @@
   }
 }
 
-.secondBanner, .thirdBanner{
+.secondBanner,
+.thirdBanner {
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -181,9 +176,11 @@
   }
 }
 
-
-
 //! стили популярных категорий
+.swiper-wrapper {
+  padding: 5px;
+}
+
 .myCategory__swiper {
   padding-bottom: 30px !important;
 
@@ -198,6 +195,7 @@
   cursor: pointer;
   height: 180px !important;
   text-align: center;
+  max-width: 220px !important;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 5px;
@@ -215,8 +213,7 @@
     padding-top: 0;
   }
 
-
-  &_img{
+  &_img {
     user-select: none;
     @media screen and (max-width: 640px) {
       width: 63px;
@@ -314,12 +311,12 @@
 //! стили страницы поиска
 
 .sort__buttons {
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 15px;
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
   border-radius: 5px;
 
-  @include mixin.flex(center,space-between,null, 10px);
+  @include mixin.flex(center, space-between, null, 10px);
 
   padding: 5px 10px;
   &_title {
@@ -351,17 +348,8 @@
   }
 }
 
-// .seek__catalog {
-//   &_title {
-
-//     @include mixin.font(16px, 500, 150%, var(--white));
-
-//   }
-
-// }
-
-.seek__catalog{
-  &_title{
+.seek__catalog {
+  &_title {
     margin-top: 15px;
     @include mixin.font(18px, 500, 100%, var(--gray-dark));
   }
@@ -393,7 +381,7 @@
     margin-top: 10px;
     user-select: none;
 
-    @include mixin.flex(center, null,null,20px);
+    @include mixin.flex(center, null, null, 20px);
 
     overflow-x: auto;
     padding-bottom: 20px;
@@ -426,29 +414,33 @@
   border-radius: 5px;
   cursor: pointer; /* Изменение курсора при наведении */
 
-  &_sort{
+  &_sort {
     color: var(--black);
   }
 
-  &_sorted{
-    @include mixin.flex(center,null,null,10px);
+  &_sorted {
+    @include mixin.flex(center, null, null, 10px);
     border-radius: 5px;
     color: var(--dark-blue);
-    padding: 8px 12px; 
-    
-    p{
+    padding: 8px 12px;
+
+    p {
       color: var(--dark-blue);
       transform: rotate(90deg);
     }
 
-    &:hover{
+    &:hover {
       color: var(--violet);
-      p{
+      p {
         color: var(--violet);
       }
     }
   }
-  
+}
+
+.seek__catalog_title {
+  @include mixin.font(18px, 500, 100%, var(--gray-dark));
+  margin: 15px 0;
 }
 
 /* CustomSelect.css */
@@ -460,7 +452,6 @@
 .open .select-header_sorted {
   color: var(--violet);
 }
-
 
 .options {
   position: absolute;
@@ -478,39 +469,34 @@
 
 .option {
   @include mixin.font(18px, 500, null, var(--black));
-  @include mixin.flex(center,null,null,8px);
+  @include mixin.flex(center, null, null, 8px);
   cursor: pointer;
   padding: 10px 5px;
   text-wrap: nowrap;
 
-  &__cyrcle{
+  &__cyrcle {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 2px solid black;
   }
-
 }
 
-
 .option:hover {
-  background-color: #044fff3d;
-    color: var(--black);
-
+  background-color: var(--gray-white);
+  color: var(--black);
 }
 
 .selected {
   color: var(--black);
-  .option__cyrcle{
+  .option__cyrcle {
     background: var(--white);
-    width: 10px;
-    height: 10px;
-    padding: 4px;
-    border: 7px solid var(--dark-blue);
+    width: 7px;
+    height: 7px;
+    padding: 3px;
+    border: 6px solid var(--dark-blue);
   }
 }
-
-
 
 /* Для скроллбара */
 .sort__buttons::-webkit-scrollbar {
@@ -524,13 +510,10 @@
 
 .sort__buttons::-webkit-scrollbar-thumb {
   cursor: pointer;
-  background: var(--dark-blue); 
+  background: var(--dark-blue);
   border-radius: 5px;
 }
 
-
-
-.slideWithPadding{
+.slideWithPadding {
   padding-bottom: 40px;
 }
-

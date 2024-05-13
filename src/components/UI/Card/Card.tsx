@@ -11,12 +11,14 @@ import {
   VioletFavoritesIcon,
   YellowStar,
 } from "../../../../public/Icons/Icons";
+import { useRouter } from "next/navigation";
 
 interface IcardDataProps {
   cardData: NewsResult;
 }
 
 const Cards = ({ cardData }: IcardDataProps) => {
+  const router = useRouter()
   const imageUrl =
     cardData.photos.length > 0
       ? `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
@@ -49,7 +51,10 @@ const Cards = ({ cardData }: IcardDataProps) => {
   }, [cardData.ocenka]);
 
   return (
-    <div className="default__card">
+    <div
+      onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)}
+      className="default__card"
+    >
       <div className="default__card_images">
         <Image
           className="default__card_image"

@@ -18,7 +18,7 @@ const Catalogs = async ({ catalog, path }: IProps) => {
       return <CatalogsLeaf catalog={catalog} path={path} />;
     }
   };
-  return <div>{filteredCatalog()}</div>;
+  return <>{filteredCatalog()}</>;
 };
 
 export default Catalogs;

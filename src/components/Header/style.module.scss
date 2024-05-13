@@ -1,5 +1,9 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
+.header__logo{
+  @include mixin.flex(center,center)
+}
+
 .header {
   background: linear-gradient(
     88.03deg,
@@ -153,7 +157,15 @@
   }
 }
 
+
 // hamburgeeeeeeeeeeeeeeeeeeeeeer
+
+.search__input.empty {
+  &::placeholder{
+    color: red;
+  }
+}
+
 .hamburger {
   display: flex;
   align-items: center;

@@ -11,18 +11,22 @@ import {
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
 import { IBoughtItem } from "@/types/lastBoughts";
+import { useRouter } from "next/navigation";
 
 interface IgoodsProps {
   goods: IBoughtItem;
 }
 
 const TodayBoughtsCards = ({ goods }: IgoodsProps) => {
-const imageUrl =
-  goods.photos.length > 0
-    ? goods.photos[0].url_part.startsWith("https://")
-      ? goods.photos[0].url_part + "280.jpg" // Добавляем "280.jpg" в конец URL, если он начинается с "https://"
-      : `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}` // Используем URL с префиксом `${url}nal/img/`, если нет "https://"
-    : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  const router = useRouter();
+ const imageUrl =
+   goods.photos.length > 0
+     ? goods.photos[0].url_part.startsWith("https://goods")
+       ? goods.photos[0].url_part + "280.jpg" // Добавляем "280.jpg" в конец URL, если он начинается с "https://goods"
+       : goods.photos[0].url_part.startsWith("https://")
+       ? goods.photos[0].url_part // Используем URL без изменений, если он начинается с "https://", но не "https://goods"
+       : `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}` // Используем URL с префиксом `${url}nal/img/`, если нет "https://"
+     : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
 
@@ -51,7 +55,7 @@ const imageUrl =
   }, [goods.ocenka]);
 
   return (
-    <div className="default__card">
+    <div onClick={()=>router.push(`/item/${goods.id_tov}/${goods.url}`)} className="default__card">
       <div className="default__card_images">
         <Image
           className="default__card_image"

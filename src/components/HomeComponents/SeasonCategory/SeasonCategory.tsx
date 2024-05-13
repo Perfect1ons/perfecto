@@ -32,7 +32,7 @@ const SeasonCategory = ({ seasonItems }: ISeasonCategoryProps) => {
             return (
               <div
                 onClick={() =>
-                  router.push(`https://max.kg/catalog/${item.full_slug}`)
+                  router.push(`catalog/${item.full_slug}`)
                 }
                 key={item.id}
                 className="swiper__slide "
