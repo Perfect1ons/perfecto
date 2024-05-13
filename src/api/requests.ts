@@ -1,5 +1,3 @@
-import { ICatalogsChild } from '@/types/Catalog/catalogsChild';
-import { ICatalogHome } from '@/types/Catalog/catalogsHome';
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
@@ -16,21 +14,19 @@ import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
 import { INewsByPath } from "@/types/News/NewsById";
 import { IPromoById } from "@/types/Promo/PromoById";
-import { ITruncate } from "@/types/truncatedText";
 import { IDiscountsById } from "@/types/Discounts/discountById";
 import { ISeek } from "@/types/Search/seek";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
+import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
 });
 
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  timeout: 1000,
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood> => {
@@ -47,9 +43,6 @@ const maxkgz = ky.create({
 // };
 
 // запрос на главный каталог
-export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkg.get("catalog/cathome").json();
-};
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
   return maxkg.get("catalog/cat-list-menu").json();
 };
@@ -120,11 +113,7 @@ export const getDiscountsPageTwo = (): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=2`).json();
 };
 
-const getFilterPrice = (
-  id: number,
-  cena_min: number,
-  cena_max: number
-): Promise<ICatalogsChild> => {
+const getFilterPrice = (id: number, cena_min: number, cena_max: number) => {
   return maxkg
     .get(
       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
@@ -196,6 +185,9 @@ export const getThirdBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=5").json();
 };
 
-export const getCardProduct = (art: string): Promise<ICardProductItems> =>{
+export const getCardProduct = (art: string): Promise<ICardProductItems> => {
   return maxkg.get(`naltovarok/itemnal?art=${art}`).json();
-}
+};
+export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
+  return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
+};

@@ -1,6 +1,6 @@
 import { getPromotion } from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
 import AllPromo from "@/components/HomeComponents/Promotion/AllPromo/AllPromo";
+import { IPromotion } from "@/types/promotion";
 import { Metadata } from "next";
 
 
@@ -14,13 +14,20 @@ export const metadata: Metadata = {
 };
 
 
-export default async function promotions() {
-//   await new Promise((resolve) => setTimeout(resolve, 10000))
-  const promotionData = await getPromotion();
+async function delayedRequest(
+  requestFunction: () => Promise<IPromotion[]>
+): Promise<IPromotion[]> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
 
+
+
+export default async function promotions() {
+  const delayedPromotionData = await delayedRequest(getPromotion);
   return (
-    <>
-      <AllPromo allpromo={promotionData}/>
-    </>
-  )
+      <AllPromo allpromo={delayedPromotionData} />
+  );
 }

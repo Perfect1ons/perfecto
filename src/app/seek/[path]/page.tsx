@@ -1,5 +1,5 @@
 import { getPopularGoods, getSearchItem, getSearchItemThree, getSearchItemTwo } from "@/api/requests";
-import React, { Suspense } from "react";
+import { ISeek } from "@/types/Search/seek";
 import dynamic from "next/dynamic";
 const Seek = dynamic(() => import("@/components/Seek/Seek"));
 const SeekNotFound = dynamic(() => import("@/components/NotFound/SeekNotFound"));
@@ -21,6 +21,16 @@ export async function generateMetadata({ params: { path } }: any) {
   };
 }
 
+
+async function delayedRequest(
+  requestFunction: () => Promise<ISeek>
+): Promise<ISeek> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
+
 export async function PathPage({ params: { path } }: any) {
   
     const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
@@ -33,12 +43,11 @@ export async function PathPage({ params: { path } }: any) {
     const decodedPath = decodeURIComponent(path);
     const data = await getSearchItem(decodedPath);
       const [dataOne, dataTwo, dataThree] = await Promise.all([
-        getSearchItem(decodedPath),
-        getSearchItemTwo(decodedPath),
-        getSearchItemThree(decodedPath),
+        delayedRequest(() => getSearchItem(decodedPath)),
+        delayedRequest(() => getSearchItemTwo(decodedPath)),
+        delayedRequest(() => getSearchItemThree(decodedPath)),
       ]);
 
-      // Объединяем данные из всех запросов в один общий массив
       const result = [dataOne.model.items, dataTwo.model.items, dataThree.model.items].flat();
 
     if (

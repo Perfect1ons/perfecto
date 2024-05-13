@@ -2,23 +2,13 @@
 
 * {
   @include reset-all-styles;
+  -webkit-tap-highlight-color: var(--tap-select);
 }
 
-// body {
-// &::-webkit-scrollbar {
-//   width: 10px;
-// }
-
-// &::-webkit-scrollbar-track {
-//   background: var(--white); /* Цвет фона скроллбара */
-// }
-
-// &::-webkit-scrollbar-thumb {
-//   background: var(--dark-blue);
-//   border-radius: 5px;
-//   // cursor: pointer;
-// }
-// }
+::selection {
+  color: var(--white);
+  background-color: var(--dark-blue); /* Цвет фона при выделении */
+}
 
 .container {
   @include container(1440px);
@@ -90,7 +80,12 @@
 .goods,
 .seek__not_founded,
 .secondBanner,
-.thirdBanner {
+.thirdBanner,
+.productPageDesc,
+.characteristics,
+.productReview,
+.forClientContainer,
+.similarProducts {
   margin-top: 30px;
 
   @media screen and (max-width: 640px) {
@@ -353,6 +348,61 @@
   }
 }
 
+.seek__catalog {
+  &_title {
+    margin-top: 15px;
+    @include mixin.font(18px, 500, 100%, var(--gray-dark));
+  }
+
+  &_card {
+    @include mixin.flex(center, center, column);
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    min-width: 200px;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 200px;
+    height: 150px;
+    width: 100%;
+    &:hover {
+      .seek__catalog_card_title {
+        color: var(--violet);
+      }
+    }
+    &_image {
+      border-radius: 5px;
+    }
+    &_title {
+      @include mixin.font(16px, 400, 100%, var(--gray-dark));
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+  &_cards {
+    margin-top: 10px;
+    user-select: none;
+
+    @include mixin.flex(center, null, null, 20px);
+
+    overflow-x: auto;
+    padding-bottom: 20px;
+    padding: 5px 5px 15px 5px;
+    &::-webkit-scrollbar {
+      height: 7px;
+      cursor: pointer;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--white); /* Цвет фона скроллбара */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      cursor: pointer;
+      background: var(--dark-blue);
+      border-radius: 5px;
+    }
+  }
+}
+
 .custom-select {
   position: relative;
   max-width: 100%; /* Ширина выпадающего списка */
@@ -418,28 +468,22 @@
 }
 
 .option {
-  @include mixin.font(16px, 500, null, var(--black));
+  @include mixin.font(18px, 500, null, var(--black));
   @include mixin.flex(center, null, null, 8px);
   cursor: pointer;
   padding: 10px 5px;
   text-wrap: nowrap;
 
   &__cyrcle {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 2px solid black;
-  }
-  &__cyrcled {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 2px solid black;
   }
 }
 
 .option:hover {
-  background-color: #044fff3d;
+  background-color: var(--gray-white);
   color: var(--black);
 }
 

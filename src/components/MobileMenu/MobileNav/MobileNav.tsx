@@ -80,13 +80,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
         )}
       >
         <ul className={styles.ul}>
-          <Link
-            href="/"
-            className={styles.option}
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
+          <Link href="/" className={styles.option}>
             {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
             <span
               className={
@@ -104,13 +98,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
             <span>Каталог</span>
           </li>
 
-          <Link
-            href="/favorites"
-            className={styles.option}
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
+          <Link href="/favorites" className={styles.option}>
             {pathname === "/favorites" ? (
               <FavoritesIconActive />
             ) : (
@@ -127,13 +115,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
             </span>
           </Link>
 
-          <Link
-            href="/cart"
-            className={styles.option}
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
+          <Link href="/cart" className={styles.option}>
             {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
             <span
               className={
@@ -146,13 +128,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
             </span>
           </Link>
 
-          <Link
-            href="/auth"
-            className={styles.option}
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          >
+          <Link href="/auth" className={styles.option}>
             {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
             <span
               className={

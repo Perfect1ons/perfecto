@@ -11,12 +11,14 @@ import {
 } from "../../../public/Icons/Icons";
 import { ISeekItem } from "@/types/Search/seek";
 import { url } from "../temporary/data";
+import { useRouter } from "next/navigation";
 
 interface ICardDataProps {
   cardData: ISeekItem;
 }
 
 const SeekCardColumn = ({ cardData }: ICardDataProps) => {
+  const router = useRouter();
   const imageUrl = useMemo(() => {
     if (
       cardData.photos[0]?.url_part &&
@@ -46,7 +48,7 @@ const SeekCardColumn = ({ cardData }: ICardDataProps) => {
   };
 
   return (
-    <div className="default__card_column">
+    <div onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)} className="default__card_column">
       <div className="default__card_column_right">
         <div className="default__card_images_column">
           <Image

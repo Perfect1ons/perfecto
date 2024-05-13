@@ -12,11 +12,13 @@ import {
 import { url } from "@/components/temporary/data";
 
 import { Tov } from "@/types/Catalog/catalogProducts";
+import { useRouter } from "next/navigation";
 
 interface ICardDataProps {
   cardData: Tov;
 }
 const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
+  const router = useRouter(); 
   const imageUrl = useMemo(() => {
     if (
       cardData.photos[0]?.url_part &&
@@ -46,7 +48,10 @@ const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
   };
 
   return (
-    <div className="default__card">
+    <div
+      onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)}
+      className="default__card"
+    >
       <div className="default__card_images">
         <Image
           className="default__card_image"

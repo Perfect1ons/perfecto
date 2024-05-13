@@ -1,6 +1,7 @@
 import { getDiscountsPageOne, getDiscountsPageTwo } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import AllDiscounts from "@/components/HomeComponents/Discounts/AllDiscounts/AllDiscounts";
+import { IDiscounts } from "@/types/discounts";
 import { Metadata } from "next";
 
 
@@ -12,10 +13,21 @@ export const metadata: Metadata = {
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
+
+async function delayedRequest(
+  requestFunction: () => Promise<IDiscounts[]>
+): Promise<IDiscounts[]> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
+
 export default async function page() {
   const [discountsOne, discountsTwo] = await Promise.all([
-    getDiscountsPageOne(),
-    getDiscountsPageTwo(),
+    delayedRequest(getDiscountsPageOne),
+    delayedRequest(getDiscountsPageTwo),
+    ,
   ]);
 
   return (
