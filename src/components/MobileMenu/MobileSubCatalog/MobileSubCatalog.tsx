@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ICatalogMenu, ChildLevel2 } from "@/types/Catalog/catalogMenu"; // Assuming ChildLevel2 is exported from your types
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -7,6 +6,7 @@ import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Mobile_Icons";
 import Image from "next/image";
 import Link from "next/link";
 import { getImageUrl } from "@/lib/getImageUrl";
+import { useRouter } from "next/navigation";
 
 interface SubCatalProps {
   open: boolean;
@@ -23,6 +23,13 @@ export default function MobileSubCatalog({
   activeCategoryId,
   selectedCategoryName,
 }: SubCatalProps) {
+  // для роутинга
+  const router = useRouter();
+  const handleClick = (path: string) => {
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
+  };
+
   return (
     <div
       className={
@@ -48,8 +55,11 @@ export default function MobileSubCatalog({
           return childLevel2
             .filter((childItem) => childItem.parent === activeCategoryId)
             .map((filteredChildItem, key) => (
-              <Link
-                href={`${filteredChildItem.full_slug}`}
+              <div
+                // href={`catalog/${filteredChildItem.full_slug}`}
+                onClick={() => {
+                  handleClick(filteredChildItem.full_slug);
+                }}
                 key={key}
                 className={styles.subCatalogsListItem_a}
               >
@@ -67,9 +77,11 @@ export default function MobileSubCatalog({
                     />
                     <span>{filteredChildItem.name}</span>
                   </div>
-                  <ChevronRightIcon_Mobile />
+                  {filteredChildItem.is_leaf === 0 ? (
+                    <ChevronRightIcon_Mobile />
+                  ) : null}
                 </li>
-              </Link>
+              </div>
             ));
         })}
       </ul>

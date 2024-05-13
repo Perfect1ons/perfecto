@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <div onClick={onClose}>
+        <div className={styles.logo} onClick={onClose}>
           <Logo />
         </div>
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
@@ -83,10 +83,9 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
           <div className={styles.header__nav} onClick={onClose}>
             <HeaderNav />
           </div>
-
-          <div className={styles.search__white} onClick={onClose}>
-            <SearchIconWhite />
-          </div>
+        </div>
+        <div className={styles.search__white} onClick={onClose}>
+          <SearchIconWhite />
         </div>
       </div>
     </header>

@@ -23,7 +23,7 @@
 }
 
 @media screen and (max-width: 640px) {
-  .modal {
-    top: 50px;
+  .wrap {
+    display: none;
   }
 }
