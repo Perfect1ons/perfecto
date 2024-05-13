@@ -41,7 +41,7 @@
   @include mixin.flex(center, space-between, column, null);
 
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: var(--tap-select);
 
   text-decoration: none;
   color: var(--black);

@@ -20,6 +20,9 @@
   min-height: 150px;
 
   background: var(--gray-white);
+  &:active {
+    background: var(--secondary);
+  }
   @media screen and (max-width: 620px) {
     min-height: 170px;
   }
