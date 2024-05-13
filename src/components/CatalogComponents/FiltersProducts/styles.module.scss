@@ -6,6 +6,7 @@
   transform: rotate(0deg);
   //   transition: 0.1s all;
   transition: transform 0.3s ease, border-color 0.3s ease;
+  color: #b9b9c1;
 }
 .footerNavItemArrow {
   transform: rotate(180deg);
@@ -22,22 +23,33 @@
   //   padding: 7px 12px 7px 12px;
   //   border-radius: 8px;
   //   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  font-size: 14px;
+  // font-size: 14px;
   line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  &:hover {
+    color: var(--violet);
+    > .footerNavItemArrowIsActive {
+      color: #242424;
+    }
+  }
 }
 .showFiltersUl {
-  overflow: hidden;
+  // overflow: hidden;
   @include mixin.flex(null, null, column, 12px);
-  overflow-y: auto;
+  // overflow-y: auto;
   width: 100%;
   max-height: 260px;
   padding-right: 6px;
-  &__li {
-    font-size: 16px;
-    line-height: 22px;
-    color: #242424;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #fff;
   }
   &__div {
     /* Стили для скроллбара вебкит-браузеров */
@@ -79,10 +91,15 @@
   z-index: 10;
 }
 .filtersContainer {
-  @include mixin.flex(center, flex-start, null, null);
+  @include mixin.flex(center, center, null, null);
 }
 .showFiltersUlContainer {
   @include mixin.flex(center, center, null, 10px);
+  &:hover {
+    > .showFiltersUlContainer__check {
+      border-color: #a9a8b0;
+    }
+  }
   &__check {
     @include mixin.flex(center, center, null, null);
     width: 22px;
@@ -97,6 +114,11 @@
     border-color: var(--dark-blue);
     border: 0;
   }
+  &__li {
+    font-size: 16px;
+    line-height: 22px;
+    color: #242424;
+  }
 }
 .buttonShowBrand {
   border-bottom: 1px dashed;
@@ -108,6 +130,10 @@
   cursor: pointer;
   color: #242424;
   border-color: #868695;
+  &:hover {
+    color: var(--blue);
+    border-color: initial;
+  }
   // margin-top: 16px;
 }
 .buttonsContainer {
@@ -184,4 +210,48 @@
   font-size: 25px;
   font-weight: 500;
   line-height: 1.2;
+}
+.option {
+  // @include mixin.font(16px, 500, null, var(--black));
+  @include mixin.flex(center, center, null, 8px);
+  cursor: pointer;
+  padding: 5px 0;
+  text-wrap: nowrap;
+
+  &__cyrcle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid #d3d4dd;
+    border-radius: 50%;
+    background: #fff;
+    &::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--dark-blue);
+      border-radius: 50%;
+      display: none;
+    }
+  }
+  &__cyrcled {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+}
+.selected {
+  color: var(--black);
+  .option__cyrcle {
+    &::after {
+      display: block;
+    }
+    border: 2px solid var(--dark-blue);
+  }
 }

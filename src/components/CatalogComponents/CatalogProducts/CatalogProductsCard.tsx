@@ -78,7 +78,7 @@ const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">{cardData.date_dost}</p>
+          <p className="ddos__text">{cardData.ddos}</p>
         </div>
         <div className="add__to">
           <button

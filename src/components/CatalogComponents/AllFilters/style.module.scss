@@ -1,0 +1,14 @@
+.div {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  //   display: grid;
+  //   grid-template-columns: 1fr 3fr;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #fff;
+}
