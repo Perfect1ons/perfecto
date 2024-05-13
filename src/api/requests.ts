@@ -27,7 +27,6 @@ const maxkg = ky.create({
 
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  timeout: 1000,
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood> => {
@@ -43,10 +42,7 @@ const maxkgz = ky.create({
 //   return maxkg.get("baner?pageSize=20&page=1").json();
 // };
 
-// запрос на главный каталог
-export const getCatalogs = (): Promise<ICatalogHome[]> => {
-  return maxkg.get("catalog/cathome").json();
-};
+
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
   return maxkg.get("catalog/cat-list-menu").json();
 };
@@ -117,17 +113,17 @@ export const getDiscountsPageTwo = (): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=2`).json();
 };
 
-const getFilterPrice = (
-  id: number,
-  cena_min: number,
-  cena_max: number
-): Promise<ICatalogsChild> => {
-  return maxkg
-    .get(
-      `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
-    )
-    .json();
-};
+// const getFilterPrice = (
+//   id: number,
+//   cena_min: number,
+//   cena_max: number
+// ): Promise<ICatalogsChild> => {
+//   return maxkg
+//     .get(
+//       `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
+//     )
+//     .json();
+// };
 
 export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();

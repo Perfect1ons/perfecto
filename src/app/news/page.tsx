@@ -2,6 +2,7 @@ import { getNews } from "@/api/requests";
 import Application from "@/components/HomeComponents/Application/Application";
 import AllNews from "@/components/HomeComponents/News/AllNews/AllNews";
 import MainLoader from "@/components/UI/Loader/MainLoader";
+import { INews } from "@/types/news";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -15,12 +16,18 @@ export const metadata: Metadata = {
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
+async function delayedRequest(
+  requestFunction: () => Promise<INews[]>
+): Promise<INews[]> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
+    resolve(await requestFunction());
+  });
+}
 
 export default async function news() {
+  const newsData = await delayedRequest(getNews);
   // {searchParams: {page}}
-  const newsData = await getNews();
 
-  return (
-      <AllNews allnews={newsData} />
-  );
+  return <AllNews allnews={newsData} />;
 }

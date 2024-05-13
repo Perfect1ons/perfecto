@@ -6,7 +6,7 @@ async function delayedRequest(
   requestFunction: () => Promise<IPromoById>
 ): Promise<IPromoById> {
   return new Promise(async (resolve) => {
-    await new Promise((innerResolve) => setTimeout(innerResolve, 200));
+    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
     resolve(await requestFunction());
   });
 }
