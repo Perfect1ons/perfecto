@@ -11,12 +11,14 @@ import {
 } from "../../../public/Icons/Icons";
 import { ISeekItem } from "@/types/Search/seek";
 import { url } from "../temporary/data";
+import { useRouter } from "next/navigation";
 
 interface ICardDataProps {
   cardData: ISeekItem;
 }
 
 const SeekCards = ({ cardData }: ICardDataProps) => {
+  const router = useRouter()
 const imageUrl = useMemo(() => {
   if (
     cardData.photos[0]?.url_part &&
@@ -47,7 +49,10 @@ const imageUrl = useMemo(() => {
   };
 
   return (
-    <div className="default__card">
+    <div
+      onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)}
+      className="default__card"
+    >
       <div className="default__card_images">
         <Image
           className="default__card_image"
@@ -81,7 +86,7 @@ const imageUrl = useMemo(() => {
           />
           <p className="ddos__text">{cardData.ddos}</p>
         </div>
-        <div className="add__to">
+        <div className="add__to hoverEffects">
           <button
             title="Добавить в корзину"
             className="add__to_cart"

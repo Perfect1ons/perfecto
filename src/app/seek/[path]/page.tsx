@@ -1,7 +1,7 @@
 import { getPopularGoods, getSearchItem, getSearchItemThree, getSearchItemTwo } from "@/api/requests";
-import React, { Suspense } from "react";
-import dynamic from "next/dynamic";
 import MainLoader from "@/components/UI/Loader/MainLoader";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
 const Seek = dynamic(() => import("@/components/Seek/Seek"));
 const SeekNotFound = dynamic(() => import("@/components/NotFound/SeekNotFound"));
 

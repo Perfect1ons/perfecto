@@ -21,8 +21,6 @@ export default async function news() {
   const newsData = await getNews();
 
   return (
-    <Suspense fallback={<MainLoader />}>
       <AllNews allnews={newsData} />
-    </Suspense>
   );
 }

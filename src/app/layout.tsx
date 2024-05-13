@@ -5,6 +5,7 @@ import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import { Suspense } from "react";
 import dynamic from "next/dynamic";
 import MainLoader from "@/components/UI/Loader/MainLoader";
+import Provider from "@/context/Provider";
 const MobileMenu = dynamic(() => import("@/components/MobileMenu/MobileMenu"));
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
@@ -40,9 +41,9 @@ export default async function RootLayout({
       <body className={rubik.className}>
         <HeaderWrap />
         <DownloadAppMobile />
-          <Suspense fallback={<MainLoader/>}>
+        <Provider>
             <main id="main">{children}</main>
-          </Suspense>
+        </Provider>
         <MobileMenu />
         <Application />
         <Footer />

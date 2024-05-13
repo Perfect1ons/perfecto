@@ -1,38 +1,30 @@
-import {
-  getPromoByIdOne,
-  getPromoByIdThree,
-  getPromoByIdTwo,
-} from "@/api/requests";
-import Application from "@/components/HomeComponents/Application/Application";
+import { getPromoByIdOne, getPromoByIdThree, getPromoByIdTwo } from "@/api/requests";
 import PromoById from "@/components/HomeComponents/Promotion/PromoById/PromoById";
-import MainLoader from "@/components/UI/Loader/MainLoader";
-import { Suspense } from "react";
+import { IPromoById, IPromoProduct } from "@/types/Promo/PromoById";
 
-export async function generateMetadata({ params: { id } }: any) {
-  const data = await getPromoByIdOne(id);
-  const title = data.ak.naim;
-  
-  return {
-    title: title,
-  };
+async function delayedRequest(
+  requestFunction: () => Promise<IPromoById>
+): Promise<IPromoById> {
+  return new Promise(async (resolve) => {
+    await new Promise((innerResolve) => setTimeout(innerResolve, 200));
+    resolve(await requestFunction());
+  });
 }
 
 export default async function IDPage({ params: { id } }: any) {
-  
-  // Выполняем запросы параллельно, чтобы ускорить загрузку данных
-  const [dataOne, dataTwo, dataThree] = await Promise.all([
-    getPromoByIdOne(id),
-    getPromoByIdTwo(id),
-    getPromoByIdThree(id),
+
+  const [dataOne, dataTwo, dataThree]: IPromoById[] = await Promise.all([
+    delayedRequest(() => getPromoByIdOne(id)),
+    delayedRequest(() => getPromoByIdTwo(id)),
+    delayedRequest(() => getPromoByIdThree(id)),
   ]);
-  ;
 
   // Объединяем данные из всех запросов в один общий массив
-  const result = [dataOne.items, dataTwo.items, dataThree.items].flat();
+  const result: IPromoProduct[] = [
+    dataOne.items,
+    dataTwo.items,
+    dataThree.items,
+  ].flat();
 
-  return (
-    <Suspense fallback={<MainLoader />}>
-      <PromoById promo={result} main={dataOne.ak} />
-    </Suspense>
-  );
+  return <PromoById promo={result} main={dataOne.ak} />;
 }

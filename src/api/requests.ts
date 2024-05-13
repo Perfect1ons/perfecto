@@ -1,5 +1,3 @@
-import { ICatalogsChild } from '@/types/Catalog/catalogsChild';
-import { ICatalogHome } from '@/types/Catalog/catalogsHome';
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";

@@ -98,21 +98,13 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
         );
       })}
       <div className={styles.team__swiper_buttons}>
-        <div
-          className="team__btn_prev"
-        >
-          <button
-            className={styles.team__swiper_btn}
-          >
+        <div className="team__btn_prev">
+          <button className={styles.team__swiper_btn}>
             <ArrowLeftIcon />
           </button>
         </div>
-        <div
-          className="team__btn_next"
-        >
-          <button
-            className={styles.team__swiper_btn}
-          >
+        <div className="team__btn_next">
+          <button className={styles.team__swiper_btn}>
             <ArrowRightIcon />
           </button>
         </div>

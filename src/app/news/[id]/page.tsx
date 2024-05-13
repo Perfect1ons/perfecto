@@ -30,8 +30,6 @@ export default async function IDPage({ params: { id } }: any) {
   // console.log(result);
   
   return (
-    <Suspense fallback={<MainLoader />}>
       <NewsById news={result} main={dataOne.news} />
-    </Suspense>
   );
 }
