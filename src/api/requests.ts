@@ -25,6 +25,11 @@ const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
 
+const maxkgcache = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache",
+});
+
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
@@ -44,7 +49,7 @@ const maxkgz = ky.create({
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkg.get("catalog/cat-list-menu").json();
+  return maxkgcache.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs

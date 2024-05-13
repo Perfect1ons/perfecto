@@ -92,6 +92,9 @@ export default function CatalogProducts({
             <Link href="/" className={styles.link}>
               Главная
             </Link>
+            <Link href={catalog.full_slug} className={styles.link}>
+              {catalog.category.parent}
+            </Link>
             <Link
               href={catalog.category.full_slug || "sadas"}
               className={styles.link}
