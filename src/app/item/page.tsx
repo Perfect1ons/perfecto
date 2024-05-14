@@ -24,8 +24,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
   console.log(similar);
 
   const [rating, setRating] = useState(0);
-
   const [isFavorite, setIsFavorite] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     // Проверяем, доступен ли localStorage (только на клиентской стороне)
@@ -81,29 +81,56 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     return urls.join(", ");
   }, [similar]);
 
+  const handleImageClick = (imageUrl: string) => {
+    setSelectedImage(imageUrl);
+  };
+
   return (
     <section className={cn(styles.wrap, "container")}>
       <div className={styles.productContainer}>
         <div className={styles.miniCardsColumn}>
-          {data.photos.map((photo) => {
-            return (
-              <Image
-                className={styles.productPreview}
-                key={photo.url_part}
-                src={`https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`}
-                width={48}
-                height={48}
-                alt={photo.url_part}
-              ></Image>
-            );
-          })}
+          {data.photos.map((photo) => (
+            <Image
+              className={styles.productPreview}
+              key={photo.url_part}
+              src={`https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`}
+              width={48}
+              height={48}
+              alt={photo.url_part}
+              onClick={() =>
+                handleImageClick(
+                  `https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`
+                )
+              }
+            ></Image>
+          ))}
         </div>
-        <div className={styles.image}></div>
+        <div className={styles.image}>
+          {selectedImage ? (
+            <Image
+              src={selectedImage}
+              width={500}
+              height={500}
+              alt="Selected Image"
+              className={styles.selectedImage}
+            />
+          ) : (
+            <Image
+              src={`https://max.kg/nal/img/${data.id_post}/l_${data.photos[0].url_part}`}
+              width={500}
+              height={500}
+              alt="Default Image"
+              className={styles.selectedImage}
+            />
+          )}
+        </div>
         <div className={styles.productInfo}>
+          <div className={styles.productName}>
+            <h1 className={styles.productInfoTitle}>{data.name}</h1>
+          </div>
+          <span className={styles.productArticle}>{`Код: ${data.art}`}</span>
           <div className={styles.productOcenka}>
-            <span
-              className={styles.otzivy}
-            >{`(${data.otz.length} отзывов)`}</span>
+            <span className={styles.ocenkaCount}>{data.ocenka}</span>
             <div className="ocenka">
               {[...Array(5)].map((_, index) => (
                 <span key={index}>
@@ -111,38 +138,39 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 </span>
               ))}
             </div>
-          </div>
-          <div className={styles.productName}>
-            <h1 className={styles.productInfoTitle}>{data.name}</h1>
-            <span>{`код: ${data.art}`}</span>
+            <span className={styles.otzivy}>{`(${data.otz.length})`}</span>
           </div>
           <span className={styles.brand}>{`Бренд: ${data.trademark}`}</span>
           <hr className={styles.productInfoHr} />
           <div className={styles.productPrice}>
             <span className={styles.price}>{data.price} с.</span>
-            <span className={styles.oldPrice}>{data.old_price}</span>
-            <span className={styles.priceUpdate}>{data.price_update}</span>
+            {/* <span className={styles.oldPrice}>{data.old_price}</span> */}
+            {/* <span className={styles.priceUpdate}>{data.price_update}</span> */}
           </div>
-          <div className="ddos">
+          <div className={styles.ddos}>
             <Image
               src={`${url}images/delivery_icon.svg`}
               width={20}
               height={20}
               alt="delivery_icon"
             />
-            <p className="ddos__text">{data.ddos}</p>
+            <div className={styles.ddosInfo}>
+              <p className={styles.ddosTitle}>Наличие и доставка !</p>
+              <p className={styles.ddos__text}>{data.ddos}</p>
+            </div>
           </div>
-          <div className="add__to">
+          <div className={styles.add__to}>
             <button
               title="Добавить в корзину"
-              className="add__to_cart"
+              className={styles.add__to_cart}
               onClick={() => console.log("Добавлено в корзину")}
             >
-              <span className="add__to_cart_icon">
+              <span className={styles.add__to_cart_icon}>
                 <CartIcon />
               </span>
               В корзину
             </button>
+            <button className={styles.buyBtn}>Купить</button>
             <button
               title="Добавить в избранное"
               className={cn("add__to_fav", {
@@ -189,6 +217,20 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             Производитель оставляет за собой право изменять внешний вид,
             комплектацию товара без предупреждения.
           </p>
+        </div>
+      </div>
+      <hr className={styles.wrapHr} />
+      <div className="characteristics">
+        <h2 className="sections__title">Характеристики</h2>
+        <div className={styles.characteristicsContainer}>
+          {data.specification
+            .split("<p>")
+            .filter(Boolean)
+            .map((paragraph, index) => (
+              <p key={index} className={styles.productCharacteristicParagraph}>
+                {paragraph.replace(/<\/?p>/g, "")}
+              </p>
+            ))}
         </div>
       </div>
       <hr className={styles.wrapHr} />

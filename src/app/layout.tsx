@@ -8,10 +8,6 @@ import dynamic from "next/dynamic";
 import MainLoader from "@/components/UI/Loader/MainLoader";
 import Provider from "@/context/Provider";
 
-const MobileMenu = dynamic(
-  () => import("@/components/MobileMenu/MobileNav/MobileNav")
-);
-
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
 );

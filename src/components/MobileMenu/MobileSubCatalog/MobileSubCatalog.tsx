@@ -1,9 +1,8 @@
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 import styles from "./style.module.scss";
-import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Mobile_Icons";
-import { getImageUrl } from "@/lib/getImageUrl";
-import SubCatTemplate from "./SubCatTemplate";
+import SubCatTemplate from "../SubCatTemplate/SubCatTemplate";
+import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
 
 export interface SubCatalProps {
   open: boolean;
@@ -34,8 +33,6 @@ export default function MobileSubCatalog({
           <span>{selectedCategoryName}</span>
         </div>
       )}
-
-      <hr className={styles.hr} />
 
       <SubCatTemplate catalog={catalog} activeCategoryId={activeCategoryId} />
     </div>

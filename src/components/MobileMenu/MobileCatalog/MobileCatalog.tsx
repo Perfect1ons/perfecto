@@ -28,17 +28,6 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
     string | null
   >(null);
 
-  ////////////////////////////////////////
-  // для роутинга (пока не используется)
-  // const router = useRouter();
-
-  // при нажатии ведет на подкаталоги
-  // const handleClick = (id: number) => {
-  //   router.push(`/catalogs/${id}`);
-  //   close();
-  // };
-  ///////////////////////////////////////
-
   return (
     <section className={styles.catalog_main}>
       <MobileSubCatalog
@@ -74,6 +63,8 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
                   width={100}
                   height={100}
                   alt={item.name}
+                  placeholder="blur"
+                  blurDataURL={`https://max.kg/${item.icon}`}
                   className={styles.grid_img}
                 />
               </div>

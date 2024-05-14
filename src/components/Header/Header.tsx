@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
     return () => {
       window.removeEventListener("beforeunload", handleUnload);
     };
-  }, [searchTerm]); 
+  }, [searchTerm]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -49,8 +49,8 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   };
 
   const handleGoToMainPage = () => {
-    setSearchTerm(""); 
-    router.push("/"); 
+    setSearchTerm("");
+    router.push("/");
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -62,17 +62,13 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
     setIsOpen(false);
   };
 
-  // для мобильного поиска
-  // const mobSearchClick = () => {};
-
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-
         <div className={cn(styles.header__logo, styles.logo)} onClick={onClose}>
           <Logo gomain={handleGoToMainPage} />
         </div>
-        
+
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
           <CatalogMenu catalog={catalog} close={open} />
         </Modal>
@@ -132,4 +128,3 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
 };
 
 export default Header;
-

@@ -3,8 +3,7 @@ import { useRouter } from "next/navigation";
 
 import styles from "./style.module.scss";
 import Image from "next/image";
-import { SubCatalProps } from "./MobileSubCatalog";
-import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Mobile_Icons";
+import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
 
 interface SubCatTemplateProps {
   catalog: ICatalogMenu;
@@ -19,11 +18,14 @@ export default function SubCatTemplate({
   const router = useRouter();
   const handleClick = (path: string) => {
     const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    close;
     router.push(fullPath);
   };
 
   return (
     <>
+      <hr className={styles.hr} />
+
       <ul className={styles.subCatalogsList}>
         {catalog.flatMap((rootItem) => {
           const childLevel2 = Array.isArray(rootItem.child_level2)
@@ -50,6 +52,7 @@ export default function SubCatTemplate({
                       width={30}
                       height={30}
                       alt=""
+                      className={styles.subCatItem_image}
                     />
                     <span>{filteredChildItem.name}</span>
                   </div>
