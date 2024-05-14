@@ -1,14 +1,17 @@
-"use client"
+"use client";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from './style.module.scss'
+import styles from "./style.module.scss";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Image from "next/image";
-import { ArrowLeftIcon, ArrowRightIcon } from "../../../../../public/Icons/Icons";
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+} from "../../../../../public/Icons/Icons";
 import { IIntro } from "@/types/Home/banner";
 import Link from "next/link";
 
@@ -16,9 +19,7 @@ interface ISlide {
   slides: IIntro[];
 }
 
-
-
-const BannerSwiper = ({ slides}: ISlide) => {
+const BannerSwiper = ({ slides }: ISlide) => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
@@ -58,6 +59,12 @@ const BannerSwiper = ({ slides}: ISlide) => {
                 height={410}
                 alt={slide.naim}
                 quality={100}
+                placeholder="blur"
+                blurDataURL={
+                  isMobile
+                    ? `https://max.kg/bimages/baner/mobile/baner_${slide.id}.jpg`
+                    : `https://max.kg/bimages/baner/baner_${slide.id}.jpg`
+                }
                 priority
               />
             </Link>

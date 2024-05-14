@@ -12,19 +12,17 @@ import {
   CatalogSearchIcon,
   FavoritesIconActive,
   FavoritesIconDark,
+  CartIconActive,
+  CartIconDark,
+  HomeIcon,
+  HomeIconActive,
+  XMark,
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
-import {
-  CartIconActive,
-  CartIconDark,
-  HomeIcon,
-  HomeIconActive,
-  XMark,
-} from "../../../../public/Icons/Mobile_Icons";
 import MobSearch from "./MobSearch";
 
 // пропсы

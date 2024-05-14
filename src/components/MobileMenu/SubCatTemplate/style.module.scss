@@ -1,0 +1,35 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.hr {
+  @include mixin.item__border(2px, solid, var(--super-light-white), 8px);
+  margin: 10px 20px;
+}
+
+.subCatalogsList {
+  margin-bottom: 70px;
+}
+
+.subCatalogsListItem {
+  @include mixin.flex(center, space-between, null, null);
+
+  user-select: none;
+  -webkit-tap-highlight-color: var(--tap-select);
+
+  background: var(--light-white);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 5px;
+}
+
+.subCatalogsListItem_a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.subCatItem_name {
+  @include mixin.flex(center, center, null, 10px);
+}
+
+.subCatItem_image {
+  border-radius: 5px;
+}
