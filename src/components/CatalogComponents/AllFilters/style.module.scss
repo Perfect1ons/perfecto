@@ -2,13 +2,14 @@
   max-width: 1440px;
   margin: 0 auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  //   display: grid;
-  //   grid-template-columns: 1fr 3fr;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
   position: absolute;
-  top: 0;
+  top: 10px;
+  left: 0;
   right: 0;
   background: #fff;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
