@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HeaderNav from "./HeaderNav/HeaderNav";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
@@ -9,22 +9,48 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
+import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 
 interface HeaderProps {
   catalog: ICatalogMenu;
 }
 
 const Header: React.FC<HeaderProps> = ({ catalog }) => {
-  const [searchTerm, setSearchTerm] = useState(""); // Состояние для хранения значения поиска
+  const [searchTerm, setSearchTerm] = useState("");
+  const [inputEmpty, setInputEmpty] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const handleUnload = (event: BeforeUnloadEvent) => {
+      if (searchTerm.trim() !== "") {
+        setSearchTerm(""); // Очищаем поле ввода при попытке покинуть страницу
+      }
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
+  }, [searchTerm]); 
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+    setInputEmpty(false);
   };
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/seek/search=${searchTerm}`); // Переход на страницу поиска с параметрами
+    if (searchTerm.trim() === "") {
+      setInputEmpty(true);
+    } else {
+      router.push(`/seek/search=${searchTerm}`);
+    }
+  };
+
+  const handleGoToMainPage = () => {
+    setSearchTerm(""); 
+    router.push("/"); 
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -36,12 +62,17 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
     setIsOpen(false);
   };
 
+  // для мобильного поиска
+  // const mobSearchClick = () => {};
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <div onClick={onClose}>
-          <Logo />
+
+        <div className={cn(styles.header__logo, styles.logo)} onClick={onClose}>
+          <Logo gomain={handleGoToMainPage} />
         </div>
+        
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
           <CatalogMenu catalog={catalog} close={open} />
         </Modal>
@@ -67,12 +98,18 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
               <input
                 value={searchTerm}
                 onChange={handleSearchChange}
-                placeholder="Искать товары и категории"
+                placeholder={
+                  inputEmpty
+                    ? "Введите название товара!!!"
+                    : "Искать товары и категории"
+                }
                 type="text"
                 maxLength={100}
                 id="searchInput"
                 autoComplete="off"
-                className={styles.search__input}
+                className={cn(styles.search__input, {
+                  [styles.empty]: inputEmpty, // Добавляем класс empty, если inputEmpty равен true
+                })}
               />
               <button type="submit" className={styles.search__icon}>
                 <SearchIcon />
@@ -83,10 +120,11 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
           <div className={styles.header__nav} onClick={onClose}>
             <HeaderNav />
           </div>
+        </div>
 
-          <div className={styles.search__white} onClick={onClose}>
-            <SearchIconWhite />
-          </div>
+        <MobileSearchHeader />
+        <div className={styles.search__white}>
+          <SearchIconWhite />
         </div>
       </div>
     </header>
@@ -94,3 +132,4 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
 };
 
 export default Header;
+

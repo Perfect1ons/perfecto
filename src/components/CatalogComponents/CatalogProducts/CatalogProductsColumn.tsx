@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import cn from "clsx";
 import {
@@ -8,25 +8,25 @@ import {
   GrayStar,
   VioletFavoritesIcon,
   YellowStar,
-} from "../../../public/Icons/Icons";
+} from "../../../../public/Icons/Icons";
 import { ISeekItem } from "@/types/Search/seek";
-import { url } from "../temporary/data";
-import { useRouter } from "next/navigation";
+import { url } from "@/components/temporary/data";
 
+import { Tov } from "@/types/Catalog/catalogProducts";
+import React from "react";
 interface ICardDataProps {
-  cardData: ISeekItem;
+  cardData: Tov;
 }
 
-const SeekCardColumn = ({ cardData }: ICardDataProps) => {
-  const router = useRouter();
+const CatalogProductsColumn = ({ cardData }: ICardDataProps) => {
   const imageUrl = useMemo(() => {
     if (
-      cardData.photos[0]?.url_part &&
-      cardData.photos[0].url_part.startsWith("https://")
+      cardData?.photos[0]?.url_part &&
+      cardData?.photos[0].url_part.startsWith("https://")
     ) {
-      return cardData.photos[0].url_part + "280.jpg";
-    } else if (cardData.photos[0]?.url_part) {
-      return `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`;
+      return cardData?.photos[0].url_part + "280.jpg";
+    } else if (cardData?.photos[0]?.url_part) {
+      return `${url}nal/img/${cardData?.id_post}/l_${cardData?.photos[0].url_part}`;
     } else {
       return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
     }
@@ -36,19 +36,18 @@ const SeekCardColumn = ({ cardData }: ICardDataProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
-    setRating(Math.floor(cardData.ocenka));
-    const favoriteStatus = localStorage.getItem(cardData.id.toString());
+    setRating(Math.floor(cardData?.ocenka));
+    const favoriteStatus = localStorage.getItem(cardData?.id.toString());
     setIsFavorite(favoriteStatus === "true");
   }, [cardData]);
 
   const handleFavoriteClick = () => {
     const newIsFavorite = !isFavorite;
     setIsFavorite(newIsFavorite);
-    localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
+    localStorage.setItem(cardData?.id.toString(), newIsFavorite.toString());
   };
-
   return (
-    <div onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)} className="default__card_column">
+    <div className="default__card_column">
       <div className="default__card_column_right">
         <div className="default__card_images_column">
           <Image
@@ -127,4 +126,4 @@ const SeekCardColumn = ({ cardData }: ICardDataProps) => {
   );
 };
 
-export default SeekCardColumn;
+export default CatalogProductsColumn;

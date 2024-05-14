@@ -23,12 +23,15 @@ import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
+});
+
+const maxkgcache = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
   cache: "no-cache",
 });
 
 const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  timeout: 1000,
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood> => {
@@ -46,7 +49,7 @@ const maxkgz = ky.create({
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkg.get("catalog/cat-list-menu").json();
+  return maxkgcache.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs
@@ -67,7 +70,15 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
-
+export const getSortsBrand = (
+  id: number,
+  path: string
+): Promise<IFiltersBrand> => {
+  return maxkg
+    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
+    .json();
+};
+//max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
 export const getBannerData = (): Promise<IBanner> => {
   return maxkg.get("baner?pageSize=20&page=1").json();
 };

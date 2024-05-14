@@ -29,7 +29,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
         <div className={styles.promotion__container}>
           {visiblePromotions.map((item) => (
             <div className={styles.promotion__card} key={item.naim}>
-              <Link href={`promotions/${item.id}`} passHref>
+              <Link className={styles.promotion__card_link} href={`promotions/${item.id}`} passHref>
                   <Image
                     className={styles.promotion__card_img}
                     src={`https://max.kg/${item.logo}`}

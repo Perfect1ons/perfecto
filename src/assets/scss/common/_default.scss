@@ -2,23 +2,13 @@
 
 * {
   @include reset-all-styles;
+  -webkit-tap-highlight-color: var(--tap-select);
 }
 
-// body {
-// &::-webkit-scrollbar {
-//   width: 10px;
-// }
-
-// &::-webkit-scrollbar-track {
-//   background: var(--white); /* Цвет фона скроллбара */
-// }
-
-// &::-webkit-scrollbar-thumb {
-//   background: var(--dark-blue);
-//   border-radius: 5px;
-//   // cursor: pointer;
-// }
-// }
+::selection {
+  color: var(--white);
+  background-color: var(--dark-blue); /* Цвет фона при выделении */
+}
 
 .container {
   @include container(1440px);
@@ -187,6 +177,10 @@
 }
 
 //! стили популярных категорий
+.swiper-wrapper {
+  padding: 5px;
+}
+
 .myCategory__swiper {
   padding-bottom: 30px !important;
 
@@ -201,6 +195,7 @@
   cursor: pointer;
   height: 180px !important;
   text-align: center;
+  max-width: 220px !important;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-bottom: 5px;
@@ -316,7 +311,7 @@
 //! стили страницы поиска
 
 .sort__buttons {
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 15px;
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
   border-radius: 5px;
@@ -352,15 +347,6 @@
     }
   }
 }
-
-// .seek__catalog {
-//   &_title {
-
-//     @include mixin.font(16px, 500, 150%, var(--white));
-
-//   }
-
-// }
 
 .seek__catalog {
   &_title {
@@ -452,6 +438,11 @@
   }
 }
 
+.seek__catalog_title {
+  @include mixin.font(18px, 500, 100%, var(--gray-dark));
+  margin: 15px 0;
+}
+
 /* CustomSelect.css */
 .open p {
   color: var(--violet);
@@ -492,7 +483,7 @@
 }
 
 .option:hover {
-  background-color: #044fff3d;
+  background-color: var(--gray-white);
   color: var(--black);
 }
 
@@ -500,10 +491,10 @@
   color: var(--black);
   .option__cyrcle {
     background: var(--white);
-    width: 10px;
-    height: 10px;
-    padding: 4px;
-    border: 7px solid var(--dark-blue);
+    width: 7px;
+    height: 7px;
+    padding: 3px;
+    border: 6px solid var(--dark-blue);
   }
 }
 

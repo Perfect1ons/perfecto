@@ -15,7 +15,7 @@
 
   background-color: var(--white);
   padding: 5px 0;
-  transition: transform 0.3s ease; // добавляем transition для плавности анимации
+  transition: transform 0.5s ease; // добавляем transition для плавности анимации
   transform: translateY(0); // по умолчанию меню видно
 
   @media screen and (max-width: 992px) {
@@ -25,6 +25,7 @@
 
 .scrolled {
   transform: translateY(100%);
+  transition: all 0.5s ease;
 }
 
 .ul {
@@ -40,7 +41,7 @@
   @include mixin.flex(center, space-between, column, null);
 
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: var(--tap-select);
 
   text-decoration: none;
   color: var(--black);

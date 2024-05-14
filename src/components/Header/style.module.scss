@@ -1,24 +1,36 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
+.header__logo{
+  @include mixin.flex(center,center)
+}
+
 .header {
-  background: linear-gradient(88.03deg, var(--dark-blue) 1.19%,var(--violet) 97.58%);
+  background: linear-gradient(
+    88.03deg,
+    var(--dark-blue) 1.19%,
+    var(--violet) 97.58%
+  );
   height: 72px;
   user-select: none;
   &__container {
-    display: flex;
-    align-items: center;
+    position: relative;
     height: 100%;
     @include mixin.flex(center, space-between, null, 30px);
-
+    @media screen and (max-width: 992px) {
+      justify-content: center;
+    }
     &_form {
       @include mixin.flex();
       gap: 30px;
       max-width: 100%;
       width: 100%;
       @media screen and (max-width: 992px) {
-        justify-content: flex-end;
-        align-items: center;
-        padding-right: 10px;
+        display: none;
+        // justify-content: flex-end;
+        // align-items: center;
+        // padding-right: 10px;
+        // max-width: none;
+        // width: auto;
       }
     }
   }
@@ -33,6 +45,14 @@
   }
   position: relative;
   z-index: 1000;
+}
+
+.logo {
+  @media screen and (max-width: 640px) {
+    @include mixin.flex(center, center, row-reverse, null);
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .catalog_modal {
@@ -64,7 +84,7 @@
   }
 }
 
-.search__history{
+.search__history {
   position: relative;
   z-index: 100;
 }
@@ -76,7 +96,7 @@
   display: flex;
   align-items: center;
 
-  &__form{
+  &__form {
     width: 100%;
   }
 
@@ -88,11 +108,16 @@
     cursor: pointer;
     display: none;
     @media screen and (max-width: 992px) {
+      scale: 0.9;
       display: block;
       width: 30px;
       height: 30px;
+      position: absolute;
+      right: 15px;
+      z-index: 999;
     }
     @media screen and (max-width: 640px) {
+      scale: 0.7;
       width: 25px;
       height: auto;
     }
@@ -129,6 +154,15 @@
     position: absolute;
     right: 10px;
     top: 27%;
+  }
+}
+
+
+// hamburgeeeeeeeeeeeeeeeeeeeeeer
+
+.search__input.empty {
+  &::placeholder{
+    color: red;
   }
 }
 
@@ -220,3 +254,5 @@
   width: 100%;
   padding: 20px 30px;
 }
+
+// мобилка

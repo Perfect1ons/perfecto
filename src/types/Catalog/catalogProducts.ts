@@ -16,7 +16,7 @@ export interface Category {
   enable: number;
   sort_menu: number;
   is_leaf: number;
-  tov: ICatlogProducts[];
+  tov: Tov[];
   child: Child[];
 }
 export interface Child {
@@ -122,6 +122,7 @@ export interface Tov {
   from_date: number;
   valuteVal: string;
   ddos: string;
+  date_dost: string;
   photos: Photo[];
   ocenka: number;
   before_round?: number;

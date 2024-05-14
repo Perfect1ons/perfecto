@@ -19,10 +19,11 @@
             gap: 10px;
         }
         @media screen and (max-width: 768px) {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
         }
         @media screen and (max-width: 640px) {
             grid-template-columns: repeat(2,1fr);
+            align-items: center;
             gap: 10px;
             background: var(--gray-white);
             padding: 10px;
@@ -49,6 +50,10 @@
 .pad{
     padding: 0 15px;
 }
+.hoverEffects{
+    transition: all 0.1s ease !important;
+    opacity: 0 !important;
+}
 
 .default__card{
     background: var(--white);
@@ -58,7 +63,7 @@
     width: 100%;
     border-radius: 10px;
     @include mixin.flex(flex-start,center,column);
-    transition: all 0.3s ease;
+    transition: all 0.1s ease;
     &:hover{
         box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
 
@@ -66,11 +71,15 @@
             color: var(--gray-dark);
             opacity: 1;
         }
+        .hoverEffects{
+             opacity: 1 !important;
+        }
     }
     &_images{
         max-width: 100%;
         width: 100%;
         max-height: 262px;
+        min-height: 262px;
         overflow: hidden;
         @media screen and (max-width: 1200px) {
             max-height: 100%;
@@ -78,9 +87,15 @@
         @media screen and (max-width: 768px) {
             max-height: 100%;
         }
+        @media screen and (max-width: 640px) {
+            max-height: 262px;
+            height: 100%;
+        }
 
         @media screen and (max-width: 480px) {
             max-height: 100%;
+            height: 100%;
+            min-height: auto;
         }
     }
 
@@ -90,6 +105,7 @@
         border-radius: 10px 10px 0px 0px;
         width: 100%;
         height: 100%;
+        min-height: 262px;
         object-fit: cover;
         @media screen and (max-width: 992px) {
             max-height: 280px;
@@ -99,6 +115,9 @@
             max-height: 300px;
             width: 100%;
             height: 100%;
+        }
+        @media screen and (max-width: 640px) {
+            min-height: auto;
         }
         @media screen and (max-width: 480px) {
             min-height: 150px;
@@ -119,6 +138,7 @@
         @include mixin.font(14px,400,100%,var(--gray-dark));
         max-height: 28px;
         overflow: hidden;
+        transition: all 0.1s ease;
         max-width: 100%;
     }
 
