@@ -13,9 +13,13 @@
   line-height: 120%;
   color: #212529;
 }
+.wrapps {
+  max-width: 224px;
+}
 .row {
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
   gap: 50px;
   &__9 {
     display: grid;

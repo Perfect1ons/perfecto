@@ -1,17 +1,16 @@
 "use client";
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import styles from "./styles.module.scss";
-import React, { useState } from "react";
+import styles from "./style.module.scss";
+import React, { useEffect, useState } from "react";
 import {
   checkIcon,
   chevronDownIcon,
   filterIcon,
 } from "../../../../public/Icons/Icons";
-import { getSortsBrand } from "@/api/requests";
 import { useRouter } from "next/navigation";
 import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
-import AllFilters from "../AllFilters/AllFilters";
+import AllFilters from "./AllFilters";
 interface IProps {
   filter: IFiltersBrand;
   productId: number;
@@ -41,6 +40,34 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
+  // useEffect(() => {
+  //   const handleBodyClick = (event: MouseEvent) => {
+  //     console.log("Body clicked");
+  //     const target = event.target as HTMLElement;
+
+  //     const filtersContainer = document.querySelector(".filtersContainer");
+
+  //     if (!filtersContainer) return; // Проверяем, что контейнер фильтров существует
+
+  //     const isClickedInsideFilters = filtersContainer.contains(target);
+
+  //     if (!isClickedInsideFilters) {
+  //       setFiltersIsShow({
+  //         brand: false,
+  //         price: false,
+  //         delivery: false,
+  //         allfilters: false,
+  //         default: false,
+  //       });
+  //     }
+  //   };
+
+  //   document.body.addEventListener("click", handleBodyClick);
+
+  //   return () => {
+  //     document.body.removeEventListener("click", handleBodyClick);
+  //   };
+  // }, []);
 
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
@@ -70,8 +97,7 @@ const FiltersProducts = ({
   const handleShowAllBrands = () => {
     setBrandIsShow(true);
   };
-
-  // Функция для обновления состояния выбора для конкретного элемента
+  // // Функция для обновления состояния выбора для конкретного элемента
   const toggleBrand = (brand: string) => {
     setSelectedBrands((prevState) => ({
       ...prevState,
@@ -92,6 +118,7 @@ const FiltersProducts = ({
           className={styles.buttonBrand}
         >
           <li className={styles.showFiltersUlContainer__li}>
+            {/* Сортировка */}
             {options.find((option) => option.value === value)?.label ||
               "По умолчанию"}
           </li>

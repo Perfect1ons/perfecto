@@ -1,7 +1,7 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
-.header__logo{
-  @include mixin.flex(center,center)
+.header__logo {
+  @include mixin.flex(center, center);
 }
 
 .header {
@@ -157,11 +157,10 @@
   }
 }
 
-
 // hamburgeeeeeeeeeeeeeeeeeeeeeer
 
 .search__input.empty {
-  &::placeholder{
+  &::placeholder {
     color: red;
   }
 }
