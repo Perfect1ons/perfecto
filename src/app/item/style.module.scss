@@ -48,10 +48,10 @@
 }
 .ddos {
   border-radius: 0.25rem !important;
-  padding: 15px;
+  padding: 25px;
   margin-top: 15px;
   margin-bottom: 15px;
-  max-width: 50%;
+  max-width: 80%;
   box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
   margin-top: 10px;
   @include mixin.flex(center, null, null, 5px);
@@ -66,7 +66,7 @@
   }
   &__text {
     max-height: 28px;
-    overflow: hidden;
+
     @include mixin.font(14px, 700, null, var(--success));
     @media screen and (max-width: 640px) {
     }
@@ -76,7 +76,7 @@
 .add__to {
   margin-top: 15px;
   @include mixin.flex(null, space-between, null, 10px);
-  width: 58%;
+  width: 90%;
 
   &_cart {
     background: var(--dark-blue);
@@ -137,4 +137,57 @@
     background: var(--dark-blue);
     color: var(--white);
   }
+}
+.share {
+  position: relative;
+}
+.shareBtn {
+  @include mixin.flex(center, center, null, null);
+  background: var(--gray-white);
+  border: 2px solid var(--gray-white);
+  position: relative;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    border: 2px solid var(--violet);
+  }
+  &_active {
+    border: 2px solid var(--info);
+  }
+}
+.shareBtnDropdown {
+  display: none;
+
+  &_active {
+    top: 130%;
+    right: 0;
+    padding: 15px;
+    position: absolute;
+    background: var(--white);
+    border-radius: 5px;
+    @include mixin.flex(flex-start, null, column, 10px);
+    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
+  }
+}
+.tg,
+.wh,
+.copy {
+  @include mixin.flex(center, center, null, 5px);
+  cursor: pointer;
+
+  &:hover {
+    .telegramBtn,
+    .whatsappBtn,
+    .copyLinkBtn {
+      color: var(--violet);
+    }
+  }
+}
+.telegramBtn,
+.whatsappBtn,
+.copyLinkBtn {
+  @include mixin.font(0.8125rem, 500, null, var(--dark));
+  text-wrap: nowrap;
+  cursor: pointer;
 }
