@@ -4,10 +4,10 @@ import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
 // import { useRouter } from "next/router";
 
 import styles from "./style.module.scss";
-import { Root2 } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 interface MobCatalogProps {
-  catalog: Root2[] | null;
+  catalog: ICatalogMenu | null;
   closeMain: () => void;
 }
 

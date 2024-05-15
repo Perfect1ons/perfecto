@@ -20,29 +20,21 @@ import {
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { getCatalogsMenu } from "@/api/requests";
 
-// пропсы
-interface MobNavProps {
-  catalog: ICatalogMenu | null;
-}
-
-export default function MobileNav({ catalog }: MobNavProps) {
-  // задается state для открытия и закрытия
+export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false);
 
-  // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
     setIsOpen(!isOpen);
   };
 
-  // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей
   const pathname = usePathname();
 
-  // для отображения при пролистывании
   const [isScrolled, setIsScrolled] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
 
@@ -62,12 +54,22 @@ export default function MobileNav({ catalog }: MobNavProps) {
     };
   }, []);
 
+  const [catalogData, setCatalogData] = useState<ICatalogMenu | null>(null);
+  const handleCatalogClick = async () => {
+    try {
+      const response: ICatalogMenu = await getCatalogsMenu();
+      setCatalogData(response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <>
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalog} closeMain={open} />
+          <MobileCatalog catalog={catalogData} closeMain={open} />
         </div>
       </MobileModal>
 
