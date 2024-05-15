@@ -6,14 +6,20 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import {
   CartIcon,
+  CopyIcon,
   DeliveryIcon,
   GrayFavoritesIcon,
   GrayStar,
+  ShareIcon,
+  TgIcon,
   VioletFavoritesIcon,
+  WhIcon,
   YellowStar,
 } from "../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
+import ClipboardJS from "clipboard";
+import { getCardProduct } from "@/api/requests";
 
 interface IItemPageProps {
   data: Items;
@@ -25,14 +31,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [dropdownActive, setDropdownActive] = useState(false);
 
   useEffect(() => {
-    // Проверяем, доступен ли localStorage (только на клиентской стороне)
     const isLocalStorageAvailable =
       typeof window !== "undefined" && window.localStorage;
 
-    // Используем localStorage только если он доступен
     if (isLocalStorageAvailable) {
       const favoriteStatus = localStorage.getItem(data.id.toString());
       setIsFavorite(favoriteStatus === "true");
@@ -42,7 +46,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
   const handleFavoriteClick = () => {
     setIsFavorite((prevIsFavorite) => {
       const newIsFavorite = !prevIsFavorite;
-      // Проверяем, доступен ли localStorage (только на клиентской стороне)
       const isLocalStorageAvailable =
         typeof window !== "undefined" && window.localStorage;
       if (isLocalStorageAvailable) {
@@ -71,7 +74,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         item.photos[0]?.url_part &&
         item.photos[0].url_part.startsWith("https://")
       ) {
-        return item.photos[0].url_part + "280.jpg";
+        return item.photos[0].url_part;
       } else if (item.photos[0]?.url_part) {
         return `${url}nal/img/${item.id_post}/l_${item.photos[0].url_part}`;
       } else {
@@ -81,8 +84,38 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     return urls.join(", ");
   }, [similar]);
 
-  const handleImageClick = (imageUrl: string) => {
-    setSelectedImage(imageUrl);
+  useEffect(() => {
+    const clipboard = new ClipboardJS("#copyLinkButton");
+
+    clipboard.on("success", function (e) {
+      e.clearSelection();
+    });
+
+    clipboard.on("error", function (e) {
+      alert("Не удалось скопировать ссылку");
+    });
+
+    return () => {
+      clipboard.destroy();
+    };
+  }, []);
+
+  const handleWhatsAppClick = () => {
+    window.location.href = `https://wa.me/?text=${encodeURIComponent(
+      window.location.href
+    )}`;
+    setDropdownActive(!dropdownActive);
+  };
+
+  const handleTelegramClick = () => {
+    window.location.href = `https://t.me/share/url?url=${encodeURIComponent(
+      window.location.href
+    )}`;
+    setDropdownActive(!dropdownActive);
+  };
+
+  const handleDropdown = () => {
+    setDropdownActive(!dropdownActive);
   };
 
   return (
@@ -97,32 +130,19 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               width={48}
               height={48}
               alt={photo.url_part}
-              onClick={() =>
-                handleImageClick(
-                  `https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`
-                )
-              }
+              loading="lazy"
             ></Image>
           ))}
         </div>
         <div className={styles.image}>
-          {selectedImage ? (
-            <Image
-              src={selectedImage}
-              width={500}
-              height={500}
-              alt="Selected Image"
-              className={styles.selectedImage}
-            />
-          ) : (
-            <Image
-              src={`https://max.kg/nal/img/${data.id_post}/l_${data.photos[0].url_part}`}
-              width={500}
-              height={500}
-              alt="Default Image"
-              className={styles.selectedImage}
-            />
-          )}
+          <Image
+            src={`https://max.kg/nal/img/${data.id_post}/l_${data.img}`}
+            width={500}
+            height={500}
+            alt="Selected Image"
+            loading="lazy"
+            className={styles.selectedImage}
+          />
         </div>
         <div className={styles.productInfo}>
           <div className={styles.productName}>
@@ -182,6 +202,42 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
               </span>
             </button>
+            <div className={styles.share}>
+              <button
+                onClick={handleDropdown}
+                className={cn(
+                  styles.shareBtn,
+                  dropdownActive && styles.shareBtn_active
+                )}
+              >
+                <ShareIcon />
+              </button>
+              <div
+                className={cn(
+                  styles.shareBtnDropdown,
+                  dropdownActive && styles.shareBtnDropdown_active
+                )}
+              >
+                <div onClick={handleTelegramClick} className={styles.tg}>
+                  <TgIcon />
+                  <button className={styles.telegramBtn}>Telegram</button>
+                </div>
+                <div onClick={handleWhatsAppClick} className={styles.wh}>
+                  <WhIcon />
+                  <button className={styles.whatsappBtn}>WhatsApp</button>
+                </div>
+                <div
+                  data-clipboard-text={window.location.href}
+                  id="copyLinkButton"
+                  className={styles.copy}
+                >
+                  <CopyIcon />
+                  <button className={styles.copyLinkBtn}>
+                    Скопировать ссылку
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -217,20 +273,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             Производитель оставляет за собой право изменять внешний вид,
             комплектацию товара без предупреждения.
           </p>
-        </div>
-      </div>
-      <hr className={styles.wrapHr} />
-      <div className="characteristics">
-        <h2 className="sections__title">Характеристики</h2>
-        <div className={styles.characteristicsContainer}>
-          {data.specification
-            .split("<p>")
-            .filter(Boolean)
-            .map((paragraph, index) => (
-              <p key={index} className={styles.productCharacteristicParagraph}>
-                {paragraph.replace(/<\/?p>/g, "")}
-              </p>
-            ))}
         </div>
       </div>
       <hr className={styles.wrapHr} />
