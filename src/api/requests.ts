@@ -70,7 +70,7 @@ export const getPopularCategory = (): Promise<ICategory> => {
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
 };
-export const getSortsBrand = (
+export const getProductsSortsBrand = (
   id: number,
   path: string
 ): Promise<IFiltersBrand> => {

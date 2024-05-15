@@ -94,6 +94,8 @@ const CatalogMenu = ({ catalog, close }: IProps) => {
               className={styles.subMenu}
               style={{
                 display: activeCategoryId === item.id ? "flex" : "none", // Показывать подменю только для активной категории
+                overflowY: "auto",
+                maxHeight: "1200px",
               }}
             >
               <Link
