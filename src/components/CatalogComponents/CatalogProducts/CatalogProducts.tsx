@@ -79,11 +79,7 @@ export default function CatalogProducts({
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
-  // const handleClick = (path: string) => {
-  //   const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
-  //   router.push(fullPath);
-  //   close();
-  // };
+
   return (
     <section className="seek">
       <div className={styles.breadContainer}>
@@ -164,105 +160,3 @@ export default function CatalogProducts({
     </section>
   );
 }
-// <div className={styles.brandContainer}>
-//   <button onClick={showFilters} className={styles.buttonBrand}>
-//     Срок доставки
-//     <span
-//       className={cn(
-//         styles.footerNavItemArrowIsActive,
-//         filtersIsShow && styles.footerNavItemArrow
-//       )}
-//     >
-//       {chevronDownIcon()}
-//     </span>
-//   </button>
-//   <ul
-//     className={cn(styles.showFiltersUl, {
-//       [styles.showFiltersActive]: filtersIsShow,
-//     })}
-//   >
-//     {filter.variant_day.map((item, index) => {
-//       if (!brandIsShow && index >= 7) {
-//         return null;
-//       }
-//       return (
-//         <div key={item} className={styles.showFiltersUlContainer}>
-//           <span
-//             onClick={showButtonReset}
-//             className={styles.showFiltersUlContainer__check}
-//           ></span>
-//           <li className={styles.showFiltersUl__li}>{item}</li>
-//         </div>
-//       );
-//     })}
-//     {!brandIsShow && filter.brand.length > 7 && (
-//       <button
-//         onClick={brandShowAll}
-//         className={styles.buttonShowBrand}
-//       >
-//         Показать все
-//       </button>
-//     )}
-//     {/* Показываем кнопки только если showAll равен true */}
-//     <div className={styles.buttonsContainer}>
-//       {/* <button>Сбросить</button> */}
-//       {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
-//         <button
-//           className={styles.buttonsContainer__button}
-//           onClick={isShowButtonReset}
-//         >
-//           Сбросить
-//         </button>
-//       )}
-//       <button className={styles.buttonsContainer__button}>
-//         Готово
-//       </button>
-//     </div>
-//   </ul>
-// </div>
-// <div className={styles.brandContainer}>
-//   <button onClick={showFilters} className={styles.buttonBrand}>
-//     Цена
-//     <span
-//       className={cn(
-//         styles.footerNavItemArrowIsActive,
-//         filtersIsShow && styles.footerNavItemArrow
-//       )}
-//     >
-//       {chevronDownIcon()}
-//     </span>
-//   </button>
-//   <ul
-//     className={cn(styles.showFiltersUl, {
-//       [styles.showFiltersActive]: filtersIsShow,
-//     })}
-//   >
-//     <div className={styles.showFiltersUlContainer}>
-//       <input type="text" className={styles.inputPrice} />
-//       <input type="text" className={styles.inputPrice} />
-//     </div>
-//     {!brandIsShow && filter.brand.length > 7 && (
-//       <button
-//         onClick={brandShowAll}
-//         className={styles.buttonShowBrand}
-//       >
-//         Показать все
-//       </button>
-//     )}
-//     {/* Показываем кнопки только если showAll равен true */}
-//     <div className={styles.buttonsContainer}>
-//       {/* <button>Сбросить</button> */}
-//       {buttonResetShow && ( // Показываем кнопку "Сбросить" если buttonResetShow равно true
-//         <button
-//           className={styles.buttonsContainer__button}
-//           onClick={isShowButtonReset}
-//         >
-//           Сбросить
-//         </button>
-//       )}
-//       <button className={styles.buttonsContainer__button}>
-//         Готово
-//       </button>
-//     </div>
-//   </ul>
-// </div>
