@@ -1,13 +1,15 @@
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 import styles from "./style.module.scss";
-import SubCatTemplate from "../SubCatTemplate/SubCatTemplate";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
+
+import SubCatChildrenOne from "../SubCatChildren/SubCatChildrenOne";
 
 export interface SubCatalProps {
   open: boolean;
   close: () => void;
-  catalog: ICatalogMenu;
+  closeMain: () => void;
+  catalog: ICatalogMenu | null;
   activeCategoryId: number | null | undefined;
   selectedCategoryName: string | null;
 }
@@ -18,6 +20,7 @@ export default function MobileSubCatalog({
   catalog,
   activeCategoryId,
   selectedCategoryName,
+  closeMain,
 }: SubCatalProps) {
   return (
     <div
@@ -34,7 +37,11 @@ export default function MobileSubCatalog({
         </div>
       )}
 
-      <SubCatTemplate catalog={catalog} activeCategoryId={activeCategoryId} />
+      <SubCatChildrenOne
+        catalog={catalog}
+        activeCategoryId={activeCategoryId}
+        closeMain={closeMain}
+      />
     </div>
   );
 }

@@ -6,10 +6,10 @@ import Logo from "../Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-import CatalogMenu from "../CatalogComponents/HeaderCatalog/CatalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
 import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
+import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 
 interface HeaderProps {
   catalog: ICatalogMenu;

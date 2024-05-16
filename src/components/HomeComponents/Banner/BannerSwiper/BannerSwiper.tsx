@@ -60,11 +60,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
                 alt={slide.naim}
                 quality={100}
                 placeholder="blur"
-                blurDataURL={
-                  isMobile
-                    ? `https://max.kg/bimages/baner/mobile/baner_${slide.id}.jpg`
-                    : `https://max.kg/bimages/baner/baner_${slide.id}.jpg`
-                }
+                blurDataURL={`/img/blurTest.jpg`}
                 priority
               />
             </Link>
