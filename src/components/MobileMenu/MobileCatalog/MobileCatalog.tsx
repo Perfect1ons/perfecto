@@ -3,11 +3,15 @@ import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
 // import { useRouter } from "next/router";
 
-import { MobNavProps } from "../MobileNav/MobileNav";
-
 import styles from "./style.module.scss";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
-export default function MobileCatalog({ catalog }: MobNavProps) {
+interface MobCatalogProps {
+  catalog: ICatalogMenu | null;
+  closeMain: () => void;
+}
+
+export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
   // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,6 +37,7 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
       <MobileSubCatalog
         open={isOpen}
         close={openOrClose}
+        closeMain={closeMain}
         catalog={catalog}
         activeCategoryId={activeCategoryId}
         selectedCategoryName={selectedCategoryName}
@@ -40,37 +45,36 @@ export default function MobileCatalog({ catalog }: MobNavProps) {
       <div
         className={isOpen === false ? styles.grid_active : styles.grid_inactive}
       >
-        {catalog.map((item) => {
-          return (
-            <div className={styles.grid_item_wrap} key={item.id}>
-              <div
-                className={styles.grid_item}
-                onClick={() => {
-                  openOrClose;
-                  openAndSetSubCategory(item.id);
-                  setSelectedCategoryName(item.name);
-                }}
-              >
-                <div className={styles.item_title}>
-                  <span>{item.name}</span>
+        {catalog &&
+          catalog.map((item) => {
+            return (
+              <div className={styles.grid_item_wrap} key={item.id}>
+                <div
+                  className={styles.grid_item}
+                  onClick={() => {
+                    openOrClose;
+                    openAndSetSubCategory(item.id);
+                    setSelectedCategoryName(item.name);
+                  }}
+                >
+                  <div className={styles.item_title}>
+                    <span>{item.name}</span>
+                  </div>
+                  <Image
+                    src={
+                      item.icon
+                        ? `https://max.kg/${item.icon}`
+                        : "https://max.kg/images/discount/empty-image.png"
+                    }
+                    width={100}
+                    height={100}
+                    alt={item.name}
+                    className={styles.grid_img}
+                  />
                 </div>
-                <Image
-                  src={
-                    item.icon
-                      ? `https://max.kg/${item.icon}`
-                      : "https://max.kg/images/discount/empty-image.png"
-                  }
-                  width={100}
-                  height={100}
-                  alt={item.name}
-                  placeholder="blur"
-                  blurDataURL={`https://max.kg/${item.icon}`}
-                  className={styles.grid_img}
-                />
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </section>
   );

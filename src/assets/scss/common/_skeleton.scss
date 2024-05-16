@@ -1,0 +1,33 @@
+@keyframes skeleton-loading {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.skeleton {
+  position: relative;
+  min-height: 400px;
+  width: auto;
+
+  &::before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+    background: linear-gradient(
+      90deg,
+      var(--skeleton-start) 0%,
+      var(--skeleton-end) 50%,
+      var(--skeleton-start) 100%
+    );
+    background-size: 200%;
+    animation: skeleton-loading 1s infinite linear;
+  }
+}
