@@ -1,21 +1,22 @@
 "use client";
 import { useEffect, useState } from "react";
-import HeaderNav from "./HeaderNav/HeaderNav";
+import { useRouter } from "next/navigation";
+
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
+
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-import Modal from "../UI/ModalHeaders/Modal/Modal";
-import { useRouter } from "next/navigation";
+
+import HeaderNav from "./HeaderNav/HeaderNav";
 import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
+import Modal from "../UI/ModalHeaders/Modal/Modal";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
+import { getCatalogsMenu } from "@/api/requests";
 
-interface HeaderProps {
-  catalog: ICatalogMenu;
-}
-
-const Header: React.FC<HeaderProps> = ({ catalog }) => {
+const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
   const router = useRouter();
@@ -23,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (searchTerm.trim() !== "") {
-        setSearchTerm(""); // Очищаем поле ввода при попытке покинуть страницу
+        setSearchTerm("");
       }
     };
 
@@ -54,12 +55,24 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   };
 
   const [isOpen, setIsOpen] = useState(false);
-
   const open = () => {
     setIsOpen(!isOpen);
   };
   const onClose = () => {
     setIsOpen(false);
+  };
+
+  const [catalogData, setCatalogData] = useState<ICatalogMenu | null>(null);
+  const handleCatalogClick = async () => {
+    try {
+      const response: Response = await fetch(
+        "https://max.kg/api/catalog/cat-list-menu"
+      );
+      const data: ICatalogMenu = await response.json();
+      setCatalogData(data); // Сохраняем полученные данные в state
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   return (
@@ -70,11 +83,12 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
         </div>
 
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-          <CatalogMenu catalog={catalog} close={open} />
+          <CatalogMenu catalog={catalogData} close={open} />
         </Modal>
+
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
-            <div className={styles.catalog} onClick={open}>
+            <div className={styles.catalog} onClick={handleCatalogClick}>
               <button
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,

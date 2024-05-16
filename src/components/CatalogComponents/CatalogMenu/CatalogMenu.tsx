@@ -16,6 +16,7 @@ interface IProps {
   catalog: ICatalogMenu | null;
   close: () => void;
 }
+
 const CatalogMenu = ({ catalog, close }: IProps) => {
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(
     2000000464
