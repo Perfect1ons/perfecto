@@ -75,7 +75,7 @@ export const getProductsSortsBrand = (
   path: string
 ): Promise<IFiltersBrand> => {
   return maxkg
-    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
+    .get(`catalog/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
     .json();
 };
 //max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
