@@ -1,0 +1,12 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.product {
+  &_info_price__update_price {
+    @include mixin.font(1rem, 400, null, var(--white));
+    background: var(--light-blue);
+    padding: 5px;
+    border-radius: 5px;
+  }
+}
+.hidden {
+  display: none;
+}
