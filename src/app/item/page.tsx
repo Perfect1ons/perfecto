@@ -19,7 +19,7 @@ import {
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import ClipboardJS from "clipboard";
-import { getCardProduct } from "@/api/requests";
+import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
 
 interface IItemPageProps {
   data: Items;
@@ -89,6 +89,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
 
     clipboard.on("success", function (e) {
       e.clearSelection();
+      setDropdownActive(!dropdownActive);
     });
 
     clipboard.on("error", function (e) {
@@ -118,39 +119,61 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setDropdownActive(!dropdownActive);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const dropdownElement = document.querySelector(
+        `.${styles.product_info__share}`
+      );
+      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+        setDropdownActive(false);
+      }
+    };
+
+    if (dropdownActive) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropdownActive]);
+
   return (
     <section className={cn(styles.wrap, "container")}>
-      <div className={styles.productContainer}>
-        <div className={styles.miniCardsColumn}>
+      <div className={styles.product}>
+        <div className={styles.product_cards}>
           {data.photos.map((photo) => (
-            <Image
-              className={styles.productPreview}
-              key={photo.url_part}
-              src={`https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`}
-              width={48}
-              height={48}
-              alt={photo.url_part}
-              loading="lazy"
-            ></Image>
+            <div className={styles.product_cards__item} key={data.id}>
+              <Image
+                className={styles.product_preview}
+                src={`https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`}
+                width={48}
+                height={48}
+                alt={photo.url_part}
+                loading="lazy"
+              ></Image>
+            </div>
           ))}
         </div>
-        <div className={styles.image}>
+        <div className={styles.product_image}>
           <Image
             src={`https://max.kg/nal/img/${data.id_post}/l_${data.img}`}
             width={500}
             height={500}
-            alt="Selected Image"
+            alt={data.img}
             loading="lazy"
-            className={styles.selectedImage}
+            className={styles.product_img}
           />
         </div>
-        <div className={styles.productInfo}>
-          <div className={styles.productName}>
-            <h1 className={styles.productInfoTitle}>{data.name}</h1>
-          </div>
-          <span className={styles.productArticle}>{`Код: ${data.art}`}</span>
-          <div className={styles.productOcenka}>
-            <span className={styles.ocenkaCount}>{data.ocenka}</span>
+        <div className={styles.product_info}>
+          <h1 className={styles.product_info__title}>{data.name}</h1>
+          <span
+            className={styles.product_info__articul}
+          >{`Код: ${data.art}`}</span>
+          <div className={styles.product_info__ocenka}>
+            <span className={styles.product_info_ocenka__count}>
+              {data.ocenka}
+            </span>
             <div className="ocenka">
               {[...Array(5)].map((_, index) => (
                 <span key={index}>
@@ -158,31 +181,42 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 </span>
               ))}
             </div>
-            <span className={styles.otzivy}>{`(${data.otz.length})`}</span>
+            <span
+              className={styles.product_info_ocenka__otzivy}
+            >{`(${data.otz.length})`}</span>
           </div>
-          <span className={styles.brand}>{`Бренд: ${data.trademark}`}</span>
-          <hr className={styles.productInfoHr} />
-          <div className={styles.productPrice}>
-            <span className={styles.price}>{data.price} с.</span>
-            {/* <span className={styles.oldPrice}>{data.old_price}</span> */}
-            {/* <span className={styles.priceUpdate}>{data.price_update}</span> */}
+          <span
+            className={styles.product_info__brand}
+          >{`Бренд: ${data.trademark}`}</span>
+          <hr className={styles.product_info__line} />
+          <div className={styles.product_info__price}>
+            <span className={styles.product_info_price__current_price}>
+              {data.price} с.
+            </span>
+            <span className={styles.product_info_price__old_price}>
+              {data.old_price} c.
+            </span>
+            <ProductInfo price_update={data.price_update} />
           </div>
-          <div className={styles.ddos}>
+          <div className={styles.product_info__ddos}>
             <Image
+              className={styles.product_info__ddos_icon}
               src={`${url}images/delivery_icon.svg`}
               width={20}
               height={20}
               alt="delivery_icon"
             />
-            <div className={styles.ddosInfo}>
-              <p className={styles.ddosTitle}>Наличие и доставка !</p>
-              <p className={styles.ddos__text}>{data.ddos}</p>
+            <div className={styles.product_info__ddos_info}>
+              <p className={styles.product_info__ddos_title}>
+                Наличие и доставка !
+              </p>
+              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
             </div>
           </div>
-          <div className={styles.add__to}>
+          <div className={styles.product_info__add_to}>
             <button
               title="Добавить в корзину"
-              className={styles.add__to_cart}
+              className={styles.product_info__add_to__cart}
               onClick={() => console.log("Добавлено в корзину")}
             >
               <span className={styles.add__to_cart_icon}>
@@ -190,7 +224,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               </span>
               В корзину
             </button>
-            <button className={styles.buyBtn}>Купить</button>
+            <button className={styles.product_info__buy_btn}>Купить</button>
             <button
               title="Добавить в избранное"
               className={cn("add__to_fav", {
@@ -202,37 +236,47 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
               </span>
             </button>
-            <div className={styles.share}>
+            <div className={styles.product_info__share}>
               <button
                 onClick={handleDropdown}
                 className={cn(
-                  styles.shareBtn,
-                  dropdownActive && styles.shareBtn_active
+                  styles.product_info__share_btn,
+                  dropdownActive && styles.product_info__share_btn__active
                 )}
               >
                 <ShareIcon />
               </button>
               <div
                 className={cn(
-                  styles.shareBtnDropdown,
-                  dropdownActive && styles.shareBtnDropdown_active
+                  styles.product_info__share_dropdown,
+                  dropdownActive && styles.product_info__share_dropdown__active
                 )}
               >
-                <div onClick={handleTelegramClick} className={styles.tg}>
+                <div
+                  onClick={handleTelegramClick}
+                  className={styles.product_info_share__tg}
+                >
                   <TgIcon />
-                  <button className={styles.telegramBtn}>Telegram</button>
+                  <button className={styles.product_info_share_telegram__btn}>
+                    Telegram
+                  </button>
                 </div>
-                <div onClick={handleWhatsAppClick} className={styles.wh}>
+                <div
+                  onClick={handleWhatsAppClick}
+                  className={styles.product_info_share__wh}
+                >
                   <WhIcon />
-                  <button className={styles.whatsappBtn}>WhatsApp</button>
+                  <button className={styles.product_info_share_whatsapp__btn}>
+                    WhatsApp
+                  </button>
                 </div>
                 <div
                   data-clipboard-text={window.location.href}
                   id="copyLinkButton"
-                  className={styles.copy}
+                  className={styles.product_info_share__copy}
                 >
                   <CopyIcon />
-                  <button className={styles.copyLinkBtn}>
+                  <button className={styles.product_info_share_copy_link__btn}>
                     Скопировать ссылку
                   </button>
                 </div>

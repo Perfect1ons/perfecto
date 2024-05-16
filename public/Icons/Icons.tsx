@@ -543,7 +543,7 @@ export const filterIcon = () => {
 export const ShareIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" id="share">
-      <g fill="none" fill-rule="evenodd" stroke="#4A4A4A">
+      <g fill="none" fillRule="evenodd" stroke="#4A4A4A">
         <circle cx="17.246" cy="4.816" r="3.275"></circle>
         <circle cx="17.246" cy="19.451" r="3.275"></circle>
         <circle cx="4.887" cy="12.133" r="3.275"></circle>
@@ -655,8 +655,8 @@ export const TgIcon = () => {
         gradientTransform="matrix(6 0 0 -6 4255 3247)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#37aee2"></stop>
-        <stop offset="1" stop-color="#1e96c8"></stop>
+        <stop offset="0" stopColor="#37aee2"></stop>
+        <stop offset="1" stopColor="#1e96c8"></stop>
       </linearGradient>
       <path
         fill="url(#a)"
@@ -679,8 +679,8 @@ export const TgIcon = () => {
         gradientTransform="matrix(1 0 0 -1 0 242)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#eff7fc"></stop>
-        <stop offset="1" stop-color="#fff"></stop>
+        <stop offset="0" stopColor="#eff7fc"></stop>
+        <stop offset="1" stopColor="#fff"></stop>
       </linearGradient>
       <path
         fill="url(#b)"
@@ -769,11 +769,11 @@ export const CopyIcon = () => {
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" id="copy">
       <g
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         stroke="#999999"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         transform="translate(1 1)"
       >
         <rect width="13" height="13" x="7" y="7" rx="2"></rect>
