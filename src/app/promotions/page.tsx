@@ -23,8 +23,6 @@ async function delayedRequest(
   });
 }
 
-
-
 export default async function promotions() {
   const delayedPromotionData = await delayedRequest(getPromotion);
   return (
