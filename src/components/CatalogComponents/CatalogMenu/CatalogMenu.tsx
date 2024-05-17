@@ -62,12 +62,10 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
       {loading ? (
         <Loader />
       ) : (
-        // <div className="main_">Загрузка...</div>
         <div className={styles.catalogs}>
           <div className={styles.catalogs__3}>
             {catalog &&
               catalog.map((item) => {
-                //Отображение главных категорий
                 return (
                   <div
                     key={item.name}
@@ -85,7 +83,6 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
                       key={item.name}
                     >
                       {item.name}
-                      {/* {ChevronRightIconCatalog()} */}
                       <span className={styles.chevronRightIconCatalog}>
                         {ChevronRightIconCatalog()}
                       </span>

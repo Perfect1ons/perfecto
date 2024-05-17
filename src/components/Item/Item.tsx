@@ -19,6 +19,11 @@ import {
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
 
 interface IItemPageProps {
   data: Items;
@@ -269,7 +274,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </div>
         </div>
       </div>
-      <div className={styles.product_desc_container}>
+      <div className={styles.wrap_desc_container}>
         <div className="productPageDesc">
           <h2 className="sections__title">Описание</h2>
           <div className={styles.product_desc}>{data.description}</div>
@@ -297,17 +302,17 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
       </div>
       {data.specification && (
-        <div className={styles.product_specification}>
+        <div className={styles.wrap_specification}>
           <div className="characteristics">
             <h2 className="sections__title">Характеристики</h2>
-            <div className={styles.product_characteristics}>
+            <div className={styles.wrap_characteristics}>
               {data.specification}
             </div>
           </div>
         </div>
       )}
       {data.video && (
-        <div className={styles.product_video}>
+        <div className={styles.wrap_video}>
           <div className="productPageVideo">
             <h3 className="sections__title">Видео</h3>
             {data.video}
@@ -316,11 +321,9 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       )}
       <div className="productReview">
         <h4 className="sections__title">Отзывы о товаре «{data.naim}»</h4>
-        <div className={styles.product_review}>
-          <span className={styles.product_review_grade_title}>
-            Оцените товар
-          </span>
-          <div className={styles.product_review_grade_btns}>
+        <div className={styles.wrap_review}>
+          <span className={styles.wrap_review_grade_title}>Оцените товар</span>
+          <div className={styles.wrap_review_grade_btns}>
             <div className="ocenka">
               {[...Array(5)].map((_, index) => (
                 <span key={index}>
@@ -329,20 +332,28 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               ))}
             </div>
           </div>
-          <p className={styles.product_review_grade_short_desc}>
+          <p className={styles.wrap_review_grade_short_desc}>
             Будет здорово, если вы напишете свои впечатления о товаре. Это
             поможет другим покупателям.
           </p>
           <button className="default__buttons_showMore">Написать отзыв</button>
         </div>
         {data.otz.length !== 0 && (
-          <div className={styles.product_otz}>
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={15}
+            navigation={true}
+            modules={[Navigation]}
+            className="mySwiper"
+          >
             {data.otz.map((item) => {
               return (
-                <div key={item} className={styles.product_otz_item}>
-                  <div className={styles.product_otz_item_info}>
-                    <div className={styles.product_otz_item_info_sender}>
-                      <p className={styles.product_otz_item_info_sender_name}>
+                <SwiperSlide key={item} className={styles.wrap_review_otz_item}>
+                  <div className={styles.wrap_review_otz_item_info}>
+                    <div className={styles.wrap_review_otz_item_info_sender}>
+                      <p
+                        className={styles.wrap_review_otz_item_info_sender_name}
+                      >
                         {item.name}
                       </p>
                       <div className="ocenka">
@@ -353,25 +364,25 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                         ))}
                       </div>
                     </div>
-                    <p className={styles.product_otz_item_info_date}>
+                    <p className={styles.wrap_review_otz_item_info_date}>
                       {item.dat1}
                     </p>
                   </div>
-                  <div className={styles.product_otz_item_comment}>
-                    <p className={styles.product_otz_item_comment_title}>
+                  <div className={styles.wrap_review_otz_item_comment}>
+                    <p className={styles.wrap_review_otz_item_comment_title}>
                       Комментарий:
                     </p>
-                    <p className={styles.product_otz_item_comment_text}>
+                    <p className={styles.wrap_review_otz_item_comment_text}>
                       {item.text}
                     </p>
                   </div>
-                </div>
+                </SwiperSlide>
               );
             })}
-          </div>
+          </Swiper>
         )}
       </div>
-      <div className={cn(styles.product_for_client, "forClientContainer")}>
+      {/* <div className={cn(styles.product_for_client, "forClientContainer")}>
         <div className={styles.product_for_client_card}>
           <div className={styles.product_for_client_card_info}>
             <DeliveryIcon />
@@ -394,7 +405,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="similarProducts">
         <h5 className="sections__title">Похожие товары</h5>
         <div className="main__news_cards">
