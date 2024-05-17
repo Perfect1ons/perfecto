@@ -12,11 +12,12 @@ import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 export interface ICatalogProps {
-  catalogs: ICatalogMenu;
+  catalogs: ICatalogMenu | undefined;
   click: () => void;
+  loading: boolean;
 }
 
-const Header = ({ catalogs, click }: ICatalogProps) => {
+const Header = ({ catalogs, click, loading }: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
@@ -58,7 +59,8 @@ const Header = ({ catalogs, click }: ICatalogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
-    catalogs;
+    click();
+    // catalogs;
     setIsOpen(!isOpen);
   };
   const onClose = () => {
@@ -79,7 +81,7 @@ const Header = ({ catalogs, click }: ICatalogProps) => {
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
-              onClick={() => click()}
+                onClick={() => click()}
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,
                 })}

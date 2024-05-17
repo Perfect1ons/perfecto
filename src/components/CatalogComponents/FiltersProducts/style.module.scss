@@ -256,6 +256,7 @@
   }
 }
 .containerAllFilters {
+  user-select: none;
   position: absolute;
   left: 0;
   right: 0;
@@ -356,7 +357,7 @@
 .wrapContainer {
   overflow: hidden;
   background: #f5f7fa;
-  border-radius: 20px;
+  border-radius: 10px;
   width: 32%;
 }
 .buttonsContainerReset {

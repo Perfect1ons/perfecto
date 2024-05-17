@@ -9,7 +9,7 @@ export interface SubCatalProps {
   open: boolean;
   close: () => void;
   closeMain: () => void;
-  catalog: ICatalogMenu | null;
+  catalog: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   selectedCategoryName: string | null;
 }

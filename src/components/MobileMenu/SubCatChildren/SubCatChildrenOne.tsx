@@ -8,7 +8,7 @@ import SubCatChildrenSecond from "./SubCatChildrenSecond";
 import { useState } from "react";
 
 interface SubCatTemplateProps {
-  catalog: ICatalogMenu | null;
+  catalog: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   closeMain: () => void;
 }

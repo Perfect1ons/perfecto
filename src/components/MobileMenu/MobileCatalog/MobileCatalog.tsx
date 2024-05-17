@@ -7,7 +7,7 @@ import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 interface MobCatalogProps {
-  catalog: ICatalogMenu | null;
+  catalog: ICatalogMenu | undefined;
   closeMain: () => void;
 }
 
