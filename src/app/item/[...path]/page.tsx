@@ -1,5 +1,5 @@
 import { getCardProduct, getSimilarProduct } from "@/api/requests";
-import ItemPage from "../page";
+import ItemPage from "@/components/Item/Item";
 
 interface Params {
   params: { path: string };

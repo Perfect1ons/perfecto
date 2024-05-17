@@ -8,7 +8,7 @@ import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { IPopularGood } from "@/types/popularGoods";
+import { IPopularGood, IPopularGoods } from "@/types/popularGoods";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
@@ -34,7 +34,7 @@ const maxkgtimeout = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
 
-export const getPopularGoods = (page: number): Promise<IPopularGood> => {
+export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
   return maxkgtimeout.get(`site/popular?page=${page}`).json();
 };
 

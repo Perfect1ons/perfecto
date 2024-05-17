@@ -1,6 +1,12 @@
 @use "../../assets/scss/common/mixins" as mixin;
 .wrap {
   margin-top: 100px;
+  &_line {
+    background-color: var(--secondary-white);
+    height: 2px;
+    width: 100%;
+    border-radius: 10px;
+  }
 }
 .product {
   @include mixin.flex(null, center, null, 40px);
@@ -55,7 +61,7 @@
   }
   &_info {
     max-width: 600px;
-    @include mixin.flex(null, null, column, null);
+    @include mixin.flex(flex-start, null, column, null);
   }
   &_info__title {
     max-width: 550px;
@@ -89,17 +95,13 @@
   }
   &_info__brand {
     @include mixin.font(1rem, 400, null, var(--secondary-gray));
-  }
-  &_info__line {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    background-color: var(--secondary-white);
-    height: 2px;
+    padding-bottom: 15px;
     width: 100%;
-    border-radius: 10px;
+    border-bottom: 2px solid var(--secondary-white);
   }
   &_info__price {
     @include mixin.flex(center, null, null, 20px);
+    margin-top: 15px;
   }
   &_info_price__current_price {
     @include mixin.font(1.25rem, 700, null, var(--gray-dark));
@@ -237,6 +239,87 @@
 
     &:hover {
       color: var(--violet);
+    }
+  }
+  &_desc_container {
+    border-bottom: 2px solid var(--secondary-white);
+    padding-bottom: 15px;
+  }
+  &_specification {
+    border-bottom: 2px solid var(--secondary-white);
+    padding-bottom: 15px;
+  }
+  &_video {
+    border-bottom: 2px solid var(--secondary-white);
+    padding-bottom: 15px;
+  }
+  &_review {
+    &_grade_title {
+      @include mixin.font(0.9375rem, 400, null, var(--dark));
+    }
+    &_grade_btns {
+      margin-top: 10px;
+      max-width: 37.5rem;
+    }
+    &_grade_short_desc {
+      margin-top: 10px;
+      max-width: 30rem;
+      @include mixin.font(0.9375rem, 400, null, var(--dark));
+    }
+  }
+  &_otz {
+    margin-top: 15px;
+    @include mixin.flex(null, center, column, null);
+    &_item {
+      margin-bottom: 15px;
+      background: var(--white);
+      box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
+      border-radius: 5px;
+      padding: 10px 10px;
+      &_info {
+        @include mixin.flex(center, space-between, null, null);
+        &_sender {
+          @include mixin.flex(center, center, null, 10px);
+          margin-bottom: 10px;
+          &_name {
+            @include mixin.font(1.125rem, 700, null, var(--dark));
+          }
+        }
+        &_date {
+          @include mixin.font(1rem, 400, null, var(--dark));
+        }
+      }
+      &_comment {
+        margin-top: 5px;
+        @include mixin.flex(flex-start, null, column, 5px);
+        &_title {
+          @include mixin.font(null, 500, null, var(--gray-dark));
+        }
+        &_text {
+          @include mixin.font(null, 400, null, var(--gray-dark));
+        }
+      }
+    }
+  }
+  &_for_client {
+    @include mixin.flex(center, space-between, null, 30px);
+    &_card {
+      @include mixin.flex(null, null, column, null);
+      flex-grow: 1;
+      &_info {
+        @include mixin.flex(null, null, null, 5px);
+        background: var(--white);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid var(--super-light-white);
+
+        &:hover {
+          box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
+        }
+        &_title {
+          @include mixin.font(1.1875rem, 700, null, var(--gray-dark));
+        }
+      }
     }
   }
 }

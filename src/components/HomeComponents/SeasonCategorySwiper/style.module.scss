@@ -1,7 +1,4 @@
-@use '../../../../assets/scss/common/mixins' as mixin; 
-.mySwiper{
-    padding-bottom: 50px !important;
-  }
+@use '../../../assets/scss/common/mixins' as mixin; 
   
   .swiper__slide {
     -webkit-tap-highlight-color: transparent;

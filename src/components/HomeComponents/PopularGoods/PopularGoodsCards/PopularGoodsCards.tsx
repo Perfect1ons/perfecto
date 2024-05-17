@@ -10,8 +10,8 @@ import {
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
-import { IPopularGood } from "@/types/popularGoods";
 import { useRouter } from "next/navigation";
+import { IPopularGood } from "@/types/popularGoods";
 
 interface IgoodsProps {
   goods: IPopularGood;

@@ -41,9 +41,8 @@ export default async function RootLayout({
         <HeaderWrap />
         <DownloadAppMobile />
         <Provider>
-          <main id="main">{children}</main>
+            <main id="main">{children}</main>
         </Provider>
-
         <Application />
         <Footer />
       </body>
