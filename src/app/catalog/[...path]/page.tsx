@@ -1,10 +1,5 @@
 import { getCatalogsProducts } from "@/api/requests";
-<<<<<<< HEAD
-import Catalogs from "../page";
-
-=======
 import Catalogs from "@/components/Catalog/Catalog";
->>>>>>> 54952f066cec06bf9ce6cbc39c0f99f6e563cabd
 interface Params {
   params: { path: string | string[] };
 }

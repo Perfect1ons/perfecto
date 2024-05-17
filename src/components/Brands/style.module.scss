@@ -1,0 +1,44 @@
+@use "../../assets/scss/common/mixins" as mixin;
+
+.brands__container{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 25px;
+    @media screen and (max-width: 1200px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    @media screen and (max-width: 992px) {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+    @media screen and (max-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+    @media screen and (max-width: 480px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.brand__card{
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    height: 100px;
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    @include mixin.flex(center,center);
+    &_title{
+        @include mixin.font(18px, 500, 120%, var(--gray-dark));
+        user-select: none;
+    }
+    &:hover{
+        .brand__card_title{
+            color: var(--violet);
+        }
+    }
+}
+
+.top{
+    margin-top: 30px;
+}
