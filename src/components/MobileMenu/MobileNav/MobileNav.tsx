@@ -26,7 +26,7 @@ import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
 import { ICatalogProps } from "@/components/Header/Header";
 
-export default function MobileNav({ catalogs }: ICatalogProps) {
+export default function MobileNav({ catalogs, click }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
