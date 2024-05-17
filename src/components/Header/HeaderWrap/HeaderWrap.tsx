@@ -1,24 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../Header";
-// import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
 // import { getCatalogsMenu } from "@/api/clientRequest";
 
 export default function HeaderWrap() {
-  // const MobileNav = dynamic(
-  //   () => import("@/components/MobileMenu/MobileNav/MobileNav")
-  // );
+  const MobileNav = dynamic(
+    () => import("@/components/MobileMenu/MobileNav/MobileNav")
+  );
 
   const [catalog, setCatalog] = useState<ICatalogMenu>();
 
   const fetchCatalogs = async () => {
-    if (catalog) {
-      setCatalog(catalog);
-    } else {
+    try {
       const catalogs = await getCatalogsMenu();
       setCatalog(catalogs);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -37,7 +37,7 @@ export default function HeaderWrap() {
     return (
       <>
         <Header catalogs={catalog} click={fetchCatalogs} />
-        {/* <MobileNav catalogs={catalog} /> */}
+        <MobileNav catalogs={catalog} click={fetchCatalogs} />
       </>
     );
   } catch (error) {
