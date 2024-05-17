@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 
 interface IProps {
-  catalog: ICatalogMenu | null;
+  catalog: ICatalogMenu | undefined;
   close: () => void;
 }
 
