@@ -24,13 +24,9 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
+import { ICatalogProps } from "@/components/Header/Header";
 
-// пропсы
-interface MobNavProps {
-  catalog: ICatalogMenu | null;
-}
-
-export default function MobileNav({ catalog }: MobNavProps) {
+export default function MobileNav({ catalogs }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,7 +63,7 @@ export default function MobileNav({ catalog }: MobNavProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalog} closeMain={open} />
+          <MobileCatalog catalog={catalogs} closeMain={open} />
         </div>
       </MobileModal>
 

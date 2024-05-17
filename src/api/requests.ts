@@ -49,7 +49,7 @@ const maxkgz = ky.create({
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkgcache.get("catalog/cat-list-menu").json();
+  return maxkg.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs
