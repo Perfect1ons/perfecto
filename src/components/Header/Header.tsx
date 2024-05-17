@@ -1,24 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
+import HeaderNav from "./HeaderNav/HeaderNav";
 import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
-
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-
 import cn from "clsx";
 import styles from "./style.module.scss";
-
-import HeaderNav from "./HeaderNav/HeaderNav";
-import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
+import { useRouter } from "next/navigation";
+import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
-import { getCatalogsMenu } from "@/api/requests";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
-const Header = () => {
+export interface ICatalogProps {
+  catalogs: ICatalogMenu;
+}
+
+const Header = ({ catalogs }: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -55,24 +55,13 @@ const Header = () => {
   };
 
   const [isOpen, setIsOpen] = useState(false);
+
   const open = () => {
+    catalogs;
     setIsOpen(!isOpen);
   };
   const onClose = () => {
     setIsOpen(false);
-  };
-
-  const [catalogData, setCatalogData] = useState<ICatalogMenu | null>(null);
-  const handleCatalogClick = async () => {
-    try {
-      const response: Response = await fetch(
-        "https://max.kg/api/catalog/cat-list-menu"
-      );
-      const data: ICatalogMenu = await response.json();
-      setCatalogData(data); // Сохраняем полученные данные в state
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
   };
 
   return (
@@ -83,12 +72,11 @@ const Header = () => {
         </div>
 
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-          <CatalogMenu catalog={catalogData} close={open} />
+          <CatalogMenu catalog={catalogs} close={open} />
         </Modal>
-
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
-            <div className={styles.catalog} onClick={handleCatalogClick}>
+            <div className={styles.catalog} onClick={open}>
               <button
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,

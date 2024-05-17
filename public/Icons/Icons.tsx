@@ -543,7 +543,7 @@ export const filterIcon = () => {
 export const ShareIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" id="share">
-      <g fill="none" fill-rule="evenodd" stroke="#4A4A4A">
+      <g fill="none" fillRule="evenodd" stroke="#4A4A4A">
         <circle cx="17.246" cy="4.816" r="3.275"></circle>
         <circle cx="17.246" cy="19.451" r="3.275"></circle>
         <circle cx="4.887" cy="12.133" r="3.275"></circle>
@@ -655,8 +655,8 @@ export const TgIcon = () => {
         gradientTransform="matrix(6 0 0 -6 4255 3247)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#37aee2"></stop>
-        <stop offset="1" stop-color="#1e96c8"></stop>
+        <stop offset="0" stopColor="#37aee2"></stop>
+        <stop offset="1" stopColor="#1e96c8"></stop>
       </linearGradient>
       <path
         fill="url(#a)"
@@ -679,8 +679,8 @@ export const TgIcon = () => {
         gradientTransform="matrix(1 0 0 -1 0 242)"
         gradientUnits="userSpaceOnUse"
       >
-        <stop offset="0" stop-color="#eff7fc"></stop>
-        <stop offset="1" stop-color="#fff"></stop>
+        <stop offset="0" stopColor="#eff7fc"></stop>
+        <stop offset="1" stopColor="#fff"></stop>
       </linearGradient>
       <path
         fill="url(#b)"
@@ -769,11 +769,11 @@ export const CopyIcon = () => {
     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" id="copy">
       <g
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         stroke="#999999"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
         transform="translate(1 1)"
       >
         <rect width="13" height="13" x="7" y="7" rx="2"></rect>
@@ -787,6 +787,19 @@ export const XMark = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
       <path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+    </svg>
+  );
+};
+
+export const ShieldIcon = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="shield">
+      <path
+        fill="none"
+        d="M74 118.2v171.3c0 100.8 82.2 182.8 183 182.8s183-82 183-182.8V118.2L257 41.9 74 118.2zm298.2 84.2c6.1 9.2 3.6 21.6-5.6 27.7L222.5 326c-.4.3-.9.6-1.4.8l-.6.3c-.3.1-.6.3-.8.4l-.6.3-.9.3c-.2.1-.4.1-.6.2l-.9.3c-.2.1-.4.1-.6.2-.3.1-.7.1-1 .2-.2 0-.3.1-.5.1-.4.1-.8.1-1.2.1h-.4c-.5 0-1 .1-1.6.1h-1.6c-.2 0-.4 0-.7-.1-.2 0-.3 0-.5-.1-.2 0-.5-.1-.7-.1-.2 0-.3-.1-.4-.1-.2 0-.5-.1-.7-.2-.1 0-.3-.1-.4-.1-.2-.1-.5-.1-.7-.2-.1 0-.3-.1-.4-.1-.2-.1-.5-.2-.7-.2-.1 0-.3-.1-.4-.1-.2-.1-.5-.2-.7-.3-.1-.1-.2-.1-.3-.2-.2-.1-.5-.2-.7-.4-.1-.1-.2-.1-.3-.2-.3-.1-.5-.3-.8-.4-.1-.1-.2-.1-.3-.2-.3-.2-.6-.4-.8-.5-.1 0-.1-.1-.2-.1-.3-.2-.6-.5-.9-.7-.2-.1-.3-.3-.5-.4-.2-.1-.3-.2-.4-.4-.2-.1-.3-.3-.5-.5-.1-.1-.3-.2-.4-.4l-.5-.5c-.1-.1-.2-.3-.4-.4-.1-.2-.3-.3-.4-.5-.1-.1-.2-.2-.2-.3L151 266c-6.9-8.6-5.5-21.2 3.1-28.1 8.6-6.9 21.2-5.5 28.1 3.1l33.4 41.6 128.9-85.7c9.1-6.2 21.6-3.7 27.7 5.5z"
+      ></path>
+      <path d="M460.5 83.4 269.4 3.7c-7.8-3.4-16.8-3.4-24.7 0l-191 79.6C41.8 88.3 34 99.8 34 112.7v176.7c0 122.9 100.1 222.8 223 222.8s223-100 223-222.8V112.7c0-12.8-7.7-24.3-19.5-29.3zM440 289.5c0 100.8-82.2 182.8-183 182.8s-183-82-183-182.8V118.2l183-76.3 183 76.3v171.3z"></path>
+      <path d="M182.2 241c-6.9-8.6-19.5-10-28.1-3.1-8.6 6.9-10 19.5-3.1 28.1l44.8 55.9c.1.1.2.2.2.3.1.2.3.3.4.5.1.1.2.3.4.4l.5.5c.1.1.3.2.4.4l.5.5.4.4c.2.1.3.3.5.4.3.2.6.5.9.7.1 0 .1.1.2.1.3.2.6.4.8.5.1.1.2.1.3.2.3.1.5.3.8.4.1.1.2.1.3.2.2.1.5.2.7.4.1.1.2.1.3.2.2.1.5.2.7.3.1 0 .2.1.4.1.2.1.5.2.7.2.1 0 .3.1.4.1.2.1.5.1.7.2.1 0 .3.1.4.1.2.1.5.1.7.2.1 0 .3.1.4.1.2 0 .5.1.7.1.2 0 .3 0 .5.1.2 0 .4 0 .7.1h1.6c.5 0 1 0 1.6-.1h.4c.4 0 .8-.1 1.2-.1.2 0 .3-.1.5-.1.3-.1.7-.1 1-.2.2 0 .4-.1.6-.2l.9-.3c.2-.1.4-.1.6-.2l.9-.3.6-.3c.3-.1.6-.3.8-.4l.6-.3c.5-.3.9-.5 1.4-.8l144.1-95.8c9.2-6.1 11.7-18.5 5.6-27.7s-18.5-11.7-27.7-5.6l-128.9 85.7-33.3-41.9z"></path>
     </svg>
   );
 };

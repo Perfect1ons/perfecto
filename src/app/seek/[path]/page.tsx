@@ -31,7 +31,7 @@ async function delayedRequest(
   });
 }
 
-export async function PathPage({ params: { path } }: any) {
+export default async function PathPage({ params: { path } }: any) {
   
     const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
       getPopularGoods(1),
@@ -65,4 +65,3 @@ export async function PathPage({ params: { path } }: any) {
   };
 
 
-export default PathPage;

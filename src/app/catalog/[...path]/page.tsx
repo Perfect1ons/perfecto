@@ -1,11 +1,16 @@
-import { getCatalogsMenu, getCatalogsProducts } from "@/api/requests";
+import { getCatalogsProducts } from "@/api/requests";
+<<<<<<< HEAD
 import Catalogs from "../page";
 
+=======
+import Catalogs from "@/components/Catalog/Catalog";
+>>>>>>> 54952f066cec06bf9ce6cbc39c0f99f6e563cabd
 interface Params {
   params: { path: string | string[] };
 }
 
 export default async function page({ params: { path } }: Params) {
+  // return <h4>Test</h4>;
   try {
     let fullPath: string;
     if (Array.isArray(path)) {

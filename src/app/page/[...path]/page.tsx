@@ -1,6 +1,6 @@
 import { getFooter, getFooterPages } from '@/api/requests';
+import FooterPage from '@/components/Footer/FooterPage/FooterPage';
 import React from 'react'
-import FooterPage from '../page';
 
 interface Params {
     params: { path: string };
