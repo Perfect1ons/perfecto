@@ -2,6 +2,7 @@ import { getPromotion } from "@/api/requests";
 import AllPromo from "@/components/HomeComponents/Promotion/AllPromo/AllPromo";
 import { IPromotion } from "@/types/promotion";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -26,6 +27,8 @@ async function delayedRequest(
 export default async function promotions() {
   const delayedPromotionData = await delayedRequest(getPromotion);
   return (
+    <Suspense>
       <AllPromo allpromo={delayedPromotionData} />
+    </Suspense>
   );
 }

@@ -18,7 +18,6 @@ import {
 } from "../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
-import ClipboardJS from "clipboard";
 import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
 
 interface IItemPageProps {
@@ -66,6 +65,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       const favoriteStatus = localStorage.getItem(item.id.toString());
       setIsFavorite(favoriteStatus === "true");
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [similar]);
 
   const imageUrl = useMemo(() => {
@@ -83,23 +83,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     });
     return urls.join(", ");
   }, [similar]);
-
-  useEffect(() => {
-    const clipboard = new ClipboardJS("#copyLinkButton");
-
-    clipboard.on("success", function (e) {
-      e.clearSelection();
-      setDropdownActive(!dropdownActive);
-    });
-
-    clipboard.on("error", function (e) {
-      alert("Не удалось скопировать ссылку");
-    });
-
-    return () => {
-      clipboard.destroy();
-    };
-  }, []);
 
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
