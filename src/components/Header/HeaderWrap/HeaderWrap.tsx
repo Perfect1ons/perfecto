@@ -1,10 +1,9 @@
 "use client";
 import { useState } from "react";
-import Header from "../Header";
 import dynamic from "next/dynamic";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
-// import { getCatalogsMenu } from "@/api/clientRequest";
+import Header from "../Header";
 
 export default function HeaderWrap() {
   const MobileNav = dynamic(
