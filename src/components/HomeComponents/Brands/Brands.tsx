@@ -29,7 +29,7 @@ const Brands = ({ brands }: IBrandsProps) => {
           {brands.slice(0, pageSize).map((item) => {
             return (
               <Link
-                href={`/brand/${item.name.toLowerCase()}-${item.id}`}
+                href={`/brands/${item.name.toLowerCase()}-${item.id}`}
                 className={styles.brandsItem}
                 key={item.id}
               >
@@ -48,7 +48,7 @@ const Brands = ({ brands }: IBrandsProps) => {
             </button>
           ) : (
             <button
-              onClick={() => router.push("/brends")}
+              onClick={() => router.push("/brands")}
               className="default__buttons_showMore"
             >
               Показать все
