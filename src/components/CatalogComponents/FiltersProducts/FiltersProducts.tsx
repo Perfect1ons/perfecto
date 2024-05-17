@@ -340,7 +340,13 @@ const FiltersProducts = ({
           </button>
         </div>
         <Modal close={open} isVisible={filtersIsShow.allfilters}>
-          <AllFilters filter={filter} close={closeAllFilters} />
+          <AllFilters
+            filter={filter}
+            close={closeAllFilters}
+            onChange={onChange}
+            options={options}
+            value={value}
+          />
         </Modal>
       </div>
       <div
