@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
 import { Montserrat, Rubik } from "next/font/google";
 import "./globals.scss";
-import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
-import { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import MainLoader from "@/components/UI/Loader/MainLoader";
 import Provider from "@/context/Provider";
+import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
@@ -42,11 +40,9 @@ export default async function RootLayout({
       <body className={rubik.className}>
         <HeaderWrap />
         <DownloadAppMobile />
-
         <Provider>
-          <main id="main">{children}</main>
+            <main id="main">{children}</main>
         </Provider>
-
         <Application />
         <Footer />
       </body>

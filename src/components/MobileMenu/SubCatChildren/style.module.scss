@@ -21,11 +21,6 @@
   margin-bottom: 5px;
 }
 
-.subCatalogsListItem_a {
-  text-decoration: none;
-  color: var(--black);
-}
-
 .subCatItem_name {
   @include mixin.flex(center, center, null, 10px);
 }

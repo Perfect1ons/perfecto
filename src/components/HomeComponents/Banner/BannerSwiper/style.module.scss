@@ -1,14 +1,12 @@
-
-.mySwiper{
-  
-  &:hover{
-    .team__swiper_buttons{
+.mySwiper {
+  &:hover {
+    .team__swiper_buttons {
       opacity: 1;
     }
   }
 }
 
-.slideWithPadding{
+.slideWithPadding {
   padding-bottom: 40px;
 }
 
@@ -20,37 +18,35 @@
   @media screen and (max-width: 640px) {
     padding-bottom: 30px;
   }
-    &_img{
-        border-radius: 10px;
-        width: 100%;
-        height: auto;
-        
-        @media screen and (max-width: 640px) {
-          min-height: 180px;
-        padding: 0 10px;
-          
-        }
-        @media screen and (max-width: 480px) {
-          min-height: 140px;
-          padding: 0;
-        }
-       @media screen and (max-width: 360px) {
-          min-height: 100px;;
-          width: 100%;
-        }
+  &_img {
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+
+    @media screen and (max-width: 640px) {
+      min-height: 180px;
+      padding: 0 10px;
     }
+    @media screen and (max-width: 480px) {
+      min-height: 140px;
+      padding: 0;
+    }
+    @media screen and (max-width: 360px) {
+      min-height: 100px;
+      width: 100%;
+    }
+  }
 }
 
 .team__swiper_btn {
   cursor: pointer;
-  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
+  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
   background: var(--white);
   padding: 12.5px 14px 10px 15px;
   border-radius: 10px;
   border: none;
-  
 }
-  
+
 .team__swiper_buttons {
   opacity: 0;
   position: absolute;
@@ -66,4 +62,3 @@
     display: none;
   }
 }
-

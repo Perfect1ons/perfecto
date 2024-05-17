@@ -1,6 +1,5 @@
-import { getCatalogsMenu, getCatalogsProducts } from "@/api/requests";
-import Catalogs from "../page";
-
+import { getCatalogsProducts } from "@/api/requests";
+import Catalogs from "@/components/Catalog/Catalog";
 interface Params {
   params: { path: string | string[] };
 }

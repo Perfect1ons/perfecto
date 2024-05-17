@@ -3,6 +3,7 @@ import Application from "@/components/HomeComponents/Application/Application";
 import AllDiscounts from "@/components/HomeComponents/Discounts/AllDiscounts/AllDiscounts";
 import { IDiscounts } from "@/types/discounts";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 
 export const metadata: Metadata = {
@@ -32,7 +33,9 @@ export default async function page() {
 
   return (
     <>
-      <AllDiscounts discountsOne={discountsOne} discountsTwo={discountsTwo} />
+      <Suspense>
+        <AllDiscounts discountsOne={discountsOne} discountsTwo={discountsTwo} />
+      </Suspense>
     </>
   );
 }

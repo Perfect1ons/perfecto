@@ -4,22 +4,42 @@ import { useRouter } from "next/navigation";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
+import SubCatChildrenSecond from "./SubCatChildrenSecond";
+import { useState } from "react";
 
 interface SubCatTemplateProps {
-  catalog: ICatalogMenu;
+  catalog: ICatalogMenu | null;
   activeCategoryId: number | null | undefined;
+  closeMain: () => void;
 }
 
-export default function SubCatTemplate({
+export default function SubCatChildrenOne({
   catalog,
   activeCategoryId,
+  closeMain,
 }: SubCatTemplateProps) {
-  // для роутинга
+  // state
+  const [isSubCatChildOpen, setCatChildOpen] = useState(false);
+  const handleOpenOrClose = () => {
+    setCatChildOpen(!isSubCatChildOpen);
+  };
+
+  // роутер
   const router = useRouter();
+
   const handleClick = (path: string) => {
+    closeMain();
     const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
-    close;
     router.push(fullPath);
+  };
+
+  const handleItemClick = (item: any) => {
+    if (item.is_leaf === 1) {
+      handleClick(item.full_slug);
+    } else {
+      // <SubCatChildrenSecond />;
+      console.log("hello");
+    }
   };
 
   return (
@@ -27,21 +47,19 @@ export default function SubCatTemplate({
       <hr className={styles.hr} />
 
       <ul className={styles.subCatalogsList}>
-        {catalog.flatMap((rootItem) => {
-          const childLevel2 = Array.isArray(rootItem.child_level2)
-            ? rootItem.child_level2
-            : [];
-          return childLevel2
-            .filter((childItem) => childItem.parent === activeCategoryId)
-            .map((filteredChildItem, key) => (
-              <div
-                onClick={() => {
-                  handleClick(filteredChildItem.full_slug);
-                }}
-                key={key}
-                className={styles.subCatalogsListItem_a}
-              >
-                <li className={styles.subCatalogsListItem}>
+        {catalog &&
+          catalog.flatMap((rootItem) => {
+            const childLevel2 = Array.isArray(rootItem.child_level2)
+              ? rootItem.child_level2
+              : [];
+            return childLevel2
+              .filter((childItem) => childItem.parent === activeCategoryId)
+              .map((filteredChildItem, key) => (
+                <li
+                  className={styles.subCatalogsListItem}
+                  onClick={() => handleItemClick(filteredChildItem)}
+                  key={key}
+                >
                   <div className={styles.subCatItem_name}>
                     <Image
                       src={
@@ -60,9 +78,8 @@ export default function SubCatTemplate({
                     <ChevronRightIcon_Mobile />
                   ) : null}
                 </li>
-              </div>
-            ));
-        })}
+              ));
+          })}
       </ul>
     </>
   );

@@ -1,14 +1,12 @@
 "use client";
 import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { useEffect, useState } from "react";
-// import CatalogProductsCard from "./CatalogProductsCard/CatalogProductsCard";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import CatalogProductList from "./CatalogProductList";
 import CatalogProductsCustom from "./CatalogProductsCustom";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
-import { ChevronRightIcon } from "../../../../public/Icons/Icons";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -45,6 +43,7 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {

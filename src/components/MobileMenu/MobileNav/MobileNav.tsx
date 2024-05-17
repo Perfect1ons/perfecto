@@ -26,8 +26,8 @@ import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
 
 // пропсы
-export interface MobNavProps {
-  catalog: ICatalogMenu;
+interface MobNavProps {
+  catalog: ICatalogMenu | null;
 }
 
 export default function MobileNav({ catalog }: MobNavProps) {
@@ -64,10 +64,10 @@ export default function MobileNav({ catalog }: MobNavProps) {
 
   return (
     <>
-      <MobileModal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
+      <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalog} />
+          <MobileCatalog catalog={catalog} closeMain={open} />
         </div>
       </MobileModal>
 
