@@ -20,18 +20,18 @@ import {
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
 import { ICatalogProps } from "@/components/Header/Header";
 
-export default function MobileNav({ catalogs }: ICatalogProps) {
+export default function MobileNav({ catalogs, click }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
+    catalogs;
     setIsOpen(!isOpen);
   };
 
@@ -87,10 +87,12 @@ export default function MobileNav({ catalogs }: ICatalogProps) {
             </span>
           </Link>
 
-          <li className={styles.option} onClick={open}>
-            {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
-            <span>Каталог</span>
-          </li>
+          <div className={styles.option} onClick={open}>
+            <li className={styles.option} onClick={() => click()}>
+              {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+              <span>Каталог</span>
+            </li>
+          </div>
 
           <Link href="/favorites" className={styles.option}>
             {pathname === "/favorites" ? (
