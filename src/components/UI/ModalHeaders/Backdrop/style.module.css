@@ -1,11 +1,12 @@
 .backDrop {
   position: absolute;
-  top: 70px;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 99;
-  background: #242424;
+  background: rgba(0, 0, 0);
+
   opacity: 0.3 !important;
   transition: 0.15s;
 }

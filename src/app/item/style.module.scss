@@ -2,83 +2,159 @@
 .wrap {
   margin-top: 100px;
 }
-.productContainer {
-  @include mixin.flex(null, space-between, null, null);
-}
-.miniCardsColumn {
-  @include mixin.flex(null, null, column, null);
-}
-.productPreview {
-  cursor: pointer;
-  margin-bottom: 15px;
-}
-.productInfo {
-  max-width: 50%;
-}
-.productName {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-.productInfoTitle {
-  @include mixin.font(1.125rem, 700, null, var(--gray-dark));
-}
-.productArticle {
-  @include mixin.font(0.875rem, 400, null, var(--dark-blue));
-  background-color: var(--secondary-white);
-  padding: 1px 10px;
-  border-radius: 0.25rem !important;
-}
-.productOcenka {
-  @include mixin.flex(null, null, null, 5px);
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-.brand {
-  @include mixin.font(0.875rem, 400, null, var(--secondary-gray));
-}
-.productInfoHr {
-  margin-top: 15px;
-  margin-bottom: 15px;
-  background-color: var(--secondary-white);
-  height: 1px;
-  width: 100%;
-}
-.price {
-  @include mixin.font(1.25rem, 700, null, var(--gray-dark));
-}
-.ddos {
-  border-radius: 0.25rem !important;
-  padding: 15px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  max-width: 50%;
-  box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-  margin-top: 10px;
-  @include mixin.flex(center, null, null, 5px);
-  @include mixin.font(14px, 400, null, var(--light-blue));
-  &__icon {
+.product {
+  @include mixin.flex(null, center, null, 40px);
+  @media screen and (max-width: 1200px) {
+    justify-content: space-between;
+    gap: 10px;
+  }
+  @media screen and (max-width: 992px) {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  &_cards {
+    @include mixin.flex(null, null, column, 5px);
+    @media screen and (max-width: 992px) {
+      margin-bottom: 10px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+  &_cards__item {
+    border-radius: 5px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+  &_preview {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.3125rem;
+    cursor: pointer;
+    margin-bottom: 15px;
+    border: 2px solid var(--white);
+
+    &:hover {
+      border: 2px solid var(--violet);
+    }
+
+    &_active {
+      border: 2px solid var(--info);
+      border-radius: 0.3125rem;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+  }
+  &_image {
+    max-width: 800px;
+  }
+  &_img {
+    width: 100%;
+    border-radius: 10px;
+  }
+  &_info {
+    max-width: 600px;
+    @include mixin.flex(null, null, column, null);
+  }
+  &_info__title {
+    max-width: 550px;
+    margin-bottom: 15px;
+    @include mixin.font(1.125rem, 700, null, var(--gray-dark));
+  }
+  &_info__articul {
+    text-wrap: nowrap;
+    max-width: 100px;
+    @include mixin.font(0.875rem, 400, null, var(--dark-blue));
+    background-color: var(--secondary-white);
+    padding: 1px 10px;
+    border-radius: 0.25rem !important;
+  }
+  &_info__ocenka {
+    user-select: none;
+    cursor: pointer;
+    @include mixin.flex(null, null, null, 5px);
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  &_info_ocenka__count {
+    @include mixin.font(1rem, 500, null, var(--secondary-gray));
+  }
+  &_info_ocenka__otzivy {
+    @include mixin.font(1rem, 500, null, var(--secondary-gray));
+
+    &:hover {
+      color: var(--violet);
+    }
+  }
+  &_info__brand {
+    @include mixin.font(1rem, 400, null, var(--secondary-gray));
+  }
+  &_info__line {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    background-color: var(--secondary-white);
+    height: 2px;
+    width: 100%;
+    border-radius: 10px;
+  }
+  &_info__price {
+    @include mixin.flex(center, null, null, 20px);
+  }
+  &_info_price__current_price {
+    @include mixin.font(1.25rem, 700, null, var(--gray-dark));
+    &_with__discount {
+      color: var(--violet);
+    }
+  }
+  &_info_price__old_price {
+    position: relative;
+    @include mixin.font(1.25rem, 500, null, var(--secondary-gray));
+    &::after {
+      border-radius: 10px;
+      rotate: 10deg;
+      left: -5px;
+      top: 50%;
+      position: absolute;
+      content: "";
+      height: 3px;
+      background: var(--gray);
+      width: 100%;
+    }
+  }
+  &_info__ddos {
+    border-radius: 0.25rem !important;
+    padding: 25px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    max-width: 80%;
+    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
+    margin-top: 10px;
+    @include mixin.flex(center, null, null, 5px);
+    @include mixin.font(14px, 400, null, var(--light-blue));
+
+    @media screen and (max-width: 360px) {
+      max-height: 30px;
+      overflow: hidden;
+    }
+  }
+  &_info__ddos_icon {
     width: 20px;
     height: 20px;
   }
-  @media screen and (max-width: 360px) {
-    max-height: 30px;
-    overflow: hidden;
-  }
-  &__text {
+  &_info__ddos_text {
     max-height: 28px;
-    overflow: hidden;
+
     @include mixin.font(14px, 700, null, var(--success));
     @media screen and (max-width: 640px) {
     }
   }
-}
-
-.add__to {
-  margin-top: 15px;
-  @include mixin.flex(null, space-between, null, 10px);
-  width: 58%;
-
-  &_cart {
+  &_info__add_to {
+    margin-top: 15px;
+    @include mixin.flex(null, space-between, null, 10px);
+    width: 90%;
+  }
+  &_info__add_to__cart {
     background: var(--dark-blue);
     cursor: pointer;
     color: var(--white);
@@ -99,42 +175,68 @@
       }
     }
   }
-
-  &_fav {
+  &_info__buy_btn {
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
+    @include mixin.font(1rem, 600, null, var(--violet));
+    width: 100%;
+    border: 2px solid var(--violet);
+    border-radius: 5px;
+    transition: 0.5s all;
+    &:hover {
+      border: 2px solid var(--dark-blue);
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+  }
+  &_info__share {
+    position: relative;
+  }
+  &_info__share_btn {
+    @include mixin.flex(center, center, null, null);
     background: var(--gray-white);
     border: 2px solid var(--gray-white);
+    position: relative;
     padding: 10px;
     cursor: pointer;
     border-radius: 5px;
-
     &:hover {
       border: 2px solid var(--violet);
     }
-
-    &_icon {
-      @include mixin.flex(center, center);
-      height: 20px;
-    }
-    &_active {
-      border: 2px solid var(--violet);
-    }
-    @media screen and (max-width: 480px) {
-      padding: 5px;
+    &__active {
+      border: 2px solid var(--info);
     }
   }
-}
+  &_info__share_dropdown {
+    display: none;
 
-.buyBtn {
-  cursor: pointer;
-  @include mixin.flex(center, center, null, null);
-  @include mixin.font(1rem, 700, null, var(--violet));
-  width: 100%;
-  border: 2px solid var(--violet);
-  border-radius: 5px;
-  transition: 0.5s all;
-  &:hover {
-    border: 2px solid var(--dark-blue);
-    background: var(--dark-blue);
-    color: var(--white);
+    &__active {
+      top: 130%;
+      right: 0;
+      padding: 15px;
+      position: absolute;
+      background: var(--white);
+      border-radius: 5px;
+      @include mixin.flex(flex-start, null, column, 10px);
+      box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
+    }
+  }
+  &_info_share__tg,
+  &_info_share__wh,
+  &_info_share__copy {
+    @include mixin.flex(center, center, null, 5px);
+    cursor: pointer;
+  }
+
+  &_info_share_telegram__btn,
+  &_info_share_whatsapp__btn,
+  &_info_share_copy_link__btn {
+    @include mixin.font(0.8125rem, 500, null, var(--dark));
+    text-wrap: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--violet);
+    }
   }
 }

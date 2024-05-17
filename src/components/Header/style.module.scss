@@ -13,7 +13,7 @@
   height: 72px;
   user-select: none;
   &__container {
-    position: relative;
+    // position: relative;
     height: 100%;
     @include mixin.flex(center, space-between, null, 30px);
     @media screen and (max-width: 992px) {
