@@ -75,7 +75,7 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
         </div>
 
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-          <CatalogMenu catalog={catalogs} close={open} />
+          <CatalogMenu catalog={catalogs} close={open} loading={loading} />
         </Modal>
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>

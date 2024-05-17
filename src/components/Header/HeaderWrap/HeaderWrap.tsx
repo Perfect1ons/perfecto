@@ -30,32 +30,11 @@ export default function HeaderWrap() {
     }
   };
 
-  // const fetchCatalogs = async () => {
-  //   try {
-  //     const catalogs = await getCatalogsMenu();
-  //     setCatalog(catalogs);
-  //     console.log(catalogs);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetch("/api/catalog/cat-list-menu")
-  //     .then((data) => data.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }, []);
-
   try {
     return (
       <>
         <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
-        <MobileNav catalogs={catalog} click={fetchCatalogs} />
+        <MobileNav catalogs={catalog} click={fetchCatalogs} loading={loading} />
       </>
     );
   } catch (error) {
