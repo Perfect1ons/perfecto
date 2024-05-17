@@ -14,9 +14,10 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
   click: () => void;
+  loading: boolean;
 }
 
-const Header = ({ catalogs, click }: ICatalogProps) => {
+const Header = ({ catalogs, click, loading }: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
@@ -58,7 +59,8 @@ const Header = ({ catalogs, click }: ICatalogProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
-    catalogs;
+    click();
+    // catalogs;
     setIsOpen(!isOpen);
   };
   const onClose = () => {
