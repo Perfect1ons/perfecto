@@ -185,10 +185,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               className={styles.product_info_ocenka__otzivy}
             >{`(${data.otz.length})`}</span>
           </div>
-          <span
-            className={styles.product_info__brand}
-          >{`Бренд: ${data.trademark}`}</span>
-          <hr className={styles.product_info__line} />
+          {data.trademark && (
+            <span
+              className={styles.product_info__brand}
+            >{`Бренд: ${data.trademark}`}</span>
+          )}
           <div className={styles.product_info__price}>
             <span className={styles.product_info_price__current_price}>
               {data.price} с.
@@ -285,84 +286,134 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </div>
         </div>
       </div>
-      <div className="productPageDesc">
-        <h1 className="sections__title">Описание</h1>
-        <div className={styles.productDesc}>
-          {data.description
-            .split("<p>")
-            .filter(Boolean)
-            .map((paragraph, index) => (
-              <p key={index} className={styles.productDescriptionParagraph}>
-                {paragraph.replace(/<\/?p>/g, "")}
+      <div className={styles.product_desc_container}>
+        <div className="productPageDesc">
+          <h2 className="sections__title">Описание</h2>
+          <div className={styles.product_desc}>{data.description}</div>
+          <div className={styles.product_desc_short_desc}>
+            {data.short_description.length !== 0 && (
+              <p className={styles.product_desc_shortdesc__text}>
+                {data.short_description}
               </p>
-            ))}
-        </div>
-        <div className={styles.productShortDesc}>
-          {data.short_description.length !== 0 && (
-            <p className={styles.shortDescParagraph}>
-              {data.short_description}
+            )}
+          </div>
+          <div className={styles.product_desc__client_desc}>
+            <p className={styles.product_desc__client_desc__text}>
+              Фото, описание, комплектация и характеристики могут отличаться от
+              оригинала.
             </p>
-          )}
-        </div>
-        <div className={styles.productClientDesc}>
-          <p className={styles.clientDescParagraphOne}>
-            Фото, описание, комплектация и характеристики могут отличаться от
-            оригинала.
-          </p>
-          <p className={styles.clientDescParagraphTwo}>
-            Страна производства может отличаться в зависимости от партии
-            поставки.
-          </p>
-          <p className={styles.clientDescParagraphThree}>
-            Производитель оставляет за собой право изменять внешний вид,
-            комплектацию товара без предупреждения.
-          </p>
+            <p className={styles.product_desc__client_desc__text}>
+              Страна производства может отличаться в зависимости от партии
+              поставки.
+            </p>
+            <p className={styles.product_desc__client_desc__text}>
+              Производитель оставляет за собой право изменять внешний вид,
+              комплектацию товара без предупреждения.
+            </p>
+          </div>
         </div>
       </div>
-      <hr className={styles.wrapHr} />
-      <div className="characteristics">
-        <h2 className="sections__title">Характеристики</h2>
-        <div className={styles.characteristicsContainer}>
-          {data.specification
-            .split("<p>")
-            .filter(Boolean)
-            .map((paragraph, index) => (
-              <p key={index} className={styles.productCharacteristicParagraph}>
-                {paragraph.replace(/<\/?p>/g, "")}
-              </p>
-            ))}
+      {data.specification && (
+        <div className={styles.product_specification}>
+          <div className="characteristics">
+            <h2 className="sections__title">Характеристики</h2>
+            <div className={styles.product_characteristics}>
+              {data.specification}
+            </div>
+          </div>
         </div>
-      </div>
-      <hr className={styles.wrapHr} />
+      )}
+      {data.video && (
+        <div className={styles.product_video}>
+          <div className="productPageVideo">
+            <h3 className="sections__title">Видео</h3>
+            {data.video}
+          </div>
+        </div>
+      )}
       <div className="productReview">
-        <h3 className="sections__title">Отзывы о товаре «{data.naim}»</h3>
-        <span className={styles.productGradeTitle}>Оцените товар</span>
-        <div className={styles.productGradeBtns}></div>
-        <div className={styles.productGradeShortDesc}>
-          Будет здорово, если вы напишете свои впечатления о товаре. Это поможет
-          другим покупателям.
+        <h4 className="sections__title">Отзывы о товаре «{data.naim}»</h4>
+        <div className={styles.product_review}>
+          <span className={styles.product_review_grade_title}>
+            Оцените товар
+          </span>
+          <div className={styles.product_review_grade_btns}>
+            <div className="ocenka">
+              {[...Array(5)].map((_, index) => (
+                <span key={index}>
+                  {index < rating ? <YellowStar /> : <GrayStar />}
+                </span>
+              ))}
+            </div>
+          </div>
+          <p className={styles.product_review_grade_short_desc}>
+            Будет здорово, если вы напишете свои впечатления о товаре. Это
+            поможет другим покупателям.
+          </p>
+          <button className="default__buttons_showMore">Написать отзыв</button>
         </div>
-        <button className="default__buttons_showMore">Написать отзыв</button>
+        {data.otz.length !== 0 && (
+          <div className={styles.product_otz}>
+            {data.otz.map((item) => {
+              return (
+                <div key={item} className={styles.product_otz_item}>
+                  <div className={styles.product_otz_item_info}>
+                    <div className={styles.product_otz_item_info_sender}>
+                      <p className={styles.product_otz_item_info_sender_name}>
+                        {item.name}
+                      </p>
+                      <div className="ocenka">
+                        {[...Array(5)].map((_, index) => (
+                          <span key={index}>
+                            {index < rating ? <YellowStar /> : <GrayStar />}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <p className={styles.product_otz_item_info_date}>
+                      {item.dat1}
+                    </p>
+                  </div>
+                  <div className={styles.product_otz_item_comment}>
+                    <p className={styles.product_otz_item_comment_title}>
+                      Комментарий:
+                    </p>
+                    <p className={styles.product_otz_item_comment_text}>
+                      {item.text}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
-      <div className={cn(styles.forClientContainer, "forClientContainer")}>
-        <div className={styles.deliveryCard}>
-          <div className={styles.cardInfo}>
+      <div className={cn(styles.product_for_client, "forClientContainer")}>
+        <div className={styles.product_for_client_card}>
+          <div className={styles.product_for_client_card_info}>
             <DeliveryIcon />
-            <span className={styles.cardTitle}>Способы доставки</span>
+            <span className={styles.product_for_client_card_info_title}>
+              Способы доставки
+            </span>
           </div>
         </div>
-        <div className={styles.paymentCard}>
-          <div className={styles.cardInfo}>
-            <span className={styles.cardTitle}>Оплата удобным способом</span>
+        <div className={styles.product_for_client_card}>
+          <div className={styles.product_for_client_card_info}>
+            <span className={styles.product_for_client_card_info_title}>
+              Оплата удобным способом
+            </span>
           </div>
         </div>
-        <div className={styles.guaranteeCard}>
-          <div className={styles.cardInfo}>
-            <span className={styles.cardTitle}>Гарантии покупателя</span>
+        <div className={styles.product_for_client_card}>
+          <div className={styles.product_for_client_card_info}>
+            <span className={styles.product_for_client_card_info_title}>
+              Гарантии покупателя
+            </span>
           </div>
         </div>
       </div>
       <div className="similarProducts">
+        <h5 className="sections__title">Похожие товары</h5>
         <div className="main__news_cards">
           {similar.map((item) => {
             return (
