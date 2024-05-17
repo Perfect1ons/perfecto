@@ -196,5 +196,3 @@ export const getCardProduct = (art: string): Promise<ICardProductItems> => {
 export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
 };
-
-
