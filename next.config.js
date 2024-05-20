@@ -45,6 +45,10 @@ module.exports = {
         protocol: "https",
         hostname: "www.jtcrussia.ru",
       },
+      {
+        protocol: "https",
+        hostname: "www.levenhuk-opt.ru",
+      },
       // {
       //   protocol: "https",
       //   hostname: "lh3.googleusercontent.com",
