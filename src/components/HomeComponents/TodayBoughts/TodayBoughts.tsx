@@ -21,7 +21,7 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
 
   const fetchData = async () => {
     try {
-      const response: IBoughts = await getBoughtsByClient(page + 1);
+      const response: IBoughts = await getBoughtsByClient(2);
       if (response.lastz.length === 0) {
         setAllDataLoaded(true);
       } else {

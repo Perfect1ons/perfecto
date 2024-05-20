@@ -24,7 +24,11 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  
+});
+
+const maxkgrev = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  next: { revalidate: 3600 },
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
@@ -100,7 +104,7 @@ export const getBrandsData = (): Promise<IBrands> => {
 };
 
 export const getBoughts = (page: number): Promise<IBoughts> => {
-  return maxkg.get(`site/lastz?page=${page}`).json();
+  return maxkgrev.get(`site/lastz?page=${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
