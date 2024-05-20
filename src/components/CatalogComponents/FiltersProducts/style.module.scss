@@ -92,9 +92,9 @@
   z-index: 10;
 }
 .filtersContainer {
-  // position: relative;
   @include mixin.flex(center, center, null, null);
 }
+
 .showFiltersUlContainer {
   @include mixin.flex(center, center, null, 10px);
   &:hover {
@@ -327,6 +327,7 @@
   display: none;
 }
 .buttonBrandsAll {
+  position: relative;
   cursor: pointer;
   height: 100%;
   width: 100%;
@@ -335,7 +336,7 @@
   text-overflow: ellipsis;
   // white-space: nowrap;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.2px;
   line-height: 24px;
   color: #001a34;
@@ -352,13 +353,29 @@
   @include mixin.flex(flex-start, flex-start, column, 20px);
   width: 100%;
   padding: 15px;
-  gap: 20px;
 }
 .wrapContainer {
   overflow: hidden;
   background: #f5f7fa;
   border-radius: 10px;
   width: 32%;
+}
+.closeModal {
+  max-width: 30px;
+  max-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: #000;
+  color: white;
+  border-radius: 100%;
+  cursor: pointer;
+  &:hover {
+    color: var(--dark-blue);
+  }
 }
 .buttonsContainerReset {
   @include mixin.flex(center, center, null, 12px);
@@ -382,18 +399,63 @@
     }
   }
 }
-@media screen and (max-width: 856px) {
-  .filtersContainer {
-    display: none;
-  }
-  .brandContainerAllfilter {
-    display: block;
-  }
-}
-.divAll__divUl {
-  @include mixin.flex(flex-start, flex-start, column, 12px);
+
+.divAll__divUls {
+  @include mixin.flex(flex-start, flex-start, column, null);
   width: 100%;
 }
-.divAll__divUls {
+.divAll__divUl {
+  display: none;
+}
+.divAll__divUlActive {
   @include mixin.flex(flex-start, flex-start, column, 12px);
+  width: 100%;
+  overflow: hidden;
+}
+.selectedCount {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  @include mixin.flex(center, center, null, null);
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  background: var(--violet);
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+}
+.select_header_sort {
+  color: var(--violet);
+}
+@media screen and (max-width: 992px) {
+  .brandContainer {
+    padding: 8px 6px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .select_header_sort {
+    display: none;
+  }
+  .filtersContainer {
+    .brandContainer:nth-child(1) {
+      display: none;
+    }
+    .brandContainer:nth-child(2) {
+      display: none;
+    }
+    .brandContainer:nth-child(3) {
+      display: none;
+    }
+    .brandContainer:nth-child(4) {
+      display: none;
+    }
+  }
+  .divAll {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }

@@ -7,11 +7,17 @@ import CatalogProductsCustom from "./CatalogProductsCustom";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
+import { Cross } from "../../../../public/Icons/Icons";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
 }
+type BrandSelection = {
+  [key: string]: {
+    [key: string]: boolean;
+  };
+};
 
 export default function CatalogProducts({
   catalog,
@@ -19,11 +25,35 @@ export default function CatalogProducts({
 }: ICatalogProductsProps) {
   const initialItems = catalog.category.tov; // Сохраняем исходные данные
   const [items, setItems] = useState<Tov[]>(initialItems);
+  const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
+
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-
+  const toggleBrandSelection = (mainKey: string, subKey: string) => {
+    setSelectedBrands((prevState) => ({
+      ...prevState,
+      [mainKey]: {
+        ...prevState[mainKey],
+        [subKey]: !prevState[mainKey]?.[subKey],
+      },
+    }));
+  };
+  const resetSelection = (mainKey: string) => {
+    setSelectedBrands((prevState) => {
+      const updatedSelection = { ...prevState };
+      if (updatedSelection[mainKey]) {
+        Object.keys(updatedSelection[mainKey]).forEach((subKey) => {
+          updatedSelection[mainKey][subKey] = false;
+        });
+      }
+      return updatedSelection;
+    });
+  };
+  const resetSelectionAll = () => {
+    setSelectedBrands({});
+  };
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -43,7 +73,7 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
@@ -113,6 +143,10 @@ export default function CatalogProducts({
               { label: "По рейтингу", value: "rating" },
             ]}
             onChange={(value) => handleSort(value)}
+            onBrandToggle={toggleBrandSelection}
+            selectedBrands={selectedBrands}
+            onReset={resetSelection}
+            resetSelectionAll={resetSelectionAll}
           />
           <div className="default__sort_style">
             <button
@@ -145,12 +179,35 @@ export default function CatalogProducts({
           </div>
         </div>
       </div>
+      <ul className={styles.choiseList}>
+        {Object.entries(selectedBrands).map(([mainKey, subKeys]) =>
+          Object.entries(subKeys).map(
+            ([subKey, isSelected]) =>
+              isSelected && (
+                <li
+                  key={`${mainKey}-${subKey}`}
+                  className={styles.choiseList__li}
+                >
+                  {subKey}
+                  <span className={styles.choiseList__li__button}>
+                    <Cross />
+                  </span>
+                </li>
+              )
+          )
+        )}
+        {Object.keys(selectedBrands).length > 0 && (
+          <button onClick={resetSelectionAll} className={styles.clearAllButton}>
+            Очистить все
+          </button>
+        )}
+      </ul>
       {/* Проверяем, есть ли товары в каталоге */}
       {items.length === 0 ? (
         <div className={styles.containerUndefined}>
           <Image src="/img/undefinedPage.png" alt="" width={180} height={180} />
           <p className={styles.containerUndefined__parap}>
-            По вашему запросу товаров не найдено
+            В этой категории нет товаров продавай на max kg
           </p>
         </div>
       ) : (
