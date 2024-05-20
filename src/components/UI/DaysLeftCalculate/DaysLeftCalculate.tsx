@@ -7,6 +7,9 @@ interface ProductInfoProps {
 }
 
 const parseDate = (dateString: string): Date | null => {
+  if (!dateString) {
+    return null;
+  }
   const parts = dateString.split("/");
   if (parts.length !== 3) {
     return null;

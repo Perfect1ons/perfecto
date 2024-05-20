@@ -5,9 +5,10 @@ import cn from "clsx";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
   CartIcon,
   CopyIcon,
-  DeliveryIcon,
   GrayFavoritesIcon,
   GrayStar,
   ShareIcon,
@@ -19,6 +20,12 @@ import {
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import Link from "next/link";
 
 interface IItemPageProps {
   data: Items;
@@ -26,8 +33,6 @@ interface IItemPageProps {
 }
 
 const ItemPage = ({ data, similar }: IItemPageProps) => {
-  console.log(similar);
-
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -52,6 +57,18 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       }
       return newIsFavorite;
     });
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(() => {
+        setDropdownActive(false);
+      })
+      .catch((err) => {
+        console.error("Ошибка при копировании ссылки: ", err);
+        setDropdownActive(false);
+      });
   };
 
   useEffect(() => {
@@ -164,9 +181,10 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 </span>
               ))}
             </div>
-            <span
+            <Link
+              href={data.otz.length !== 0 ? "#otz" : ""}
               className={styles.product_info_ocenka__otzivy}
-            >{`(${data.otz.length})`}</span>
+            >{`(${data.otz.length})`}</Link>
           </div>
           {data.trademark && (
             <span
@@ -255,8 +273,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                   </button>
                 </div>
                 <div
-                  data-clipboard-text={window.location.href}
-                  id="copyLinkButton"
+                  onClick={handleCopyLink}
                   className={styles.product_info_share__copy}
                 >
                   <CopyIcon />
@@ -269,7 +286,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </div>
         </div>
       </div>
-      <div className={styles.product_desc_container}>
+      <div className={styles.wrap_desc_container}>
         <div className="productPageDesc">
           <h2 className="sections__title">Описание</h2>
           <div className={styles.product_desc}>{data.description}</div>
@@ -297,30 +314,28 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
       </div>
       {data.specification && (
-        <div className={styles.product_specification}>
+        <div className={styles.wrap_specification}>
           <div className="characteristics">
             <h2 className="sections__title">Характеристики</h2>
-            <div className={styles.product_characteristics}>
+            <div className={styles.wrap_characteristics}>
               {data.specification}
             </div>
           </div>
         </div>
       )}
       {data.video && (
-        <div className={styles.product_video}>
+        <div className={styles.wrap_video}>
           <div className="productPageVideo">
             <h3 className="sections__title">Видео</h3>
             {data.video}
           </div>
         </div>
       )}
-      <div className="productReview">
+      <div id="otz" className="productReview">
         <h4 className="sections__title">Отзывы о товаре «{data.naim}»</h4>
-        <div className={styles.product_review}>
-          <span className={styles.product_review_grade_title}>
-            Оцените товар
-          </span>
-          <div className={styles.product_review_grade_btns}>
+        <div className={styles.wrap_review}>
+          <span className={styles.wrap_review_grade_title}>Оцените товар</span>
+          <div className={styles.wrap_review_grade_btns}>
             <div className="ocenka">
               {[...Array(5)].map((_, index) => (
                 <span key={index}>
@@ -329,49 +344,151 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               ))}
             </div>
           </div>
-          <p className={styles.product_review_grade_short_desc}>
+          <p className={styles.wrap_review_grade_short_desc}>
             Будет здорово, если вы напишете свои впечатления о товаре. Это
             поможет другим покупателям.
           </p>
           <button className="default__buttons_showMore">Написать отзыв</button>
         </div>
-        {data.otz.length !== 0 && (
-          <div className={styles.product_otz}>
-            {data.otz.map((item) => {
-              return (
-                <div key={item} className={styles.product_otz_item}>
-                  <div className={styles.product_otz_item_info}>
-                    <div className={styles.product_otz_item_info_sender}>
-                      <p className={styles.product_otz_item_info_sender_name}>
-                        {item.name}
-                      </p>
-                      <div className="ocenka">
-                        {[...Array(5)].map((_, index) => (
-                          <span key={index}>
-                            {index < rating ? <YellowStar /> : <GrayStar />}
-                          </span>
-                        ))}
+        <div className={styles.wrap_review_swiper}>
+          {data.otz.length !== 0 && (
+            <Swiper
+              slidesPerView={3}
+              spaceBetween={15}
+              navigation={{
+                nextEl: ".team__btn_next",
+                prevEl: ".team__btn_prev",
+              }}
+              breakpoints={{
+                240: {
+                  slidesPerView: 1,
+                  slidesPerGroup: 3,
+                  spaceBetween: 1,
+                },
+                480: {
+                  slidesPerView: 1,
+                  spaceBetween: 5,
+                  slidesPerGroup: 1,
+                },
+                768: {
+                  spaceBetween: 10,
+                  slidesPerView: 2,
+                  slidesPerGroup: 2,
+                },
+                992: {
+                  spaceBetween: 10,
+                  slidesPerView: 3,
+                  slidesPerGroup: 3,
+                },
+                1200: {
+                  slidesPerView: 3,
+                  spaceBetween: 15,
+                },
+              }}
+              modules={[Navigation]}
+              className="mySwiper"
+            >
+              {data.otz.map((item) => {
+                return (
+                  <SwiperSlide
+                    key={item}
+                    className={styles.wrap_review_otz_item}
+                  >
+                    <div className={styles.wrap_review_otz_item_info}>
+                      <div className={styles.wrap_review_otz_item_info_sender}>
+                        <p
+                          className={
+                            styles.wrap_review_otz_item_info_sender_name
+                          }
+                        >
+                          {item.name}
+                        </p>
+                        <div
+                          className={
+                            styles.wrap_review_otz_item_info_sender_ocenka
+                          }
+                        >
+                          {[...Array(5)].map((_, index) => (
+                            <span key={index}>
+                              {index < rating ? <YellowStar /> : <GrayStar />}
+                            </span>
+                          ))}
+                        </div>
                       </div>
+                      <p className={styles.wrap_review_otz_item_info_date}>
+                        {item.dat1}
+                      </p>
                     </div>
-                    <p className={styles.product_otz_item_info_date}>
-                      {item.dat1}
-                    </p>
-                  </div>
-                  <div className={styles.product_otz_item_comment}>
-                    <p className={styles.product_otz_item_comment_title}>
-                      Комментарий:
-                    </p>
-                    <p className={styles.product_otz_item_comment_text}>
-                      {item.text}
-                    </p>
-                  </div>
+                    <div className={styles.wrap_review_otz_item_comment}>
+                      {item.dostoinsva && (
+                        <div className={styles.wrap_review_otz_item_comm}>
+                          <p
+                            className={
+                              styles.wrap_review_otz_item_comment_title
+                            }
+                          >
+                            Достоинства:
+                          </p>
+                          <p
+                            className={styles.wrap_review_otz_item_comment_text}
+                          >
+                            {item.dostoinsva}
+                          </p>
+                        </div>
+                      )}
+                      {item.nedostatki && (
+                        <div className={styles.wrap_review_otz_item_comm}>
+                          <p
+                            className={
+                              styles.wrap_review_otz_item_comment_title
+                            }
+                          >
+                            Недостатки:
+                          </p>
+                          <p
+                            className={styles.wrap_review_otz_item_comment_text}
+                          >
+                            {item.nedostatki}
+                          </p>
+                        </div>
+                      )}
+                      {item.text && (
+                        <div className={styles.wrap_review_otz_item_comm}>
+                          <p
+                            className={
+                              styles.wrap_review_otz_item_comment_title
+                            }
+                          >
+                            Комментарий:
+                          </p>
+                          <p
+                            className={styles.wrap_review_otz_item_comment_text}
+                          >
+                            {item.text}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+              <div className={styles.team__swiper_buttons}>
+                <div className="team__btn_prev">
+                  <button className={styles.team__swiper_btn}>
+                    <ArrowLeftIcon />
+                  </button>
                 </div>
-              );
-            })}
-          </div>
-        )}
+                <div className="team__btn_next">
+                  <button className={styles.team__swiper_btn}>
+                    <ArrowRightIcon />
+                  </button>
+                </div>
+              </div>
+            </Swiper>
+          )}
+        </div>
       </div>
-      <div className={cn(styles.product_for_client, "forClientContainer")}>
+      {/* <div className={cn(styles.product_for_client, "forClientContainer")}>
         <div className={styles.product_for_client_card}>
           <div className={styles.product_for_client_card_info}>
             <DeliveryIcon />
@@ -394,7 +511,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             </span>
           </div>
         </div>
-      </div>
+      </div> */}
       <div className="similarProducts">
         <h5 className="sections__title">Похожие товары</h5>
         <div className="main__news_cards">
