@@ -32,7 +32,6 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
 
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
-    catalogs;
     setIsOpen(!isOpen);
   };
 
@@ -64,7 +63,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalogs} closeMain={open} />
+          <MobileCatalog
+            catalogs={catalogs}
+            closeMain={open}
+            loading={loading}
+          />
         </div>
       </MobileModal>
 
@@ -88,12 +91,14 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <div className={styles.option} onClick={open}>
-            <li className={styles.option} onClick={() => click()}>
-              {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+          <li className={styles.option} onClick={open}>
+            <div className={styles.option} onClick={() => click()}>
+              <span className={styles.option__icon}>
+                {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+              </span>
               <span>Каталог</span>
-            </li>
-          </div>
+            </div>
+          </li>
 
           <Link href="/favorites" className={styles.option}>
             {pathname === "/favorites" ? (
