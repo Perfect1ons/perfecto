@@ -5,25 +5,28 @@ import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
 import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
-interface HeaderProps {
-  catalog: ICatalogMenu;
+export interface ICatalogProps {
+  catalogs: ICatalogMenu | undefined;
+  click: () => void;
+  loading: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ catalog }) => {
+const Header = ({ catalogs, click, loading }: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (searchTerm.trim() !== "") {
-        setSearchTerm(""); // Очищаем поле ввода при попытке покинуть страницу
+        setSearchTerm("");
       }
     };
 
@@ -56,6 +59,8 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
+    click();
+    // catalogs;
     setIsOpen(!isOpen);
   };
   const onClose = () => {
@@ -70,12 +75,13 @@ const Header: React.FC<HeaderProps> = ({ catalog }) => {
         </div>
 
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-          <CatalogMenu catalog={catalog} close={open} />
+          <CatalogMenu catalog={catalogs} close={open} loading={loading} />
         </Modal>
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
+                onClick={() => click()}
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,
                 })}

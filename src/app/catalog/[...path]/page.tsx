@@ -5,6 +5,7 @@ interface Params {
 }
 
 export default async function page({ params: { path } }: Params) {
+  // return <h4>Test</h4>;
   try {
     let fullPath: string;
     if (Array.isArray(path)) {

@@ -1,6 +1,5 @@
-const { hostname } = require("os");
 
-const MAXKG = process.env.PUBLIC_NEXT_API;
+const MAXKG = process.env.NEXT_PUBLIC_API;
 
 module.exports = {
   images: {
@@ -49,6 +48,10 @@ module.exports = {
         protocol: "https",
         hostname: "www.levenhuk-opt.ru",
       },
+      {
+        protocol: "https",
+        hostname: "www.levenhuk-opt.ru",
+      },
       // {
       //   protocol: "https",
       //   hostname: "lh3.googleusercontent.com",
@@ -74,12 +77,16 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: `/:path*`,
+        destination: `${MAXKG}/:path*`,
       },
-      {
-        source: "/catalog/cathome/:path*",
-        destination: `${MAXKG}/catalog/:path*`, // Обработка запросов к /catalog/*
-      },
+      // {
+      //   source: "/catalog/cathome/:path*",
+      //   destination: `${MAXKG}/catalog/:path*`, // Обработка запросов к /catalog/*
+      // },
+      // {
+      //   source: "/api/catalog/:path*",
+      //   destination: `${MAXKG}/catalog/:path*`, // Обработка запросов к /catalog/*
+      // },
     ];
   },
 };

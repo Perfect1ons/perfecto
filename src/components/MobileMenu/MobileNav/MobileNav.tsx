@@ -20,17 +20,13 @@ import {
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
+import { ICatalogProps } from "@/components/Header/Header";
+import Loader from "@/components/UI/Loader/Loader";
 
-// пропсы
-interface MobNavProps {
-  catalog: ICatalogMenu | null;
-}
-
-export default function MobileNav({ catalog }: MobNavProps) {
+export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
@@ -67,7 +63,11 @@ export default function MobileNav({ catalog }: MobNavProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalog} closeMain={open} />
+          <MobileCatalog
+            catalogs={catalogs}
+            closeMain={open}
+            loading={loading}
+          />
         </div>
       </MobileModal>
 
@@ -92,8 +92,12 @@ export default function MobileNav({ catalog }: MobNavProps) {
           </Link>
 
           <li className={styles.option} onClick={open}>
-            {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
-            <span>Каталог</span>
+            <div className={styles.option} onClick={() => click()}>
+              <span className={styles.option__icon}>
+                {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+              </span>
+              <span>Каталог</span>
+            </div>
           </li>
 
           <Link href="/favorites" className={styles.option}>

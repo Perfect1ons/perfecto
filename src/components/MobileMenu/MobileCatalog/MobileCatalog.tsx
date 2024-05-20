@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
-// import { useRouter } from "next/router";
 
 import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import clsx from "clsx";
 
 interface MobCatalogProps {
-  catalog: ICatalogMenu | null;
+  catalogs: ICatalogMenu | undefined;
   closeMain: () => void;
+  loading: boolean;
 }
 
-export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
+export default function MobileCatalog({
+  catalogs,
+  closeMain,
+  loading,
+}: MobCatalogProps) {
   // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
 
@@ -38,21 +43,27 @@ export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
         open={isOpen}
         close={openOrClose}
         closeMain={closeMain}
-        catalog={catalog}
+        catalogs={catalogs}
         activeCategoryId={activeCategoryId}
         selectedCategoryName={selectedCategoryName}
       />
       <div
         className={isOpen === false ? styles.grid_active : styles.grid_inactive}
       >
-        {catalog &&
-          catalog.map((item) => {
-            return (
+        {loading
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <div
+                className={clsx(styles.grid_item_wrap, "skeleton")}
+                key={index}
+              ></div>
+            ))
+          : catalogs &&
+            catalogs.map((item) => (
               <div className={styles.grid_item_wrap} key={item.id}>
                 <div
                   className={styles.grid_item}
                   onClick={() => {
-                    openOrClose;
+                    openOrClose();
                     openAndSetSubCategory(item.id);
                     setSelectedCategoryName(item.name);
                   }}
@@ -73,8 +84,7 @@ export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
                   />
                 </div>
               </div>
-            );
-          })}
+            ))}
       </div>
     </section>
   );
