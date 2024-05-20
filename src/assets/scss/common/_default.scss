@@ -86,7 +86,8 @@
 .productReview,
 .forClientContainer,
 .productPageVideo,
-.similarProducts {
+.similarProducts,
+.brand__byName {
   margin-top: 30px;
 
   @media screen and (max-width: 640px) {
@@ -274,7 +275,7 @@
   padding-bottom: 10px;
   overflow-x: auto; /* Добавлено для горизонтального скролла */
   overflow-y: hidden; /* Скрытие вертикального скроллбара, если он не нужен */
-
+  user-select: none;
   &_link {
     @include mixin.font(16px, 400, 150%, var(--gray-dark));
     cursor: pointer;

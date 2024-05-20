@@ -1,11 +1,10 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { IBrandItem } from "@/types/brands";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
 
 interface IBrandsProps {
   brands: IBrandItem[];
@@ -14,7 +13,7 @@ interface IBrandsProps {
 const Brands = ({ brands }: IBrandsProps) => {
   const initialPageSize = 12;
   const [pageSize, setPageSize] = useState(initialPageSize);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleShowMore = () => {
     const newPageSize = pageSize + 12 > 24 ? 24 : pageSize + 12;
@@ -29,7 +28,7 @@ const Brands = ({ brands }: IBrandsProps) => {
           {brands.slice(0, pageSize).map((item) => {
             return (
               <Link
-                href={`/brands/${item.name.toLowerCase()}-${item.id}`}
+                href={`/brands/${item.name}-${item.id}`}
                 className={styles.brandsItem}
                 key={item.id}
               >

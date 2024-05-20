@@ -20,6 +20,7 @@ import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
+import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -43,9 +44,9 @@ const maxkgz = ky.create({
   // cache: "no-cache",
 });
 
-// export const getBannerData = (): Promise<IBanner> => {
-//   return maxkg.get("baner?pageSize=20&page=1").json();
-// };
+export const getBrandsByName = (id: number): Promise<IBrandByName> => {
+  return maxkg.get(`brand/${id}`).json();
+};
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {

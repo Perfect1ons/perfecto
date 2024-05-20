@@ -18,10 +18,14 @@ interface IcardDataProps {
 }
 
 const Cards = ({ cardData }: IcardDataProps) => {
-  const router = useRouter()
+  const router = useRouter();
   const imageUrl =
     cardData.photos.length > 0
-      ? `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
+      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${cardData.photos[0].url_part}280.jpg`
+        : cardData.photos[0].url_part.startsWith("https://")
+        ? cardData.photos[0].url_part
+        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);

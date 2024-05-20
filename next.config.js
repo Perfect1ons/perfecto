@@ -44,14 +44,22 @@ module.exports = {
         protocol: "https",
         hostname: "www.jtcrussia.ru",
       },
-      // {
-      //   protocol: "https",
-      //   hostname: "lh3.googleusercontent.com",
-      // },
-      // {
-      //   protocol: "https",
-      //   hostname: "lh3.googleusercontent.com",
-      // },
+      {
+        protocol: "https",
+        hostname: "www.levenhuk-opt.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "www.levenhuk-opt.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "www.4glaza.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "www.4glaza.ru",
+      },
     ],
   },
   async headers() {

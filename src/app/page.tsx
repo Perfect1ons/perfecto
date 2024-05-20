@@ -14,7 +14,18 @@ import {
 } from "@/api/requests";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
+
+export const metadata: Metadata = {
+  title:
+    "Маркетплейс Max.kg №1☑️ в Бишкеке и Кыргызстане ▶️ Маркетплейс для всей страны",
+  description:
+    "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
+  keywords:
+    "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
+};
+
 
 const LazySecondBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/SecondBanner"),
