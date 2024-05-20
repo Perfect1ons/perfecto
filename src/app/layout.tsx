@@ -36,7 +36,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" translate="no" className={`${rubik.variable}`}>
+    <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <HeaderWrap />
         <DownloadAppMobile />

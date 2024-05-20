@@ -24,19 +24,11 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-});
-
-const maxkgcache = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
-});
-
-const maxkgtimeout = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
+  
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
-  return maxkgtimeout.get(`site/popular?page=${page}`).json();
+  return maxkg.get(`site/popular?page=${page}`).json();
 };
 
 const maxkgz = ky.create({

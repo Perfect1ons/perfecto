@@ -2,7 +2,6 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { IBrandByName } from '@/types/Brands/brandByName';
 import Cards from '../UI/Card/Card';
-import NotFounded from '../NotFound/NotFound';
 import BrandNotFound from '../NotFound/BrandNotFound';
 
 interface IBrandByNameProps {
@@ -32,11 +31,12 @@ const BrandByName = ({ path, brand, id }: IBrandByNameProps) => {
             {path}
           </Link>
         </div>
+        <h1 className='sections__title top'>{path}</h1>
       </div>
       {brand.count === 0 ? (
         <BrandNotFound />
       ) : (
-        <div className="main__news_cards top pad">
+        <div className="main__news_cards">
           {brand.items.map((item, index) => (
             <Cards cardData={item} key={index} />
           ))}
