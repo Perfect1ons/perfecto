@@ -291,7 +291,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <h2 className="sections__title">Описание</h2>
           <div className={styles.product_desc}>{data.description}</div>
           <div className={styles.product_desc_short_desc}>
-            {data.short_description.length !== 0 && (
+            {data.short_description && (
               <p className={styles.product_desc_shortdesc__text}>
                 {data.short_description}
               </p>
