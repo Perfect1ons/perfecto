@@ -52,7 +52,7 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "400px",
-      threshold: 0,
+      threshold: 0.5,
     });
 
     if (loaderRef.current) {
