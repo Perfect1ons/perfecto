@@ -29,6 +29,7 @@
     box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
     @include mixin.flex(center,center);
     &_title{
+        text-align: center;
         @include mixin.font(18px, 500, 120%, var(--gray-dark));
         user-select: none;
     }

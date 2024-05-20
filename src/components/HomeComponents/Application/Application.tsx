@@ -8,7 +8,9 @@ const Application = () => {
     <section className={clsx(styles.application, "application")}>
       <div className={clsx(styles.application__container, "container")}>
         <div className={styles.application__content}>
-          <h1 className={styles.application__content_title}>Загрузите приложение max.kg</h1>
+          <h1 className={styles.application__content_title}>
+            Загрузите приложение max.kg
+          </h1>
           <div className={styles.application__content_link}>
             <Link
               href={
@@ -17,9 +19,7 @@ const Application = () => {
             >
               <Image
                 className={styles.application__img}
-                src={
-                  "https://max.kg/images/banner_app/xavailable_on_google.png.pagespeed.ic.64c0Fr-5dp.webp"
-                }
+                src="/img/google-play.webp"
                 width={200}
                 height={60}
                 alt="google-play"
@@ -32,9 +32,7 @@ const Application = () => {
             >
               <Image
                 className={styles.application__img}
-                src={
-                  "https://max.kg/images/banner_app/xavailable_on_apple.png.pagespeed.ic.UqKRmIpHtw.webp"
-                }
+                src="/img/apple-store.webp"
                 width={200}
                 height={60}
                 alt="apple-store"
@@ -45,12 +43,10 @@ const Application = () => {
         <div className={styles.application__content}>
           <Image
             className={styles.application__phone_img}
-            src={
-              "https://max.kg/images/banner_app/xmockup.png.pagespeed.ic.KUwe5oHaW-.webp"
-            }
+            src="/img/phones.webp"
             width={513}
             height={300}
-            alt="phone"
+            alt="phones"
           />
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
 import { IPopularGood,} from "@/types/popularGoods";
-import { getPopularGoods } from "@/api/requests";
+import { getPopularGoodsByClient } from "@/api/clientRequest";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -20,7 +20,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
 
   const fetchData = async () => {
     try {
-      const response: IPopularGood[] = await getPopularGoods(2);
+      const response: IPopularGood[] = await getPopularGoodsByClient(2);
       setData((prevData) => [...prevData, ...response]);
       if (response.length === 0) {
         setAllDataLoaded(true);
@@ -68,7 +68,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
           <div className="showMoreBtn">
             <button
               className="default__buttons_showMore"
-              onClick={() => router.push("/all-popular-goods")}
+              onClick={() => router.push("/popular")}
             >
               Показать все
             </button>

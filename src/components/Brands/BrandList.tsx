@@ -88,8 +88,8 @@ const BrandsList = ({ brands }: IBrandProps) => {
         <>
           <h1 className={clsx("sections__title container", styles.top)}>Бренды</h1>
           <div className={clsx("container", styles.brands__container)}>
-            {currentBrands.map((brand) => (
-              <BrandCard key={brand.id} name={brand.name} link={brand.url} />
+            {currentBrands.map((brand, index) => (
+              <BrandCard key={index} name={brand.name} link={brand.id} />
             ))}
           </div>
           <div className="pagination">

@@ -15,19 +15,10 @@ export const metadata: Metadata = {
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
-async function delayedRequest(
-  requestFunction: () => Promise<IDiscounts[]>
-): Promise<IDiscounts[]> {
-  return new Promise(async (resolve) => {
-    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
-    resolve(await requestFunction());
-  });
-}
-
 export default async function page() {
   const [discountsOne, discountsTwo] = await Promise.all([
-    delayedRequest(getDiscountsPageOne),
-    delayedRequest(getDiscountsPageTwo),
+    getDiscountsPageOne(),
+    getDiscountsPageTwo(),
     ,
   ]);
 

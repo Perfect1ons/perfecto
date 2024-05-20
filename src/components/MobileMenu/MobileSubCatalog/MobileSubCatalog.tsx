@@ -9,7 +9,7 @@ export interface SubCatalProps {
   open: boolean;
   close: () => void;
   closeMain: () => void;
-  catalog: ICatalogMenu | undefined;
+  catalogs: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   selectedCategoryName: string | null;
 }
@@ -17,7 +17,7 @@ export interface SubCatalProps {
 export default function MobileSubCatalog({
   open,
   close,
-  catalog,
+  catalogs,
   activeCategoryId,
   selectedCategoryName,
   closeMain,
@@ -38,7 +38,7 @@ export default function MobileSubCatalog({
       )}
 
       <SubCatChildrenOne
-        catalog={catalog}
+        catalogs={catalogs}
         activeCategoryId={activeCategoryId}
         closeMain={closeMain}
       />

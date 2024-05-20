@@ -21,6 +21,7 @@
     padding-bottom: 15px;
   }
   &_review {
+    margin-bottom: 15px;
     &_grade_title {
       @include mixin.font(0.9375rem, 400, null, var(--dark));
     }
@@ -44,9 +45,9 @@
         border-radius: 5px;
         padding: 10px 10px;
         &_info {
-          @include mixin.flex(null, null, null, null);
+          @include mixin.flex(null, space-between, row, null);
           &_sender {
-            @include mixin.flex(null, null, null, 10px);
+            @include mixin.flex(null, null, column, null);
             margin-bottom: 10px;
             &_name {
               @include mixin.font(1.125rem, 700, null, var(--dark));
@@ -149,8 +150,7 @@
     @include mixin.font(1rem, 500, null, var(--secondary-gray));
   }
   &_info_ocenka__otzivy {
-    @include mixin.font(1rem, 500, null, var(--secondary-gray));
-
+    @include mixin.link(1rem, 500, var(--secondary-gray));
     &:hover {
       color: var(--violet);
     }
@@ -325,4 +325,27 @@
   //     }
   //   }
   // }
+}
+.team__swiper_btn {
+  cursor: pointer;
+  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
+  background: var(--white);
+  padding: 12.5px 14px 10px 15px;
+  border-radius: 10px;
+  border: none;
+}
+
+.team__swiper_buttons {
+  position: absolute;
+  z-index: 10;
+  top: 43%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 99.5%;
+  left: 0.4%;
+
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
 }

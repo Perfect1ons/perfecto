@@ -20,22 +20,19 @@ import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
+import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
 
-const maxkgcache = ky.create({
+const maxkgrev = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache",
-});
-
-const maxkgtimeout = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
+  next: { revalidate: 3600 },
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
-  return maxkgtimeout.get(`site/popular?page=${page}`).json();
+  return maxkg.get(`site/popular?page=${page}`).json();
 };
 
 const maxkgz = ky.create({
@@ -43,9 +40,9 @@ const maxkgz = ky.create({
   // cache: "no-cache",
 });
 
-// export const getBannerData = (): Promise<IBanner> => {
-//   return maxkg.get("baner?pageSize=20&page=1").json();
-// };
+export const getBrandsByName = (id: number): Promise<IBrandByName> => {
+  return maxkg.get(`brand/${id}`).json();
+};
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
@@ -107,7 +104,7 @@ export const getBrandsData = (): Promise<IBrands> => {
 };
 
 export const getBoughts = (page: number): Promise<IBoughts> => {
-  return maxkg.get(`site/lastz?page=${page}`).json();
+  return maxkgrev.get(`site/lastz?page=${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {
