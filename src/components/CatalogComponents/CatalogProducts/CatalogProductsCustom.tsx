@@ -2,6 +2,7 @@
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { useState } from "react";
 import FiltersProducts from "../FiltersProducts/FiltersProducts";
+import styles from "../FiltersProducts/style.module.scss";
 
 interface CustomSelectProps {
   filter: IFiltersBrand;
@@ -12,6 +13,14 @@ interface CustomSelectProps {
     value: "default" | "cheap" | "expensive" | "rating";
   }[];
   onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onBrandToggle: (mainKey: string, subKey: string) => void;
+  selectedBrands: {
+    [key: string]: {
+      [subKey: string]: boolean;
+    };
+  };
+  onReset: (mainKey: string) => void; // Add this prop
+  resetSelectionAll: () => void;
 }
 const CatalogProductsCustom = ({
   productId,
@@ -19,6 +28,10 @@ const CatalogProductsCustom = ({
   onChange,
   options,
   value,
+  onBrandToggle,
+  selectedBrands,
+  onReset,
+  resetSelectionAll,
 }: CustomSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,15 +40,19 @@ const CatalogProductsCustom = ({
   };
 
   return (
-    <div className={`custom-se ${isOpen ? "open" : ""}`}>
+    <div className={`custom-se `}>
       <div className="select-header">
-        <span className="select-header_sort">Сортировка: </span>
+        <span className={styles.select_header_sort}>Сортировка: </span>
         <FiltersProducts
           onChange={onChange}
           value={value}
           filter={filter}
           productId={productId}
           options={options}
+          onBrandToggle={onBrandToggle}
+          selectedBrands={selectedBrands}
+          onReset={onReset}
+          resetSelectionAll={resetSelectionAll}
         />
       </div>
     </div>

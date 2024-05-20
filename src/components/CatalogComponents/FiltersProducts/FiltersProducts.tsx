@@ -20,6 +20,14 @@ interface IProps {
   }[];
   value: string;
   onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onBrandToggle: (mainKey: string, subKey: string) => void;
+  selectedBrands: {
+    [key: string]: {
+      [subKey: string]: boolean;
+    };
+  };
+  onReset: (mainKey: string) => void; // Add this prop
+  resetSelectionAll: () => void;
 }
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 
@@ -29,6 +37,10 @@ const FiltersProducts = ({
   options,
   value,
   onChange,
+  onBrandToggle,
+  selectedBrands,
+  onReset,
+  resetSelectionAll,
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
@@ -71,25 +83,35 @@ const FiltersProducts = ({
     }));
   };
 
-  // Создаем состояние для отслеживания состояния выбора для каждого элемента
-  const [selectedBrands, setSelectedBrands] = useState<{
-    [key: string]: boolean;
-  }>({});
   const handleShowAllBrands = () => {
     setBrandIsShow(true);
   };
-  // // Функция для обновления состояния выбора для конкретного элемента
-  const toggleBrand = (brand: string) => {
-    setSelectedBrands((prevState) => ({
-      ...prevState,
-      [brand]: !prevState[brand],
-    }));
-  };
-  const handleReset = () => {
-    setSelectedBrands({}); // Обнуляем selectedBrands при нажатии на кнопку "Сбросить"
-  };
-  // Проверяем, есть ли хотя бы один выбранный бренд
   const anyBrandSelected = Object.values(selectedBrands).some((value) => value);
+  const countSelected = (...selectedArrays: any[]) => {
+    let totalCount = 0;
+    selectedArrays.forEach((selected: any) => {
+      if (selected) {
+        Object.values(selected).forEach((isSelected: any) => {
+          if (isSelected) {
+            totalCount++;
+          }
+        });
+      }
+    });
+    return totalCount;
+  };
+  // Функция для подсчета количества выбранных элементов в selectedBrands
+  const countSelectedBrands = (): number => {
+    let totalCount = 0;
+    Object.values(selectedBrands).forEach((subSelections) => {
+      Object.values(subSelections).forEach((isSelected) => {
+        if (isSelected) {
+          totalCount++;
+        }
+      });
+    });
+    return totalCount;
+  };
 
   return (
     <>
@@ -145,6 +167,11 @@ const FiltersProducts = ({
             className={styles.buttonBrand}
           >
             Сроки доставки
+            {countSelected(selectedBrands.day) > 0 && (
+              <span className={styles.selectedCount}>
+                {countSelected(selectedBrands.day)}
+              </span>
+            )}
             <span
               className={cn(
                 styles.footerNavItemArrowIsActive,
@@ -170,15 +197,15 @@ const FiltersProducts = ({
                   <ul
                     key={item}
                     className={styles.showFiltersUlContainer}
-                    onClick={() => toggleBrand(item)}
+                    onClick={() => onBrandToggle("day", item)}
                   >
                     <span
                       className={cn(styles.showFiltersUlContainer__check, {
                         [styles.showFiltersUlContainer__checkActive]:
-                          selectedBrands[item],
+                          selectedBrands.day?.[item],
                       })}
                     >
-                      {selectedBrands[item] && checkIcon()}
+                      {selectedBrands.day?.[item] && checkIcon()}
                     </span>
                     <li className={styles.showFiltersUlContainer__li}>
                       {item === "1"
@@ -209,7 +236,7 @@ const FiltersProducts = ({
               className={cn(styles.buttonsContainer__button, {
                 [styles.buttonsContainer__buttonDisabled]: !anyBrandSelected,
               })}
-              onClick={handleReset}
+              onClick={() => onReset("day")}
             >
               Сбросить
             </button>
@@ -262,6 +289,11 @@ const FiltersProducts = ({
             className={styles.buttonBrand}
           >
             Бренд
+            {countSelected(selectedBrands.brand) > 0 && (
+              <span className={styles.selectedCount}>
+                {countSelected(selectedBrands.brand)}
+              </span>
+            )}
             <span
               className={cn(
                 styles.footerNavItemArrowIsActive,
@@ -287,15 +319,15 @@ const FiltersProducts = ({
                   <ul
                     key={item}
                     className={styles.showFiltersUlContainer}
-                    onClick={() => toggleBrand(item)}
+                    onClick={() => onBrandToggle("brand", item)}
                   >
                     <span
                       className={cn(styles.showFiltersUlContainer__check, {
                         [styles.showFiltersUlContainer__checkActive]:
-                          selectedBrands[item],
+                          selectedBrands.brand?.[item],
                       })}
                     >
-                      {selectedBrands[item] && checkIcon()}
+                      {selectedBrands.brand?.[item] && checkIcon()}
                     </span>
                     <li className={styles.showFiltersUlContainer__li}>
                       {item}
@@ -317,7 +349,7 @@ const FiltersProducts = ({
               className={cn(styles.buttonsContainer__button, {
                 [styles.buttonsContainer__buttonDisabled]: !anyBrandSelected,
               })}
-              onClick={handleReset}
+              onClick={() => onReset("brand")}
             >
               Сбросить
             </button>
@@ -329,6 +361,11 @@ const FiltersProducts = ({
             onClick={() => toggleFilters("allfilters")}
           >
             Все фильтры
+            {countSelectedBrands() > 0 && (
+              <span className={styles.selectedCount}>
+                {countSelectedBrands()}
+              </span>
+            )}
             <span
               className={cn(
                 styles.footerNavItemArrowIsActive
@@ -341,26 +378,18 @@ const FiltersProducts = ({
         </div>
         <Modal close={open} isVisible={filtersIsShow.allfilters}>
           <AllFilters
+            countSelected={countSelected}
             filter={filter}
             close={closeAllFilters}
             onChange={onChange}
             options={options}
             value={value}
+            onBrandToggle={onBrandToggle}
+            onReset={onReset}
+            selectedBrands={selectedBrands}
+            resetSelectionAll={resetSelectionAll}
           />
         </Modal>
-      </div>
-      <div
-        className={cn(styles.brandContainer, styles.brandContainerAllfilter)}
-      >
-        <button
-          className={styles.buttonBrand}
-          onClick={() => toggleFilters("allfilters")}
-        >
-          Все фильтры
-          <span className={cn(styles.footerNavItemArrowIsActive)}>
-            {filterIcon()}
-          </span>
-        </button>
       </div>
     </>
   );
