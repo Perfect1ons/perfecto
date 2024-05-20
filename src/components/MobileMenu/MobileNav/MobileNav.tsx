@@ -24,7 +24,6 @@ import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
 import { ICatalogProps } from "@/components/Header/Header";
-import Loader from "@/components/UI/Loader/Loader";
 
 export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
   // задается state для открытия и закрытия
@@ -32,9 +31,16 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
 
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
-    catalogs;
+    click();
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      click();
+      console.log("useEffect click");
+    }
+  }, [isOpen, click]);
 
   // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей
   const pathname = usePathname();
@@ -64,7 +70,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalog={catalogs} closeMain={open} />
+          <MobileCatalog
+            catalog={catalogs}
+            closeMain={open}
+            loading={loading}
+          />
         </div>
       </MobileModal>
 
@@ -88,12 +98,10 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <div className={styles.option} onClick={open}>
-            <li className={styles.option} onClick={() => click()}>
-              {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
-              <span>Каталог</span>
-            </li>
-          </div>
+          <li className={styles.option} onClick={open}>
+            {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+            <span>Каталог</span>
+          </li>
 
           <Link href="/favorites" className={styles.option}>
             {pathname === "/favorites" ? (

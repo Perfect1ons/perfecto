@@ -5,13 +5,19 @@ import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
 
 import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import clsx from "clsx";
 
 interface MobCatalogProps {
   catalog: ICatalogMenu | undefined;
+  loading: boolean;
   closeMain: () => void;
 }
 
-export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
+export default function MobileCatalog({
+  catalog,
+  closeMain,
+  loading,
+}: MobCatalogProps) {
   // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,14 +51,19 @@ export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
       <div
         className={isOpen === false ? styles.grid_active : styles.grid_inactive}
       >
-        {catalog &&
-          catalog.map((item) => {
-            return (
+        {loading
+          ? Array.from({ length: 9 }).map((_, index) => (
+              <div className={styles.grid_item_wrap} key={index}>
+                <div className={clsx(styles.grid_item, "skeleton")}></div>
+              </div>
+            ))
+          : catalog &&
+            catalog.map((item) => (
               <div className={styles.grid_item_wrap} key={item.id}>
                 <div
                   className={styles.grid_item}
                   onClick={() => {
-                    openOrClose;
+                    openOrClose();
                     openAndSetSubCategory(item.id);
                     setSelectedCategoryName(item.name);
                   }}
@@ -73,8 +84,7 @@ export default function MobileCatalog({ catalog, closeMain }: MobCatalogProps) {
                   />
                 </div>
               </div>
-            );
-          })}
+            ))}
       </div>
     </section>
   );

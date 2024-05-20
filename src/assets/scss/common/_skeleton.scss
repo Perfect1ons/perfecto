@@ -9,8 +9,11 @@
 
 .skeleton {
   position: relative;
-  min-height: 400px;
+  min-height: 15em;
   width: auto;
+  @media screen and (max-width: 640px) {
+    min-height: 10em;
+  }
 
   &::before {
     position: absolute;
