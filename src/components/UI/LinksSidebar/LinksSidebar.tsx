@@ -23,16 +23,14 @@ const LinksSidebar = ({ links }: ILinksSidebarProps) => {
               <h6 className={styles.sidebarItemInfoTitle}>{item.name}</h6>
             </div>
             <div className={styles.sidebarItemLinks}>
-              {item.pod_menu.map((podItem) => {
+              {item.pod_menu.map((podItem, index) => {
                 const linkUrl = podItem.url.startsWith("https://")
                   ? podItem.url
                   : `/page/${podItem.url}`;
                 return (
-                  <React.Fragment key={podItem.id}>
-                    <Link className={cn(pathname === linkUrl ? styles.sidebarItemLinksLinkActive : styles.sidebarItemLinksLink)} href={linkUrl}>
+                    <Link key={index} className={cn(pathname === linkUrl ? styles.sidebarItemLinksLinkActive : styles.sidebarItemLinksLink)} href={linkUrl}>
                       {podItem.naim}
                     </Link>
-                  </React.Fragment>
                 );
               })}
             </div>

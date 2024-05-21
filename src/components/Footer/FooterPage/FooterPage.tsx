@@ -1,62 +1,21 @@
 "use client";
 import { IFooterPage } from "@/types/footerPagesRequest/footerPages";
 import { IFooterItem } from "@/types/footerRequest";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./style.module.scss";
 import LinksSidebar from "@/components/UI/LinksSidebar/LinksSidebar";
 import Link from "next/link";
-import cn from "clsx";
-import parse from "html-react-parser";
+import cn from "clsx"
+import DOMPurify from "isomorphic-dompurify";
+
 interface IAboutCompanyProps {
-  data: IFooterPage | undefined;
+  data: IFooterPage;
   links: IFooterItem[];
   breadcrumb: string | undefined;
 }
 
 const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  if (
-    !data ||
-    !data.model ||
-    !data.model.text ||
-    (data.model.url && data.model.url.startsWith("socseti/"))
-  ) {
-    return null;
-  }
-
-  const sentences = data.model.text.match(/[^.!?]+[.!?]/g);
-
-  if (!sentences) {
-    return null;
-  }
-
-  const h1Sentence = sentences[0];
-  const pSentences = sentences.slice(1);
-
-  const h1Html = parse(`<h1>${h1Sentence}</h1>`, {
-    replace: (node) => {
-      if (node.type === "text" && node.data.trim()) {
-        return node.data;
-      }
-      return null;
-    },
-  }) as string;
-  const pHtml = pSentences.map(
-    (sentence) =>
-      parse(`<p>${sentence}</p>`, {
-        replace: (node) => {
-          if (node.type === "text" && node.data.trim()) {
-            return node.data;
-          }
-          return null;
-        },
-      }) as string
-  );
+  const textHtml = DOMPurify.sanitize(data?.model.text);
 
   const filterBreadcrumb = () => {
     return links.filter((item) =>
@@ -68,6 +27,7 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
     const subitem = item.pod_menu.find((subitem) => subitem.url === breadcrumb);
     return subitem ? subitem.naim : "";
   });
+
   return (
     <div className="container">
       <div className="all__directions">
@@ -75,24 +35,18 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
           Главная
         </Link>
         <Link
-          href={"/news"}
+          href={`/page/${breadcrumb}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
           {breadcrumbNames.join(", ")}
         </Link>
       </div>
       <div className={styles.wrap}>
-        <div className={styles.wrapSidebar}>
-          <LinksSidebar links={links} />
-        </div>
-        <div className={styles.wrapInfo}>
-          {isClient && (
-            <div className={styles.wrapInfoItem}>
-              <div className={styles.wraInfoItemTitle}>{h1Html}</div>
-              <div className={styles.wraInfoItemDesc}>{pHtml}</div>
-            </div>
-          )}
-        </div>
+        <LinksSidebar links={links} />
+        <div
+          className="wrapInfoItem"
+          dangerouslySetInnerHTML={{ __html: textHtml }}
+        />
       </div>
     </div>
   );
