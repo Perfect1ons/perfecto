@@ -23,10 +23,12 @@ import {
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
-import { ICatalogProps } from "@/components/Header/Header";
-import Loader from "@/components/UI/Loader/Loader";
-
-export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+export interface ICatalogProps {
+  catalogs: ICatalogMenu | undefined;
+  click: () => void;
+}
+export default function MobileNav({ catalogs, click }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,7 +68,6 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           <MobileCatalog
             catalogs={catalogs}
             closeMain={open}
-            loading={loading}
           />
         </div>
       </MobileModal>

@@ -4,11 +4,11 @@ import dynamic from "next/dynamic";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
 import Header from "../Header";
-
-export default function HeaderWrap() {
   const MobileNav = dynamic(
-    () => import("@/components/MobileMenu/MobileNav/MobileNav")
+    () => import("@/components/MobileMenu/MobileNav/MobileNav"),
+    { ssr: false }
   );
+export default function HeaderWrap() {
 
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
@@ -23,20 +23,16 @@ export default function HeaderWrap() {
         setIsCatalogFetched(true);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  try {
-    return (
-      <>
-        <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
-        <MobileNav catalogs={catalog} click={fetchCatalogs} loading={loading} />
-      </>
-    );
-  } catch (error) {
-    console.log(`Error in HeaderWrap: ${error}`);
-  }
+  return (
+    <>
+      <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
+      <MobileNav catalogs={catalog} click={fetchCatalogs} />
+    </>
+  );
 }
