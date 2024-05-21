@@ -81,7 +81,6 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
-                onClick={() => click()}
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,
                 })}

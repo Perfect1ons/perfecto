@@ -15,7 +15,6 @@ interface IAboutCompanyProps {
 
 const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
   const [isClient, setIsClient] = useState(false);
-
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -75,7 +74,7 @@ const FooterPage = ({ data, links, breadcrumb }: IAboutCompanyProps) => {
           Главная
         </Link>
         <Link
-          href={"/news"}
+          href={`/page/${breadcrumb}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
           {breadcrumbNames.join(", ")}

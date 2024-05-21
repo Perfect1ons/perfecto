@@ -23,8 +23,13 @@ import {
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
-import { ICatalogProps } from "@/components/Header/Header";
-import Loader from "@/components/UI/Loader/Loader";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+
+export interface ICatalogProps {
+  catalogs: ICatalogMenu | undefined;
+  click: () => void;
+  loading: boolean;
+}
 
 export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
   // задается state для открытия и закрытия
@@ -33,6 +38,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
     setIsOpen(!isOpen);
+    click();
   };
 
   // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей

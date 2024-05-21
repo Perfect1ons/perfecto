@@ -12,6 +12,7 @@ import {
 } from "../../../../public/Icons/Icons";
 import Link from "next/link";
 import Loader from "@/components/UI/Loader/Loader";
+import clsx from "clsx";
 
 interface IProps {
   catalog: ICatalogMenu | undefined;
@@ -60,7 +61,17 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
   return (
     <>
       {loading ? (
-        <Loader />
+        <div className={styles.catalogs}>
+          <div className={styles.catalogs__3}>
+            {Array.from({ length: 15 }).map((_, index) => (
+              <div
+                className={styles.catalogLinkContainer_skeleton}
+                key={index}
+              ></div>
+            ))}
+          </div>
+          <div className={styles.catalogs__9_skeleton}></div>
+        </div>
       ) : (
         <div className={styles.catalogs}>
           <div className={styles.catalogs__3}>
@@ -100,7 +111,7 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
                     key={item.id}
                     className={styles.subMenu}
                     style={{
-                      display: activeCategoryId === item.id ? "flex" : "none", // Показывать подменю только для активной категории
+                      display: activeCategoryId === item.id ? "flex" : "none",
                     }}
                   >
                     <Link
@@ -114,7 +125,7 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
                       {[...Array(3)].map((_, index) => {
                         const itemsPerDiv = Math.ceil(
                           (item?.child_level2?.length || 0) / 3
-                        ); // Определяем количество элементов на каждый div
+                        );
                         const startSlice = index * itemsPerDiv;
                         const endSlice = (index + 1) * itemsPerDiv;
                         const slicedItems =

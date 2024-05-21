@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
-
 import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import clsx from "clsx";
@@ -17,25 +16,18 @@ export default function MobileCatalog({
   closeMain,
   loading,
 }: MobCatalogProps) {
-  // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
-
-  const openOrClose = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // задает, какая подкатегория будет отображаться
-  const [activeCategoryId, setActiveCategoryId] = useState<number | null>();
-
-  const openAndSetSubCategory = (categoryId: number) => {
-    setActiveCategoryId(categoryId);
-    setIsOpen(!isOpen);
-  };
-
-  // передает название выбранного каталога
+  const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<
     string | null
   >(null);
+
+  const openOrClose = () => setIsOpen(!isOpen);
+
+  const openAndSetSubCategory = (categoryId: number) => {
+    setActiveCategoryId(categoryId);
+    setIsOpen(true);
+  };
 
   return (
     <section className={styles.catalog_main}>
@@ -51,11 +43,10 @@ export default function MobileCatalog({
         className={isOpen === false ? styles.grid_active : styles.grid_inactive}
       >
         {loading
-          ? Array.from({ length: 6 }).map((_, index) => (
-              <div
-                className={clsx(styles.grid_item_wrap, "skeleton")}
-                key={index}
-              ></div>
+          ? Array.from({ length: 9 }).map((_, index) => (
+              <div className={styles.grid_item_wrap} key={index}>
+                <div className={styles.grid_item_skeleton}></div>
+              </div>
             ))
           : catalogs &&
             catalogs.map((item) => (
