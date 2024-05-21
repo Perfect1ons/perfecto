@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
-import Header from "../Header";
 import dynamic from "next/dynamic";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
-// import { getCatalogsMenu } from "@/api/clientRequest";
-
-export default function HeaderWrap() {
+import Header from "../Header";
   const MobileNav = dynamic(
-    () => import("@/components/MobileMenu/MobileNav/MobileNav")
+    () => import("@/components/MobileMenu/MobileNav/MobileNav"),
+    { ssr: false }
   );
+export default function HeaderWrap() {
 
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
@@ -26,21 +25,17 @@ export default function HeaderWrap() {
         // console.log("second setCatalog");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
       // console.log("third setLoad");
     }
   };
 
-  try {
-    return (
-      <>
-        <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
-        <MobileNav catalogs={catalog} click={fetchCatalogs} loading={loading} />
-      </>
-    );
-  } catch (error) {
-    console.log(`Error in HeaderWrap: ${error}`);
-  }
+  return (
+    <>
+      <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
+      <MobileNav catalogs={catalog} click={fetchCatalogs} />
+    </>
+  );
 }

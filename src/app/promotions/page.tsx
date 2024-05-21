@@ -15,17 +15,8 @@ export const metadata: Metadata = {
 };
 
 
-async function delayedRequest(
-  requestFunction: () => Promise<IPromotion[]>
-): Promise<IPromotion[]> {
-  return new Promise(async (resolve) => {
-    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
-    resolve(await requestFunction());
-  });
-}
-
 export default async function promotions() {
-  const delayedPromotionData = await delayedRequest(getPromotion);
+  const delayedPromotionData = await getPromotion();
   return (
     <Suspense>
       <AllPromo allpromo={delayedPromotionData} />

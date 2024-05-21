@@ -21,11 +21,14 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
 
   const router = useRouter();
 
-  const imageUrl =
+const imageUrl =
     goods.photos.length > 0
-      ? `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}`
+      ? goods.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${goods.photos[0].url_part}280.jpg`
+        : goods.photos[0].url_part.startsWith("https://")
+        ? goods.photos[0].url_part
+        : `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}`
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 

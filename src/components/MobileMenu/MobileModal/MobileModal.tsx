@@ -1,6 +1,5 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
-import React, { useEffect } from "react";
 
 interface MobModalProps {
   isVisible: boolean;

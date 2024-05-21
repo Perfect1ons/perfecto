@@ -21,16 +21,6 @@ export async function generateMetadata({ params: { path } }: any) {
   };
 }
 
-
-async function delayedRequest(
-  requestFunction: () => Promise<ISeek>
-): Promise<ISeek> {
-  return new Promise(async (resolve) => {
-    await new Promise((innerResolve) => setTimeout(innerResolve, 100));
-    resolve(await requestFunction());
-  });
-}
-
 export default async function PathPage({ params: { path } }: any) {
   
     const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
@@ -43,9 +33,9 @@ export default async function PathPage({ params: { path } }: any) {
     const decodedPath = decodeURIComponent(path);
     const data = await getSearchItem(decodedPath);
       const [dataOne, dataTwo, dataThree] = await Promise.all([
-        delayedRequest(() => getSearchItem(decodedPath)),
-        delayedRequest(() => getSearchItemTwo(decodedPath)),
-        delayedRequest(() => getSearchItemThree(decodedPath)),
+        getSearchItem(decodedPath),
+        getSearchItemTwo(decodedPath),
+        getSearchItemThree(decodedPath),
       ]);
 
       const result = [dataOne.model.items, dataTwo.model.items, dataThree.model.items].flat();

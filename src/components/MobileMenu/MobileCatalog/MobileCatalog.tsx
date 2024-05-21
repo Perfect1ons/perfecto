@@ -1,42 +1,31 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
-// import { useRouter } from "next/router";
-
 import styles from "./style.module.scss";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import clsx from "clsx";
 
 interface MobCatalogProps {
-  catalog: ICatalogMenu | undefined;
-  loading: boolean;
+  catalogs: ICatalogMenu | undefined;
   closeMain: () => void;
 }
 
 export default function MobileCatalog({
-  catalog,
+  catalogs,
   closeMain,
-  loading,
 }: MobCatalogProps) {
-  // для открытия и закрытия дочерних категорий
   const [isOpen, setIsOpen] = useState(false);
-
-  const openOrClose = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // задает, какая подкатегория будет отображаться
-  const [activeCategoryId, setActiveCategoryId] = useState<number | null>();
-
-  const openAndSetSubCategory = (categoryId: number) => {
-    setActiveCategoryId(categoryId);
-    setIsOpen(!isOpen);
-  };
-
-  // передает название выбранного каталога
+  const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState<
     string | null
   >(null);
+
+  const openOrClose = () => setIsOpen(!isOpen);
+
+  const openAndSetSubCategory = (categoryId: number) => {
+    setActiveCategoryId(categoryId);
+    setIsOpen(true);
+  };
 
   return (
     <section className={styles.catalog_main}>
@@ -44,7 +33,7 @@ export default function MobileCatalog({
         open={isOpen}
         close={openOrClose}
         closeMain={closeMain}
-        catalog={catalog}
+        catalogs={catalogs}
         activeCategoryId={activeCategoryId}
         selectedCategoryName={selectedCategoryName}
       />
