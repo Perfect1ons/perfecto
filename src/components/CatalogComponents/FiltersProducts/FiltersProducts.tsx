@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   checkIcon,
   chevronDownIcon,
