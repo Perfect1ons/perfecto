@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { IFiltersBrand, N11 } from "@/types/filtersBrand";
@@ -8,7 +8,6 @@ import {
   checkIcon,
   chevronDownIcon,
 } from "../../../../public/Icons/Icons";
-import { it } from "node:test";
 
 interface IProps {
   countSelected: (...selectedArrays: any[]) => number;
