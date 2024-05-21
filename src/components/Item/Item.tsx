@@ -300,7 +300,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       </div>
       <div className={styles.wrap_desc_container}>
         <div className={styles.productPageDesc}>
-          <h2 className="sections__title bottom">Описание</h2>
+          <h2 className="sections__title">Описание</h2>
           <div
             className={styles.product_desc}
             dangerouslySetInnerHTML={{
