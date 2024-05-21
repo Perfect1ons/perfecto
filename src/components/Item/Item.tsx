@@ -22,6 +22,7 @@ import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import DOMPurify from "isomorphic-dompurify";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -298,9 +299,14 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
       </div>
       <div className={styles.wrap_desc_container}>
-        <div className="productPageDesc">
-          <h2 className="sections__title">Описание</h2>
-          <div className={styles.product_desc}>{data.description}</div>
+        <div className={styles.productPageDesc}>
+          <h2 className="sections__title bottom">Описание</h2>
+          <div
+            className={styles.product_desc}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.description),
+            }}
+          />
           <div className={styles.product_desc_short_desc}>
             {data.short_description.length !== 0 && (
               <p className={styles.product_desc_shortdesc__text}>
@@ -328,9 +334,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         <div className={styles.wrap_specification}>
           <div className="characteristics">
             <h2 className="sections__title">Характеристики</h2>
-            <div className={styles.wrap_characteristics}>
-              {data.specification}
-            </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(data.specification),
+              }}
+              className={styles.wrap_characteristics}
+            />
           </div>
         </div>
       )}
