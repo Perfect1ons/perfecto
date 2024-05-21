@@ -1,7 +1,6 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
 .wrap {
-  margin-top: 100px;
   &_line {
     background-color: var(--secondary-white);
     height: 2px;
@@ -72,6 +71,7 @@
   }
 }
 .product {
+  margin-top: 30px;
   @include mixin.flex(null, center, null, 40px);
   @media screen and (max-width: 1200px) {
     justify-content: space-between;
@@ -303,8 +303,8 @@
       color: var(--violet);
     }
   }
-  &_desc{
-    p{
+  &_desc {
+    p {
       margin-bottom: 1rem;
     }
   }
@@ -355,6 +355,6 @@
   }
 }
 
-.productPageDesc{
-  @include mixin.flex(flex-start,flex-start,column,15px);
+.productPageDesc {
+  @include mixin.flex(flex-start, flex-start, column, 15px);
 }
