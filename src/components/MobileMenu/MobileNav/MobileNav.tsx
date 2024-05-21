@@ -24,11 +24,14 @@ import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
   click: () => void;
+  loading: boolean;
 }
-export default function MobileNav({ catalogs, click }: ICatalogProps) {
+
+export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,7 +39,6 @@ export default function MobileNav({ catalogs, click }: ICatalogProps) {
   const open = () => {
     setIsOpen(!isOpen);
     click();
-    console.log("openWithClick");
   };
 
   // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей
@@ -67,7 +69,11 @@ export default function MobileNav({ catalogs, click }: ICatalogProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog catalogs={catalogs} closeMain={open} />
+          <MobileCatalog
+            catalogs={catalogs}
+            closeMain={open}
+            loading={loading}
+          />
         </div>
       </MobileModal>
 

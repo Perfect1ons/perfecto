@@ -1,5 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
-
+@use "../../../assets/scss/common/skeleton" as skeleton;
 .catalog_main {
   position: relative;
 }
@@ -29,6 +29,9 @@
   @media screen and (max-width: 470px) {
     min-height: 130px;
     padding: 10px 5px;
+  }
+  &_skeleton {
+    @include skeleton.skeleton(auto, 150px, null);
   }
 }
 

@@ -8,11 +8,13 @@ import clsx from "clsx";
 interface MobCatalogProps {
   catalogs: ICatalogMenu | undefined;
   closeMain: () => void;
+  loading: boolean;
 }
 
 export default function MobileCatalog({
   catalogs,
   closeMain,
+  loading,
 }: MobCatalogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
@@ -43,11 +45,11 @@ export default function MobileCatalog({
         {loading
           ? Array.from({ length: 9 }).map((_, index) => (
               <div className={styles.grid_item_wrap} key={index}>
-                <div className={clsx(styles.grid_item, "skeleton")}></div>
+                <div className={styles.grid_item_skeleton}></div>
               </div>
             ))
-          : catalog &&
-            catalog.map((item) => (
+          : catalogs &&
+            catalogs.map((item) => (
               <div className={styles.grid_item_wrap} key={item.id}>
                 <div
                   className={styles.grid_item}
