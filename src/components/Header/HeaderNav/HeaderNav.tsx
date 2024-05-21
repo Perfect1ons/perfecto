@@ -15,7 +15,7 @@ interface ILinks {
 
 const navLinks: ILinks[] = [
   {
-    href: "/favourites",
+    href: "/favorites",
     title: "Избранные",
     id: 1,
     icon: <FavoritesIcon />,

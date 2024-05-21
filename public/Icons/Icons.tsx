@@ -799,3 +799,23 @@ export const XMark = () => {
     </svg>
   );
 };
+export const Cross = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 128 128"
+      id="close"
+    >
+      <path
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="7"
+        d="M46 46L82 82M81 46L46 82"
+      ></path>
+    </svg>
+  );
+};

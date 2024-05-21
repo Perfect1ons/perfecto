@@ -1,18 +1,15 @@
-import { Metadata } from 'next';
-import React from 'react'
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title:"Избранное",
+  title: "Вход",
   description:
     "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   keywords:
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
-const page = () => {
+export default function page() {
   return (
-    <div>favorites page</div>
+    <div>auth page</div>
   )
 }
-
-export default page

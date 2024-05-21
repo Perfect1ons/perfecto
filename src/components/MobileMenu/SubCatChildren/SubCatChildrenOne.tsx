@@ -8,13 +8,13 @@ import SubCatChildrenSecond from "./SubCatChildrenSecond";
 import { useState } from "react";
 
 interface SubCatTemplateProps {
-  catalog: ICatalogMenu | undefined;
+  catalogs: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   closeMain: () => void;
 }
 
 export default function SubCatChildrenOne({
-  catalog,
+  catalogs,
   activeCategoryId,
   closeMain,
 }: SubCatTemplateProps) {
@@ -47,8 +47,8 @@ export default function SubCatChildrenOne({
       <hr className={styles.hr} />
 
       <ul className={styles.subCatalogsList}>
-        {catalog &&
-          catalog.flatMap((rootItem) => {
+        {catalogs &&
+          catalogs.flatMap((rootItem) => {
             const childLevel2 = Array.isArray(rootItem.child_level2)
               ? rootItem.child_level2
               : [];

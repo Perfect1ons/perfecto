@@ -23,15 +23,17 @@ import {
 import MobileModal from "../MobileModal/MobileModal";
 import MobileCatalog from "../MobileCatalog/MobileCatalog";
 import MobSearch from "./MobSearch";
-import { ICatalogProps } from "@/components/Header/Header";
-
-export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+export interface ICatalogProps {
+  catalogs: ICatalogMenu | undefined;
+  click: () => void;
+}
+export default function MobileNav({ catalogs, click }: ICatalogProps) {
   // задается state для открытия и закрытия
   const [isOpen, setIsOpen] = useState(false);
 
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
-    click();
     setIsOpen(!isOpen);
   };
 
@@ -70,11 +72,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
       <MobileModal isVisible={isOpen} close={open}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
-          <MobileCatalog
-            catalog={catalogs}
-            closeMain={open}
-            loading={loading}
-          />
+          <MobileCatalog catalogs={catalogs} closeMain={open} />
         </div>
       </MobileModal>
 
@@ -99,8 +97,12 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           </Link>
 
           <li className={styles.option} onClick={open}>
-            {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
-            <span>Каталог</span>
+            <div className={styles.option} onClick={() => click()}>
+              <span className={styles.option__icon}>
+                {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+              </span>
+              <span>Каталог</span>
+            </div>
           </li>
 
           <Link href="/favorites" className={styles.option}>

@@ -39,6 +39,7 @@
 
 .option {
   @include mixin.flex(center, space-between, column, null);
+  min-height: 18px;
 
   user-select: none;
   -webkit-tap-highlight-color: var(--tap-select);

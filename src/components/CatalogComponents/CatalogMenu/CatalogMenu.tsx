@@ -1,7 +1,7 @@
 "use client";
 import { ICatalogMenu, Root2 } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import cn from "clsx";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -78,6 +78,7 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
                     <Link
                       href={`/catalog/${item.full_slug}`}
                       className={styles.catalogs__h2}
+                      onMouseEnter={() => handleMouseEnter(item.id)}
                       onClick={() => handleClick(item.full_slug)}
                       key={item.name}
                     >

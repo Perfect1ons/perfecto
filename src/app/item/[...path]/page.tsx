@@ -1,5 +1,6 @@
 import { getCardProduct, getSimilarProduct } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
+import { Metadata } from "next";
 
 interface Params {
   params: { path: string };
