@@ -140,6 +140,17 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
 
   return (
     <section className={cn(styles.wrap, "container")}>
+      <div className="all__directions">
+        <Link href={"/"} className="all__directions_link">
+          Главная
+        </Link>
+        <Link
+          href={`/item/${data.art}/${data.url}`}
+          className={cn("all__directions_link", "all__directions_linkActive")}
+        >
+          {data.naim}
+        </Link>
+      </div>
       <div className={styles.product}>
         <div className={styles.product_cards}>
           {data.photos.map((photo) => (
