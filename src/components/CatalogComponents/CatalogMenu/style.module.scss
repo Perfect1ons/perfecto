@@ -1,4 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
+@use "../../../assets/scss/common/skeleton" as skeleton;
 
 .catalogs {
   @include mixin.container(1440px);
@@ -15,6 +16,10 @@
     padding: 10px;
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
+    &_skeleton {
+      margin-top: 15px;
+      @include skeleton.skeleton(100%, 100%, null);
+    }
   }
 }
 .catalogs__9h3 {
@@ -43,6 +48,9 @@
   }
   &.catalogActive {
     background: var(--gray-white);
+  }
+  &_skeleton {
+    @include skeleton.skeleton(auto, 20px, 10px);
   }
 }
 .catalogs__h2 {

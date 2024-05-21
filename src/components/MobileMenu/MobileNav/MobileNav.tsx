@@ -31,16 +31,15 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
 
   // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
   const open = () => {
-    click();
     setIsOpen(!isOpen);
+    console.log("open");
   };
 
-  useEffect(() => {
-    if (isOpen) {
-      click();
-      console.log("useEffect click");
-    }
-  }, [isOpen, click]);
+  const openWithClick = () => {
+    setIsOpen(!isOpen);
+    click();
+    console.log("openWithClick");
+  };
 
   // для того, чтобы менять иконки и стили Link-ов когда их pathname совпадает c текущей страницей
   const pathname = usePathname();
@@ -98,7 +97,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <li className={styles.option} onClick={open}>
+          <li className={styles.option} onClick={openWithClick}>
             {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
             <span>Каталог</span>
           </li>

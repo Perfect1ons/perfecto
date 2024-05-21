@@ -18,18 +18,18 @@ export default function HeaderWrap() {
   const fetchCatalogs = async () => {
     try {
       setLoading(true);
-      console.log("First SetLoading");
+      // console.log("First SetLoading");
       if (!isCatalogFetched) {
         const catalogs = await getCatalogsMenu();
         setCatalog(catalogs);
         setIsCatalogFetched(true);
-        console.log("second setCatalog");
+        // console.log("second setCatalog");
       }
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
-      console.log("second setLoad");
+      // console.log("third setLoad");
     }
   };
 

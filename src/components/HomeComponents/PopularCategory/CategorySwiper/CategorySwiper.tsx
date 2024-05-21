@@ -19,31 +19,29 @@ import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
 
 export default function CategorySwiper({ category }: ICategory) {
-    const router = useRouter();
-    const [loading, setLoading] = useState(true);
-    const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(
-      null
-    );
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
 
-    useEffect(() => {
-      const cachedCategory = localStorage.getItem("cachedCategory");
+  useEffect(() => {
+    const cachedCategory = localStorage.getItem("cachedCategory");
 
-      if (cachedCategory) {
-        setCachedData(JSON.parse(cachedCategory));
-        setLoading(false);
-      } else {
-        localStorage.setItem("cachedCategory", JSON.stringify(category));
-        setCachedData(category);
-        setLoading(false);
-      }
-    }, [category]);
+    if (cachedCategory) {
+      setCachedData(JSON.parse(cachedCategory));
+      setLoading(false);
+    } else {
+      localStorage.setItem("cachedCategory", JSON.stringify(category));
+      setCachedData(category);
+      setLoading(false);
+    }
+  }, [category]);
 
-    useEffect(() => {
-      // Сохраняем категории в локальное хранилище при каждом изменении
-      if (cachedData !== null) {
-        localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
-      }
-    }, [cachedData]);
+  useEffect(() => {
+    // Сохраняем категории в локальное хранилище при каждом изменении
+    if (cachedData !== null) {
+      localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
+    }
+  }, [cachedData]);
 
   return (
     <div className={styles.category__swiper}>
@@ -133,4 +131,3 @@ export default function CategorySwiper({ category }: ICategory) {
     </div>
   );
 }
-

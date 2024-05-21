@@ -1,7 +1,6 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 interface MobModalProps {
   isVisible: boolean;

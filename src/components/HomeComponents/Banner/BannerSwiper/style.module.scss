@@ -1,3 +1,5 @@
+@use "../../../../assets/scss/common/skeleton" as skeleton;
+
 .mySwiper {
   &:hover {
     .team__swiper_buttons {
@@ -34,6 +36,26 @@
     @media screen and (max-width: 360px) {
       min-height: 100px;
       width: 100%;
+    }
+    &_skeleton {
+      max-height: 350px;
+      @include skeleton.skeleton(auto, 20em, null);
+      @media screen and (max-width: 992px) {
+        height: 15em;
+        padding: 0 30px;
+      }
+      @media screen and (max-width: 640px) {
+        max-height: 180px;
+      }
+      @media screen and (max-width: 480px) {
+        max-height: 140px;
+        padding: 0;
+        margin-bottom: 0;
+      }
+      @media screen and (max-width: 360px) {
+        max-height: 100px;
+        width: 100%;
+      }
     }
   }
 }
