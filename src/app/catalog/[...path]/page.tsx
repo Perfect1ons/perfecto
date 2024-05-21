@@ -4,6 +4,24 @@ interface Params {
   params: { path: string | string[] };
 }
 
+export async function generateMetadata({ params: { path } }: Params) {
+  let fullPath: string;
+  if (Array.isArray(path)) {
+    fullPath = path.join("/");
+  } else {
+    fullPath = path;
+  }
+  const data = await getCatalogsProducts(fullPath);
+  const title = data.category.name;
+  return {
+    title: title,
+    description:
+      "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
+    keywords:
+      "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
+  };
+}
+
 export default async function page({ params: { path } }: Params) {
   // return <h4>Test</h4>;
   try {
