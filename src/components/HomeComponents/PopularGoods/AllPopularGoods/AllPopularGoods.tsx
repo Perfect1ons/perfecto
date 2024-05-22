@@ -16,23 +16,22 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const loadedIds = useRef<number[]>(goods.map((item) => item.id));
+  const loadedIds = useRef<Set<number>>(new Set(goods.map((item) => item.id)));
 
   const fetchData = async (pageNum: number) => {
     if (isLoading) return;
     setIsLoading(true);
     try {
       const response: IPopularGood[] = await getPopularGoodsByClient(pageNum);
-      const newIds = response.map((item) => item.id);
+      const newGoods = response.filter(
+        (item) => !loadedIds.current.has(item.id)
+      );
 
-      if (
-        newIds.length === 0 ||
-        newIds.every((id) => loadedIds.current.includes(id))
-      ) {
+      if (newGoods.length === 0) {
         setAllDataLoaded(true);
       } else {
-        loadedIds.current = [...loadedIds.current, ...newIds];
-        setData((prevData) => [...prevData, ...response]);
+        newGoods.forEach((item) => loadedIds.current.add(item.id));
+        setData((prevData) => [...prevData, ...newGoods]);
         setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
@@ -84,7 +83,7 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
       <div className="cardContainer">
         <div className="main__news_cards">
           {data.map((item, index) => (
-            <PopularGoodsCards goods={item} key={index} />
+            <PopularGoodsCards goods={item} key={item.id} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">

@@ -16,7 +16,9 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
   const [isLoading, setIsLoading] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const loadedIds = useRef<number[]>(boughts.map((item) => item.id));
+  const loadedIds = useRef<Set<number>>(
+    new Set(boughts.map((item) => item.id))
+  );
 
   const fetchData = async (pageNum: number) => {
     if (isLoading) return;
@@ -24,16 +26,15 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
     try {
       const response: IBoughts = await getBoughtsByClient(pageNum);
       console.log(`Fetching data for page ${pageNum}:`, response); // Debug log
-      const newIds = response.lastz.map((item) => item.id);
+      const newBoughts = response.lastz.filter(
+        (item) => !loadedIds.current.has(item.id)
+      );
 
-      if (
-        newIds.length === 0 ||
-        newIds.every((id) => loadedIds.current.includes(id))
-      ) {
+      if (newBoughts.length === 0) {
         setAllDataLoaded(true);
       } else {
-        loadedIds.current = [...loadedIds.current, ...newIds];
-        setData((prevData) => [...prevData, ...response.lastz]);
+        newBoughts.forEach((item) => loadedIds.current.add(item.id));
+        setData((prevData) => [...prevData, ...newBoughts]);
         setPage((prevPage) => prevPage + 1);
       }
     } catch (error) {
@@ -80,8 +81,8 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">
-          {data.map((item, index) => (
-            <TodayBoughtsCards goods={item} key={index} />
+          {data.map((item) => (
+            <TodayBoughtsCards goods={item} key={item.id} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">
