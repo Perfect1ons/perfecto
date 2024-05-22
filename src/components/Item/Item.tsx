@@ -24,6 +24,8 @@ import "swiper/css/navigation";
 import Link from "next/link";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
+import ReviewModal from "../UI/ReviewModal/ReviewModal";
+import Backdrop from "../UI/ModalHeaders/Backdrop/Backdrop";
 
 interface IItemPageProps {
   data: Items;
@@ -31,6 +33,8 @@ interface IItemPageProps {
 }
 
 const ItemPage = ({ data, similar }: IItemPageProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -57,6 +61,15 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     });
   };
 
+  const toggleScrollLock = () => {
+    const body = document.querySelector("body");
+    body?.classList.toggle(styles.no_scroll);
+  };
+
+  const openModal = () => {
+    setIsOpen(!isOpen);
+    toggleScrollLock();
+  };
   const handleCopyLink = () => {
     navigator.clipboard
       .writeText(window.location.href)
@@ -73,16 +86,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
-  useEffect(() => {
-    const ratings = similar.map((item) => Math.floor(item.ocenka));
-    setRating(rating);
-    similar.forEach((item) => {
-      const favoriteStatus = localStorage.getItem(item.id.toString());
-      setIsFavorite(favoriteStatus === "true");
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [similar]);
-
   const getImageUrl = (photo: any) => {
     if (!photo || !photo.url_part) {
       // Если photo или url_part не определены, возвращаем URL placeholder
@@ -94,7 +97,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     } else if (photo.url_part.startsWith("https://")) {
       return photo.url_part;
     } else {
-      return `${url}nal/img/${data.id_post}/l_${photo.url_part}`;
+      return `${url}nal/img/${data.id_post}/b_${data.img}`;
     }
   };
 
@@ -137,6 +140,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
 
   return (
     <section className={cn(styles.wrap, "container")}>
+      {isOpen && (
+        <div className={styles.wrap_modal}>
+          <ReviewModal func={openModal} />
+          <div onClick={openModal} className={styles.wrap_backdrop}></div>
+        </div>
+      )}
       <div className="all__directions">
         <Link href={"/"} className="all__directions_link">
           Главная
@@ -150,8 +159,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       </div>
       <div className={styles.product}>
         <div className={styles.product_cards}>
-          {data.photos.map((photo) => (
-            <div className={styles.product_cards__item} key={data.id}>
+          {data.photos.map((photo, index) => (
+            <div className={styles.product_cards__item} key={index}>
               <Image
                 className={styles.product_preview}
                 src={getImageUrl(photo)}
@@ -159,6 +168,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 height={48}
                 alt={photo.url_part}
                 loading="lazy"
+                objectFit="cover"
               ></Image>
             </div>
           ))}
@@ -167,7 +177,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <Image
             src={getImageUrl(data.photos[0])}
             width={500}
-            height={500}
+            height={300}
             alt={data.img}
             loading="lazy"
             className={styles.product_img}
@@ -305,9 +315,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           />
           <div className={styles.product_desc_short_desc}>
             {data.short_description && (
-              <p className={styles.product_desc_shortdesc__text}>
-                {data.short_description}
-              </p>
+              <div
+            className={styles.product_desc_shortdesc__text}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.short_description),
+            }}
+          />
             )}
           </div>
           <div className={styles.product_desc__client_desc}>
@@ -347,7 +360,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </div>
         </div>
       )}
-      <ProductReview data={data} />
+      <ProductReview data={data} func={openModal} />
       <SimilarProducts similar={similar} />
     </section>
   );

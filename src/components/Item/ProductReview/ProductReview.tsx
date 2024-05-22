@@ -13,9 +13,10 @@ import { useEffect, useState } from "react";
 
 interface IProductReviewProps {
   data: Items;
+  func: () => void;
 }
 
-const ProductReview = ({ data }: IProductReviewProps) => {
+const ProductReview = ({ data, func }: IProductReviewProps) => {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -28,18 +29,6 @@ const ProductReview = ({ data }: IProductReviewProps) => {
       setIsFavorite(favoriteStatus === "true");
     }
   }, [data.id]);
-
-  const handleFavoriteClick = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      const isLocalStorageAvailable =
-        typeof window !== "undefined" && window.localStorage;
-      if (isLocalStorageAvailable) {
-        localStorage.setItem(data.id.toString(), newIsFavorite.toString());
-      }
-      return newIsFavorite;
-    });
-  };
 
   useEffect(() => {
     setRating(Math.floor(data.ocenka));
@@ -64,7 +53,9 @@ const ProductReview = ({ data }: IProductReviewProps) => {
             Будет здорово, если вы напишете свои впечатления о товаре. Это
             поможет другим покупателям.
           </p>
-          <button className="default__buttons_showMore">Написать отзыв</button>
+          <button onClick={func} className="default__buttons_showMore">
+            Написать отзыв
+          </button>
         </div>
         <div className={styles.wrap_review_swiper}>
           {data.otz.length !== 0 && (
@@ -104,10 +95,10 @@ const ProductReview = ({ data }: IProductReviewProps) => {
               modules={[Navigation]}
               className="mySwiper"
             >
-              {data.otz.map((item) => {
+              {data.otz.map((item, index) => {
                 return (
                   <SwiperSlide
-                    key={item}
+                    key={index}
                     className={styles.wrap_review_otz_item}
                   >
                     <div className={styles.wrap_review_otz_item_info}>
