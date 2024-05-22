@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import MobileSubCatalog from "../MobileSubCatalog/MobileSubCatalog";
 import styles from "./style.module.scss";
-import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-import clsx from "clsx";
+import { ChildCatLevel3, ICatalogMenu } from "@/types/Catalog/catalogMenu";
 
 interface MobCatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -21,12 +20,25 @@ export default function MobileCatalog({
   const [selectedCategoryName, setSelectedCategoryName] = useState<
     string | null
   >(null);
+  const [subCatChildData, setSubCatChildData] = useState<ChildCatLevel3[]>([]); // Состояние для дочерних категорий
+  const [isSubCatChild2Open, setIsSubCatChild2Open] = useState(false); // Состояние для второго подкаталога
 
   const openOrClose = () => setIsOpen(!isOpen);
 
   const openAndSetSubCategory = (categoryId: number) => {
     setActiveCategoryId(categoryId);
     setIsOpen(true);
+  };
+
+  const handleSubCatChildrenSecondOpen = (
+    childCategories: ChildCatLevel3[]
+  ) => {
+    setSubCatChildData(childCategories);
+    setIsSubCatChild2Open(true); // Открыть второй подкаталог
+  };
+
+  const closeSubCatChildrenSecond = () => {
+    setIsSubCatChild2Open(false); // Закрыть второй подкаталог
   };
 
   return (
@@ -38,6 +50,10 @@ export default function MobileCatalog({
         catalogs={catalogs}
         activeCategoryId={activeCategoryId}
         selectedCategoryName={selectedCategoryName}
+        handleSubCatChildrenSecondOpen={handleSubCatChildrenSecondOpen}
+        closeSubCatChildrenSecond={closeSubCatChildrenSecond}
+        isSubCatChild2Open={isSubCatChild2Open} // Передаем состояние второго подкаталога
+        subCatChildData={subCatChildData} // Передаем данные второго подкаталога
       />
       <div
         className={isOpen === false ? styles.grid_active : styles.grid_inactive}
