@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   checkIcon,
   chevronDownIcon,
@@ -167,9 +167,9 @@ const FiltersProducts = ({
             className={styles.buttonBrand}
           >
             Сроки доставки
-            {countSelected(selectedBrands.day) > 0 && (
+            {countSelected(selectedBrands.dost) > 0 && (
               <span className={styles.selectedCount}>
-                {countSelected(selectedBrands.day)}
+                {countSelected(selectedBrands.dost)}
               </span>
             )}
             <span
@@ -197,15 +197,15 @@ const FiltersProducts = ({
                   <ul
                     key={item}
                     className={styles.showFiltersUlContainer}
-                    onClick={() => onBrandToggle("day", item)}
+                    onClick={() => onBrandToggle("dost", item)}
                   >
                     <span
                       className={cn(styles.showFiltersUlContainer__check, {
                         [styles.showFiltersUlContainer__checkActive]:
-                          selectedBrands.day?.[item],
+                          selectedBrands.dost?.[item],
                       })}
                     >
-                      {selectedBrands.day?.[item] && checkIcon()}
+                      {selectedBrands.dost?.[item] && checkIcon()}
                     </span>
                     <li className={styles.showFiltersUlContainer__li}>
                       {item === "1"

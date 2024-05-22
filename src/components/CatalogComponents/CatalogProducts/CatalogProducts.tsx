@@ -8,11 +8,13 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
 import { Cross } from "../../../../public/Icons/Icons";
+import { getProductsSortsBrand } from "@/api/clientRequest"; // Assuming the API function is placed in @/api/catalog
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
 }
+
 type BrandSelection = {
   [key: string]: {
     [key: string]: boolean;
@@ -23,23 +25,51 @@ export default function CatalogProducts({
   catalog,
   filter,
 }: ICatalogProductsProps) {
-  const initialItems = catalog.category.tov; // Сохраняем исходные данные
+  const initialItems = catalog.category.tov || []; // Ensure initialItems is always an array
   const [items, setItems] = useState<Tov[]>(initialItems);
   const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
-
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-  const toggleBrandSelection = (mainKey: string, subKey: string) => {
-    setSelectedBrands((prevState) => ({
-      ...prevState,
-      [mainKey]: {
-        ...prevState[mainKey],
-        [subKey]: !prevState[mainKey]?.[subKey],
-      },
-    }));
+
+  const fetchProductsByBrand = async (brandPath: string) => {
+    try {
+      const response = await getProductsSortsBrand(
+        catalog.category.id,
+        brandPath
+      );
+      setItems(response.category.tov || []);
+    } catch (error) {
+      console.error("Failed to fetch products by brand", error);
+    }
   };
+
+  const toggleBrandSelection = (mainKey: string, subKey: string) => {
+    setSelectedBrands((prevState) => {
+      const updatedSelection = {
+        ...prevState,
+        [mainKey]: {
+          ...prevState[mainKey],
+          [subKey]: !prevState[mainKey]?.[subKey],
+        },
+      };
+      const selectedBrandsPaths = Object.entries(updatedSelection)
+        .flatMap(([main, subs]) =>
+          Object.entries(subs)
+            .filter(([sub, isSelected]) => isSelected)
+            .map(([sub]) => sub)
+        )
+        .join(",");
+      if (selectedBrandsPaths) {
+        fetchProductsByBrand(selectedBrandsPaths);
+      } else {
+        setItems(initialItems); // Reset to initial items if no brand is selected
+      }
+      return updatedSelection;
+    });
+  };
+
   const resetSelection = (mainKey: string) => {
     setSelectedBrands((prevState) => {
       const updatedSelection = { ...prevState };
@@ -48,12 +78,16 @@ export default function CatalogProducts({
           updatedSelection[mainKey][subKey] = false;
         });
       }
+      fetchProductsByBrand(""); // Fetch all products when a brand is reset
       return updatedSelection;
     });
   };
+
   const resetSelectionAll = () => {
     setSelectedBrands({});
+    setItems(initialItems); // Reset to initial items when all selections are reset
   };
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -73,11 +107,11 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
-    const sortedItems = [...initialItems]; // Используем исходные данные для сортировки
+    const sortedItems = [...items]; // Use current items for sorting
     switch (order) {
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
@@ -189,7 +223,10 @@ export default function CatalogProducts({
                   className={styles.choiseList__li}
                 >
                   {subKey}
-                  <span className={styles.choiseList__li__button}>
+                  <span
+                    className={styles.choiseList__li__button}
+                    onClick={() => toggleBrandSelection(mainKey, subKey)}
+                  >
                     <Cross />
                   </span>
                 </li>
@@ -203,7 +240,7 @@ export default function CatalogProducts({
         )}
       </ul>
       {/* Проверяем, есть ли товары в каталоге */}
-      {items.length === 0 ? (
+      {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
           <Image src="/img/undefinedPage.png" alt="" width={180} height={180} />
           <p className={styles.containerUndefined__parap}>

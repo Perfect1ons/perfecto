@@ -2,13 +2,12 @@
 .sidebar {
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-  margin-left: 20px;
   user-select: none;
-  margin-top: 20px;
-  min-width: 300px;
-  padding: 30px;
+  min-width: 250px;
+  padding: 10px;
   outline: 1px solid var(--super-light-white);
-  border-radius: 10px;
+  border-radius: 5px;
+  height: 100%;
   @include mixin.flex(null, null, column, 25px);
   @media screen and (max-width: 1200px) {
     display: none; 
@@ -23,6 +22,8 @@
 }
 .sidebarItemInfoTitle {
   @include mixin.font(16px, 700, null, var(--gray-dark));
+  padding: 0px 5px;
+
   @media screen and (max-width: 576px) {
     font-size: 0.875rem;
   }
@@ -33,7 +34,7 @@
 }
 .sidebarItemLinks {
   margin-top: 10px;
-  @include mixin.flex(null, null, column, 2px);
+  @include mixin.flex(null, null, column, 5px);
   @media screen and (max-width: 576px){
     gap: 8px;
     padding: 5px 0px;
@@ -44,6 +45,7 @@
 }
 .sidebarItemLinksLink {
   text-wrap: nowrap;
+  padding: 0px 5px;
   @include mixin.link(0.875rem, 400, var(--gray-dark));
   transition: 0.1s all;
   &:hover {
@@ -57,27 +59,14 @@
   }
 }
 .sidebarItemLinksLinkActive {
-  position: relative;
-  display: inline-block;  
+  @include mixin.link(0.875rem, 500, var(--gray-dark));
+  padding: 0px 5px;
   text-wrap: nowrap;
-  @include mixin.link(0.875rem, 600, var(--gray-dark));
+  background: var(--gray-white);
   @media screen and (max-width: 576px) {
     font-size: 0.8125rem;
   }
   @media screen and (max-width: 480px) {
     font-size: 0.625rem;
   }
-}
-.sidebarItemLinksLinkActive::after {
-  width: 100%;
-  border-radius: 2px;
-  padding: 8px 0px;
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -8px;
-  right: 0;
-  background: var(--gray-white);
-  z-index: -1; 
 }
