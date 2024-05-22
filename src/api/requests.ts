@@ -24,6 +24,7 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
+  next: { revalidate: 3600 },
 });
 
 const maxkgrev = ky.create({

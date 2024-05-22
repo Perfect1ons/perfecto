@@ -309,9 +309,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           />
           <div className={styles.product_desc_short_desc}>
             {data.short_description && (
-              <p className={styles.product_desc_shortdesc__text}>
-                {data.short_description}
-              </p>
+              <div
+            className={styles.product_desc_shortdesc__text}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.short_description),
+            }}
+          />
             )}
           </div>
           <div className={styles.product_desc__client_desc}>
