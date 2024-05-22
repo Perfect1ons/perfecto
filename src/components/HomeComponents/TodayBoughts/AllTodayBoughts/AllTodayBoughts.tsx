@@ -23,11 +23,12 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
     setIsLoading(true);
     try {
       const response: IBoughts = await getBoughtsByClient(pageNum);
+      console.log(`Fetching data for page ${pageNum}:`, response); // Debug log
       const newIds = response.lastz.map((item) => item.id);
 
       if (
         newIds.length === 0 ||
-        newIds.some((id) => loadedIds.current.includes(id))
+        newIds.every((id) => loadedIds.current.includes(id))
       ) {
         setAllDataLoaded(true);
       } else {
@@ -56,7 +57,7 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "600px",
+      rootMargin: "400px",
       threshold: 0.5,
     });
 
