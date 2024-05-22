@@ -24,7 +24,6 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  next: { revalidate: 3600 },
 });
 
 const maxkgrev = ky.create({
@@ -33,13 +32,8 @@ const maxkgrev = ky.create({
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
-  return maxkg.get(`site/popular?page=${page}`).json();
+  return maxkgrev.get(`site/popular?page=${page}`).json();
 };
-
-const maxkgz = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
-  // cache: "no-cache",
-});
 
 export const getBrandsByName = (id: number): Promise<IBrandByName> => {
   return maxkg.get(`brand/${id}`).json();
@@ -78,7 +72,7 @@ export const getProductsSortsBrand = (
 };
 //max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
 export const getBannerData = (): Promise<IBanner> => {
-  return maxkg.get("baner?pageSize=20&page=1").json();
+  return maxkgrev.get("baner?pageSize=20&page=1").json();
 };
 
 export const getPromotion = (): Promise<IPromotion[]> => {

@@ -16,6 +16,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "goods-photos.static1-sima-land.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.4glaza.ru",
+      },
     ],
   },
 };

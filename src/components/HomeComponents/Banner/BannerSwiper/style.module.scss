@@ -33,6 +33,7 @@
       max-width: 1390px;
       margin: 0 auto;
       max-height: 400px;
+      height: 100%;
       @include skeleton.skeleton(auto, 20em, null);
       @media screen and (max-width: 992px) {
         height: 15em;
