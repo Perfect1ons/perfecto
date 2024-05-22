@@ -29,3 +29,13 @@ export const getProductsSortsBrand = (
     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
     .json();
 };
+
+// export const getProductsSortsBrand = (
+//   id: number,
+//   path: string,
+//   key: string
+// ): Promise<ICatalogsProducts> => {
+//   return maxkg
+//     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[${key}]=${path}`)
+//     .json();
+// };
