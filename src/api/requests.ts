@@ -28,7 +28,7 @@ const maxkg = ky.create({
 
 const maxkgrev = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-  next: { revalidate: 3600 },
+  next: { revalidate: 1800 },
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
