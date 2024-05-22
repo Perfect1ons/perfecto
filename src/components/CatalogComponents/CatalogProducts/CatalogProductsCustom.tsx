@@ -7,7 +7,6 @@ import styles from "../FiltersProducts/style.module.scss";
 interface CustomSelectProps {
   filter: IFiltersBrand;
   value: string;
-  productId: number;
   options: {
     label: string;
     value: "default" | "cheap" | "expensive" | "rating";
@@ -23,7 +22,6 @@ interface CustomSelectProps {
   resetSelectionAll: () => void;
 }
 const CatalogProductsCustom = ({
-  productId,
   filter,
   onChange,
   options,
@@ -47,7 +45,6 @@ const CatalogProductsCustom = ({
           onChange={onChange}
           value={value}
           filter={filter}
-          productId={productId}
           options={options}
           onBrandToggle={onBrandToggle}
           selectedBrands={selectedBrands}

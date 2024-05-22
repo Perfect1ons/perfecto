@@ -21,11 +21,20 @@ export const getPopularGoodsByClient = (
 export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
+
 export const getProductsSortsBrand = (
   id: number,
   path: string
 ): Promise<ICatalogsProducts> => {
   return maxkg
     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
+    .json();
+};
+export const getProductsSortsDost = (
+  id: number,
+  path: string
+): Promise<ICatalogsProducts> => {
+  return maxkg
+    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[dost]=${path}`)
     .json();
 };

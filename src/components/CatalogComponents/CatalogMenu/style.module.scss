@@ -3,10 +3,9 @@
 
 .catalogs {
   @include mixin.container(1440px);
-  @include mixin.flex(flex-start, flex-start, null, null);
   display: grid;
   grid-template-columns: 1fr 3fr;
-  position: relative;
+  background: white;
 
   &__3 {
     padding: 15px;
@@ -21,6 +20,8 @@
       @include skeleton.skeleton(100%, 100%, null);
     }
   }
+  position: relative;
+  z-index: 100;
 }
 .catalogs__9h3 {
   text-decoration: none;
@@ -135,7 +136,6 @@
   }
 }
 .subMenu {
-  cursor: pointer;
   flex-direction: column;
   overflow: hidden;
   gap: 20px;
@@ -180,6 +180,7 @@
   justify-content: center;
   color: #737373;
 }
+
 .buttonsSpanCatalogs {
   @include mixin.flex(center, center, null, null);
 }

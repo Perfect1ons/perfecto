@@ -107,7 +107,7 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
@@ -167,7 +167,6 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <CatalogProductsCustom
-            productId={catalog.category.id}
             filter={filter}
             value={sortOrder || "default"}
             options={[
@@ -250,6 +249,11 @@ export default function CatalogProducts({
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
+      <div>
+        {items.map((item) => {
+          return <div key={item.id}>{item.naim}</div>;
+        })}
+      </div>
     </section>
   );
 }

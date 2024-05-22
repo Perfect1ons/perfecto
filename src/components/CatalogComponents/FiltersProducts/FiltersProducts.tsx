@@ -2,8 +2,9 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Cross,
   checkIcon,
   chevronDownIcon,
   filterIcon,
@@ -13,7 +14,6 @@ import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
 interface IProps {
   filter: IFiltersBrand;
-  productId: number;
   options: {
     label: string;
     value: "default" | "cheap" | "expensive" | "rating";
@@ -33,7 +33,6 @@ type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 
 const FiltersProducts = ({
   filter,
-  productId,
   options,
   value,
   onChange,
@@ -52,7 +51,30 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const dropdownElement = document.querySelector(
+        `.${styles.filtersContainer}`
+      );
+      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+        setFiltersIsShow({
+          brand: false,
+          price: false,
+          delivery: false,
+          allfilters: false,
+          default: false,
+        });
+      }
+    };
 
+    if (Object.values(filtersIsShow).some((isShow) => isShow)) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [filtersIsShow]);
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -112,6 +134,15 @@ const FiltersProducts = ({
     });
     return totalCount;
   };
+  const closeFilters = () => {
+    setFiltersIsShow({
+      brand: false,
+      price: false,
+      delivery: false,
+      allfilters: false,
+      default: false,
+    });
+  };
 
   return (
     <>
@@ -141,6 +172,9 @@ const FiltersProducts = ({
             })}
           >
             <div className={styles.showFiltersUl__div}>
+              <button className={styles.closeFilterUl} onClick={closeFilters}>
+                <Cross />
+              </button>
               {options.map((option, index) => (
                 <div
                   key={index}
@@ -187,6 +221,9 @@ const FiltersProducts = ({
             })}
           >
             <div className={styles.showFiltersUl__div}>
+              <button className={styles.closeFilterUl} onClick={closeFilters}>
+                <Cross />
+              </button>
               {/* Если брендов нет, выводим сообщение */}
               {filter.variant_day.length === 0 && <p>Нет доступных дней</p>}
               {filter.variant_day.map((item, index) => {
@@ -217,8 +254,6 @@ const FiltersProducts = ({
                         ? `${item} дней`
                         : `${item} дней`}
                     </li>
-
-                    {/* <li className={styles.showFiltersUlContainer__li}>{item}</li> */}
                   </ul>
                 );
               })}
@@ -264,6 +299,9 @@ const FiltersProducts = ({
             })}
           >
             <div className={styles.showFiltersUlContainer}>
+              <button className={styles.closeFilterUl} onClick={closeFilters}>
+                <Cross />
+              </button>
               <input
                 type="number"
                 className={styles.inputPrice}
@@ -309,6 +347,9 @@ const FiltersProducts = ({
             })}
           >
             <div className={styles.showFiltersUl__div}>
+              <button className={styles.closeFilterUl} onClick={closeFilters}>
+                <Cross />
+              </button>
               {/* Если брендов нет, выводим сообщение */}
               {filter.brand.length === 0 && <p>Нет доступных брендов</p>}
               {filter.brand.map((item, index) => {
@@ -355,7 +396,7 @@ const FiltersProducts = ({
             </button>
           </ul>
         </div>
-        <div className={styles.brandContainer}>
+        {/* <div className={styles.brandContainer}>
           <button
             className={styles.buttonBrand}
             onClick={() => toggleFilters("allfilters")}
@@ -375,7 +416,31 @@ const FiltersProducts = ({
               {filterIcon()}
             </span>
           </button>
-        </div>
+        </div> */}
+        {filter.filter && Object.keys(filter.filter).length > 0 && (
+          <div className={styles.brandContainer}>
+            <button
+              className={styles.buttonBrand}
+              onClick={() => toggleFilters("allfilters")}
+            >
+              Все фильтры
+              {countSelectedBrands() > 0 && (
+                <span className={styles.selectedCount}>
+                  {countSelectedBrands()}
+                </span>
+              )}
+              <span
+                className={cn(
+                  styles.footerNavItemArrowIsActive
+                  // filtersIsShow.brand && styles.footerNavItemArrow
+                )}
+              >
+                {filterIcon()}
+              </span>
+            </button>
+          </div>
+        )}
+
         <Modal close={open} isVisible={filtersIsShow.allfilters}>
           <AllFilters
             countSelected={countSelected}
