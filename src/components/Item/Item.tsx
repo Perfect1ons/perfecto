@@ -3,10 +3,8 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
   CartIcon,
   CopyIcon,
   GrayFavoritesIcon,
@@ -20,13 +18,12 @@ import {
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
 import DOMPurify from "isomorphic-dompurify";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import Link from "next/link";
+import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
+import ProductReview from "./ProductReview/ProductReview";
 
 interface IItemPageProps {
   data: Items;
@@ -86,21 +83,20 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [similar]);
 
-  const imageUrl = useMemo(() => {
-    const urls = similar.map((item) => {
-      if (
-        item.photos[0]?.url_part &&
-        item.photos[0].url_part.startsWith("https://")
-      ) {
-        return item.photos[0].url_part;
-      } else if (item.photos[0]?.url_part) {
-        return `${url}nal/img/${item.id_post}/l_${item.photos[0].url_part}`;
-      } else {
-        return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-      }
-    });
-    return urls.join(", ");
-  }, [similar]);
+  const getImageUrl = (photo: any) => {
+    if (!photo || !photo.url_part) {
+      // Если photo или url_part не определены, возвращаем URL placeholder
+      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+    }
+
+    if (photo.url_part.startsWith("https://goods-photos")) {
+      return `${photo.url_part}280.jpg`;
+    } else if (photo.url_part.startsWith("https://")) {
+      return photo.url_part;
+    } else {
+      return `${url}nal/img/${data.id_post}/l_${photo.url_part}`;
+    }
+  };
 
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
@@ -149,7 +145,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          {data.naim}
+          {data.name.split(" ").slice(0, 6).join(" ")}
         </Link>
       </div>
       <div className={styles.product}>
@@ -158,7 +154,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             <div className={styles.product_cards__item} key={data.id}>
               <Image
                 className={styles.product_preview}
-                src={`https://max.kg/nal/img/${data.id_post}/l_${photo.url_part}`}
+                src={getImageUrl(photo)}
                 width={48}
                 height={48}
                 alt={photo.url_part}
@@ -169,7 +165,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
         <div className={styles.product_image}>
           <Image
-            src={`https://max.kg/nal/img/${data.id_post}/l_${data.img}`}
+            src={getImageUrl(data.photos[0])}
             width={500}
             height={500}
             alt={data.img}
@@ -300,7 +296,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       </div>
       <div className={styles.wrap_desc_container}>
         <div className={styles.productPageDesc}>
-          <h2 className="sections__title bottom">Описание</h2>
+          <h2 className="sections__title">Описание</h2>
           <div
             className={styles.product_desc}
             dangerouslySetInnerHTML={{
@@ -351,259 +347,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </div>
         </div>
       )}
-      <div id="otz" className="productReview">
-        <h4 className="sections__title">Отзывы о товаре «{data.naim}»</h4>
-        <div className={styles.wrap_review}>
-          <span className={styles.wrap_review_grade_title}>Оцените товар</span>
-          <div className={styles.wrap_review_grade_btns}>
-            <div className="ocenka">
-              {[...Array(5)].map((_, index) => (
-                <span key={index}>
-                  {index < rating ? <YellowStar /> : <GrayStar />}
-                </span>
-              ))}
-            </div>
-          </div>
-          <p className={styles.wrap_review_grade_short_desc}>
-            Будет здорово, если вы напишете свои впечатления о товаре. Это
-            поможет другим покупателям.
-          </p>
-          <button className="default__buttons_showMore">Написать отзыв</button>
-        </div>
-        <div className={styles.wrap_review_swiper}>
-          {data.otz.length !== 0 && (
-            <Swiper
-              slidesPerView={3}
-              spaceBetween={15}
-              navigation={{
-                nextEl: ".team__btn_next",
-                prevEl: ".team__btn_prev",
-              }}
-              breakpoints={{
-                240: {
-                  slidesPerView: 1,
-                  slidesPerGroup: 3,
-                  spaceBetween: 1,
-                },
-                480: {
-                  slidesPerView: 1,
-                  spaceBetween: 5,
-                  slidesPerGroup: 1,
-                },
-                768: {
-                  spaceBetween: 10,
-                  slidesPerView: 2,
-                  slidesPerGroup: 2,
-                },
-                992: {
-                  spaceBetween: 10,
-                  slidesPerView: 3,
-                  slidesPerGroup: 3,
-                },
-                1200: {
-                  slidesPerView: 3,
-                  spaceBetween: 15,
-                },
-              }}
-              modules={[Navigation]}
-              className="mySwiper"
-            >
-              {data.otz.map((item) => {
-                return (
-                  <SwiperSlide
-                    key={item}
-                    className={styles.wrap_review_otz_item}
-                  >
-                    <div className={styles.wrap_review_otz_item_info}>
-                      <div className={styles.wrap_review_otz_item_info_sender}>
-                        <p
-                          className={
-                            styles.wrap_review_otz_item_info_sender_name
-                          }
-                        >
-                          {item.name}
-                        </p>
-                        <div
-                          className={
-                            styles.wrap_review_otz_item_info_sender_ocenka
-                          }
-                        >
-                          {[...Array(5)].map((_, index) => (
-                            <span key={index}>
-                              {index < rating ? <YellowStar /> : <GrayStar />}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <p className={styles.wrap_review_otz_item_info_date}>
-                        {item.dat1}
-                      </p>
-                    </div>
-                    <div className={styles.wrap_review_otz_item_comment}>
-                      {item.dostoinsva && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Достоинства:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.dostoinsva}
-                          </p>
-                        </div>
-                      )}
-                      {item.nedostatki && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Недостатки:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.nedostatki}
-                          </p>
-                        </div>
-                      )}
-                      {item.text && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Комментарий:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.text}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-              <div className={styles.team__swiper_buttons}>
-                <div className="team__btn_prev">
-                  <button className={styles.team__swiper_btn}>
-                    <ArrowLeftIcon />
-                  </button>
-                </div>
-                <div className="team__btn_next">
-                  <button className={styles.team__swiper_btn}>
-                    <ArrowRightIcon />
-                  </button>
-                </div>
-              </div>
-            </Swiper>
-          )}
-        </div>
-      </div>
-      {/* <div className={cn(styles.product_for_client, "forClientContainer")}>
-        <div className={styles.product_for_client_card}>
-          <div className={styles.product_for_client_card_info}>
-            <DeliveryIcon />
-            <span className={styles.product_for_client_card_info_title}>
-              Способы доставки
-            </span>
-          </div>
-        </div>
-        <div className={styles.product_for_client_card}>
-          <div className={styles.product_for_client_card_info}>
-            <span className={styles.product_for_client_card_info_title}>
-              Оплата удобным способом
-            </span>
-          </div>
-        </div>
-        <div className={styles.product_for_client_card}>
-          <div className={styles.product_for_client_card_info}>
-            <span className={styles.product_for_client_card_info_title}>
-              Гарантии покупателя
-            </span>
-          </div>
-        </div>
-      </div> */}
-      <div className="similarProducts">
-        <h5 className="sections__title">Похожие товары</h5>
-        <div className="main__news_cards">
-          {similar.map((item) => {
-            return (
-              <div key={item.id} className="default__card">
-                <div className="default__card_images">
-                  <Image
-                    className="default__card_image"
-                    src={imageUrl}
-                    width={200}
-                    height={200}
-                    alt={item.naim}
-                    quality={100}
-                    loading="lazy"
-                  />
-                </div>
-                <div className="default__card_info">
-                  <span className="default__card_price">
-                    {item.cenaok.toLocaleString("ru-RU")}
-                    <span className="default__card_price_custom"> с</span>
-                  </span>
-                  <h2 className="default__card_name">{item.naim}</h2>
-                  <div className="ocenka">
-                    {[...Array(5)].map((_, index) => (
-                      <span key={index}>
-                        {index < rating ? <YellowStar /> : <GrayStar />}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="ddos">
-                    <Image
-                      src={`${url}images/delivery_icon.svg`}
-                      width={20}
-                      height={20}
-                      alt="delivery_icon"
-                    />
-                    <p className="ddos__text">{item.ddos}</p>
-                  </div>
-                  <div className="add__to">
-                    <button
-                      title="Добавить в корзину"
-                      className="add__to_cart"
-                      onClick={() => console.log("Добавлено в корзину")}
-                    >
-                      <span className="add__to_cart_icon">
-                        <CartIcon />
-                      </span>
-                      В корзину
-                    </button>
-                    <button
-                      title="Добавить в избранное"
-                      className={cn("add__to_fav", {
-                        ["add__to_fav_active"]: isFavorite,
-                      })}
-                      onClick={handleFavoriteClick}
-                    >
-                      <span className="add__to_fav_icon">
-                        {isFavorite ? (
-                          <VioletFavoritesIcon />
-                        ) : (
-                          <GrayFavoritesIcon />
-                        )}
-                      </span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      <ProductReview data={data} />
+      <SimilarProducts similar={similar} />
     </section>
   );
 };

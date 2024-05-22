@@ -1,7 +1,6 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
 .wrap {
-  margin-top: 100px;
   &_line {
     background-color: var(--secondary-white);
     height: 2px;
@@ -20,58 +19,9 @@
     border-bottom: 2px solid var(--secondary-white);
     padding-bottom: 15px;
   }
-  &_review {
-    margin-bottom: 15px;
-    &_grade_title {
-      @include mixin.font(0.9375rem, 400, null, var(--dark));
-    }
-    &_grade_btns {
-      margin-top: 10px;
-      max-width: 37.5rem;
-    }
-    &_grade_short_desc {
-      margin-top: 10px;
-      max-width: 30rem;
-      @include mixin.font(0.9375rem, 400, null, var(--dark));
-    }
-    &_otz {
-      margin-top: 15px;
-      @include mixin.flex(null, null, null, null);
-      &_item {
-        height: 300px !important;
-        margin-bottom: 15px;
-        background: var(--white);
-        box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-        border-radius: 5px;
-        padding: 10px 10px;
-        &_info {
-          @include mixin.flex(null, space-between, row, null);
-          &_sender {
-            @include mixin.flex(null, null, column, null);
-            margin-bottom: 10px;
-            &_name {
-              @include mixin.font(1.125rem, 700, null, var(--dark));
-            }
-          }
-          &_date {
-            @include mixin.font(1rem, 400, null, var(--dark));
-          }
-        }
-        &_comment {
-          margin-top: 5px;
-          @include mixin.flex(flex-start, null, column, 5px);
-          &_title {
-            @include mixin.font(null, 500, null, var(--gray-dark));
-          }
-          &_text {
-            @include mixin.font(null, 400, null, var(--gray-dark));
-          }
-        }
-      }
-    }
-  }
 }
 .product {
+  margin-top: 30px;
   @include mixin.flex(null, center, null, 40px);
   @media screen and (max-width: 1200px) {
     justify-content: space-between;
@@ -303,8 +253,8 @@
       color: var(--violet);
     }
   }
-  &_desc{
-    p{
+  &_desc {
+    p {
       margin-bottom: 1rem;
     }
   }
@@ -331,30 +281,7 @@
   //   }
   // }
 }
-.team__swiper_btn {
-  cursor: pointer;
-  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
-  background: var(--white);
-  padding: 12.5px 14px 10px 15px;
-  border-radius: 10px;
-  border: none;
-}
 
-.team__swiper_buttons {
-  position: absolute;
-  z-index: 10;
-  top: 43%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 99.5%;
-  left: 0.4%;
-
-  @media screen and (max-width: 640px) {
-    display: none;
-  }
-}
-
-.productPageDesc{
-  @include mixin.flex(flex-start,flex-start,column,15px);
+.productPageDesc {
+  @include mixin.flex(flex-start, flex-start, column, 15px);
 }

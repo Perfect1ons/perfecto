@@ -107,6 +107,7 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
