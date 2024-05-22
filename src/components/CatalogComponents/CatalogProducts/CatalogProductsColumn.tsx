@@ -9,7 +9,6 @@ import {
   VioletFavoritesIcon,
   YellowStar,
 } from "../../../../public/Icons/Icons";
-import { ISeekItem } from "@/types/Search/seek";
 import { url } from "@/components/temporary/data";
 
 import { Tov } from "@/types/Catalog/catalogProducts";
