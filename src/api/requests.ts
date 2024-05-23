@@ -22,6 +22,9 @@ import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
+import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
+
+
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -225,3 +228,8 @@ export const getMetaPopularPage = (): Promise<IMetaData> => {
 export const getMetaBrandPage = (): Promise<IMetaData> => {
   return maxkg.get("site/meta?type=main_brand").json();
 };
+
+export const postOtz = (otz: IUser) => {
+  return maxkg.post("otz/create", { json: otz });
+};
+
