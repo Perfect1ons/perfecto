@@ -96,14 +96,8 @@ export default function CategorySwiper({ category }: ICategory) {
                 : `${url}${item.icon}`
               : `${url}images/discount/empty-image.png`;
             return (
-              <Link
-                key={item.idd}
-                href={`catalog/${item.full_slug}`}
-                className="link"
-              >
-                <SwiperSlide
-                  className="swiper__slide"
-                >
+              <SwiperSlide key={item.idd} className="swiper__slide">
+                <Link href={`/catalog/${item.full_slug}`} className="link">
                   <Image
                     className="swiper__slide_img"
                     src={imageUrl}
@@ -113,8 +107,8 @@ export default function CategorySwiper({ category }: ICategory) {
                     loading="lazy"
                   />
                   <h1 className="category__item_title">{item.name}</h1>
-                </SwiperSlide>
-              </Link>
+                </Link>
+              </SwiperSlide>
             );
           })}
           <div className={styles.team__swiper_buttons}>

@@ -74,10 +74,8 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                   : `https://max.kg/${item.icon}`
                 : "https://max.kg/images/discount/empty-image.png";
               return (
-                <Link key={item.idd} className="link" href={`catalog/${item.full_slug}`}>
-                  <SwiperSlide
-                    className={styles.swiper__slide}
-                  >
+                <SwiperSlide key={item.idd} className={styles.swiper__slide}>
+                  <Link className="link" href={`/catalog/${item.full_slug}`}>
                     <Image
                       className={styles.swiper__slide_img}
                       src={imageUrl}
@@ -89,8 +87,8 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                       blurDataURL={imageUrl}
                     />
                     <h1 className="category__item_title">{item.name}</h1>
-                  </SwiperSlide>
-                </Link>
+                  </Link>
+                </SwiperSlide>
               );
             })}
             <div className={styles.team__swiper_buttons}>
