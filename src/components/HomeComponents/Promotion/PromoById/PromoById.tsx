@@ -46,7 +46,9 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                 "all__directions_linkActive"
             )}
           >
-            {main.naim}
+            <h1>
+              {main.naim}
+            </h1>
           </Link>
         </div>
 

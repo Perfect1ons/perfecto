@@ -154,7 +154,9 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          {data.name.split(" ").slice(0, 6).join(" ")}
+          <h1>
+            {data.name.split(" ").slice(0, 6).join(" ")}
+          </h1>
         </Link>
       </div>
       <div className={styles.product}>
@@ -168,7 +170,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 height={48}
                 alt={photo.url_part}
                 loading="lazy"
-                objectFit="cover"
               ></Image>
             </div>
           ))}
@@ -225,6 +226,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               width={20}
               height={20}
               alt="delivery_icon"
+              loading="lazy"
             />
             <div className={styles.product_info__ddos_info}>
               <p className={styles.product_info__ddos_title}>

@@ -20,7 +20,7 @@ const LinksSidebar = ({ links }: ILinksSidebarProps) => {
         return (
           <div key={item.id} className={styles.sidebarItem}>
             <div className={styles.sidebarItemInfo}>
-              <h6 className={styles.sidebarItemInfoTitle}>{item.name}</h6>
+              <h1 className={styles.sidebarItemInfoTitle}>{item.name}</h1>
             </div>
             <div className={styles.sidebarItemLinks}>
               {item.pod_menu.map((podItem, index) => {

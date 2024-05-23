@@ -23,7 +23,7 @@ const Brands = ({ brands }: IBrandsProps) => {
   return (
     <section className="brands">
       <div className={cn(styles.brands__container, "container")}>
-        <h4 className="sections__title">Бренды</h4>
+        <h1 className="sections__title">Бренды</h1>
         <div className={styles.brandsContainer}>
           {brands.slice(0, pageSize).map((item) => {
             return (

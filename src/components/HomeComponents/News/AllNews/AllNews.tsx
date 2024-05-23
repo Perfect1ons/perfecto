@@ -62,7 +62,9 @@ const [currentPage, setCurrentPage] = useState(() => {
                 "all__directions_linkActive"
             )}
           >
-            Новости
+            <h1>
+              Новости
+            </h1>
           </Link>
         </div>
         <div className={styles.all__news_container}>

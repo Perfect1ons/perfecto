@@ -10,15 +10,23 @@ import {
 } from "../../../../public/Icons/Icons";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { useEffect, useState } from "react";
+import cn from "clsx";
 
 interface IProductReviewProps {
   data: Items;
   func: () => void;
 }
+interface IOtz {
+  rating: number;
+}
 
 const ProductReview = ({ data, func }: IProductReviewProps) => {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  const [otz, setOtz] = useState<IOtz>({
+    rating: 0,
+  });
 
   useEffect(() => {
     const isLocalStorageAvailable =
@@ -34,6 +42,13 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
+  const handleRatingClick = (rating: number) => {
+    setOtz({
+      ...otz,
+      rating,
+    });
+  };
+
   return (
     <div className={styles.wrap}>
       <div id="otz" className="productReview">
@@ -41,11 +56,19 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
         <div className={styles.wrap_review}>
           <span className={styles.wrap_review_grade_title}>Оцените товар</span>
           <div className={styles.wrap_review_grade_btns}>
-            <div className="ocenka">
-              {[...Array(5)].map((_, index) => (
-                <span key={index}>
-                  {index < rating ? <YellowStar /> : <GrayStar />}
-                </span>
+            <div className={styles.wrap_review_grade_rating}>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  className={cn(styles.wrap_review_grade_rating_star, {
+                    [styles.wrap_review_grade_rating_starActive]:
+                      otz.rating >= star,
+                  })}
+                  onClick={() => handleRatingClick(star)}
+                >
+                  {otz.rating >= star ? <YellowStar /> : <GrayStar />}
+                </button>
               ))}
             </div>
           </div>
