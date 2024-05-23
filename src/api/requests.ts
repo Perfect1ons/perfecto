@@ -21,6 +21,7 @@ import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 import { IBrandByName } from "@/types/Brands/brandByName";
+import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -196,4 +197,7 @@ export const getCardProduct = (art: string): Promise<ICardProductItems> => {
 };
 export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
+};
+export const postOtz = (otz: IUser) => {
+  return maxkg.post("otz/create", { json: otz });
 };
