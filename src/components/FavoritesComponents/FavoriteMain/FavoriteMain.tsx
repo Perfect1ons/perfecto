@@ -8,7 +8,6 @@ import {
   GrayFavoritesIcon,
   GrayStar,
   TrashCan,
-  checkIcon,
 } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 
@@ -31,7 +30,6 @@ export default function FavoriteMain() {
                 type="checkbox"
                 name="checkbox"
               />
-              {/* <label htmlFor="checkbox">{checkIcon()}</label> */}
               <span>Выбрать всё</span>
             </div>
             <button className={styles.delete}>
@@ -92,9 +90,7 @@ export default function FavoriteMain() {
                   title="Добавить в избранное"
                   className={clsx("add__to_fav")}
                 >
-                  {/* "add__to_fav_active" */}
                   <span className="add__to_fav_icon">
-                    {/* <VioletFavoritesIcon /> */}
                     <GrayFavoritesIcon />
                   </span>
                 </button>
