@@ -42,43 +42,45 @@
 }
 .choiseList {
   @include mixin.flex(center, flex-start, null, 10px);
-  padding: 15px;
+  padding: 0 15px 15px;
   @include mixin.container(1400px);
   flex-wrap: wrap;
   &__li {
-    @include mixin.flex(center, center, null, 5px);
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
     font-size: 14px;
     line-height: 20px;
     color: #242424;
     white-space: nowrap;
-    padding: 8px;
-    background: var(--violet);
-    color: var(--white);
-    border-radius: 32px;
-    cursor: default;
-    -webkit-touch-callout: none;
+    padding: 1px 1px 1px 5px;
+    background: var(--white);
+    color: var(--dark-blue);
+    border: 1px solid var(--dark-blue);
+    border-radius: 5px;
     &__button {
-      color: var(--violet);
+      color: var(--dark-blue);
       @include mixin.flex(center, center, null, null);
-      background-color: var(--white);
-      border-radius: 100%;
+      // background-color: var(--white);
+      // border-radius: 100%;
     }
   }
 }
 .clearAllButton {
+  cursor: pointer;
   text-align: center;
   font-size: 14px;
   line-height: 20px;
   color: #242424;
   white-space: nowrap;
-  padding: 5px 12px;
-  background: var(--violet);
-  color: var(--white);
-  border-radius: 32px;
-  cursor: default;
+  padding: 3px 8px;
+  background: var(--white);
+  color: var(--dark-blue);
+  border: 1px solid var(--dark-blue);
+  border-radius: 5px;
   -webkit-touch-callout: none;
   transition: 0.3s ease-in-out;
   &:hover {
     background: var(--dark-blue);
+    color: var(--white);
   }
 }

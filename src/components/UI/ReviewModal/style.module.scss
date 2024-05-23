@@ -1,0 +1,39 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.modal {
+  position: relative;
+  @include mixin.flex(null, center, null, null);
+  margin: 0 auto;
+}
+.wrapper {
+  @include mixin.flex(center, null, column, null);
+  position: fixed;
+  background: var(--white);
+  z-index: 100;
+  width: 500px;
+  height: 600px;
+  border-radius: 5px;
+  top: 90px;
+  &_cross {
+    cursor: pointer;
+    @include mixin.font(1.875rem, 700, null, var(--gray));
+    position: absolute;
+    top: -2px;
+    right: 5px;
+    &:hover {
+      color: var(--dark);
+    }
+  }
+  &_areas {
+    margin-top: 150px;
+    @include mixin.flex(flex-start, null, column, null);
+    &_block {
+      @include mixin.flex(flex-start, null, column, null);
+      &_title {
+        @include mixin.font(1rem, 400, null, var(--secondary-gray));
+      }
+      &_area {
+        border: 1px solid var(--secondary-gray);
+      }
+    }
+  }
+}

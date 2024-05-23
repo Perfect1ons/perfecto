@@ -60,6 +60,10 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
 
   const open = () => {
     click();
+    setIsOpen(!isOpen);
+  };
+  const closeModal = () => {
+    click();
     // catalogs;
     setIsOpen(!isOpen);
   };
@@ -75,13 +79,16 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
         </div>
 
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
-          <CatalogMenu catalog={catalogs} close={open} loading={loading} />
+          <CatalogMenu
+            catalog={catalogs}
+            close={closeModal}
+            loading={loading}
+          />
         </Modal>
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
-                onClick={() => click()}
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,
                 })}

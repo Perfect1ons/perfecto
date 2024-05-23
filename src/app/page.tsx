@@ -88,9 +88,9 @@ const LazyBrands = dynamic(
 );
 
 export default async function Home() {
-  const [popularCategoryData, todayBoughtsData] = await Promise.all([
+  const [popularCategoryData,goodsData] = await Promise.all([
     getPopularCategory(),
-    getBoughts(1),
+    getPopularGoods(1),
   ])
   const [
     mobileData,
@@ -112,8 +112,8 @@ export default async function Home() {
     getBrands(),
   ]);
 
-  const [goodsData, thirdBanner] = await Promise.all([
-    getPopularGoods(1),
+  const [todayBoughtsData, thirdBanner] = await Promise.all([
+    getBoughts(1),
     getThirdBanner(),
   ])
 
@@ -121,14 +121,14 @@ export default async function Home() {
     <>
       <Banner mobileData={mobileData} deskstopData={desktopData} />
       <PopularCategory category={popularCategoryData} />
-      <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
+      <LazyPopularGoods goods={goodsData} />
       <LazyNews news={newsData} />
       <LazyDiscounts discounts={discounts} />
       <LazySecondBanner banner={secondBanner.baner} />
       <LazyPromotion promotion={promotionData} />
       <LazySeasonCategorySwiper seasonItems={seasonCategoryData} />
       <LazyBrands brands={brandsData} />
-      <LazyPopularGoods goods={goodsData} />
+      <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
       <LazyThirdBanner banner={thirdBanner.baner} />
     </>
   );

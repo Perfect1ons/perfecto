@@ -2,18 +2,17 @@
 
 .sub_catalog_wrap {
   display: none;
-}
+  &_active {
+    display: block;
+    width: 100%;
+    height: max-content;
+    background: var(--white);
 
-.sub_catalog_wrap_active {
-  display: block;
-  width: 100%;
-  height: max-content;
-  background: var(--white);
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+  }
 }
 
 .selectedCat_wrap {

@@ -1,30 +1,22 @@
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { useRouter } from "next/navigation";
-
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
-import SubCatChildrenSecond from "./SubCatChildrenSecond";
-import { useState } from "react";
 
 interface SubCatTemplateProps {
   catalogs: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   closeMain: () => void;
+  openSubCat2: (childCategories: any[]) => void;
 }
 
 export default function SubCatChildrenOne({
   catalogs,
   activeCategoryId,
   closeMain,
+  openSubCat2,
 }: SubCatTemplateProps) {
-  // state
-  const [isSubCatChildOpen, setCatChildOpen] = useState(false);
-  const handleOpenOrClose = () => {
-    setCatChildOpen(!isSubCatChildOpen);
-  };
-
-  // роутер
   const router = useRouter();
 
   const handleClick = (path: string) => {
@@ -37,8 +29,8 @@ export default function SubCatChildrenOne({
     if (item.is_leaf === 1) {
       handleClick(item.full_slug);
     } else {
-      // <SubCatChildrenSecond />;
-      console.log("hello");
+      const childCategories = item.child_cat_level3 || []; // Здесь предполагается, что item имеет свойство child_cat_level3
+      openSubCat2(childCategories);
     }
   };
 

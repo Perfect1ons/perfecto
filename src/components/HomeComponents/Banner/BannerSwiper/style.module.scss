@@ -1,10 +1,4 @@
-.mySwiper {
-  &:hover {
-    .team__swiper_buttons {
-      opacity: 1;
-    }
-  }
-}
+@use "../../../../assets/scss/common/skeleton" as skeleton;
 
 .slideWithPadding {
   padding-bottom: 40px;
@@ -35,30 +29,29 @@
       min-height: 100px;
       width: 100%;
     }
+    &_skeleton {
+      max-width: 1390px;
+      margin: 0 auto;
+      max-height: 400px;
+      height: 100%;
+      @include skeleton.skeleton(auto, 20em, null);
+      @media screen and (max-width: 992px) {
+        height: 15em;
+        padding: 0 30px;
+      }
+      @media screen and (max-width: 640px) {
+        max-height: 180px;
+      }
+      @media screen and (max-width: 480px) {
+        max-height: 140px;
+        padding: 0;
+        margin-bottom: 0;
+      }
+      @media screen and (max-width: 360px) {
+        max-height: 100px;
+        width: 100%;
+      }
+    }
   }
 }
 
-.team__swiper_btn {
-  cursor: pointer;
-  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
-  background: var(--white);
-  padding: 12.5px 14px 10px 15px;
-  border-radius: 10px;
-  border: none;
-}
-
-.team__swiper_buttons {
-  opacity: 0;
-  position: absolute;
-  z-index: 10;
-  top: 45%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 99.5%;
-  left: 0.05%;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-}
