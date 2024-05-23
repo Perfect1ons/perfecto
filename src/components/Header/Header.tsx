@@ -60,7 +60,6 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
 
   const open = () => {
     click();
-    // catalogs;
     setIsOpen(!isOpen);
   };
   const closeModal = () => {

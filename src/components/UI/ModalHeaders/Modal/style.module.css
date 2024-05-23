@@ -1,14 +1,18 @@
 .modal {
   position: absolute;
-  top: 0;
+  top: -100%;
   left: 0;
   width: 100%;
+  /* min-height: 100vh;
+  max-height: max-content; */
+  overflow-y: auto;
   background: #fff;
   z-index: 100;
   display: none;
   visibility: hidden;
   transition: 0.3s;
 }
+
 .wrap {
   position: absolute;
   bottom: 0;
