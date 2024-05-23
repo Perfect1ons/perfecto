@@ -12,6 +12,9 @@ import {
 import { useRouter } from "next/navigation";
 import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import AllFiltersMobile from "./AllFiltersMobile";
+type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 interface IProps {
   filter: IFiltersBrand;
   options: {
@@ -29,8 +32,6 @@ interface IProps {
   onReset: (mainKey: string) => void; // Add this prop
   resetSelectionAll: () => void;
 }
-type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
-
 const FiltersProducts = ({
   filter,
   options,
@@ -43,6 +44,7 @@ const FiltersProducts = ({
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const [filtersIsShow, setFiltersIsShow] = useState({
     brand: false,
@@ -56,7 +58,14 @@ const FiltersProducts = ({
       const dropdownElement = document.querySelector(
         `.${styles.filtersContainer}`
       );
-      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+      const isFiltersActive = Object.values(filtersIsShow).some(
+        (isShow) => isShow && isShow !== filtersIsShow.default
+      );
+      if (
+        dropdownElement &&
+        !dropdownElement.contains(event.target as Node) &&
+        !isFiltersActive
+      ) {
         setFiltersIsShow({
           brand: false,
           price: false,
@@ -75,6 +84,7 @@ const FiltersProducts = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, [filtersIsShow]);
+
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -147,6 +157,7 @@ const FiltersProducts = ({
   return (
     <>
       <div className={styles.filtersContainer}>
+        <span className={styles.select_header_sort}>Сортировка: </span>
         <div className={styles.brandContainer}>
           <button
             onClick={() => toggleFilters("default")}
@@ -396,27 +407,6 @@ const FiltersProducts = ({
             </button>
           </ul>
         </div>
-        {/* <div className={styles.brandContainer}>
-          <button
-            className={styles.buttonBrand}
-            onClick={() => toggleFilters("allfilters")}
-          >
-            Все фильтры
-            {countSelectedBrands() > 0 && (
-              <span className={styles.selectedCount}>
-                {countSelectedBrands()}
-              </span>
-            )}
-            <span
-              className={cn(
-                styles.footerNavItemArrowIsActive
-                // filtersIsShow.brand && styles.footerNavItemArrow
-              )}
-            >
-              {filterIcon()}
-            </span>
-          </button>
-        </div> */}
         {filter.filter && Object.keys(filter.filter).length > 0 && (
           <div className={styles.brandContainer}>
             <button
@@ -429,32 +419,44 @@ const FiltersProducts = ({
                   {countSelectedBrands()}
                 </span>
               )}
-              <span
-                className={cn(
-                  styles.footerNavItemArrowIsActive
-                  // filtersIsShow.brand && styles.footerNavItemArrow
-                )}
-              >
+              <span className={cn(styles.footerNavItemArrowIsActive)}>
                 {filterIcon()}
               </span>
             </button>
           </div>
         )}
-
-        <Modal close={open} isVisible={filtersIsShow.allfilters}>
-          <AllFilters
-            countSelected={countSelected}
-            filter={filter}
-            close={closeAllFilters}
-            onChange={onChange}
-            options={options}
-            value={value}
-            onBrandToggle={onBrandToggle}
-            onReset={onReset}
-            selectedBrands={selectedBrands}
-            resetSelectionAll={resetSelectionAll}
-          />
-        </Modal>
+        {!isMobile && (
+          <Modal close={open} isVisible={filtersIsShow.allfilters}>
+            <AllFilters
+              countSelected={countSelected}
+              filter={filter}
+              close={closeAllFilters}
+              onChange={onChange}
+              options={options}
+              value={value}
+              onBrandToggle={onBrandToggle}
+              onReset={onReset}
+              selectedBrands={selectedBrands}
+              resetSelectionAll={resetSelectionAll}
+            />
+          </Modal>
+        )}
+        {isMobile && (
+          <Modal close={open} isVisible={filtersIsShow.allfilters}>
+            <AllFiltersMobile
+              countSelected={countSelected}
+              filter={filter}
+              close={closeAllFilters}
+              onChange={onChange}
+              options={options}
+              value={value}
+              onBrandToggle={onBrandToggle}
+              onReset={onReset}
+              selectedBrands={selectedBrands}
+              resetSelectionAll={resetSelectionAll}
+            />
+          </Modal>
+        )}
       </div>
     </>
   );

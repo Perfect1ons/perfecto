@@ -6,12 +6,11 @@
   display: grid;
   grid-template-columns: 1fr 3fr;
   background: white;
-
-  &__3 {
+  &__left {
     padding: 15px;
     position: relative;
   }
-  &__9 {
+  &__right {
     padding: 10px;
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
@@ -51,7 +50,7 @@
     background: var(--gray-white);
   }
   &_skeleton {
-    @include skeleton.skeleton(auto, 20px, 10px);
+    @include skeleton.skeleton(auto, 30px, 5px);
   }
 }
 .catalogs__h2 {
@@ -65,12 +64,6 @@
   padding: 5px;
   cursor: pointer;
   border-radius: 3px;
-  // &:hover {
-  //   background: #f2f2f2;
-  // }
-  // &.active {
-  //   background: #f2f2f2;
-  // }
 }
 .spanChevron {
   @include mixin.flex(center, center, null, null);

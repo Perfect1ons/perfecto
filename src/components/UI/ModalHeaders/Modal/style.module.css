@@ -27,9 +27,3 @@
 .childwrap {
   height: max-content;
 }
-
-@media screen and (max-width: 640px) {
-  .wrap {
-    display: none;
-  }
-}
