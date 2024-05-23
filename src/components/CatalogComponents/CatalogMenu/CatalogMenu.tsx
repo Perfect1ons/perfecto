@@ -1,7 +1,7 @@
 "use client";
-import { ICatalogMenu, Root2 } from "@/types/Catalog/catalogMenu";
+import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import cn from "clsx";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,8 +11,6 @@ import {
   chevronUpIcon,
 } from "../../../../public/Icons/Icons";
 import Link from "next/link";
-import Loader from "@/components/UI/Loader/Loader";
-import clsx from "clsx";
 
 interface IProps {
   catalog: ICatalogMenu | undefined;
