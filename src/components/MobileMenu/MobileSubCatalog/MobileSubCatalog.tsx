@@ -1,17 +1,21 @@
+import React from "react";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-
 import styles from "./style.module.scss";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
-
 import SubCatChildrenOne from "../SubCatChildren/SubCatChildrenOne";
+import SubCatChildrenSecond from "../SubCatChildren/SubCatChildrenSecond";
 
-export interface SubCatalProps {
+interface SubCatalProps {
   open: boolean;
   close: () => void;
   closeMain: () => void;
   catalogs: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
   selectedCategoryName: string | null;
+  handleSubCatChildrenSecondOpen: (childCategories: any[]) => void;
+  closeSubCatChildrenSecond: () => void;
+  isSubCatChild2Open: boolean;
+  subCatChildData: any[];
 }
 
 export default function MobileSubCatalog({
@@ -21,11 +25,19 @@ export default function MobileSubCatalog({
   activeCategoryId,
   selectedCategoryName,
   closeMain,
+  handleSubCatChildrenSecondOpen,
+  closeSubCatChildrenSecond,
+  isSubCatChild2Open,
+  subCatChildData,
 }: SubCatalProps) {
+  const handleOpenOrClose = () => {
+    closeSubCatChildrenSecond(); // Закрыть второй подкаталог при закрытии основного
+  };
+
   return (
     <div
       className={
-        open === true ? styles.sub_catalog_wrap_active : styles.sub_catalog_wrap
+        open ? styles.sub_catalog_wrap_active : styles.sub_catalog_wrap
       }
     >
       {selectedCategoryName && (
@@ -41,6 +53,12 @@ export default function MobileSubCatalog({
         catalogs={catalogs}
         activeCategoryId={activeCategoryId}
         closeMain={closeMain}
+        openSubCat2={handleSubCatChildrenSecondOpen}
+      />
+      <SubCatChildrenSecond
+        isOpen={isSubCatChild2Open}
+        close={handleOpenOrClose}
+        childCategories={subCatChildData} // Передаем дочерние категории
       />
     </div>
   );

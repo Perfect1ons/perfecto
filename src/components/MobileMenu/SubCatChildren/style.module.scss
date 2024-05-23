@@ -28,3 +28,37 @@
 .subCatItem_image {
   border-radius: 5px;
 }
+
+.child2_wrap {
+  display: none;
+
+  &_active {
+    display: block;
+    background: var(--white);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 101;
+  }
+}
+
+.selectedCat_wrap {
+  @include mixin.flex(center, null, null, 10px);
+  margin-top: 5px;
+
+  max-height: 22px;
+  width: auto;
+
+  user-select: none;
+  -webkit-tap-highlight-color: var(--tap-select);
+
+  background: var(--light-white);
+  border-radius: 10px;
+  padding: 20px 10px;
+}
+
+.leftIcon_wrap {
+  rotate: 180deg;
+}
