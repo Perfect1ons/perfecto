@@ -3,9 +3,8 @@
   top: -100%;
   left: 0;
   width: 100%;
-  /* min-height: 100vh;
-  max-height: max-content; */
-  overflow-y: auto;
+  min-height: 100vh;
+  max-height: max-content;
   background: #fff;
   z-index: 100;
   display: none;
