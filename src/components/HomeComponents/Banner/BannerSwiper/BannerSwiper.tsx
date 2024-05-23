@@ -20,7 +20,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
   useEffect(() => {
-    setImageLoaded(false); 
+    setImageLoaded(false);
   }, []);
 
   return (
@@ -41,7 +41,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
           }`}
         >
           <Link href={slide.url.replace("https://max.kg/", "")}>
-            {imageLoaded === false ? (
+            {imageLoaded ? (
               <div className={styles.swiper__slide_img_skeleton}></div>
             ) : (
               <Image
