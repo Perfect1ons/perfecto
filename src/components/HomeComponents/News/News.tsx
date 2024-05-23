@@ -19,7 +19,7 @@ const News = ({ news }: INewProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 100000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);

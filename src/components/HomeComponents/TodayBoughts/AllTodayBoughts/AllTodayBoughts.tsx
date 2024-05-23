@@ -23,8 +23,6 @@ const fetchData = async (pageNum: number) => {
   if (isLoading) return;
   setIsLoading(true);
   try {
-    // Добавление задержки в 1 минуту (60 000 миллисекунд)
-    await new Promise((resolve) => setTimeout(resolve, 20000));
     const response: IBoughts = await getBoughtsByClient(pageNum);
     console.log(`Fetching data for page ${pageNum}:`, response); // Debug log
     const newBoughts = response.lastz.filter(
@@ -59,8 +57,8 @@ const fetchData = async (pageNum: number) => {
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "200px",
-      threshold: 0.5,
+      rootMargin: "100px",
+      threshold: 0.1,
     });
 
     if (loaderRef.current) {

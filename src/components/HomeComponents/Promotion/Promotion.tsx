@@ -21,14 +21,14 @@ const Promotion = ({ promotion }: IPromoProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 100011); // Установите нужное время задержки
+    }, 5000); // Установите нужное время задержки
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleShowMore = () => {
     setVisiblePromotions(promotion.slice(0, visiblePromotions.length + 6));
-    if (visiblePromotions.length + 6 >= 12) {
+    if (visiblePromotions.length + 6 >= 18) {
       setShowAll(true);
     }
   };
@@ -73,7 +73,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
               Показать ещё
             </button>
           ) : (
-            <Link href="promotions" passHref>
+            <Link className="link" href="promotions" passHref>
               <button className="default__buttons_showMore">
                 Показать все
               </button>

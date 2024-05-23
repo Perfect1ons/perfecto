@@ -34,9 +34,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
                 "all__directions_linkActive"
             )}
           >
-            <h1>
-              {discount.promotion.name}
-            </h1>
+            <h1>{discount.promotion.name}</h1>
           </Link>
         </div>
 
@@ -44,14 +42,15 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           <h1 className="default__showMore_title">Скидки</h1>
           <div className={styles.main__discount}>
             <div className={styles.main__discount_images}>
-              <Image
-                onClick={() => router.push(`/discounts/${discount.id}`)}
-                className={styles.main__discount_image}
-                src={`${url}${discount.promotion.image}`}
-                width={450}
-                height={280}
-                alt={discount.promotion.name}
-              />
+              <Link className="link" href={`/discounts/${discount.id}`}>
+                <Image
+                  className={styles.main__discount_image}
+                  src={`${url}${discount.promotion.image}`}
+                  width={450}
+                  height={280}
+                  alt={discount.promotion.name}
+                />
+              </Link>
             </div>
 
             <div className={styles.main__discount_info}>

@@ -55,8 +55,8 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "200px",
-      threshold: 0.5,
+      rootMargin: "100px",
+      threshold: 0.1,
     });
 
     if (loaderRef.current) {

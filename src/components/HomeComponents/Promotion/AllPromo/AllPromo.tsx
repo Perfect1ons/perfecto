@@ -71,9 +71,7 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
               pathname === "/promotions" && "all__directions_linkActive"
             )}
           >
-            <h1>
-              Акции
-            </h1>
+            <h1>Акции</h1>
           </Link>
         </div>
         <div className={styles.all__news_container}>
@@ -82,24 +80,26 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
             {currentItems.map((news) => (
               <div key={news.id} className={styles.allNews__content}>
                 <div className={styles.allNews__content_images}>
-                  <Image
-                    onClick={() => router.push(`/promotions/${news.id}`)}
-                    className={styles.allNews__content_image}
-                    src={`${url}${news.logo}`}
-                    width={450}
-                    height={280}
-                    title={news.naim}
-                    alt={news.naim}
-                  />
+                  <Link className="link" href={`/promotions/${news.id}`}>
+                    <Image
+                      className={styles.allNews__content_image}
+                      src={`${url}${news.logo}`}
+                      width={450}
+                      height={280}
+                      title={news.naim}
+                      alt={news.naim}
+                    />
+                  </Link>
                 </div>
 
                 <div className={styles.allNews__content_info}>
-                  <h1
-                    onClick={() => router.push(`/promotions/${news.id}`)}
-                    className="allNews__content_title"
-                  >
-                    {news.naim}
-                  </h1>
+                  <Link className="link" href={`/promotions/${news.id}`}>
+                    <h1
+                      className="allNews__content_title"
+                    >
+                      {news.naim}
+                    </h1>
+                  </Link>
                   <div className={styles.allNews__desc}>
                     <Link
                       className={styles.allNews__desc_link}
