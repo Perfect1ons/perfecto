@@ -58,7 +58,7 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "100px",
+      rootMargin: "200px",
       threshold: 0.5,
     });
 
