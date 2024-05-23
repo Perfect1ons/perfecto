@@ -33,7 +33,8 @@
       // max-width: 1390px;
       // max-height: 400px;
       margin: 0 auto;
-      @include skeleton.skeleton(auto, 15em, null);
+      min-height: 394.28px;
+      @include skeleton.skeleton(auto, 20em, null);
       @media screen and (max-width: 992px) {
         height: 250px;
         padding: 0 30px;

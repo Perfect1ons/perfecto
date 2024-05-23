@@ -46,7 +46,7 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
   return (
     <div className="goods">
       <div className="container">
-        <h2 className="sections__title">Сегодня купили</h2>
+        <h1 className="sections__title">Сегодня купили</h1>
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">

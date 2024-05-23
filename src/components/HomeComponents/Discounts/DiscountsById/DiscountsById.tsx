@@ -34,7 +34,9 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
                 "all__directions_linkActive"
             )}
           >
-            {discount.promotion.name}
+            <h1>
+              {discount.promotion.name}
+            </h1>
           </Link>
         </div>
 

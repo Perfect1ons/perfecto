@@ -71,7 +71,9 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
               pathname === "/promotions" && "all__directions_linkActive"
             )}
           >
-            Акции
+            <h1>
+              Акции
+            </h1>
           </Link>
         </div>
         <div className={styles.all__news_container}>
