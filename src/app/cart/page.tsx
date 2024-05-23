@@ -1,13 +1,10 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Корзина",
-  description:
-    "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
-  keywords:
-    "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-};
+import { getMetaKorzinaPage } from "@/api/requests";
+import { generatePageMetadata } from "@/utils/metadata";
 
 export default function page() {
   return <div>cart page</div>;
+}
+
+export async function generateMetadata() {
+  return generatePageMetadata(getMetaKorzinaPage);
 }
