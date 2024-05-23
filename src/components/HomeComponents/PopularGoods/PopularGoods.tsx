@@ -44,7 +44,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   return (
     <div className="goods">
       <div className="container">
-        <h2 className="sections__title">Популярные товары</h2>
+        <h1 className="sections__title">Популярные товары</h1>
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">

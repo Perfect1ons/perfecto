@@ -43,7 +43,9 @@ const NewsById = ({news, main}: INewsByIdProps) => {
                 pathname === `/news/${main.id}` && "all__directions_linkActive"
               )}
             >
-              {main.naim}
+              <h1>
+                {main.naim}
+              </h1>
             </Link>
           </div>
 

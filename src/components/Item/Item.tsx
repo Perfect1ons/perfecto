@@ -154,7 +154,9 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          {data.name.split(" ").slice(0, 6).join(" ")}
+          <h1>
+            {data.name.split(" ").slice(0, 6).join(" ")}
+          </h1>
         </Link>
       </div>
       <div className={styles.product}>

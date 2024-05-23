@@ -28,7 +28,9 @@ const BrandByName = ({ path, brand, id }: IBrandByNameProps) => {
             )}
             href={`/brands/${path}-${id}`}
           >
-            {path}
+            <h1>
+              {path}
+            </h1>
           </Link>
         </div>
         <h1 className='sections__title top'>{path}</h1>
