@@ -55,7 +55,7 @@ export default function FavoriteMain() {
             </div>
             <div className="default__card_info">
               <span className="default__card_price">
-                1'000'000
+                1000000
                 <span className="default__card_price_custom"> с</span>
               </span>
               <h2 className="default__card_name">Название</h2>
