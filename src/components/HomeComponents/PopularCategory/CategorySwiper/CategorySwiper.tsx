@@ -14,9 +14,9 @@ import {
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
+import Loader from "@/components/UI/Loader/Loader";
 import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
-import PopularCatalogSkeleton from "@/components/UI/Loader/PopularCatalogSkeleton/PopularCatalogSkeleton";
 
 export default function CategorySwiper({ category }: ICategory) {
   const router = useRouter();
@@ -46,7 +46,7 @@ export default function CategorySwiper({ category }: ICategory) {
   return (
     <div className={styles.category__swiper}>
       {loading ? (
-        <PopularCatalogSkeleton />
+        <Loader />
       ) : (
         <Swiper
           slidesPerView={6}
@@ -62,33 +62,29 @@ export default function CategorySwiper({ category }: ICategory) {
             fill: "row",
           }}
           breakpoints={{
-            0:{
-              slidesPerView: 1,
-              slidesPerGroup: 1,
-            },
             240: {
-              slidesPerView: 5,
+              slidesPerView: 3,
               slidesPerGroup: 3,
               spaceBetween: 3,
             },
             480: {
-              slidesPerView: 10,
+              slidesPerView: 3,
               spaceBetween: 3,
-              slidesPerGroup: 3,
+              slidesPerGroup: 10,
             },
             768: {
-              spaceBetween: 20,
+              spaceBetween: 3,
               slidesPerView: 4,
-              slidesPerGroup: 4,
+              slidesPerGroup: 15,
             },
             992: {
-              spaceBetween: 25,
+              spaceBetween: 15,
               slidesPerView: 5,
-              slidesPerGroup: 5,
+              slidesPerGroup: 20,
             },
             1200: {
               slidesPerView: 6,
-              spaceBetween: 15,
+              spaceBetween: 25,
             },
           }}
           modules={[Grid, Pagination, Navigation]}

@@ -3,8 +3,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { IBoughtItem, IBoughts } from "@/types/lastBoughts";
 import { getBoughtsByClient } from "@/api/clientRequest";
 import TodayBoughtsCards from "../TodayBoughtsCard/TodayBoughtsCard";
-import Loader from "@/components/UI/Loader/Loader";
-
+import TodaySkeletonCard from "./TodaySkeletonCard";
 interface IPopularGoodsProps {
   boughts: IBoughtItem[];
 }
@@ -20,29 +19,31 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
     new Set(boughts.map((item) => item.id))
   );
 
-  const fetchData = async (pageNum: number) => {
-    if (isLoading) return;
-    setIsLoading(true);
-    try {
-      const response: IBoughts = await getBoughtsByClient(pageNum);
-      console.log(`Fetching data for page ${pageNum}:`, response); // Debug log
-      const newBoughts = response.lastz.filter(
-        (item) => !loadedIds.current.has(item.id)
-      );
+const fetchData = async (pageNum: number) => {
+  if (isLoading) return;
+  setIsLoading(true);
+  try {
+    // Добавление задержки в 1 минуту (60 000 миллисекунд)
+    await new Promise((resolve) => setTimeout(resolve, 20000));
+    const response: IBoughts = await getBoughtsByClient(pageNum);
+    console.log(`Fetching data for page ${pageNum}:`, response); // Debug log
+    const newBoughts = response.lastz.filter(
+      (item) => !loadedIds.current.has(item.id)
+    );
 
-      if (newBoughts.length === 0) {
-        setAllDataLoaded(true);
-      } else {
-        newBoughts.forEach((item) => loadedIds.current.add(item.id));
-        setData((prevData) => [...prevData, ...newBoughts]);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      console.error("Ошибка при получении данных:", error);
-    } finally {
-      setIsLoading(false);
+    if (newBoughts.length === 0) {
+      setAllDataLoaded(true);
+    } else {
+      newBoughts.forEach((item) => loadedIds.current.add(item.id));
+      setData((prevData) => [...prevData, ...newBoughts]);
+      setPage((prevPage) => prevPage + 1);
     }
-  };
+  } catch (error) {
+    console.error("Ошибка при получении данных:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
@@ -89,7 +90,11 @@ export default function AllTodayBoughts({ boughts }: IPopularGoodsProps) {
           {allDataLoaded ? (
             <h1 className="finished container">Все данные загружены</h1>
           ) : (
-            <Loader />
+            <div className="main__news_cards toptwenty">
+              {Array.from({ length: 20 }).map((_, index) => (
+                <TodaySkeletonCard key={index} />
+              ))}
+            </div>
           )}
         </div>
       </div>

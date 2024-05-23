@@ -1,9 +1,11 @@
-"use client"
-import React, { useState, useRef } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { IPromotion } from "@/types/promotion";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import Link from "next/link";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface IPromoProps {
   promotion: IPromotion[];
@@ -14,6 +16,15 @@ const Promotion = ({ promotion }: IPromoProps) => {
   const [visiblePromotions, setVisiblePromotions] = useState(
     promotion.slice(0, 6)
   );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100011); // Установите нужное время задержки
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleShowMore = () => {
     setVisiblePromotions(promotion.slice(0, visiblePromotions.length + 6));
@@ -24,22 +35,34 @@ const Promotion = ({ promotion }: IPromoProps) => {
 
   return (
     <section className="promotion">
-      <div className={"container"}>
+      <div className="container">
         <h1 className="sections__title">Акции</h1>
         <div className={styles.promotion__container}>
-          {visiblePromotions.map((item) => (
-            <div className={styles.promotion__card} key={item.naim}>
-              <Link className={styles.promotion__card_link} href={`promotions/${item.id}`} passHref>
-                  <Image
-                    className={styles.promotion__card_img}
-                    src={`https://max.kg/${item.logo}`}
-                    width={400}
-                    height={250}
-                    alt={item.naim}
-                  />
-              </Link>
-            </div>
-          ))}
+          {loading
+            ? Array.from({ length: visiblePromotions.length }).map(
+                (_, index) => (
+                  <div className={styles.promotion__card} key={index}>
+                    <Skeleton className={styles.promotion__card_skeleton} />
+                  </div>
+                )
+              )
+            : visiblePromotions.map((item) => (
+                <div className={styles.promotion__card} key={item.naim}>
+                  <Link
+                    className={styles.promotion__card_link}
+                    href={`promotions/${item.id}`}
+                    passHref
+                  >
+                    <Image
+                      className={styles.promotion__card_img}
+                      src={`https://max.kg/${item.logo}`}
+                      width={400}
+                      height={250}
+                      alt={item.naim}
+                    />
+                  </Link>
+                </div>
+              ))}
         </div>
         <div className="default__buttons">
           {!showAll ? (
@@ -63,6 +86,3 @@ const Promotion = ({ promotion }: IPromoProps) => {
 };
 
 export default Promotion;
-
-
-

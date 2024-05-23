@@ -1,9 +1,11 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { INews } from "@/types/news";
 import styles from "./style.module.scss";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface INewProps {
   news: INews[];
@@ -12,6 +14,15 @@ interface INewProps {
 const News = ({ news }: INewProps) => {
   const [shownCount, setShownCount] = useState(6);
   const [showAllButton, setShowAllButton] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleShowMore = () => {
     setShownCount((prevCount) => prevCount + 6);
@@ -26,19 +37,28 @@ const News = ({ news }: INewProps) => {
       <div className="container">
         <h1 className="sections__title">Новости</h1>
         <div className={styles.news__container}>
-          {news.slice(0, shownCount).map((item, index) => (
-            <div className={styles.promotion__card} key={index}>
-              <Link className={styles.promotion__card_link} href={`news/${item.id}`}>
-                  <Image
-                    className={styles.promotion__card_img}
-                    src={`https://max.kg/${item.logo}`}
-                    width={400}
-                    height={250}
-                    alt={item.naim}
-                  />
-              </Link>
-            </div>
-          ))}
+          {loading
+            ? Array.from({ length: shownCount }).map((_, index) => (
+                <div className={styles.promotion__card} key={index}>
+                  <Skeleton className={styles.promotion__card_skeleton} />
+                </div>
+              ))
+            : news.slice(0, shownCount).map((item, index) => (
+                <div className={styles.promotion__card} key={index}>
+                  <Link
+                    className={styles.promotion__card_link}
+                    href={`news/${item.id}`}
+                  >
+                    <Image
+                      className={styles.promotion__card_img}
+                      src={`https://max.kg/${item.logo}`}
+                      width={400}
+                      height={250}
+                      alt={item.naim}
+                    />
+                  </Link>
+                </div>
+              ))}
         </div>
         <div className="default__buttons">
           {shownCount < 18 && !showAllButton && (
@@ -51,7 +71,9 @@ const News = ({ news }: INewProps) => {
           )}
           {shownCount >= 18 && !showAllButton && (
             <Link className="link" href="/news">
-              <button className="default__buttons_showMore">Показать все</button>
+              <button className="default__buttons_showMore">
+                Показать все
+              </button>
             </Link>
           )}
         </div>
