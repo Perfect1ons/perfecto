@@ -41,7 +41,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
           }`}
         >
           <Link href={slide.url.replace("https://max.kg/", "")}>
-            {imageLoaded ? (
+            {imageLoaded === false ? (
               <div className={styles.swiper__slide_img_skeleton}></div>
             ) : (
               <Image
