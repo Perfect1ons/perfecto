@@ -1,0 +1,67 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.container {
+  @include mixin.flex(flex-start, null, column, null);
+  margin-top: 20px !important;
+  margin-bottom: 25px !important;
+}
+
+.optionsWrap {
+  @include mixin.flex(center, flex-start, row, null);
+  @media screen and (max-width: 600px) {
+    align-items: start;
+    flex-direction: column;
+  }
+}
+
+.count {
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  @media screen and (max-width: 600px) {
+    margin-bottom: 10px;
+  }
+}
+
+.buttonsWrap {
+  @include mixin.flex(center, center, row, 10px);
+}
+
+.selectAll {
+  @include mixin.flex(center, center, row, null);
+  background: var(--super-light-white);
+  border-radius: 8px;
+  gap: 5px;
+  padding: 10px 15px;
+  span {
+    font-size: 18px;
+  }
+  &__check:focus {
+    background: var(--dark-blue) !important;
+    border-color: var(--dark-blue) !important;
+  }
+}
+
+.delete {
+  background: var(--super-light-white);
+  padding: 8px 8px;
+  border-radius: 8px;
+}
+
+.purchase {
+  font-size: 18px;
+
+  padding: 10px 30px;
+  border: 1px solid var(--violet-favorite);
+  border-radius: 8px;
+  color: var(--white);
+  background: var(--violet-favorite);
+  transition: all 0.3s ease-in;
+  &:hover,
+  :active {
+    background: var(--white);
+    color: var(--violet-favorite);
+  }
+}
+
+// cards
