@@ -13,13 +13,12 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
-import { useRouter } from "next/navigation";
 import Loader from "@/components/UI/Loader/Loader";
 import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
+import Link from "next/link";
 
 export default function CategorySwiper({ category }: ICategory) {
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
 
@@ -97,20 +96,18 @@ export default function CategorySwiper({ category }: ICategory) {
                 : `${url}${item.icon}`
               : `${url}images/discount/empty-image.png`;
             return (
-              <SwiperSlide
-                key={item.idd}
-                onClick={() => router.push(`catalog/${item.full_slug}`)}
-                className="swiper__slide"
-              >
-                <Image
-                  className="swiper__slide_img"
-                  src={imageUrl}
-                  width={93.5}
-                  height={93.5}
-                  alt={item.name}
-                  loading="lazy"
-                />
-                <h1 className="category__item_title">{item.name}</h1>
+              <SwiperSlide key={item.idd} className="swiper__slide">
+                <Link href={`/catalog/${item.full_slug}`} className="link">
+                  <Image
+                    className="swiper__slide_img"
+                    src={imageUrl}
+                    width={93.5}
+                    height={93.5}
+                    alt={item.name}
+                    loading="lazy"
+                  />
+                  <h1 className="category__item_title">{item.name}</h1>
+                </Link>
               </SwiperSlide>
             );
           })}

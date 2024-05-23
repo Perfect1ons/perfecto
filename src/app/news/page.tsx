@@ -1,21 +1,14 @@
-import { getNews } from "@/api/requests";
+import { getMetaNewsPage, getNews } from "@/api/requests";
 import AllNews from "@/components/HomeComponents/News/AllNews/AllNews";
-import { Metadata } from "next";
-
-
-export const metadata: Metadata = {
-  title:
-    "Новости",
-  description:
-    "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
-  keywords:
-    "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-};
-
+import { generatePageMetadata } from "@/utils/metadata";
 
 export default async function news() {
   const newsData = await getNews();
   // {searchParams: {page}}
 
   return <AllNews allnews={newsData} />;
+}
+
+export async function generateMetadata() {
+  return generatePageMetadata(getMetaNewsPage);
 }

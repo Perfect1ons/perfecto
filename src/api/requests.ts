@@ -21,6 +21,7 @@ import { IIntroBanner, IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 import { IBrandByName } from "@/types/Brands/brandByName";
+import { IMetaData } from "@/types/MetaData/MetaData";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -191,4 +192,36 @@ export const getCardProduct = (art: string): Promise<ICardProductItems> => {
 };
 export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
+};
+
+
+
+//! GETS METADATA FOR PAGES 
+
+
+
+export const getMetaMainPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=main").json();
+};
+
+export const getMetaKorzinaPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=korzina").json();
+};
+
+export const getMetaSkidPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=main_skid").json();
+};
+
+export const getMetaNewsPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=main_news").json();
+};
+export const getMetaPromoPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=cat_promo").json();
+};
+
+export const getMetaPopularPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=popular").json();
+};
+export const getMetaBrandPage = (): Promise<IMetaData> => {
+  return maxkg.get("site/meta?type=main_brand").json();
 };

@@ -20,7 +20,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
   const [imageLoaded, setImageLoaded] = useState(true);
 
   useEffect(() => {
-    setImageLoaded(false); // Set loading to false after component is mounted
+    setImageLoaded(false); 
   }, []);
 
   return (

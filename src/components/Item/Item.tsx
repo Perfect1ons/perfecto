@@ -170,7 +170,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 height={48}
                 alt={photo.url_part}
                 loading="lazy"
-                objectFit="cover"
               ></Image>
             </div>
           ))}
@@ -227,6 +226,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               width={20}
               height={20}
               alt="delivery_icon"
+              loading="lazy"
             />
             <div className={styles.product_info__ddos_info}>
               <p className={styles.product_info__ddos_title}>

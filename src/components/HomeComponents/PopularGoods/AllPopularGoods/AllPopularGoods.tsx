@@ -1,9 +1,9 @@
-"use client";
+"use client"
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
 import PopularGoodsCards from "../PopularGoodsCards/PopularGoodsCards";
-import Loader from "@/components/UI/Loader/Loader";
+import PopularGoodsSkeletonCard from "./PopularGoodsSkeletonCard";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -55,8 +55,8 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "200px",
-      threshold: 0.5,
+      rootMargin: "100px",
+      threshold: 0.1,
     });
 
     if (loaderRef.current) {
@@ -90,7 +90,11 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
           {allDataLoaded ? (
             <h1 className="finished container">Все данные загружены</h1>
           ) : (
-            <Loader />
+            <div className="main__news_cards">
+              {Array.from({ length: 20 }).map((_, index) => (
+                <PopularGoodsSkeletonCard key={index} />
+              ))}
+            </div>
           )}
         </div>
       </div>

@@ -3,18 +3,17 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "../../../../public/Icons/Icons";
 import { Grid, Navigation, Pagination } from "swiper/modules";
-import { useRouter } from "next/navigation";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
 import { ISeasonCategoryItem } from "@/types/seasonCategory";
 import Loader from "@/components/UI/Loader/Loader";
-
+import Link from "next/link";
+import { cookies } from "next/headers";
 interface ISeasonCategorySwiperProps {
   seasonItems: ISeasonCategoryItem[];
 }
 
 const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
-  const router = useRouter();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -75,22 +74,20 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                   : `https://max.kg/${item.icon}`
                 : "https://max.kg/images/discount/empty-image.png";
               return (
-                <SwiperSlide
-                  key={item.idd}
-                  onClick={() => router.push(`catalog/${item.full_slug}`)}
-                  className={styles.swiper__slide}
-                >
-                  <Image
-                    className={styles.swiper__slide_img}
-                    src={imageUrl}
-                    width={93.5}
-                    height={93.5}
-                    alt={item.name}
-                    placeholder="blur"
-                    loading="lazy"
-                    blurDataURL={imageUrl}
-                  />
-                  <h1 className="category__item_title">{item.name}</h1>
+                <SwiperSlide key={item.idd} className={styles.swiper__slide}>
+                  <Link className="link" href={`/catalog/${item.full_slug}`}>
+                    <Image
+                      className={styles.swiper__slide_img}
+                      src={imageUrl}
+                      width={93.5}
+                      height={93.5}
+                      alt={item.name}
+                      placeholder="blur"
+                      loading="lazy"
+                      blurDataURL={imageUrl}
+                    />
+                    <h1 className="category__item_title">{item.name}</h1>
+                  </Link>
                 </SwiperSlide>
               );
             })}
