@@ -3,18 +3,22 @@ import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { useEffect, useState } from "react";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import CatalogProductList from "./CatalogProductList";
-import CatalogProductsCustom from "./CatalogProductsCustom";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
-import { Cross } from "../../../../public/Icons/Icons";
-import { getProductsSortsBrand } from "@/api/clientRequest"; // Assuming the API function is placed in @/api/catalog
+import { Cross } from "../../../../public/Icons/Icons";// Assuming the API function is placed in @/api/catalog
+import FiltersProducts from "../FiltersProducts/FiltersProducts";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
 }
-
+interface IFiltersProps {
+  brand: string[];
+  price: { max: number; min: number };
+  dost: string[];
+  additional_filter: string[];
+}
 type BrandSelection = {
   [key: string]: {
     [key: string]: boolean;
@@ -28,22 +32,50 @@ export default function CatalogProducts({
   const initialItems = catalog.category.tov || []; // Ensure initialItems is always an array
   const [items, setItems] = useState<Tov[]>(initialItems);
   const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
+  const [selectedFilters, setSelectedFilters] = useState<IFiltersProps>({
+    brand: [],
+    price: { max: 0, min: 0 },
+    dost: [],
+    additional_filter: [],
+  });
+  // Функция для извлечения id_filter из данных фильтров
+  const extractAdditionalFilters = (filterData: any) => {
+    let additionalFilters = [];
+    for (let key in filterData) {
+      const filters = filterData[key].filter;
+      for (let filterKey in filters) {
+        additionalFilters.push(filters[filterKey].id_filter);
+      }
+    }
+    return additionalFilters;
+  };
+  // Функция для обновления состояния
+  const addFiltersToState = (apiData: any, setSelectedFilters: any) => {
+    const selectedFilters = {
+      brand: apiData.brand || [],
+      price: { max: 0, min: 0 }, // Предполагаем, что цена не является частью данных API
+      dost: apiData.variant_day || [],
+      additional_filter: extractAdditionalFilters(apiData.filter),
+    };
+
+    setSelectedFilters(selectedFilters);
+  };
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
 
-  const fetchProductsByBrand = async (brandPath: string) => {
-    try {
-      const response = await getProductsSortsBrand(
-        catalog.category.id,
-        brandPath
-      );
-      setItems(response.category.tov || []);
-    } catch (error) {
-      console.error("Failed to fetch products by brand", error);
-    }
-  };
+  // const fetchProductsByBrand = async (brandPath: string) => {
+  //   try {
+  //     const response = await getProductsSortsBrand(
+  //       catalog.category.id,
+  //       brandPath
+  //     );
+  //     setItems(response.category.tov || []);
+  //   } catch (error) {
+  //     console.error("Failed to fetch products by brand", error);
+  //   }
+  // };
 
   const toggleBrandSelection = (mainKey: string, subKey: string) => {
     setSelectedBrands((prevState) => {
@@ -62,7 +94,7 @@ export default function CatalogProducts({
         )
         .join(",");
       if (selectedBrandsPaths) {
-        fetchProductsByBrand(selectedBrandsPaths);
+        // fetchProductsByBrand(selectedBrandsPaths);
       } else {
         setItems(initialItems); // Reset to initial items if no brand is selected
       }
@@ -78,7 +110,7 @@ export default function CatalogProducts({
           updatedSelection[mainKey][subKey] = false;
         });
       }
-      fetchProductsByBrand(""); // Fetch all products when a brand is reset
+      // fetchProductsByBrand(""); // Fetch all products when a brand is reset
       return updatedSelection;
     });
   };
@@ -151,9 +183,6 @@ export default function CatalogProducts({
             <Link href="/" className={styles.link}>
               Главная
             </Link>
-            <Link href={catalog.full_slug} className={styles.link}>
-              {catalog.category.parent}
-            </Link>
             <Link
               href={catalog.category.full_slug || "sadas"}
               className={styles.link}
@@ -166,7 +195,7 @@ export default function CatalogProducts({
       </div>
       <div className="container">
         <div className="sort__buttons">
-          <CatalogProductsCustom
+          <FiltersProducts
             filter={filter}
             value={sortOrder || "default"}
             options={[
@@ -249,11 +278,6 @@ export default function CatalogProducts({
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
-      <div>
-        {items.map((item) => {
-          return <div key={item.id}>{item.naim}</div>;
-        })}
-      </div>
     </section>
   );
 }

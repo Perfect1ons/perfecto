@@ -9,7 +9,7 @@ import {
   chevronDownIcon,
 } from "../../../../public/Icons/Icons";
 
-interface IProps {
+export interface IPropsAllFilters {
   countSelected: (...selectedArrays: any[]) => number;
   filter: IFiltersBrand;
   close: () => void;
@@ -39,7 +39,7 @@ const AllFilters = ({
   selectedBrands,
   countSelected,
   resetSelectionAll,
-}: IProps) => {
+}: IPropsAllFilters) => {
   const [brandIsShow, setBrandIsShow] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -118,14 +118,16 @@ const AllFilters = ({
             <div key={divIndex} className={styles.wrapContainer}>
               <ul className={styles.divAll__divUls}>
                 <li className={styles.divAll__divUlsLi}>
-                  <button
-                    onClick={() => toggleFilters("default")}
+                  <div
                     className={styles.buttonBrandsAll}
+                    onClick={() => toggleFilters("default")}
                   >
-                    <li className={styles.showFiltersUlContainer__li}>
-                      {options.find((option) => option.value === value)
-                        ?.label || "По умолчанию"}
-                    </li>
+                    <button>
+                      <li className={styles.showFiltersUlContainer__li}>
+                        {options.find((option) => option.value === value)
+                          ?.label || "По умолчанию"}
+                      </li>
+                    </button>
                     <span
                       className={cn(
                         styles.footerNavItemArrowIsActive,
@@ -134,7 +136,7 @@ const AllFilters = ({
                     >
                       {chevronDownIcon()}
                     </span>
-                  </button>
+                  </div>
                   <ul
                     className={cn(styles.divAll__divUl, {
                       [styles.divAll__divUlActive]: isOpenState["default"],
@@ -159,16 +161,18 @@ const AllFilters = ({
                   </ul>
                 </li>
                 <li className={styles.divAll__divUlsLi}>
-                  <button
-                    onClick={() => toggleFilters("delivery")}
+                  <div
                     className={styles.buttonBrandsAll}
+                    onClick={() => toggleFilters("delivery")}
                   >
-                    Сроки доставки
-                    {countSelected(selectedBrands.day) > 0 && (
-                      <span className={styles.selectedCountAllFilters}>
-                        {countSelected(selectedBrands.day)}
-                      </span>
-                    )}
+                    <button>
+                      Сроки доставки
+                      {countSelected(selectedBrands.day) > 0 && (
+                        <span className={styles.selectedCountAllFilters}>
+                          ({countSelected(selectedBrands.day)})
+                        </span>
+                      )}
+                    </button>
                     <span
                       className={cn(
                         styles.footerNavItemArrowIsActive,
@@ -177,7 +181,7 @@ const AllFilters = ({
                     >
                       {chevronDownIcon()}
                     </span>
-                  </button>
+                  </div>
                   <ul
                     className={cn(styles.divAll__divUl, {
                       [styles.divAll__divUlActive]: isOpenState["delivery"],
@@ -225,16 +229,18 @@ const AllFilters = ({
                   </ul>
                 </li>
                 <li className={styles.divAll__divUlsLi}>
-                  <button
-                    onClick={() => toggleFilters("brand")}
+                  <div
                     className={styles.buttonBrandsAll}
+                    onClick={() => toggleFilters("brand")}
                   >
-                    Бренд
-                    {countSelected(selectedBrands.brand) > 0 && (
-                      <span className={styles.selectedCountAllFilters}>
-                        {countSelected(selectedBrands.brand)}
-                      </span>
-                    )}
+                    <button>
+                      Бренды
+                      {countSelected(selectedBrands.brand) > 0 && (
+                        <span className={styles.selectedCountAllFilters}>
+                          ({countSelected(selectedBrands.brand)})
+                        </span>
+                      )}
+                    </button>
                     <span
                       className={cn(
                         styles.footerNavItemArrowIsActive,
@@ -243,7 +249,7 @@ const AllFilters = ({
                     >
                       {chevronDownIcon()}
                     </span>
-                  </button>
+                  </div>
                   <ul
                     className={cn(styles.divAll__divUl, {
                       [styles.divAll__divUlActive]: isOpenState["brand"],
@@ -289,11 +295,18 @@ const AllFilters = ({
                   </ul>
                 </li>
                 <li className={styles.divAll__divUlsLi}>
-                  <button
+                  <div
                     className={styles.buttonBrandsAll}
                     onClick={() => toggleFilters("price")}
                   >
-                    Цена
+                    <button>
+                      Цена
+                      {countSelected(selectedBrands.price) > 0 && (
+                        <span className={styles.selectedCountAllFilters}>
+                          ({countSelected(selectedBrands.price)})
+                        </span>
+                      )}
+                    </button>
                     <span
                       className={cn(
                         styles.footerNavItemArrowIsActive,
@@ -302,7 +315,7 @@ const AllFilters = ({
                     >
                       {chevronDownIcon()}
                     </span>
-                  </button>
+                  </div>
                   <ul
                     className={cn(styles.divAll__divUl, {
                       [styles.divAll__divUlActive]: isOpenState["price"],
@@ -338,17 +351,19 @@ const AllFilters = ({
                   {/* Проходимся по каждому фильтру в текущей части */}
                   {filterChunks[divIndex].map((item: N11) => (
                     <li key={item.id_type} className={styles.divAll__divUlsLi}>
-                      <button
-                        onClick={() => toggleFilters(item.type_name)}
+                      <div
                         className={styles.buttonBrandsAll}
+                        onClick={() => toggleFilters(item.type_name)}
                       >
-                        {item.type_name}
-                        {countSelected(selectedBrands[item.type_name]) > 0 && (
-                          <span className={styles.selectedCountAllFilters}>
-                            {countSelected(selectedBrands[item.type_name])}
-                          </span>
-                        )}
-
+                        <button>
+                          {item.type_name}
+                          {countSelected(selectedBrands[item.type_name]) >
+                            0 && (
+                            <span className={styles.selectedCountAllFilters}>
+                              ({countSelected(selectedBrands[item.type_name])})
+                            </span>
+                          )}
+                        </button>
                         <span
                           className={cn(
                             styles.footerNavItemArrowIsActive,
@@ -358,7 +373,7 @@ const AllFilters = ({
                         >
                           {chevronDownIcon()}
                         </span>
-                      </button>
+                      </div>
                       {/* Проверяем, открыт ли текущий фильтр, и показываем его ul */}
                       <ul
                         className={cn(styles.divAll__divUl, {

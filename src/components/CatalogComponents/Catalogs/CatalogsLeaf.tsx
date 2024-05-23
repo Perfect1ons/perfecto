@@ -62,7 +62,7 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
       <div>
         <h1 className={styles.container__h1}>{catalog.category.name}</h1>
         <div className={styles.row}>
-          <div className={styles.wrapps}>
+          <div className={styles.containerSubCatalog}>
             <ul className={styles.subCatalogsContainerUL}>
               {catalog.category.child.map((catalogItem) => (
                 <div
@@ -76,7 +76,7 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
               ))}
             </ul>
           </div>
-          <div className={styles.row__9}>
+          <div className={styles.row__containerRow}>
             {catalog.category.child.map((catalogItem) => (
               <div
                 // href={catalogItem.full_slug.slice()}
