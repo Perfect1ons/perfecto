@@ -22,7 +22,7 @@ const NotFounded = () => {
         <div className={cn(styles.not__found_container, "container")}>
           <div className={styles.not__found_img}>
             <Image
-              src={"/img/undefinedPage.png"}
+              src={"/img/mascot_sprites.png"}
               width={180}
               height={180}
               alt="undefined"

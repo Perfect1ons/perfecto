@@ -33,7 +33,7 @@ import "swiper/scss/navigation";
 import "swiper/scss/pagination";
 import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
 
 interface IItemPageProps {
   data: Items;
@@ -201,10 +201,16 @@ const ItemPage = ({ data, similar, path }: IItemPageProps) => {
         {/* главные */}
         <div className={styles.product_image}>
           <Swiper
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+            }}
             spaceBetween={10}
             navigation={true}
             thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
+            modules={[FreeMode, Navigation, Thumbs, Keyboard]}
             className="mySwiper2"
           >
             {data.photos
