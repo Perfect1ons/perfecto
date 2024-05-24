@@ -31,26 +31,25 @@
     }
     &_skeleton {
       max-width: 1390px;
+      max-height: 400px;
       margin: 0 auto;
       min-height: 394.28px;
       @include skeleton.skeleton(auto, 20em, null);
       @media screen and (max-width: 992px) {
-        height: 15em;
+        height: 250px;
         padding: 0 30px;
       }
       @media screen and (max-width: 640px) {
         max-height: 180px;
       }
       @media screen and (max-width: 480px) {
-        max-height: 140px;
+        height: 120px;
         padding: 0;
         margin-bottom: 0;
       }
-      @media screen and (max-width: 360px) {
-        max-height: 100px;
-        width: 100%;
+      @media screen and (max-width: 380px) {
+        height: 100px;
       }
     }
   }
 }
-

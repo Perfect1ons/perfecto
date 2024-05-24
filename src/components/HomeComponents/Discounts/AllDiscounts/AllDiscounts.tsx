@@ -39,9 +39,7 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
               pathname === "/discounts" && "all__directions_linkActive"
             )}
           >
-            <h1>
               Скидки
-            </h1>
           </Link>
         </div>
 

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
 
 export default function page() {
   return (
-    <div>auth page</div>
+    <>
+    <h1 className="container section__title">Тут будет регистрация, а пока </h1>
+    <h1 className="container section__title">АХАХАХАХАХАХХАХАХХА</h1>
+    </>
   )
 }

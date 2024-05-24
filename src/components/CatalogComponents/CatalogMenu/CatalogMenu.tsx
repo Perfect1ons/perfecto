@@ -60,19 +60,19 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
     <>
       {loading ? (
         <div className={styles.catalogs}>
-          <div className={styles.catalogs__3}>
-            {Array.from({ length: 15 }).map((_, index) => (
+          <div className={styles.catalogs__left}>
+            {Array.from({ length: 26 }).map((_, index) => (
               <div
                 className={styles.catalogLinkContainer_skeleton}
                 key={index}
               ></div>
             ))}
           </div>
-          <div className={styles.catalogs__9_skeleton}></div>
+          <div className={styles.catalogs__right_skeleton}></div>
         </div>
       ) : (
         <div className={styles.catalogs}>
-          <div className={styles.catalogs__3}>
+          <div className={styles.catalogs__left}>
             {catalog &&
               catalog.map((item) => {
                 return (
@@ -100,7 +100,7 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
                 );
               })}
           </div>
-          <div className={styles.catalogs__9}>
+          <div className={styles.catalogs__right}>
             {catalog &&
               catalog
                 .sort((a, b) => a.sort_menu - b.sort_menu)

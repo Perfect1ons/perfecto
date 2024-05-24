@@ -25,6 +25,16 @@ import Link from "next/link";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
+import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
+import "swiper/scss/free-mode";
+import "swiper/scss/thumbs";
+import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
 import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
 
 interface IItemPageProps {
@@ -40,6 +50,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
   const [dropdownActive, setDropdownActive] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [itemModalDescription, setiItemModalDescription] = useState(false);
+
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
   useEffect(() => {
     const isLocalStorageAvailable =
@@ -95,20 +107,20 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
-  const getImageUrl = (photo: any) => {
-    if (!photo || !photo.url_part) {
-      // Если photo или url_part не определены, возвращаем URL placeholder
-      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-    }
+  // const getImageUrl = (photo: any) => {
+  //   if (!photo || !photo.url_part) {
+  //     // Если photo или url_part не определены, возвращаем URL placeholder
+  //     return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  //   }
 
-    if (photo.url_part.startsWith("https://goods-photos")) {
-      return `${photo.url_part}280.jpg`;
-    } else if (photo.url_part.startsWith("https://")) {
-      return photo.url_part;
-    } else {
-      return `${url}nal/img/${data.id_post}/b_${data.img}`;
-    }
-  };
+  //   if (photo.url_part.startsWith("https://goods-photos")) {
+  //     return `${photo.url_part}280.jpg`;
+  //   } else if (photo.url_part.startsWith("https://")) {
+  //     return photo.url_part;
+  //   } else {
+  //     return `${url}nal/img/${data.id_post}/b_${data.img}`;
+  //   }
+  // };
 
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
@@ -182,29 +194,67 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </Link>
       </div>
       <div className={styles.product}>
-        <div className={styles.product_cards}>
-          {data.photos.map((photo, index) => (
-            <div className={styles.product_cards__item} key={index}>
-              <Image
-                className={styles.product_preview}
-                src={getImageUrl(photo)}
-                width={48}
-                height={48}
-                alt={photo.url_part}
-                loading="lazy"
-              ></Image>
-            </div>
-          ))}
-        </div>
+        <Swiper
+          onSwiper={setThumbsSwiper}
+          direction={"vertical"}
+          spaceBetween={10}
+          slidesPerView={4}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+          className={cn(styles.product_cards, "mySwiper")}
+        >
+          {/* слева */}
+          {data.photos
+            .map((photo, index) => (
+              <div className={styles.product_cards__item} key={index}>
+                <SwiperSlide className={styles.swiper_slide}>
+                  <Image
+                    className={styles.product_preview}
+                    src={`${url}nal/img/${data.id_post}/l_${photo.url_part}`}
+                    width={48}
+                    height={48}
+                    alt={photo.url_part}
+                    loading="lazy"
+                  />
+                </SwiperSlide>
+              </div>
+            ))
+            .slice(0, 4)}
+        </Swiper>
+
+        {/* главные */}
         <div className={styles.product_image}>
-          <Image
-            src={getImageUrl(data.photos[0])}
-            width={500}
-            height={300}
-            alt={data.img}
-            loading="lazy"
-            className={styles.product_img}
-          />
+          <Swiper
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs, Keyboard]}
+            className="mySwiper2"
+          >
+            {data.photos
+              .map((photo, index) => (
+                <div className={styles.product_cards__item} key={index}>
+                  <SwiperSlide>
+                    <InnerImageZoom
+                      width={500}
+                      height={300}
+                      src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      zoomType="hover" // Используйте "hover" для активации при наведении
+                      className={styles.product_img} // Примените локальный класс к изображению
+                    />
+                  </SwiperSlide>
+                </div>
+              ))
+              .slice(0, 4)}
+          </Swiper>
         </div>
         <div className={styles.product_info}>
           <h1 className={styles.product_info__title}>{data.name}</h1>

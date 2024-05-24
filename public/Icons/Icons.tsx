@@ -819,3 +819,22 @@ export const Cross = () => {
     </svg>
   );
 };
+
+export const TrashCan = () => {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 4.68421H19M8.12 4.68421V1.52632C8.12 1.23563 8.34922 1 8.632 1H13.496C13.7788 1 14.008 1.23563 14.008 1.52632V4.68421M17.848 7.57895L16.8057 19.0899C16.7076 20.1723 15.824 21 14.7665 21H7.10552C6.04799 21 5.16435 20.1723 5.06633 19.0899L4.024 7.57895"
+        stroke="black"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};

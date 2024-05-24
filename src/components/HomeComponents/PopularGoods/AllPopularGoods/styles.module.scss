@@ -1,0 +1,25 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+.skeletonCard{
+    margin-top: 15px;
+    @media screen and (max-width: 640px) {
+        margin-top: 10px;
+    }
+    @media screen and (max-width: 480px) {
+        margin-top: 5px;
+    }
+}
+
+.skeleton__buttons{
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    &_left{
+        flex: 4;
+    }
+    &_right{
+        flex: 1;
+    }
+}
