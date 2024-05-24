@@ -239,6 +239,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             className="mySwiper2"
           >
             {data.photos
+
               .map((photo, index) => (
                 <div className={styles.product_cards__item} key={index}>
                   <SwiperSlide>
