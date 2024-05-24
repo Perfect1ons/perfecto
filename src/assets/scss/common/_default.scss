@@ -517,16 +517,15 @@
   padding-bottom: 40px;
 }
 
-.finished{
+.finished {
   text-align: center;
   font-size: 24px;
 }
 
-
-.swiper-button-prev, .swiper-button-next{
+.swiper-button-prev,
+.swiper-button-next {
   top: var(--swiper-navigation-top-offset, 46%) !important;
 }
-
 
 .swiper-button-prev,
 .swiper-rtl .swiper-button-next {
@@ -552,8 +551,8 @@
 
 .swiper-button-prev:after,
 .swiper-rtl .swiper-button-next:after {
-  content: '' !important;
-  background-image: url('/Buttonleft.svg') !important;
+  content: "" !important;
+  background-image: url("/Buttonleft.svg") !important;
   object-fit: cover;
   width: 40px !important;
   height: 40px !important;
@@ -563,30 +562,35 @@
 
 .swiper-button-next:after,
 .swiper-rtl .swiper-button-prev:after {
-    content: '' !important;
-  background-image: url('/Buttonright.svg') !important;
+  content: "" !important;
+  background-image: url("/Buttonright.svg") !important;
   width: 40px !important;
   height: 40px !important;
   background-position: 50% 50%;
   border-radius: 10px;
 }
 
-.customSwiper{
-    padding: 0 15px !important;
-    // margin:  0px 15px !important;
-    &:hover {
+.customSwiper {
+  padding: 0 15px !important;
+  // margin:  0px 15px !important;
+  &:hover {
     .swiper-button-next,
-.swiper-rtl .swiper-button-prev,
-.swiper-button-prev,
-.swiper-rtl .swiper-button-next{
-  opacity: 1;
-}
+    .swiper-rtl .swiper-button-prev,
+    .swiper-button-prev,
+    .swiper-rtl .swiper-button-next {
+      opacity: 1;
+    }
   }
 }
 
-.toptwenty{
+.toptwenty {
   margin-top: 20px;
   @media screen and (max-width: 480px) {
     margin-top: 0;
   }
+}
+
+.mySwiper .swiper-slide-thumb-active {
+  border: 2px solid var(--violet);
+  border-radius: 5px;
 }

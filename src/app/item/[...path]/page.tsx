@@ -6,7 +6,7 @@ interface Params {
 }
 export async function generateMetadata({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
-    
+
   const title = data.items.naim;
   return {
     title: `${title} в Бишкеке купить по ☝доступной цене в Кыргызстане ▶️ max.kg`,
@@ -19,5 +19,5 @@ export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
   const similarData = await getSimilarProduct(path[0]);
 
-  return <ItemPage data={data.items} similar={similarData} />;
+  return <ItemPage data={data.items} similar={similarData} path={path[0]} />;
 }

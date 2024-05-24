@@ -27,17 +27,28 @@ import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import Backdrop from "../UI/ModalHeaders/Backdrop/Backdrop";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
+import "swiper/scss/free-mode";
+import "swiper/scss/thumbs";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+
 interface IItemPageProps {
   data: Items;
   similar: ISimilarItem[];
+  path: string;
 }
 
-const ItemPage = ({ data, similar }: IItemPageProps) => {
+const ItemPage = ({ data, similar, path }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
+
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     const isLocalStorageAvailable =
@@ -86,20 +97,20 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
-  const getImageUrl = (photo: any) => {
-    if (!photo || !photo.url_part) {
-      // Если photo или url_part не определены, возвращаем URL placeholder
-      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-    }
+  // const getImageUrl = (photo: any) => {
+  //   if (!photo || !photo.url_part) {
+  //     // Если photo или url_part не определены, возвращаем URL placeholder
+  //     return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  //   }
 
-    if (photo.url_part.startsWith("https://goods-photos")) {
-      return `${photo.url_part}280.jpg`;
-    } else if (photo.url_part.startsWith("https://")) {
-      return photo.url_part;
-    } else {
-      return `${url}nal/img/${data.id_post}/b_${data.img}`;
-    }
-  };
+  //   if (photo.url_part.startsWith("https://goods-photos")) {
+  //     return `${photo.url_part}280.jpg`;
+  //   } else if (photo.url_part.startsWith("https://")) {
+  //     return photo.url_part;
+  //   } else {
+  //     return `${url}nal/img/${data.id_post}/b_${data.img}`;
+  //   }
+  // };
 
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
@@ -154,35 +165,65 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          <h1>
-            {data.name.split(" ").slice(0, 6).join(" ")}
-          </h1>
+          <h1>{data.name.split(" ").slice(0, 6).join(" ")}</h1>
         </Link>
       </div>
       <div className={styles.product}>
-        <div className={styles.product_cards}>
-          {data.photos.map((photo, index) => (
-            <div className={styles.product_cards__item} key={index}>
-              <Image
-                className={styles.product_preview}
-                src={getImageUrl(photo)}
-                width={48}
-                height={48}
-                alt={photo.url_part}
-                loading="lazy"
-              ></Image>
-            </div>
-          ))}
-        </div>
+        <Swiper
+          onSwiper={setThumbsSwiper}
+          direction={"vertical"}
+          spaceBetween={10}
+          slidesPerView={4}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+          className={cn(styles.product_cards, "mySwiper")}
+        >
+          {/* слева */}
+          {data.photos
+            .map((photo, index) => (
+              <div className={styles.product_cards__item} key={index}>
+                <SwiperSlide className={styles.swiper_slide}>
+                  <Image
+                    className={styles.product_preview}
+                    src={`${url}nal/img/${data.id_post}/l_${photo.url_part}`}
+                    width={48}
+                    height={48}
+                    alt={photo.url_part}
+                    loading="lazy"
+                  />
+                </SwiperSlide>
+              </div>
+            ))
+            .slice(0, 4)}
+        </Swiper>
+
+        {/* главные */}
         <div className={styles.product_image}>
-          <Image
-            src={getImageUrl(data.photos[0])}
-            width={500}
-            height={300}
-            alt={data.img}
-            loading="lazy"
-            className={styles.product_img}
-          />
+          <Swiper
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="mySwiper2"
+          >
+            {data.photos
+              .map((photo, index) => (
+                <div className={styles.product_cards__item} key={index}>
+                  <SwiperSlide>
+                    <Image
+                      className={styles.product_img}
+                      src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      width={500}
+                      height={300}
+                      alt={photo.url_part}
+                      loading="lazy"
+                    />
+                  </SwiperSlide>
+                </div>
+              ))
+              .slice(0, 4)}
+          </Swiper>
         </div>
         <div className={styles.product_info}>
           <h1 className={styles.product_info__title}>{data.name}</h1>
@@ -318,11 +359,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <div className={styles.product_desc_short_desc}>
             {data.short_description && (
               <div
-            className={styles.product_desc_shortdesc__text}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(data.short_description),
-            }}
-          />
+                className={styles.product_desc_shortdesc__text}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.short_description),
+                }}
+              />
             )}
           </div>
           <div className={styles.product_desc__client_desc}>
