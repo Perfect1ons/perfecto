@@ -1,77 +1,86 @@
-@use '../../assets/scss/common/mixins' as mixin;
+@use "../../assets/scss/common/mixins" as mixin;
 
-.not__found{
-    @include mixin.flex(center,center);
-    min-height: 95vh;
+.not__found {
+  @include mixin.flex(center, center);
+  min-height: 95vh;
 
-
-    &_container{
-        @include mixin.flex(center,center,column)
-    }
-    &_title{
-        @include mixin.font(40px,700, 120%, var(--black));
-        text-align: center;
-        max-width: 1200px;
-        margin-bottom: 20px;
-        text-wrap: wrap;
-        @media screen and (max-width: 768px) {
-            font-size: 28px;
-        }  
-        @media screen and (max-width: 480px) {
-            font-size: 20px;
-        }
-        span{
-            color: var(--violet)
-        }
-    }
-
-    &_error{
-        @include mixin.font(42px,700,120%, var(--black));
-    }
-
-    &_reasons{
-        @include mixin.flex(null,null,column, 20px);
-        color: var(--black);
-        max-width: 1000px;
-        margin-bottom: 20px;
-    }
-}
-
-.error__reason{
-    @include mixin.font(24px,500,150%,var(--black));
+  &_container {
+    @include mixin.flex(center, center, column);
+  }
+  &_title {
+    @include mixin.font(40px, 700, 120%, var(--black));
     text-align: center;
-    @media screen and (max-width: 480px) {
-            font-size: 18px;
-        }
-}
-
-.reason__name{
-    @include mixin.font(20px,500,150%,var(--black));
+    max-width: 1200px;
+    margin-bottom: 20px;
+    text-wrap: wrap;
     @media screen and (max-width: 768px) {
-        font-size: 16px;
+      font-size: 28px;
     }
-            @media screen and (max-width: 480px) {
-            font-size: 14px;
-        }
+    @media screen and (max-width: 480px) {
+      font-size: 20px;
+    }
+    span {
+      color: var(--violet);
+    }
+  }
+
+  &_error {
+    @include mixin.font(42px, 700, 120%, var(--black));
+  }
+
+  &_reasons {
+    @include mixin.flex(null, null, column, 20px);
+    color: var(--black);
+    max-width: 1000px;
+    margin-bottom: 20px;
+  }
+  &_img {
+    width: 180px;
+    height: 180px;
+  }
 }
 
-.goToMain{
-    text-decoration: none;
-
-    &__button{
-        @include mixin.button(
-            12px 24px,null,2px solid var(--dark-blue),5px,transparent,20px,600, var(--dark-blue)
-        );
-        transition: 0.3s ease-in-out;
-    }
-
-    &__button:hover{
-        background: var(--dark-blue);
-        color: var(--white);
-    }
-    
+.error__reason {
+  @include mixin.font(24px, 500, 150%, var(--black));
+  text-align: center;
+  @media screen and (max-width: 480px) {
+    font-size: 18px;
+  }
 }
 
-.popGoods{
-    margin: 20px 0;
+.reason__name {
+  @include mixin.font(20px, 500, 150%, var(--black));
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 14px;
+  }
+}
+
+.goToMain {
+  text-decoration: none;
+
+  &__button {
+    @include mixin.button(
+      12px 24px,
+      null,
+      2px solid var(--dark-blue),
+      5px,
+      transparent,
+      20px,
+      600,
+      var(--dark-blue)
+    );
+    transition: 0.3s ease-in-out;
+  }
+
+  &__button:hover {
+    background: var(--dark-blue);
+    color: var(--white);
+  }
+}
+
+.popGoods {
+  margin: 20px 0;
 }

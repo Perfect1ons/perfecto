@@ -1,0 +1,15 @@
+.mascot_sprite {
+  background: url("/img/mascot_sprites.png");
+  background-position-x: initial;
+  background-position-y: initial;
+  background-size: initial;
+  background-repeat: initial;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+
+  &_not_found {
+    background-position-x: -173px;
+  }
+}
