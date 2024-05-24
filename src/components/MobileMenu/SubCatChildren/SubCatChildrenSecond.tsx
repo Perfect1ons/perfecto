@@ -2,18 +2,29 @@ import React from "react";
 import styles from "./style.module.scss";
 import { ChevronRightIcon_Mobile } from "../../../../public/Icons/Icons";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 interface SubCatProps {
   isOpen: boolean;
   close: () => void;
+  closeMain: () => void;
   childCategories: any[];
 }
 
 export default function SubCatChildrenSecond({
   isOpen,
   close,
+  closeMain,
   childCategories,
 }: SubCatProps) {
+  const router = useRouter();
+
+  const handleClick = (path: string) => {
+    closeMain();
+    const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
+    router.push(fullPath);
+  };
+
   return (
     <div className={isOpen ? styles.child2_wrap_active : styles.child2_wrap}>
       <div className={styles.selectedCat_wrap} onClick={close}>
@@ -27,7 +38,11 @@ export default function SubCatChildrenSecond({
 
       <ul className={styles.subCatalogsList}>
         {childCategories.map((childItem, key) => (
-          <li className={styles.subCatalogsListItem} key={key}>
+          <li
+            className={styles.subCatalogsListItem}
+            key={key}
+            onClick={() => handleClick(childItem.full_slug)}
+          >
             <div className={styles.subCatItem_name}>
               <Image
                 src={
