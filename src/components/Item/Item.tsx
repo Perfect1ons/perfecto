@@ -26,6 +26,8 @@ import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import Backdrop from "../UI/ModalHeaders/Backdrop/Backdrop";
+import InnerImageZoom from "react-inner-image-zoom";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
@@ -217,13 +219,13 @@ const ItemPage = ({ data, similar, path }: IItemPageProps) => {
               .map((photo, index) => (
                 <div className={styles.product_cards__item} key={index}>
                   <SwiperSlide>
-                    <Image
-                      className={styles.product_img}
+                    <InnerImageZoom
+                    width={500}
+                    height={300}
                       src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
-                      width={500}
-                      height={300}
-                      alt={photo.url_part}
-                      loading="lazy"
+                      zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      zoomType="hover" // Используйте "hover" для активации при наведении
+                      className={styles.product_img} // Примените локальный класс к изображению
                     />
                   </SwiperSlide>
                 </div>
