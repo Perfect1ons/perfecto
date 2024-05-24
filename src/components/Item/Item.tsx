@@ -50,7 +50,7 @@ const ItemPage = ({ data, similar, path }: IItemPageProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
   useEffect(() => {
     const isLocalStorageAvailable =
