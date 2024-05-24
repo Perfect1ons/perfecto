@@ -154,7 +154,9 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          <h1>{data.name.split(" ").slice(0, 6).join(" ")}</h1>
+          <h1>
+            {data.name.split(" ").slice(0, 6).join(" ")}
+          </h1>
         </Link>
       </div>
       <div className={styles.product}>
@@ -316,11 +318,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <div className={styles.product_desc_short_desc}>
             {data.short_description && (
               <div
-                className={styles.product_desc_shortdesc__text}
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.short_description),
-                }}
-              />
+            className={styles.product_desc_shortdesc__text}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.short_description),
+            }}
+          />
             )}
           </div>
           <div className={styles.product_desc__client_desc}>
@@ -356,11 +358,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         <div className={styles.wrap_video}>
           <div className="productPageVideo">
             <h3 className="sections__title">Видео</h3>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: data.video,
-              }}
-            />
+            {data.video}
           </div>
         </div>
       )}
