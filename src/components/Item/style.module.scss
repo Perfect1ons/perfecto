@@ -75,12 +75,11 @@
   &_img {
     object-fit: cover;
     image-rendering: optimizeQuality;
-    width: 100%;
+    width: fit-content;
     height: auto;
     border-radius: 10px;
   }
   &_info {
-    // max-width: 600px;
     width: 100%;
     @include mixin.flex(flex-start, null, column, null);
   }

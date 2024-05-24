@@ -19,6 +19,11 @@
   }
 }
 
+//для видео
+.iframe-title,
+.iframe-description {
+  display: none; /* скрыть название и превью */
+}
 //! Показать больше - Показать все кнопки
 .link {
   text-decoration: none;
@@ -595,6 +600,8 @@
   border-radius: 5px;
 }
 
-.biggg{
-  font-size: 128px;
+.biggg {
+  font-size: 70px;
+  word-wrap: break-word;
+  max-width: 1440px;
 }

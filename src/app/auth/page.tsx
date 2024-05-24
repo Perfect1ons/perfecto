@@ -1,3 +1,4 @@
+import Prank from "@/components/Prank/Prank";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,10 +10,5 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return (
-    <>
-    <h1 className="container section__title">Тут будет регистрация, а пока </h1>
-    <h1 className="container section__title">АХАХАХАХАХАХХАХАХХА</h1>
-    </>
-  )
+  return <Prank />;
 }
