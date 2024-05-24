@@ -17,9 +17,6 @@ export default function MobileCatalog({
 }: MobCatalogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
-  const [selectedCategoryName, setSelectedCategoryName] = useState<
-    string | null
-  >(null);
   const [subCatChildData, setSubCatChildData] = useState<ChildCatLevel3[]>([]); // Состояние для дочерних категорий
   const [isSubCatChild2Open, setIsSubCatChild2Open] = useState(false); // Состояние для второго подкаталога
 
@@ -49,7 +46,6 @@ export default function MobileCatalog({
         closeMain={closeMain}
         catalogs={catalogs}
         activeCategoryId={activeCategoryId}
-        selectedCategoryName={selectedCategoryName}
         handleSubCatChildrenSecondOpen={handleSubCatChildrenSecondOpen}
         closeSubCatChildrenSecond={closeSubCatChildrenSecond}
         isSubCatChild2Open={isSubCatChild2Open} // Передаем состояние второго подкаталога
@@ -72,7 +68,6 @@ export default function MobileCatalog({
                   onClick={() => {
                     openOrClose();
                     openAndSetSubCategory(item.id);
-                    setSelectedCategoryName(item.name);
                   }}
                 >
                   <div className={styles.item_title}>
