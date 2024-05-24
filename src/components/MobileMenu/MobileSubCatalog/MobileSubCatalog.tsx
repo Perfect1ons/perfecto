@@ -11,7 +11,6 @@ interface SubCatalProps {
   closeMain: () => void;
   catalogs: ICatalogMenu | undefined;
   activeCategoryId: number | null | undefined;
-  selectedCategoryName: string | null;
   handleSubCatChildrenSecondOpen: (childCategories: any[]) => void;
   closeSubCatChildrenSecond: () => void;
   isSubCatChild2Open: boolean;
@@ -23,7 +22,6 @@ export default function MobileSubCatalog({
   close,
   catalogs,
   activeCategoryId,
-  selectedCategoryName,
   closeMain,
   handleSubCatChildrenSecondOpen,
   closeSubCatChildrenSecond,
@@ -40,14 +38,12 @@ export default function MobileSubCatalog({
         open ? styles.sub_catalog_wrap_active : styles.sub_catalog_wrap
       }
     >
-      {selectedCategoryName && (
-        <div className={styles.selectedCat_wrap} onClick={close}>
-          <div className={styles.leftIcon_wrap}>
-            <ChevronRightIcon_Mobile />
-          </div>
-          <span>{selectedCategoryName}</span>
+      <div className={styles.selectedCat_wrap} onClick={close}>
+        <div className={styles.leftIcon_wrap}>
+          <ChevronRightIcon_Mobile />
         </div>
-      )}
+        <span>Назад</span>
+      </div>
 
       <SubCatChildrenOne
         catalogs={catalogs}
