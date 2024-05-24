@@ -20,13 +20,7 @@ const NotFounded = () => {
         <Loader />
       ) : (
         <div className={cn(styles.not__found_container, "container")}>
-          <div
-            className={cn(
-              styles.not__found_img,
-              "mascot_sprite",
-              "mascot_sprite_not_found"
-            )}
-          >
+          <div className={cn("mascot_sprite", "mascot_sprite_not_found")}>
             {/* <Image
               src={"/img/undefinedPage.png"}
               width={180}

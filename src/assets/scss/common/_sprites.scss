@@ -9,7 +9,13 @@
   background-clip: initial;
   background-color: initial;
 
+  width: 180px;
+  height: 200px;
+
   &_not_found {
-    background-position-x: -173px;
+    background-position-x: 980px;
+  }
+  &_thanks {
+    background-position-x: 980px;
   }
 }

@@ -25,7 +25,6 @@ import Link from "next/link";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
-import Backdrop from "../UI/ModalHeaders/Backdrop/Backdrop";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
@@ -40,17 +39,16 @@ import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
 interface IItemPageProps {
   data: Items;
   similar: ISimilarItem[];
-  path: string;
 }
 
-const ItemPage = ({ data, similar, path }: IItemPageProps) => {
+const ItemPage = ({ data, similar }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
   useEffect(() => {
     const isLocalStorageAvailable =
@@ -220,8 +218,8 @@ const ItemPage = ({ data, similar, path }: IItemPageProps) => {
                 <div className={styles.product_cards__item} key={index}>
                   <SwiperSlide>
                     <InnerImageZoom
-                    width={500}
-                    height={300}
+                      width={500}
+                      height={300}
                       src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
                       zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
                       zoomType="hover" // Используйте "hover" для активации при наведении
