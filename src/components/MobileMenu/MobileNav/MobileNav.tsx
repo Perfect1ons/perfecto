@@ -84,7 +84,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
         )}
       >
         <ul className={styles.ul}>
-          <Link href="/" className={styles.option}>
+          <Link
+            href="/"
+            className={styles.option}
+            onClick={() => setIsOpen(false)}
+          >
             {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
             <span
               className={
@@ -106,7 +110,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </div>
           </li>
 
-          <Link href="/favorites" className={styles.option}>
+          <Link
+            href="/favorites"
+            className={styles.option}
+            onClick={() => setIsOpen(false)}
+          >
             {pathname === "/favorites" ? (
               <FavoritesIconActive />
             ) : (
@@ -123,7 +131,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <Link href="/cart" className={styles.option}>
+          <Link
+            href="/cart"
+            className={styles.option}
+            onClick={() => setIsOpen(false)}
+          >
             {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
             <span
               className={
@@ -136,7 +148,11 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <Link href="/auth" className={styles.option}>
+          <Link
+            href="/auth"
+            className={styles.option}
+            onClick={() => setIsOpen(false)}
+          >
             {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
             <span
               className={

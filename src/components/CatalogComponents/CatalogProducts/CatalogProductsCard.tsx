@@ -18,7 +18,7 @@ interface ICardDataProps {
   cardData: Tov;
 }
 const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
-  const router = useRouter(); 
+  const router = useRouter();
   const imageUrl = useMemo(() => {
     if (
       cardData.photos[0]?.url_part &&

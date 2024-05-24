@@ -33,8 +33,8 @@
   }
 }
 .product {
-  margin-top: 30px;
-  @include mixin.flex(null, center, null, 40px);
+  margin: 30px 0 60px;
+  @include mixin.flex(null, space-between, null, 40px);
   @media screen and (max-width: 1200px) {
     justify-content: space-between;
     gap: 10px;
@@ -45,7 +45,9 @@
     align-items: center;
   }
   &_cards {
-    @include mixin.flex(null, null, column, 5px);
+    @include mixin.flex(null, null, column !important, 5px);
+    margin: 0 !important;
+    width: 100px !important;
     @media screen and (max-width: 992px) {
       margin-bottom: 10px;
       flex-direction: row;
@@ -55,47 +57,37 @@
   }
   &_cards__item {
     border-radius: 5px;
-    max-width: 60px;
-    max-height: 60px;
+    max-width: 100px;
+    max-height: 100px;
   }
   &_preview {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     border-radius: 0.3125rem;
     cursor: pointer;
-    margin-bottom: 15px;
-    border: 2px solid var(--white);
-
-    &:hover {
-      border: 2px solid var(--violet);
-    }
-
-    &_active {
-      border: 2px solid var(--info);
-      border-radius: 0.3125rem;
-      cursor: pointer;
-      margin-bottom: 15px;
-    }
   }
   &_image {
-    max-width: 500px;
-    height: 500px;
+    max-width: 370px;
+    max-height: 370px;
     display: flex;
     align-items: center;
   }
   &_img {
+    object-fit: cover;
+    image-rendering: optimizeQuality;
     width: 100%;
-    height: 100%;
+    height: auto;
     border-radius: 10px;
   }
   &_info {
-    max-width: 600px;
+    // max-width: 600px;
+    width: 100%;
     @include mixin.flex(flex-start, null, column, null);
   }
   &_info__title {
     max-width: 550px;
-    margin-bottom: 15px;
-    @include mixin.font(1.125rem, 700, null, var(--gray-dark));
+    // margin-bottom: 15px;
+    @include mixin.font(1.125rem, 700, null, var(--dark));
   }
   &_info__articul {
     text-wrap: nowrap;
@@ -129,10 +121,13 @@
   }
   &_info__price {
     @include mixin.flex(center, null, null, 20px);
-    margin-top: 15px;
+    background: var(--gray-white);
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
   }
   &_info_price__current_price {
-    @include mixin.font(1.25rem, 700, null, var(--gray-dark));
+    @include mixin.font(1.25rem, 700, null, var(--dark));
     &_with__discount {
       color: var(--violet);
     }
@@ -180,9 +175,9 @@
     }
   }
   &_info__add_to {
-    margin-top: 15px;
+    margin: 15px 0;
     @include mixin.flex(null, space-between, null, 10px);
-    width: 90%;
+    width: 100%;
   }
   &_info__add_to__cart {
     background: var(--dark-blue);
@@ -256,6 +251,7 @@
   &_info_share__copy {
     @include mixin.flex(center, center, null, 5px);
     cursor: pointer;
+    // color: #929292;
   }
 
   &_info_share_telegram__btn,
@@ -296,8 +292,78 @@
   //     }
   //   }
   // }
+  &__descriptionContainer {
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+    &_h2 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_p {
+      @include mixin.font(14px, 400, null, var(--gray-dark));
+      text-align: justify;
+      max-width: 400px;
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
+  &__aboutTheProduct {
+    padding: 10px 0;
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+
+    &_h3 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_wrap {
+      width: 100%;
+      @include mixin.flex(null, flex-start, column, null);
+      &_articul {
+        @include mixin.flex(center, space-between, null, 5px);
+        // border-bottom: 1px dashed #000;
+        &_div {
+          @include mixin.flex(center, center, null, 5px);
+          &_copy {
+            cursor: pointer;
+            &:hover {
+              color: var(--violet);
+            }
+          }
+        }
+        &_copied {
+          background: var(--dark);
+          @include mixin.font(16px, 500, null, var(--white));
+          padding: 10px 15px;
+          border-radius: 5px;
+          position: fixed;
+          left: 10px;
+          bottom: 10px;
+        }
+      }
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
 }
 
 .productPageDesc {
   @include mixin.flex(flex-start, flex-start, column, 15px);
+}
+
+.swiper_slide {
+  max-height: 60px;
+  width: 100%;
+  &:hover {
+    border: 2px solid var(--violet);
+    border-radius: 5px;
+  }
 }

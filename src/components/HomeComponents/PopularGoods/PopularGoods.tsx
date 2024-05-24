@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
 import { IPopularGood,} from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
+import PopularGoodsSkeletonCard from "./AllPopularGoods/PopularGoodsSkeletonCard";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -43,6 +44,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
 
   return (
     <div className="goods">
+
       <div className="container">
         <h1 className="sections__title">Популярные товары</h1>
       </div>

@@ -36,9 +36,7 @@
   }
 }
 .showFiltersUl {
-  // overflow: hidden;
   @include mixin.flex(null, null, column, 12px);
-  // overflow-y: auto;
   width: 100%;
   max-height: 260px;
   padding-right: 6px;
@@ -257,6 +255,10 @@
     border: 2px solid var(--dark-blue);
   }
 }
+.containerMobileFilters {
+  position: relative;
+  z-index: 1001;
+}
 .containerAllFilters {
   user-select: none;
   position: absolute;
@@ -270,11 +272,22 @@
   cursor: default;
   z-index: 100;
 }
+.containerAllFiltersMobile {
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: default;
+}
+
 .sidebarContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
+  @include mixin.flex(center, center, null, 20px);
   padding-bottom: 20px;
   position: relative;
   &__h1 {
@@ -286,11 +299,8 @@
 .divAll {
   max-width: 1440px;
   margin: 0 auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  @include mixin.flex(flex-start, space-between, null, 10px);
   flex-wrap: wrap;
-  gap: 10px;
   &__divUl {
     /* Стили для скроллбара вебкит-браузеров */
     /* Track */
@@ -335,10 +345,8 @@
   cursor: pointer;
   height: 100%;
   width: 100%;
-  // --font-rubik: "__Rubik_0299a7", "__Rubik_Fallback_0299a7";
   @include mixin.flex(center, space-between, null, null);
   text-overflow: ellipsis;
-  // white-space: nowrap;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.2px;
@@ -365,9 +373,7 @@
   width: 32%;
 }
 .closeModal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mixin.flex(center, center, null, null);
   position: absolute;
   top: 5px;
   right: 5px;
@@ -437,6 +443,9 @@
 .select_header_sort {
   color: var(--violet);
 }
+.selectedCountAllFilters {
+  padding-left: 4px;
+}
 @media screen and (max-width: 992px) {
   .brandContainer {
     padding: 8px 6px;
@@ -458,6 +467,9 @@
       display: none;
     }
     .brandContainer:nth-child(4) {
+      display: none;
+    }
+    .brandContainer:nth-child(5) {
       display: none;
     }
   }
