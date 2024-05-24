@@ -21,7 +21,7 @@
   @include mixin.flex(flex-start, null, column, null);
   position: fixed;
   background: var(--white);
-  z-index: 100;
+  z-index: 200;
   width: 50%;
   height: 100%;
   top: 0;
