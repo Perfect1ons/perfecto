@@ -54,6 +54,7 @@ export default function MobileSubCatalog({
       <SubCatChildrenSecond
         isOpen={isSubCatChild2Open}
         close={handleOpenOrClose}
+        closeMain={closeMain}
         childCategories={subCatChildData} // Передаем дочерние категории
       />
     </div>
