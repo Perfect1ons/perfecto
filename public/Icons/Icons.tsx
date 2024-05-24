@@ -770,7 +770,7 @@ export const CopyIcon = () => {
       <g
         fill="none"
         fillRule="evenodd"
-        stroke="#999999"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

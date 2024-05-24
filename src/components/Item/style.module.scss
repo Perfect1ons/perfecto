@@ -94,8 +94,8 @@
   }
   &_info__title {
     max-width: 550px;
-    margin-bottom: 15px;
-    @include mixin.font(1.125rem, 700, null, var(--gray-dark));
+    // margin-bottom: 15px;
+    @include mixin.font(1.125rem, 700, null, var(--dark));
   }
   &_info__articul {
     text-wrap: nowrap;
@@ -129,10 +129,13 @@
   }
   &_info__price {
     @include mixin.flex(center, null, null, 20px);
-    margin-top: 15px;
+    background: var(--gray-white);
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
   }
   &_info_price__current_price {
-    @include mixin.font(1.25rem, 700, null, var(--gray-dark));
+    @include mixin.font(1.25rem, 700, null, var(--dark));
     &_with__discount {
       color: var(--violet);
     }
@@ -180,9 +183,9 @@
     }
   }
   &_info__add_to {
-    margin-top: 15px;
+    margin: 15px 0;
     @include mixin.flex(null, space-between, null, 10px);
-    width: 90%;
+    width: 100%;
   }
   &_info__add_to__cart {
     background: var(--dark-blue);
@@ -256,6 +259,7 @@
   &_info_share__copy {
     @include mixin.flex(center, center, null, 5px);
     cursor: pointer;
+    // color: #929292;
   }
 
   &_info_share_telegram__btn,
@@ -296,6 +300,67 @@
   //     }
   //   }
   // }
+  &__descriptionContainer {
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+    &_h2 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_p {
+      @include mixin.font(14px, 400, null, var(--gray-dark));
+      text-align: justify;
+      max-width: 400px;
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
+  &__aboutTheProduct {
+    padding: 10px 0;
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+
+    &_h3 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_wrap {
+      width: 100%;
+      @include mixin.flex(null, flex-start, column, null);
+      &_articul {
+        @include mixin.flex(center, space-between, null, 5px);
+        // border-bottom: 1px dashed #000;
+        &_div {
+          @include mixin.flex(center, center, null, 5px);
+          &_copy {
+            cursor: pointer;
+            &:hover {
+              color: var(--violet);
+            }
+          }
+        }
+        &_copied {
+          background: var(--dark);
+          @include mixin.font(16px, 500, null, var(--white));
+          padding: 10px 15px;
+          border-radius: 5px;
+          position: fixed;
+          left: 10px;
+          bottom: 10px;
+        }
+      }
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
 }
 
 .productPageDesc {
