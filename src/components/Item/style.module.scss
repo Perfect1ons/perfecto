@@ -4,7 +4,7 @@
 }
 .wrap {
   &_backdrop {
-    z-index: 99;
+    z-index: 199;
     position: fixed;
     top: 0;
     left: 0;
@@ -34,7 +34,7 @@
 }
 .product {
   margin: 30px 0 60px;
-  @include mixin.flex(null, space-between, null, 40px);
+  @include mixin.flex(null, flex-start, null, 40px);
   @media screen and (max-width: 1200px) {
     justify-content: space-between;
     gap: 10px;
@@ -80,13 +80,12 @@
     border-radius: 10px;
   }
   &_info {
-    width: 100%;
-    @include mixin.flex(flex-start, null, column, null);
+    // max-width: 600px;
+    @include mixin.flex(null, null, column, null);
   }
   &_info__title {
-    max-width: 550px;
-    margin-bottom: 15px;
-    @include mixin.font(1.125rem, 700, null, var(--gray-dark));
+    // margin-bottom: 15px;
+    @include mixin.font(1.125rem, 500, null, var(--gray-dark));
   }
   &_info__articul {
     text-wrap: nowrap;
@@ -100,8 +99,7 @@
     user-select: none;
     cursor: pointer;
     @include mixin.flex(null, null, null, 5px);
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 10px 0;
   }
   &_info_ocenka__count {
     @include mixin.font(1rem, 500, null, var(--secondary-gray));
@@ -120,10 +118,13 @@
   }
   &_info__price {
     @include mixin.flex(center, null, null, 20px);
-    margin-top: 15px;
+    background: var(--gray-white);
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
   }
   &_info_price__current_price {
-    @include mixin.font(1.25rem, 700, null, var(--gray-dark));
+    @include mixin.font(1.25rem, 700, null, var(--dark));
     &_with__discount {
       color: var(--violet);
     }
@@ -171,9 +172,10 @@
     }
   }
   &_info__add_to {
-    margin-top: 15px;
+    margin: 15px 0;
     @include mixin.flex(null, space-between, null, 10px);
-    width: 90%;
+    max-width: 600px;
+    width: 100%;
   }
   &_info__add_to__cart {
     background: var(--dark-blue);
@@ -247,6 +249,7 @@
   &_info_share__copy {
     @include mixin.flex(center, center, null, 5px);
     cursor: pointer;
+    // color: #929292;
   }
 
   &_info_share_telegram__btn,
@@ -287,6 +290,66 @@
   //     }
   //   }
   // }
+  &__descriptionContainer {
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+    &_h2 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_p {
+      @include mixin.font(14px, 400, null, var(--gray-dark));
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--light-blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
+  &__aboutTheProduct {
+    padding: 10px 0;
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+    max-height: 200px;
+
+    &_h3 {
+      @include mixin.font(16px, 500, null, var(--black));
+    }
+    &_wrap {
+      width: 100%;
+      @include mixin.flex(null, flex-start, column, null);
+      &_articul {
+        @include mixin.flex(center, space-between, null, 5px);
+        // border-bottom: 1px dashed #000;
+        &_div {
+          @include mixin.flex(center, center, null, 5px);
+          &_copy {
+            cursor: pointer;
+            &:hover {
+              color: var(--violet);
+            }
+          }
+        }
+        &_copied {
+          background: var(--dark);
+          @include mixin.font(16px, 500, null, var(--white));
+          padding: 10px 15px;
+          border-radius: 5px;
+          position: fixed;
+          left: 10px;
+          bottom: 10px;
+        }
+      }
+    }
+    &_button {
+      @include mixin.font(16px, 500, null, var(--light-blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--blue);
+      }
+    }
+  }
 }
 
 .productPageDesc {

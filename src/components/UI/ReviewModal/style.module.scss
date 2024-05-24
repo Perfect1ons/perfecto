@@ -8,27 +8,55 @@
   @include mixin.flex(center, null, column, null);
   position: fixed;
   background: var(--white);
-  z-index: 100;
+  z-index: 200;
   width: 500px;
   max-height: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   border-radius: 5px;
   top: 50px;
+  &_title {
+    @include mixin.font(1.875rem, 500, null, var(--dark));
+    align-self: flex-start;
+    padding-left: 20px;
+    padding-top: 20px;
+  }
+  &_product {
+    align-self: flex-start;
+    padding-left: 20px;
+    padding-top: 20px;
+    @include mixin.flex(center, center, null, 10px);
+    &_imageContainer {
+      max-width: 80px;
+      max-height: 80px;
+      border-radius: 5px;
+      &_productImage {
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &_productName {
+      @include mixin.font(1.125rem, 400, null, var(--dark));
+    }
+  }
   &_cross {
     cursor: pointer;
-    @include mixin.font(1.875rem, 700, null, var(--gray));
+    @include mixin.font(2.1875rem, 700, null, var(--gray));
     position: absolute;
     top: 5px;
-    right: 10px;
+    right: 15px;
     &:hover {
       color: var(--dark);
     }
   }
   &_ocenka {
-    margin-top: 40px;
+    @include mixin.flex(null, center, null, null);
+    position: relative;
+    padding-top: 20px;
+    padding-bottom: 20px;
     &_rating {
+      padding-bottom: 20px;
       @include mixin.flex(center, center, null, 25px);
-      margin-bottom: 20px;
       &_star {
         scale: 1.8;
         background: none;
@@ -36,8 +64,37 @@
         cursor: pointer;
       }
     }
+    &_text {
+      position: absolute;
+      margin-top: 30px;
+      @include mixin.font(1rem, 400, null, var(--secondary-gray));
+    }
+  }
+
+  &_inputs {
+    width: 100%;
+    @include mixin.flex(center, null, column, null);
+    &_name {
+      max-width: 450px;
+      margin-top: 5px;
+      border-bottom: 1px solid var(--dark);
+      outline: 1px solid var(--white);
+      padding: 10px 3px;
+      width: 100%;
+
+      &::placeholder {
+        @include mixin.font(1rem, 500, null, var(--secondary-gray));
+      }
+      &:focus {
+        border-radius: 5px;
+        border-bottom: 1px solid var(--white);
+        outline: 2px solid var(--info);
+        // box-shadow: 0px 0px 5px 0.5px var(--info);
+      }
+    }
   }
   &_areas {
+    margin-top: 10px;
     width: 100%;
     @include mixin.flex(center, null, column, null);
     &_block {
@@ -47,27 +104,58 @@
         @include mixin.font(1rem, 400, null, var(--secondary-gray));
       }
       &_area {
-        margin-top: 5px;
+        overflow-y: hidden;
+        margin-top: 3px;
         margin-bottom: 10px;
         border-radius: 5px;
         padding: 10px;
         @include mixin.font(18px, 400, 20px, var(--dark));
-        resize: vertical;
+        resize: none;
         width: 450px;
+        height: auto;
         max-height: 165px;
         border: 2px solid var(--secondary-white);
-        transition: 0.3s all;
         &:focus {
           border: 2px solid var(--white);
           outline: 2px solid var(--info);
-          box-shadow: 0px 0px 5px 0.5px var(--info);
+          // box-shadow: 0px 0px 5px 0.5px var(--info);
         }
+      }
+    }
+  }
+  &_selectMedia {
+    margin-top: 10px;
+    @include mixin.flex(center, center, null, null);
+    width: 100%;
+    max-width: 450px;
+    &_uploadBtn {
+      @include mixin.flex(center, center, null, 10px);
+      background-color: var(--secondary);
+      border-radius: 5px;
+      padding: 10px 60px;
+      width: 100%;
+      position: relative;
+      transition: 0.4s all;
+      border: 2px solid var(--secondary);
+      &:hover {
+        background-color: var(--white);
+      }
+      &_text {
+        @include mixin.font(1rem, 700, null, var(--dark));
+      }
+      &_input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
       }
     }
   }
   &_anonim {
     user-select: none;
-    margin: 10px 0px;
+    margin: 5px 0px;
     max-width: 450px;
     width: 100%;
 
@@ -94,53 +182,11 @@
       @include mixin.font(1rem, 400, null, var(--dark));
     }
   }
-
-  &_inputs {
-    width: 100%;
-    @include mixin.flex(center, null, column, null);
-    &_name {
-      max-width: 450px;
-      margin-top: 5px;
-      border-bottom: 1px solid var(--dark);
-      outline: 1px solid var(--white);
-      padding: 10px 3px;
-      width: 100%;
-      transition: 0.3s all;
-
-      &::placeholder {
-        @include mixin.font(1rem, 500, null, var(--secondary-gray));
-      }
-      &:focus {
-        border-radius: 5px;
-        border-bottom: 1px solid var(--white);
-        outline: 2px solid var(--info);
-        box-shadow: 0px 0px 5px 0.5px var(--info);
-      }
-    }
-    &_comm {
-      max-width: 450px;
-      margin-top: 15px;
-      outline: 1px solid var(--white);
-      border-bottom: 1px solid var(--dark);
-      padding: 10px 3px;
-      width: 100%;
-      transition: 0.3s all;
-      &::placeholder {
-        @include mixin.font(1rem, 500, null, var(--secondary-gray));
-      }
-      &:focus {
-        border-radius: 5px;
-        border-bottom: 1px solid var(--white);
-        outline: 2px solid var(--info);
-        box-shadow: 0px 0px 5px 0.5px var(--info);
-      }
-    }
-  }
   &_reCaptcha {
     @include mixin.flex(flex-start, null, null, null);
     max-width: 450px;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 10px;
   }
   &_sendBtn {
     cursor: pointer;
