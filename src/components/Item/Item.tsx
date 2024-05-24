@@ -277,7 +277,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               className={styles.product_info_ocenka__otzivy}
             >{`(${data.otz.length})`}</Link>
           </div>
-          <div className={styles.product_info__price}>
+          {/* <div className={styles.product_info__price}>
             <span className={styles.product_info_price__current_price}>
               {data.price} с.
             </span>
@@ -285,76 +285,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               {data.old_price} c.
             </span>
             <ProductInfo price_update={data.price_update} />
-          </div>
-          <div className={styles.product_info__add_to}>
-            <button
-              title="Добавить в корзину"
-              className={styles.product_info__add_to__cart}
-              onClick={() => console.log("Добавлено в корзину")}
-            >
-              <span className={styles.add__to_cart_icon}>
-                <CartIcon />
-              </span>
-              В корзину
-            </button>
-            <button className={styles.product_info__buy_btn}>Купить</button>
-            <button
-              title="Добавить в избранное"
-              className={cn("add__to_fav", {
-                ["add__to_fav_active"]: isFavorite,
-              })}
-              onClick={handleFavoriteClick}
-            >
-              <span className="add__to_fav_icon">
-                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
-              </span>
-            </button>
-            <div className={styles.product_info__share}>
-              <button
-                onClick={handleDropdown}
-                className={cn(
-                  styles.product_info__share_btn,
-                  dropdownActive && styles.product_info__share_btn__active
-                )}
-              >
-                <ShareIcon />
-              </button>
-              <div
-                className={cn(
-                  styles.product_info__share_dropdown,
-                  dropdownActive && styles.product_info__share_dropdown__active
-                )}
-              >
-                <div
-                  onClick={handleTelegramClick}
-                  className={styles.product_info_share__tg}
-                >
-                  <TgIcon />
-                  <button className={styles.product_info_share_telegram__btn}>
-                    Telegram
-                  </button>
-                </div>
-                <div
-                  onClick={handleWhatsAppClick}
-                  className={styles.product_info_share__wh}
-                >
-                  <WhIcon />
-                  <button className={styles.product_info_share_whatsapp__btn}>
-                    WhatsApp
-                  </button>
-                </div>
-                <div
-                  onClick={handleCopyLink}
-                  className={styles.product_info_share__copy}
-                >
-                  <CopyIcon />
-                  <button className={styles.product_info_share_copy_link__btn}>
-                    Скопировать ссылку
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> */}
           <div className={styles.product__descriptionContainer}>
             <h2 className={styles.product__descriptionContainer_h2}>
               Описание
@@ -450,6 +381,75 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 Наличие и доставка !
               </p>
               <p className={styles.product_info__ddos_text}>{data.ddos}</p>
+            </div>
+          </div>
+          <div className={styles.product_info__add_to}>
+            <button
+              title="Добавить в корзину"
+              className={styles.product_info__add_to__cart}
+              onClick={() => console.log("Добавлено в корзину")}
+            >
+              <span className={styles.add__to_cart_icon}>
+                <CartIcon />
+              </span>
+              В корзину
+            </button>
+            <button className={styles.product_info__buy_btn}>Купить</button>
+            <button
+              title="Добавить в избранное"
+              className={cn("add__to_fav", {
+                ["add__to_fav_active"]: isFavorite,
+              })}
+              onClick={handleFavoriteClick}
+            >
+              <span className="add__to_fav_icon">
+                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              </span>
+            </button>
+            <div className={styles.product_info__share}>
+              <button
+                onClick={handleDropdown}
+                className={cn(
+                  styles.product_info__share_btn,
+                  dropdownActive && styles.product_info__share_btn__active
+                )}
+              >
+                <ShareIcon />
+              </button>
+              <div
+                className={cn(
+                  styles.product_info__share_dropdown,
+                  dropdownActive && styles.product_info__share_dropdown__active
+                )}
+              >
+                <div
+                  onClick={handleTelegramClick}
+                  className={styles.product_info_share__tg}
+                >
+                  <TgIcon />
+                  <button className={styles.product_info_share_telegram__btn}>
+                    Telegram
+                  </button>
+                </div>
+                <div
+                  onClick={handleWhatsAppClick}
+                  className={styles.product_info_share__wh}
+                >
+                  <WhIcon />
+                  <button className={styles.product_info_share_whatsapp__btn}>
+                    WhatsApp
+                  </button>
+                </div>
+                <div
+                  onClick={handleCopyLink}
+                  className={styles.product_info_share__copy}
+                >
+                  <CopyIcon />
+                  <button className={styles.product_info_share_copy_link__btn}>
+                    Скопировать ссылку
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           {/* <div className={styles.product_info__add_to}>

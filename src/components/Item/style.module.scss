@@ -34,7 +34,7 @@
 }
 .product {
   margin: 30px 0 60px;
-  @include mixin.flex(null, space-between, null, 40px);
+  @include mixin.flex(null, flex-start, null, 40px);
   @media screen and (max-width: 1200px) {
     justify-content: space-between;
     gap: 10px;
@@ -81,13 +81,11 @@
   }
   &_info {
     // max-width: 600px;
-    width: 100%;
-    @include mixin.flex(flex-start, null, column, null);
+    @include mixin.flex(null, null, column, null);
   }
   &_info__title {
-    max-width: 550px;
     // margin-bottom: 15px;
-    @include mixin.font(1.125rem, 700, null, var(--dark));
+    @include mixin.font(1.125rem, 500, null, var(--gray-dark));
   }
   &_info__articul {
     text-wrap: nowrap;
@@ -101,8 +99,7 @@
     user-select: none;
     cursor: pointer;
     @include mixin.flex(null, null, null, 5px);
-    margin-top: 15px;
-    margin-bottom: 15px;
+    margin: 10px 0;
   }
   &_info_ocenka__count {
     @include mixin.font(1rem, 500, null, var(--secondary-gray));
@@ -177,6 +174,7 @@
   &_info__add_to {
     margin: 15px 0;
     @include mixin.flex(null, space-between, null, 10px);
+    max-width: 600px;
     width: 100%;
   }
   &_info__add_to__cart {
@@ -299,21 +297,20 @@
     }
     &_p {
       @include mixin.font(14px, 400, null, var(--gray-dark));
-      text-align: justify;
-      max-width: 400px;
     }
     &_button {
-      @include mixin.font(16px, 500, null, var(--blue));
+      @include mixin.font(16px, 500, null, var(--light-blue));
       cursor: pointer;
       transition: 0.3;
       &:hover {
-        color: var(--violet);
+        color: var(--blue);
       }
     }
   }
   &__aboutTheProduct {
     padding: 10px 0;
     @include mixin.flex(flex-start, flex-start, column, 5px);
+    max-height: 200px;
 
     &_h3 {
       @include mixin.font(16px, 500, null, var(--black));
@@ -345,11 +342,11 @@
       }
     }
     &_button {
-      @include mixin.font(16px, 500, null, var(--blue));
+      @include mixin.font(16px, 500, null, var(--light-blue));
       cursor: pointer;
       transition: 0.3;
       &:hover {
-        color: var(--violet);
+        color: var(--blue);
       }
     }
   }
