@@ -142,7 +142,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     <section className={cn(styles.wrap, "container")}>
       {isOpen && (
         <div className={styles.wrap_modal}>
-          <ReviewModal func={openModal} />
+          <ReviewModal func={openModal} data={data} />
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
         </div>
       )}
@@ -154,9 +154,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           href={`/item/${data.art}/${data.url}`}
           className={cn("all__directions_link", "all__directions_linkActive")}
         >
-          <h1>
-            {data.name.split(" ").slice(0, 6).join(" ")}
-          </h1>
+          <h1>{data.name.split(" ").slice(0, 6).join(" ")}</h1>
         </Link>
       </div>
       <div className={styles.product}>
@@ -318,11 +316,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <div className={styles.product_desc_short_desc}>
             {data.short_description && (
               <div
-            className={styles.product_desc_shortdesc__text}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(data.short_description),
-            }}
-          />
+                className={styles.product_desc_shortdesc__text}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.short_description),
+                }}
+              />
             )}
           </div>
           <div className={styles.product_desc__client_desc}>
