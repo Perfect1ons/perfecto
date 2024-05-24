@@ -43,7 +43,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
                 pathname === `/news/${main.id}` && "all__directions_linkActive"
               )}
             >
-                {main.naim}
+              {main.naim}
             </Link>
           </div>
 
@@ -58,6 +58,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
                     src={`${url}${main.logo}`}
                     width={450}
                     height={280}
+                    data-fancybox="gallery"
                     alt={main.naim}
                   />
                 </div>

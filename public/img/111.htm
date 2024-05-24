@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>400x400.jpg</title>
+
+<meta charset="utf-8"> 
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+<link rel="icon" type="image/png" href="/favicon-96x96.png">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+<!-- JQuery, JQueryUI -->
+<script type="text/javascript" src="/townsquare/js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="/townsquare/js/jquery-ui-1.12.1.min.js"></script> 
+<link rel="stylesheet" type="text/css" href="/townsquare/css/jquery-ui-1.12.1.min.css" />
+
+<script type="text/javascript" src="/townsquare/js/bootstrap-3.3.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/townsquare/css/bootstrap-3.3.1.min.css">
+
+<link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/global.css" />
+<link rel="stylesheet" type="text/css" href="/css/slides.css" />
+<link rel="stylesheet" type="text/css" href="/css/menus.css" />
+<link rel="stylesheet" type="text/css" href="/css/calendar.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/calendar-fp-1.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/calendar-fp-2.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/calendar-fp-3.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/feature.css" />
+<link rel="stylesheet" type="text/css" href="/css/features-cards.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/features-basic.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/features-basic-2.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/features-statement.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/features-announcement.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/news.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/news-wide-card.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/email-signup.css" /> 
+
+<link rel="stylesheet" type="text/css" href="/css/townsquare.css" />
+<link rel="stylesheet" type="text/css" href="/css/lists.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/forms.css" />
+<link rel="stylesheet" type="text/css" href="/css/ctf.css" />
+
+<link rel="stylesheet" type="text/css" href="/townsquare/css/font-awesome-5.5.css" />
+
+<!-- Theme CSS --> 
+<link rel="stylesheet" type="text/css" href="/css/feature.css" /> 
+<link rel="stylesheet" type="text/css" href="/css/menus.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/global.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/css/homepage.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="/townsquare/css/jquery.smartmenus.bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="/townsquare/css/yamm3.css" />
+
+<script type="text/javascript" src="/townsquare/js/jquery.smartmenus.js"></script>
+<script type="text/javascript" src="/townsquare/js/jquery.smartmenus.bootstrap.js"></script>
+
+<!-- link rel="stylesheet" type="text/css" href="/townsquare/css/font-awesome.min.css" / -->
+<!-- link rel="stylesheet" type="text/css" href="/townsquare/css/font-awesome-ie7.min.css" / -->
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<link rel="stylesheet" type="text/css" href="/townsquare/css/yamm3.css" />
+<script>
+  $(document).on('click', '.yamm .dropdown-menu', function(e) {
+    e.stopPropagation()
+  } );
+</script>
+
+<script src="/townsquare/js/nestedSortable/jquery.mjs.nestedSortable.js"></script>
+
+<script type="text/javascript" src="/townsquare/js/bootbox.min.js"></script> 
+
+<!-- jqGrid -->
+<link href="/townsquare/css/ui.jqgrid.css" rel="stylesheet">
+<link href="/css/jqgrid.custom.css" rel="stylesheet">
+<script src="/townsquare/js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="/townsquare/js/jquery.jqGrid.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $.jgrid.no_legacy_api = true;
+  $.jgrid.useJSON = true;
+</script>
+
+<script type="text/javascript" src="/townsquare/js/jquery.touchSwipe.min.js"></script> 
+
+<!-- Typekit -->
+<link rel="stylesheet" href="https://use.typekit.net/inq6yzz.css">
+
+  <script type="text/javascript" src='https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=onRecaptchaLoadCallback'></script>
+
+<script src="/townsquare/js/jquery.passwordstrength.js"></script>
+<link rel="stylesheet" type="text/css" href="/townsquare/css/jquery.passwordstrength.css">
+
+<!-- file upload -->
+<script src="/townsquare/js/jQuery-File-Upload-8.9.0/js/jquery.fileupload.js"></script>
+<script src="/townsquare/js/jQuery-File-Upload-8.9.0/js/jquery.fileupload-process.js"></script>
+<script src="/townsquare/js/jQuery-File-Upload-8.9.0/js/jquery.iframe-transport.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/townsquare/css/jquery.Jcrop.css" />
+<script src="/townsquare/js/jquery.Jcrop.js"></script>
+<script src="/townsquare/js/jquery.color.js"></script>
+
+<!-- TinyMCE HTML editor -->
+<link rel="stylesheet" type="text/css" href="/townsquare/css/tiny_mce.css" />
+<script type="text/javascript" src="/js/tinymce/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="/js/tinymce/tinymce/jquery.tinymce.min.js"></script>
+<script type="text/javascript" src="/js/tiny_mce_init.js"></script>
+
+<!-- Chosen (fancy select boxes) -->
+<link href="/townsquare/css/bootstrap-chosen.css" rel="stylesheet">
+<script src="/townsquare/js/chosen.jquery.min.js" type="text/javascript"></script>
+
+<!-- date/time picker -->
+<link rel="stylesheet" type="text/css" href="/townsquare/css/bootstrap-datetimepicker-4.17.47.css" />
+<script type="text/javascript" src="/townsquare/js/moment-with-locales-2.24.0.min.js"></script>
+<script type="text/javascript" src="/townsquare/js/bootstrap-datetimepicker-4.17.47.js"></script>
+
+<!-- GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+
+
+<!-- Scale logo on scroll --> 
+<script>
+window.onscroll = function() {
+  growShrinkLogo()
+};
+
+function growShrinkLogo() {
+  var Logo = document.getElementById("logo")
+  if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
+    Logo.classList.add("logo-small");
+    Logo.classList.remove("logo-large");
+  } else {
+    Logo.classList.remove("logo-small");
+    Logo.classList.add("logo-large");
+  }
+}
+</script>
+
+<!--Accordion styling-->
+<script type="text/javascript">
+
+  jQuery(function ($) {
+    var $active = $('.panel-group .panel-collapse.in').prev().addClass('active');
+    $active.find('a').append('<span class="glyphicon glyphicon-minus pull-right"></span>');
+    $('.panel-group .panel-heading').not($active).find('a').prepend('<span class="glyphicon glyphicon-plus pull-right"></span>');
+    $('.panel-group').on('show.bs.collapse', function (e) {
+      $('.panel-group .panel-heading.active').removeClass('active').find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+      $(e.target).prev().addClass('active').find('.glyphicon').toggleClass('glyphicon-plus glyphicon-minus');
+    });
+    $('.panel-group').on('hide.bs.collapse', function (e) {
+      $(e.target).prev().removeClass('active').find('.glyphicon').removeClass('glyphicon-minus').addClass('glyphicon-plus');
+    });
+  });
+
+  function isBreakpoint( alias ) {
+    return jQuery('.device-' + alias).is(':visible');
+  }
+
+  function resizeHeader() {
+    var head_height = jQuery("#header-container").height();
+    jQuery("#main-content-area-container.resizable").css("padding-top", ( head_height ) );
+    if ( isBreakpoint("xs") ) {
+      jQuery(".trip-planner-box").css("margin-top", ( head_height ) );
+    }
+  }
+  jQuery(window).load(resizeHeader);
+  jQuery(window).resize(resizeHeader);
+
+</script>
+
+    <!-- link rel="stylesheet" type="text/css" href="/css/content-page.css" media="screen" / -->
+  </head>
+
+  <body>
+    
+    <div id="header-nav" class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div id="logo-mobile" class="navbar-left-text visible-xs">
+    <a href="/" title="Home page"><img src="/img/SantaRosaForward_Logo_TEMP.jpg" class="homepage-logo visible-xs-inline img-responsive" /></a>
+  </div>
+  
+  <div class="hidden-xs hidden-sm">
+    <div id="header-menu" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+    	<li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/about" class=" dropdown-toggle" data-toggle="dropdown">About</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/news_items/index/4" class="">Latest News</a></li></ul></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/schedule" class="">Schedule</a></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/Topics" class=" dropdown-toggle" data-toggle="dropdown">Key Topics</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/equity" class="">Equity</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/HE" class="">Housing </a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/app_pages/view/672" class="">Greenhouse Gas Reduction</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ER" class="">Environmental Review</a></li></ul></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/docs" class=" dropdown-toggle" data-toggle="dropdown">Documents</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/DraftGP" class="">Draft Santa Rosa General Plan 2050</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/WSA" class="">Water Supply Assessment</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/PrefAltSummary" class="">Final Preferred Alternative Diagram</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/Alts" class="">Alternatives Workbook</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/VS" class="">Vision Statement</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ClimateChangeVulnerability" class="">Climate Change Vulnerability Assessment</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/BB" class="">Briefing Book</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ECR" class="">Existing Conditions Report</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CIS" class="">Community Involvement Strategy</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/GPUWP" class="">Project Work Program</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/AD" class="">Additional Resources</a></li></ul></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/engagement" class=" dropdown-toggle" data-toggle="dropdown">Get Involved</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/CD-DraftGP" class="">Community Discussions: Draft General Plan 2050</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/MHS-GPU101" class="">MHS General Plan Student Project</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/youth-public-art" class="">Youth Engagement through Public Art</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/youth-voice-gallery" class="">Youth Voice Gallery</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-PrefAlternative" class="">Community Discussions: Preferred Alternative</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-Alternatives" class="">Community Discussions: Alternatives</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-Visioning" class="">Community Discussions: Visioning</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CommunityConversations-CIS" class="">Community Involvement Strategy Discussions</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CommunityConversations" class="">Community Conversations</a></li></ul></li><li class='hidden-sm hidden-md  hidden-sm hidden-md hidden-lg'><a href="/cac" class="">CAC</a></li>      </ul>
+    </div>
+  </div>
+
+  <div id="mobile-menu-bar" class="container-fluid">
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12">
+	  <div id="admin-menu" class="navbar-collapse collapse admin-menu">
+    	    <ul class="nav navbar-nav navbar-right">
+    	          	    </ul>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div id="announcement-bar" class="container">
+      <div class="row">
+    	<div class="col-xs-12 col-sm-2">
+    	  <div class="navbar-header">
+    	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    	      <span class="sr-only">Toggle navigation</span>
+    	      <span class="icon-bar"></span>
+    	      <span class="icon-bar"></span>
+    	      <span class="icon-bar"></span>
+    	    </button>
+    	  </div>
+	</div>
+    <div class="col-xs-12 col-sm-9">
+	  <div class="hidden-xs hidden-sm"><a href='https://www.santarosaforward.com/DraftGP' class='announcement-inline'><p>Click here to view the <strong>Draft Santa Rosa General Plan 2050</strong>, now available for Public Review!</p></a>
+
+</div>
+   	</div>
+    	<div class="col-xs-12 col-sm-1">
+    	  <button id="google-translate-button" class="hidden-xs btn-google-translate">Espa&#241;ol</button>
+    	</div>
+    	<div class="col-xs-12">
+    	  <div id="header-menu" class="navbar-collapse collapse">
+    	    <ul class="nav navbar-nav navbar-right">
+    	      <li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/about" class=" dropdown-toggle" data-toggle="dropdown">About</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/news_items/index/4" class="">Latest News</a></li></ul></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/schedule" class="">Schedule</a></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/Topics" class=" dropdown-toggle" data-toggle="dropdown">Key Topics</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/equity" class="">Equity</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/HE" class="">Housing </a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/app_pages/view/672" class="">Greenhouse Gas Reduction</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ER" class="">Environmental Review</a></li></ul></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/docs" class=" dropdown-toggle" data-toggle="dropdown">Documents</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/DraftGP" class="">Draft Santa Rosa General Plan 2050</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/WSA" class="">Water Supply Assessment</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/PrefAltSummary" class="">Final Preferred Alternative Diagram</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/Alts" class="">Alternatives Workbook</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/VS" class="">Vision Statement</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ClimateChangeVulnerability" class="">Climate Change Vulnerability Assessment</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/BB" class="">Briefing Book</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/ECR" class="">Existing Conditions Report</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CIS" class="">Community Involvement Strategy</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/GPUWP" class="">Project Work Program</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/AD" class="">Additional Resources</a></li></ul></li><li class=' dropdown  hidden-sm hidden-md hidden-lg'><a href="/engagement" class=" dropdown-toggle" data-toggle="dropdown">Get Involved</a><ul class='dropdown-menu nav'><li class='  hidden-sm hidden-md hidden-lg'><a href="/CD-DraftGP" class="">Community Discussions: Draft General Plan 2050</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/MHS-GPU101" class="">MHS General Plan Student Project</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/youth-public-art" class="">Youth Engagement through Public Art</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="/youth-voice-gallery" class="">Youth Voice Gallery</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-PrefAlternative" class="">Community Discussions: Preferred Alternative</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-Alternatives" class="">Community Discussions: Alternatives</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CD-Visioning" class="">Community Discussions: Visioning</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CommunityConversations-CIS" class="">Community Involvement Strategy Discussions</a></li><li class='  hidden-sm hidden-md hidden-lg'><a href="https://www.santarosaforward.com/CommunityConversations" class="">Community Conversations</a></li></ul></li><li class='hidden-sm hidden-md  hidden-sm hidden-md hidden-lg'><a href="/cac" class="">CAC</a></li>    	    </ul>
+    	  </div>
+    	</div>
+      </div>
+    </div>
+  </div>
+  <div class="container" style="background: #ffffff;">
+    <div class="row menu-header">
+      <div class="col-xs-12 col-sm-2 col-md-3">
+    	<div id="logo" class="navbar-left-text"><a href="/" title="Home page"><img src="/img/logos/SantaRosaForward_AnimatedLogo.gif" class="homepage-logo hidden-xs img-responsive" /></a></div>
+      </div>
+      <div class="col-xs-12 col-sm-10 col-md-9">
+    	<div id="top-menu" class="navbar-collapse collapse">
+    	  <nav id="top-nav" class="navbar navbar-default hidden-xs">
+    	    <ul class="nav navbar-nav">
+    	      <li class=' dropdown  hidden-xs'><a href="/about" class=" dropdown-toggle" data-toggle="dropdown">About</a><ul class='dropdown-menu nav'><li class='  hidden-xs'><a href="/news_items/index/4" class="">Latest News</a></li></ul></li><li class='  hidden-xs'><a href="/schedule" class="">Schedule</a></li><li class=' dropdown  hidden-xs'><a href="https://www.santarosaforward.com/Topics" class=" dropdown-toggle" data-toggle="dropdown">Key Topics</a><ul class='dropdown-menu nav'><li class='  hidden-xs'><a href="https://www.santarosaforward.com/equity" class="">Equity</a></li><li class='  hidden-xs'><a href="/HE" class="">Housing </a></li><li class='  hidden-xs'><a href="/app_pages/view/672" class="">Greenhouse Gas Reduction</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/ER" class="">Environmental Review</a></li></ul></li><li class=' dropdown  hidden-xs'><a href="/docs" class=" dropdown-toggle" data-toggle="dropdown">Documents</a><ul class='dropdown-menu nav'><li class='  hidden-xs'><a href="/DraftGP" class="">Draft Santa Rosa General Plan 2050</a></li><li class='  hidden-xs'><a href="/WSA" class="">Water Supply Assessment</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/PrefAltSummary" class="">Final Preferred Alternative Diagram</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/Alts" class="">Alternatives Workbook</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/VS" class="">Vision Statement</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/ClimateChangeVulnerability" class="">Climate Change Vulnerability Assessment</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/BB" class="">Briefing Book</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/ECR" class="">Existing Conditions Report</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CIS" class="">Community Involvement Strategy</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/GPUWP" class="">Project Work Program</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/AD" class="">Additional Resources</a></li></ul></li><li class=' dropdown  hidden-xs'><a href="/engagement" class=" dropdown-toggle" data-toggle="dropdown">Get Involved</a><ul class='dropdown-menu nav'><li class='  hidden-xs'><a href="/CD-DraftGP" class="">Community Discussions: Draft General Plan 2050</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/MHS-GPU101" class="">MHS General Plan Student Project</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/youth-public-art" class="">Youth Engagement through Public Art</a></li><li class='  hidden-xs'><a href="/youth-voice-gallery" class="">Youth Voice Gallery</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CD-PrefAlternative" class="">Community Discussions: Preferred Alternative</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CD-Alternatives" class="">Community Discussions: Alternatives</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CD-Visioning" class="">Community Discussions: Visioning</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CommunityConversations-CIS" class="">Community Involvement Strategy Discussions</a></li><li class='  hidden-xs'><a href="https://www.santarosaforward.com/CommunityConversations" class="">Community Conversations</a></li></ul></li><li class='hidden-sm hidden-md  hidden-xs'><a href="/cac" class="">CAC</a></li>
+<li class="dropdown hidden-xs interior-search-dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+  <ul class="dropdown-menu" style="margin:0; padding:0;position: absolute;right: -100px!important;left: auto!important;">
+    <li style="margin:0; padding:0;">
+
+      <form id="menu-search-form" class="form-inline" action="/searches" style="position: absolute;right: 100px;">
+	<div class="form-group">
+	  <label class="sr-only" for="exampleInputEmail3">Search Term</label>
+	  <div class="input-group">
+            <input name="term" style="width:200px; type="text" class="form-control" id="" placeholder="Search for...">
+            <div onClick="jQuery('#menu-search-form').submit()" class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>
+	  </div>
+	</div>
+      </form>
+    </li>
+  </ul>
+</li>
+	    
+    	    </ul>
+    	  </nav>
+    	</div>
+	  </div>
+    </div>
+  </div>
+</div>
+
+<div class="visible-xs-block visible-sm-block"><a href='https://www.santarosaforward.com/DraftGP' class='announcement-inline'><p>Click here to view the <strong>Draft Santa Rosa General Plan 2050</strong>, now available for Public Review!</p></a>
+
+	</div>
+<script>
+  jQuery(function() {
+    jQuery("#announcement-space").css('height', jQuery("#header-alert").css('height') );
+  });
+</script>
+
+
+    <a id="btn-mail-form"
+   class="btn btn-srgp" 
+   data-toggle="collapse" 
+   href="#contact-form-wrapper"
+   role="button" 
+   aria-expanded="false"
+   aria-controls="contact-form-wrapper"> 
+  <i class="far fa-envelope" aria-hidden="true"></i>
+</a>
+
+<div id="contact-form-wrapper"
+     class="collapse">
+
+  <button type="button" class="close" aria-label="Close">
+    <i class="fas fa-times" aria-hidden="true"></i>
+  </button>  
+
+  <h3 style="margin-top:0px;">Contact Us</h3>
+  
+  <p>We would love to hear from you! Send us your comments, thoughts and ideas on Santa Rosa Forward.</p>
+  
+  <form action="/mail_forms/submit" id="contact-us-form" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/><input type="hidden" name="data[_Token][key]" value="8a10e66343cffaa78df2115595340e494247445220fe99d66e43011b8159687c14c373f81f2b3f70bc799752bf35d299cc1c46ac3bfdd0a44f61c291cfec7e5a" id="Token368034323" autocomplete="off"/></div><input type="hidden" name="data[MailForm][mail_form_id]" value="TS" id="MailFormMailFormId"/><input type="hidden" name="data[MailForm][subject]" value="Comment from SRGP site." id="MailFormSubject"/><input name="data[MailForm][name]" placeholder="Name" aria-label="Name" size="60" class="form-control key13 form-control" style="margin-bottom:1rem;" type="text" id="MailFormName"/><input name="data[MailForm][email]" placeholder="Email" aria-label="Email" size="60" class="form-control key13 form-control" style="margin-bottom:1rem;" type="email" id="MailFormEmail"/><div class="form-group"><textarea name="data[MailForm][comment]" placeholder="Comment" aria-label="Comment" rows="5" cols="20" class="form-control key13 form-control" style="margin-bottom:1rem;" required="required" id="MailFormComment"></textarea></div><a role="button" tabindex="0" id="contact-us-submit" class="btn btn-default">Send Message</a>
+        <input type="hidden" id="g-recaptcha-response" name="recaptchaToken" />
+    <div class="sr-only" aria-hidden="true">
+      <div id="g-recaptcha-inline-badge"></div>
+    </div>
+  
+  <div style="display:none;"><input type="hidden" name="data[_Token][fields]" value="e4dedbdae43f7f506355d863b560b7470fd76e75%3AMailForm.mail_form_id%7CMailForm.subject" id="TokenFields1117660210" autocomplete="off"/><input type="hidden" name="data[_Token][unlocked]" value="AppObject.Tag%7CAppObject.geo_address%7CAppObject.in_rss%7CAppObject.lat%7CAppObject.lng%7CAppObject.send_email" id="TokenUnlocked1644508923" autocomplete="off"/></div></form>
+</div>
+
+
+<script>
+
+  function onRecaptchaLoadCallback() {
+
+    // console.log('called recaptcha load callback');
+    
+    // Only do something if the badge div is on the page somewhere
+    if ( jQuery( "#g-recaptcha-inline-badge" ).length == 0 ) return;
+    
+    // Site key is tied to the domain you are on.
+    var clientId = grecaptcha.render('g-recaptcha-inline-badge', {
+      'sitekey': '6LdSJykaAAAAADGilqIw8B4nK6930ntRzOnFJSQb',
+      'badge': 'inline',
+      'size': 'invisible'
+    } );
+    
+    // Generate a token for this page view and put it in hidden input field.
+    // grecaptcha.ready(function() {  // was this, but this is going to time out for most folks...
+    jQuery("#contact-us-submit").on('click', function() {
+      grecaptcha.execute( clientId, {action:'validate_captcha'} )
+                .then( function(token) {
+                  //console.log('set token', token);
+                  jQuery('#g-recaptcha-response').val(token);
+                  jQuery('#contact-us-form').submit();
+                } );
+    } );
+
+  };
+
+  jQuery( function() {
+
+    // Make sure that button is clicked...
+    jQuery('#contact-us-form .key13').keydown( function(event) {
+      if (event.keyCode == 13) {
+        event.preventDefault();
+        jQuery("#modal-email-form .input-group-addon").trigger('click');
+      }
+    } );
+
+    jQuery('#contact-us-form').on('submit', function(e) {
+      e.preventDefault();
+      if ( !this.reportValidity() ) {
+        return;
+      }
+      jQuery('#contact-us-submit').text('Sending');
+      jQuery.ajax( {
+        dataType: "html",
+        url: "\/townsquare\/mail_forms\/submit",
+        type: "POST",
+        data: jQuery( "#contact-us-form" ).serialize(),
+        success: function (data, textStatus) {
+          jQuery('#contact-us-submit').text('Sent');
+        },
+        fail: function (data, textStatus) {
+          jQuery('#contact-us-submit').text('Not Sent');
+        }
+      } );
+    } );
+
+    jQuery('#contact-form-wrapper').on('shown.bs.collapse', function() {
+      jQuery('#contact-form-wrapper .close').focus();
+    } );
+
+    jQuery('#contact-form-wrapper .close').on('click', function() {
+      jQuery('#contact-form-wrapper').collapse('hide');
+      jQuery('#btn-mail-form').focus();
+    } );
+
+  } );
+
+</script>
+    
+    <div class="container default-template-background">
+      <div class="row">
+			  <div class="col-md-3">
+	    <div id='editor_actions' >
+  <ul>
+    <li class='tool_content'><a href="/app_folders/view/51">Return to Library</a></li>
+  </ul>
+</div>
+	  </div>
+	  <div class="col-md-9">
+	        
+<div id="ajax-message-div" class='hidden alert alert-info alert-dismissible' role='alert' data-current-alert="alert-info">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  <span id="ajax-message"></span>
+</div>
+        <h2>Image: 400x400.jpg</h2>
+
+<div></div>
+
+<h3>Original upload (400 x 400)</h3>
+<div style='width:760px; overflow:auto;'>
+  <img src="/img/managed/Image/111/file.jpg" alt=""/></div>
+	  </div>
+	  </div>
+
+      </div>
+    </div>
+
+    <footer id="footer">
+
+  <div class="container">
+    <div class="row">
+
+      <!-- One -->
+      <div class="col-xs-12 col-sm-4 footer-contact-col">
+        <a href="https://srcity.org/" target="_blank">
+          <img src="/img/logos/City_of_Santa_Rosa_logo_white.png" alt="City of Santa Rosa Logo" />
+        </a>
+      </div>
+
+      <!-- Two 
+      <div class="col-xs-12 col-sm-3 footer-contact-col">
+              </div>
+	-->
+
+      <!-- Three -->
+      <div class="col-xs-12 col-sm-5 footer-contact-col">
+        <p class="footer-contact">Santa Rosa City Hall<br />
+          100 Santa Rosa Avenue<br />
+          Santa Rosa, CA 95404</p>
+      </div>
+
+      <div class="col-xs-12 col-sm-3 footer-social">
+        <a href="/users/email_signup" type="button" class="btn btn-brown-hollow">
+          Email Updates
+        </a>
+        <div id="social-links">
+          <a href="http://www.facebook.com/cityofsantarosa" target="_blank"><img class="instagram-footer png-fallback" src="/img/icons/facebook.svg" alt="follow us on Facebook"></a>
+          <a href="http://twitter.com/cityofsantarosa" target="_blank"><img class="instagram-footer png-fallback" src="/img/icons/twitter.svg" alt="follow us on Twitter"></a>
+          <a href="http://www.youtube.com/user/cityofsantarosa" target="_blank"><img class="instagram-footer png-fallback" src="/img/icons/youtube.svg" alt="follow us on YouTube"></a>
+        </div>
+      </div>
+    </div>
+
+    <div id="signup-modal" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Sign up to get the latest updates</h4>
+          </div>
+          <div class="modal-body">
+            <p></p>
+            <form action="/users/email_signup" id="UserEmailSignupForm" method="post" accept-charset="utf-8"><div style="display:none;"><input type="hidden" name="_method" value="POST"/><input type="hidden" name="data[_Token][key]" value="8a10e66343cffaa78df2115595340e494247445220fe99d66e43011b8159687c14c373f81f2b3f70bc799752bf35d299cc1c46ac3bfdd0a44f61c291cfec7e5a" id="Token1536558421" autocomplete="off"/></div><input type="hidden" name="data[AppObjectType][AppObjectType][]" value="100" id="UserAppObjectType"/><input type="hidden" name="data[PriorityEmailTemplate][PriorityEmailTemplate][]" value="1" id="UserPriorityEmailTemplate"/><input type="hidden" name="data[PriorityEmailTemplate][PriorityEmailTemplate][]" value="2" id="UserPriorityEmailTemplate"/><p style='color:#000;'>We will only use your e-mail to send updates related to this project.</p><div class="form-group required"><input name="data[User][email]" id="signup-email" placeholder="Enter your email" value="" maxlength="255" class="form-control" type="email" required="required"/></div><input class="btn btn-purple btn-secondary btn btn-default" type="submit" value="Sign up"/><div style="display:none;"><input type="hidden" name="data[_Token][fields]" value="0d5e3be0fd409c9a45349c123ea2388a754c7bb0%3AUser.AppObjectType%7CUser.PriorityEmailTemplate" id="TokenFields1392826342" autocomplete="off"/><input type="hidden" name="data[_Token][unlocked]" value="AppObject.Tag%7CAppObject.geo_address%7CAppObject.in_rss%7CAppObject.lat%7CAppObject.lng%7CAppObject.send_email" id="TokenUnlocked2024484640" autocomplete="off"/></div></form>            <br><br>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <script>
+      jQuery(function() {
+
+        jQuery('#signup-modal').on('shown.bs.modal', function() {
+          jQuery('#signup-email').focus()
+        });
+
+      });
+    </script>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="footer-menu">
+          <ul id='footer_menu'><li class=' '><a href="/app_pages/view/8" class="">Privacy Policy</a></li><li class=' '><a href="/app_pages/view/9" class="">Accessibility</a></li><li class=' '><a href="/mail_forms" class="">Contact Us</a></li></ul>        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="text/javascript">
+    // - trigger for timeline animation.
+
+    function inViewport(el) {
+
+      if (typeof(el[0]) == 'undefined') return;
+
+      var elH = el.outerHeight();
+      var H = jQuery(window).height();
+      var r = el[0].getBoundingClientRect();
+      var t = r.top;
+      var b = r.bottom;
+
+      return Math.max(0, (t > 0 ? Math.min(elH, H - t) : (b < H ? b : H)));
+
+    }
+
+    jQuery(function() {
+      jQuery(window).on("scroll resize load", function() {
+
+        jQuery('.timeline-section').each(function(index) {
+          if (jQuery(this).data('fired') != 'true' && (inViewport(jQuery(this)) > 150)) {
+            jQuery(this).data('fired', true);
+            jQuery(this).addClass('go');
+          }
+        });
+
+        jQuery('.metric-section').each(function(index) {
+          if (jQuery(this).data('fired') != 'true' && (inViewport(jQuery(this)) > 150)) {
+            jQuery(this).data('fired', true);
+
+          }
+        });
+
+
+      });
+    });
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const numbers = document.querySelectorAll('.counters');
+
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".counters",
+        start: 'top 70%',
+       toggleActions: "play complete none none",
+      },
+    });
+
+    gsap.utils.toArray('.counter').forEach(function(el) {
+      var target = {
+        val: 0
+      };
+      tl.to(target, {
+        val: el.getAttribute('data-number'),
+        duration: 1,
+        onUpdate: function() {
+          el.innerText = target.val.toLocaleString('en-US', {
+            maximumFractionDigits: 0
+          }) + '+';
+        },
+      });
+    });
+
+  </script>
+
+</footer>
+    
+<div id="google-translate-container">
+
+  <div id="google_translate_element"></div>
+
+</div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en',
+	includedLanguages: 'es',
+	layout: google.translate.TranslateElement.InlineLayout},
+      'google_translate_element'
+    );
+  }
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<script>
+
+  jQuery( function() {
+
+    jQuery('#google-translate-container').css({
+      "opacity": "0",
+      "height": "1px",
+      "max-height": "1px",
+      "overflow": "hidden"
+    });
+
+    function fireEvent(element, event){
+      if (document.createEventObject){
+        var evt = document.createEventObject();
+        return element.fireEvent('on'+event,evt)
+      }
+      else{
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+	return !element.dispatchEvent(evt);
+      }
+    }
+    
+    jQuery( '#google-translate-button' ).on('click', function () {
+      var jObj = jQuery('.goog-te-combo');
+      var db = jObj.get(0);
+      jObj.val('es');
+      fireEvent(db, 'change');
+
+    } );
+    
+  } );
+
+</script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KVVWHCKF6Z"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'G-KVVWHCKF6Z');
+</script>
+	
+  </body>
+</html>
