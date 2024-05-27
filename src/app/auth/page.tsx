@@ -1,3 +1,4 @@
+import AuthMain from "@/components/AuthComponents/AuthMain/AuthMain";
 import Prank from "@/components/Prank/Prank";
 import { Metadata } from "next";
 
@@ -10,5 +11,10 @@ export const metadata: Metadata = {
 };
 
 export default function page() {
-  return <Prank />;
+  return (
+    <>
+      {/* <Prank />; */}
+      <AuthMain />
+    </>
+  );
 }

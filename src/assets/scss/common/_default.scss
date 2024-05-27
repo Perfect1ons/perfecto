@@ -10,6 +10,12 @@
   background-color: var(--dark-blue); /* Цвет фона при выделении */
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   @include container(1440px);
   padding: 0 15px;
@@ -19,11 +25,11 @@
   }
 }
 
-//для видео
-.iframe-title,
-.iframe-description {
-  display: none; /* скрыть название и превью */
-}
+// //для видео
+// .iframe-title,
+// .iframe-description {
+//   display: none; /* скрыть название и превью */
+// }
 //! Показать больше - Показать все кнопки
 .link {
   text-decoration: none;
