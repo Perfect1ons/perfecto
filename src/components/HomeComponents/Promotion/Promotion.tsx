@@ -21,7 +21,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 5000); // Установите нужное время задержки
+    }, 100); // Установите нужное время задержки
 
     return () => clearTimeout(timer);
   }, []);

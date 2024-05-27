@@ -15,7 +15,14 @@
   &_not_found {
     background-position-x: 980px;
   }
-  &_thanks {
-    background-position-x: 980px;
+  &_favorite {
+    background-position-x: -210px;
+  }
+  &_empty_cart {
+    background-position-x: 0;
+    width: 200px;
+    @media screen and (max-width: 650px) {
+      scale: 0.8;
+    }
   }
 }
