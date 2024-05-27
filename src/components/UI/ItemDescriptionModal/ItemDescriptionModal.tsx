@@ -11,9 +11,21 @@ interface IProductReviewProps {
 const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   return (
     <div className={styles.container}>
+      <div
+        onClick={func}
+        className={cn(styles.container__backdrop, {
+          [styles.activeBackdrop]: visible,
+        })}
+      ></div>
       <div className={cn(styles.wrapper, { [styles.visible]: visible })}>
+        <div className={styles.wrapper__container}>
+          <h2 className={styles.wrapper__container__h2}>О товаре</h2>
+          <button onClick={func} className={styles.wrapper__container__btn}>
+            <Cross />
+          </button>
+        </div>
         <div className={styles.aboutProduct}>
-          <div className={styles.aboutProduct__container}>
+          {/* <div className={styles.aboutProduct__container}>
             <h2 className={styles.aboutProduct__container__h2}>О товаре</h2>
             <button
               onClick={func}
@@ -21,7 +33,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             >
               <Cross />
             </button>
-          </div>
+          </div> */}
           <div className={styles.aboutProduct__description}>
             <p
               className={styles.aboutProduct__description_p}
@@ -30,17 +42,26 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
               }}
             />
           </div>
-        </div>
-        <div className={styles.aboutProduct}>
-          <h2 className={styles.aboutProduct__h2}>Характеристики</h2>
-          <div className={styles.aboutProduct__description}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(data.specification),
-              }}
-              className={styles.aboutProduct__description_p}
-            />
+          <div className={styles.aboutProduct}>
+            <h2 className={styles.aboutProduct__h2}>Характеристики</h2>
+            <div className={styles.aboutProduct__description}>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.specification),
+                }}
+                className={styles.aboutProduct__description_p}
+              />
+            </div>
           </div>
+        </div>
+        <div className={styles.wrapper__containerFooter}>
+          <h2 className={styles.wrapper__container__h2}>{data.price}с.</h2>
+          <button
+            onClick={func}
+            className={styles.wrapper__containerFooter__btn}
+          >
+            В корзину
+          </button>
         </div>
       </div>
     </div>

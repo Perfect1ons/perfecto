@@ -14,10 +14,10 @@
     padding: 10px;
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
-    &_skeleton {
-      margin-top: 15px;
-      @include skeleton.skeleton(100%, 100%, null);
-    }
+    // &_skeleton {
+    //   margin-top: 15px;
+    //   @include skeleton.skeleton(100%, 100%, null);
+    // }
   }
   position: relative;
   z-index: 100;
@@ -52,6 +52,18 @@
   &_skeleton {
     @include skeleton.skeleton(auto, 30px, 5px);
   }
+}
+.catalogs__9h3_skeleton {
+  display: block;
+  @include skeleton.skeleton(300px, 20px, 20px);
+}
+.subCatalogsUl__li_skeleton {
+  display: block;
+  @include skeleton.skeleton(177px, 14px, null);
+}
+.category__li__h3_skeleton {
+  @include skeleton.skeleton(250px, 14px, null);
+  display: block;
 }
 .catalogs__h2 {
   text-decoration: none;
