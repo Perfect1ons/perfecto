@@ -59,16 +59,55 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
   return (
     <>
       {loading ? (
+        // <div className={styles.catalogs}>
+        //   <div className={styles.catalogs__left}>
+        //     {Array.from({ length: 26 }).map((_, index) => (
+        //       <div
+        //         className={styles.catalogLinkContainer_skeleton}
+        //         key={index}
+        //       ></div>
+        //     ))}
+        //   </div>
+        //   <div className={styles.catalogs__right_skeleton}></div>
+        // </div>
         <div className={styles.catalogs}>
           <div className={styles.catalogs__left}>
             {Array.from({ length: 26 }).map((_, index) => (
-              <div
-                className={styles.catalogLinkContainer_skeleton}
-                key={index}
-              ></div>
+              <div className={styles.catalogLinkContainer_skeleton} key={index}>
+                <span className={styles.triangle_skeleton}></span>
+                <a className={styles.catalogs__h2_skeleton}></a>
+              </div>
             ))}
           </div>
-          <div className={styles.catalogs__right_skeleton}></div>
+          <div className={styles.catalogs__right}>
+            <div className={styles.subMenu}>
+              <span className={styles.catalogs__9h3_skeleton}></span>
+              <ul className={styles.category__ul}>
+                {[...Array(3)].map((_, index) => (
+                  <div key={`div-${index}`} className={styles.itemContainer}>
+                    {[...Array(3)].map((_, index) => (
+                      <ul key={index} className={styles.itemConteinerUL}>
+                        <span
+                          className={styles.category__li__h3_skeleton}
+                        ></span>
+                        <ul className={styles.itemConteinerUL}>
+                          {[...Array(5)].map((_, index) => (
+                            <span
+                              key={index}
+                              className={styles.subCatalogsUl__li_skeleton}
+                            ></span>
+                          ))}
+                          <button
+                            className={styles.buttonsCatalogs_skeleton}
+                          ></button>
+                        </ul>
+                      </ul>
+                    ))}
+                  </div>
+                ))}
+              </ul>
+            </div>
+          </div>
         </div>
       ) : (
         <div className={styles.catalogs}>

@@ -11,6 +11,7 @@
   z-index: 200;
   width: 500px;
   max-height: 100%;
+
   padding-bottom: 20px;
   border-radius: 5px;
   top: 50px;
@@ -36,15 +37,15 @@
       }
     }
     &_productName {
-      @include mixin.font(1.125rem, 400, null, var(--dark));
+      @include mixin.font(1rem, 400, null, var(--dark));
     }
   }
   &_cross {
     cursor: pointer;
-    @include mixin.font(2.1875rem, 700, null, var(--gray));
+    color: var(--secondary-gray);
     position: absolute;
-    top: 5px;
-    right: 15px;
+    top: 10px;
+    right: 10px;
     &:hover {
       color: var(--dark);
     }
@@ -70,7 +71,6 @@
       @include mixin.font(1rem, 400, null, var(--secondary-gray));
     }
   }
-
   &_inputs {
     width: 100%;
     @include mixin.flex(center, null, column, null);
@@ -79,7 +79,7 @@
       margin-top: 5px;
       border-bottom: 1px solid var(--dark);
       outline: 1px solid var(--white);
-      padding: 10px 3px;
+      padding: 10px 5px;
       width: 100%;
 
       &::placeholder {
@@ -108,7 +108,7 @@
         margin-top: 3px;
         margin-bottom: 10px;
         border-radius: 5px;
-        padding: 10px;
+        padding: 10px 5px;
         @include mixin.font(18px, 400, 20px, var(--dark));
         resize: none;
         width: 450px;
@@ -150,6 +150,37 @@
         width: 100%;
         height: 100%;
         opacity: 0;
+      }
+    }
+  }
+  &_userMediaPreview {
+    margin-top: 20px;
+    align-self: flex-start;
+    padding-left: 25px;
+    @include mixin.flex(center, center, null, 10px);
+    &_item {
+      border-radius: 5px;
+      max-width: 100px;
+      max-height: 100px;
+      position: relative;
+      &_cross {
+        cursor: pointer;
+        top: -6px;
+        right: -6px;
+        @include mixin.flex(center, center, null, null);
+        position: absolute;
+        border-radius: 50%;
+        background: var(--dark-blue);
+        color: var(--white);
+        &:hover {
+          background: var(--dark);
+        }
+      }
+      &_img {
+        border: 2px solid var(--dark-blue);
+        width: 100%;
+        height: 80px;
+        border-radius: 5px;
       }
     }
   }

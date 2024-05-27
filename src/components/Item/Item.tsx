@@ -74,11 +74,24 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       return newIsFavorite;
     });
   };
-
   const toggleScrollLock = () => {
-    const body = document.querySelector("body");
-    body?.classList.toggle(styles.no_scroll);
+    const body = document.body;
+    if (body) {
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (body.style.overflow === "hidden") {
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
+        body.style.top = "";
+      } else {
+        body.style.paddingRight = `${scrollBarWidth}px`;
+        body.style.overflow = "hidden";
+        body.style.top = `-${window.scrollY}px`;
+      }
+    }
   };
+
   const openItemModalDescription = () => {
     setiItemModalDescription(!itemModalDescription);
     toggleScrollLock();
@@ -169,19 +182,13 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
         </div>
       )}
-      {itemModalDescription && (
-        <div className={styles.wrap_modal}>
-          <ItemDescriptionModal
-            data={data}
-            func={openItemModalDescription}
-            visible={itemModalDescription}
-          />
-          <div
-            onClick={openItemModalDescription}
-            className={styles.wrap_backdrop}
-          ></div>
-        </div>
-      )}
+      <div className={styles.wrap_modal}>
+        <ItemDescriptionModal
+          data={data}
+          func={openItemModalDescription}
+          visible={itemModalDescription}
+        />
+      </div>
       <div className="all__directions">
         <Link href={"/"} className="all__directions_link">
           Главная
@@ -241,7 +248,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             {data.photos
 
               .map((photo, index) => (
-                <div className={styles.product_cards__item} key={index}>
+                <div className={styles.cyyyy} key={index}>
                   <SwiperSlide>
                     <InnerImageZoom
                       width={500}
@@ -262,6 +269,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           {/* <span
             className={styles.product_info__articul}
           >{`Код: ${data.art}`}</span> */}
+
           <div className={styles.product_info__ocenka}>
             <span className={styles.product_info_ocenka__count}>
               {data.ocenka}
@@ -277,112 +285,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               href={data.otz.length !== 0 ? "#otz" : ""}
               className={styles.product_info_ocenka__otzivy}
             >{`(${data.otz.length})`}</Link>
-          </div>
-          {/* <div className={styles.product_info__price}>
-            <span className={styles.product_info_price__current_price}>
-              {data.price} с.
-            </span>
-            <span className={styles.product_info_price__old_price}>
-              {data.old_price} c.
-            </span>
-            <ProductInfo price_update={data.price_update} />
-          </div> */}
-          <div className={styles.product__descriptionContainer}>
-            <h2 className={styles.product__descriptionContainer_h2}>
-              Описание
-            </h2>
-            <p
-              className={styles.product__descriptionContainer_p}
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(data.description.slice(0, 151)),
-              }}
-            ></p>
-            <button
-              onClick={openItemModalDescription}
-              className={styles.product__descriptionContainer_button}
-            >
-              Читать далее
-            </button>
-          </div>
-          <div className={styles.product__aboutTheProduct}>
-            <h3 className={styles.product__aboutTheProduct_h3}>
-              Коротко о товаре
-            </h3>
-            <div className={styles.product__aboutTheProduct_wrap}>
-              <div className={styles.product__aboutTheProduct_wrap_articul}>
-                Код:
-                <div
-                  className={styles.product__aboutTheProduct_wrap_articul_div}
-                >
-                  <span>{data.art}</span>
-                  <span
-                    onClick={handleCopyCode}
-                    className={
-                      styles.product__aboutTheProduct_wrap_articul_div_copy
-                    }
-                  >
-                    <CopyIcon />
-                  </span>
-                </div>
-                {copiedCode && (
-                  <div
-                    className={
-                      styles.product__aboutTheProduct_wrap_articul_copied
-                    }
-                  >
-                    Код скопирован!
-                  </div>
-                )}
-              </div>
-              {data.specification && (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(data.specification)
-                      .split(" ")
-                      .slice(0, 15)
-                      .join(" "),
-                  }}
-                  className={styles.product__aboutTheProduct_wrap}
-                />
-              )}
-            </div>
-
-            <button
-              onClick={openItemModalDescription}
-              className={styles.product__aboutTheProduct_button}
-            >
-              Все характеристики
-            </button>
-          </div>
-          {/* {data.trademark && (
-            <span
-              className={styles.product_info__brand}
-            >{`Бренд: ${data.trademark}`}</span>
-          )} */}
-          {/* <div className={styles.product_info__price}>
-            <span className={styles.product_info_price__current_price}>
-              {data.price} с.
-            </span>
-            <span className={styles.product_info_price__old_price}>
-              {data.old_price} c.
-            </span>
-            <ProductInfo price_update={data.price_update} />
-          </div> */}
-          <div className={styles.product_info__ddos}>
-            <Image
-              className={styles.product_info__ddos_icon}
-              src={`${url}images/delivery_icon.svg`}
-              width={20}
-              height={20}
-              alt="delivery_icon"
-              loading="lazy"
-            />
-            <div className={styles.product_info__ddos_info}>
-              <p className={styles.product_info__ddos_title}>
-                Наличие и доставка !
-              </p>
-              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
-            </div>
           </div>
           <div className={styles.product_info__add_to}>
             <button
@@ -451,6 +353,133 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+          {/* <div className={styles.product_info__price}>
+            <span className={styles.product_info_price__current_price}>
+              {data.price} с.
+            </span>
+            <span className={styles.product_info_price__old_price}>
+              {data.old_price} c.
+            </span>
+            <ProductInfo price_update={data.price_update} />
+          </div> */}
+          <div className={styles.product__descriptionContainer}>
+            <h2 className={styles.product__descriptionContainer_h2}>
+              Описание
+            </h2>
+            <p
+              className={styles.product__descriptionContainer_p}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(
+                  data.description.slice(0, 152) + "..."
+                ),
+              }}
+            ></p>
+            <button
+              onClick={openItemModalDescription}
+              className={styles.product__descriptionContainer_button}
+            >
+              Читать далее
+            </button>
+          </div>
+          <div className={styles.product__aboutTheProduct}>
+            <h3 className={styles.product__aboutTheProduct_h3}>
+              Коротко о товаре
+            </h3>
+            <div className={styles.product__aboutTheProduct_wrap}>
+              <div className={styles.product__aboutTheProduct_wrap_articul}>
+                Код:
+                <span
+                  className={styles.product__aboutTheProduct_wrap_articul_span}
+                ></span>
+                <div
+                  className={styles.product__aboutTheProduct_wrap_articul_div}
+                >
+                  <span>{data.art}</span>
+                  <span
+                    onClick={handleCopyCode}
+                    className={
+                      styles.product__aboutTheProduct_wrap_articul_div_copy
+                    }
+                  >
+                    <CopyIcon />
+                  </span>
+                </div>
+                {copiedCode && (
+                  <div
+                    className={
+                      styles.product__aboutTheProduct_wrap_articul_copied
+                    }
+                  >
+                    Код скопирован!
+                  </div>
+                )}
+              </div>
+              {data.specification && (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(data.specification)
+                      .split(" ")
+                      .slice(0, 15)
+                      .join(" "),
+                  }}
+                  className={styles.product__aboutTheProduct_wrap}
+                />
+              )}
+            </div>
+
+            <button
+              onClick={openItemModalDescription}
+              className={styles.product__aboutTheProduct_button}
+            >
+              Все характеристики
+            </button>
+          </div>
+          {/* {data.trademark && (
+            <span
+              className={styles.product_info__brand}
+            >{`Бренд: ${data.trademark}`}</span>
+          )} */}
+          {/* <div className={styles.product_info__price}>
+            <span className={styles.product_info_price__current_price}>
+              {data.price} с.
+            </span>
+            <span className={styles.product_info_price__old_price}>
+              {data.old_price} c.
+            </span>
+            <ProductInfo price_update={data.price_update} />
+          </div> */}
+          {/* <div className={styles.product_info__ddos}>
+            <Image
+              className={styles.product_info__ddos_icon}
+              src={`${url}images/delivery_icon.svg`}
+              width={20}
+              height={20}
+              alt="delivery_icon"
+              loading="lazy"
+            />
+            <div className={styles.product_info__ddos_info}>
+              <p className={styles.product_info__ddos_title}>
+                Наличие и доставка !
+              </p>
+              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
+            </div>
+          </div> */}
+          <div className={styles.product_info__delivery}>
+            <Image
+              className={styles.product_info__ddos_icon}
+              src={`${url}images/delivery_icon.svg`}
+              width={20}
+              height={20}
+              alt="delivery_icon"
+              loading="lazy"
+            />
+            <div className={styles.product_info__delivery_info}>
+              <p className={styles.product_info__ddos_title}>
+                Наличие и доставка !
+              </p>
+              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
             </div>
           </div>
           {/* <div className={styles.product_info__add_to}>

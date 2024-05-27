@@ -6,41 +6,41 @@
   margin: 0 auto;
   top: 0;
   right: 0;
+  &__backdrop {
+    display: none;
+    z-index: 199;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--dark);
+    opacity: 0.5;
+  }
 }
-// .wrapper {
-//   @include mixin.flex(center, null, column, null);
-//   position: fixed;
-//   background: var(--white);
-//   z-index: 100;
-//   width: 500px;
-//   height: 500px;
-//   top: 0;
-//   right: 0;
-// }
+.activeBackdrop {
+  display: block;
+}
 .wrapper {
   @include mixin.flex(flex-start, null, column, null);
   position: fixed;
   background: var(--white);
   z-index: 200;
-  width: 50%;
+  width: 100%;
   height: 100%;
   top: 0;
   right: 0;
   transform: translateX(100%); // начальное положение за пределами экрана
-  transition: transform 0.9s ease-in-out; // анимация с плавным переходом в течение 0.9 секунд
-  padding: 24px;
-  // border-top-left-radius: 10px;
+  transition: transform 0.4s ease; // анимация с плавным переходом в течение 0.9 секунд
   overflow-y: auto;
-}
-
-.visible {
-  transform: translateX(0); // конечное положение, когда элемент видимый
-}
-.aboutProduct {
-  &__h2 {
-    @include mixin.font(22px, 500, null, var(--dark));
-  }
+  max-width: 900px;
   &__container {
+    padding: 12px 24px 12px;
+    position: sticky;
+    top: 0;
+    background: var(--white);
+    width: 100%;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
     @include mixin.flex(center, space-between, null, null);
     margin-bottom: 16px;
     &__btn {
@@ -51,4 +51,37 @@
       @include mixin.font(22px, 500, null, var(--dark));
     }
   }
+  &__containerFooter {
+    padding: 12px 24px 12px;
+    position: sticky;
+    bottom: 0;
+    background: var(--white);
+    width: 100%;
+    box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+    @include mixin.flex(center, space-between, null, null);
+    &__h2 {
+      @include mixin.font(22px, 500, null, var(--dark));
+    }
+    &__btn {
+      @include mixin.flex(center, center, null, null);
+      background: var(--dark-blue);
+      cursor: pointer;
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 12px;
+      transition: 0.3s all ease;
+      &:hover {
+        background: var(--violet);
+      }
+    }
+  }
+}
+
+.visible {
+  transform: translateX(0); // конечное положение, когда элемент видимый
+}
+.aboutProduct {
+  font-size: 16px;
+  max-width: 100%;
+  padding: 0 24px 24px;
 }
