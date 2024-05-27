@@ -44,9 +44,6 @@ const LazySeasonCategorySwiper = dynamic(
 );
 const LazyTodaysBoughts = dynamic(
   () => import("@/components/HomeComponents/TodayBoughts/TodayBoughts"),
-  {
-    ssr: false,
-  }
 );
 const LazyNews = dynamic(
   () => import("@/components/HomeComponents/News/News"),
@@ -68,9 +65,6 @@ const LazyPromotion = dynamic(
 );
 const LazyPopularGoods = dynamic(
   () => import("@/components/HomeComponents/PopularGoods/PopularGoods"),
-  {
-    ssr: false,
-  }
 );
 
 const LazyBrands = dynamic(

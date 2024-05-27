@@ -1,0 +1,140 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+.modal__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__more_buttons{
+  @include mixin.flex(center,space-between,);
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.modal__more_button{
+  color: var(--light-blue);
+  padding-bottom: 5px;
+  border-bottom: 1px dashed var(--light-blue);
+  cursor: pointer;
+  font-weight: 500;
+
+  &:hover{
+    color: var(--dark-blue);
+    border-bottom: 1px dashed var(--dark-blue);
+  }
+}
+
+.modal__rememberMe{
+    user-select: none;
+    margin-top: 15px;
+    &_btn {
+      padding: 5px 0px;
+      cursor: pointer;
+      @include mixin.flex(center, center, null, 10px);
+    }
+    &_check {
+      @include mixin.flex(center, center, null, null);
+      width: 20px;
+      max-height: 20px;
+      height: 20px;
+      background: var(--white);
+      border: 2px solid var(--dark-blue);
+      border-radius: 6px;
+      padding-bottom: 1px;
+    }
+    &_checkActive {
+      color: white;
+      background: var(--dark-blue);
+      border-color: var(--dark-blue);
+      border: 0;
+    }
+    &_text {
+      @include mixin.font(15px, 500, null, var(--dark));
+    }
+  
+}
+
+.errorText{
+  color: red;
+}
+
+.modal__text {
+  width: 100%;
+  font-size: 16px;
+  text-align: left;
+  line-height: 140%;
+  color: var(--dark);
+}
+
+.modal__input {
+  border: 1px solid #eef2f7;
+  border-radius: 5px;
+  padding: 15px 10px;
+  margin-top: 20px;
+  font-size: 17px;
+}
+
+.modal__input::placeholder {
+  font-size: 17px;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight:lighter;
+}
+
+.modal__button {
+  background: var(--dark-blue);
+  color: var(--white);
+  border-radius: 5px;
+  width: 100%;
+  padding: 15px 0;
+  margin-top: 20px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.4s ease-in;
+  &:hover{
+    background: var(--violet);
+  }
+}
+
+.successMessage {
+  color: #0b920b;
+  text-align: center;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    max-width: 480px;
+    left: 59%;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .modal {
+    left: 70%;
+    max-width: 390px;
+  }
+  .modal__title {
+    font-size: 22px;
+  }
+  .modal__text {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal {
+    margin-left: -250px;
+    left: 73%;
+    max-width: 320px;
+  }
+  .modal__title {
+    font-size: 22px;
+  }
+  .modal__text {
+    font-size: 18px;
+  }
+  .modal__button {
+    max-width: 100%;
+  }
+  .modal__input::placeholder {
+    font-size: 16px;
+  }
+}
