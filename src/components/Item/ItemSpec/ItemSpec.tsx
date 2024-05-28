@@ -1,24 +1,24 @@
 "use client";
+
+import { Items } from "@/types/CardProduct/cardProduct";
 import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import { Items } from "@/types/CardProduct/cardProduct";
 import ItemDescriptionModal from "@/components/UI/ItemDescriptionModal/ItemDescriptionModal";
 
-interface IDescProps {
+export interface IItemsProps {
   data: Items;
 }
 
-const ItemDesc = ({ data }: IDescProps) => {
+const ItemSpec = ({ data }: IItemsProps) => {
   const [itemModalDescription, setItemModalDescription] = useState(false);
-  const [sanitizedDescription, setSanitizedDescription] = useState("");
+  const [sanitizedSpec, setSanitizedSpec] = useState("");
 
   useEffect(() => {
-    const sanitized = DOMPurify.sanitize(
-      data.description.slice(0, 170) + "..."
+    setSanitizedSpec(
+      DOMPurify.sanitize(data.specification).split(" ").slice(0, 70).join(" ")
     );
-    setSanitizedDescription(sanitized);
-  }, [data.description]);
+  }, [data.specification]);
 
   const openItemModalDescription = () => {
     setItemModalDescription(!itemModalDescription);
@@ -44,7 +44,7 @@ const ItemDesc = ({ data }: IDescProps) => {
   };
 
   return (
-    <div className={styles.product__description}>
+    <div className="toptwenty">
       <div className={styles.wrap_modal}>
         <ItemDescriptionModal
           data={data}
@@ -52,23 +52,25 @@ const ItemDesc = ({ data }: IDescProps) => {
           visible={itemModalDescription}
         />
       </div>
-      <div className={styles.product__descriptionContainer}>
-        <h2 className={styles.product__descriptionContainer_desc}>Описание</h2>
+
+      {sanitizedSpec && (
         <div
-          className={styles.product__descriptionContainer_text}
           dangerouslySetInnerHTML={{
-            __html: sanitizedDescription,
+            __html: sanitizedSpec,
           }}
+          className={styles.product__aboutTheProduct_wrap}
         />
+      )}
+      {sanitizedSpec && (
         <button
           onClick={openItemModalDescription}
-          className={styles.product__descriptionContainer_button}
+          className={styles.product__aboutTheProduct_button}
         >
-          Читать далее
+          Все характеристики
         </button>
-      </div>
+      )}
     </div>
   );
 };
 
-export default ItemDesc;
+export default ItemSpec;

@@ -3,11 +3,11 @@
 .product{
      &__descriptionContainer {
      @include mixin.flex(flex-start, flex-start, column, 5px);
-     &_h2 {
-       @include mixin.font(14px, 500, null, var(--black));
+     &_desc {
+       @include mixin.font(16px, 500, null, var(--dark));
      }
-     &_p {
-       @include mixin.font(14px, 400, null, var(--gray-dark));
+     &_text {
+       @include mixin.font(14px, 400, null, var(--dark));
      }
      &_button {
        @include mixin.font(14px, 500, null, var(--light-blue));
@@ -18,4 +18,9 @@
        }
      }
    }
+}
+
+.product__description{
+  margin-top: 10px;
+  max-width: 400px;
 }

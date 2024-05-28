@@ -2,6 +2,7 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import { Cross } from "../../../../public/Icons/Icons";
+import DOMPurify from "isomorphic-dompurify";
 interface IProductReviewProps {
   data: Items;
   func: () => void;
@@ -34,22 +35,22 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             </button>
           </div> */}
           <div className={styles.aboutProduct__description}>
-            {/* <p
+            <p
               className={styles.aboutProduct__description_p}
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(data.description),
               }}
-            /> */}
+            />
           </div>
           <div className={styles.aboutProduct}>
             <h2 className={styles.aboutProduct__h2}>Характеристики</h2>
             <div className={styles.aboutProduct__description}>
-              {/* <div
+              <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(data.specification),
                 }}
                 className={styles.aboutProduct__description_p}
-              /> */}
+              />
             </div>
           </div>
         </div>

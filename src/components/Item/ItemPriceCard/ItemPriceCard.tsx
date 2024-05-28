@@ -12,7 +12,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     <div className={styles.ItemPriceCard}>
       <div className={styles.ItemPriceCard__cost}>
         <h2 className={styles.ItemPriceCard__price}>
-          {data.cenaok}
+          {data.cenaok.toLocaleString("ru-RU")}
           <span className={styles.ItemPriceCard__price_custom}>с</span>
         </h2>
         {data.discount_prc > 0 && (
@@ -22,7 +22,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         )}
         {data.discount_prc > 0 && data.old_price > 0 && (
           <h2 className={styles.ItemPriceCard__old_price}>
-            {data.old_price}
+            {data.old_price.toLocaleString("ru-RU")}
             <span className={styles.ItemPriceCard__old_price_custom}>с</span>
           </h2>
         )}
@@ -51,7 +51,10 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       </div>
       <div className={styles.ItemPriceCard__salesman}>
         <h3 className={styles.ItemPriceCard__salesman_title}>
-          ИП <span className={styles.ItemPriceCard__salesman_title_custom}>Нурдин Улуу Нурболот</span>
+          ИП{" "}
+          <span className={styles.ItemPriceCard__salesman_title_custom}>
+            Нурдин Улуу Нурболот
+          </span>
         </h3>
       </div>
     </div>
