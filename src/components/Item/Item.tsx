@@ -78,18 +78,18 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             <div className={styles.item__preview_info_description}>
               <div>
                 <ItemDesc data={data} />
-                <ItemSpec data={data}/>
+                <ItemSpec data={data} />
               </div>
               <div>
                 <ItemPriceCard data={data} />
-                <ItemBanner/>
+                <ItemBanner />
               </div>
             </div>
           </div>
         </div>
         {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
-        <SimilarProducts similar={similar}/>
+        <SimilarProducts similar={similar} />
       </div>
     </section>
   );

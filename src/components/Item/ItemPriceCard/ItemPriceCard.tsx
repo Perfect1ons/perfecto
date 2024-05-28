@@ -1,13 +1,18 @@
+"use client"
 import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
 
 interface IPriceProps {
   data: Items;
 }
 
 const ItemPriceCard = ({ data }: IPriceProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.ItemPriceCard}>
       <div className={styles.ItemPriceCard__cost}>
@@ -44,7 +49,10 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
       </div>
       <div className={styles.ItemPriceCard__buttons}>
-        <button className={styles.ItemPriceCard__buttons_cart}>
+        <button
+          onClick={() => dispatch(addProductToCart(data))}
+          className={styles.ItemPriceCard__buttons_cart}
+        >
           В корзину
         </button>
         <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>

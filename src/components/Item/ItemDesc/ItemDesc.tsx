@@ -3,7 +3,7 @@ import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
-import ItemDescriptionModal from "@/components/UI/ItemDescriptionModal/ItemDescriptionModal";
+import ItemDescriptionModal from "../ItemDescriptionModal/ItemDescriptionModal";
 
 interface IDescProps {
   data: Items;

@@ -4,7 +4,7 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import ItemDescriptionModal from "@/components/UI/ItemDescriptionModal/ItemDescriptionModal";
+import ItemDescriptionModal from "../ItemDescriptionModal/ItemDescriptionModal";
 
 export interface IItemsProps {
   data: Items;

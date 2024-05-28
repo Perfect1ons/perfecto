@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 
 import Provider from "@/context/Provider";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
-import { CartContextProvider } from "@/components/ContextCart/CartContext";
+// import { Provider } from "react-redux";
+import ReactProvider from "@/ReactProvider";
 
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
@@ -39,7 +40,7 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
-        <CartContextProvider>
+        <ReactProvider>
           <HeaderWrap />
           <DownloadAppMobile />
           <Provider>
@@ -47,7 +48,7 @@ export default async function RootLayout({
           </Provider>
           <Application />
           <Footer />
-        </CartContextProvider>
+        </ReactProvider>
       </body>
     </html>
   );
