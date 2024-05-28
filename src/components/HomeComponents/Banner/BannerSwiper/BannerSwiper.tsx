@@ -10,6 +10,11 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import { IIntro } from "@/types/Home/banner";
 import Link from "next/link";
+import clsx from "clsx";
+import {
+  SwiperNextArrow,
+  SwiperPrevArrow,
+} from "../../../../../public/Icons/Icons";
 
 interface ISlide {
   slides: IIntro[];
@@ -29,8 +34,12 @@ const BannerSwiper = ({ slides }: ISlide) => {
       autoplay={{ delay: 30000, disableOnInteraction: false }}
       spaceBetween={15}
       modules={[Pagination, Navigation, Autoplay]}
-      navigation
-      className="customSwiper"
+      navigation={{
+        nextEl: ".my-swiper-button-next",
+        prevEl: ".my-swiper-button-prev",
+        disabledClass: "swiper-button-disabled",
+      }}
+      className={clsx("customSwiper", styles.swiper)}
       loop={true}
     >
       {slides.map((slide) => (
@@ -60,6 +69,24 @@ const BannerSwiper = ({ slides }: ISlide) => {
           </Link>
         </SwiperSlide>
       ))}
+      <button
+        className={clsx(
+          styles.sliderArrow,
+          styles.sliderArrow_left,
+          "my-swiper-button-prev"
+        )}
+      >
+        <SwiperPrevArrow />
+      </button>
+      <button
+        className={clsx(
+          styles.sliderArrow,
+          styles.sliderArrow_right,
+          "my-swiper-button-next"
+        )}
+      >
+        <SwiperNextArrow />
+      </button>
     </Swiper>
   );
 };
