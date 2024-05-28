@@ -227,7 +227,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 </SwiperSlide>
               </div>
             ))
-            .slice(0, 4)}
+            .slice(0, 5)}
         </Swiper>
 
         {/* главные */}
@@ -240,15 +240,18 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               clickable: true,
             }}
             spaceBetween={10}
-            navigation={true}
+            navigation={{
+              nextEl: ".my-swiper-button-next",
+              prevEl: ".my-swiper-button-prev",
+              disabledClass: "swiper-button-disabled",
+            }}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs, Keyboard]}
             className="mySwiper2"
           >
             {data.photos
-
               .map((photo, index) => (
-                <div className={styles.cyyyy} key={index}>
+                <div className={styles.activeSlide} key={index}>
                   <SwiperSlide>
                     <InnerImageZoom
                       width={500}
@@ -355,15 +358,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               </div>
             </div>
           </div>
-          {/* <div className={styles.product_info__price}>
-            <span className={styles.product_info_price__current_price}>
-              {data.price} с.
-            </span>
-            <span className={styles.product_info_price__old_price}>
-              {data.old_price} c.
-            </span>
-            <ProductInfo price_update={data.price_update} />
-          </div> */}
+
           <div className={styles.product__descriptionContainer}>
             <h2 className={styles.product__descriptionContainer_h2}>
               Описание
@@ -436,36 +431,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               Все характеристики
             </button>
           </div>
-          {/* {data.trademark && (
-            <span
-              className={styles.product_info__brand}
-            >{`Бренд: ${data.trademark}`}</span>
-          )} */}
-          {/* <div className={styles.product_info__price}>
-            <span className={styles.product_info_price__current_price}>
-              {data.price} с.
-            </span>
-            <span className={styles.product_info_price__old_price}>
-              {data.old_price} c.
-            </span>
-            <ProductInfo price_update={data.price_update} />
-          </div> */}
-          {/* <div className={styles.product_info__ddos}>
-            <Image
-              className={styles.product_info__ddos_icon}
-              src={`${url}images/delivery_icon.svg`}
-              width={20}
-              height={20}
-              alt="delivery_icon"
-              loading="lazy"
-            />
-            <div className={styles.product_info__ddos_info}>
-              <p className={styles.product_info__ddos_title}>
-                Наличие и доставка !
-              </p>
-              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
-            </div>
-          </div> */}
           <div className={styles.product_info__delivery}>
             <Image
               className={styles.product_info__ddos_icon}
@@ -482,125 +447,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               <p className={styles.product_info__ddos_text}>{data.ddos}</p>
             </div>
           </div>
-          {/* <div className={styles.product_info__add_to}>
-            <button
-              title="Добавить в корзину"
-              className={styles.product_info__add_to__cart}
-              onClick={() => console.log("Добавлено в корзину")}
-            >
-              <span className={styles.add__to_cart_icon}>
-                <CartIcon />
-              </span>
-              В корзину
-            </button>
-            <button className={styles.product_info__buy_btn}>Купить</button>
-            <button
-              title="Добавить в избранное"
-              className={cn("add__to_fav", {
-                ["add__to_fav_active"]: isFavorite,
-              })}
-              onClick={handleFavoriteClick}
-            >
-              <span className="add__to_fav_icon">
-                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
-              </span>
-            </button>
-            <div className={styles.product_info__share}>
-              <button
-                onClick={handleDropdown}
-                className={cn(
-                  styles.product_info__share_btn,
-                  dropdownActive && styles.product_info__share_btn__active
-                )}
-              >
-                <ShareIcon />
-              </button>
-              <div
-                className={cn(
-                  styles.product_info__share_dropdown,
-                  dropdownActive && styles.product_info__share_dropdown__active
-                )}
-              >
-                <div
-                  onClick={handleTelegramClick}
-                  className={styles.product_info_share__tg}
-                >
-                  <TgIcon />
-                  <button className={styles.product_info_share_telegram__btn}>
-                    Telegram
-                  </button>
-                </div>
-                <div
-                  onClick={handleWhatsAppClick}
-                  className={styles.product_info_share__wh}
-                >
-                  <WhIcon />
-                  <button className={styles.product_info_share_whatsapp__btn}>
-                    WhatsApp
-                  </button>
-                </div>
-                <div
-                  onClick={handleCopyLink}
-                  className={styles.product_info_share__copy}
-                >
-                  <CopyIcon />
-                  <button className={styles.product_info_share_copy_link__btn}>
-                    Скопировать ссылку
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
         </div>
       </div>
-      {/* <div className={styles.wrap_desc_container}>
-        <div className={styles.productPageDesc}>
-          <h2 className="sections__title">Описание</h2>
-          <div
-            className={styles.product_desc}
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(data.description),
-            }}
-          />
-          <div className={styles.product_desc_short_desc}>
-            {data.short_description && (
-              <div
-                className={styles.product_desc_shortdesc__text}
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.short_description),
-                }}
-              />
-            )}
-          </div>
-          <div className={styles.product_desc__client_desc}>
-            <p className={styles.product_desc__client_desc__text}>
-              Фото, описание, комплектация и характеристики могут отличаться от
-              оригинала.
-            </p>
-            <p className={styles.product_desc__client_desc__text}>
-              Страна производства может отличаться в зависимости от партии
-              поставки.
-            </p>
-            <p className={styles.product_desc__client_desc__text}>
-              Производитель оставляет за собой право изменять внешний вид,
-              комплектацию товара без предупреждения.
-            </p>
-          </div>
-        </div>
-      </div>
-      {data.specification && (
-        <div className={styles.wrap_specification}>
-          <div className="characteristics">
-            <h2 className="sections__title">Характеристики</h2>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(data.specification),
-              }}
-              className={styles.wrap_characteristics}
-            />
-          </div>
-        </div>
-      )} */}
       {data.video && (
         <div className={styles.wrap_video}>
           <div className="productPageVideo">
