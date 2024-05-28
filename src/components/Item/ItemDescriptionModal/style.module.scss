@@ -15,13 +15,14 @@
     width: 100%;
     height: 100vh;
     background: var(--dark);
-    opacity: 0.5;
+    opacity: 0.3;
   }
 }
 .activeBackdrop {
   display: block;
 }
 .wrapper {
+  overflow: hidden;
   @include mixin.flex(flex-start, null, column, null);
   position: fixed;
   background: var(--white);
@@ -35,24 +36,41 @@
   overflow-y: auto;
   max-width: 900px;
   &__container {
-    padding: 12px 24px 12px;
+    padding: 15px 30px 15px;
     position: sticky;
     top: 0;
     background: var(--white);
     width: 100%;
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
-    @include mixin.flex(center, space-between, null, null);
+    @include mixin.flex(center, space-between, null, 20px);
     margin-bottom: 16px;
-    &__btn {
-      scale: 2;
-      cursor: pointer;
-    }
-    &__h2 {
-      @include mixin.font(22px, 500, null, var(--dark));
+    &__header {
+      @include mixin.flex(center, space-around, null, 5px);
+      width: 100%;
+      &__btn {
+        scale: 2;
+        cursor: pointer;
+      }
+      &__h2 {
+        flex-grow: 1;
+        text-align: center;
+        width: 100%;
+        cursor: pointer;
+        @include mixin.font(18px, 500, null, var(--white));
+        border: 2px solid var(--dark-blue);
+        padding: 5px;
+        border-radius: 5px;
+        background: var(--dark-blue);
+        transition: 0.3s all;
+        &:hover {
+          background: var(--white);
+          color: var(--dark-blue);
+        }
+      }
     }
   }
   &__containerFooter {
-    padding: 12px 24px 12px;
+    padding: 15px 30px 15px;
     position: sticky;
     bottom: 0;
     background: var(--white);
@@ -60,7 +78,7 @@
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
     @include mixin.flex(center, space-between, null, null);
     &__h2 {
-      @include mixin.font(22px, 500, null, var(--dark));
+      @include mixin.font(18px, 500, null, var(--dark));
     }
     &__btn {
       @include mixin.flex(center, center, null, null);
@@ -68,13 +86,17 @@
       cursor: pointer;
       color: var(--white);
       padding: 10px 20px;
-      border-radius: 12px;
+      border-radius: 5px;
       transition: 0.3s all ease;
       &:hover {
         background: var(--violet);
       }
     }
   }
+}
+.activeH2 {
+  color: var(--dark-blue);
+  background: var(--white);
 }
 
 .visible {
@@ -83,5 +105,21 @@
 .aboutProduct {
   font-size: 16px;
   max-width: 100%;
-  padding: 0 24px 24px;
+  padding: 0 30px 30px;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  color: var(--dark);
+  // line-height: 1;
+  &__h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+}
+@media screen and (min-width: 1400px) {
+  .aboutProduct {
+    line-height: 1;
+  }
 }
