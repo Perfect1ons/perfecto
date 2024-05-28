@@ -356,3 +356,25 @@
     display: block;
   }
 }
+
+.item__preview {
+  margin-top: 25px;
+  @include mixin.flex(flex-start, space-between, null, 25px);
+
+  &_info {
+    width: 100%;
+
+    &_title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+
+    &_description {
+      @include mixin.flex(flex-start, flex-start, null, 25px);
+    }
+  }
+  @media screen and (max-width: 992px) {
+    @include mixin.flex(center, space-between, column, 25px);
+  }
+}
