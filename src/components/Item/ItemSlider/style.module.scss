@@ -1,9 +1,9 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .product__swipers {
-    @include mixin.flex(flex-start, flex-start, null, 30px);
-    max-height: 500px; // Set the maximum height for the container
-    overflow: hidden; // Hide any overflow content
+  @include mixin.flex(flex-start, flex-start, null, 30px);
+  max-height: 500px; // Set the maximum height for the container
+  overflow: hidden; // Hide any overflow content
 }
 
 .product__cards {
@@ -42,5 +42,27 @@
   &:hover {
     border: 2px solid var(--violet);
     border-radius: 5px;
+  }
+}
+
+.swiper_slide {
+  max-height: 60px;
+  width: 100%;
+  &:hover {
+    border: 2px solid var(--violet);
+    border-radius: 5px;
+  }
+}
+
+.sliderArrow {
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  cursor: pointer;
+  &_left {
+    left: 0;
+  }
+  &_right {
+    right: 0;
   }
 }
