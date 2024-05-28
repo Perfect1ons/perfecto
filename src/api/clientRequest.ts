@@ -1,3 +1,4 @@
+import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IBoughts } from "@/types/lastBoughts";
@@ -37,4 +38,8 @@ export const getProductsSortsDost = (
   return maxkg
     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[dost]=${path}`)
     .json();
+};
+
+export const postOtz = (otz: IUser) => {
+  return maxkg.post("otz/create", { json: otz });
 };

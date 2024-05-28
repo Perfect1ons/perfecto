@@ -1,38 +1,85 @@
 @use "../../assets/scss/common/mixins" as mixin;
-.container {
-  @include mixin.container(1400px);
+// for empty
+.section {
+  @include mixin.flex(center, space-between, row);
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 20px 2em;
+  color: #424242;
+  margin: 5em auto;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.4);
+
+  transition: all 0.3s linear;
+  &:hover {
+    -webkit-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.4);
+  }
+  @media screen and (max-width: 920px) {
+    align-items: center;
+    flex-direction: column;
+    margin: 1em 5em;
+    padding: 20px;
+  }
+  @media screen and (max-width: 780px) {
+    align-items: center;
+    flex-direction: column;
+    margin: 1em 5em;
+    padding: 20px;
+  }
+  @media screen and (max-width: 650px) {
+    align-items: center;
+    flex-direction: column;
+    margin: 1em;
+    padding: 15px 10%;
+  }
 }
-.empty {
-  @include mixin.flex(center, flex-start, null, 25px);
-  padding: 20px;
-  &__button {
-    font-weight: 600;
-    border: 2px solid var(--dark-blue);
-    padding: 8px 25px;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 15px;
-    cursor: pointer;
-    color: var(--dark-blue);
-    &:hover {
-      background: var(--dark-blue);
-      border: 2px solid var(--white);
-      border-radius: 5px;
-      color: var(--white);
-      -o-transition: all 0.4s ease-in-out;
-      -webkit-transition: all 0.4s ease-in-out;
-      transition: all 0.4s ease-in-out;
+
+.content {
+  @include mixin.flex(center, center, row);
+
+  &_text {
+    @include mixin.flex(flex-start, center, column);
+    padding: 0 15px;
+    &_h1 {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 5px;
     }
   }
-  &__yourCart {
-    @include mixin.flex(flex-start, flex-start, column, null);
-    padding: 0 10px;
-    &__h1 {
-      @include mixin.font(20px, 600, null, var(--gray-dark));
-    }
-    &__p {
-      @include mixin.font(null, null, null, var(--secondary-gray));
-      max-width: 363px;
-    }
+  @media screen and (max-width: 920px) {
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 15px;
+  }
+  @media screen and (max-width: 650px) {
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+}
+
+.linkToMain {
+  text-align: center;
+  padding: 8px 2em;
+  font-weight: 500;
+  text-decoration: none;
+  color: #fff;
+  border: 2px solid #112b66;
+  background: #112b66;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover {
+    color: #112b66;
+    background: #fff;
+    border: 2px solid #112b66;
+  }
+  @media screen and (max-width: 920px) {
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
   }
 }

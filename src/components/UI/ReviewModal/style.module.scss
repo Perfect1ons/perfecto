@@ -9,41 +9,41 @@
   position: fixed;
   background: var(--white);
   z-index: 200;
-  width: 500px;
+  max-width: 100%;
   max-height: 100%;
-  padding-bottom: 20px;
+  padding: 15px;
   border-radius: 5px;
   top: 50px;
   &_title {
-    @include mixin.font(1.875rem, 500, null, var(--dark));
+    user-select: none;
+    @include mixin.font(18px, 500, null, var(--dark));
     align-self: flex-start;
-    padding-left: 20px;
-    padding-top: 20px;
   }
   &_product {
+    margin-top: 5px;
     align-self: flex-start;
-    padding-left: 20px;
-    padding-top: 20px;
-    @include mixin.flex(center, center, null, 10px);
+    @include mixin.flex(center, center, null, 5px);
     &_imageContainer {
-      max-width: 80px;
-      max-height: 80px;
+      max-width: 100px;
+      max-height: 100px;
       border-radius: 5px;
       &_productImage {
+        user-select: none;
         border-radius: 5px;
         width: 100%;
         height: 100%;
       }
     }
     &_productName {
-      @include mixin.font(1.125rem, 400, null, var(--dark));
+      @include mixin.font(1rem, 400, null, var(--dark));
+      max-width: 350px;
     }
   }
   &_cross {
     cursor: pointer;
-    @include mixin.font(2.1875rem, 700, null, var(--gray));
+    color: var(--secondary-gray);
     position: absolute;
-    top: 5px;
+    top: 15px;
     right: 15px;
     &:hover {
       color: var(--dark);
@@ -52,10 +52,8 @@
   &_ocenka {
     @include mixin.flex(null, center, null, null);
     position: relative;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    margin-top: 5px;
     &_rating {
-      padding-bottom: 20px;
       @include mixin.flex(center, center, null, 25px);
       &_star {
         scale: 1.8;
@@ -65,66 +63,76 @@
       }
     }
     &_text {
+      user-select: none;
       position: absolute;
-      margin-top: 30px;
+      margin-top: 25px;
       @include mixin.font(1rem, 400, null, var(--secondary-gray));
     }
   }
-
   &_inputs {
+    position: relative;
+    margin-top: 30px;
     width: 100%;
     @include mixin.flex(center, null, column, null);
     &_name {
+      @include mixin.font(1rem, 400, null, var(--dark));
       max-width: 450px;
-      margin-top: 5px;
       border-bottom: 1px solid var(--dark);
       outline: 1px solid var(--white);
-      padding: 10px 3px;
+      padding: 10px 5px;
       width: 100%;
 
       &::placeholder {
+        user-select: none;
         @include mixin.font(1rem, 500, null, var(--secondary-gray));
       }
       &:focus {
         border-radius: 5px;
         border-bottom: 1px solid var(--white);
         outline: 2px solid var(--info);
-        // box-shadow: 0px 0px 5px 0.5px var(--info);
       }
+    }
+    &_warning {
+      padding-left: 2px;
+      left: 0;
+      bottom: -20px;
+      position: absolute;
+      @include mixin.font(0.875rem, 700, null, var(--danger));
     }
   }
   &_areas {
-    margin-top: 10px;
+    margin-top: 20px;
     width: 100%;
+    max-width: 450px;
     @include mixin.flex(center, null, column, null);
     &_block {
       max-width: 450px;
       @include mixin.flex(flex-start, null, column, null);
       &_title {
+        user-select: none;
         @include mixin.font(1rem, 400, null, var(--secondary-gray));
       }
       &_area {
         overflow-y: hidden;
-        margin-top: 3px;
-        margin-bottom: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
         border-radius: 5px;
-        padding: 10px;
-        @include mixin.font(18px, 400, 20px, var(--dark));
+        padding: 8px 8px;
+        @include mixin.font(1rem, 400, null, var(--dark));
         resize: none;
         width: 450px;
-        height: auto;
+        max-height: auto;
         max-height: 165px;
         border: 2px solid var(--secondary-white);
         &:focus {
           border: 2px solid var(--white);
           outline: 2px solid var(--info);
-          // box-shadow: 0px 0px 5px 0.5px var(--info);
         }
       }
     }
   }
   &_selectMedia {
-    margin-top: 10px;
+    margin-top: 5px;
     @include mixin.flex(center, center, null, null);
     width: 100%;
     max-width: 450px;
@@ -141,6 +149,7 @@
         background-color: var(--white);
       }
       &_text {
+        user-select: none;
         @include mixin.font(1rem, 700, null, var(--dark));
       }
       &_input {
@@ -153,9 +162,41 @@
       }
     }
   }
+  &_userMediaPreview {
+    margin-top: 15px;
+    align-self: flex-start;
+    @include mixin.flex(center, center, null, 10px);
+    &_item {
+      border-radius: 5px;
+      max-width: 100px;
+      width: 100%;
+      max-height: 100px;
+      position: relative;
+      &_cross {
+        cursor: pointer;
+        top: -6px;
+        right: -6px;
+        @include mixin.flex(center, center, null, null);
+        position: absolute;
+        border-radius: 50%;
+        background: var(--dark-blue);
+        color: var(--white);
+        &:hover {
+          background: var(--dark);
+        }
+      }
+      &_img {
+        border: 2px solid var(--dark-blue);
+        width: 100%;
+        max-height: 80px;
+        height: 100%;
+        border-radius: 5px;
+      }
+    }
+  }
   &_anonim {
     user-select: none;
-    margin: 5px 0px;
+    margin-top: 5px;
     max-width: 450px;
     width: 100%;
 
@@ -170,7 +211,7 @@
       height: 22px;
       background: var(--white);
       border: 1px solid #d3d4dd;
-      border-radius: 6px;
+      border-radius: 5px;
     }
     &_checkActive {
       color: white;
@@ -183,15 +224,25 @@
     }
   }
   &_reCaptcha {
+    user-select: none;
     @include mixin.flex(flex-start, null, null, null);
     max-width: 450px;
     width: 100%;
     margin-top: 10px;
+    position: relative;
+    padding-bottom: 20px;
+    &_warning {
+      left: 0;
+      bottom: 0;
+      position: absolute;
+      @include mixin.font(0.875rem, 700, null, var(--danger));
+    }
   }
   &_sendBtn {
+    user-select: none;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-top: 10px;
     max-width: 450px;
     width: 100%;
     background: linear-gradient(

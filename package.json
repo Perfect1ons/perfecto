@@ -25,6 +25,7 @@
     "react-dom": "^18",
     "react-google-recaptcha": "^3.1.0",
     "react-inner-image-zoom": "^3.0.2",
+    "react-input-mask": "^2.0.4",
     "react-loading-skeleton": "^3.4.0",
     "react-redux": "^9.1.2",
     "sanitize-html": "^2.13.0",

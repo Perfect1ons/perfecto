@@ -79,7 +79,7 @@
   &_img {
     object-fit: cover;
     image-rendering: optimizeQuality;
-    width: 100%;
+    width: fit-content;
     height: auto;
     border-radius: 10px;
   }

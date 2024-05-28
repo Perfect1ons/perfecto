@@ -5,9 +5,16 @@
   -webkit-tap-highlight-color: var(--tap-select);
 }
 
+
 ::selection {
   color: var(--white);
   background-color: var(--dark-blue); /* Цвет фона при выделении */
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -19,6 +26,11 @@
   }
 }
 
+// //для видео
+// .iframe-title,
+// .iframe-description {
+//   display: none; /* скрыть название и превью */
+// }
 //! Показать больше - Показать все кнопки
 .link {
   text-decoration: none;
@@ -595,6 +607,8 @@
   border-radius: 5px;
 }
 
-.biggg{
-  font-size: 128px;
+.biggg {
+  font-size: 70px;
+  word-wrap: break-word;
+  max-width: 1440px;
 }

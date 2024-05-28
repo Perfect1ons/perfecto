@@ -24,8 +24,6 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 
-
-
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
@@ -197,11 +195,7 @@ export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
 };
 
-
-
-//! GETS METADATA FOR PAGES 
-
-
+//! GETS METADATA FOR PAGES
 
 export const getMetaMainPage = (): Promise<IMetaData> => {
   return maxkg.get("site/meta?type=main").json();
@@ -232,4 +226,3 @@ export const getMetaBrandPage = (): Promise<IMetaData> => {
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });
 };
-

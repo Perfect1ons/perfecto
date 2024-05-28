@@ -20,15 +20,7 @@ const NotFounded = () => {
         <Loader />
       ) : (
         <div className={cn(styles.not__found_container, "container")}>
-          <div className={cn("mascot_sprite", "mascot_sprite_not_found")}>
-            {/* <Image
-              src={"/img/undefinedPage.png"}
-              width={180}
-              height={180}
-              alt="undefined"
-              loading="lazy" // Добавлен атрибут loading="lazy" для ленивой загрузки изображения
-            /> */}
-          </div>
+          <div className={cn("mascot_sprite", "mascot_sprite_not_found")}></div>
 
           <span className={styles.not__found_error}>Ошибка #404</span>
           <h1 className={styles.not__found_title}>
