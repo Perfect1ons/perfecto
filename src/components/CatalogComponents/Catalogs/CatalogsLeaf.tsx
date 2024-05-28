@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import styles from "./style.module.scss";
 import Link from "next/link";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
+import cn from "clsx";
 
 interface props {
   // catalog: ICatalogMenu;
@@ -47,13 +48,17 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
   return (
     <div className={styles.container}>
       <ol className={styles.breadcrumb}>
-        <li className={styles.links}>
-          <Link href="/" className={styles.link}>
+        <li className={cn(styles.links, "all__directions")}>
+          <Link href="/" className={cn(styles.link, "all__directions_link")}>
             Главная
           </Link>
           <Link
             href={catalog.category.full_slug || "sadas"}
-            className={styles.link}
+            className={cn(
+              styles.link,
+              "all__directions_link",
+              "all__directions_linkActive"
+            )}
           >
             {catalog.category.name}
           </Link>

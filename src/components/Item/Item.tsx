@@ -241,7 +241,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
                 </SwiperSlide>
               </div>
             ))
-            .slice(0, 4)}
+            .slice(0, 5)}
         </Swiper>
 
         {/* главные */}
@@ -254,15 +254,18 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               clickable: true,
             }}
             spaceBetween={10}
-            navigation={true}
+            navigation={{
+              nextEl: ".my-swiper-button-next",
+              prevEl: ".my-swiper-button-prev",
+              disabledClass: "swiper-button-disabled",
+            }}
             thumbs={{ swiper: thumbsSwiper }}
             modules={[FreeMode, Navigation, Thumbs, Keyboard]}
             className="mySwiper2"
           >
             {data.photos
-
               .map((photo, index) => (
-                <div className={styles.cyyyy} key={index}>
+                <div className={styles.activeSlide} key={index}>
                   <SwiperSlide>
                     <InnerImageZoom
                       width={500}
@@ -369,15 +372,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               </div>
             </div>
           </div>
-          {/* <div className={styles.product_info__price}>
-            <span className={styles.product_info_price__current_price}>
-              {data.price} с.
-            </span>
-            <span className={styles.product_info_price__old_price}>
-              {data.old_price} c.
-            </span>
-            <ProductInfo price_update={data.price_update} />
-          </div> */}
+
           <div className={styles.product__descriptionContainer}>
             <h2 className={styles.product__descriptionContainer_h2}>
               Описание
