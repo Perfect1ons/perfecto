@@ -10,6 +10,8 @@ import {
   GrayFavoritesIcon,
   GrayStar,
   ShareIcon,
+  SwiperNextArrow,
+  SwiperPrevArrow,
   TgIcon,
   VioletFavoritesIcon,
   WhIcon,
@@ -17,7 +19,6 @@ import {
 } from "../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
-import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
 import DOMPurify from "isomorphic-dompurify";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -28,13 +29,18 @@ import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/scss";
-import "swiper/scss/navigation";
-import "swiper/scss/pagination";
+
 import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
-import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
+import {
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Keyboard,
+  Pagination,
+} from "swiper/modules";
 import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
 
 interface IItemPageProps {
@@ -120,21 +126,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
-  // const getImageUrl = (photo: any) => {
-  //   if (!photo || !photo.url_part) {
-  //     // Если photo или url_part не определены, возвращаем URL placeholder
-  //     return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-  //   }
-
-  //   if (photo.url_part.startsWith("https://goods-photos")) {
-  //     return `${photo.url_part}280.jpg`;
-  //   } else if (photo.url_part.startsWith("https://")) {
-  //     return photo.url_part;
-  //   } else {
-  //     return `${url}nal/img/${data.id_post}/b_${data.img}`;
-  //   }
-  // };
-
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
       window.location.href
@@ -174,6 +165,8 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     };
   }, [dropdownActive]);
 
+  const swiper = useSwiper();
+
   return (
     <section className={cn(styles.wrap, "container")}>
       {isOpen && (
@@ -212,22 +205,20 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           className={cn(styles.product_cards, "mySwiper")}
         >
           {/* слева */}
-          {data.photos
-            .map((photo, index) => (
-              <div className={styles.product_cards__item} key={index}>
-                <SwiperSlide className={styles.swiper_slide}>
-                  <Image
-                    className={styles.product_preview}
-                    src={`${url}nal/img/${data.id_post}/l_${photo.url_part}`}
-                    width={48}
-                    height={48}
-                    alt={photo.url_part}
-                    loading="lazy"
-                  />
-                </SwiperSlide>
-              </div>
-            ))
-            .slice(0, 5)}
+          {data.photos.slice(0, 4).map((photo, index) => (
+            <div key={index}>
+              <SwiperSlide className={styles.swiper_slide}>
+                <Image
+                  className={styles.product_preview}
+                  src={`${url}nal/img/${data.id_post}/l_${photo.url_part}`}
+                  width={48}
+                  height={48}
+                  alt={photo.url_part}
+                  loading="lazy"
+                />
+              </SwiperSlide>
+            </div>
+          ))}
         </Swiper>
 
         {/* главные */}
@@ -238,6 +229,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             }}
             pagination={{
               clickable: true,
+              type: "fraction",
             }}
             spaceBetween={10}
             navigation={{
@@ -246,27 +238,45 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               disabledClass: "swiper-button-disabled",
             }}
             thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs, Keyboard]}
+            modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
             className="mySwiper2"
           >
-            {data.photos
-              .map((photo, index) => (
-                <div className={styles.activeSlide} key={index}>
-                  <SwiperSlide>
-                    <InnerImageZoom
-                      width={500}
-                      height={300}
-                      src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
-                      zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
-                      zoomType="hover" // Используйте "hover" для активации при наведении
-                      className={styles.product_img} // Примените локальный класс к изображению
-                    />
-                  </SwiperSlide>
-                </div>
-              ))
-              .slice(0, 4)}
+            {data.photos.slice(0, 4).map((photo, index) => (
+              <div className={styles.activeSlide} key={index}>
+                <SwiperSlide>
+                  <InnerImageZoom
+                    width={500}
+                    height={300}
+                    src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                    zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                    zoomType="hover" // Используйте "hover" для активации при наведении
+                    className={styles.product_img} // Примените локальный класс к изображению
+                  />
+                </SwiperSlide>
+              </div>
+            ))}
+            <button
+              className={cn(
+                styles.sliderArrow,
+                styles.sliderArrow_left,
+                "my-swiper-button-prev"
+              )}
+            >
+              <SwiperPrevArrow />
+            </button>
+            <button
+              className={cn(
+                styles.sliderArrow,
+                styles.sliderArrow_right,
+                "my-swiper-button-next"
+              )}
+            >
+              <SwiperNextArrow />
+            </button>
+            <div className={styles.sliderArrows}></div>
           </Swiper>
         </div>
+
         <div className={styles.product_info}>
           <h1 className={styles.product_info__title}>{data.name}</h1>
           {/* <span

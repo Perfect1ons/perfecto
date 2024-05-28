@@ -533,63 +533,20 @@ body {
   font-size: 24px;
 }
 
-// .swiper-button-prev,
-// .swiper-button-next {
-//   top: var(--swiper-navigation-top-offset, 46%) !important;
-// }
+// !Для swiperrrrrrrrrrrrrrrrrrrrrrrrr
+.my-swiper-button-prev,
+.my-swiper-button-next {
+  transition: all 0.2s linear;
+}
 
-// .swiper-button {
-//   background-image: url("/Buttonleft.svg");
-//   &-prev {
-//     border: 1px red solid;
-//   }
-//   &-next {
-//     rotate: 180deg;
-//   }
-// }
+.my-swiper-button-prev:active,
+.my-swiper-button-next:active {
+  scale: 0.8;
+}
 
-// .swiper-button-prev,
-// .swiper-rtl .swiper-button-next {
-//   z-index: 100 !important;
-//   left: var(--swiper-navigation-sides-offset, 3px) !important;
-//   width: 40px !important;
-//   height: 40px !important;
-//   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.674) !important;
-//   border-radius: 10px;
-//   opacity: 0;
-// }
-
-// .swiper-button-next,
-// .swiper-rtl .swiper-button-prev {
-//   z-index: 100 !important;
-//   right: var(--swiper-navigation-sides-offset, 3px) !important;
-//   width: 40px !important;
-//   height: 40px !important;
-//   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.674) !important;
-//   border-radius: 10px;
-//   opacity: 0;
-// }
-
-// .swiper-button-prev:after,
-// .swiper-rtl .swiper-button-next:after {
-//   content: "" !important;
-//   background-image: url("/Buttonleft.svg") !important;
-//   object-fit: cover;
-//   width: 40px !important;
-//   height: 40px !important;
-//   background-position: 50% 50%;
-//   border-radius: 10px;
-// }
-
-// .swiper-button-next:after,
-// .swiper-rtl .swiper-button-prev:after {
-//   content: "" !important;
-//   background-image: url("/Buttonright.svg") !important;
-//   width: 40px !important;
-//   height: 40px !important;
-//   background-position: 50% 50%;
-//   border-radius: 10px;
-// }
+.swiper-button-disabled {
+  opacity: 0;
+}
 
 .customSwiper {
   padding: 0 15px !important;
@@ -602,6 +559,19 @@ body {
       opacity: 1;
     }
   }
+}
+
+.swiper-pagination-fraction {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  margin: 0 0 10px 10px;
+  padding: 5px 15px;
+
+  background: var(--dark-blue);
+  color: var(--white);
+  border-radius: 32px;
 }
 
 .toptwenty {

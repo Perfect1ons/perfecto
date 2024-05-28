@@ -864,3 +864,133 @@ export const TrashCan = () => {
     </svg>
   );
 };
+
+export const SwiperPrevArrow = () => {
+  return (
+    <svg
+      width="56"
+      height="57"
+      viewBox="0 0 56 57"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g filter="url(#filter0_d_1_115)">
+        <rect
+          x="8"
+          y="8.39001"
+          width="40"
+          height="40"
+          rx="10"
+          fill="white"
+          shape-rendering="crispEdges"
+        />
+        <path
+          d="M26.4033 33.7367L21.7158 29.0492C21.5303 28.8734 21.4375 28.6537 21.4375 28.39C21.4375 28.1263 21.5303 27.9066 21.7158 27.7308L26.4033 23.0433C26.5791 22.8578 26.7988 22.765 27.0625 22.765C27.3262 22.765 27.5459 22.8578 27.7217 23.0433C27.9072 23.2191 28 23.4388 28 23.7025C28 23.9662 27.9072 24.1859 27.7217 24.3617L24.6455 27.4525H33.625C33.8887 27.4525 34.1108 27.5428 34.2915 27.7235C34.4722 27.9042 34.5625 28.1263 34.5625 28.39C34.5625 28.6537 34.4722 28.8759 34.2915 29.0565C34.1108 29.2372 33.8887 29.3275 33.625 29.3275H24.6455L27.7217 32.4183C27.8193 32.5062 27.8901 32.6088 27.9341 32.726C27.978 32.8431 28 32.9603 28 33.0775C28 33.1947 27.978 33.3119 27.9341 33.4291C27.8901 33.5463 27.8193 33.6488 27.7217 33.7367C27.5459 33.9222 27.3262 34.015 27.0625 34.015C26.7988 34.015 26.5791 33.9222 26.4033 33.7367Z"
+          fill="#991A4E"
+        />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_1_115"
+          x="0"
+          y="0.390015"
+          width="56"
+          height="56"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset />
+          <feGaussianBlur stdDeviation="4" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0.133333 0 0 0 0 0.235294 0 0 0 0 0.313726 0 0 0 0.2 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_1_115"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_1_115"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
+
+export const SwiperNextArrow = () => {
+  return (
+    <svg
+      width="56"
+      height="57"
+      viewBox="0 0 56 57"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g filter="url(#filter0_d_1_118)">
+        <rect
+          x="8"
+          y="8.39001"
+          width="40"
+          height="40"
+          rx="10"
+          fill="white"
+          shape-rendering="crispEdges"
+        />
+        <path
+          d="M29.5967 33.7367L34.2842 29.0492C34.4697 28.8734 34.5625 28.6537 34.5625 28.39C34.5625 28.1263 34.4697 27.9066 34.2842 27.7308L29.5967 23.0433C29.4209 22.8578 29.2012 22.765 28.9375 22.765C28.6738 22.765 28.4541 22.8578 28.2783 23.0433C28.0928 23.2191 28 23.4388 28 23.7025C28 23.9662 28.0928 24.1859 28.2783 24.3617L31.3545 27.4525H22.375C22.1113 27.4525 21.8892 27.5428 21.7085 27.7235C21.5278 27.9042 21.4375 28.1263 21.4375 28.39C21.4375 28.6537 21.5278 28.8759 21.7085 29.0565C21.8892 29.2372 22.1113 29.3275 22.375 29.3275H31.3545L28.2783 32.4183C28.1807 32.5062 28.1099 32.6088 28.0659 32.726C28.022 32.8431 28 32.9603 28 33.0775C28 33.1947 28.022 33.3119 28.0659 33.4291C28.1099 33.5463 28.1807 33.6488 28.2783 33.7367C28.4541 33.9222 28.6738 34.015 28.9375 34.015C29.2012 34.015 29.4209 33.9222 29.5967 33.7367Z"
+          fill="#991A4E"
+        />
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_1_118"
+          x="0"
+          y="0.390015"
+          width="56"
+          height="56"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+            result="hardAlpha"
+          />
+          <feOffset />
+          <feGaussianBlur stdDeviation="4" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix
+            type="matrix"
+            values="0 0 0 0 0.133333 0 0 0 0 0.235294 0 0 0 0 0.313726 0 0 0 0.2 0"
+          />
+          <feBlend
+            mode="normal"
+            in2="BackgroundImageFix"
+            result="effect1_dropShadow_1_118"
+          />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="effect1_dropShadow_1_118"
+            result="shape"
+          />
+        </filter>
+      </defs>
+    </svg>
+  );
+};
