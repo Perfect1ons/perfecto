@@ -11,10 +11,10 @@ import {
   XMark,
   YellowStar,
 } from "../../../../public/Icons/Icons";
-import { postOtz } from "@/api/requests";
 import { Items } from "@/types/CardProduct/cardProduct";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
+import { postOtz } from "@/api/clientRequest";
 
 interface IReviewModal {
   func: () => void;
@@ -25,10 +25,10 @@ export interface IUser {
   dost?: string;
   nedost?: string;
   name: string;
-  comment: string;
+  comment?: string;
   rating: number;
   image?: File[] | null;
-  anonim: number;
+  anonim?: number;
 }
 
 const ReviewModal = ({ func, data }: IReviewModal) => {
@@ -41,12 +41,13 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
     image: [],
     anonim: 0,
   });
-  console.log(otz);
 
   const [isAnomim, setIsAnonim] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [previews, setPreviews] = useState<string[]>([]);
+
+  const [isNotValid, setIsNotValid] = useState(false);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -106,16 +107,17 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
   };
 
   const SendOtz = () => {
-    if (!captchaToken) {
-      alert("Please complete the reCAPTCHA");
+    if (captchaToken && otz.name && otz.rating) {
+      const otzData = {
+        ...otz,
+      };
+      postOtz(otzData);
+
+      func();
+    } else {
+      setIsNotValid(true);
       return;
     }
-
-    const otzData = {
-      ...otz,
-    };
-    postOtz(otzData);
-    func();
   };
 
   const AnonimHandler = () => {
@@ -211,66 +213,77 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
           <input
             maxLength={15}
             name="name"
+            autoComplete="off"
             placeholder="Ваше имя*"
             onChange={ChangeHandler}
             type="text"
             className={styles.wrapper_inputs_name}
           />
+          {isNotValid && (
+            <p className={styles.wrapper_inputs_warning}>
+              Необходимо заполнить «Как Вас зовут? *»
+            </p>
+          )}
         </div>
         <div className={styles.wrapper_areas}>
           <div className={styles.wrapper_areas_block}>
-            <span className={styles.wrapper_areas_block_title}>
+            <label className={styles.wrapper_areas_block_title} id="dost">
               Достоинства
-            </span>
-            <textarea
-              rows={1}
-              maxLength={255}
-              onChange={ChangeHandler}
-              name="dost"
-              id="dost"
-              className={styles.wrapper_areas_block_area}
-            ></textarea>
+              <textarea
+                rows={1}
+                maxLength={255}
+                onChange={ChangeHandler}
+                name="dost"
+                id="dost"
+                className={styles.wrapper_areas_block_area}
+              ></textarea>
+            </label>
           </div>
           <div className={styles.wrapper_areas_block}>
-            <span className={styles.wrapper_areas_block_title}>Недостатки</span>
-            <textarea
-              rows={1}
-              maxLength={255}
-              onChange={ChangeHandler}
-              name="nedost"
-              id="nedost"
-              className={styles.wrapper_areas_block_area}
-            ></textarea>
+            <label className={styles.wrapper_areas_block_title} id="nedost">
+              Недостатки
+              <textarea
+                rows={1}
+                maxLength={255}
+                onChange={ChangeHandler}
+                name="nedost"
+                id="nedost"
+                className={styles.wrapper_areas_block_area}
+              ></textarea>
+            </label>
           </div>
           <div className={styles.wrapper_areas_block}>
-            <span className={styles.wrapper_areas_block_title}>
+            <label className={styles.wrapper_areas_block_title} id="comment">
               Добавить комментарий
-            </span>
-            <textarea
-              rows={1}
-              maxLength={255}
-              name="comment"
-              id="comment"
-              onChange={ChangeHandler}
-              className={styles.wrapper_areas_block_area}
-            />
+              <textarea
+                rows={1}
+                maxLength={255}
+                name="comment"
+                id="comment"
+                onChange={ChangeHandler}
+                className={styles.wrapper_areas_block_area}
+              ></textarea>
+            </label>
           </div>
         </div>
         <div className={styles.wrapper_selectMedia}>
           <button className={styles.wrapper_selectMedia_uploadBtn}>
             <Camera />
-            <span className={styles.wrapper_selectMedia_uploadBtn_text}>
-              Добавить фото
-            </span>
-            <input
-              onChange={handleFileChange}
+            <label
+              className={styles.wrapper_selectMedia_uploadBtn_text}
               id="fileInput"
-              type="file"
-              name="image"
-              accept="image/*" //,video/*,.mkv
-              maxLength={2097152}
-              className={styles.wrapper_selectMedia_uploadBtn_input}
-            ></input>
+            >
+              Добавить фото
+              <input
+                onChange={handleFileChange}
+                id="fileInput"
+                type="file"
+                name="image"
+                accept="image/*"
+                maxLength={2097152}
+                className={styles.wrapper_selectMedia_uploadBtn_input}
+              ></input>
+            </label>
           </button>
         </div>
         {previews && (
@@ -315,13 +328,16 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
         </div>
         <div className={styles.wrapper_reCaptcha}>
           <ReCAPTCHA
-            sitekey="LeyWSMUAAAAAHYqeoWK4VqFVJPyo8KetjDl7l6C"
+            sitekey="6LeyWSMUAAAAAHYqeoWK4VqFVJPyo8KetjDl7l6C"
             onChange={handleCaptchaChange}
           />
+          {isNotValid && (
+            <p className={styles.wrapper_reCaptcha_warning}>Пройдите капчу</p>
+          )}
         </div>
         <button
           onClick={SendOtz}
-          disabled={!otz.name.length || !otz.comment.length}
+          disabled={!otz.name.length || !otz.comment?.length}
           className={styles.wrapper_sendBtn}
         >
           Отправить
