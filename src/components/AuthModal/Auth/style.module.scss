@@ -6,12 +6,10 @@
 
 .modal__more_buttons{
   @include mixin.flex(center,space-between,);
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .modal__more_button{
   color: var(--light-blue);
-  padding-bottom: 5px;
   border-bottom: 1px dashed var(--light-blue);
   cursor: pointer;
   font-weight: 500;

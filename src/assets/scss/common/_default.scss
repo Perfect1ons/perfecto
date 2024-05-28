@@ -603,8 +603,10 @@ body {
 }
 
 .mySwiper .swiper-slide-thumb-active {
-  border: 2px solid var(--violet);
-  border-radius: 5px;
+  .thumb-actived{
+    border: 2px solid var(--violet);
+    border-radius: 5px;
+  }
 }
 
 .biggg {
