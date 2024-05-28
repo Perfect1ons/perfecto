@@ -83,3 +83,6 @@
     width: 100%;
   }
 }
+.container {
+  @include mixin.container(1440px);
+}
