@@ -25,11 +25,6 @@ body {
   }
 }
 
-// //для видео
-// .iframe-title,
-// .iframe-description {
-//   display: none; /* скрыть название и превью */
-// }
 //! Показать больше - Показать все кнопки
 .link {
   text-decoration: none;
@@ -569,7 +564,7 @@ body {
   margin: 0 0 10px 10px;
   padding: 5px 15px;
 
-  background: var(--dark-blue);
+  background: #00000069;
   color: var(--white);
   border-radius: 32px;
 }
@@ -590,4 +585,9 @@ body {
   font-size: 70px;
   word-wrap: break-word;
   max-width: 1440px;
+}
+
+// test styles
+.iiz__btn {
+  border-radius: 100px !important;
 }

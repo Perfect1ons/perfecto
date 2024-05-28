@@ -277,6 +277,12 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           </Swiper>
         </div>
 
+        <button
+          className={cn(styles.showMoreSwiper, "default__buttons_showMore")}
+        >
+          Показать ещё
+        </button>
+
         <div className={styles.product_info}>
           <h1 className={styles.product_info__title}>{data.name}</h1>
           {/* <span
