@@ -33,6 +33,9 @@ import "swiper/scss/thumbs";
 import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
 import ItemSlider from "./ItemSlider/ItemSlider";
 import DOMPurify from "dompurify";
+import ItemOcenka from "./ItemOcenka/ItemOcenka";
+import ItemDesc from "./ItemDesc/ItemDesc";
+import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 
 interface IItemPageProps {
   data: Items;
@@ -193,7 +196,16 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             </button>
           </div>
 
-          <div className={styles.product_info__add_to}>
+          <div className={styles.item__preview_info}>
+            <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
+            <ItemOcenka data={data} />
+            <div className={styles.item__preview_info_description}>
+              <ItemDesc data={data} />
+              <ItemPriceCard data={data} />
+            </div>
+          </div>
+
+          {/* <div className={styles.product_info__add_to}>
             <button
               title="Добавить в корзину"
               className={styles.product_info__add_to__cart}
@@ -350,7 +362,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               </p>
               <p className={styles.product_info__ddos_text}>{data.ddos}</p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
       {data.video && (
