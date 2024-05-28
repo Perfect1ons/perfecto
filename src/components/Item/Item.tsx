@@ -37,6 +37,7 @@ import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
 import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
 
 interface IItemPageProps {
   data: Items;
@@ -307,7 +308,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             <button
               title="Добавить в корзину"
               className={styles.product_info__add_to__cart}
-              onClick={() => console.log("Добавлено в корзину")}
+              onClick={() => dispatch(addProductToCart(data))}
             >
               <span className={styles.add__to_cart_icon}>
                 <CartIcon />

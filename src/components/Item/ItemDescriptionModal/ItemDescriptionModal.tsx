@@ -33,15 +33,6 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
           </button>
         </div>
         <div className={styles.aboutProduct}>
-          {/* <div className={styles.aboutProduct__container}>
-            <h2 className={styles.aboutProduct__container__h2}>О товаре</h2>
-            <button
-              onClick={func}
-              className={styles.aboutProduct__container__btn}
-            >
-              <Cross />
-            </button>
-          </div> */}
           <div className={styles.aboutProduct__description}>
             <p
               className={styles.aboutProduct__description_p}
