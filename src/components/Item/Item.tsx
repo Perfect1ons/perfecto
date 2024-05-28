@@ -23,21 +23,13 @@ import Link from "next/link";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
-import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/scss";
 
 import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Keyboard,
-  Pagination,
-} from "swiper/modules";
+
 import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
 import ItemSlider from "./ItemSlider/ItemSlider";
 import DOMPurify from "dompurify";
