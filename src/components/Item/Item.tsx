@@ -27,6 +27,7 @@ import ProductReview from "./ProductReview/ProductReview";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+import { useDispatch } from "react-redux";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
@@ -35,7 +36,7 @@ import "swiper/scss/pagination";
 import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
 import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
-import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
+import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 
 interface IItemPageProps {
   data: Items;
@@ -44,7 +45,7 @@ interface IItemPageProps {
 
 const ItemPage = ({ data, similar }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
@@ -52,7 +53,6 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
   const [itemModalDescription, setiItemModalDescription] = useState(false);
 
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-
   useEffect(() => {
     const isLocalStorageAvailable =
       typeof window !== "undefined" && window.localStorage;
@@ -173,7 +173,21 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [dropdownActive]);
-
+  // Где-то в вашем компоненте...
+  const sanitizedVideoHTML = DOMPurify.sanitize(data.video, {
+    ALLOWED_TAGS: ["iframe"], // разрешаем только тег <iframe>
+    ALLOWED_ATTR: [
+      // разрешаем необходимые атрибуты
+      "src",
+      "width",
+      "height",
+      "frameborder",
+      "allow",
+      "allowfullscreen",
+      "type",
+      "data",
+    ],
+  });
   return (
     <section className={cn(styles.wrap, "container")}>
       {isOpen && (
@@ -604,7 +618,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         <div className={styles.wrap_video}>
           <div className="productPageVideo">
             <h3 className="sections__title">Видео</h3>
-            {data.video}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: sanitizedVideoHTML,
+              }}
+            />
           </div>
         </div>
       )}

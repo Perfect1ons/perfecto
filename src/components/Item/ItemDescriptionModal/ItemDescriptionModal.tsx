@@ -3,12 +3,17 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import DOMPurify from "dompurify";
 import { Cross } from "../../../../public/Icons/Icons";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
+
 interface IProductReviewProps {
   data: Items;
   func: () => void;
   visible: boolean;
 }
 const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
+  const dispatch = useDispatch();
+
   return (
     <div className={styles.container}>
       <div
@@ -20,6 +25,9 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
       <div className={cn(styles.wrapper, { [styles.visible]: visible })}>
         <div className={styles.wrapper__container}>
           <h2 className={styles.wrapper__container__h2}>О товаре</h2>
+          <h2 className={styles.wrapper__container__h2}>Характеристики</h2>
+          <h2 className={styles.wrapper__container__h2}>Видео</h2>
+
           <button onClick={func} className={styles.wrapper__container__btn}>
             <Cross />
           </button>
@@ -57,7 +65,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
         <div className={styles.wrapper__containerFooter}>
           <h2 className={styles.wrapper__container__h2}>{data.price}с.</h2>
           <button
-            onClick={func}
+            onClick={() => dispatch(addProductToCart(data))}
             className={styles.wrapper__containerFooter__btn}
           >
             В корзину
