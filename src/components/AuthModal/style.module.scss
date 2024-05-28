@@ -1,19 +1,19 @@
-@keyframes slideDown {
+@keyframes scaleUp {
   from {
-    top: -100%;
+    transform: translate(-50%, -50%) scale(0);
   }
   to {
-    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
 .modal {
   position: fixed;
-  top: -100%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0);
   max-width: 500px;
-  padding: 30px 25px;
+  padding: 25px;
   width: 90%;
   background: #fff;
   border-radius: 10px;
@@ -27,7 +27,7 @@
 .show {
   visibility: visible;
   opacity: 1;
-  animation: slideDown 0.3s ease-out forwards;
+  animation: scaleUp 0.3s ease-out forwards;
 }
 
 .modal__exit {
@@ -39,13 +39,13 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  &:hover{
-    opacity: 1;
-  }
 }
 
+.modal__exit:hover {
+  opacity: 1;
+}
 
-.modal__intro{
+.modal__intro {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,6 +53,6 @@
 }
 
 .modal__title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 400;
 }

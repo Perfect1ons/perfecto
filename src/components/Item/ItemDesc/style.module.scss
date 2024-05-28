@@ -1,0 +1,26 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.product{
+     &__descriptionContainer {
+     @include mixin.flex(flex-start, flex-start, column, 5px);
+     &_desc {
+       @include mixin.font(16px, 500, null, var(--dark));
+     }
+     &_text {
+       @include mixin.font(14px, 400, null, var(--dark));
+     }
+     &_button {
+       @include mixin.font(14px, 500, null, var(--light-blue));
+       cursor: pointer;
+       transition: 0.3;
+       &:hover {
+         color: var(--violet);
+       }
+     }
+   }
+}
+
+.product__description{
+  margin-top: 10px;
+  max-width: 400px;
+}

@@ -1,0 +1,18 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+.product{
+    &_info__ocenka {
+    margin-top: 5px;
+    user-select: none;
+    cursor: pointer;
+    @include mixin.flex(null, null, null, 5px);
+  }
+  &_info_ocenka__count {
+    @include mixin.font(14px, 500, null, var(--secondary-gray));
+  }
+  &_info_ocenka__otzivy {
+    @include mixin.link(14px, 500, var(--secondary-gray));
+    &:hover {
+      color: var(--violet);
+    }
+  }
+}

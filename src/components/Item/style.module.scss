@@ -36,6 +36,9 @@
   max-width: 370px;
   background: #000;
   user-select: none;
+  max-width: 370px;
+  max-height: 370px;
+  position: relative;
 }
 
 .product {
@@ -56,10 +59,11 @@
     min-width: 60px !important;
     user-select: none;
     @media screen and (max-width: 992px) {
-      margin-bottom: 10px;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
+      // margin-bottom: 10px;
+      // flex-direction: row;
+      // align-items: center;
+      // gap: 10px;
+      display: none !important;
     }
   }
 
@@ -73,10 +77,6 @@
     width: 470px;
     display: flex;
     align-items: center;
-    &_cards__item {
-      max-width: 370px;
-      max-height: 370px;
-    }
   }
   &_img {
     object-fit: cover;
@@ -278,27 +278,6 @@
     }
   }
 
-  // &_for_client {
-  //   @include mixin.flex(center, space-between, null, 30px);
-  //   &_card {
-  //     @include mixin.flex(null, null, column, null);
-  //     flex-grow: 1;
-  //     &_info {
-  //       @include mixin.flex(null, null, null, 5px);
-  //       background: var(--white);
-  //       padding: 10px;
-  //       border-radius: 5px;
-  //       border: 1px solid var(--super-light-white);
-
-  //       &:hover {
-  //         box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-  //       }
-  //       &_title {
-  //         @include mixin.font(1.1875rem, 700, null, var(--gray-dark));
-  //       }
-  //     }
-  //   }
-  // }
   &__descriptionContainer {
     @include mixin.flex(flex-start, flex-start, column, 5px);
     &_h2 {
@@ -371,11 +350,31 @@
   @include mixin.flex(flex-start, flex-start, column, 15px);
 }
 
-.swiper_slide {
-  max-height: 60px;
-  width: 100%;
-  &:hover {
-    border: 2px solid var(--violet);
-    border-radius: 5px;
+.showMoreSwiper {
+  display: none;
+  @media screen and (max-width: 992px) {
+    display: block;
+  }
+}
+
+.item__preview {
+  margin-top: 25px;
+  @include mixin.flex(flex-start, space-between, null, 25px);
+
+  &_info {
+    width: 100%;
+
+    &_title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gray-dark);
+    }
+
+    &_description {
+      @include mixin.flex(flex-start, flex-start, null, 25px);
+    }
+  }
+  @media screen and (max-width: 992px) {
+    @include mixin.flex(center, space-between, column, 25px);
   }
 }

@@ -2,8 +2,8 @@
 import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import DOMPurify from "dompurify";
 import { Cross } from "../../../../public/Icons/Icons";
+import DOMPurify from "isomorphic-dompurify";
 import { useDispatch } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useState } from "react";

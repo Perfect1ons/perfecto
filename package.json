@@ -15,7 +15,6 @@
     "@reduxjs/toolkit": "^2.2.5",
     "clipboard": "^2.0.11",
     "clsx": "^2.1.0",
-    "html-react-parser": "^5.1.10",
     "http-proxy": "^1.18.1",
     "isomorphic-dompurify": "^2.10.0",
     "ky": "^1.2.3",
