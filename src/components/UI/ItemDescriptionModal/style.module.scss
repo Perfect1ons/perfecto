@@ -33,7 +33,7 @@
   transform: translateX(100%); // начальное положение за пределами экрана
   transition: transform 0.4s ease; // анимация с плавным переходом в течение 0.9 секунд
   overflow-y: auto;
-  max-width: 900px;
+  max-width: 1000px;
   &__container {
     padding: 12px 24px 12px;
     position: sticky;

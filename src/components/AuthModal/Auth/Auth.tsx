@@ -70,7 +70,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
         {errors.phone && (
           <span className={styles.errorText}>{errors.phone}</span>
         )}
-        <input
+        {/* <input
           className={cn(styles.modal__input, {
             [styles.inputError]: errors.password,
           })}
@@ -83,7 +83,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
         />
         {errors.password && (
           <span className={styles.errorText}>{errors.password}</span>
-        )}
+        )} */}
         <button type="submit" className={cn(styles.modal__button, "button")}>
           Войти
         </button>

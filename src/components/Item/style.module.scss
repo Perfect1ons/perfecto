@@ -350,27 +350,6 @@
   @include mixin.flex(flex-start, flex-start, column, 15px);
 }
 
-.swiper_slide {
-  max-height: 60px;
-  width: 100%;
-  &:hover {
-    border: 2px solid var(--violet);
-    border-radius: 5px;
-  }
-}
-
-.sliderArrow {
-  position: absolute;
-  top: 40%;
-  z-index: 2;
-  &_left {
-    left: 0;
-  }
-  &_right {
-    right: 0;
-  }
-}
-
 .showMoreSwiper {
   display: none;
   @media screen and (max-width: 992px) {

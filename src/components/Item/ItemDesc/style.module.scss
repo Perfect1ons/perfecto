@@ -1,0 +1,21 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.product{
+     &__descriptionContainer {
+     @include mixin.flex(flex-start, flex-start, column, 5px);
+     &_h2 {
+       @include mixin.font(14px, 500, null, var(--black));
+     }
+     &_p {
+       @include mixin.font(14px, 400, null, var(--gray-dark));
+     }
+     &_button {
+       @include mixin.font(14px, 500, null, var(--light-blue));
+       cursor: pointer;
+       transition: 0.3;
+       &:hover {
+         color: var(--violet);
+       }
+     }
+   }
+}

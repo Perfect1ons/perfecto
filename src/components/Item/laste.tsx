@@ -10,8 +10,6 @@ import {
   GrayFavoritesIcon,
   GrayStar,
   ShareIcon,
-  SwiperNextArrow,
-  SwiperPrevArrow,
   TgIcon,
   VioletFavoritesIcon,
   WhIcon,
@@ -19,6 +17,10 @@ import {
 } from "../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
+import ProductInfo from "@/components/UI/DaysLeftCalculate/DaysLeftCalculate";
+import DOMPurify from "isomorphic-dompurify";
+import "swiper/css";
+import "swiper/css/navigation";
 import Link from "next/link";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ProductReview from "./ProductReview/ProductReview";
@@ -26,21 +28,14 @@ import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
-
+import "swiper/scss/navigation";
+import "swiper/scss/pagination";
 import "swiper/scss/free-mode";
 import "swiper/scss/thumbs";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Keyboard,
-  Pagination,
-} from "swiper/modules";
+import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
 import ItemDescriptionModal from "../UI/ItemDescriptionModal/ItemDescriptionModal";
-import ItemSlider from "./ItemSlider/ItemSlider";
-import DOMPurify from "dompurify";
 
 interface IItemPageProps {
   data: Items;
@@ -125,6 +120,21 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setRating(Math.floor(data.ocenka));
   }, [data.ocenka]);
 
+  // const getImageUrl = (photo: any) => {
+  //   if (!photo || !photo.url_part) {
+  //     // Если photo или url_part не определены, возвращаем URL placeholder
+  //     return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  //   }
+
+  //   if (photo.url_part.startsWith("https://goods-photos")) {
+  //     return `${photo.url_part}280.jpg`;
+  //   } else if (photo.url_part.startsWith("https://")) {
+  //     return photo.url_part;
+  //   } else {
+  //     return `${url}nal/img/${data.id_post}/b_${data.img}`;
+  //   }
+  // };
+
   const handleWhatsAppClick = () => {
     window.location.href = `https://wa.me/?text=${encodeURIComponent(
       window.location.href
@@ -191,16 +201,90 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </Link>
       </div>
       <div className={styles.product}>
-        <div className={styles.item__preview}>
-          <div className={styles.item__preview_slider}>
-            <ItemSlider photos={data} />
-            <button
-              className={cn(styles.showMoreSwiper, "default__buttons_showMore")}
-            >
-              Показать ещё
-            </button>
-          </div>
+        <Swiper
+          onSwiper={setThumbsSwiper}
+          direction={"vertical"}
+          spaceBetween={10}
+          slidesPerView={4}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+          className={cn(styles.product_cards, "mySwiper")}
+        >
+          {/* слева */}
+          {data.photos
+            .map((photo, index) => (
+              <div className={styles.product_cards__item} key={index}>
+                <SwiperSlide className={styles.swiper_slide}>
+                  <Image
+                    className={styles.product_preview}
+                    src={`${url}nal/img/${data.id_post}/l_${photo.url_part}`}
+                    width={48}
+                    height={48}
+                    alt={photo.url_part}
+                    loading="lazy"
+                  />
+                </SwiperSlide>
+              </div>
+            ))
+            .slice(0, 5)}
+        </Swiper>
 
+        {/* главные */}
+        <div className={styles.product_image}>
+          <Swiper
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            spaceBetween={10}
+            navigation
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs, Keyboard]}
+            className="mySwiper2"
+          >
+            {data.photos
+              .map((photo, index) => (
+                <div className={styles.activeSlide} key={index}>
+                  <SwiperSlide>
+                    <InnerImageZoom
+                      width={500}
+                      height={300}
+                      src={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      zoomSrc={`${url}nal/img/${data.id_post}/b_${photo.url_part}`}
+                      zoomType="hover" // Используйте "hover" для активации при наведении
+                      className={styles.product_img} // Примените локальный класс к изображению
+                    />
+                  </SwiperSlide>
+                </div>
+              ))
+              .slice(0, 4)}
+          </Swiper>
+        </div>
+        <div className={styles.product_info}>
+          <h1 className={styles.product_info__title}>{data.name}</h1>
+          {/* <span
+            className={styles.product_info__articul}
+          >{`Код: ${data.art}`}</span> */}
+
+          <div className={styles.product_info__ocenka}>
+            <span className={styles.product_info_ocenka__count}>
+              {data.ocenka}
+            </span>
+            <div className="ocenka">
+              {[...Array(5)].map((_, index) => (
+                <span key={index}>
+                  {index < rating ? <YellowStar /> : <GrayStar />}
+                </span>
+              ))}
+            </div>
+            <Link
+              href={data.otz.length !== 0 ? "#otz" : ""}
+              className={styles.product_info_ocenka__otzivy}
+            >{`(${data.otz.length})`}</Link>
+          </div>
           <div className={styles.product_info__add_to}>
             <button
               title="Добавить в корзину"
@@ -270,7 +354,15 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               </div>
             </div>
           </div>
-
+          {/* <div className={styles.product_info__price}>
+            <span className={styles.product_info_price__current_price}>
+              {data.price} с.
+            </span>
+            <span className={styles.product_info_price__old_price}>
+              {data.old_price} c.
+            </span>
+            <ProductInfo price_update={data.price_update} />
+          </div> */}
           <div className={styles.product__descriptionContainer}>
             <h2 className={styles.product__descriptionContainer_h2}>
               Описание
@@ -343,6 +435,36 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               Все характеристики
             </button>
           </div>
+          {/* {data.trademark && (
+            <span
+              className={styles.product_info__brand}
+            >{`Бренд: ${data.trademark}`}</span>
+          )} */}
+          {/* <div className={styles.product_info__price}>
+            <span className={styles.product_info_price__current_price}>
+              {data.price} с.
+            </span>
+            <span className={styles.product_info_price__old_price}>
+              {data.old_price} c.
+            </span>
+            <ProductInfo price_update={data.price_update} />
+          </div> */}
+          {/* <div className={styles.product_info__ddos}>
+            <Image
+              className={styles.product_info__ddos_icon}
+              src={`${url}images/delivery_icon.svg`}
+              width={20}
+              height={20}
+              alt="delivery_icon"
+              loading="lazy"
+            />
+            <div className={styles.product_info__ddos_info}>
+              <p className={styles.product_info__ddos_title}>
+                Наличие и доставка !
+              </p>
+              <p className={styles.product_info__ddos_text}>{data.ddos}</p>
+            </div>
+          </div> */}
           <div className={styles.product_info__delivery}>
             <Image
               className={styles.product_info__ddos_icon}
@@ -359,8 +481,125 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               <p className={styles.product_info__ddos_text}>{data.ddos}</p>
             </div>
           </div>
+          {/* <div className={styles.product_info__add_to}>
+            <button
+              title="Добавить в корзину"
+              className={styles.product_info__add_to__cart}
+              onClick={() => console.log("Добавлено в корзину")}
+            >
+              <span className={styles.add__to_cart_icon}>
+                <CartIcon />
+              </span>
+              В корзину
+            </button>
+            <button className={styles.product_info__buy_btn}>Купить</button>
+            <button
+              title="Добавить в избранное"
+              className={cn("add__to_fav", {
+                ["add__to_fav_active"]: isFavorite,
+              })}
+              onClick={handleFavoriteClick}
+            >
+              <span className="add__to_fav_icon">
+                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              </span>
+            </button>
+            <div className={styles.product_info__share}>
+              <button
+                onClick={handleDropdown}
+                className={cn(
+                  styles.product_info__share_btn,
+                  dropdownActive && styles.product_info__share_btn__active
+                )}
+              >
+                <ShareIcon />
+              </button>
+              <div
+                className={cn(
+                  styles.product_info__share_dropdown,
+                  dropdownActive && styles.product_info__share_dropdown__active
+                )}
+              >
+                <div
+                  onClick={handleTelegramClick}
+                  className={styles.product_info_share__tg}
+                >
+                  <TgIcon />
+                  <button className={styles.product_info_share_telegram__btn}>
+                    Telegram
+                  </button>
+                </div>
+                <div
+                  onClick={handleWhatsAppClick}
+                  className={styles.product_info_share__wh}
+                >
+                  <WhIcon />
+                  <button className={styles.product_info_share_whatsapp__btn}>
+                    WhatsApp
+                  </button>
+                </div>
+                <div
+                  onClick={handleCopyLink}
+                  className={styles.product_info_share__copy}
+                >
+                  <CopyIcon />
+                  <button className={styles.product_info_share_copy_link__btn}>
+                    Скопировать ссылку
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> */}
         </div>
       </div>
+      {/* <div className={styles.wrap_desc_container}>
+        <div className={styles.productPageDesc}>
+          <h2 className="sections__title">Описание</h2>
+          <div
+            className={styles.product_desc}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(data.description),
+            }}
+          />
+          <div className={styles.product_desc_short_desc}>
+            {data.short_description && (
+              <div
+                className={styles.product_desc_shortdesc__text}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.short_description),
+                }}
+              />
+            )}
+          </div>
+          <div className={styles.product_desc__client_desc}>
+            <p className={styles.product_desc__client_desc__text}>
+              Фото, описание, комплектация и характеристики могут отличаться от
+              оригинала.
+            </p>
+            <p className={styles.product_desc__client_desc__text}>
+              Страна производства может отличаться в зависимости от партии
+              поставки.
+            </p>
+            <p className={styles.product_desc__client_desc__text}>
+              Производитель оставляет за собой право изменять внешний вид,
+              комплектацию товара без предупреждения.
+            </p>
+          </div>
+        </div>
+      </div>
+      {data.specification && (
+        <div className={styles.wrap_specification}>
+          <div className="characteristics">
+            <h2 className="sections__title">Характеристики</h2>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(data.specification),
+              }}
+              className={styles.wrap_characteristics}
+            />
+          </div>
+        </div>
+      )} */}
       {data.video && (
         <div className={styles.wrap_video}>
           <div className="productPageVideo">

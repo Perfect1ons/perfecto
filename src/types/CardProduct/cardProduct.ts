@@ -91,7 +91,7 @@ export interface Items {
   from_date: number;
   valuteVal: string;
   specification: string;
-  photos: Photo[];
+  photos: IPhotoProduct[];
   ddos: string;
   otz: any[];
   ocenka: number;
@@ -106,7 +106,7 @@ export interface Country {
   name: string;
 }
 
-export interface Photo {
+export interface IPhotoProduct {
   url_part: string;
 }
 

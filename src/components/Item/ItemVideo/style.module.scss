@@ -1,0 +1,6 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.wrap_video{
+    border-bottom: 2px solid var(--secondary-white);
+    padding-bottom: 15px;
+}

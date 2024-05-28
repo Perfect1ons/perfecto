@@ -561,11 +561,12 @@ body {
   left: 0;
   bottom: 0;
   z-index: 2;
+  max-width: 80px;
   margin: 0 0 10px 10px;
   padding: 5px 15px;
 
   background: #00000069;
-  color: var(--white);
+  color: #fff;
   border-radius: 32px;
 }
 
@@ -577,8 +578,10 @@ body {
 }
 
 .mySwiper .swiper-slide-thumb-active {
-  border: 2px solid var(--violet);
-  border-radius: 5px;
+  .thumb-actived {
+    border: 2px solid var(--violet);
+    border-radius: 5px;
+  }
 }
 
 .biggg {
