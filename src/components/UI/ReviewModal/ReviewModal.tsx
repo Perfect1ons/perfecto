@@ -47,7 +47,11 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [previews, setPreviews] = useState<string[]>([]);
 
-  const [isNotValid, setIsNotValid] = useState(false);
+  const [errors, setErrors] = useState<{
+    captcha?: string;
+    name?: string;
+    rating?: string;
+  }>({});
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -107,17 +111,30 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
   };
 
   const SendOtz = () => {
-    if (captchaToken && otz.name && otz.rating) {
-      const otzData = {
-        ...otz,
-      };
-      postOtz(otzData);
+    const error = { captcha: "", name: "", rating: "" };
 
-      func();
-    } else {
-      setIsNotValid(true);
+    if (!captchaToken) {
+      error.captcha = "Пройдите «Капчу».";
+    }
+
+    if (!otz.name || otz.name.length === 0) {
+      error.name = "Необходимо заполнить «Ваше имя*».";
+    }
+
+    if (!otz.rating || otz.rating < 1) {
+      error.rating = "Необходимо поставить «Оценку».";
+    }
+
+    if (error.captcha || error.name || error.rating) {
+      setErrors(error);
       return;
     }
+
+    const otzData = {
+      ...otz,
+    };
+    postOtz(otzData);
+    func();
   };
 
   const AnonimHandler = () => {
@@ -208,21 +225,24 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
               ratingTexts[otz.rating - 1] ||
               "Поставьте оценку"}
           </div>
+          {errors.rating && (
+            <p className={styles.wrapper_ocenka_warning}>{errors.rating}</p>
+          )}
         </div>
         <div className={styles.wrapper_inputs}>
-          <input
-            maxLength={15}
-            name="name"
-            autoComplete="off"
-            placeholder="Ваше имя*"
-            onChange={ChangeHandler}
-            type="text"
-            className={styles.wrapper_inputs_name}
-          />
-          {isNotValid && (
-            <p className={styles.wrapper_inputs_warning}>
-              Необходимо заполнить «Как Вас зовут? *»
-            </p>
+          <label id="name" className={styles.wrapper_inputs_title}>
+            Ваше имя
+            <input
+              maxLength={15}
+              name="name"
+              autoComplete="off"
+              onChange={ChangeHandler}
+              type="text"
+              className={styles.wrapper_inputs_name}
+            />
+          </label>
+          {errors.name && (
+            <p className={styles.wrapper_inputs_warning}>{errors.name}</p>
           )}
         </div>
         <div className={styles.wrapper_areas}>
@@ -331,15 +351,11 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
             sitekey="6LeyWSMUAAAAAHYqeoWK4VqFVJPyo8KetjDl7l6C"
             onChange={handleCaptchaChange}
           />
-          {isNotValid && (
-            <p className={styles.wrapper_reCaptcha_warning}>Пройдите капчу</p>
+          {errors.captcha && (
+            <p className={styles.wrapper_reCaptcha_warning}>{errors.captcha}</p>
           )}
         </div>
-        <button
-          onClick={SendOtz}
-          disabled={!otz.name.length || !otz.comment?.length}
-          className={styles.wrapper_sendBtn}
-        >
+        <button onClick={SendOtz} className={styles.wrapper_sendBtn}>
           Отправить
         </button>
       </div>

@@ -32,9 +32,10 @@
     padding-bottom: 15px;
   }
 }
-.cyyyy {
+.activeSlide {
   max-width: 370px;
   background: #000;
+  user-select: none;
 }
 
 .product {
@@ -52,7 +53,8 @@
   &_cards {
     @include mixin.flex(null, null, column !important, 5px);
     margin: 0 !important;
-    width: 100px !important;
+    min-width: 60px !important;
+    user-select: none;
     @media screen and (max-width: 992px) {
       margin-bottom: 10px;
       flex-direction: row;
@@ -323,11 +325,9 @@
     }
     &_wrap {
       @include mixin.font(14px, 400, null, var(--gray-dark));
-      // @include mixin.flex(null, flex-start, column, null);
       &_articul {
         @include mixin.flex(center, space-between, null, 5px);
         margin-left: 2px;
-        // border-bottom: 1px dashed #000;
         &_span {
           display: block;
           width: 100%;

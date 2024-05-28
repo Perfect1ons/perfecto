@@ -69,7 +69,7 @@
   text-decoration: none;
 
   &:hover {
-    color: var(--violet);
+    color: var(--white);
   }
 }
 .breadcrumb {
@@ -87,7 +87,22 @@
   color: #000;
 }
 .subCatalogsContainerUL {
-  @include mixin.flex(null, null, column, 10px);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  min-width: 250px;
+  padding: 10px;
+  outline: 1px solid var(--super-light-white);
+  border-radius: 5px;
+  height: 100%;
+  @include mixin.flex(null, null, column, 25px);
+  @media screen and (max-width: 1200px) {
+    display: none;
+  }
+  @media screen and (max-width: 576px) {
+    margin-left: 8px;
+    padding: 8px;
+  }
 }
 .buttonsCatalogs {
   @include mixin.flex(center, center, null, 2px);
