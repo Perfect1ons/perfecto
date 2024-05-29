@@ -5,25 +5,96 @@
   margin: 0 auto;
 }
 .wrapper {
-  overflow-y: auto;
   @include mixin.flex(center, null, column, null);
   position: fixed;
   background: var(--white);
   z-index: 200;
   max-width: 100%;
-  max-height: 95%;
-  padding: 15px;
+  max-height: 100%;
+  padding: 25px;
+  padding-right: 5px;
   border-radius: 5px;
-  top: 20px;
-  &_title {
-    user-select: none;
-    @include mixin.font(18px, 500, null, var(--dark));
-    align-self: flex-start;
+  top: 35px;
+
+  &_nav {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding-right: 15px;
+    width: 100%;
+    @include mixin.flex(center, space-between, null, null);
+    &_title {
+      user-select: none;
+      @include mixin.font(1.125rem, 500, null, var(--dark));
+      align-self: flex-start;
+    }
+    &_cross {
+      cursor: pointer;
+      color: var(--secondary-gray);
+      &:hover {
+        color: var(--dark);
+      }
+    }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
+
+  &_sendBtn {
+    margin-right: 15px;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+    max-width: 450px;
+    width: 100%;
+    background: linear-gradient(
+      88.03deg,
+      var(--violet) 1.19%,
+      var(--dark-blue) 97.58%
+    );
+    background-size: 300% 100%;
+    padding: 12px 60px;
+
+    @include mixin.font(1rem, 400, null, var(--white));
+    text-align: center;
+    transition: 0.3s all;
+    &:hover {
+      background-size: 100% 80000%;
+    }
+  }
+  @media screen and (max-width: 576px) {
+    margin: 0;
+  }
+}
+.container {
+  @include mixin.flex(center, null, column, null);
+  background: var(--white);
+  width: 100%;
+  max-height: 740px;
+  overflow-y: scroll;
+  z-index: 200;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #888;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
   &_product {
+    margin-right: 10px;
     margin-top: 5px;
     align-self: flex-start;
-    @include mixin.flex(center, center, null, 5px);
+    @include mixin.flex(center, center, null, 10px);
     &_imageContainer {
       max-width: 100px;
       max-height: 100px;
@@ -40,17 +111,9 @@
       max-width: 350px;
     }
   }
-  &_cross {
-    cursor: pointer;
-    color: var(--secondary-gray);
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    &:hover {
-      color: var(--dark);
-    }
-  }
+
   &_ocenka {
+    margin-right: 10px;
     @include mixin.flex(null, center, null, null);
     position: relative;
     margin-top: 5px;
@@ -77,8 +140,12 @@
       position: absolute;
       @include mixin.font(0.875rem, 700, null, var(--danger));
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_inputs {
+    margin-right: 10px;
     max-width: 450px;
     position: relative;
     margin-top: 45px;
@@ -99,7 +166,7 @@
 
       &:focus {
         border-radius: 5px;
-        outline: 2px solid var(--info);
+        outline: 2px solid var(--focus);
       }
     }
     &_warning {
@@ -108,8 +175,12 @@
       position: absolute;
       @include mixin.font(0.875rem, 700, null, var(--danger));
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_areas {
+    margin-right: 10px;
     margin-top: 20px;
     width: 100%;
     max-width: 450px;
@@ -134,12 +205,16 @@
         max-height: 165px;
         outline: 2px solid var(--secondary-white);
         &:focus {
-          outline: 2px solid var(--info);
+          outline: 2px solid var(--focus);
         }
       }
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_selectMedia {
+    margin-right: 10px;
     margin-top: 5px;
     @include mixin.flex(center, center, null, null);
     width: 100%;
@@ -169,8 +244,12 @@
         opacity: 0;
       }
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_userMediaPreview {
+    margin-right: 10px;
     margin-top: 15px;
     align-self: flex-start;
     @include mixin.flex(center, center, null, 10px);
@@ -201,8 +280,12 @@
         border-radius: 5px;
       }
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_anonim {
+    margin-right: 10px;
     user-select: none;
     margin-top: 5px;
     max-width: 450px;
@@ -230,8 +313,12 @@
     &_text {
       @include mixin.font(1rem, 400, null, var(--dark));
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
   &_reCaptcha {
+    margin-right: 10px;
     user-select: none;
     @include mixin.flex(flex-start, null, null, null);
     max-width: 450px;
@@ -245,8 +332,47 @@
       position: absolute;
       @include mixin.font(0.875rem, 700, null, var(--danger));
     }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
   }
-  &_sendBtn {
+}
+.thanks {
+  @include mixin.flex(center, center, column, 50px);
+  background: var(--white);
+  height: 680px;
+  width: 512px;
+  z-index: 200;
+  &_cross {
+    cursor: pointer;
+    color: var(--secondary-gray);
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    &:hover {
+      color: var(--dark);
+    }
+  }
+
+  &_image {
+    scale: 1.5;
+  }
+
+  &_text {
+    @include mixin.flex(center, center, column, 5px);
+    &_title {
+      @include mixin.font(18px, 700, null, var(--dark));
+      align-self: center;
+      user-select: none;
+      text-wrap: nowrap;
+    }
+    &_desc {
+      @include mixin.font(0.875rem, 400, null, var(--dark));
+    }
+  }
+  &_close {
+    position: absolute;
+    bottom: 15px;
     user-select: none;
     cursor: pointer;
     border-radius: 5px;
