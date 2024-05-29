@@ -3,7 +3,7 @@
   &_review {
     margin-bottom: 15px;
     &_grade_title {
-      @include mixin.font(0.9375rem, 400, null, var(--dark));
+      @include mixin.font(16px, 400, null, var(--dark));
     }
     &_grade_btns {
       margin-top: 10px;
@@ -15,9 +15,10 @@
       @include mixin.font(0.9375rem, 400, null, var(--dark));
     }
     &_grade_rating {
-      margin-top: 20px;
+      margin-top: 15px;
       @include mixin.flex(center, flex-start, null, 25px);
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      margin-left: 10px;
       &_star {
         scale: 1.8;
         background: none;
@@ -26,42 +27,62 @@
       }
     }
     &_otz {
-      margin-top: 15px;
-      @include mixin.flex(null, null, null, null);
       &_item {
-        height: 300px !important;
-        margin-bottom: 15px;
+        height: 272px !important;
         background: var(--white);
         box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-        border-radius: 5px;
-        padding: 10px 10px;
-        &_info {
-          @include mixin.flex(null, space-between, row, null);
-          &_sender {
-            @include mixin.flex(null, null, column, null);
-            margin-bottom: 10px;
-            &_name {
-              @include mixin.font(1.125rem, 700, null, var(--dark));
-            }
-          }
-          &_date {
-            @include mixin.font(1rem, 400, null, var(--dark));
-          }
-        }
-        &_comment {
-          margin-top: 5px;
-          @include mixin.flex(flex-start, null, column, 5px);
-          &_title {
-            @include mixin.font(null, 500, null, var(--gray-dark));
-          }
-          &_text {
-            @include mixin.font(null, 400, null, var(--gray-dark));
-          }
-        }
+        border-radius: 15px;
+        padding: 25px;
       }
+    }
+
+  }
+    &_otz {
+      padding: 5px !important;
+    }
+}
+
+.card__header{
+  @include mixin.flex(center,space-between,null, 20px);
+
+  &_content{
+    width: 100%;
+    @include mixin.flex(flex-start,space-between)
+  }
+
+  &_userImage{
+    border-radius: 50%;
+  }
+
+  &_user{
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  &_date{
+    font-size: 16px;
+    color: #868695;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
+.card__content{
+  margin-top: 15px;
+  &_desc{
+    color: var(--dark);
+    line-height: 22px;
+    font-size: 16px;
+
+    @media screen and (max-width: 768px) {
+      line-height: 16px;
     }
   }
 }
+
+
 .team__swiper_btn {
   cursor: pointer;
   box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);

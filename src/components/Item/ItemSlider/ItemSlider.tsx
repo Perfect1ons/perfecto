@@ -43,15 +43,15 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
     <div className={styles.product__swipers}>
       <Swiper
         onSwiper={setThumbsSwiper}
+        slidesPerView={6}
         direction={"vertical"}
         spaceBetween={10}
-        slidesPerView={4}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
         className={clsx(styles.product__cards, "mySwiper")}
       >
-        {photos.photos.slice(0, 7).map((photo, index) => (
+        {photos.photos.map((photo, index) => (
           <SwiperSlide
             className={styles.product__cards_item}
             key={index}

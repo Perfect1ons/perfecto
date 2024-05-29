@@ -3,6 +3,9 @@
   overflow: hidden;
 }
 .wrap {
+  max-width: 1440px !important;
+  margin: 0 auto;
+  overflow: hidden;
   &_backdrop {
     z-index: 199;
     position: fixed;
@@ -372,6 +375,10 @@
 
     &_description {
       @include mixin.flex(flex-start, flex-start, null, 25px);
+      width: 100%;
+      &_block{
+        width: 100%;
+      }
     }
   }
   @media screen and (max-width: 992px) {

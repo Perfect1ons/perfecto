@@ -17,6 +17,7 @@ import Loader from "@/components/UI/Loader/Loader";
 import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
 import Link from "next/link";
+import clsx from "clsx";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
@@ -87,7 +88,7 @@ export default function CategorySwiper({ category }: ICategory) {
             },
           }}
           modules={[Grid, Pagination, Navigation]}
-          className="myCategory__swiper"
+          className={clsx("myCategory__swiper", styles.mySwiperok)}
         >
           {category.map((item) => {
             const imageUrl = item.icon

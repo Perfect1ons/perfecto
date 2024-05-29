@@ -70,13 +70,14 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            <ItemSlider photos={data} />
+            {data ?  <ItemSlider photos={data} /> : <h1>hello</h1> }
+           
           </div>
           <div className={styles.item__preview_info}>
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
-              <div>
+              <div className={styles.item__preview_info_description_block}>
                 <ItemDesc data={data} />
                 <ItemSpec data={data} />
               </div>

@@ -60,6 +60,18 @@ module.exports = {
         protocol: "https",
         hostname: "www.4glaza.ru",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.mds.yandex.net",
+      },
+      {
+        protocol: "https",
+        hostname: "static-basket-01.wbbasket.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "static-basket-01.wbbasket.ru",
+      },
     ],
   },
   async headers() {
