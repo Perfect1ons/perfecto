@@ -26,24 +26,16 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
     video: false,
     characteristics: false,
   });
-  const handleToggle = (section: keyof ITogglerProps) => {
-    setToggler((prevState: ITogglerProps) => {
-      const updatedToggler: ITogglerProps = { ...prevState };
-      Object.keys(updatedToggler).forEach((key: string) => {
-        const sectionKey = key as keyof ITogglerProps;
-        if (sectionKey !== section) {
-          updatedToggler[sectionKey] = false;
-        }
-      });
-      updatedToggler[section] = !prevState[section];
-      return updatedToggler;
+  const handleScroll = (section: keyof ITogglerProps) => {
+    setToggler({
+      about: false,
+      video: false,
+      characteristics: false,
+      [section]: true,
     });
-  };
-
-  const handleToggleClick = (section: keyof ITogglerProps) => {
-    if (!toggler[section]) {
-      handleToggle(section);
-    }
+    document
+      .querySelector(`#${section}`)
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
   const sanitizedVideoHTML = DOMPurify.sanitize(data.video, {
@@ -73,34 +65,34 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
         <div className={styles.wrapper__container}>
           <div className={styles.wrapper__container__header}>
             {data.description && (
-              <h2
-                className={cn(styles.wrapper__container__header__h2, {
+              <button
+                onClick={() => handleScroll("about")}
+                className={cn(styles.wrapper__container__header__button, {
                   [styles.activeH2]: toggler.about,
                 })}
-                onClick={() => handleToggleClick("about")}
               >
                 О товаре
-              </h2>
+              </button>
             )}
             {data.specification && (
-              <h2
-                className={cn(styles.wrapper__container__header__h2, {
+              <button
+                onClick={() => handleScroll("characteristics")}
+                className={cn(styles.wrapper__container__header__button, {
                   [styles.activeH2]: toggler.characteristics,
                 })}
-                onClick={() => handleToggleClick("characteristics")}
               >
                 Характеристики
-              </h2>
+              </button>
             )}
             {data.video && (
-              <h2
-                className={cn(styles.wrapper__container__header__h2, {
+              <button
+                onClick={() => handleScroll("video")}
+                className={cn(styles.wrapper__container__header__button, {
                   [styles.activeH2]: toggler.video,
                 })}
-                onClick={() => handleToggleClick("video")}
               >
                 Видео
-              </h2>
+              </button>
             )}
           </div>
           <button
@@ -110,9 +102,9 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             <Cross />
           </button>
         </div>
-        {toggler.about && (
-          <div className={styles.aboutProduct}>
-            <div className={styles.aboutProduct__description}>
+        <div className={styles.aboutProductContainer}>
+          {data.description && (
+            <div id="about" className={styles.aboutProduct}>
               <p
                 className={styles.aboutProduct__description_p}
                 dangerouslySetInnerHTML={{
@@ -120,11 +112,10 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 }}
               />
             </div>
-          </div>
-        )}
-        {toggler.characteristics && (
-          <div className={styles.aboutProduct}>
-            <div className={styles.aboutProduct__description}>
+          )}
+          {data.specification && (
+            <div id="characteristics" className={styles.aboutProduct}>
+              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(data.specification),
@@ -132,18 +123,19 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 className={styles.aboutProduct__description_p}
               />
             </div>
-          </div>
-        )}
-        {toggler.video && data.video && (
-          <div className={styles.aboutProduct}>
-            <h3 className={styles.aboutProduct__h3}>Видео</h3>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: sanitizedVideoHTML,
-              }}
-            />
-          </div>
-        )}
+          )}
+          {data.video && (
+            <div id="video" className={styles.aboutProduct}>
+              <h3 className={styles.aboutProduct__h3}>Видео</h3>
+              <div
+                className={styles.aboutProduct__video}
+                dangerouslySetInnerHTML={{
+                  __html: sanitizedVideoHTML,
+                }}
+              />
+            </div>
+          )}
+        </div>
         <div className={styles.wrapper__containerFooter}>
           <h2 className={styles.wrapper__containerFooter__h2}>
             {data.price}с.
