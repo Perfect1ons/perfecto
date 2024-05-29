@@ -49,7 +49,7 @@ const imageUrl = useMemo(() => {
 
   return (
     <Link className="link" href={`/item/${cardData.id_tov}/${cardData.url}`}>
-      <div  className="default__card">
+      <div className="default__card">
         <div className="default__card_images">
           <Image
             className="default__card_image"
@@ -62,10 +62,26 @@ const imageUrl = useMemo(() => {
           />
         </div>
         <div className="default__card_info">
-          <span className="default__card_price">
-            {cardData.cenaok.toLocaleString("ru-RU")}
-            <span className="default__card_price_custom"> с</span>
-          </span>
+          {cardData.discount > 0 ? (
+            <div className="default__card_price_box">
+              <h3 className="default__card_price_discount">
+                {cardData.cenaok.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+              <span className="default__card_price_prc">
+                -{cardData.discount_prc} %
+              </span>
+              <h3 className="default__card_price_old">
+                {cardData.old_price.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+            </div>
+          ) : (
+            <h3 className="default__card_price_now">
+              {cardData.cenaok.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </h3>
+          )}
           <h2 className="default__card_name">{cardData.naim}</h2>
           <div className="ocenka">
             {[...Array(5)].map((_, index) => (

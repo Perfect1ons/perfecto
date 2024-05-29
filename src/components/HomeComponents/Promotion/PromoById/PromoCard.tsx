@@ -64,10 +64,26 @@ const PromoCards = ({ promo }: INewDataProps) => {
           />
         </div>
         <div className="default__card_info">
-          <span className="default__card_price">
-            {Number(promo.cenaok).toLocaleString()}
-            <span className="default__card_price_custom"> с</span>
-          </span>
+          {promo.discount > 0 ? (
+            <div className="default__card_price_box">
+              <h3 className="default__card_price_discount">
+                {promo.cenaok.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+              <span className="default__card_price_prc">
+                -{promo.discount_prc} %
+              </span>
+              <h3 className="default__card_price_old">
+                {promo.old_price.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+            </div>
+          ) : (
+            <h3 className="default__card_price_now">
+              {promo.cenaok.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </h3>
+          )}
           <h2 className="default__card_name">{promo.naim}</h2>
           <div className="ocenka">
             {/* Отображение звезд в зависимости от округленной оценки */}

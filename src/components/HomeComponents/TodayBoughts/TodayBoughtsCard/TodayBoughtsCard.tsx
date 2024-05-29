@@ -68,10 +68,26 @@ const TodayBoughtsCards = ({ goods }: IgoodsProps) => {
           />
         </div>
         <div className="default__card_info">
-          <span className="default__card_price">
-            {goods.cenaok.toLocaleString("ru-RU")}
-            <span className="default__card_price_custom"> с</span>
-          </span>
+          {goods.discount > 0 ? (
+            <div className="default__card_price_box">
+              <h3 className="default__card_price_discount">
+                {goods.cenaok.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+              <span className="default__card_price_prc">
+                -{goods.discount_prc} %
+              </span>
+              <h3 className="default__card_price_old">
+                {goods.old_price.toLocaleString("ru-RU")}
+                <span className="default__card_price_custom"> с</span>
+              </h3>
+            </div>
+          ) : (
+            <h3 className="default__card_price_now">
+              {goods.cenaok.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </h3>
+          )}
           <h2 className="default__card_name">{goods.naim}</h2>
           <div className="ocenka">
             {[...Array(5)].map((_, index) => (

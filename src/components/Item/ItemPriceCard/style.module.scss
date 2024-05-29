@@ -1,7 +1,7 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
 .ItemPriceCard{
-    max-width: 400px;
+    max-width: 344px;
     width: 100%;
     background: var(--light-white);
     border-radius: 10px;
@@ -73,9 +73,9 @@
 .ItemPriceCard__salesman{
     margin-top: 15px;
     &_title{
-        @include mixin.font(16px,400,100%,var(--dark));
+        @include mixin.font(14px,400,100%,var(--dark));
         &_custom{
-            @include mixin.font(16px,400,100%,var(--dark));
+            @include mixin.font(14px,400,100%,var(--dark));
         }
     }
 }

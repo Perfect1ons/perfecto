@@ -5,6 +5,12 @@
   -webkit-tap-highlight-color: var(--tap-select);
 }
 
+@media (min-width: 1440px) {
+    p {
+        line-height: 1.2; /* Оставляем такое же значение */
+    }
+}
+
 ::selection {
   color: var(--white);
   background-color: var(--dark-blue); /* Цвет фона при выделении */
@@ -19,7 +25,9 @@ body {
 .container {
   @include container(1440px);
   padding: 0 15px;
-
+  @media screen and (min-width: 1440px) {
+    @include container(1440px);
+  }
   @media screen and (max-width: 640px) {
     padding: 0 7px;
   }
@@ -48,7 +56,7 @@ body {
     10px 25px,
     null,
     2px solid var(--dark-blue),
-    10px,
+    5px,
     var(--white),
     18px,
     600,
@@ -599,4 +607,9 @@ body {
 // test styles
 .iiz__btn {
   border-radius: 100px !important;
+}
+
+.wrapInfoItem{
+  max-width: 100%;
+  width: 100%;
 }

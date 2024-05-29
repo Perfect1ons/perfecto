@@ -2,12 +2,22 @@
 
 .product{
      &__descriptionContainer {
+      max-width: 100%;
+      min-width: 100%;
+      width: 100%;
      @include mixin.flex(flex-start, flex-start, column, 5px);
      &_desc {
        @include mixin.font(16px, 500, null, var(--dark));
      }
      &_text {
        @include mixin.font(14px, 400, null, var(--dark));
+       width: 100%;
+       @media screen and (min-width: 1400px) {
+        .aboutProduct {
+          line-height: 1;
+       }
+}
+
      }
      &_button {
        @include mixin.font(14px, 500, null, var(--light-blue));
@@ -24,3 +34,5 @@
   margin-top: 10px;
   max-width: 400px;
 }
+
+

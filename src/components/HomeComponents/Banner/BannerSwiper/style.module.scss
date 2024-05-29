@@ -1,5 +1,9 @@
 @use "../../../../assets/scss/common/skeleton" as skeleton;
 
+.swiper {
+  position: relative;
+}
+
 .slideWithPadding {
   padding-bottom: 40px;
 }
@@ -51,5 +55,18 @@
         height: 100px;
       }
     }
+  }
+}
+
+.sliderArrow {
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  cursor: pointer;
+  &_left {
+    left: 0;
+  }
+  &_right {
+    right: 0;
   }
 }

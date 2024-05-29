@@ -1,7 +1,6 @@
 "use client"
 import Image from 'next/image'
 import styles from './style.module.scss'
-import Link from 'next/link';
 
 interface ILogoProps{
   gomain: () => void;

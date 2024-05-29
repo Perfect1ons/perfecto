@@ -11,6 +11,8 @@ import {
 import { Items } from "@/types/CardProduct/cardProduct";
 import { useEffect, useState } from "react";
 import cn from "clsx";
+import ReviewDate from "./ReviewDate/ReviewDate";
+import Image from "next/image";
 
 interface IProductReviewProps {
   data: Items;
@@ -21,7 +23,8 @@ interface IOtz {
 }
 
 const ProductReview = ({ data, func }: IProductReviewProps) => {
-  const [rating, setRating] = useState(0);
+   const [rating, setRating] = useState(0);
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const [otz, setOtz] = useState<IOtz>({
@@ -80,11 +83,10 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
             Написать отзыв
           </button>
         </div>
-        <div className={styles.wrap_review_swiper}>
           {data.otz.length !== 0 && (
             <Swiper
               slidesPerView={3}
-              spaceBetween={15}
+              spaceBetween={25}
               navigation={{
                 nextEl: ".team__btn_next",
                 prevEl: ".team__btn_prev",
@@ -106,17 +108,17 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
                   slidesPerGroup: 2,
                 },
                 992: {
-                  spaceBetween: 10,
+                  spaceBetween: 15,
                   slidesPerView: 3,
                   slidesPerGroup: 3,
                 },
                 1200: {
                   slidesPerView: 3,
-                  spaceBetween: 15,
+                  spaceBetween: 25,
                 },
               }}
               modules={[Navigation]}
-              className="mySwiper"
+              className={cn(styles.wrap_otz, "mySwiper")}
             >
               {data.otz.map((item, index) => {
                 return (
@@ -124,80 +126,30 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
                     key={index}
                     className={styles.wrap_review_otz_item}
                   >
-                    <div className={styles.wrap_review_otz_item_info}>
-                      <div className={styles.wrap_review_otz_item_info_sender}>
-                        <p
-                          className={
-                            styles.wrap_review_otz_item_info_sender_name
-                          }
-                        >
-                          {item.name}
-                        </p>
-                        <div
-                          className={
-                            styles.wrap_review_otz_item_info_sender_ocenka
-                          }
-                        >
+                    <div className={styles.card__header}>
+                      <Image
+                        className={styles.card__header_userImage}
+                        src="https://static-basket-01.wbbasket.ru/vol0/i/v3/user/avatar.png"
+                        width={50}
+                        height={50}
+                        alt="user"
+                      />
+                      <div className={styles.card__header_content}>
+                        <div className={styles.card__header_content_userInfo}>
+                          {item.anonim ? <p className={styles.card__header_user}>Анонимный пользователь</p> : <p className={styles.card__header_user}>{item.name}</p>}
+                          <ReviewDate date={item.dat1}/>
+                        </div>
+                        <div className="ocenka">
                           {[...Array(5)].map((_, index) => (
                             <span key={index}>
-                              {index < rating ? <YellowStar /> : <GrayStar />}
+                              {index < item.ocenka ? <YellowStar /> : <GrayStar />}
                             </span>
                           ))}
                         </div>
                       </div>
-                      <p className={styles.wrap_review_otz_item_info_date}>
-                        {item.dat1}
-                      </p>
                     </div>
-                    <div className={styles.wrap_review_otz_item_comment}>
-                      {item.dostoinsva && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Достоинства:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.dostoinsva}
-                          </p>
-                        </div>
-                      )}
-                      {item.nedostatki && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Недостатки:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.nedostatki}
-                          </p>
-                        </div>
-                      )}
-                      {item.text && (
-                        <div className={styles.wrap_review_otz_item_comm}>
-                          <p
-                            className={
-                              styles.wrap_review_otz_item_comment_title
-                            }
-                          >
-                            Комментарий:
-                          </p>
-                          <p
-                            className={styles.wrap_review_otz_item_comment_text}
-                          >
-                            {item.text}
-                          </p>
-                        </div>
-                      )}
+                    <div className={styles.card__content}>
+                      <p className={styles.card__content_desc}>{item.text}</p>
                     </div>
                   </SwiperSlide>
                 );
@@ -218,8 +170,83 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           )}
         </div>
       </div>
-    </div>
   );
 };
 
 export default ProductReview;
+
+
+
+                    //   <div className={styles.wrap_review_otz_item_info_sender}>
+                    //     <p
+                    //       className={
+                    //         styles.wrap_review_otz_item_info_sender_name
+                    //       }
+                    //     >
+                    //       {item.name}
+                    //     </p>
+                    //     <div
+                    //       className={
+                    //         styles.wrap_review_otz_item_info_sender_ocenka
+                    //       }
+                    //     >
+                    //       {[...Array(5)].map((_, index) => (
+                    //         <span key={index}>
+                    //           {index < rating ? <YellowStar /> : <GrayStar />}
+                    //         </span>
+                    //       ))}
+                    //     </div>
+                    //   </div>
+                    //   <p className={styles.wrap_review_otz_item_info_date}>
+                    //     <ReviewDate date={item.dat1} />
+                    //   </p>
+                    // </div>
+                    // <div className={styles.wrap_review_otz_item_comment}>
+                    //   {item.dostoinsva && (
+                    //     <div className={styles.wrap_review_otz_item_comm}>
+                    //       <p
+                    //         className={
+                    //           styles.wrap_review_otz_item_comment_title
+                    //         }
+                    //       >
+                    //         Достоинства:
+                    //       </p>
+                    //       <p
+                    //         className={styles.wrap_review_otz_item_comment_text}
+                    //       >
+                    //         {item.dostoinsva}
+                    //       </p>
+                    //     </div>
+                    //   )}
+                    //   {item.nedostatki && (
+                    //     <div className={styles.wrap_review_otz_item_comm}>
+                    //       <p
+                    //         className={
+                    //           styles.wrap_review_otz_item_comment_title
+                    //         }
+                    //       >
+                    //         Недостатки:
+                    //       </p>
+                    //       <p
+                    //         className={styles.wrap_review_otz_item_comment_text}
+                    //       >
+                    //         {item.nedostatki}
+                    //       </p>
+                    //     </div>
+                    //   )}
+                    //   {item.text && (
+                    //     <div className={styles.wrap_review_otz_item_comm}>
+                    //       <p
+                    //         className={
+                    //           styles.wrap_review_otz_item_comment_title
+                    //         }
+                    //       >
+                    //         Комментарий:
+                    //       </p>
+                    //       <p
+                    //         className={styles.wrap_review_otz_item_comment_text}
+                    //       >
+                    //         {item.text}
+                    //       </p>
+                    //     </div>
+                    //   )}

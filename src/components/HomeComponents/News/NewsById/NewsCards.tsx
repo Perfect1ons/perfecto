@@ -67,10 +67,26 @@ const NewsCards = ({ newData }: INewDataProps) => {
         />
       </div>
       <div className="default__card_info">
-        <span className="default__card_price">
-          {newData.cenaok.toLocaleString("ru-RU")}
-          <span className="default__card_price_custom"> с</span>
-        </span>
+        {newData.discount > 0 ? (
+          <div className="default__card_price_box">
+            <h3 className="default__card_price_discount">
+              {newData.cenaok.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </h3>
+            <span className="default__card_price_prc">
+              -{newData.discount_prc} %
+            </span>
+            <h3 className="default__card_price_old">
+              {newData.old_price.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </h3>
+          </div>
+        ) : (
+          <h3 className="default__card_price_now">
+            {newData.cenaok.toLocaleString("ru-RU")}
+            <span className="default__card_price_custom"> с</span>
+          </h3>
+        )}
 
         <h2 className="default__card_name">{newData.naim}</h2>
         <div className="ocenka">
