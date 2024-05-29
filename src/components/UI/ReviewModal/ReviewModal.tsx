@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -22,24 +22,28 @@ interface IReviewModal {
 }
 
 export interface IUser {
-  dost?: string;
-  nedost?: string;
+  dostoinsva?: string;
+  nedostatki?: string;
   name: string;
-  comment?: string;
-  rating: number;
-  image?: File[] | null;
+  text?: string;
+  ocenka: number;
+  images?: File[] | null;
   anonim?: number;
+  id_tovar: number;
+  url_tovar: string;
 }
 
 const ReviewModal = ({ func, data }: IReviewModal) => {
   const [otz, setOtz] = useState<IUser>({
-    dost: "",
-    nedost: "",
+    dostoinsva: "",
+    nedostatki: "",
     name: "",
-    comment: "",
-    rating: 0,
-    image: [],
+    text: "",
+    ocenka: 0,
+    images: [],
     anonim: 0,
+    id_tovar: data.id_tov,
+    url_tovar: data.url,
   });
 
   const [isAnomim, setIsAnonim] = useState(false);
@@ -53,9 +57,13 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
     rating?: string;
   }>({});
 
+  const [isSended, setIsSended] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const totalImages = otz.image ? otz.image.length : 0;
+    const totalImages = otz.images ? otz.images.length : 0;
 
     if (totalImages + files.length > 3) {
       return;
@@ -65,23 +73,29 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
 
     setOtz((prevOtz) => ({
       ...prevOtz,
-      image: [...(prevOtz.image || []), ...files],
+      images: [...(prevOtz.images || []), ...files],
     }));
 
     setPreviews((prevPreviews) => [...prevPreviews, ...filePreviews]);
+
+    e.target.value = "";
   };
 
   const handleRemoveImage = (index: number) => {
     setOtz((prevOtz) => {
-      const newImages = [...(prevOtz.image || [])];
+      const newImages = [...(prevOtz.images || [])];
       newImages.splice(index, 1);
-      return { ...prevOtz, image: newImages };
+      return { ...prevOtz, images: newImages };
     });
     setPreviews((prevPreviews) => {
       const newPreviews = [...prevPreviews];
       newPreviews.splice(index, 1);
       return newPreviews;
     });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const ratingTexts = [
@@ -121,7 +135,7 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
       error.name = "Необходимо заполнить «Ваше имя*».";
     }
 
-    if (!otz.rating || otz.rating < 1) {
+    if (!otz.ocenka || otz.ocenka < 1) {
       error.rating = "Необходимо поставить «Оценку».";
     }
 
@@ -134,7 +148,7 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
       ...otz,
     };
     postOtz(otzData);
-    func();
+    setIsSended(true);
   };
 
   const AnonimHandler = () => {
@@ -145,15 +159,15 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
     });
   };
 
-  const handleRatingClick = (rating: number) => {
+  const handleRatingClick = (ocenka: number) => {
     setOtz({
       ...otz,
-      rating,
+      ocenka,
     });
   };
 
-  const handleRatingMouseEnter = (rating: number) => {
-    setHoverRating(rating);
+  const handleRatingMouseEnter = (ocenka: number) => {
+    setHoverRating(ocenka);
   };
 
   const handleRatingMouseLeave = () => {
@@ -182,182 +196,228 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
   return (
     <div className={styles.modal}>
       <div className={styles.wrapper}>
-        <h1 className={styles.wrapper_title}>Вам понравился товар?</h1>
-        <div className={styles.wrapper_product}>
-          <div className={styles.wrapper_product_imageContainer}>
-            <Image
-              className={styles.wrapper_product_imageContainer_productImage}
-              src={getImageUrl(data.photos[0])}
-              width={150}
-              height={150}
-              alt={data.img}
-            ></Image>
-          </div>
-          <h2 className={styles.wrapper_product_productName}>{data.naim}</h2>
-        </div>
-        <button onClick={func} className={styles.wrapper_cross}>
-          <XMark />
-        </button>
-        <div className={styles.wrapper_ocenka}>
-          <div className={styles.wrapper_ocenka_rating}>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                type="button"
-                className={cn(styles.wrapper_ocenka_rating_star, {
-                  [styles.wrapper_ocenka_rating_starActive]:
-                    hoverRating >= star || otz.rating >= star,
-                })}
-                onClick={() => handleRatingClick(star)}
-                onMouseEnter={() => handleRatingMouseEnter(star)}
-                onMouseLeave={handleRatingMouseLeave}
-              >
-                {hoverRating >= star || otz.rating >= star ? (
-                  <YellowStar />
-                ) : (
-                  <GrayStar />
-                )}
-              </button>
-            ))}
-          </div>
-          <div className={styles.wrapper_ocenka_text}>
-            {ratingTexts[hoverRating - 1] ||
-              ratingTexts[otz.rating - 1] ||
-              "Поставьте оценку"}
-          </div>
-          {errors.rating && (
-            <p className={styles.wrapper_ocenka_warning}>{errors.rating}</p>
-          )}
-        </div>
-        <div className={styles.wrapper_inputs}>
-          <label id="name" className={styles.wrapper_inputs_title}>
-            Ваше имя
-            <input
-              maxLength={15}
-              name="name"
-              autoComplete="off"
-              onChange={ChangeHandler}
-              type="text"
-              className={styles.wrapper_inputs_name}
-            />
-          </label>
-          {errors.name && (
-            <p className={styles.wrapper_inputs_warning}>{errors.name}</p>
-          )}
-        </div>
-        <div className={styles.wrapper_areas}>
-          <div className={styles.wrapper_areas_block}>
-            <label className={styles.wrapper_areas_block_title} id="dost">
-              Достоинства
-              <textarea
-                rows={1}
-                maxLength={255}
-                onChange={ChangeHandler}
-                name="dost"
-                id="dost"
-                className={styles.wrapper_areas_block_area}
-              ></textarea>
-            </label>
-          </div>
-          <div className={styles.wrapper_areas_block}>
-            <label className={styles.wrapper_areas_block_title} id="nedost">
-              Недостатки
-              <textarea
-                rows={1}
-                maxLength={255}
-                onChange={ChangeHandler}
-                name="nedost"
-                id="nedost"
-                className={styles.wrapper_areas_block_area}
-              ></textarea>
-            </label>
-          </div>
-          <div className={styles.wrapper_areas_block}>
-            <label className={styles.wrapper_areas_block_title} id="comment">
-              Добавить комментарий
-              <textarea
-                rows={1}
-                maxLength={255}
-                name="comment"
-                id="comment"
-                onChange={ChangeHandler}
-                className={styles.wrapper_areas_block_area}
-              ></textarea>
-            </label>
-          </div>
-        </div>
-        <div className={styles.wrapper_selectMedia}>
-          <button className={styles.wrapper_selectMedia_uploadBtn}>
-            <Camera />
-            <label
-              className={styles.wrapper_selectMedia_uploadBtn_text}
-              id="fileInput"
-            >
-              Добавить фото
-              <input
-                onChange={handleFileChange}
-                id="fileInput"
-                type="file"
-                name="image"
-                accept="image/*"
-                maxLength={2097152}
-                className={styles.wrapper_selectMedia_uploadBtn_input}
-              ></input>
-            </label>
+        <div className={styles.wrapper_nav}>
+          <h1 className={styles.wrapper_nav_title}>Вам понравился товар?</h1>
+          <button onClick={func} className={styles.wrapper_nav_cross}>
+            <XMark />
           </button>
         </div>
-        {previews && (
-          <div className={styles.wrapper_userMediaPreview}>
-            {previews.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className={styles.wrapper_userMediaPreview_item}
-                >
+        {!isSended && (
+          <div className={styles.container}>
+            <div className={styles.container_product}>
+              <div className={styles.container_product_imageContainer}>
+                <Image
+                  className={
+                    styles.container_product_imageContainer_productImage
+                  }
+                  src={getImageUrl(data.photos[0])}
+                  width={150}
+                  height={150}
+                  alt={data.img}
+                ></Image>
+              </div>
+              <h2 className={styles.container_product_productName}>
+                {data.naim}
+              </h2>
+            </div>
+            <div className={styles.container_ocenka}>
+              <div className={styles.container_ocenka_rating}>
+                {[1, 2, 3, 4, 5].map((star) => (
                   <button
-                    onClick={() => handleRemoveImage(index)}
-                    className={styles.wrapper_userMediaPreview_item_cross}
+                    key={star}
+                    type="button"
+                    className={cn(styles.container_ocenka_rating_star, {
+                      [styles.container_ocenka_rating_starActive]:
+                        hoverRating >= star || otz.ocenka >= star,
+                    })}
+                    onClick={() => handleRatingClick(star)}
+                    onMouseEnter={() => handleRatingMouseEnter(star)}
+                    onMouseLeave={handleRatingMouseLeave}
                   >
-                    <Cross />
+                    {hoverRating >= star || otz.ocenka >= star ? (
+                      <YellowStar />
+                    ) : (
+                      <GrayStar />
+                    )}
                   </button>
-                  <Image
-                    className={styles.wrapper_userMediaPreview_item_img}
-                    src={item}
-                    width={100}
-                    height={100}
-                    alt={item}
-                  />
-                </div>
-              );
-            })}
+                ))}
+              </div>
+              <div className={styles.container_ocenka_text}>
+                {ratingTexts[hoverRating - 1] ||
+                  ratingTexts[otz.ocenka - 1] ||
+                  "Поставьте оценку"}
+              </div>
+              {errors.rating && (
+                <p className={styles.container_ocenka_warning}>
+                  {errors.rating}
+                </p>
+              )}
+            </div>
+            <div className={styles.container_inputs}>
+              <label id="name" className={styles.container_inputs_title}>
+                Ваше имя
+                <input
+                  maxLength={15}
+                  name="name"
+                  autoComplete="off"
+                  onChange={ChangeHandler}
+                  type="text"
+                  className={styles.container_inputs_name}
+                />
+              </label>
+              {errors.name && (
+                <p className={styles.container_inputs_warning}>{errors.name}</p>
+              )}
+            </div>
+            <div className={styles.container_areas}>
+              <div className={styles.container_areas_block}>
+                <label className={styles.container_areas_block_title} id="dost">
+                  Достоинства
+                  <textarea
+                    rows={1}
+                    maxLength={255}
+                    onChange={ChangeHandler}
+                    name="dostoinsva"
+                    id="dostoinsva"
+                    className={styles.container_areas_block_area}
+                  ></textarea>
+                </label>
+              </div>
+              <div className={styles.container_areas_block}>
+                <label
+                  className={styles.container_areas_block_title}
+                  id="nedost"
+                >
+                  Недостатки
+                  <textarea
+                    rows={1}
+                    maxLength={255}
+                    onChange={ChangeHandler}
+                    name="nedostatki"
+                    id="nedostatki"
+                    className={styles.container_areas_block_area}
+                  ></textarea>
+                </label>
+              </div>
+              <div className={styles.container_areas_block}>
+                <label
+                  className={styles.container_areas_block_title}
+                  id="comment"
+                >
+                  Добавить комментарий
+                  <textarea
+                    rows={1}
+                    maxLength={255}
+                    name="text"
+                    id="text"
+                    onChange={ChangeHandler}
+                    className={styles.container_areas_block_area}
+                  ></textarea>
+                </label>
+              </div>
+            </div>
+            <div className={styles.container_selectMedia}>
+              <button className={styles.container_selectMedia_uploadBtn}>
+                <Camera />
+                <label
+                  className={styles.container_selectMedia_uploadBtn_text}
+                  id="fileInput"
+                >
+                  Добавить фото
+                  <input
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    id="fileInput"
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    maxLength={2097152}
+                    className={styles.container_selectMedia_uploadBtn_input}
+                  ></input>
+                </label>
+              </button>
+            </div>
+            {previews && (
+              <div className={styles.container_userMediaPreview}>
+                {previews.map((item, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className={styles.container_userMediaPreview_item}
+                    >
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className={styles.container_userMediaPreview_item_cross}
+                      >
+                        <Cross />
+                      </button>
+                      <Image
+                        className={styles.container_userMediaPreview_item_img}
+                        src={item}
+                        width={100}
+                        height={100}
+                        alt={item}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className={styles.container_anonim}>
+              <button
+                className={styles.container_anonim_btn}
+                onClick={AnonimHandler}
+              >
+                <span
+                  className={cn(styles.container_anonim_check, {
+                    [styles.container_anonim_checkActive]: isAnomim,
+                  })}
+                >
+                  {isAnomim && checkIcon()}
+                </span>
+                <span className={styles.container_anonim_text}>
+                  Оставить отзыв анонимно
+                </span>
+              </button>
+            </div>
+            <div className={styles.container_reCaptcha}>
+              <ReCAPTCHA
+                sitekey="6LeyWSMUAAAAAHYqeoWK4VqFVJPyo8KetjDl7l6C"
+                onChange={handleCaptchaChange}
+              />
+              {errors.captcha && (
+                <p className={styles.container_reCaptcha_warning}>
+                  {errors.captcha}
+                </p>
+              )}
+            </div>
           </div>
         )}
-        <div className={styles.wrapper_anonim}>
-          <button className={styles.wrapper_anonim_btn} onClick={AnonimHandler}>
-            <span
-              className={cn(styles.wrapper_anonim_check, {
-                [styles.wrapper_anonim_checkActive]: isAnomim,
-              })}
-            >
-              {isAnomim && checkIcon()}
-            </span>
-            <span className={styles.wrapper_anonim_text}>
-              Оставить отзыв анонимно
-            </span>
+        {isSended && (
+          <div className={styles.thanks}>
+            <div className={styles.thanks_image}>
+              <div
+                className={cn("mascot_sprite", "mascot_sprite_rahmat")}
+              ></div>
+            </div>
+            <div className={styles.thanks_text}>
+              <h1 className={styles.thanks_text_title}>Спасибо за отзыв!</h1>
+              <p className={styles.thanks_text_desc}>
+                Вы очень помогаете другим покупателям.
+              </p>
+            </div>
+          </div>
+        )}
+        {!isSended && (
+          <button onClick={SendOtz} className={styles.wrapper_sendBtn}>
+            Отправить
           </button>
-        </div>
-        <div className={styles.wrapper_reCaptcha}>
-          <ReCAPTCHA
-            sitekey="6LeyWSMUAAAAAHYqeoWK4VqFVJPyo8KetjDl7l6C"
-            onChange={handleCaptchaChange}
-          />
-          {errors.captcha && (
-            <p className={styles.wrapper_reCaptcha_warning}>{errors.captcha}</p>
-          )}
-        </div>
-        <button onClick={SendOtz} className={styles.wrapper_sendBtn}>
-          Отправить
-        </button>
+        )}
+        {isSended && (
+          <button onClick={func} className={styles.wrapper_sendBtn}>
+            Закрыть
+          </button>
+        )}
       </div>
     </div>
   );

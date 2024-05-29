@@ -27,7 +27,9 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
 });
-
+const maxkgz = ky.create({
+  prefixUrl: process.env.NEXT_PUBLIC_API,
+});
 const maxkgrev = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 1800 },
@@ -221,8 +223,4 @@ export const getMetaPopularPage = (): Promise<IMetaData> => {
 };
 export const getMetaBrandPage = (): Promise<IMetaData> => {
   return maxkg.get("site/meta?type=main_brand").json();
-};
-
-export const postOtz = (otz: IUser) => {
-  return maxkg.post("otz/create", { json: otz });
 };
