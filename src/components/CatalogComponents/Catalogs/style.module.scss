@@ -1,10 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.container {
-  @include mixin.container(1440px);
-  margin-top: 20px;
-  padding: 0 15px 15px 15px;
-}
 .container__h1 {
   margin-bottom: 8px;
   font-family: var(--font-family);

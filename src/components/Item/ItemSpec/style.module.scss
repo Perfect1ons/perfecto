@@ -4,7 +4,8 @@
 .product__aboutTheProduct{
      &_wrap {
        @include mixin.font(14px, 400, null, var(--gray-dark));
-       // @include mixin.flex(null, flex-start, column, null);
+       max-height: 150px;
+       overflow: hidden;
        &_articul {
          @include mixin.flex(center, space-between, null, 5px);
          margin-left: 2px;
@@ -44,6 +45,10 @@
        &:hover {
          color: var(--violet);
        }
+     }
+     &_desc{
+       @include mixin.font(16px, 500, null, var(--dark));
+      margin-bottom: 5px;
      }
    }
  
