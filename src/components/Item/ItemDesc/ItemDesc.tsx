@@ -16,7 +16,7 @@ const ItemDesc = ({ data }: IDescProps) => {
   useEffect(() => {
     if (data.description) {
       const sanitized = DOMPurify.sanitize(
-        data.description.slice(0, 10) + "..."
+        data.description.slice(0, 150) + "..."
       );
       setSanitizedDescription(sanitized);
     }
