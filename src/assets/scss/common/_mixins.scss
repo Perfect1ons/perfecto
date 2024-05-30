@@ -8,6 +8,7 @@
   box-sizing: border-box;
   font-size: inherit;
   font-style: inherit;
+  line-height: normal;
 }
 
 @mixin container($container-width) {
