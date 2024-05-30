@@ -120,10 +120,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
         {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
-        <SimilarProducts similar={similar} />
-        <SeenProduct />
       </div>
       <SimilarProducts similar={similar} />
+      <SeenProduct />
     </section>
   );
 };

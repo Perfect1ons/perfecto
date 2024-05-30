@@ -325,12 +325,12 @@ const SeenProduct = () => {
     setRating(Math.floor(totalRating / data.length));
   }, [data]);
   return (
-    <div className="container">
+    <section className={styles.container}>
       <h1 className="sections__title">Вы смотрели</h1>
       <Swiper
         pagination={{ clickable: true }}
-        // spaceBetween={15}
-        slidesPerView={4}
+        spaceBetween={15}
+        slidesPerView={5}
         modules={[Pagination, Navigation]}
         // navigation={{
         //   nextEl: ".my-swiper-button-next",
@@ -340,11 +340,9 @@ const SeenProduct = () => {
         className={cn("customSwiper", styles.swiper)}
         loop={true}
       >
-        {data.map((item) => (
-          <SwiperSlide key={item.id}>
-            <div>
+        {data.map((item, index) => (
+          <SwiperSlide key={index}>
               <div
-                key={item.id}
                 onClick={() => router.push(`/item/${item.art}/${item.url}`)}
                 className="default__card"
               >
@@ -400,7 +398,6 @@ const SeenProduct = () => {
                   </div>
                 </div>
               </div>
-            </div>
           </SwiperSlide>
         ))}
         <button
@@ -422,7 +419,7 @@ const SeenProduct = () => {
           <SwiperNextArrow />
         </button>
       </Swiper>
-    </div>
+    </section>
   );
 };
 
