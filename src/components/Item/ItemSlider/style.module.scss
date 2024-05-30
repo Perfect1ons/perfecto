@@ -26,13 +26,20 @@
 .activeSlide {
   margin-right: 0 !important;
   margin-left: 0 !important;
-  width: 450px;
-  max-height: 500px; // Установим фиксированную высоту
+  max-width: 450px;
+  height: 400px; // Установим фиксированную высоту
   background: var(--dark-blue);
   @include mixin.flex(center, center, column, 0);
   &_iframe {
     width: fit-content;
     scale: 0.7;
+  }
+  @media screen and (max-width: 475px) {
+    max-width: 350px;
+    &_iframe {
+      width: fit-content;
+      scale: 0.5;
+    }
   }
 }
 
