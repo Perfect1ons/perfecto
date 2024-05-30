@@ -21,10 +21,6 @@
   max-width: 272px;
   --font-rubik: "__Rubik_0299a7", "__Rubik_Fallback_0299a7";
   @include mixin.flex(center, center, null, null);
-  //   padding: 7px 12px 7px 12px;
-  //   border-radius: 8px;
-  //   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  // font-size: 14px;
   line-height: 20px;
   text-overflow: ellipsis;
   white-space: nowrap;

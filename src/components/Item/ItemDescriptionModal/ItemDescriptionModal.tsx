@@ -102,26 +102,6 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 Видео
               </button>
             )}
-            {/* {data.specification && (
-              <button
-                onClick={() => handleScroll("characteristics")}
-                className={cn(styles.wrapper__container__header__button, {
-                  [styles.activeH2]: toggler.characteristics,
-                })}
-              >
-                Характеристики
-              </button>
-            )}
-            {data.video && (
-              <button
-                onClick={() => handleScroll("video")}
-                className={cn(styles.wrapper__container__header__button, {
-                  [styles.activeH2]: toggler.video,
-                })}
-              >
-                Видео
-              </button>
-            )} */}
           </div>
           <button
             onClick={func}
@@ -131,10 +111,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
           </button>
         </div>
         <div className={styles.product_info__ddos}></div>
-        <div
-          className={styles.aboutProductContainer}
-          style={{ height: hasScroll ? "100%" : "auto" }}
-        >
+        <div className={styles.aboutProductContainer}>
           {data.specification && (
             <div id="about" className={styles.aboutProduct}>
               <h3 className={styles.aboutProduct__h3}>О товаре</h3>

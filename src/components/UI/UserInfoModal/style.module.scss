@@ -1,0 +1,23 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+/* style.module.scss */
+.modal {
+  @include mixin.container(1420px);
+  @include mixin.font(18px, 500, null, var(--white));
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: top 0.4s ease-in-out;
+  background-color: #1bc592;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.modal.open {
+  top: 12%;
+}

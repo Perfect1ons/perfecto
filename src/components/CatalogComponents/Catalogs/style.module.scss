@@ -1,6 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.container__h1 {
+.containerTitle {
   margin-bottom: 8px;
   font-family: var(--font-family);
   font-weight: 500;
@@ -22,7 +22,7 @@
     max-width: 1350px;
   }
 }
-.catalog__lih3 {
+.catalogFirst {
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
@@ -37,7 +37,7 @@
 .imageChild {
   color: #212529;
 }
-.row__9li {
+.cotainerCart {
   cursor: pointer;
   @include mixin.flex(center, center, column, 10px);
   text-decoration: none;
@@ -46,7 +46,7 @@
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0);
 }
-.name__h3 {
+.nameCatalog {
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 16px;
@@ -145,7 +145,7 @@
   .container {
     width: 100%;
   }
-  .row__9li {
+  .cotainerCart {
     padding: 10px;
   }
 }
@@ -160,7 +160,7 @@
     align-items: center;
     justify-content: center;
   }
-  .container__h1 {
+  .catalogFirst {
     text-align: center;
   }
 }
