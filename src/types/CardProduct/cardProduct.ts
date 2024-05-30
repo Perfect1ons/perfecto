@@ -105,6 +105,9 @@ export interface Items {
   service_info: any[];
   banners_discount: any[];
 }
+export interface BasketProduct extends Items {
+  number: number;
+}
 
 export interface Country {
   name: string;
