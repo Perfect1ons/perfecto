@@ -109,6 +109,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           </div>
           <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
         </div>
+        {data.minQty > 1 ? (
+          <p className={styles.ItemPriceCard__minQty}>
+            минимальное количество к заказу от {data.minQty} шт.
+          </p>
+        ) : (
+          <span className={styles.ItemPriceCard__minQty_none}></span>
+        )}
         <div className={styles.ItemPriceCard__buttons}>
           <UserInfoModal isOpen={modal}>
             Ваш товар добавлен в корзину. <br />
