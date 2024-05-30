@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import clsx from "clsx";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -21,9 +21,12 @@ import {
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import {
+  SmallVideoPreview,
   SwiperNextArrow,
   SwiperPrevArrow,
 } from "../../../../public/Icons/Icons";
+import ItemVideo from "../ItemVideo/ItemVideo";
+import DOMPurify from "isomorphic-dompurify";
 
 interface IPhotosProps {
   photos: Items;
@@ -32,12 +35,29 @@ interface IPhotosProps {
 const ItemSlider = ({ photos }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
-
+  const imageUrl =
+    photos.photos.length > 0
+      ? photos.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${photos.photos[0].url_part}280.jpg`
+        : photos.photos[0].url_part.startsWith("https://")
+        ? photos.photos[0].url_part
+        : `${url}nal/img/${photos.id_post}/l_${photos.photos[0].url_part}`
+      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
   const handleMouseEnter = (index: number) => {
     if (mainSwiper) {
       mainSwiper.slideTo(index);
     }
   };
+
+  const [cleanHTML, setCleanHTML] = useState("");
+
+  useEffect(() => {
+    const sanitizedHTML = DOMPurify.sanitize(photos.video, {
+      ADD_TAGS: ["iframe"],
+      ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+    });
+    setCleanHTML(sanitizedHTML);
+  }, [photos.video]);
 
   return (
     <div className={styles.product__swipers}>
@@ -51,15 +71,33 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className={clsx(styles.product__cards, "mySwiper")}
       >
+        {photos.video ? (
+          <SwiperSlide
+            className={styles.product__cards_item}
+            onMouseEnter={() => handleMouseEnter(0)}
+          >
+            <div className={clsx(styles.product_preview, "thumb-actived")}>
+              <SmallVideoPreview />
+            </div>
+          </SwiperSlide>
+        ) : (
+          ""
+        )}
         {photos.photos.map((photo, index) => (
           <SwiperSlide
             className={styles.product__cards_item}
             key={index}
-            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseEnter={() => handleMouseEnter(index + 1)}
           >
             <Image
               className={clsx(styles.product_preview, "thumb-actived")}
-              src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
+              src={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
+              }
               width={100}
               height={100}
               alt={photo.url_part}
@@ -87,13 +125,35 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
         modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
         className={styles.activeSlide}
       >
+        {photos.video ? (
+          <SwiperSlide className={styles.activeSlide}>
+            <div
+              dangerouslySetInnerHTML={{ __html: cleanHTML }}
+              className={styles.activeSlide_iframe}
+            ></div>
+          </SwiperSlide>
+        ) : (
+          ""
+        )}
         {photos.photos.slice(0, 7).map((photo, index) => (
           <SwiperSlide key={index} className={styles.activeSlide}>
             <InnerImageZoom
               width={500}
               height={500}
-              src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
-              zoomSrc={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
+              src={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+              }
+              zoomSrc={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+              }
               zoomType="hover"
               zoomScale={1.7}
               className={styles.product_img}
@@ -124,98 +184,3 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
 };
 
 export default ItemSlider;
-
-// "use client";
-// import Image from "next/image";
-// import styles from "./style.module.scss";
-// import clsx from "clsx";
-// import { Items } from "@/types/CardProduct/cardProduct";
-// import { url } from "@/components/temporary/data";
-// import { useState } from "react";
-// import { Swiper, SwiperSlide } from "swiper/react";
-// import "swiper/scss";
-// import "swiper/scss/navigation";
-// import "swiper/scss/pagination";
-// import "swiper/scss/free-mode";
-// import "swiper/scss/thumbs";
-// import { FreeMode, Navigation, Thumbs, Keyboard } from "swiper/modules";
-// import InnerImageZoom from "react-inner-image-zoom";
-// import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
-
-// interface IPhotosProps {
-//   photos: Items;
-// }
-
-// const ItemSlider = ({ photos }: IPhotosProps) => {
-//   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-//   const [mainSwiper, setMainSwiper] = useState<any>(null);
-
-//   const handleMouseEnter = (index: number) => {
-//     if (mainSwiper) {
-//       mainSwiper.slideTo(index);
-//     }
-//   };
-
-//   return (
-//     <div className={styles.product__swipers}>
-//       <Swiper
-//         onSwiper={setThumbsSwiper}
-//         direction={"vertical"}
-//         spaceBetween={10}
-//         slidesPerView={5}
-//         freeMode={true}
-//         watchSlidesProgress={true}
-//         modules={[FreeMode, Navigation, Thumbs]}
-//         className={clsx(styles.product__cards, "mySwiper")}
-//       >
-//         {photos.photos.slice(0, 7).map((photo, index) => (
-//           <SwiperSlide
-//             className={styles.product__cards_item}
-//             key={index}
-//             onMouseEnter={() => handleMouseEnter(index)}
-//           >
-//             <Image
-//               className={clsx(styles.product_preview, "thumb-actived")}
-//               src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
-//               width={100}
-//               height={100}
-//               alt={photo.url_part}
-//               loading="lazy"
-//             />
-//           </SwiperSlide>
-//         ))}
-//       </Swiper>
-//       <Swiper
-//         onSwiper={setMainSwiper}
-//         keyboard={{
-//           enabled: true,
-//         }}
-//         pagination={{
-//           clickable: true,
-//         }}
-//         spaceBetween={0} // Установим расстояние между слайдами в 0
-//         slidesPerView={1} // Установим по 1 фото на слайд
-//         navigation
-//         thumbs={{ swiper: thumbsSwiper }}
-//         modules={[FreeMode, Navigation, Thumbs, Keyboard]}
-//         className={styles.activeSlide}
-//       >
-//         {photos.photos.slice(0, 7).map((photo, index) => (
-//           <SwiperSlide key={index} className={styles.activeSlide}>
-//             <InnerImageZoom
-//               width={500}
-//               height={500}
-//               src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
-//               zoomSrc={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
-//               zoomType="hover"
-//               zoomScale={1.7}
-//               className={styles.product_img}
-//             />
-//           </SwiperSlide>
-//         ))}
-//       </Swiper>
-//     </div>
-//   );
-// };
-
-// export default ItemSlider;

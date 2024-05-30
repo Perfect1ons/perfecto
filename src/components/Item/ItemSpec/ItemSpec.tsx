@@ -44,15 +44,15 @@ const ItemSpec = ({ data }: IItemsProps) => {
   };
 
   return (
-    <div className="toptwenty">
-      <div className={styles.wrap_modal}>
-        <ItemDescriptionModal
-          data={data}
-          func={openItemModalDescription}
-          visible={itemModalDescription}
-        />
-      </div>
-
+    <div className="topten">
+      <ItemDescriptionModal
+        data={data}
+        func={openItemModalDescription}
+        visible={itemModalDescription}
+      />
+      {sanitizedSpec && (
+        <h2 className={styles.product__aboutTheProduct_desc}>Характеристики</h2>
+      )}
       {sanitizedSpec && (
         <div
           dangerouslySetInnerHTML={{

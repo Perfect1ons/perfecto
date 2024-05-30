@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import InputMask from "react-input-mask";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { checkIcon } from "../../../../public/Icons/Icons";
+import { CheckIcon } from "../../../../public/Icons/Icons";
 
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration") => void;
@@ -98,7 +98,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
               [styles.modal__rememberMe_checkActive]: isAnonim,
             })}
           >
-            {isAnonim && checkIcon()}
+            {isAnonim && <CheckIcon />}
           </span>
           <span className={styles.modal__rememberMe_text}>Запомнить</span>
         </button>

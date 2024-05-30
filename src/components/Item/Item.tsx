@@ -15,16 +15,19 @@ import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ItemBanner from "./ItemBanner/ItemBanner";
-import ItemCartModal from "./ItemCartModal/ItemCartModal";
+import { CopyIcon } from "../../../public/Icons/Icons";
+import SeenProduct from "./SeenProduct/SeenProduct";
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 interface IItemPageProps {
   data: Items;
   similar: ISimilarItem[];
+  breadCrumbs: BreadCrumbs[];
 }
 
-const ItemPage = ({ data, similar }: IItemPageProps) => {
+const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [copiedCode, setCopiedCode] = useState(false);
   const toggleScrollLock = () => {
     const body = document.body;
     if (body) {
@@ -47,6 +50,11 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
     setIsOpen(!isOpen);
     toggleScrollLock();
   };
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(data.art.toString());
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
+  };
 
   return (
     <section className={styles.wrap}>
@@ -61,12 +69,17 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          <Link
-            href={`/item/${data.art}/${data.url}`}
-            className={cn("all__directions_link", "all__directions_linkActive")}
-          >
-            {data.name.split(" ").slice(0, 6).join(" ")}
-          </Link>
+          {breadCrumbs.map((crumbs) => {
+            return (
+              <Link
+                className="all__directions_link"
+                href={`/catalog/${crumbs.full_slug}`}
+                key={crumbs.id}
+              >
+                {crumbs.name}
+              </Link>
+            );
+          })}
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
@@ -78,6 +91,24 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
                 <ItemDesc data={data} />
+                <div className={styles.product__aboutTheProduct}>
+                  Артикул:
+                  <span className={styles.product__aboutTheProduct_span}></span>
+                  <div className={styles.product__aboutTheProduct_div}>
+                    <span>{data.art}</span>
+                    <span
+                      onClick={handleCopyCode}
+                      className={styles.product__aboutTheProduct_div_copy}
+                    >
+                      <CopyIcon />
+                    </span>
+                  </div>
+                  {copiedCode && (
+                    <div className={styles.product__aboutTheProduct_copied}>
+                      Код скопирован!
+                    </div>
+                  )}
+                </div>
                 <ItemSpec data={data} />
               </div>
               <div>
@@ -89,8 +120,9 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
         {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
-        <SimilarProducts similar={similar} />
       </div>
+      <SimilarProducts similar={similar} />
+      <SeenProduct />
     </section>
   );
 };

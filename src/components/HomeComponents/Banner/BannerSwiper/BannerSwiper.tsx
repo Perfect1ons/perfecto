@@ -31,7 +31,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
   return (
     <Swiper
       pagination={{ clickable: true }}
-      autoplay={{ delay: 30000, disableOnInteraction: false }}
+      autoplay={{ delay: 5000, disableOnInteraction: false }}
       spaceBetween={15}
       modules={[Pagination, Navigation, Autoplay]}
       navigation={{
