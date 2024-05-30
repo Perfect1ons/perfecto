@@ -106,7 +106,7 @@ export interface Items {
   banners_discount: any[];
 }
 export interface BasketProduct extends Items {
-  number: number;
+  number?: number;
 }
 
 export interface Country {
