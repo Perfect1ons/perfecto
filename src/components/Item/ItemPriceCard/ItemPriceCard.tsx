@@ -25,6 +25,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   const [dropdownActive, setDropdownActive] = useState(false);
 
+  const [modal, setModal] = useState(false);
   const [added, setAdded] = useState(false);
 
   const handleCopyLink = () => {
