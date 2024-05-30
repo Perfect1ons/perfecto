@@ -14,10 +14,12 @@ const ItemDesc = ({ data }: IDescProps) => {
   const [sanitizedDescription, setSanitizedDescription] = useState("");
 
   useEffect(() => {
-    const sanitized = DOMPurify.sanitize(
-      data.description.slice(0, 170) + "..."
-    );
-    setSanitizedDescription(sanitized);
+    if (data.description) {
+      const sanitized = DOMPurify.sanitize(
+        data.description.slice(0, 10) + "..."
+      );
+      setSanitizedDescription(sanitized);
+    }
   }, [data.description]);
 
   const openItemModalDescription = () => {

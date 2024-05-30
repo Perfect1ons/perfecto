@@ -32,7 +32,14 @@ interface IPhotosProps {
 const ItemSlider = ({ photos }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
-
+  const imageUrl =
+    photos.photos.length > 0
+      ? photos.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${photos.photos[0].url_part}280.jpg`
+        : photos.photos[0].url_part.startsWith("https://")
+        ? photos.photos[0].url_part
+        : `${url}nal/img/${photos.id_post}/l_${photos.photos[0].url_part}`
+      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
   const handleMouseEnter = (index: number) => {
     if (mainSwiper) {
       mainSwiper.slideTo(index);
@@ -59,7 +66,13 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
           >
             <Image
               className={clsx(styles.product_preview, "thumb-actived")}
-              src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
+              src={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
+              }
               width={100}
               height={100}
               alt={photo.url_part}
@@ -92,8 +105,20 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
             <InnerImageZoom
               width={500}
               height={500}
-              src={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
-              zoomSrc={`${url}nal/img/${photos.id_post}/b_${photo.url_part}`}
+              src={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+              }
+              zoomSrc={
+                photo.url_part.startsWith("https://goods")
+                  ? `${photo.url_part}280.jpg`
+                  : photo.url_part.startsWith("https://")
+                  ? photo.url_part
+                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+              }
               zoomType="hover"
               zoomScale={1.7}
               className={styles.product_img}

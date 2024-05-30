@@ -45,13 +45,11 @@ const ItemSpec = ({ data }: IItemsProps) => {
 
   return (
     <div className="toptwenty">
-      <div className={styles.wrap_modal}>
         <ItemDescriptionModal
           data={data}
           func={openItemModalDescription}
           visible={itemModalDescription}
         />
-      </div>
 
       {sanitizedSpec && (
         <div

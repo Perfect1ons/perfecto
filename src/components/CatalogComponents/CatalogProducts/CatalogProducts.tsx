@@ -8,10 +8,12 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { Cross } from "../../../../public/Icons/Icons";// Assuming the API function is placed in @/api/catalog
 import FiltersProducts from "../FiltersProducts/FiltersProducts";
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
+  breadCrumbs: BreadCrumbs[]
 }
 interface IFiltersProps {
   brand: string[];
@@ -28,6 +30,7 @@ type BrandSelection = {
 export default function CatalogProducts({
   catalog,
   filter,
+  breadCrumbs
 }: ICatalogProductsProps) {
   const initialItems = catalog.category.tov || []; // Ensure initialItems is always an array
   const [items, setItems] = useState<Tov[]>(initialItems);
@@ -177,22 +180,18 @@ export default function CatalogProducts({
 
   return (
     <section className="seek">
-      <div className={styles.breadContainer}>
-        <ol className={styles.breadcrumb}>
-          <li className={styles.links}>
-            <Link href="/" className={styles.link}>
-              Главная
-            </Link>
-            <Link
-              href={catalog.category.full_slug || "sadas"}
-              className={styles.link}
-            >
-              {catalog.category.name}
-            </Link>
-          </li>
-        </ol>
-        <h1 className={styles.container__h1}>{catalog.category.name}</h1>
-      </div>
+        <div className="all__directions container">
+          <Link href={"/"} className="all__directions_link">
+            Главная
+          </Link>
+          {breadCrumbs.map((crumbs) => {
+            return (
+              <Link className="all__directions_link" href={`/catalog/${crumbs.full_slug}`} key={crumbs.id}>
+                {crumbs.name}
+              </Link>
+            )
+          })}
+        </div>
       <div className="container">
         <div className="sort__buttons">
           <FiltersProducts

@@ -12,13 +12,15 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import cn from "clsx";
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 interface props {
   // catalog: ICatalogMenu;
   catalog: ICatalogsProducts;
   path: string | string[];
+  breadCrumbs: BreadCrumbs[];
 }
-const CatalogsLeaf = ({ catalog, path }: props) => {
+const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
   const router = useRouter();
 
   const [showMoreCategories, setShowMoreCategories] = useState<{
@@ -46,24 +48,23 @@ const CatalogsLeaf = ({ catalog, path }: props) => {
   };
 
   return (
-    <div className={styles.container}>
-      <ol className={styles.breadcrumb}>
-        <li className={cn(styles.links, "all__directions")}>
-          <Link href="/" className={cn(styles.link, "all__directions_link")}>
-            Главная
-          </Link>
-          <Link
-            href={catalog.category.full_slug || "sadas"}
-            className={cn(
-              styles.link,
-              "all__directions_link",
-              "all__directions_linkActive"
-            )}
-          >
-            {catalog.category.name}
-          </Link>
-        </li>
-      </ol>
+    <div className="container">
+      <div className="all__directions">
+        <Link href={"/"} className="all__directions_link">
+          Главная
+        </Link>
+        {breadCrumbs.map((crumbs) => {
+          return (
+            <Link
+              className="all__directions_link"
+              href={`/catalog/${crumbs.full_slug}`}
+              key={crumbs.id}
+            >
+              {crumbs.name}
+            </Link>
+          );
+        })}
+      </div>
       <div>
         <h1 className={styles.container__h1}>{catalog.category.name}</h1>
         <div className={styles.row}>

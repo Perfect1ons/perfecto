@@ -4,7 +4,8 @@
 .product__aboutTheProduct{
      &_wrap {
        @include mixin.font(14px, 400, null, var(--gray-dark));
-       // @include mixin.flex(null, flex-start, column, null);
+       max-height: 350px;
+       overflow: hidden;
        &_articul {
          @include mixin.flex(center, space-between, null, 5px);
          margin-left: 2px;
