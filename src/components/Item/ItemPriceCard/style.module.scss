@@ -17,8 +17,8 @@
         @include mixin.font(28px,500,100%,var(--dark));
         @include mixin.flex(center,null,null, 3px);
         &_custom{
-            @include mixin.font(18px,600,100%,var(--dark));
-            border-bottom: 2px solid var(--dark);
+            @include mixin.font(18px,600,100%,var(--violet));
+            border-bottom: 2px solid var(--violet);
         }
         &_discount{
             @include mixin.font(12px,500,100%,var(--dark));

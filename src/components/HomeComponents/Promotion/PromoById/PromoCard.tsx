@@ -45,6 +45,12 @@ const PromoCards = ({ promo }: INewDataProps) => {
     });
   };
 
+              const maxLength = 52;
+              const truncatedText =
+                promo.ddos.length > maxLength
+                  ? `${promo.ddos.slice(0, maxLength)}...`
+                  : promo.ddos;
+
   useEffect(() => {
     setRating(Math.floor(promo.ocenka));
   }, [promo.ocenka]);
@@ -100,7 +106,7 @@ const PromoCards = ({ promo }: INewDataProps) => {
               height={20}
               alt="delivery_icon"
             />
-            <p className="ddos__text">{promo.ddos}</p>
+            <p className="ddos__text">{truncatedText}</p>
           </div>
           <div className="add__to">
             <button

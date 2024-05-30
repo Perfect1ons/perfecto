@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { ISeekCatalog, ISeekItem } from "@/types/Search/seek";
-import Image from "next/image";
 import ProductList from "./ProductList";
 import CustomSelect from "./CustomSelect";
 import SeekCatalog from "./SeekCatalog";

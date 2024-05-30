@@ -24,5 +24,5 @@ export default async function page({ params: { slug } }: Params) {
   const decodedName = decodeURIComponent(name);
 
   const brandByNameData = await getBrandsByName(id);
-  return <BrandByName path={decodedName} id={id} brand={brandByNameData} />;
+  return <BrandByName path={decodedName} id={id} brand={brandByNameData} name={decodedName} />;
 }

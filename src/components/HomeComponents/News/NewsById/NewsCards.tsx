@@ -49,7 +49,11 @@ const NewsCards = ({ newData }: INewDataProps) => {
   useEffect(() => {
     setRating(Math.floor(newData.ocenka));
   }, [newData.ocenka]);
-
+            const maxLength = 52;
+            const truncatedText =
+              newData.ddos.length > maxLength
+                ? `${newData.ddos.slice(0, maxLength)}...`
+                : newData.ddos;
   return (
     <div
       onClick={() => router.push(`/item/${newData.id_tov}/${newData.url}`)}
@@ -103,7 +107,7 @@ const NewsCards = ({ newData }: INewDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">{newData.ddos}</p>
+          <p className="ddos__text">{truncatedText}</p>
         </div>
         <div className="add__to">
           <button
