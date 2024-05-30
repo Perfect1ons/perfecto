@@ -3,10 +3,7 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import { useDispatch } from "react-redux";
-import {
-  addProductQuantity,
-  addProductToCart,
-} from "@/store/reducers/cart.reducer";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useState } from "react";
 
 interface ICartReducerBtnProps {

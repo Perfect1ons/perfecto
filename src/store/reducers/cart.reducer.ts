@@ -1,5 +1,5 @@
 "use client";
-import { BasketProduct, Items } from "@/types/CardProduct/cardProduct";
+import { Items } from "@/types/CardProduct/cardProduct";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface CartState {
   cart: Items[];
