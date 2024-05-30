@@ -6,9 +6,9 @@
 }
 
 @media (min-width: 1440px) {
-    p {
-        line-height: 1.2; /* Оставляем такое же значение */
-    }
+  p {
+    line-height: 1.2; /* Оставляем такое же значение */
+  }
 }
 
 ::selection {
@@ -565,16 +565,16 @@ body {
 }
 
 .swiper-pagination-fraction {
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
   z-index: 2;
-  max-width: 80px;
+  max-width: 70px;
   margin: 0 0 10px 10px;
-  padding: 5px 15px;
+  padding: 5px 10px;
 
-  background: #00000069;
-  color: #fff;
+  background: #0000006c;
+  color: #fff !important;
   border-radius: 32px;
 }
 
@@ -585,7 +585,7 @@ body {
   }
 }
 
-.testoviy{
+.testoviy {
   margin-top: 30px;
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
   border-radius: 10px;
@@ -609,7 +609,7 @@ body {
   border-radius: 100px !important;
 }
 
-.wrapInfoItem{
+.wrapInfoItem {
   max-width: 100%;
   width: 100%;
 }
