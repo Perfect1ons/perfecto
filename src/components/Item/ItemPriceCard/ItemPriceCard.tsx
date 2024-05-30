@@ -19,6 +19,7 @@ import cn from "clsx";
 import { useState, useEffect } from "react";
 import ItemCartModal from "../ItemCartModal/ItemCartModal";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
+import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 
 interface IPriceProps {
   data: Items;
@@ -80,7 +81,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   return (
     <>
-      {modal && <ItemCartModal />}
       <div className={styles.ItemPriceCard}>
         <div className={styles.ItemPriceCard__cost}>
           <h2 className={styles.ItemPriceCard__price}>
@@ -116,6 +116,10 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
         </div>
         <div className={styles.ItemPriceCard__buttons}>
+          <UserInfoModal isOpen={modal}>
+            Ваш товар добавлен в корзину. <br />
+            Перейдите в корзину чтобы оформить заказ!
+          </UserInfoModal>
           {!added && (
             <button
               onClick={addToCart}
@@ -127,6 +131,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           {added && <CartReducerBtn data={data} />}
           <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
         </div>
+
         <div className={styles.ItemPriceCard__salesman}>
           <h3 className={styles.ItemPriceCard__salesman_title}>
             ИП{" "}

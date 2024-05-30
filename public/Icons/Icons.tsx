@@ -521,7 +521,7 @@ export const CheckIcon = () => {
         stroke="currentColor"
         stroke-linecap="round"
         stroke-linejoin="round"
-        stroke-width="2"
+        strokeWidth="2"
         d="M17 1 6 12 1 7"
       ></path>
     </svg>
@@ -550,7 +550,7 @@ export const ShareIcon = () => {
         stroke="#000"
         stroke-linecap="round"
         stroke-linejoin="round"
-        stroke-width="2"
+        strokeWidth="2"
       >
         <path d="M1 11v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M13 5 9 1 5 5M9 1v13"></path>
       </g>
@@ -831,7 +831,7 @@ export const Camera = () => {
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      strokeWidth="1.5"
       stroke="currentColor"
       className="size-6"
       width={24}
@@ -1008,7 +1008,7 @@ export const TrashIcon = () => {
       width={24}
       height={24}
       viewBox="0 0 24 24"
-      stroke-width="1.5"
+      strokeWidth="1.5"
       stroke="currentColor"
       className="size-6"
     >
