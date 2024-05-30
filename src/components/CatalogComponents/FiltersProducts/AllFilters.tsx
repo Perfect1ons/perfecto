@@ -5,7 +5,7 @@ import styles from "./style.module.scss";
 import { IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   Cross,
-  checkIcon,
+  CheckIcon,
   chevronDownIcon,
 } from "../../../../public/Icons/Icons";
 
@@ -210,7 +210,7 @@ const AllFilters = ({
                                 }
                               )}
                             >
-                              {selectedBrands.day?.[item] && checkIcon()}
+                              {selectedBrands.day?.[item] && <CheckIcon />}
                             </span>
                             <li className={styles.showFiltersUlContainer__li}>
                               {item === "1"
@@ -278,7 +278,7 @@ const AllFilters = ({
                                 }
                               )}
                             >
-                              {selectedBrands.brand?.[item] && checkIcon()}
+                              {selectedBrands.brand?.[item] && <CheckIcon />}
                             </span>
                             <li className={styles.showFiltersUlContainer__li}>
                               {item}
@@ -407,7 +407,7 @@ const AllFilters = ({
                                 >
                                   {selectedBrands[item.type_name]?.[
                                     subItem.name
-                                  ] && checkIcon()}
+                                  ] && <CheckIcon />}
                                 </span>
                                 <span
                                   className={styles.showFiltersUlContainer__li}

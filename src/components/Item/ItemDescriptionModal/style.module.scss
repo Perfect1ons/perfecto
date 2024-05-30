@@ -6,17 +6,17 @@
   margin: 0 auto;
   top: 0;
   right: 0;
-  &__backdrop {
-    display: none;
-    z-index: 199;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: var(--dark);
-    opacity: 0.3;
-  }
+}
+.backdrop {
+  display: none;
+  z-index: 199;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--dark);
+  opacity: 0.3;
 }
 .activeBackdrop {
   display: block;
@@ -28,13 +28,14 @@
   background: var(--white);
   z-index: 200;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
   top: 0;
   right: 0;
+  bottom: 0;
   transform: translateX(100%); // начальное положение за пределами экрана
   transition: transform 0.4s ease; // анимация с плавным переходом в течение 0.9 секунд
   overflow-y: auto;
-  max-width: 1000px;
+  max-width: 968px;
   &__container {
     padding: 15px 30px 15px;
     position: sticky;
@@ -45,36 +46,29 @@
     @include mixin.flex(center, space-between, null, 20px);
     margin-bottom: 16px;
     &__header {
-      @include mixin.flex(center, space-around, null, 5px);
-      width: 100%;
+      @include mixin.flex(center, center, null, 10px);
       &__btn {
         scale: 2;
         cursor: pointer;
       }
-      &__h2 {
-        flex-grow: 1;
+      &__button {
         text-align: center;
-        width: 100%;
         cursor: pointer;
-        @include mixin.font(18px, 500, null, var(--white));
-        border: 2px solid var(--dark-blue);
-        padding: 5px;
+        @include mixin.font(18px, 600, null, var(--black));
         border-radius: 5px;
-        background: var(--dark-blue);
         transition: 0.3s all;
         &:hover {
-          background: var(--white);
-          color: var(--dark-blue);
+          color: var(--blue);
         }
       }
     }
   }
   &__containerFooter {
+    width: 100%;
     padding: 15px 30px 15px;
     position: sticky;
     bottom: 0;
     background: var(--white);
-    width: 100%;
     box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
     @include mixin.flex(center, space-between, null, null);
     &__h2 {
@@ -95,31 +89,41 @@
   }
 }
 .activeH2 {
-  color: var(--dark-blue);
-  background: var(--white);
+  color: var(--blue);
+  // color: #1bc592;
 }
 
 .visible {
   transform: translateX(0); // конечное положение, когда элемент видимый
 }
+.aboutProductContainer {
+  top: 0;
+  @include mixin.flex(null, null, column, 10px);
+  padding: 0 30px 30px;
+}
 .aboutProduct {
   font-size: 16px;
-  max-width: 100%;
-  padding: 0 30px 30px;
-  height: 100%;
-  width: 100%;
-  overflow-y: auto;
-  color: var(--dark);
-  // line-height: 1;
+  max-height: 100%;
+  max-height: 100%;
+  color: var(--black);
   &__h3 {
     font-size: 16px;
     font-weight: 500;
     color: var(--dark);
     margin-bottom: 10px;
   }
+  &__video {
+    max-width: 100%;
+  }
 }
 @media screen and (min-width: 1400px) {
   .aboutProduct {
-    line-height: 1;
+    line-height: 1.4;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .wrapper {
+    max-width: 100%;
   }
 }

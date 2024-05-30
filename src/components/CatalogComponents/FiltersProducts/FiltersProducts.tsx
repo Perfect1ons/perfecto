@@ -5,7 +5,7 @@ import styles from "./style.module.scss";
 import React, { useEffect, useState } from "react";
 import {
   Cross,
-  checkIcon,
+  CheckIcon,
   chevronDownIcon,
   filterIcon,
 } from "../../../../public/Icons/Icons";
@@ -253,7 +253,7 @@ const FiltersProducts = ({
                           selectedBrands.dost?.[item],
                       })}
                     >
-                      {selectedBrands.dost?.[item] && checkIcon()}
+                      {selectedBrands.dost?.[item] && <CheckIcon />}
                     </span>
                     <li className={styles.showFiltersUlContainer__li}>
                       {item === "1"
@@ -379,7 +379,7 @@ const FiltersProducts = ({
                           selectedBrands.brand?.[item],
                       })}
                     >
-                      {selectedBrands.brand?.[item] && checkIcon()}
+                      {selectedBrands.brand?.[item] && <CheckIcon />}
                     </span>
                     <li className={styles.showFiltersUlContainer__li}>
                       {item}
