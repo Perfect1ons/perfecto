@@ -5,7 +5,7 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import {
   Camera,
-  checkIcon,
+  CheckIcon,
   Cross,
   GrayStar,
   XMark,
@@ -373,7 +373,7 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                     [styles.container_anonim_checkActive]: isAnomim,
                   })}
                 >
-                  {isAnomim && checkIcon()}
+                  {isAnomim && <CheckIcon />}
                 </span>
                 <span className={styles.container_anonim_text}>
                   Оставить отзыв анонимно

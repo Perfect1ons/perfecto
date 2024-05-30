@@ -15,7 +15,8 @@ import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ItemBanner from "./ItemBanner/ItemBanner";
-
+import { CopyIcon } from "../../../public/Icons/Icons";
+import SeenProduct from "./SeenProduct/SeenProduct";
 
 interface IItemPageProps {
   data: Items;
@@ -23,30 +24,36 @@ interface IItemPageProps {
 }
 
 const ItemPage = ({ data, similar }: IItemPageProps) => {
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [copiedCode, setCopiedCode] = useState(false);
 
-   const toggleScrollLock = () => {
-     const body = document.body;
-     if (body) {
-       const scrollBarWidth =
-         window.innerWidth - document.documentElement.clientWidth;
-       if (body.style.overflow === "hidden") {
-         body.style.paddingRight = "";
-         body.style.overflow = "auto";
-         window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
-         body.style.top = "";
-       } else {
-         body.style.paddingRight = `${scrollBarWidth}px`;
-         body.style.overflow = "hidden";
-         body.style.top = `-${window.scrollY}px`;
-       }
-     }
-   };
+  const toggleScrollLock = () => {
+    const body = document.body;
+    if (body) {
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (body.style.overflow === "hidden") {
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
+        body.style.top = "";
+      } else {
+        body.style.paddingRight = `${scrollBarWidth}px`;
+        body.style.overflow = "hidden";
+        body.style.top = `-${window.scrollY}px`;
+      }
+    }
+  };
 
-   const openModal = () => {
-     setIsOpen(!isOpen);
-     toggleScrollLock();
-   };
+  const openModal = () => {
+    setIsOpen(!isOpen);
+    toggleScrollLock();
+  };
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(data.art.toString());
+    setCopiedCode(true);
+    setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
+  };
 
   return (
     <section className={styles.wrap}>
@@ -70,8 +77,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            {data ?  <ItemSlider photos={data} /> : <h1>hello</h1> }
-           
+            {data ? <ItemSlider photos={data} /> : <h1>hello</h1>}
           </div>
           <div className={styles.item__preview_info}>
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
@@ -80,6 +86,24 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
               <div className={styles.item__preview_info_description_block}>
                 <ItemDesc data={data} />
                 <ItemSpec data={data} />
+                <div className={styles.product__aboutTheProduct}>
+                  Артикул:
+                  <span className={styles.product__aboutTheProduct_span}></span>
+                  <div className={styles.product__aboutTheProduct_div}>
+                    <span>{data.art}</span>
+                    <span
+                      onClick={handleCopyCode}
+                      className={styles.product__aboutTheProduct_div_copy}
+                    >
+                      <CopyIcon />
+                    </span>
+                  </div>
+                  {copiedCode && (
+                    <div className={styles.product__aboutTheProduct_copied}>
+                      Код скопирован!
+                    </div>
+                  )}
+                </div>
               </div>
               <div>
                 <ItemPriceCard data={data} />
@@ -91,6 +115,7 @@ const ItemPage = ({ data, similar }: IItemPageProps) => {
         {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
         <SimilarProducts similar={similar} />
+        <SeenProduct />
       </div>
     </section>
   );
