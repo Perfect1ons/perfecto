@@ -46,7 +46,11 @@ const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
     setIsFavorite(newIsFavorite);
     localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
   };
-
+  const maxLength = 52;
+  const truncatedText =
+    cardData.ddos.length > maxLength
+      ? `${cardData.ddos.slice(0, maxLength)}...`
+      : cardData.ddos;
   return (
     <div
       onClick={() => router.push(`/item/${cardData.id_tov}/${cardData.url}`)}
@@ -83,7 +87,7 @@ const CatalogProductsCard = ({ cardData }: ICardDataProps) => {
             height={20}
             alt="delivery_icon"
           />
-          <p className="ddos__text">{cardData.ddos}</p>
+          <p className="ddos__text">{truncatedText}</p>
         </div>
         <div className="add__to">
           <button

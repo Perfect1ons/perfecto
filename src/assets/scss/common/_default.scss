@@ -7,7 +7,10 @@
 
 @media (min-width: 1440px) {
   p {
-    line-height: 1.2; /* Оставляем такое же значение */
+    line-height: 1.4; /* Оставляем такое же значение */
+  }
+  td{
+    line-height: 1.4;
   }
 }
 
@@ -588,6 +591,7 @@ body {
 
 .topten {
   margin-top: 10px;
+  margin-bottom: 10px;
   @media screen and (max-width: 480px) {
     margin-top: 0;
   }
@@ -621,3 +625,4 @@ body {
   max-width: 100%;
   width: 100%;
 }
+

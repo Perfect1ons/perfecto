@@ -3,8 +3,8 @@
 
 .product__aboutTheProduct{
      &_wrap {
-       @include mixin.font(14px, 400, null, var(--gray-dark));
-       max-height: 150px;
+       @include mixin.font(14px, 400, 120%,var(--dark));
+       max-height: 100px;
        overflow: hidden;
        &_articul {
          @include mixin.flex(center, space-between, null, 5px);

@@ -8,11 +8,13 @@ interface IBrandByNameProps {
   path: string;
   brand: IBrandByName;
   id: number;
+  name: string
 }
 
-const BrandByName = ({ path, brand, id }: IBrandByNameProps) => {
+const BrandByName = ({ path, brand, id, name }: IBrandByNameProps) => {
   return (
     <section className="brand__byName">
+      <h1>{name}</h1>
       <div className="container">
         <div className="all__directions">
           <Link href="/" className="all__directions_link">

@@ -53,6 +53,11 @@ const imageUrl =
       return newIsFavorite;
     });
   };
+            const maxLength = 52;
+            const truncatedText =
+              goods.ddos.length > maxLength
+                ? `${goods.ddos.slice(0, maxLength)}...`
+                : goods.ddos;
 
   useEffect(() => {
     setRating(Math.floor(goods.ocenka));
@@ -108,7 +113,7 @@ const imageUrl =
               height={20}
               alt="delivery_icon"
             />
-            <p className="ddos__text">{goods.ddos}</p>
+            <p className="ddos__text">{truncatedText}</p>
           </div>
           <div className="add__to">
             <button

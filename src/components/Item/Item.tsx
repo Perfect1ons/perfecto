@@ -49,11 +49,16 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setIsOpen(!isOpen);
     toggleScrollLock();
   };
+
   const handleCopyCode = () => {
     navigator.clipboard.writeText(data.art.toString());
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
   };
+
+  const matchingBreadCrumb = breadCrumbs.find(
+    (crumb) => crumb.id === data.id_cat
+  );
 
   return (
     <section className={styles.wrap}>
@@ -68,17 +73,15 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          {breadCrumbs.map((crumbs) => {
-            return (
-              <Link
-                className="all__directions_link"
-                href={`/catalog/${crumbs.full_slug}`}
-                key={crumbs.id}
-              >
-                {crumbs.name}
-              </Link>
-            );
-          })}
+          {breadCrumbs.map((crumbs) => (
+            <Link
+              className="all__directions_link"
+              href={`/catalog/${crumbs.full_slug}`}
+              key={crumbs.id}
+            >
+              {crumbs.name}
+            </Link>
+          ))}
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
@@ -89,7 +92,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
-                <ItemDesc data={data} />
+                {data.description ? <ItemDesc data={data} /> : null}
                 <div className={styles.product__aboutTheProduct}>
                   Артикул:
                   <span className={styles.product__aboutTheProduct_span}></span>
@@ -108,7 +111,30 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     </div>
                   )}
                 </div>
+                {data.specification ? 
                 <ItemSpec data={data} />
+                : null }
+                {data.trademark ? (
+                  <Link
+                    className={styles.brand__link}
+                    href={`/brands/${data.trademark}-${data.trademark_id}`}
+                  >
+                    Бренд:{" "}
+                    <span className={styles.brand__link_custom}>
+                      {data.trademark}
+                    </span>
+                  </Link>
+                ) : null}
+                <h3 className={styles.all__goods}>
+                  Все товары категории:{" "}
+                  {matchingBreadCrumb ? (
+                    <Link className={styles.all__goods_link} href={`/catalog/${matchingBreadCrumb.full_slug}`}>
+                      {matchingBreadCrumb.name}
+                    </Link>
+                  ) : (
+                    "Категория не найдена"
+                  )}
+                </h3>
               </div>
               <div className={styles.priceCard_wrap}>
                 <ItemPriceCard data={data} />
