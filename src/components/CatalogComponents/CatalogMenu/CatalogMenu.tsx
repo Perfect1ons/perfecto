@@ -59,17 +59,6 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
   return (
     <>
       {loading ? (
-        // <div className={styles.catalogs}>
-        //   <div className={styles.catalogs__left}>
-        //     {Array.from({ length: 26 }).map((_, index) => (
-        //       <div
-        //         className={styles.catalogLinkContainer_skeleton}
-        //         key={index}
-        //       ></div>
-        //     ))}
-        //   </div>
-        //   <div className={styles.catalogs__right_skeleton}></div>
-        // </div>
         <div className={styles.catalogs}>
           <div className={styles.catalogs__left}>
             {Array.from({ length: 26 }).map((_, index) => (

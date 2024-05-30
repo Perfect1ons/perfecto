@@ -15,7 +15,6 @@ import cn from "clsx";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 interface props {
-  // catalog: ICatalogMenu;
   catalog: ICatalogsProducts;
   path: string | string[];
   breadCrumbs: BreadCrumbs[];
@@ -66,7 +65,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
         })}
       </div>
       <div>
-        <h1 className={styles.container__h1}>{catalog.category.name}</h1>
+        <h1 className={styles.containerTitle}>{catalog.category.name}</h1>
         <div className={styles.row}>
           <div className={styles.containerSubCatalog}>
             <ul className={styles.subCatalogsContainerUL}>
@@ -74,7 +73,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
                 <div
                   // href={catalogItem.full_slug}
                   key={catalogItem.id}
-                  className={styles.catalog__lih3}
+                  className={styles.catalogFirst}
                   onClick={() => handleClick(catalogItem.full_slug)}
                 >
                   {catalogItem.name}
@@ -87,7 +86,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
               <div
                 // href={catalogItem.full_slug.slice()}
                 key={catalogItem.id}
-                className={styles.row__9li}
+                className={styles.cotainerCart}
                 onClick={() => handleClick(catalogItem.full_slug)}
               >
                 <Image
@@ -101,7 +100,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
                   width={60}
                   height={60}
                 />
-                <li className={styles.name__h3}>{catalogItem.name}</li>
+                <li className={styles.nameCatalog}>{catalogItem.name}</li>
               </div>
             ))}
           </div>

@@ -17,6 +17,7 @@ import ItemBanner from "./ItemBanner/ItemBanner";
 import { CopyIcon } from "../../../public/Icons/Icons";
 import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 
 interface IItemPageProps {
   data: Items;
@@ -105,11 +106,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                       <CopyIcon />
                     </span>
                   </div>
-                  {copiedCode && (
-                    <div className={styles.product__aboutTheProduct_copied}>
-                      Код скопирован!
-                    </div>
-                  )}
+                  <UserInfoModal isOpen={copiedCode}>
+                    Код скопирован!
+                  </UserInfoModal>
                 </div>
                 {data.specification ? 
                 <ItemSpec data={data} />

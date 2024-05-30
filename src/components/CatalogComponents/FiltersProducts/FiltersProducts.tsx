@@ -53,37 +53,6 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const dropdownElement = document.querySelector(
-        `.${styles.filtersContainer}`
-      );
-      const isFiltersActive = Object.values(filtersIsShow).some(
-        (isShow) => isShow && isShow !== filtersIsShow.default
-      );
-      if (
-        dropdownElement &&
-        !dropdownElement.contains(event.target as Node) &&
-        !isFiltersActive
-      ) {
-        setFiltersIsShow({
-          brand: false,
-          price: false,
-          delivery: false,
-          allfilters: false,
-          default: false,
-        });
-      }
-    };
-
-    if (Object.values(filtersIsShow).some((isShow) => isShow)) {
-      document.addEventListener("click", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [filtersIsShow]);
 
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
@@ -441,7 +410,7 @@ const FiltersProducts = ({
             />
           </Modal>
         )}
-        {isMobile && (
+        {/* {isMobile && (
           <Modal close={open} isVisible={filtersIsShow.allfilters}>
             <AllFiltersMobile
               countSelected={countSelected}
@@ -456,7 +425,7 @@ const FiltersProducts = ({
               resetSelectionAll={resetSelectionAll}
             />
           </Modal>
-        )}
+        )} */}
       </div>
     </>
   );

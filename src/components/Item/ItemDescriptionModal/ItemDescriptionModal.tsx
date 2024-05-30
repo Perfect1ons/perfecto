@@ -6,7 +6,7 @@ import { CopyIcon, Cross } from "../../../../public/Icons/Icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useDispatch } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface IProductReviewProps {
   data: Items;
@@ -26,6 +26,8 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
     video: false,
     characteristics: false,
   });
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [hasScroll, setHasScroll] = useState(true); // состояние для отслеживания наличия скролла
   const handleScroll = (section: keyof ITogglerProps) => {
     setToggler({
       about: false,
@@ -37,6 +39,12 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
       .querySelector(`#${section}`)
       ?.scrollIntoView({ behavior: "smooth" });
   };
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (wrapper) {
+      setHasScroll(wrapper.scrollHeight > wrapper.clientHeight);
+    }
+  }, [data, visible]);
 
   const sanitizedVideoHTML = DOMPurify.sanitize(data.video, {
     ALLOWED_TAGS: ["iframe"], // разрешаем только тег <iframe>
@@ -54,7 +62,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   });
 
   return (
-    <div className='container'>
+    <div className={styles.container}>
       <div
         onClick={func}
         className={cn(styles.backdrop, {
@@ -74,7 +82,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 О товаре
               </button>
             )}
-            {data.specification && (
+            {data.specification && hasScroll && (
               <button
                 onClick={() => handleScroll("characteristics")}
                 className={cn(styles.wrapper__container__header__button, {
@@ -84,7 +92,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 Характеристики
               </button>
             )}
-            {data.video && (
+            {data.video && hasScroll && (
               <button
                 onClick={() => handleScroll("video")}
                 className={cn(styles.wrapper__container__header__button, {
@@ -104,19 +112,9 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
         </div>
         <div className={styles.product_info__ddos}></div>
         <div className={styles.aboutProductContainer}>
-          {data.description && (
-            <div id="about" className={styles.aboutProduct}>
-              <p
-                className={styles.aboutProduct__description_p}
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.description),
-                }}
-              />
-            </div>
-          )}
           {data.specification && (
-            <div id="characteristics" className={styles.aboutProduct}>
-              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
+            <div id="about" className={styles.aboutProduct}>
+              <h3 className={styles.aboutProduct__h3}>О товаре</h3>
               <div
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(data.specification),
@@ -125,6 +123,18 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
               />
             </div>
           )}
+          {data.description && (
+            <div id="characteristics" className={styles.aboutProduct}>
+              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
+              <p
+                className={styles.aboutProduct__description_p}
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.description),
+                }}
+              />
+            </div>
+          )}
+
           {data.video && (
             <div id="video" className={styles.aboutProduct}>
               <h3 className={styles.aboutProduct__h3}>Видео</h3>
