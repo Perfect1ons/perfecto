@@ -4,11 +4,7 @@ import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import { useDispatch } from "react-redux";
-import {
-  addProductToCart,
-  clearCart,
-  removeProductFromCart,
-} from "@/store/reducers/cart.reducer";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   CopyIcon,
   ShareIcon,
@@ -16,8 +12,7 @@ import {
   WhIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useState, useEffect } from "react";
-import ItemCartModal from "../ItemCartModal/ItemCartModal";
+import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 
 interface IPriceProps {
@@ -28,19 +23,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
 
   const [dropdownActive, setDropdownActive] = useState(false);
-  const [modal, setModal] = useState(false);
 
   const [added, setAdded] = useState(false);
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (modal) {
-      timer = setTimeout(() => {
-        setModal(false);
-      }, 3000);
-    }
-    return () => clearTimeout(timer);
-  }, [modal]);
 
   const handleCopyLink = () => {
     navigator.clipboard
@@ -75,12 +59,14 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const addToCart = () => {
     dispatch(addProductToCart(data));
     setAdded(true);
-    setModal(true);
+  };
+
+  const handleCartEmpty = () => {
+    setAdded(false);
   };
 
   return (
     <>
-      {modal && <ItemCartModal />}
       <div className={styles.ItemPriceCard}>
         <div className={styles.ItemPriceCard__cost}>
           <h2 className={styles.ItemPriceCard__price}>
@@ -124,7 +110,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               В корзину
             </button>
           )}
-          {added && <CartReducerBtn data={data} />}
+          {added && (
+            <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
+          )}
           <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
         </div>
         <div className={styles.ItemPriceCard__salesman}>
