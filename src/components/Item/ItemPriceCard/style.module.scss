@@ -6,6 +6,10 @@
     background: var(--light-white);
     border-radius: 10px;
     padding: 18px;
+    &__minQty{
+        @include mixin.font(14px,400,100%, var(--dark));
+        margin-top: 10px;
+    }
     &__cost{
         @include mixin.flex(flex-end,null,null, 10px)
     }
@@ -18,10 +22,13 @@
         }
         &_discount{
             @include mixin.font(12px,500,100%,var(--dark));
-            background: var(--dark-blue);
+            background: var(--violet);
             color: var(--white);
             border-radius: 5px;
             padding: 3px;
+        }
+        &_new{
+            @include mixin.font(28px,500,100%,var(--violet));
         }
     }
     &__old_price{
@@ -44,7 +51,7 @@
 
 .ItemPriceCard__buttons{
     @include mixin.flex(center,space-between,null,15px);
-    margin-top: 15px;
+    margin-top: 10px;
     &_cart{
         background: var(--dark-blue);
         padding: 15px 20px;
