@@ -2,11 +2,11 @@
 import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { Cross } from "../../../../public/Icons/Icons";
+import { CopyIcon, Cross } from "../../../../public/Icons/Icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useDispatch } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IProductReviewProps {
   data: Items;
@@ -54,10 +54,10 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   });
 
   return (
-    <div className={styles.container}>
+    <div className='container'>
       <div
         onClick={func}
-        className={cn(styles.container__backdrop, {
+        className={cn(styles.backdrop, {
           [styles.activeBackdrop]: visible,
         })}
       ></div>
@@ -102,6 +102,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             <Cross />
           </button>
         </div>
+        <div className={styles.product_info__ddos}></div>
         <div className={styles.aboutProductContainer}>
           {data.description && (
             <div id="about" className={styles.aboutProduct}>
