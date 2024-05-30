@@ -1,8 +1,8 @@
 "use client";
-import { BasketProduct } from "@/types/CardProduct/cardProduct";
+import { BasketProduct, Items } from "@/types/CardProduct/cardProduct";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 interface CartState {
-  cart: BasketProduct[];
+  cart: Items[];
 }
 
 const initialState: CartState = {
@@ -12,31 +12,31 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addProductToCart: (state, action: PayloadAction<BasketProduct>) => {
+    addProductToCart: (state, action: PayloadAction<Items>) => {
       state.cart.push(action.payload);
     },
-    removeProductFromCart: (state, action: PayloadAction<BasketProduct>) => {
+    removeProductFromCart: (state, action: PayloadAction<Items>) => {
       state.cart = state.cart.filter(
         (product: any) => product.id !== action.payload
       );
     },
-    addProductQuantity: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      const product = state.cart.find((p) => p.id === id);
-      if (product) {
-        product.number += 1;
-      }
-    },
-    deleteProductQuantity: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      const product = state.cart.find((p) => p.id === id);
-      if (product && product.number > 0) {
-        product.number -= 1;
-        if (product.number === 0) {
-          state.cart = state.cart.filter((p) => p.id !== id);
-        }
-      }
-    },
+    // addProductQuantity: (state, action: PayloadAction<number>) => {
+    //   const id = action.payload;
+    //   const product = state.cart.find((p) => p.id === id);
+    //   if (product) {
+    //     product.number += 1;
+    //   }
+    // },
+    // deleteProductQuantity: (state, action: PayloadAction<number>) => {
+    //   const id = action.payload;
+    //   const product = state.cart.find((p) => p.id === id);
+    //   if (product && product.number > 0) {
+    //     product.number -= 1;
+    //     if (product.number === 0) {
+    //       state.cart = state.cart.filter((p) => p.id !== id);
+    //     }
+    //   }
+    // },
     clearCart: (state) => {
       state.cart = [];
     },
