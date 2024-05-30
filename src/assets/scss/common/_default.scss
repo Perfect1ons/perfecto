@@ -537,13 +537,14 @@ body {
 }
 
 // !Для swiperrrrrrrrrrrrrrrrrrrrrrrrr
-.my-swiper-button-prev,
-.my-swiper-button-next {
+.swiper-button-prev,
+.swiper-button-next {
   transition: all 0.2s linear;
+  user-select: none !important;
 }
 
-.my-swiper-button-prev:active,
-.my-swiper-button-next:active {
+.swiper-button-prev:active,
+.swiper-button-next:active {
   scale: 0.8;
 }
 

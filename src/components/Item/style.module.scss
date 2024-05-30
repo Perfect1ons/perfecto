@@ -364,14 +364,22 @@
     }
 
     &_description {
-      @include mixin.flex(flex-start, flex-start, null, 25px);
+      @include mixin.flex(flex-start, flex-start, row, 25px);
       width: 100%;
       &_block {
         width: 100%;
+      }
+      @media screen and (max-width: 670px) {
+        @include mixin.flex(center, flex-start, column, 10px);
       }
     }
   }
   @media screen and (max-width: 992px) {
     @include mixin.flex(center, space-between, column, 25px);
   }
+}
+
+.priceCard_wrap {
+  @include mixin.flex(center, null, column, null);
+  width: 100%;
 }

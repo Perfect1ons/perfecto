@@ -35,14 +35,7 @@ interface IPhotosProps {
 const ItemSlider = ({ photos }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
-  const imageUrl =
-    photos.photos.length > 0
-      ? photos.photos[0].url_part.startsWith("https://goods-photos")
-        ? `${photos.photos[0].url_part}280.jpg`
-        : photos.photos[0].url_part.startsWith("https://")
-        ? photos.photos[0].url_part
-        : `${url}nal/img/${photos.id_post}/l_${photos.photos[0].url_part}`
-      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+
   const handleMouseEnter = (index: number) => {
     if (mainSwiper) {
       mainSwiper.slideTo(index);
@@ -71,7 +64,7 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className={clsx(styles.product__cards, "mySwiper")}
       >
-        {photos.video ? (
+        {photos.video && (
           <SwiperSlide
             className={styles.product__cards_item}
             onMouseEnter={() => handleMouseEnter(0)}
@@ -80,14 +73,14 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
               <SmallVideoPreview />
             </div>
           </SwiperSlide>
-        ) : (
-          ""
         )}
         {photos.photos.map((photo, index) => (
           <SwiperSlide
             className={styles.product__cards_item}
             key={index}
-            onMouseEnter={() => handleMouseEnter(index + 1)}
+            onMouseEnter={() =>
+              handleMouseEnter(photos.video ? index + 1 : index)
+            }
           >
             <Image
               className={clsx(styles.product_preview, "thumb-actived")}
@@ -117,26 +110,27 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
         }}
         spaceBetween={10}
         navigation={{
-          nextEl: ".my-swiper-button-next",
-          prevEl: ".my-swiper-button-prev",
+          nextEl: ".swiper-button-next_card",
+          prevEl: ".swiper-button-prev_card",
           disabledClass: "swiper-button-disabled",
         }}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
         className={styles.activeSlide}
       >
-        {photos.video ? (
-          <SwiperSlide className={styles.activeSlide}>
+        {photos.video && (
+          <SwiperSlide className={styles.activeSlide} key={0}>
             <div
               dangerouslySetInnerHTML={{ __html: cleanHTML }}
               className={styles.activeSlide_iframe}
             ></div>
           </SwiperSlide>
-        ) : (
-          ""
         )}
         {photos.photos.slice(0, 7).map((photo, index) => (
-          <SwiperSlide key={index} className={styles.activeSlide}>
+          <SwiperSlide
+            key={photos.video ? index + 1 : index}
+            className={styles.activeSlide}
+          >
             <InnerImageZoom
               width={500}
               height={500}
@@ -164,7 +158,7 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
           className={clsx(
             styles.sliderArrow,
             styles.sliderArrow_left,
-            "my-swiper-button-prev"
+            "swiper-button-prev_card"
           )}
         >
           <SwiperPrevArrow />
@@ -173,7 +167,7 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
           className={clsx(
             styles.sliderArrow,
             styles.sliderArrow_right,
-            "my-swiper-button-next"
+            "swiper-button-next_card"
           )}
         >
           <SwiperNextArrow />

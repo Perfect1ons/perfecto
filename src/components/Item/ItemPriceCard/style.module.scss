@@ -1,88 +1,92 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
-.ItemPriceCard{
-    max-width: 344px;
-    width: 100%;
-    background: var(--light-white);
-    border-radius: 10px;
-    padding: 18px;
-    &__minQty{
-        @include mixin.font(14px,400,100%, var(--dark));
-        margin-top: 10px;
-    }
-    &__cost{
-        @include mixin.flex(flex-end,null,null, 10px)
-    }
-    &__price{
-        @include mixin.font(28px,500,100%,var(--dark));
-        @include mixin.flex(center,null,null, 3px);
-        &_custom{
-            @include mixin.font(18px,600,100%,var(--dark));
-            border-bottom: 2px solid var(--dark);
-        }
-        &_discount{
-            @include mixin.font(12px,500,100%,var(--dark));
-            background: var(--violet);
-            color: var(--white);
-            border-radius: 5px;
-            padding: 3px;
-        }
-        &_new{
-            @include mixin.font(28px,500,100%,var(--violet));
-        }
-    }
-    &__old_price{
-        @include mixin.font(16px,500,100%,var(--gray-dark));
-        text-decoration: line-through;
-    }
-}
-
-.ItemPriceCard__ddos{
-    margin-top: 14px;
-    @include mixin.flex(null,null,column,5px);
-    &_info{
-        @include mixin.flex(center,flex-start,null, 5px)
-    }
-
-    &_desc,&_title{
-        @include mixin.font(14px,400,100%, var(--dark))
-    }
-}
-
-.ItemPriceCard__buttons{
-    @include mixin.flex(center,space-between,null,15px);
+.ItemPriceCard {
+  min-width: 344px;
+  width: 100%;
+  background: var(--light-white);
+  border-radius: 10px;
+  padding: 18px;
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
     margin-top: 10px;
-    &_cart{
-        background: var(--dark-blue);
-        padding: 15px 20px;
-        width: 100%;
-        color: var(--white);
-        border-radius: 5px;
-        cursor: pointer;
-        transition: all 0.3 ease-in;
-        &:hover{
-            background: #203e79;
-        }
+  }
+  &__cost {
+    @include mixin.flex(flex-end, null, null, 10px);
+  }
+  &__price {
+    @include mixin.font(28px, 500, 100%, var(--dark));
+    @include mixin.flex(center, null, null, 3px);
+    &_custom {
+      @include mixin.font(18px, 600, 100%, var(--dark));
+      border-bottom: 2px solid var(--dark);
     }
-    &_buy{
-        padding: 15px 20px;
-        width: 100%;
-        background: var(--violet);
-        color: var(--white);
-        border-radius: 5px;
-        cursor: pointer;
-        &:hover{
-            background: #811f48;
-        }
+    &_discount {
+      @include mixin.font(12px, 500, 100%, var(--dark));
+      background: var(--violet);
+      color: var(--white);
+      border-radius: 5px;
+      padding: 3px;
     }
+    &_new {
+      @include mixin.font(28px, 500, 100%, var(--violet));
+    }
+  }
+  &__old_price {
+    @include mixin.font(16px, 500, 100%, var(--gray-dark));
+    text-decoration: line-through;
+  }
+  @media screen and (max-width: 670px) {
+    margin-top: 15px;
+  }
 }
 
-.ItemPriceCard__salesman{
-    margin-top: 15px;
-    &_title{
-        @include mixin.font(14px,400,100%,var(--dark));
-        &_custom{
-            @include mixin.font(14px,400,100%,var(--dark));
-        }
+.ItemPriceCard__ddos {
+  margin-top: 14px;
+  @include mixin.flex(null, null, column, 5px);
+  &_info {
+    @include mixin.flex(center, flex-start, null, 5px);
+  }
+
+  &_desc,
+  &_title {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+  }
+}
+
+.ItemPriceCard__buttons {
+  @include mixin.flex(center, space-between, null, 15px);
+  margin-top: 10px;
+  &_cart {
+    background: var(--dark-blue);
+    padding: 15px 20px;
+    width: 100%;
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3 ease-in;
+    &:hover {
+      background: #203e79;
     }
+  }
+  &_buy {
+    padding: 15px 20px;
+    width: 100%;
+    background: var(--violet);
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background: #811f48;
+    }
+  }
+}
+
+.ItemPriceCard__salesman {
+  margin-top: 15px;
+  &_title {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    &_custom {
+      @include mixin.font(14px, 400, 100%, var(--dark));
+    }
+  }
 }

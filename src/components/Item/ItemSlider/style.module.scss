@@ -1,7 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .product__swipers {
-  @include mixin.flex(flex-start, flex-start, null, 30px);
+  @include mixin.flex(flex-start, flex-start, row, 30px);
   max-height: 500px; // Set the maximum height for the container
   overflow: hidden; // Hide any overflow content
 }
@@ -10,7 +10,7 @@
   margin-right: 0 !important;
   margin-left: 0 !important;
   width: 60px; // Установим ширину вместо max-width
-  height: 100% !important; // Ensure it takes the full height of the container
+  max-height: 420px !important;
   @media screen and (max-width: 672px) {
     display: none !important;
   }
@@ -24,11 +24,8 @@
 }
 
 .activeSlide {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
   max-width: 450px;
   height: 400px; // Установим фиксированную высоту
-  background: var(--dark-blue);
   @include mixin.flex(center, center, column, 0);
   &_iframe {
     width: fit-content;
@@ -38,7 +35,7 @@
     max-width: 350px;
     &_iframe {
       width: fit-content;
-      scale: 0.5;
+      scale: 0.55;
     }
   }
 }

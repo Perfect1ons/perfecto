@@ -8,7 +8,6 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
-import ItemVideo from "./ItemVideo/ItemVideo";
 import ProductReview from "./ProductReview/ProductReview";
 import { useEffect, useState } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
@@ -111,14 +110,13 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 </div>
                 <ItemSpec data={data} />
               </div>
-              <div>
+              <div className={styles.priceCard_wrap}>
                 <ItemPriceCard data={data} />
                 <ItemBanner />
               </div>
             </div>
           </div>
         </div>
-        {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
       </div>
       <SimilarProducts similar={similar} />
