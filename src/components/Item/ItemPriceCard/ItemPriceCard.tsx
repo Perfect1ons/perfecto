@@ -61,6 +61,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const addToCart = () => {
     dispatch(addProductToCart(data));
     setAdded(true);
+    setModal(true);
   };
 
   const handleCartEmpty = () => {
