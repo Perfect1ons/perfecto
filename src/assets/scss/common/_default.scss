@@ -585,6 +585,13 @@ body {
   }
 }
 
+.topten {
+  margin-top: 10px;
+  @media screen and (max-width: 480px) {
+    margin-top: 0;
+  }
+}
+
 .testoviy{
   margin-top: 30px;
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);

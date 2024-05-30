@@ -91,7 +91,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
                 <ItemDesc data={data} />
-                <ItemSpec data={data} />
                 <div className={styles.product__aboutTheProduct}>
                   Артикул:
                   <span className={styles.product__aboutTheProduct_span}></span>
@@ -110,6 +109,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     </div>
                   )}
                 </div>
+                <ItemSpec data={data} />
               </div>
               <div>
                 <ItemPriceCard data={data} />

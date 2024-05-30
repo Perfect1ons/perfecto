@@ -44,7 +44,7 @@ const ItemSpec = ({ data }: IItemsProps) => {
   };
 
   return (
-    <div className="toptwenty">
+    <div className="topten">
       <ItemDescriptionModal
         data={data}
         func={openItemModalDescription}
