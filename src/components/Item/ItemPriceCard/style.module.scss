@@ -10,7 +10,6 @@
     @include mixin.flex(flex-end, null, null, 10px);
   }
   &__price {
-    @include mixin.font(28px, 500, 100%, var(--violet));
     @include mixin.flex(center, null, null, 3px);
     &_custom {
       @include mixin.font(18px, 600, 100%, var(--violet));
