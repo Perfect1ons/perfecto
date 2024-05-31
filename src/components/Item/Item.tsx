@@ -18,6 +18,7 @@ import { CopyIcon } from "../../../public/Icons/Icons";
 import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
+import ItemAccordion from "./ItemAccordion/ItemAccordion";
 
 interface IItemPageProps {
   data: Items;
@@ -95,7 +96,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               <div className={styles.item__preview_info_description_block}>
                 {data.description ? <ItemDesc data={data} /> : null}
                 <div className={styles.product__aboutTheProduct}>
-                  Артикул:
+                  Код:
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div className={styles.product__aboutTheProduct_div}>
                     <span>{data.art}</span>
@@ -143,6 +144,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           </div>
         </div>
         <ProductReview data={data} func={openModal} />
+        <ItemAccordion/>
       </div>
       <SimilarProducts similar={similar} />
       <SeenProduct />
