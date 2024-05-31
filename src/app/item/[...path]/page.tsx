@@ -25,3 +25,33 @@ export default async function item({ params: { path } }: Params) {
     />
   );
 }
+
+export async function generateMetadata({ params: { path } }: Params) {
+  const data = await getCardProduct(path[0]);
+
+  const title = "Белая";
+  const description = data.meta.description;
+  const keywords = data.meta.keywords;
+  const url = "https://max.kg/";
+  const image = "https://max.kg/images/mobile-logo-colorized.svg";
+
+  return {
+    title: title,
+    description: description,
+    keywords: keywords,
+    openGraph: {
+      title: title,
+      description: description,
+      url: url,
+      images: [
+        {
+          url: image,
+          width: 800,
+          height: 600,
+          alt: "Logo",
+        },
+      ],
+      type: "article",
+    },
+  };
+}
