@@ -5,6 +5,14 @@
   -webkit-tap-highlight-color: var(--tap-select);
 }
 
+table{
+  height: 150px !important;
+}
+
+td{
+  border: 1px solid black;
+}
+
 @media (min-width: 1440px) {
   p {
     line-height: 1.4; /* Оставляем такое же значение */

@@ -105,9 +105,9 @@
     @include mixin.flex(center, null, null, 5px);
 
     &_shareBtn {
-      @include mixin.flex(center, center, null, null);
+      @include mixin.flex(center, flex-start, null, null);
       position: relative;
-      padding: 10px;
+      padding: 5px 10px;
       cursor: pointer;
       border-radius: 5px;
       transition: 0.2s;

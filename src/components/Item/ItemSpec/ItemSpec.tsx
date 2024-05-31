@@ -58,7 +58,9 @@ const ItemSpec = ({ data }: IItemsProps) => {
           dangerouslySetInnerHTML={{
             __html: sanitizedSpec,
           }}
-          className={styles.product__aboutTheProduct_wrap}
+          className={
+            styles.product__aboutTheProduct_wrap + " " + styles.fadeEffect
+          }
         />
       )}
       {sanitizedSpec && (
