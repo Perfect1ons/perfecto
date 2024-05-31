@@ -86,7 +86,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            {data ? <ItemSlider photos={data} /> : <h1>hello</h1>}
+            <ItemSlider photos={data} toggleScrollLock={toggleScrollLock} />
           </div>
           <div className={styles.item__preview_info}>
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
@@ -110,9 +110,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                {data.specification ? 
-                <ItemSpec data={data} />
-                : null }
+                {data.specification ? <ItemSpec data={data} /> : null}
                 {data.trademark ? (
                   <Link
                     className={styles.brand__link}
@@ -127,7 +125,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 <h3 className={styles.all__goods}>
                   Все товары категории:{" "}
                   {matchingBreadCrumb ? (
-                    <Link className={styles.all__goods_link} href={`/catalog/${matchingBreadCrumb.full_slug}`}>
+                    <Link
+                      className={styles.all__goods_link}
+                      href={`/catalog/${matchingBreadCrumb.full_slug}`}
+                    >
                       {matchingBreadCrumb.name}
                     </Link>
                   ) : (

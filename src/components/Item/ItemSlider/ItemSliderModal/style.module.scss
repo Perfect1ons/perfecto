@@ -1,0 +1,44 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+.modal {
+  position: relative;
+  @include mixin.flex(null, center, null, null);
+  margin: 0 auto;
+}
+.ul {
+  overflow: auto;
+}
+.wrapper {
+  @include mixin.flex(center, null, column, null);
+  position: fixed;
+  background: var(--white);
+  z-index: 200;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 25px;
+  padding-right: 5px;
+  border-radius: 5px;
+  top: 35px;
+
+  &_nav {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding-right: 15px;
+    width: 100%;
+    @include mixin.flex(center, space-between, null, null);
+    &_title {
+      user-select: none;
+      @include mixin.font(1.125rem, 500, null, var(--dark));
+      align-self: flex-start;
+    }
+    &_cross {
+      cursor: pointer;
+      color: var(--secondary-gray);
+      &:hover {
+        color: var(--dark);
+      }
+    }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
+  }
+}

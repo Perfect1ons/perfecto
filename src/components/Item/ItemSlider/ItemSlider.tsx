@@ -27,14 +27,17 @@ import {
 } from "../../../../public/Icons/Icons";
 import ItemVideo from "../ItemVideo/ItemVideo";
 import DOMPurify from "isomorphic-dompurify";
+import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 
 interface IPhotosProps {
   photos: Items;
+  toggleScrollLock: () => void;
 }
 
-const ItemSlider = ({ photos }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
+  const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
 
   const handleMouseEnter = (index: number) => {
     if (mainSwiper) {
@@ -65,55 +68,74 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
     );
   }
 
+  const modalSliderOpenOrClose = () => {
+    setModalSliderIsOpen(!modalSliderIsOpen);
+    toggleScrollLock();
+  };
+
   return (
-    <div className={styles.product__swipers}>
-      {photos.photos.length > 0 ? (
-        <>
-          <Swiper
-            onSwiper={setThumbsSwiper}
-            slidesPerView={6}
-            direction={"vertical"}
-            spaceBetween={10}
-            freeMode={true}
-            watchSlidesProgress={true}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className={clsx(styles.product__cards, "mySwiper")}
-          >
-            {photos.video && (
-              <SwiperSlide
-                className={styles.product__cards_item}
-                onMouseEnter={() => handleMouseEnter(0)}
-              >
-                <div className={clsx(styles.product_preview, "thumb-actived")}>
-                  <SmallVideoPreview />
-                </div>
-              </SwiperSlide>
-            )}
-            {photos.photos.map((photo, index) => (
-              <SwiperSlide
-                className={styles.product__cards_item}
-                key={index}
-                onMouseEnter={() =>
-                  handleMouseEnter(photos.video ? index + 1 : index)
+    <>
+      {modalSliderIsOpen && (
+        <div className={styles.wrap_modal}>
+          <ItemSliderModal
+            isOpen={modalSliderIsOpen}
+            closeModal={modalSliderOpenOrClose}
+            photos={photos}
+          />
+          <div
+            onClick={() => setModalSliderIsOpen(false)}
+            className={styles.wrap_backdrop}
+          ></div>
+        </div>
+      )}
+
+      <div className={styles.product__swipers}>
+        <Swiper
+          onSwiper={setThumbsSwiper}
+          slidesPerView={6}
+          direction={"vertical"}
+          spaceBetween={10}
+          freeMode={true}
+          watchSlidesProgress={true}
+          modules={[FreeMode, Navigation, Thumbs]}
+          className={clsx(styles.product__cards, "mySwiper")}
+        >
+          {photos.video && (
+            <SwiperSlide
+              className={styles.product__cards_item}
+              onMouseEnter={() => handleMouseEnter(0)}
+            >
+              <div className={clsx(styles.product_preview, "thumb-actived")}>
+                <SmallVideoPreview />
+              </div>
+            </SwiperSlide>
+          )}
+          {photos.photos.map((photo, index) => (
+            <SwiperSlide
+              className={styles.product__cards_item}
+              key={index}
+              onMouseEnter={() =>
+                handleMouseEnter(photos.video ? index + 1 : index)
+              }
+            >
+              <Image
+                className={clsx(styles.product_preview, "thumb-actived")}
+                src={
+                  photo.url_part.startsWith("https://goods")
+                    ? `${photo.url_part}280.jpg`
+                    : photo.url_part.startsWith("https://")
+                    ? photo.url_part
+                    : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
                 }
-              >
-                <Image
-                  className={clsx(styles.product_preview, "thumb-actived")}
-                  src={
-                    photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}280.jpg`
-                      : photo.url_part.startsWith("https://")
-                      ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
-                  }
-                  width={100}
-                  height={100}
-                  alt={photo.url_part}
-                  loading="lazy"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                width={100}
+                height={100}
+                alt={photo.url_part}
+                loading="lazy"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className={styles.mainSwiperWrap}>
           <Swiper
             onSwiper={setMainSwiper}
             keyboard={{
@@ -188,11 +210,15 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
               <SwiperNextArrow />
             </button>
           </Swiper>
-        </>
-      ) : (
-        <h1>hello</h1>
-      )}
-    </div>
+          <button
+            className={styles.mainSwiperWrap_btn}
+            onClick={modalSliderOpenOrClose}
+          >
+            Посмотреть больше
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 

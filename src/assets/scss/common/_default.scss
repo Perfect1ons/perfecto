@@ -5,11 +5,11 @@
   -webkit-tap-highlight-color: var(--tap-select);
 }
 
-table{
+table {
   height: 150px !important;
 }
 
-td{
+td {
   border: 1px solid black;
 }
 
@@ -17,7 +17,7 @@ td{
   p {
     line-height: 1.4; /* Оставляем такое же значение */
   }
-  td{
+  td {
     line-height: 1.4;
   }
 }
@@ -581,10 +581,11 @@ body {
   left: 0 !important;
   bottom: 0 !important;
   z-index: 2;
-  max-width: 70px;
+  max-width: 50px;
   margin: 0 0 10px 10px;
   padding: 5px 10px;
 
+  font-size: 12px;
   background: #0000006c;
   color: #fff !important;
   border-radius: 32px;
@@ -624,7 +625,7 @@ body {
   max-width: 1440px;
 }
 
-// test styles
+// Стили лупы на карточке товара
 .iiz__btn {
   border-radius: 100px !important;
 }
@@ -633,4 +634,3 @@ body {
   max-width: 100%;
   width: 100%;
 }
-
