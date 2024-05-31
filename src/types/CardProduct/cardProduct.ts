@@ -104,9 +104,7 @@ export interface Items {
   service: any[];
   service_info: any[];
   banners_discount: any[];
-}
-export interface BasketProduct extends Items {
-  number?: number;
+  quantity?: number;
 }
 
 export interface Country {

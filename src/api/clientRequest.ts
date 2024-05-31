@@ -4,6 +4,7 @@ import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
 import ky from "ky";
+import qs from "qs";
 
 const maxkg = ky.create({
   prefixUrl: "/api/",
@@ -23,22 +24,25 @@ export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
 
-export const getProductsSortsBrand = (
-  id: number,
-  path: string
-): Promise<ICatalogsProducts> => {
-  return maxkg
-    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[brand]=${path}`)
-    .json();
+const obj = {
+  page: 1,
+  "VNaltovaroksearch[dost]": 1,
 };
-export const getProductsSortsDost = (
-  id: number,
-  path: string
-): Promise<ICatalogsProducts> => {
-  return maxkg
-    .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[dost]=${path}`)
-    .json();
+// page=1&VNaltovaroksearch[dost]=1
+
+const filterProduct = qs.stringify({});
+
+export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
+  return maxkg.get(`catalog/cat-product/${id}?${filterProduct}`).json();
 };
+// export const getProductsSortsDost = (
+//   id: number,
+//   path: string
+// ): Promise<ICatalogsProducts> => {
+//   return maxkg
+//     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[dost]=${path}`)
+//     .json();
+// };
 
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });

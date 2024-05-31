@@ -310,6 +310,7 @@
       border-bottom: 1px dashed #d3d4dd;
     }
     &_div {
+      cursor: pointer;
       @include mixin.flex(center, center, null, 5px);
       &_copy {
         cursor: pointer;

@@ -18,6 +18,7 @@ import { CopyIcon } from "../../../public/Icons/Icons";
 import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
+import ItemAccordion from "./ItemAccordion/ItemAccordion";
 
 interface IItemPageProps {
   data: Items;
@@ -50,9 +51,8 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setIsOpen(!isOpen);
     toggleScrollLock();
   };
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(data.art.toString());
+  const handleCopyCode = (entryCode: string) => {
+    navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
   };
@@ -95,18 +95,21 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               <div className={styles.item__preview_info_description_block}>
                 {data.description ? <ItemDesc data={data} /> : null}
                 <div className={styles.product__aboutTheProduct}>
-                  Артикул:
+                  Код:
                   <span className={styles.product__aboutTheProduct_span}></span>
-                  <div className={styles.product__aboutTheProduct_div}>
+                  <div
+                    className={styles.product__aboutTheProduct_div}
+                    onClick={() => handleCopyCode(data.art.toString())}
+                  >
                     <span>{data.art}</span>
                     <span
-                      onClick={handleCopyCode}
+                      onClick={() => handleCopyCode(data.art.toString())}
                       className={styles.product__aboutTheProduct_div_copy}
                     >
                       <CopyIcon />
                     </span>
                   </div>
-                  <UserInfoModal isOpen={copiedCode}>
+                  <UserInfoModal visible={copiedCode}>
                     Код скопирован!
                   </UserInfoModal>
                 </div>
@@ -144,6 +147,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           </div>
         </div>
         <ProductReview data={data} func={openModal} />
+        <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
       <SeenProduct />

@@ -85,9 +85,13 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             {data.specification && hasScroll && (
               <button
                 onClick={() => handleScroll("characteristics")}
-                className={cn(styles.wrapper__container__header__button, {
-                  [styles.activeH2]: toggler.characteristics,
-                })}
+                className={cn(
+                  styles.wrapper__container__header__button,
+                  styles.characteristics,
+                  {
+                    [styles.activeH2]: toggler.characteristics,
+                  }
+                )}
               >
                 Характеристики
               </button>
@@ -95,9 +99,13 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             {data.video && hasScroll && (
               <button
                 onClick={() => handleScroll("video")}
-                className={cn(styles.wrapper__container__header__button, {
-                  [styles.activeH2]: toggler.video,
-                })}
+                className={cn(
+                  styles.wrapper__container__header__button,
+                  styles.characteristics,
+                  {
+                    [styles.activeH2]: toggler.video,
+                  }
+                )}
               >
                 Видео
               </button>
@@ -112,20 +120,9 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
         </div>
         <div className={styles.product_info__ddos}></div>
         <div className={styles.aboutProductContainer}>
-          {data.specification && (
+          {data.description && (
             <div id="about" className={styles.aboutProduct}>
               <h3 className={styles.aboutProduct__h3}>О товаре</h3>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.specification),
-                }}
-                className={styles.aboutProduct__description_p}
-              />
-            </div>
-          )}
-          {data.description && (
-            <div id="characteristics" className={styles.aboutProduct}>
-              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
               <p
                 className={styles.aboutProduct__description_p}
                 dangerouslySetInnerHTML={{
@@ -134,7 +131,17 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
               />
             </div>
           )}
-
+          {data.specification && (
+            <div id="characteristics" className={styles.aboutProduct}>
+              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(data.specification),
+                }}
+                className={styles.aboutProduct__description_p}
+              />
+            </div>
+          )}
           {data.video && (
             <div id="video" className={styles.aboutProduct}>
               <h3 className={styles.aboutProduct__h3}>Видео</h3>
