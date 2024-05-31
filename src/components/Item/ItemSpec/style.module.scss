@@ -47,7 +47,7 @@
        }
      }
      &_desc{
-       @include mixin.font(16px, 500, null, var(--dark));
+       @include mixin.font(14px, 500, null, var(--dark));
       margin-bottom: 5px;
      }
    }
