@@ -28,9 +28,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const [modal, setModal] = useState(false);
   const [added, setAdded] = useState(false);
 
-  const handleCopyLink = () => {
+  const handleCopyLink = (entryText: string) => {
     navigator.clipboard
-      .writeText(window.location.href)
+      .writeText(entryText)
       .then(() => {
         setDropdownActive(false);
       })
@@ -177,7 +177,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             </button>
           </div>
           <div
-            onClick={handleCopyLink}
+            onClick={() => handleCopyLink(window.location.href)}
             className={styles.share_shareDropdown_copy}
           >
             <CopyIcon />
