@@ -2,9 +2,15 @@
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import { useDispatch } from "react-redux";
-import { addProductToCart } from "@/store/reducers/cart.reducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addProductQuantity,
+  addProductToCart,
+  deleteProductQuantity,
+  removeProductFromCart,
+} from "@/store/reducers/cart.reducer";
 import { useState } from "react";
+import { RootState } from "@/store";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -13,30 +19,38 @@ interface ICartReducerBtnProps {
 
 const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
-
-  const [count, setCount] = useState(1);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === data.id);
 
   const addToCart = () => {
-    dispatch(addProductToCart(data));
-    setCount((prevCount) => prevCount + 1);
+    if (product) {
+      dispatch(addProductQuantity(data.id));
+    } else {
+      dispatch(addProductToCart(data));
+    }
   };
 
   const removeFromCart = () => {
-    setCount((prevCount) => {
-      const newCount = prevCount > 0 ? prevCount - 1 : 0;
-      if (newCount === 0) {
+    if (product) {
+      if (product.quantity === 1) {
+        dispatch(removeProductFromCart(data.id));
         onCartEmpty();
+      } else {
+        dispatch(deleteProductQuantity(data.id));
       }
-      return newCount;
-    });
+    }
   };
 
   return (
     <div className={styles.btn}>
       <button onClick={removeFromCart} className={styles.btn_left}>
-        {count <= 1 ? <TrashIcon /> : <MinusIcon />}
+        {product?.quantity && product.quantity <= 1 ? (
+          <TrashIcon />
+        ) : (
+          <MinusIcon />
+        )}
       </button>
-      <span className={styles.btn_screen}>{count}</span>
+      <span className={styles.btn_screen}>{product?.quantity || 0}</span>
       <button onClick={addToCart} className={styles.btn_right}>
         <PlusIcon />
       </button>

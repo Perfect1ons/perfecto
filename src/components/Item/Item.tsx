@@ -51,9 +51,8 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setIsOpen(!isOpen);
     toggleScrollLock();
   };
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(data.art.toString());
+  const handleCopyCode = (entryCode: string) => {
+    navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
   };
@@ -98,22 +97,23 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 <div className={styles.product__aboutTheProduct}>
                   Код:
                   <span className={styles.product__aboutTheProduct_span}></span>
-                  <div className={styles.product__aboutTheProduct_div}>
+                  <div
+                    className={styles.product__aboutTheProduct_div}
+                    onClick={() => handleCopyCode(data.art.toString())}
+                  >
                     <span>{data.art}</span>
                     <span
-                      onClick={handleCopyCode}
+                      onClick={() => handleCopyCode(data.art.toString())}
                       className={styles.product__aboutTheProduct_div_copy}
                     >
                       <CopyIcon />
                     </span>
                   </div>
-                  <UserInfoModal isOpen={copiedCode}>
+                  <UserInfoModal visible={copiedCode}>
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                {data.specification ? 
-                <ItemSpec data={data} />
-                : null }
+                {data.specification ? <ItemSpec data={data} /> : null}
                 {data.trademark ? (
                   <Link
                     className={styles.brand__link}
@@ -128,7 +128,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 <h3 className={styles.all__goods}>
                   Все товары категории:{" "}
                   {matchingBreadCrumb ? (
-                    <Link className={styles.all__goods_link} href={`/catalog/${matchingBreadCrumb.full_slug}`}>
+                    <Link
+                      className={styles.all__goods_link}
+                      href={`/catalog/${matchingBreadCrumb.full_slug}`}
+                    >
                       {matchingBreadCrumb.name}
                     </Link>
                   ) : (
@@ -144,7 +147,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           </div>
         </div>
         <ProductReview data={data} func={openModal} />
-        <ItemAccordion/>
+        <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
       <SeenProduct />

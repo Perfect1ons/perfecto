@@ -3,7 +3,7 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   CopyIcon,
@@ -15,6 +15,7 @@ import cn from "clsx";
 import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
+import { RootState } from "@/store";
 
 interface IPriceProps {
   data: Items;
@@ -23,14 +24,17 @@ interface IPriceProps {
 const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === data.id);
+
   const [dropdownActive, setDropdownActive] = useState(false);
 
   const [modal, setModal] = useState(false);
   const [added, setAdded] = useState(false);
 
-  const handleCopyLink = () => {
+  const handleCopyLink = (entryText: string) => {
     navigator.clipboard
-      .writeText(window.location.href)
+      .writeText(entryText)
       .then(() => {
         setDropdownActive(false);
       })
@@ -38,6 +42,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         console.error("Ошибка при копировании ссылки: ", err);
         setDropdownActive(false);
       });
+    setModal(true);
+    setTimeout(() => setModal(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
   const handleWhatsAppClick = () => {
@@ -62,11 +68,14 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     dispatch(addProductToCart(data));
     setAdded(true);
     setModal(true);
+    setTimeout(() => setModal(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
   const handleCartEmpty = () => {
     setAdded(false);
   };
+
+  const totalPrice = data.cenaok * (product?.quantity ?? 1);
 
   return (
     <>
@@ -74,7 +83,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price_new}>
-              {data.cenaok.toLocaleString("ru-RU")}
+              {totalPrice}
               <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </h2>
             <span className={styles.ItemPriceCard__price_discount}>
@@ -88,7 +97,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         ) : (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price}>
-              {data.cenaok.toLocaleString("ru-RU")}
+              {totalPrice}
               <span className={styles.ItemPriceCard__price_custom}>с</span>
             </h2>
           </div>
@@ -117,11 +126,11 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <span className={styles.ItemPriceCard__minQty_none}></span>
         )}
         <div className={styles.ItemPriceCard__buttons}>
-          <UserInfoModal isOpen={modal}>
+          <UserInfoModal visible={modal}>
             Ваш товар добавлен в корзину. <br />
             Перейдите в корзину чтобы оформить заказ!
           </UserInfoModal>
-          {!added && (
+          {!product?.quantity && (
             <button
               onClick={addToCart}
               className={styles.ItemPriceCard__buttons_cart}
@@ -129,7 +138,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               В корзину
             </button>
           )}
-          {added && (
+          {product?.quantity && (
             <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
           )}
           <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
@@ -189,7 +198,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             </button>
           </div>
           <div
-            onClick={handleCopyLink}
+            onClick={() => handleCopyLink(window.location.href)}
             className={styles.share_shareDropdown_copy}
           >
             <CopyIcon />

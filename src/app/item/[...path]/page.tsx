@@ -1,4 +1,8 @@
-import { getBreadCrumbs, getCardProduct, getSimilarProduct } from "@/api/requests";
+import {
+  getBreadCrumbs,
+  getCardProduct,
+  getSimilarProduct,
+} from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
 
 interface Params {
@@ -6,7 +10,7 @@ interface Params {
 }
 
 export async function generateMetadata({ params: { path } }: Params) {
-    const data = await getCardProduct(path[0]);
+  const data = await getCardProduct(path[0]);
 
   const title = data.meta.title;
   const description = data.meta.description;
@@ -35,14 +39,19 @@ export async function generateMetadata({ params: { path } }: Params) {
   };
 }
 
-
 export default async function item({ params: { path } }: Params) {
-    const data = await getCardProduct(path[0]);
+  const data = await getCardProduct(path[0]);
 
-    const [breadCrumbs, similarData] = await Promise.all([
-      getBreadCrumbs(data.items.id_cat),
-      getSimilarProduct(path[0])
-    ]);
+  const [breadCrumbs, similarData] = await Promise.all([
+    getBreadCrumbs(data.items.id_cat),
+    getSimilarProduct(path[0]),
+  ]);
 
-    return <ItemPage data={data.items} similar={similarData} breadCrumbs={breadCrumbs} />;
+  return (
+    <ItemPage
+      data={data.items}
+      similar={similarData}
+      breadCrumbs={breadCrumbs}
+    />
+  );
 }

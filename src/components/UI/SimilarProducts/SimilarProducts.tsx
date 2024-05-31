@@ -18,7 +18,6 @@ interface ISimilarProps {
 }
 
 const SimilarProducts = ({ similar }: ISimilarProps) => {
-
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -52,8 +51,6 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
     });
   };
 
-
-
   useEffect(() => {
     const totalRating = similar.reduce((acc, item) => acc + item.ocenka, 0);
     setRating(Math.floor(totalRating / similar.length));
@@ -72,17 +69,19 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
                 ? item.photos[0].url_part
                 : `${url}nal/img/${item.id_post}/l_${item.photos[0].url_part}`
               : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-            const maxLength = 52;
-            const truncatedText =
-              item.ddos.length > maxLength
-                ? `${item.ddos.slice(0, maxLength)}...`
-                : item.ddos;
+          const maxLength = 52;
+          const truncatedText =
+            item.ddos.length > maxLength
+              ? `${item.ddos.slice(0, maxLength)}...`
+              : item.ddos;
 
           return (
-            <Link className="link" href={`/item/${item.id_tov}/${item.url}`} key={item.id}>
-              <div
-                className="default__card"
-              >
+            <Link
+              className="link"
+              href={`/item/${item.id_tov}/${item.url}`}
+              key={item.id}
+            >
+              <div className="default__card">
                 <div className="default__card_images">
                   <Image
                     className="default__card_image"

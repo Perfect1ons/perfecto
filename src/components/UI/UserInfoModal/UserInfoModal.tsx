@@ -5,19 +5,10 @@ import cn from "clsx";
 
 interface UserInfoModalProps {
   children: React.ReactNode;
-  isOpen: boolean;
+  visible: boolean;
 }
 
-const UserInfoModal = ({ children, isOpen }: UserInfoModalProps) => {
-  const [visible, setVisible] = useState(isOpen);
-
-  useEffect(() => {
-    if (isOpen) {
-      setVisible(true);
-      setTimeout(() => setVisible(false), 3000);
-    }
-  }, [isOpen]);
-
+const UserInfoModal = ({ children, visible }: UserInfoModalProps) => {
   return (
     <div className={cn(styles.modal, { [styles.open]: visible })}>
       {children}
