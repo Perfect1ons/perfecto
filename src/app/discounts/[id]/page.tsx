@@ -1,17 +1,6 @@
-import {
-    getDiscountsById,
-} from "@/api/requests";
+import { getDiscountsById } from "@/api/requests";
 import DiscountsById from "@/components/HomeComponents/Discounts/DiscountsById/DiscountsById";
 import { IDiscountsById } from "@/types/Discounts/discountById";
-
-export async function generateMetadata({ params: { id } }: any) {
-     const data = await getDiscountsById(id);
-
-  const title = data.promotion.name
-  return {
-    title: title,
-  };
-}
 
 async function delayedRequest(
   requestFunction: () => Promise<IDiscountsById>
@@ -24,10 +13,19 @@ async function delayedRequest(
 
 export default async function IDPage({ params: { id } }: any) {
   const data = await delayedRequest(() => getDiscountsById(id));
-  
+
   return (
     <>
-      <DiscountsById discount={data}/>
+      <DiscountsById discount={data} />
     </>
   );
+}
+
+export async function generateMetadata({ params: { id } }: any) {
+  const data = await getDiscountsById(id);
+
+  const title = data.promotion.name;
+  return {
+    title: title,
+  };
 }

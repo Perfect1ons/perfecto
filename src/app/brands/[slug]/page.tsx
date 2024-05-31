@@ -5,6 +5,22 @@ interface Params {
   params: { slug: string };
 }
 
+export default async function page({ params: { slug } }: Params) {
+  const id = parseInt(slug.split("-").pop() || "", 10);
+  const name = slug.split("-").slice(0, -1).join(" ");
+  const decodedName = decodeURIComponent(name);
+
+  const brandByNameData = await getBrandsByName(id);
+  return (
+    <BrandByName
+      path={decodedName}
+      id={id}
+      brand={brandByNameData}
+      name={decodedName}
+    />
+  );
+}
+
 export async function generateMetadata({ params: { slug } }: Params) {
   const id = parseInt(slug.split("-").pop() || "", 10);
   const name = slug.split("-").slice(0, -1).join(" ");
@@ -16,13 +32,4 @@ export async function generateMetadata({ params: { slug } }: Params) {
     keywords:
       "Оптом Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
   };
-}
-
-export default async function page({ params: { slug } }: Params) {
-  const id = parseInt(slug.split("-").pop() || "", 10);
-  const name = slug.split("-").slice(0, -1).join(" ");
-  const decodedName = decodeURIComponent(name);
-
-  const brandByNameData = await getBrandsByName(id);
-  return <BrandByName path={decodedName} id={id} brand={brandByNameData} name={decodedName} />;
 }
