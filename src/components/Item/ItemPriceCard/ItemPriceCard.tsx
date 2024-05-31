@@ -42,6 +42,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         console.error("Ошибка при копировании ссылки: ", err);
         setDropdownActive(false);
       });
+    setModal(true);
+    setTimeout(() => setModal(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
   const handleWhatsAppClick = () => {

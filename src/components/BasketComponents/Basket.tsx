@@ -50,6 +50,7 @@ const Basket = () => {
             <h1>Корзина</h1>
           </div>
           {data.cart.map((item) => {
+            const totalPrice = item.cenaok * (item?.quantity ?? 1);
             return (
               <div key={item.id_tov} className="default__card_column">
                 <div className="default__card_column_right">
@@ -94,7 +95,8 @@ const Basket = () => {
                 <div className="default__card_buttons_column">
                   <div className="default__card_buttons_column_price">
                     <span className="default__card_price">
-                      {item.cenaok.toLocaleString("ru-RU")}
+                      {totalPrice.toLocaleString("ru-RU")}
+
                       <span className="default__card_price_custom"> с</span>
                     </span>
                     <button

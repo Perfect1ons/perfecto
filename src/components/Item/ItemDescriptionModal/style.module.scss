@@ -34,7 +34,6 @@
   bottom: 0;
   transform: translateX(100%); // начальное положение за пределами экрана
   transition: transform 0.4s ease; // анимация с плавным переходом в течение 0.9 секунд
-  overflow-y: auto;
   max-width: 968px;
   &__container {
     padding: 15px 30px 15px;
@@ -101,14 +100,14 @@
   @include mixin.flex(null, null, column, 10px);
   padding: 0 30px 30px;
   height: 100%;
+  width: 100%;
+  overflow-y: auto;
 }
 .aboutProduct {
   font-size: 16px;
-  max-height: 100%;
-  max-height: 100%;
   color: var(--black);
   &__h3 {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     color: var(--dark);
     margin-bottom: 10px;
@@ -126,5 +125,26 @@
 @media screen and (max-width: 992px) {
   .wrapper {
     max-width: 100%;
+  }
+  .wrapper__containerFooter {
+    margin-bottom: 65px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .wrapper__container {
+    padding: 10px 20px;
+  }
+  .wrapper__containerFooter {
+    padding: 10px 20px 10px;
+  }
+  .aboutProductContainer {
+    padding: 0 20px 20px;
+  }
+  .characteristics {
+    display: none;
+  }
+  .aboutProduct__video iframe {
+    width: 100%;
+    height: auto;
   }
 }
