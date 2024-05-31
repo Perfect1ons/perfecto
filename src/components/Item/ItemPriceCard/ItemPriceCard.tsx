@@ -42,6 +42,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         console.error("Ошибка при копировании ссылки: ", err);
         setDropdownActive(false);
       });
+    setModal(true);
+    setTimeout(() => setModal(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
   const handleWhatsAppClick = () => {
@@ -66,6 +68,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     dispatch(addProductToCart(data));
     setAdded(true);
     setModal(true);
+    setTimeout(() => setModal(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
   const handleCartEmpty = () => {
@@ -111,7 +114,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
         </div>
         <div className={styles.ItemPriceCard__buttons}>
-          <UserInfoModal isOpen={modal}>
+          <UserInfoModal visible={modal}>
             Ваш товар добавлен в корзину. <br />
             Перейдите в корзину чтобы оформить заказ!
           </UserInfoModal>

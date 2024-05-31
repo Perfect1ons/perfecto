@@ -95,7 +95,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 <div className={styles.product__aboutTheProduct}>
                   Артикул:
                   <span className={styles.product__aboutTheProduct_span}></span>
-                  <div className={styles.product__aboutTheProduct_div}>
+                  <div
+                    className={styles.product__aboutTheProduct_div}
+                    onClick={() => handleCopyCode(data.art.toString())}
+                  >
                     <span>{data.art}</span>
                     <span
                       onClick={() => handleCopyCode(data.art.toString())}
@@ -104,7 +107,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                       <CopyIcon />
                     </span>
                   </div>
-                  <UserInfoModal isOpen={copiedCode}>
+                  <UserInfoModal visible={copiedCode}>
                     Код скопирован!
                   </UserInfoModal>
                 </div>
