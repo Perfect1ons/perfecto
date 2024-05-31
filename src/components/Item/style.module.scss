@@ -300,6 +300,7 @@
   }
   &__aboutTheProduct {
     @include mixin.flex(center, space-between, null, 5px);
+    @include mixin.font(14px, 400, 1.4, var(--dark));
     &_span {
       display: block;
       width: 100%;
@@ -412,18 +413,16 @@
   margin-top: 30px;
   text-decoration: none;
   color: var(--dark);
+  font-size: 14px;
   &_custom {
     cursor: pointer;
-
-    &:hover {
-      color: var(--violet);
-    }
+    color: var(--violet);
   }
 }
 
 .all__goods {
-  @include mixin.flex(flex-start, flex-start, column, 3px);
-  @include mixin.font(16px, 400, 100%, var(--dark));
+  @include mixin.flex(flex-start, flex-start, null, 3px);
+  @include mixin.font(14px, 400, 100%, var(--dark));
   margin-top: 5px;
   &_link {
     text-decoration: none;

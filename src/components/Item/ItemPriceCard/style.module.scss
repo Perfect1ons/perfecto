@@ -15,23 +15,23 @@
   }
   &__price {
    @include mixin.flex(center, null, null, 3px);
-    @include mixin.font(28px, 500, 100%, var(--dark));
+    @include mixin.font(28px, bold, 100%, var(--dark));
 
     &_custom {
-      @include mixin.font(18px, 600, 100%, var(--dark));
+      @include mixin.font(18px, bold, 100%, var(--dark));
       border-bottom: 2px solid var(--dark);
     }
     &_discount {
-      @include mixin.font(12px, 500, 100%, var(--dark));
+      @include mixin.font(14px, 500, 100%, var(--dark));
       background: var(--violet);
       color: var(--white);
       border-radius: 5px;
       padding: 3px;
     }
     &_new {
-      @include mixin.font(28px, 500, 100%, var(--violet));
+      @include mixin.font(28px, bold, 100%, var(--violet));
       &_custom{
-        @include mixin.font(28px, 500, 100%, var(--violet));
+        @include mixin.font(18px, bold, 100%, var(--violet));
         border-bottom: 2px solid var(--violet);
       }
     }
@@ -61,6 +61,7 @@
   &_cart {
     background: var(--dark-blue);
     padding: 15px 20px;
+    font-weight: bold;
     width: 100%;
     color: var(--white);
     border-radius: 5px;
@@ -73,6 +74,8 @@
   &_buy {
     padding: 15px 20px;
     width: 100%;
+    font-weight: bold;
+
     background: var(--violet);
     color: var(--white);
     border-radius: 5px;
