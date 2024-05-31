@@ -75,7 +75,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price_new}>
               {data.cenaok.toLocaleString("ru-RU")}
-              <span className={styles.ItemPriceCard__price_custom}>с</span>
+              <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </h2>
             <span className={styles.ItemPriceCard__price_discount}>
               -{data.discount_prc}%

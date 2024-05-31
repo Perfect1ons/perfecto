@@ -11,9 +11,11 @@
   }
   &__price {
    @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(28px, 500, 100%, var(--dark));
+
     &_custom {
-      @include mixin.font(18px, 600, 100%, var(--violet));
-      border-bottom: 2px solid var(--violet);
+      @include mixin.font(18px, 600, 100%, var(--dark));
+      border-bottom: 2px solid var(--dark);
     }
     &_discount {
       @include mixin.font(12px, 500, 100%, var(--dark));
@@ -24,6 +26,10 @@
     }
     &_new {
       @include mixin.font(28px, 500, 100%, var(--violet));
+      &_custom{
+        @include mixin.font(28px, 500, 100%, var(--violet));
+        border-bottom: 2px solid var(--violet);
+      }
     }
   }
   &__old_price {
