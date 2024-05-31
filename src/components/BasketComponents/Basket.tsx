@@ -15,15 +15,16 @@ import {
 import { useState } from "react";
 import { url } from "../temporary/data";
 import Link from "next/link";
+import CartReducerBtn from "../UI/CartReducerBtn/CartReducerBtn";
 const Basket = () => {
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const data = useSelector((store: RootState) => store.cart);
 
   return (
-    <div className={styles.container}>
+    <div className="container">
       {data.cart.length === 0 ? (
-        <section className={cn("container", styles.section)}>
+        <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
               className={cn("mascot_sprite", "mascot_sprite_empty_cart")}
@@ -55,7 +56,13 @@ const Basket = () => {
                   <div className="default__card_images_column">
                     <Image
                       className="default__card_image_column"
-                      src={`/img/undefinedPage.png`}
+                      src={
+                        item.photos[0].url_part.startsWith("https://goods")
+                          ? `${item.photos[0].url_part}280.jpg`
+                          : item.photos[0].url_part.startsWith("https://")
+                          ? item.photos[0].url_part
+                          : `${url}nal/img/${item.id_post}/l_${item.photos[0].url_part}`
+                      }
                       width={200}
                       height={200}
                       alt={item.naim}
@@ -111,20 +118,16 @@ const Basket = () => {
                       минимальное количество к заказу от {item.minQty} шт.
                     </h3>
                   ) : null}
-
                   <div className="add__to_cart_column">
                     <button
                       title="Добавить в корзину"
                       className="add__to_cart_column_button"
                       onClick={() => console.log("Добавлено в корзину")}
                     >
-                      <span className="add__to_cart_icon">
-                        <CartIcon />
-                      </span>
-                      В корзину
+                      Количество товара
                     </button>
                     <button className="add__to_cart_column_button column_buy">
-                      Купить
+                      {item.quantity}
                     </button>
                   </div>
                 </div>
