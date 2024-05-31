@@ -51,8 +51,8 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setIsOpen(!isOpen);
     toggleScrollLock();
   };
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(data.art.toString());
+  const handleCopyCode = (entryCode: string) => {
+    navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
   };
@@ -97,10 +97,13 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div
                     className={styles.product__aboutTheProduct_div}
-                    onClick={handleCopyCode}
+                    onClick={() => handleCopyCode(data.art.toString())}
                   >
                     <span>{data.art}</span>
-                    <span className={styles.product__aboutTheProduct_div_copy}>
+                    <span
+                      onClick={() => handleCopyCode(data.art.toString())}
+                      className={styles.product__aboutTheProduct_div_copy}
+                    >
                       <CopyIcon />
                     </span>
                   </div>
