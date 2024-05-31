@@ -6,6 +6,10 @@
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    margin-top: 10px;
+  }
   &__cost {
     @include mixin.flex(flex-end, null, null, 10px);
   }
