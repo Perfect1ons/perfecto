@@ -72,7 +72,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setAdded(false);
   };
 
-  // Рассчитать общую цену
   const totalPrice = data.cenaok * (product?.quantity ?? 1);
 
   return (
