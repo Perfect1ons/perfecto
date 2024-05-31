@@ -79,7 +79,7 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
                 : item.ddos;
 
           return (
-            <Link className="link" href={`/item/${item.art}/${item.url}`} key={item.id}>
+            <Link className="link" href={`/item/${item.id_tov}/${item.url}`} key={item.id}>
               <div
                 className="default__card"
               >

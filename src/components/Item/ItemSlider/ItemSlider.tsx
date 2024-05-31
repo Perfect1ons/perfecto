@@ -52,127 +52,146 @@ const ItemSlider = ({ photos }: IPhotosProps) => {
     setCleanHTML(sanitizedHTML);
   }, [photos.video]);
 
+  if (!photos || !photos.photos || photos.photos.length === 0) {
+    return (
+      <div className={styles.product__swipers}>
+        <Image
+          src="https://max.kg/images/xempty-photo.png.pagespeed.ic.VU5saRrMht.webp"
+          width={500}
+          height={500}
+          alt="No image available"
+        />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.product__swipers}>
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        slidesPerView={6}
-        direction={"vertical"}
-        spaceBetween={10}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className={clsx(styles.product__cards, "mySwiper")}
-      >
-        {photos.video && (
-          <SwiperSlide
-            className={styles.product__cards_item}
-            onMouseEnter={() => handleMouseEnter(0)}
+      {photos.photos.length > 0 ? (
+        <>
+          <Swiper
+            onSwiper={setThumbsSwiper}
+            slidesPerView={6}
+            direction={"vertical"}
+            spaceBetween={10}
+            freeMode={true}
+            watchSlidesProgress={true}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className={clsx(styles.product__cards, "mySwiper")}
           >
-            <div className={clsx(styles.product_preview, "thumb-actived")}>
-              <SmallVideoPreview />
-            </div>
-          </SwiperSlide>
-        )}
-        {photos.photos.map((photo, index) => (
-          <SwiperSlide
-            className={styles.product__cards_item}
-            key={index}
-            onMouseEnter={() =>
-              handleMouseEnter(photos.video ? index + 1 : index)
-            }
-          >
-            <Image
-              className={clsx(styles.product_preview, "thumb-actived")}
-              src={
-                photo.url_part.startsWith("https://goods")
-                  ? `${photo.url_part}280.jpg`
-                  : photo.url_part.startsWith("https://")
-                  ? photo.url_part
-                  : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
-              }
-              width={100}
-              height={100}
-              alt={photo.url_part}
-              loading="lazy"
-            />
-          </SwiperSlide>
-        ))}
-      </Swiper>
-      <Swiper
-        onSwiper={setMainSwiper}
-        keyboard={{
-          enabled: true,
-        }}
-        pagination={{
-          clickable: true,
-          type: "fraction",
-        }}
-        spaceBetween={10}
-        navigation={{
-          nextEl: ".swiper-button-next_card",
-          prevEl: ".swiper-button-prev_card",
-          disabledClass: "swiper-button-disabled",
-        }}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
-        className={styles.activeSlide}
-      >
-        {photos.video && (
-          <SwiperSlide className={styles.activeSlide} key={0}>
-            <div
-              dangerouslySetInnerHTML={{ __html: cleanHTML }}
-              className={styles.activeSlide_iframe}
-            ></div>
-          </SwiperSlide>
-        )}
-        {photos.photos.slice(0, 7).map((photo, index) => (
-          <SwiperSlide
-            key={photos.video ? index + 1 : index}
+            {photos.video && (
+              <SwiperSlide
+                className={styles.product__cards_item}
+                onMouseEnter={() => handleMouseEnter(0)}
+              >
+                <div className={clsx(styles.product_preview, "thumb-actived")}>
+                  <SmallVideoPreview />
+                </div>
+              </SwiperSlide>
+            )}
+            {photos.photos.map((photo, index) => (
+              <SwiperSlide
+                className={styles.product__cards_item}
+                key={index}
+                onMouseEnter={() =>
+                  handleMouseEnter(photos.video ? index + 1 : index)
+                }
+              >
+                <Image
+                  className={clsx(styles.product_preview, "thumb-actived")}
+                  src={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}280.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
+                  }
+                  width={100}
+                  height={100}
+                  alt={photo.url_part}
+                  loading="lazy"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <Swiper
+            onSwiper={setMainSwiper}
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+              type: "fraction",
+            }}
+            spaceBetween={10}
+            navigation={{
+              nextEl: ".swiper-button-next_card",
+              prevEl: ".swiper-button-prev_card",
+              disabledClass: "swiper-button-disabled",
+            }}
+            thumbs={{ swiper: thumbsSwiper }}
+            modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
             className={styles.activeSlide}
           >
-            <InnerImageZoom
-              width={500}
-              height={500}
-              src={
-                photo.url_part.startsWith("https://goods")
-                  ? `${photo.url_part}280.jpg`
-                  : photo.url_part.startsWith("https://")
-                  ? photo.url_part
-                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
-              }
-              zoomSrc={
-                photo.url_part.startsWith("https://goods")
-                  ? `${photo.url_part}280.jpg`
-                  : photo.url_part.startsWith("https://")
-                  ? photo.url_part
-                  : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
-              }
-              zoomType="hover"
-              zoomScale={1.7}
-              className={styles.product_img}
-            />
-          </SwiperSlide>
-        ))}
-        <button
-          className={clsx(
-            styles.sliderArrow,
-            styles.sliderArrow_left,
-            "swiper-button-prev_card"
-          )}
-        >
-          <SwiperPrevArrow />
-        </button>
-        <button
-          className={clsx(
-            styles.sliderArrow,
-            styles.sliderArrow_right,
-            "swiper-button-next_card"
-          )}
-        >
-          <SwiperNextArrow />
-        </button>
-      </Swiper>
+            {photos.video && (
+              <SwiperSlide className={styles.activeSlide} key={0}>
+                <div
+                  dangerouslySetInnerHTML={{ __html: cleanHTML }}
+                  className={styles.activeSlide_iframe}
+                ></div>
+              </SwiperSlide>
+            )}
+            {photos.photos.slice(0, 7).map((photo, index) => (
+              <SwiperSlide
+                key={photos.video ? index + 1 : index}
+                className={styles.activeSlide}
+              >
+                <InnerImageZoom
+                  width={500}
+                  height={500}
+                  src={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}280.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                  }
+                  zoomSrc={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}280.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                  }
+                  zoomType="hover"
+                  zoomScale={1.7}
+                  className={styles.product_img}
+                />
+              </SwiperSlide>
+            ))}
+            <button
+              className={clsx(
+                styles.sliderArrow,
+                styles.sliderArrow_left,
+                "swiper-button-prev_card"
+              )}
+            >
+              <SwiperPrevArrow />
+            </button>
+            <button
+              className={clsx(
+                styles.sliderArrow,
+                styles.sliderArrow_right,
+                "swiper-button-next_card"
+              )}
+            >
+              <SwiperNextArrow />
+            </button>
+          </Swiper>
+        </>
+      ) : (
+        <h1>hello</h1>
+      )}
     </div>
   );
 };
