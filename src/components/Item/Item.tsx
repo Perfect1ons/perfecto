@@ -8,7 +8,6 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
-import ItemVideo from "./ItemVideo/ItemVideo";
 import ProductReview from "./ProductReview/ProductReview";
 import { useEffect, useState } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
@@ -19,6 +18,7 @@ import { CopyIcon } from "../../../public/Icons/Icons";
 import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
+import ItemAccordion from "./ItemAccordion/ItemAccordion";
 
 interface IItemPageProps {
   data: Items;
@@ -57,6 +57,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setTimeout(() => setCopiedCode(false), 3000); // Скрыть уведомление через 3 секунды
   };
 
+  const matchingBreadCrumb = breadCrumbs.find(
+    (crumb) => crumb.id === data.id_cat
+  );
+
   return (
     <section className={styles.wrap}>
       {isOpen && (
@@ -70,17 +74,15 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          {breadCrumbs.map((crumbs) => {
-            return (
-              <Link
-                className="all__directions_link"
-                href={`/catalog/${crumbs.full_slug}`}
-                key={crumbs.id}
-              >
-                {crumbs.name}
-              </Link>
-            );
-          })}
+          {breadCrumbs.map((crumbs) => (
+            <Link
+              className="all__directions_link"
+              href={`/catalog/${crumbs.full_slug}`}
+              key={crumbs.id}
+            >
+              {crumbs.name}
+            </Link>
+          ))}
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
@@ -91,9 +93,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
-                <ItemDesc data={data} />
+                {data.description ? <ItemDesc data={data} /> : null}
                 <div className={styles.product__aboutTheProduct}>
-                  Артикул:
+                  Код:
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div
                     className={styles.product__aboutTheProduct_div}
@@ -111,17 +113,41 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                <ItemSpec data={data} />
+                {data.specification ? <ItemSpec data={data} /> : null}
+                {data.trademark ? (
+                  <Link
+                    className={styles.brand__link}
+                    href={`/brands/${data.trademark}-${data.trademark_id}`}
+                  >
+                    Бренд:{" "}
+                    <span className={styles.brand__link_custom}>
+                      {data.trademark}
+                    </span>
+                  </Link>
+                ) : null}
+                <h3 className={styles.all__goods}>
+                  Все товары категории:{" "}
+                  {matchingBreadCrumb ? (
+                    <Link
+                      className={styles.all__goods_link}
+                      href={`/catalog/${matchingBreadCrumb.full_slug}`}
+                    >
+                      {matchingBreadCrumb.name}
+                    </Link>
+                  ) : (
+                    "Категория не найдена"
+                  )}
+                </h3>
               </div>
-              <div>
+              <div className={styles.priceCard_wrap}>
                 <ItemPriceCard data={data} />
                 <ItemBanner />
               </div>
             </div>
           </div>
         </div>
-        {data.video && <ItemVideo video={data.video} />}
         <ProductReview data={data} func={openModal} />
+        <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
       <SeenProduct />

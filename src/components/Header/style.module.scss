@@ -13,7 +13,7 @@
   height: 72px;
   user-select: none;
   &__container {
-    // position: relative;
+    position: relative;
     height: 100%;
     @include mixin.flex(center, space-between, null, 30px);
     @media screen and (max-width: 992px) {
@@ -25,12 +25,7 @@
       max-width: 100%;
       width: 100%;
       @media screen and (max-width: 992px) {
-        display: none;
-        // justify-content: flex-end;
-        // align-items: center;
-        // padding-right: 10px;
-        // max-width: none;
-        // width: auto;
+        display: none !important;
       }
     }
   }
@@ -55,11 +50,6 @@
   }
 }
 
-.catalog_modal {
-  max-height: 42px;
-  height: 42px;
-}
-
 .catalog {
   user-select: none;
   text-decoration: none;
@@ -75,12 +65,20 @@
   transition: opacity 0.2s ease-in-out;
   gap: 5px;
 
+  &_modal {
+    max-height: 42px;
+    height: 42px;
+  }
+
   &:hover {
     background: var(--white);
   }
 
   @media screen and (max-width: 992px) {
     display: none;
+    &_modal {
+      display: none;
+    }
   }
 }
 

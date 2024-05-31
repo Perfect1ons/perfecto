@@ -5,9 +5,20 @@
   -webkit-tap-highlight-color: var(--tap-select);
 }
 
+table{
+  height: 150px !important;
+}
+
+td{
+  border: 1px solid black;
+}
+
 @media (min-width: 1440px) {
   p {
-    line-height: 1.2; /* Оставляем такое же значение */
+    line-height: 1.4; /* Оставляем такое же значение */
+  }
+  td{
+    line-height: 1.4;
   }
 }
 
@@ -537,13 +548,14 @@ body {
 }
 
 // !Для swiperrrrrrrrrrrrrrrrrrrrrrrrr
-.my-swiper-button-prev,
-.my-swiper-button-next {
+.swiper-button-prev,
+.swiper-button-next {
   transition: all 0.2s linear;
+  user-select: none !important;
 }
 
-.my-swiper-button-prev:active,
-.my-swiper-button-next:active {
+.swiper-button-prev:active,
+.swiper-button-next:active {
   scale: 0.8;
 }
 
@@ -587,6 +599,7 @@ body {
 
 .topten {
   margin-top: 10px;
+  margin-bottom: 10px;
   @media screen and (max-width: 480px) {
     margin-top: 0;
   }
@@ -620,3 +633,4 @@ body {
   max-width: 100%;
   width: 100%;
 }
+

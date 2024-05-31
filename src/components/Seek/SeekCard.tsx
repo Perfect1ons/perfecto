@@ -30,7 +30,11 @@ const imageUrl = useMemo(() => {
     return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
   }
 }, [cardData]);
-
+const maxLength = 52;
+const truncatedText =
+  cardData.ddos.length > maxLength
+    ? `${cardData.ddos.slice(0, maxLength)}...`
+    : cardData.ddos;
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -97,7 +101,7 @@ const imageUrl = useMemo(() => {
               height={20}
               alt="delivery_icon"
             />
-            <p className="ddos__text">{cardData.ddos}</p>
+            <p className="ddos__text">{truncatedText}</p>
           </div>
           <div className="add__to hoverEffects">
             <button

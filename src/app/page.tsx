@@ -50,9 +50,7 @@ const LazyTodaysBoughts = dynamic(
 );
 const LazyNews = dynamic(
   () => import("@/components/HomeComponents/News/News"),
-  {
-    ssr: false,
-  }
+
 );
 const LazyDiscounts = dynamic(
   () => import("@/components/HomeComponents/Discounts/Discounts"),
@@ -62,22 +60,14 @@ const LazyDiscounts = dynamic(
 );
 const LazyPromotion = dynamic(
   () => import("@/components/HomeComponents/Promotion/Promotion"),
-  {
-    ssr: false,
-  }
+
 );
 const LazyPopularGoods = dynamic(
   () => import("@/components/HomeComponents/PopularGoods/PopularGoods"),
-  {
-    ssr: false,
-  }
 );
 
 const LazyBrands = dynamic(
   () => import("@/components/HomeComponents/Brands/Brands"),
-  {
-    ssr: false,
-  }
 );
 
 export default async function Home() {

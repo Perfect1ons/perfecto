@@ -35,8 +35,8 @@ const BannerSwiper = ({ slides }: ISlide) => {
       spaceBetween={15}
       modules={[Pagination, Navigation, Autoplay]}
       navigation={{
-        nextEl: ".my-swiper-button-next",
-        prevEl: ".my-swiper-button-prev",
+        prevEl: ".swiper-button-prev_card",
+        nextEl: ".swiper-button-next_card",
         disabledClass: "swiper-button-disabled",
       }}
       className={clsx("customSwiper", styles.swiper)}
@@ -73,7 +73,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
         className={clsx(
           styles.sliderArrow,
           styles.sliderArrow_left,
-          "my-swiper-button-prev"
+          "swiper-button-prev_card"
         )}
       >
         <SwiperPrevArrow />
@@ -82,7 +82,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
         className={clsx(
           styles.sliderArrow,
           styles.sliderArrow_right,
-          "my-swiper-button-next"
+          "swiper-button-next_card"
         )}
       >
         <SwiperNextArrow />

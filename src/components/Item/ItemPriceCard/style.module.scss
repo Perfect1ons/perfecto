@@ -6,22 +6,34 @@
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    margin-top: 10px;
+  }
   &__cost {
     @include mixin.flex(flex-end, null, null, 10px);
   }
   &__price {
-    @include mixin.font(28px, 500, 100%, var(--dark));
-    @include mixin.flex(center, null, null, 3px);
+   @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(28px, bold, 100%, var(--dark));
+
     &_custom {
-      @include mixin.font(18px, 600, 100%, var(--dark));
+      @include mixin.font(18px, bold, 100%, var(--dark));
       border-bottom: 2px solid var(--dark);
     }
     &_discount {
-      @include mixin.font(12px, 500, 100%, var(--dark));
-      background: var(--dark-blue);
+      @include mixin.font(14px, 500, 100%, var(--dark));
+      background: var(--violet);
       color: var(--white);
       border-radius: 5px;
       padding: 3px;
+    }
+    &_new {
+      @include mixin.font(28px, bold, 100%, var(--violet));
+      &_custom{
+        @include mixin.font(18px, bold, 100%, var(--violet));
+        border-bottom: 2px solid var(--violet);
+      }
     }
   }
   &__old_price {
@@ -48,7 +60,8 @@
   margin-top: 15px;
   &_cart {
     background: var(--dark-blue);
-    padding: 15px 20px;
+    padding: 10px;
+    font-weight: bold;
     width: 100%;
     color: var(--white);
     border-radius: 5px;
@@ -59,8 +72,10 @@
     }
   }
   &_buy {
-    padding: 15px 20px;
+    padding: 10px;
     width: 100%;
+    font-weight: bold;
+
     background: var(--violet);
     color: var(--white);
     border-radius: 5px;
@@ -90,9 +105,9 @@
     @include mixin.flex(center, null, null, 5px);
 
     &_shareBtn {
-      @include mixin.flex(center, center, null, null);
+      @include mixin.flex(center, flex-start, null, null);
       position: relative;
-      padding: 10px;
+      padding: 5px 10px;
       cursor: pointer;
       border-radius: 5px;
       transition: 0.2s;

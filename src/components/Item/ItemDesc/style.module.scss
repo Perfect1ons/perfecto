@@ -7,7 +7,7 @@
       width: 100%;
      @include mixin.flex(flex-start, flex-start, column, 5px);
      &_desc {
-       @include mixin.font(16px, 500, null, var(--dark));
+       @include mixin.font(14px, 500, null, var(--dark));
      }
      &_text {
        @include mixin.font(14px, 400, null, var(--dark));

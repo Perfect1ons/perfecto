@@ -1,54 +1,35 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
+.product__aboutTheProduct {
+  &_wrap {
+    @include mixin.font(14px, 400, 120%, var(--dark));
+    max-height: 100px; // ограничение высоты блока текста
+    overflow: hidden; // скрытие переполнения текста
+    position: relative; // для абсолютного позиционирования псевдоэлемента
+    line-height: 1.4 !important;
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 70px; // высота градиентного затенения
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      // градиент от прозрачного к белому
+    }
+  }
 
-.product__aboutTheProduct{
-     &_wrap {
-       @include mixin.font(14px, 400, null, var(--gray-dark));
-       max-height: 150px;
-       overflow: hidden;
-       &_articul {
-         @include mixin.flex(center, space-between, null, 5px);
-         margin-left: 2px;
-         // border-bottom: 1px dashed #000;
-         &_span {
-           display: block;
-           width: 100%;
-           height: 20px;
-           left: 0;
-           bottom: 5px;
-           border-bottom: 1px dashed #d3d4dd;
-         }
-         &_div {
-           @include mixin.flex(center, center, null, 5px);
-           &_copy {
-             cursor: pointer;
-             &:hover {
-               color: var(--violet);
-             }
-           }
-         }
-         &_copied {
-           background: var(--dark);
-           @include mixin.font(16px, 500, null, var(--white));
-           padding: 10px 15px;
-           border-radius: 5px;
-           position: fixed;
-           left: 10px;
-           bottom: 10px;
-         }
-       }
-     }
-     &_button {
-       @include mixin.font(14px, 500, null, var(--light-blue));
-       cursor: pointer;
-       transition: 0.3;
-       &:hover {
-         color: var(--violet);
-       }
-     }
-     &_desc{
-       @include mixin.font(16px, 500, null, var(--dark));
-      margin-bottom: 5px;
-     }
-   }
- 
+  &_button {
+    @include mixin.font(14px, 500, null, var(--light-blue));
+    cursor: pointer;
+    transition: 0.3s;
+    &:hover {
+      color: var(--violet);
+    }
+  }
+
+  &_desc {
+    @include mixin.font(14px, 500, null, var(--dark));
+    margin-bottom: 5px;
+  }
+}

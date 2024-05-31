@@ -80,23 +80,28 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   return (
     <>
       <div className={styles.ItemPriceCard}>
-        <div className={styles.ItemPriceCard__cost}>
-          <h2 className={styles.ItemPriceCard__price}>
-            {totalPrice.toLocaleString("ru-RU")}
-            <span className={styles.ItemPriceCard__price_custom}>с</span>
-          </h2>
-          {data.discount_prc > 0 && (
+        {data.discount_prc > 0 ? (
+          <div className={styles.ItemPriceCard__cost}>
+            <h2 className={styles.ItemPriceCard__price_new}>
+              {totalPrice}
+              <span className={styles.ItemPriceCard__price_new_custom}>с</span>
+            </h2>
             <span className={styles.ItemPriceCard__price_discount}>
               -{data.discount_prc}%
             </span>
-          )}
-          {data.discount_prc > 0 && data.old_price > 0 && (
             <h2 className={styles.ItemPriceCard__old_price}>
               {data.old_price.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__old_price_custom}>с</span>
             </h2>
-          )}
-        </div>
+          </div>
+        ) : (
+          <div className={styles.ItemPriceCard__cost}>
+            <h2 className={styles.ItemPriceCard__price}>
+              {totalPrice}
+              <span className={styles.ItemPriceCard__price_custom}>с</span>
+            </h2>
+          </div>
+        )}
         <div className={styles.ItemPriceCard__ddos}>
           <div className={styles.ItemPriceCard__ddos_info}>
             <Image
@@ -113,6 +118,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           </div>
           <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
         </div>
+        {data.minQty > 1 ? (
+          <p className={styles.ItemPriceCard__minQty}>
+            минимальное количество к заказу от {data.minQty} шт.
+          </p>
+        ) : (
+          <span className={styles.ItemPriceCard__minQty_none}></span>
+        )}
         <div className={styles.ItemPriceCard__buttons}>
           <UserInfoModal visible={modal}>
             Ваш товар добавлен в корзину. <br />

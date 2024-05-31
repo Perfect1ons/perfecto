@@ -8,7 +8,7 @@ import { ISeasonCategory } from "@/types/seasonCategory";
 import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { IPopularGood, IPopularGoods } from "@/types/popularGoods";
+import { IPopularGood } from "@/types/popularGoods";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFooter } from "@/types/footerRequest";
@@ -22,22 +22,16 @@ import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
-import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
-});
-const maxkgz = ky.create({
-  prefixUrl: process.env.NEXT_PUBLIC_API,
-});
-const maxkgrev = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
-  next: { revalidate: 1800 },
+  next: { revalidate: 5 },
 });
 
+
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
-  return maxkgrev.get(`site/popular?page=${page}`).json();
+  return maxkg.get(`site/popular?page=${page}`).json();
 };
 
 export const getBrandsByName = (id: number): Promise<IBrandByName> => {
@@ -77,7 +71,7 @@ export const getProductsSortsBrand = (
 };
 //max.kg/api/catalog/28631?page=1&VNaltovaroksearch[brand]=Asus
 export const getBannerData = (): Promise<IBanner> => {
-  return maxkgrev.get("baner?pageSize=20&page=1").json();
+  return maxkg.get("baner?pageSize=20&page=1").json();
 };
 
 export const getPromotion = (): Promise<IPromotion[]> => {
@@ -104,7 +98,7 @@ export const getBrandsData = (): Promise<IBrands> => {
 };
 
 export const getBoughts = (page: number): Promise<IBoughts> => {
-  return maxkgrev.get(`site/lastz?page=${page}`).json();
+  return maxkg.get(`site/lastz?page=${page}`).json();
 };
 
 export const getDiscounts = (): Promise<IDiscounts[]> => {

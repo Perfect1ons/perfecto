@@ -12,6 +12,7 @@ import {
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import Link from "next/link";
+import { truncateText } from "@/utils/utils";
 
 interface IcardDataProps {
   cardData: NewsResult;
@@ -53,6 +54,10 @@ const Cards = ({ cardData }: IcardDataProps) => {
     setRating(Math.floor(cardData.ocenka));
   }, [cardData.ocenka]);
 
+  const maxLength = 52;
+  const truncatedText = truncateText(cardData.naim, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLength);
+
   return (
     <Link className="link" href={`/item/${cardData.id_tov}/${cardData.url}`}>
       <div className="default__card">
@@ -88,7 +93,7 @@ const Cards = ({ cardData }: IcardDataProps) => {
               <span className="default__card_price_custom"> с</span>
             </h3>
           )}
-          <h2 className="default__card_name">{cardData.naim}</h2>
+          <h2 className="default__card_name">{truncatedText}</h2>
           <div className="ocenka">
             {[...Array(5)].map((_, index) => (
               <span key={index}>
@@ -103,7 +108,7 @@ const Cards = ({ cardData }: IcardDataProps) => {
               height={20}
               alt="delivery_icon"
             />
-            <p className="ddos__text">{cardData.ddos}</p>
+            <p className="ddos__text">{truncatedDdos}</p>
           </div>
           <div className="add__to">
             <button
