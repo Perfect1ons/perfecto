@@ -20,6 +20,8 @@ import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import OrderModal from "../OrderModal/OrderModal";
+import Link from "next/link";
+
 
 interface IPriceProps {
   data: Items;
@@ -81,9 +83,12 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
   const handleCartEmpty = () => {
     setAdded(false);
   };
+  const closeModalCart = () => {
+    setModal(false);
+  };
 
   return (
-    <>
+    <section className={styles.section_wrap}>
       <div className={styles.ItemPriceCard}>
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
@@ -131,9 +136,12 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
           <span className={styles.ItemPriceCard__minQty_none}></span>
         )}
         <div className={styles.ItemPriceCard__buttons}>
-          <UserInfoModal visible={modal}>
+          <UserInfoModal visible={modal} onClose={closeModalCart}>
             Ваш товар добавлен в корзину. <br />
-            Перейдите в корзину чтобы оформить заказ!
+            Перейдите в корзину чтобы оформить заказ!{" "}
+            <Link className={styles.linkCart} href={"/cart"}>
+              Перейти в корзину
+            </Link>
           </UserInfoModal>
           {!product?.quantity && (
             <button
@@ -215,7 +223,7 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 

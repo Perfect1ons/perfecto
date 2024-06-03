@@ -63,6 +63,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setCopiedCode(true);
     setTimeout(() => setCopiedCode(false), 5000); // Скрыть уведомление через 3 секунды
   };
+  const closeModalCode = () => {
+    setCopiedCode(false);
+  };
 
   const matchingBreadCrumb = breadCrumbs.find(
     (crumb) => crumb.id === data.id_cat
@@ -99,7 +102,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            {data ? <ItemSlider photos={data} /> : <h1>hello</h1>}
+            <ItemSlider photos={data} toggleScrollLock={toggleScrollLock} />
           </div>
           <div className={styles.item__preview_info}>
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
@@ -122,7 +125,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                       <CopyIcon />
                     </span>
                   </div>
-                  <UserInfoModal visible={copiedCode}>
+                  <UserInfoModal visible={copiedCode} onClose={closeModalCode}>
                     Код скопирован!
                   </UserInfoModal>
                 </div>

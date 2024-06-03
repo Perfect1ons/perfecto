@@ -62,10 +62,6 @@
     min-width: 60px !important;
     user-select: none;
     @media screen and (max-width: 992px) {
-      // margin-bottom: 10px;
-      // flex-direction: row;
-      // align-items: center;
-      // gap: 10px;
       display: none !important;
     }
   }
@@ -92,7 +88,6 @@
     @include mixin.flex(null, null, column, 10px);
   }
   &_info__title {
-    // margin-bottom: 15px;
     @include mixin.font(1.125rem, 500, null, var(--gray-dark));
   }
   &_info__articul {
@@ -371,12 +366,15 @@
       &_block {
         width: 100%;
       }
+      @media screen and (max-width: 1410px) {
+        @include mixin.flex(center, flex-start, column, 10px);
+      }
       @media screen and (max-width: 670px) {
         @include mixin.flex(center, flex-start, column, 10px);
       }
     }
   }
-  @media screen and (max-width: 992px) {
+  @media screen and (max-width: 1024px) {
     @include mixin.flex(center, space-between, column, 25px);
   }
 }
@@ -384,6 +382,13 @@
 .priceCard_wrap {
   @include mixin.flex(center, null, column, null);
   width: 100%;
+
+  @media screen and (max-width: 1410px) {
+    @include mixin.flex(flex-start, space-around, column, null);
+  }
+  @media screen and (max-width: 1024px) {
+    @include mixin.flex(center, space-around, column, null);
+  }
 }
 
 .brand__link {
@@ -429,5 +434,18 @@
     text-decoration: none;
     color: var(--violet);
     border-bottom: 2px solid dashed;
+  }
+}
+
+.pricedCard_img {
+  height: 143px;
+  width: 344px;
+  margin: 25px 0;
+  box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  img {
+    height: 100%;
+    width: 100%;
   }
 }

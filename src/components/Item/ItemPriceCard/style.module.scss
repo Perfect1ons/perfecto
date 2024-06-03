@@ -1,5 +1,11 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
+.section_wrap {
+  // max-width: 386px;
+  width: 100%;
+  @include mixin.flex(flex-start, center, column);
+}
+
 .ItemPriceCard {
   user-select: none;
   max-width: 344px;
@@ -85,6 +91,10 @@
       background: #811f48;
     }
   }
+}
+.linkCart {
+  text-decoration: underline;
+  color: var(--white);
 }
 
 .ItemPriceCard__salesman {
