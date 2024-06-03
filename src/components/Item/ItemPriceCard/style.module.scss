@@ -3,7 +3,7 @@
 .section_wrap {
   // max-width: 386px;
   width: 100%;
-  @include mixin.flex(flex-start, center, column);
+  @include mixin.flex(center, center, column, 15px);
 }
 
 .ItemPriceCard {
@@ -107,8 +107,7 @@
   }
 }
 .shareIcon {
-  @include mixin.flex(center, center, null, 5px);
-  width: 100%;
+  @include mixin.flex(center, null, null, 5px);
 }
 .share {
   position: relative;
