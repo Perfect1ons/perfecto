@@ -8,7 +8,7 @@ import {
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { url } from "@/components/temporary/data";
 import cn from "clsx";
 import Link from "next/link";
@@ -19,35 +19,33 @@ interface ISimilarProps {
 
 const SimilarProducts = ({ similar }: ISimilarProps) => {
   const [rating, setRating] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
-    // Проверяем, доступен ли localStorage (только на клиентской стороне)
     const isLocalStorageAvailable =
       typeof window !== "undefined" && window.localStorage;
 
-    // Используем localStorage только если он доступен
     if (isLocalStorageAvailable) {
-      const favoriteStatus = localStorage.getItem(
-        similar.map((item) => item.id).toString()
-      );
-      setIsFavorite(favoriteStatus === "true");
+      const initialFavorites: { [key: number]: boolean } = {};
+      similar.forEach((item) => {
+        const favoriteStatus = localStorage.getItem(item.id.toString());
+        initialFavorites[item.id] = favoriteStatus === "true";
+      });
+      setFavorites(initialFavorites);
     }
   }, [similar]);
 
-  const handleFavoriteClick = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      // Проверяем, доступен ли localStorage (только на клиентской стороне)
+  const handleFavoriteClick = (id: number, event: React.MouseEvent) => {
+    event.stopPropagation();
+    event.preventDefault();
+    setFavorites((prevFavorites) => {
+      const newFavorites = { ...prevFavorites, [id]: !prevFavorites[id] };
       const isLocalStorageAvailable =
         typeof window !== "undefined" && window.localStorage;
       if (isLocalStorageAvailable) {
-        localStorage.setItem(
-          similar.map((item) => item.id).toString(),
-          newIsFavorite.toString()
-        );
+        localStorage.setItem(id.toString(), newFavorites[id].toString());
       }
-      return newIsFavorite;
+      return newFavorites;
     });
   };
 
@@ -76,75 +74,75 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
               : item.ddos;
 
           return (
-            // <Link
-            //   className="link"
-            //   href={`/item/${item.id_tov}/${item.url}`}
-            //   key={item.id}
-            // >
-            <div key={item.id} className="default__card">
-              <div className="default__card_images">
-                <Image
-                  className="default__card_image"
-                  src={imageUrls}
-                  width={200}
-                  height={200}
-                  alt={item.naim}
-                  quality={100}
-                  loading="lazy"
-                />
-              </div>
-              <div className="default__card_info">
-                <span className="default__card_price">
-                  {item.cenaok.toLocaleString("ru-RU")}
-                  <span className="default__card_price_custom"> с</span>
-                </span>
-                <h2 className="default__card_name">{item.naim}</h2>
-                <div className="ocenka">
-                  {[...Array(5)].map((_, index) => (
-                    <span key={index}>
-                      {index < rating ? <YellowStar /> : <GrayStar />}
-                    </span>
-                  ))}
-                </div>
-                <div className="ddos">
+            <Link
+              className="link"
+              href={`/item/${item.id_tov}/${item.url}`}
+              key={item.id}
+            >
+              <div key={item.id} className="default__card">
+                <div className="default__card_images">
                   <Image
-                    src={`${url}images/delivery_icon.svg`}
-                    width={20}
-                    height={20}
-                    alt="delivery_icon"
+                    className="default__card_image"
+                    src={imageUrls}
+                    width={200}
+                    height={200}
+                    alt={item.naim}
+                    quality={100}
+                    loading="lazy"
                   />
-                  <p className="ddos__text">{truncatedText}</p>
                 </div>
-                <div className="add__to">
-                  <button
-                    title="Добавить в корзину"
-                    className="add__to_cart"
-                    onClick={() => console.log("Добавлено в корзину")}
-                  >
-                    <span className="add__to_cart_icon">
-                      <CartIcon />
-                    </span>
-                    В корзину
-                  </button>
-                  <button
-                    title="Добавить в избранное"
-                    className={cn("add__to_fav", {
-                      ["add__to_fav_active"]: isFavorite,
-                    })}
-                    onClick={handleFavoriteClick}
-                  >
-                    <span className="add__to_fav_icon">
-                      {isFavorite ? (
-                        <VioletFavoritesIcon />
-                      ) : (
-                        <GrayFavoritesIcon />
-                      )}
-                    </span>
-                  </button>
+                <div className="default__card_info">
+                  <span className="default__card_price">
+                    {item.cenaok.toLocaleString("ru-RU")}
+                    <span className="default__card_price_custom"> с</span>
+                  </span>
+                  <h2 className="default__card_name">{item.naim}</h2>
+                  <div className="ocenka">
+                    {[...Array(5)].map((_, index) => (
+                      <span key={index}>
+                        {index < rating ? <YellowStar /> : <GrayStar />}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="ddos">
+                    <Image
+                      src={`${url}images/delivery_icon.svg`}
+                      width={20}
+                      height={20}
+                      alt="delivery_icon"
+                    />
+                    <p className="ddos__text">{truncatedText}</p>
+                  </div>
+                  <div className="add__to">
+                    <button
+                      title="Добавить в корзину"
+                      className="add__to_cart"
+                      onClick={() => console.log("Добавлено в корзину")}
+                    >
+                      <span className="add__to_cart_icon">
+                        <CartIcon />
+                      </span>
+                      В корзину
+                    </button>
+                    <button
+                      title="Добавить в избранное"
+                      className={cn("add__to_fav", {
+                        ["add__to_fav_active"]: favorites[item.id],
+                      })}
+                      onClick={(event) => handleFavoriteClick(item.id, event)}
+                    >
+                      <span className="add__to_fav_icon">
+                        {favorites[item.id] ? (
+                          <VioletFavoritesIcon />
+                        ) : (
+                          <GrayFavoritesIcon />
+                        )}
+                      </span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            // </Link>
+            </Link>
           );
         })}
       </div>

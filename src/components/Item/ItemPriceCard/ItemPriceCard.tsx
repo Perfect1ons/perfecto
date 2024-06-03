@@ -22,7 +22,6 @@ import { RootState } from "@/store";
 import OrderModal from "../OrderModal/OrderModal";
 import Link from "next/link";
 
-
 interface IPriceProps {
   data: Items;
   func: () => void;
@@ -38,6 +37,7 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
 
   const [modal, setModal] = useState(false);
   const [added, setAdded] = useState(false);
+  const [favorite, setFavorite] = useState(false);
 
   const [copy, setCopy] = useState(false);
 
@@ -78,6 +78,9 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
     setAdded(true);
     setModal(true);
     setTimeout(() => setModal(false), 5000);
+  };
+  const handleFavoriteClick = () => {
+    setFavorite(!favorite);
   };
 
   const handleCartEmpty = () => {
@@ -168,16 +171,18 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
           </h3>
         </div>
       </div>
-      <div className={styles.share}>
-        <UserInfoModal visible={copy}>
-          Ссылка скопирована! <br />
-        </UserInfoModal>
+      <div className={styles.shareIcon}>
         <div className={styles.share_btnControl}>
           <button
-            onClick={handleDropdown}
-            className={styles.share_btnControl_shareBtn}
+            title="Добавить в избранное"
+            className={cn("add__to_fav", {
+              ["add__to_fav_active"]: favorite,
+            })}
+            onClick={handleFavoriteClick}
           >
-            <ShareIcon />
+            <span className="add__to_fav_icon">
+              {favorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+            </span>
           </button>
           <span
             className={cn(
@@ -185,41 +190,62 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
               dropdownActive && styles.share_btnControl_info_active
             )}
           >
-            Поделиться
+            Добавить в избранное
           </span>
         </div>
-        <div
-          className={cn(
-            styles.share_shareDropdown,
-            dropdownActive && styles.share_shareDropdown_active
-          )}
-        >
-          <div
-            onClick={handleTelegramClick}
-            className={styles.share_shareDropdown_tg}
-          >
-            <TgIcon />
-            <button className={styles.share_shareDropdown_tg_btn}>
-              Telegram
+        <div className={styles.share}>
+          <div className={styles.share_btnControl}>
+            <button
+              onClick={handleDropdown}
+              className={cn(
+                styles.share_btnControl_shareBtn,
+                dropdownActive && styles.share_btnControl_shareBtn_active
+              )}
+            >
+              <ShareIcon />
             </button>
+            <span
+              className={cn(
+                styles.share_btnControl_info,
+                dropdownActive && styles.share_btnControl_info_active
+              )}
+            >
+              Поделиться
+            </span>
           </div>
           <div
-            onClick={handleWhatsAppClick}
-            className={styles.share_shareDropdown_wh}
+            className={cn(
+              styles.share_shareDropdown,
+              dropdownActive && styles.share_shareDropdown_active
+            )}
           >
-            <WhIcon />
-            <button className={styles.share_shareDropdown_wh_btn}>
-              WhatsApp
-            </button>
-          </div>
-          <div
-            onClick={() => handleCopyLink(window.location.href)}
-            className={styles.share_shareDropdown_copy}
-          >
-            <CopyIcon />
-            <button className={styles.share_shareDropdown_copy_btn}>
-              Скопировать ссылку
-            </button>
+            <div
+              onClick={handleTelegramClick}
+              className={styles.share_shareDropdown_tg}
+            >
+              <TgIcon />
+              <button className={styles.share_shareDropdown_tg_btn}>
+                Telegram
+              </button>
+            </div>
+            <div
+              onClick={handleWhatsAppClick}
+              className={styles.share_shareDropdown_wh}
+            >
+              <WhIcon />
+              <button className={styles.share_shareDropdown_wh_btn}>
+                WhatsApp
+              </button>
+            </div>
+            <div
+              onClick={() => handleCopyLink(window.location.href)}
+              className={styles.share_shareDropdown_copy}
+            >
+              <CopyIcon />
+              <button className={styles.share_shareDropdown_copy_btn}>
+                Скопировать ссылку
+              </button>
+            </div>
           </div>
         </div>
       </div>
