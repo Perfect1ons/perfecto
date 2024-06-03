@@ -3,10 +3,12 @@
 .section_wrap {
   // max-width: 386px;
   width: 100%;
-  @include mixin.flex(flex-start, center, column);
+  @include mixin.flex(center, center, column, 15px);
 }
 
 .ItemPriceCard {
+  user-select: none;
+  max-width: 344px;
   width: 100%;
   background: var(--light-white);
   border-radius: 10px;
@@ -104,13 +106,13 @@
     }
   }
 }
-
+.shareIcon {
+  @include mixin.flex(center, null, null, 5px);
+}
 .share {
   position: relative;
-  margin-top: 10px;
 
   &_btnControl {
-    width: 10px;
     @include mixin.flex(center, null, null, 5px);
 
     &_shareBtn {
