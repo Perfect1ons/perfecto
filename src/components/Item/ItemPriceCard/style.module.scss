@@ -1,6 +1,13 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
+.section_wrap {
+  // max-width: 386px;
+  width: 100%;
+  @include mixin.flex(flex-start, center, column);
+}
+
 .ItemPriceCard {
+  user-select: none;
   max-width: 344px;
   width: 100%;
   background: var(--light-white);
@@ -14,7 +21,7 @@
     @include mixin.flex(flex-end, null, null, 10px);
   }
   &__price {
-    @include mixin.flex(center, null, null, null);
+    @include mixin.flex(center, null, null, 3px);
     @include mixin.font(28px, bold, 100%, var(--dark));
 
     &_custom {

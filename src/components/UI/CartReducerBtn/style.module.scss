@@ -2,7 +2,7 @@
 .btn {
   @include mixin.flex(center, space-between, null, null);
   background: var(--dark-blue);
-  padding: 10px 20px;
+  padding: 7.1px 10px;
   width: 100%;
   color: var(--white);
   border-radius: 5px;
