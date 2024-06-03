@@ -382,7 +382,7 @@
 }
 
 .priceCard_wrap {
-  @include mixin.flex(center, null, column, null);
+  @include mixin.flex(center, null, column, 15px);
   width: 100%;
 }
 

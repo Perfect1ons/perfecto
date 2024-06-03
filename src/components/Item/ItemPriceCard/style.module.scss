@@ -99,13 +99,14 @@
     }
   }
 }
-
+.shareIcon {
+  @include mixin.flex(center, center, null, 5px);
+  width: 100%;
+}
 .share {
   position: relative;
-  margin-top: 10px;
 
   &_btnControl {
-    width: 10px;
     @include mixin.flex(center, null, null, 5px);
 
     &_shareBtn {
