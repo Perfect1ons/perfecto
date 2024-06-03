@@ -16,6 +16,7 @@ import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
+import Link from "next/link";
 
 interface IPriceProps {
   data: Items;
@@ -74,6 +75,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const handleCartEmpty = () => {
     setAdded(false);
   };
+  const closeModalCart = () => {
+    setModal(false);
+  };
 
   const totalPrice = data.cenaok * (product?.quantity ?? 1);
 
@@ -83,7 +87,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price_new}>
-              {totalPrice}
+              {totalPrice.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </h2>
             <span className={styles.ItemPriceCard__price_discount}>
@@ -97,7 +101,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         ) : (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price}>
-              {totalPrice}
+              {totalPrice.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_custom}>с</span>
             </h2>
           </div>
@@ -126,9 +130,12 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <span className={styles.ItemPriceCard__minQty_none}></span>
         )}
         <div className={styles.ItemPriceCard__buttons}>
-          <UserInfoModal visible={modal}>
+          <UserInfoModal visible={modal} onClose={closeModalCart}>
             Ваш товар добавлен в корзину. <br />
-            Перейдите в корзину чтобы оформить заказ!
+            Перейдите в корзину чтобы оформить заказ!{" "}
+            <Link className={styles.linkCart} href={"/cart"}>
+              Перейти в корзину
+            </Link>
           </UserInfoModal>
           {!product?.quantity && (
             <button

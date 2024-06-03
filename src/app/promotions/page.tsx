@@ -3,12 +3,6 @@ import AllPromo from "@/components/HomeComponents/Promotion/AllPromo/AllPromo";
 import { generatePageMetadata } from "@/utils/metadata";
 import { Suspense } from "react";
 
-export async function generateMetadata() {
-  return generatePageMetadata(getMetaPromoPage);
-}
-
-
-
 export default async function promotions() {
   const delayedPromotionData = await getPromotion();
   return (
@@ -16,4 +10,8 @@ export default async function promotions() {
       <AllPromo allpromo={delayedPromotionData} />
     </Suspense>
   );
+}
+
+export async function generateMetadata() {
+  return generatePageMetadata(getMetaPromoPage);
 }
