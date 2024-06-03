@@ -1,0 +1,74 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.modal {
+  position: relative;
+  @include mixin.flex(null, center, null, null);
+  margin: 0 auto;
+}
+.wrap {
+  @include mixin.flex(center, null, column, null);
+  position: fixed;
+  background: var(--white);
+  z-index: 200;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 25px;
+  padding-right: 5px;
+  border-radius: 5px;
+  top: 35px;
+
+  &_nav {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding-right: 15px;
+    width: 100%;
+    @include mixin.flex(center, space-between, null, null);
+    &_title {
+      user-select: none;
+      @include mixin.font(1.125rem, 500, null, var(--dark));
+      align-self: flex-start;
+    }
+    &_cross {
+      cursor: pointer;
+      color: var(--secondary-gray);
+      &:hover {
+        color: var(--dark);
+      }
+    }
+    @media screen and (max-width: 576px) {
+      margin: 0;
+    }
+  }
+
+  &_product {
+    margin-right: 10px;
+    margin-top: 5px;
+    align-self: flex-start;
+    @include mixin.flex(center, center, null, 10px);
+    &_imageContainer {
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 5px;
+      &_productImage {
+        user-select: none;
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    &_info {
+      &_name {
+        @include mixin.font(1rem, 400, null, var(--dark));
+        max-width: 350px;
+      }
+    }
+    &_price {
+      @include mixin.flex(center, null, null, 5px);
+      @include mixin.font(18px, 700, null, var(--dark));
+      &_cost {
+        @include mixin.font(1rem, 700, 100%, var(--dark));
+        border-bottom: 2px solid var(--dark);
+      }
+    }
+  }
+}

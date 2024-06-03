@@ -1,6 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .ItemPriceCard {
+  user-select: none;
   max-width: 344px;
   width: 100%;
   background: var(--light-white);
@@ -14,7 +15,7 @@
     @include mixin.flex(flex-end, null, null, 10px);
   }
   &__price {
-   @include mixin.flex(center, null, null, 3px);
+    @include mixin.flex(center, null, null, 3px);
     @include mixin.font(28px, bold, 100%, var(--dark));
 
     &_custom {
@@ -30,7 +31,7 @@
     }
     &_new {
       @include mixin.font(28px, bold, 100%, var(--violet));
-      &_custom{
+      &_custom {
         @include mixin.font(18px, bold, 100%, var(--violet));
         border-bottom: 2px solid var(--violet);
       }
