@@ -1,10 +1,12 @@
 "use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import clsx from "clsx";
+
 import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
-import { useEffect, useState } from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -18,16 +20,18 @@ import {
   Keyboard,
   Pagination,
 } from "swiper/modules";
+
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import {
+  PlusIcon,
   SmallVideoPreview,
   SwiperNextArrow,
   SwiperPrevArrow,
 } from "../../../../public/Icons/Icons";
-import ItemVideo from "../ItemVideo/ItemVideo";
 import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface IPhotosProps {
   photos: Items;
@@ -38,6 +42,8 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
+
+  const isZoomEnabled = useMediaQuery("(min-width: 992px)");
 
   const handleMouseEnter = (index: number) => {
     if (mainSwiper) {
@@ -134,6 +140,15 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               />
             </SwiperSlide>
           ))}
+          <SwiperSlide
+            className={clsx(
+              styles.product__cards_item,
+              styles.little_show_more
+            )}
+            onClick={modalSliderOpenOrClose}
+          >
+            <PlusIcon />
+          </SwiperSlide>
         </Swiper>
         <div className={styles.mainSwiperWrap}>
           <Swiper
@@ -168,29 +183,48 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                 key={photos.video ? index + 1 : index}
                 className={styles.activeSlide}
               >
-                <InnerImageZoom
-                  width={500}
-                  height={500}
-                  src={
-                    photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}280.jpg`
-                      : photo.url_part.startsWith("https://")
-                      ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
-                  }
-                  zoomSrc={
-                    photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}280.jpg`
-                      : photo.url_part.startsWith("https://")
-                      ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
-                  }
-                  zoomType="hover"
-                  zoomScale={1.7}
-                  className={styles.product_img}
-                />
+                {isZoomEnabled ? (
+                  <InnerImageZoom
+                    width={500}
+                    height={500}
+                    src={
+                      photo.url_part.startsWith("https://goods")
+                        ? `${photo.url_part}280.jpg`
+                        : photo.url_part.startsWith("https://")
+                        ? photo.url_part
+                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                    }
+                    zoomSrc={
+                      photo.url_part.startsWith("https://goods")
+                        ? `${photo.url_part}280.jpg`
+                        : photo.url_part.startsWith("https://")
+                        ? photo.url_part
+                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                    }
+                    zoomType="hover"
+                    zoomScale={1.7}
+                    className={styles.product_img}
+                  />
+                ) : (
+                  <Image
+                    width={500}
+                    height={500}
+                    src={
+                      photo.url_part.startsWith("https://goods")
+                        ? `${photo.url_part}280.jpg`
+                        : photo.url_part.startsWith("https://")
+                        ? photo.url_part
+                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                    }
+                    alt={photo.url_part}
+                    className={styles.product_img}
+                  />
+                )}
               </SwiperSlide>
             ))}
+            <button className={styles.seeAll} onClick={modalSliderOpenOrClose}>
+              Посмотреть все
+            </button>
             <button
               className={clsx(
                 styles.sliderArrow,
@@ -210,12 +244,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               <SwiperNextArrow />
             </button>
           </Swiper>
-          <button
-            className={styles.mainSwiperWrap_btn}
-            onClick={modalSliderOpenOrClose}
-          >
-            Посмотреть больше
-          </button>
         </div>
       </div>
     </>

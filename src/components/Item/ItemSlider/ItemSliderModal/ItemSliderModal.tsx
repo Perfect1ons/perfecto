@@ -37,7 +37,7 @@ const ItemSliderModal = ({ photos, isOpen, closeModal }: IReviewModal) => {
 
         <ul className={styles.ul}>
           {photos.photos.map((photo, index) => (
-            <li key={index}>
+            <li className={styles.li} key={index}>
               <Image
                 src={
                   photo.url_part.startsWith("https://goods")

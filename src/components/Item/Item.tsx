@@ -141,7 +141,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               </div>
               <div className={styles.priceCard_wrap}>
                 <ItemPriceCard data={data} />
-                <ItemBanner />
+                <div className={styles.pricedCard_img}>
+                  <ItemBanner />
+                </div>
               </div>
             </div>
           </div>

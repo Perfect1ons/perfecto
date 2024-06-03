@@ -78,7 +78,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const totalPrice = data.cenaok * (product?.quantity ?? 1);
 
   return (
-    <>
+    <section className={styles.section_wrap}>
       <div className={styles.ItemPriceCard}>
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
@@ -208,7 +208,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
 
