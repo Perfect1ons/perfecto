@@ -7,6 +7,8 @@
 }
 
 .ItemPriceCard {
+  user-select: none;
+  max-width: 344px;
   width: 100%;
   background: var(--light-white);
   border-radius: 10px;
