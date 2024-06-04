@@ -1,3 +1,5 @@
+import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
+
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
@@ -46,4 +48,8 @@ export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
 
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });
+};
+
+export const postRating = (ocenka: IOcenka) => {
+  return maxkg.post("otz/set-ocenka", { json: ocenka });
 };

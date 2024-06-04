@@ -39,7 +39,7 @@ const cartSlice = createSlice({
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
       if (product && product.quantity) {
-        const minQty = product.minQty || 1; // Используем 1, если minQty отсутствует
+        const minQty = product.minQty || 1;
         if (product.quantity > minQty) {
           product.quantity -= 1;
         } else if (product.quantity === minQty) {

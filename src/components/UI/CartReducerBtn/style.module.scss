@@ -22,6 +22,15 @@
       background: var(--light-gray);
     }
   }
+  &_screen {
+    text-align: center;
+    color: var(--white);
+    width: 50px;
+    border-radius: 5px;
+    &:focus {
+      border: 1px solid var(--white);
+    }
+  }
   &_right {
     cursor: pointer;
     @include mixin.flex(center, center, null, null);
