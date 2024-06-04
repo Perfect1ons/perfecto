@@ -20,7 +20,7 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
     new Date().getFullYear()
   );
   const isMobile = useMediaQuery("(max-width: 1200px)");
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     setIsOpen(!isMobile);
@@ -70,13 +70,17 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                     const url = podItem.url.startsWith("https://")
                       ? podItem.url
                       : `/page/${podItem.url}`;
-                    
+
                     return (
                       <div
                         key={podItem.id}
                         className={styles.footerNavItemLinks}
                       >
-                        <Link onClick={()=>router.push(url)} className={styles.footerNavItemLink} href={url}>
+                        <Link
+                          onClick={() => router.push(url)}
+                          className={styles.footerNavItemLink}
+                          href={url}
+                        >
                           {podItem.naim}
                         </Link>
                       </div>
@@ -107,39 +111,54 @@ const FooterSection = ({ links }: IFooterSectionProps) => {
                     alt="footerArrow"
                   />
                 </div>
-                <div
-                  className={cn(
-                    styles.footerNavItemContainer,
-                    !isOpen && styles.hidden
-                  )}
-                >
-                  {item.pod_menu.map((podItem) => {
-                    const url = podItem.url.startsWith("https://")
-                      ? podItem.url
-                      : `/page/${podItem.url}`;
+                {isOpen && (
+                  <div className={styles.footerNavItemContainer}>
+                    {item.pod_menu.map((podItem) => {
+                      const url = podItem.url.startsWith("https://")
+                        ? podItem.url
+                        : `/page/${podItem.url}`;
 
-                    return (
-                      <div
-                        key={podItem.id}
-                        className={styles.footerNavItemLinks}
-                      >
-                        <Link onClick={()=>router.push(url)} className={styles.footerNavItemLink} href={url}>
-                          {podItem.naim}
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
+                      return (
+                        <div
+                          key={podItem.id}
+                          className={styles.footerNavItemLinks}
+                        >
+                          <Link
+                            onClick={() => router.push(url)}
+                            className={styles.footerNavItemLink}
+                            href={url}
+                          >
+                            {podItem.naim}
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             );
           })}
       </nav>
       <div className={cn(styles.footerDescBlock, "container")}>
-        <p className={styles.footerDescBlockTitle}>© 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте, носят сугубо информационный характер и не являются исчерпывающими. Для более подробной информации следует обращаться к менеджерам компании по указанным на сайте телефонам. Вся представленная на сайте информация, касающаяся комплектации, технических характеристик, цветовых сочетаний, а также стоимости продукции носит информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями Гражданского Кодекса Кыргызской Республики. Указанные цены являются рекомендованными и могут отличаться от действительных цен. Фото и характеристики товаров могут отличаться и уточняется при обращении в Интернет магазин
-</p>
+        <p className={styles.footerDescBlockTitle}>
+          © 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте,
+          носят сугубо информационный характер и не являются исчерпывающими. Для
+          более подробной информации следует обращаться к менеджерам компании по
+          указанным на сайте телефонам. Вся представленная на сайте информация,
+          касающаяся комплектации, технических характеристик, цветовых
+          сочетаний, а также стоимости продукции носит информационный характер и
+          ни при каких условиях не является публичной офертой, определяемой
+          положениями Гражданского Кодекса Кыргызской Республики. Указанные цены
+          являются рекомендованными и могут отличаться от действительных цен.
+          Фото и характеристики товаров могут отличаться и уточняется при
+          обращении в Интернет магазин
+        </p>
         <div className={styles.textTruncate}>
-          <TextTruncate text="© 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте, носят сугубо информационный характер и не являются исчерпывающими. Для более подробной информации следует обращаться к менеджерам компании по указанным на сайте телефонам. Вся представленная на сайте информация, касающаяся комплектации, технических характеристик, цветовых сочетаний, а также стоимости продукции носит информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями Гражданского Кодекса Кыргызской Республики. Указанные цены являются рекомендованными и могут отличаться от действительных цен. Фото и характеристики товаров могут отличаться и уточняется при обращении в Интернет магазин
-"maxLength={248} />
+          <TextTruncate
+            text="© 2016 - 2024 Компания «max.kg». Все данные, представленные на сайте, носят сугубо информационный характер и не являются исчерпывающими. Для более подробной информации следует обращаться к менеджерам компании по указанным на сайте телефонам. Вся представленная на сайте информация, касающаяся комплектации, технических характеристик, цветовых сочетаний, а также стоимости продукции носит информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями Гражданского Кодекса Кыргызской Республики. Указанные цены являются рекомендованными и могут отличаться от действительных цен. Фото и характеристики товаров могут отличаться и уточняется при обращении в Интернет магазин
+"
+            maxLength={248}
+          />
         </div>
         <hr className={styles.footerDescBlockHr} />
         <p className={styles.footerDescBlockCOPYRIGHT}>

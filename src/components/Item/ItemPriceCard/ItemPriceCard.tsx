@@ -7,27 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   CartIcon,
-  CopyIcon,
-  GrayFavoritesIcon,
+  HeartIconShare,
+  HeartIconShareFill,
   ShareIcon,
-  TgIcon,
-  VioletFavoritesIcon,
-  WhIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
-import OrderModal from "../OrderModal/OrderModal";
 import Link from "next/link";
 
 interface IPriceProps {
   data: Items;
-  func: () => void;
 }
 
-const ItemPriceCard = ({ data, func }: IPriceProps) => {
+const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -55,24 +50,6 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
     setTimeout(() => setCopy(false), 5000);
   };
 
-  const handleWhatsAppClick = () => {
-    window.location.href = `https://wa.me/?text=${encodeURIComponent(
-      window.location.href
-    )}`;
-    setDropdownActive(!dropdownActive);
-  };
-
-  const handleTelegramClick = () => {
-    window.location.href = `https://t.me/share/url?url=${encodeURIComponent(
-      window.location.href
-    )}`;
-    setDropdownActive(!dropdownActive);
-  };
-
-  const handleDropdown = () => {
-    setDropdownActive(!dropdownActive);
-  };
-
   const addToCart = () => {
     dispatch(addProductToCart(data));
     setAdded(true);
@@ -96,7 +73,7 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price_new}>
-              {data.cenaok}
+              {data.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </h2>
             <span className={styles.ItemPriceCard__price_discount}>
@@ -110,7 +87,7 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
         ) : (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price}>
-              {data.cenaok}
+              {data.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_custom}>с</span>
             </h2>
           </div>
@@ -151,15 +128,16 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
               onClick={addToCart}
               className={styles.ItemPriceCard__buttons_cart}
             >
+              <span className="add__to_cart_icon">
+                <CartIcon />
+              </span>
               В корзину
             </button>
           )}
           {product?.quantity && (
             <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
           )}
-          <button onClick={func} className={styles.ItemPriceCard__buttons_buy}>
-            Купить
-          </button>
+          <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
         </div>
 
         <div className={styles.ItemPriceCard__salesman}>
@@ -172,16 +150,15 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
         </div>
       </div>
       <div className={styles.shareIcon}>
-        <div className={styles.share_btnControl}>
+        <div className={styles.share_btnControl} onClick={handleFavoriteClick}>
           <button
             title="Добавить в избранное"
-            className={cn("add__to_fav", {
-              ["add__to_fav_active"]: favorite,
+            className={cn(styles.heartIconShare, {
+              [styles.heartIconShareFill]: favorite,
             })}
-            onClick={handleFavoriteClick}
           >
             <span className="add__to_fav_icon">
-              {favorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              {favorite ? <HeartIconShareFill /> : <HeartIconShare />}
             </span>
           </button>
           <span
@@ -190,13 +167,16 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
               dropdownActive && styles.share_btnControl_info_active
             )}
           >
+            {/* {favorite ? "Товар в избранном" : "Добавить в избранное"} */}
             Добавить в избранное
           </span>
         </div>
-        <div className={styles.share}>
-          <div className={styles.share_btnControl}>
+        <div className={styles.share} title="Скопировать ссылку">
+          <div
+            className={styles.share_btnControl}
+            onClick={() => handleCopyLink(window.location.href)}
+          >
             <button
-              onClick={handleDropdown}
               className={cn(
                 styles.share_btnControl_shareBtn,
                 dropdownActive && styles.share_btnControl_shareBtn_active
@@ -213,40 +193,9 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
               Поделиться
             </span>
           </div>
-          <div
-            className={cn(
-              styles.share_shareDropdown,
-              dropdownActive && styles.share_shareDropdown_active
-            )}
-          >
-            <div
-              onClick={handleTelegramClick}
-              className={styles.share_shareDropdown_tg}
-            >
-              <TgIcon />
-              <button className={styles.share_shareDropdown_tg_btn}>
-                Telegram
-              </button>
-            </div>
-            <div
-              onClick={handleWhatsAppClick}
-              className={styles.share_shareDropdown_wh}
-            >
-              <WhIcon />
-              <button className={styles.share_shareDropdown_wh_btn}>
-                WhatsApp
-              </button>
-            </div>
-            <div
-              onClick={() => handleCopyLink(window.location.href)}
-              className={styles.share_shareDropdown_copy}
-            >
-              <CopyIcon />
-              <button className={styles.share_shareDropdown_copy_btn}>
-                Скопировать ссылку
-              </button>
-            </div>
-          </div>
+          <UserInfoModal visible={copy} onClose={closeModalCart}>
+            Ссылка скопирована
+          </UserInfoModal>
         </div>
       </div>
     </section>

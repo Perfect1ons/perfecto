@@ -48,17 +48,20 @@
     &__header {
       @include mixin.flex(center, center, null, 10px);
       &__btn {
+        @include mixin.flex(center, center, null, null);
         scale: 2;
         cursor: pointer;
       }
       &__button {
         text-align: center;
         cursor: pointer;
-        @include mixin.font(18px, 600, null, var(--black));
+        @include mixin.font(18px, 600, null, #101709);
         border-radius: 5px;
         transition: 0.3s all;
+        opacity: 0.7;
         &:hover {
-          color: var(--blue);
+          color: #101709;
+          opacity: 1;
         }
       }
     }
@@ -75,7 +78,7 @@
       @include mixin.font(18px, 500, null, var(--dark));
     }
     &__btn {
-      @include mixin.flex(center, center, null, null);
+      @include mixin.flex(center, center, null, 5px);
       background: var(--dark-blue);
       cursor: pointer;
       color: var(--white);
@@ -89,8 +92,50 @@
   }
 }
 .activeH2 {
-  color: var(--blue);
-  // color: #1bc592;
+  color: #101709;
+  opacity: 1;
+}
+.ItemPriceCard {
+  user-select: none;
+  max-width: 344px;
+  width: 100%;
+  background: var(--light-white);
+  border-radius: 10px;
+  padding: 18px;
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    margin-top: 10px;
+  }
+  &__cost {
+    @include mixin.flex(flex-end, null, null, 10px);
+  }
+  &__price {
+    @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(28px, bold, 100%, var(--dark));
+
+    &_custom {
+      @include mixin.font(18px, bold, 100%, var(--dark));
+      border-bottom: 2px solid var(--dark);
+    }
+    &_discount {
+      @include mixin.font(14px, 500, 100%, var(--dark));
+      background: var(--violet);
+      color: var(--white);
+      border-radius: 5px;
+      padding: 3px;
+    }
+    &_new {
+      @include mixin.font(28px, bold, 100%, var(--violet));
+      &_custom {
+        @include mixin.font(18px, bold, 100%, var(--violet));
+        border-bottom: 2px solid var(--violet);
+      }
+    }
+  }
+  &__old_price {
+    @include mixin.font(16px, 500, 100%, var(--gray-dark));
+    text-decoration: line-through;
+  }
 }
 
 .visible {
@@ -113,8 +158,47 @@
     color: var(--dark);
     margin-bottom: 10px;
   }
+  p {
+    h2 {
+      margin-top: 30px;
+    }
+  }
   &__video {
     max-width: 100%;
+  }
+}
+.buttonsContainer {
+  max-width: 145px;
+  width: 100%;
+}
+.ItemPriceCard__buttons {
+  @include mixin.flex(center, space-between, null, 15px);
+  margin-top: 15px;
+  &_cart {
+    @include mixin.flex(center, center, null, 10px);
+    background: var(--dark-blue);
+    padding: 8px;
+    font-weight: bold;
+    width: 100%;
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3 ease-in;
+    &:hover {
+      background: #203e79;
+    }
+  }
+  &_buy {
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    background: var(--violet);
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background: #811f48;
+    }
   }
 }
 @media screen and (min-width: 1400px) {

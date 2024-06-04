@@ -408,17 +408,6 @@
   }
 }
 
-.all__goods {
-  @include mixin.flex(flex-start, flex-start, column, 3px);
-  @include mixin.font(16px, 400, 100%, var(--dark));
-  margin-top: 5px;
-  &_link {
-    text-decoration: none;
-    color: var(--violet);
-    border-bottom: 2px solid dashed;
-  }
-}
-
 .brand__link {
   margin-top: 30px;
   text-decoration: none;
@@ -431,13 +420,13 @@
 }
 
 .all__goods {
-  @include mixin.flex(flex-start, flex-start, null, 3px);
+  @include mixin.flex(center, flex-start, null, 3px);
+  flex-wrap: wrap;
   @include mixin.font(14px, 400, 100%, var(--dark));
   margin-top: 5px;
   &_link {
     text-decoration: none;
     color: var(--violet);
-    border-bottom: 2px solid dashed;
   }
 }
 

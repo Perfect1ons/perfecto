@@ -72,6 +72,14 @@ module.exports = {
         protocol: "https",
         hostname: "static-basket-01.wbbasket.ru",
       },
+      {
+        protocol: "https",
+        hostname: "ru.bekhost.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ru.bekhost.com",
+      },
     ],
   },
   async headers() {
