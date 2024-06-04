@@ -29,8 +29,8 @@ export default async function item({ params: { path } }: Params) {
 export async function generateMetadata({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
 
-  const title = "Белая";
-  const description = data.meta.description;
+  const title = data.meta.og_title;
+  const description = data.meta.og_description;
   const keywords = data.meta.keywords;
   const url = "https://max.kg/";
   const image = "https://max.kg/images/mobile-logo-colorized.svg";

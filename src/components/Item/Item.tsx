@@ -89,7 +89,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className="all__directions">
           {breadCrumbs.slice(-1).map((crumbs) => (
             <Link
-              className="all__directions_link"
+              className="all__directions_link all__directions_link_border"
               href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >

@@ -100,7 +100,9 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
                   className={styles.imageChild}
                   src={
                     catalogItem.icon
-                      ? `https://max.kg/${catalogItem.icon}`
+                      ? catalogItem.icon.startsWith("https://")
+                        ? catalogItem.icon
+                        : `https://max.kg/${catalogItem.icon}`
                       : "https://max.kg/images/discount/empty-image.png"
                   }
                   alt={catalogItem.name}

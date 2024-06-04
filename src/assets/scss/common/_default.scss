@@ -8,6 +8,8 @@
 table {
   height: 150px !important;
   max-width: 100%;
+  width: 100%;
+  text-align: center;
 }
 
 td {
@@ -307,7 +309,10 @@ body {
     transition: 0.2s ease-in;
     text-decoration: none;
     white-space: nowrap; /* Запрет переноса строк для ссылок */
-
+    border: 2px solid var(--light-white);
+    &_border{
+      border: 2px solid var(--dark-blue);
+    }
     &:hover {
       color: var(--white);
       background: var(--dark-blue);
