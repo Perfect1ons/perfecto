@@ -189,20 +189,20 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     height={500}
                     src={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}280.jpg`
+                        ? `${photo.url_part}700.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                     }
                     zoomSrc={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}280.jpg`
+                        ? `${photo.url_part}700.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                     }
                     zoomType="hover"
-                    zoomScale={1.7}
+                    zoomScale={1.6}
                     className={styles.product_img}
                   />
                 ) : (
@@ -211,7 +211,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     height={500}
                     src={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}280.jpg`
+                        ? `${photo.url_part}700.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`

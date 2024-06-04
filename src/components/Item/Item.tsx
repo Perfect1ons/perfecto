@@ -18,7 +18,6 @@ import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
-import OrderModal from "./OrderModal/OrderModal";
 
 interface IItemPageProps {
   data: Items;
@@ -29,7 +28,6 @@ interface IItemPageProps {
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [isBought, setIsBought] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const toggleScrollLock = () => {
     const body = document.body;
@@ -54,10 +52,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     toggleScrollLock();
   };
 
-  const boughtHandler = () => {
-    setIsBought(!isBought);
-    toggleScrollLock();
-  };
   const handleCopyCode = (entryCode: string) => {
     navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
@@ -77,12 +71,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data} />
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
-        </div>
-      )}
-      {isBought && (
-        <div className={styles.wrap_modal}>
-          <OrderModal data={data} func={boughtHandler} />
-          <div onClick={boughtHandler} className={styles.wrap_backdrop}></div>
         </div>
       )}
       <div className="container">
@@ -156,7 +144,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                 </h3>
               </div>
               <div className={styles.priceCard_wrap}>
-                <ItemPriceCard data={data} func={boughtHandler} />
+                <ItemPriceCard data={data} />
                 <ItemBanner />
               </div>
             </div>

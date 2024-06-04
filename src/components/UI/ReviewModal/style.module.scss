@@ -64,18 +64,20 @@
   }
   @media screen and (max-width: 576px) {
     margin: 0;
+    padding-left: 10px;
   }
 }
 .container {
   @include mixin.flex(center, null, column, null);
   background: var(--white);
   width: 100%;
-  max-height: 740px;
+  // max-height: 740px;
   overflow-y: scroll;
   z-index: 200;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
   }
 
   /* Handle */
@@ -141,11 +143,11 @@
       @include mixin.font(0.875rem, 700, null, var(--danger));
     }
     @media screen and (max-width: 576px) {
-      margin: 0;
+      margin: 10px auto 25px;
     }
   }
   &_inputs {
-    margin-right: 10px;
+    padding: 0 5px;
     max-width: 450px;
     position: relative;
     margin-top: 45px;
@@ -154,16 +156,16 @@
 
     &_title {
       user-select: none;
+      width: 100%;
       @include mixin.font(1rem, 400, null, var(--secondary-gray));
     }
     &_name {
-      margin-top: 5px;
       @include mixin.font(1rem, 400, null, var(--dark));
-      width: 450px;
+      width: 100%;
       outline: 2px solid var(--secondary-white);
       border-radius: 5px;
       padding: 8px 8px;
-
+      // margin: 0 2px;
       &:focus {
         border-radius: 5px;
         outline: 2px solid var(--focus);
@@ -186,10 +188,12 @@
     max-width: 450px;
     @include mixin.flex(center, null, column, null);
     &_block {
+      padding-top: 10px;
       max-width: 450px;
       @include mixin.flex(flex-start, null, column, null);
       &_title {
         user-select: none;
+        padding: 0;
         @include mixin.font(1rem, 400, null, var(--secondary-gray));
       }
       &_area {

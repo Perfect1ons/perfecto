@@ -22,7 +22,7 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   const product = cart.find((item) => item.id === data.id);
 
   const addToCart = () => {
-    const minQty = data.minQty || 1; // Используем minQty, если доступно, иначе по умолчанию 1
+    const minQty = data.minQty || 1;
 
     if (product) {
       dispatch(addProductQuantity(data.id));
@@ -33,7 +33,7 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   };
 
   const removeFromCart = () => {
-    const minQty = data.minQty || 1; // Используем minQty, если доступно, иначе по умолчанию 1
+    const minQty = data.minQty || 1;
 
     if (product) {
       if (product.quantity && product.quantity <= minQty) {

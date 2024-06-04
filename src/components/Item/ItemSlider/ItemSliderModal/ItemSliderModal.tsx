@@ -41,7 +41,7 @@ const ItemSliderModal = ({ photos, isOpen, closeModal }: IReviewModal) => {
               <Image
                 src={
                   photo.url_part.startsWith("https://goods")
-                    ? `${photo.url_part}280.jpg`
+                    ? `${photo.url_part}700.jpg`
                     : photo.url_part.startsWith("https://")
                     ? photo.url_part
                     : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`

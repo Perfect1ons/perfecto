@@ -2,7 +2,7 @@
 .btn {
   @include mixin.flex(center, space-between, null, null);
   background: var(--dark-blue);
-  padding: 7.1px 10px;
+  padding: 7.1px 8px;
   width: 100%;
   color: var(--white);
   border-radius: 5px;
@@ -17,8 +17,9 @@
     padding: 2px;
     background: var(--white);
     border-radius: 5px;
-    &:hover {
-      background: var(--primary);
+
+    &:active {
+      background: var(--light-gray);
     }
   }
   &_right {
@@ -27,8 +28,8 @@
     padding: 2px;
     background: var(--white);
     border-radius: 5px;
-    &:hover {
-      background: var(--primary);
+    &:active {
+      background: var(--light-gray);
     }
   }
 }
