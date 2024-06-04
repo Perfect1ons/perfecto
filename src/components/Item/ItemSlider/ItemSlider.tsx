@@ -202,6 +202,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                     }
                     zoomType="hover"
+                    hideHint={true}
                     zoomScale={1.6}
                     className={styles.product_img}
                   />

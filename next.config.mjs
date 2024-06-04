@@ -18,6 +18,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.4glaza.ru",
       },
+      {
+        protocol: "https",
+        hostname: "ru.bekhost.com",
+      },
     ],
   },
 };

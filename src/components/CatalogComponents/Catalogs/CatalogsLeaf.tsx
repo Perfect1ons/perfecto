@@ -49,9 +49,16 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
   return (
     <div className="container">
       <div className="all__directions">
-        <Link href={"/"} className="all__directions_link">
-          Главная
-        </Link>
+        {breadCrumbs.slice(-2, -1).map((crumbs) => (
+          <Link
+            className="all__directions_link"
+            href={`/catalog/${crumbs.full_slug}`}
+            key={crumbs.id}
+          >
+            <span className="all__directions_arrow"></span> Назад
+          </Link>
+        ))}
+
         {breadCrumbs.map((crumbs) => {
           return (
             <Link
@@ -93,7 +100,9 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
                   className={styles.imageChild}
                   src={
                     catalogItem.icon
-                      ? `https://max.kg/${catalogItem.icon}`
+                      ? catalogItem.icon.startsWith("https://")
+                        ? catalogItem.icon
+                        : `https://max.kg/${catalogItem.icon}`
                       : "https://max.kg/images/discount/empty-image.png"
                   }
                   alt={catalogItem.name}
