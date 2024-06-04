@@ -90,7 +90,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         {data.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price_new}>
-              {data.cenaok}
+              {data.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </h2>
             <span className={styles.ItemPriceCard__price_discount}>
@@ -104,7 +104,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         ) : (
           <div className={styles.ItemPriceCard__cost}>
             <h2 className={styles.ItemPriceCard__price}>
-              {data.cenaok}
+              {data.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_custom}>с</span>
             </h2>
           </div>

@@ -180,18 +180,28 @@ export default function CatalogProducts({
 
   return (
     <section className="seek">
-        <div className="all__directions container">
-          <Link href={"/"} className="all__directions_link">
-            Главная
+      <div className="all__directions container">
+        {breadCrumbs.slice(-2, -1).map((crumbs) => (
+          <Link
+            className="all__directions_link"
+            href={`/catalog/${crumbs.full_slug}`}
+            key={crumbs.id}
+          >
+            <span className="all__directions_arrow"></span> Назад
           </Link>
-          {breadCrumbs.map((crumbs) => {
-            return (
-              <Link className="all__directions_link" href={`/catalog/${crumbs.full_slug}`} key={crumbs.id}>
-                {crumbs.name}
-              </Link>
-            )
-          })}
-        </div>
+        ))}
+        {breadCrumbs.map((crumbs) => {
+          return (
+            <Link
+              className="all__directions_link"
+              href={`/catalog/${crumbs.full_slug}`}
+              key={crumbs.id}
+            >
+              {crumbs.name}
+            </Link>
+          );
+        })}
+      </div>
       <div className="container">
         <div className="sort__buttons">
           <FiltersProducts

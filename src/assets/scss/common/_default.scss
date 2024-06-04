@@ -7,10 +7,13 @@
 
 table {
   height: 150px !important;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
 }
 
 td {
-  border: 1px solid black;
+  border: 1px solid var(--light-gray);
 }
 
 @media (min-width: 1440px) {
@@ -306,11 +309,26 @@ body {
     transition: 0.2s ease-in;
     text-decoration: none;
     white-space: nowrap; /* Запрет переноса строк для ссылок */
-
+    border: 2px solid var(--light-white);
+    &_border{
+      border: 2px solid var(--dark-blue);
+    }
     &:hover {
       color: var(--white);
       background: var(--dark-blue);
+      .all__directions_arrow{
+                border-right: 2px solid var(--white);
+        border-bottom: 2px solid var(--white);
+      }
     }
+  }
+  &_arrow{
+        display: inline-block;
+        width: 9px;
+        height: 9px;
+        border-right: 2px solid var(--dark);
+        border-bottom: 2px solid var(--dark);
+        transform: rotate(135deg);
   }
 
   &_linkActive {

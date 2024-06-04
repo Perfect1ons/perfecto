@@ -10,15 +10,50 @@
     overflow: hidden;
 
     @media screen and (max-width: 768px) {
-        .accordionHeader__icon{
-            display: none;
-        }
+      .accordionHeader__icon {
+        width: 24px;
+        height: 24px;
+
+      }
     }
 
     .accordionHeader {
       padding: 10px;
       background-color: #f9f9f9;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &__title{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        &_name{
+          font-weight: 500;
+          @media screen and (max-width: 768px) {
+            font-weight: 400;
+          }
+        }
+      }
+      .arrowRight {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 1px solid var(--dark);
+        border-bottom: 1px solid var(--dark);
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+      }
+
+      .arrowDown {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 1px solid var(--violet);
+        border-bottom: 1px solid var(--violet);
+        transform: rotate(225deg);
+        transition: transform 0.3s ease;
+      }
     }
 
     .accordionContent {
@@ -44,22 +79,24 @@
 
     .accordionItem {
       flex: 1;
-        &:hover{
-            box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-        }
+      &:hover {
+        box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+      }
+
       .accordionHeader,
       .accordionContentActive {
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 10px 0px 10px;
+        padding: 10px 10px 0 10px;
         background-color: #ffffff;
         border: none;
         font-size: 16px;
         color: var(--dark);
       }
-      .accordionHeader__icon{
-          width: 30px;
+
+      .accordionHeader__icon {
+        width: 30px;
         height: auto;
       }
 
@@ -72,5 +109,14 @@
         transition: none;
       }
     }
+  }
+}
+
+.accordionHeader {
+  cursor: pointer;
+
+  &.disabled {
+    pointer-events: none;
+    cursor: default;
   }
 }
