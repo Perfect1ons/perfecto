@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useEffect, useState } from "react";
-
 
 interface WindowWithOpenURL extends Window {
   openURL?: (url: string) => void;
@@ -14,7 +13,7 @@ const AppBanner = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [appLink, setAppLink] = useState("");
   const [isBannerVisible, setIsBannerVisible] = useState(false);
-  const [isInstalled, setIsInstalled] = useState(false)
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -41,36 +40,42 @@ const AppBanner = () => {
     const windowWithOpenURL = window as WindowWithOpenURL;
     if (windowWithOpenURL.openURL) {
       windowWithOpenURL.openURL(appLink);
-      setIsInstalled(true)
+      setIsInstalled(true);
     } else {
-      window.open(appLink, '_blank');
+      window.open(appLink, "_blank");
     }
   };
   return (
-    <div className={cn(isMobile ? styles.appBanner : styles.hidden, isBannerVisible && styles.hidden)}>
-      <button onClick={handleCloseBanner} className={styles.appBannerCrossBtn}></button>
-      <div className={styles.appBannerInfo}>
-        <Image
-          className={styles.appBannerInfoIconImg}
-          src="/img/logoApp.svg"
-          width={45}
-          height={45}
-          alt="maxKgLogoApp"
-          placeholder="blur"
-          loading="lazy"
-          blurDataURL="/img/logoApp.svg"
-         ></Image>
-        <div className={styles.appBannerInfoText}>
-          <p className={styles.appBannerInfoTextDesc}>Приложение</p>
-          <h2 className={styles.appBannerInfoTextTitle}>max.kg</h2>
+    <>
+      {!isBannerVisible && isMobile && (
+        <div className={styles.appBanner}>
+          <button
+            onClick={handleCloseBanner}
+            className={styles.appBannerCrossBtn}
+          ></button>
+          <div className={styles.appBannerInfo}>
+            <Image
+              className={styles.appBannerInfoIconImg}
+              src="/img/logoApp.svg"
+              width={45}
+              height={45}
+              alt="maxKgLogoApp"
+              placeholder="blur"
+              loading="lazy"
+              blurDataURL="/img/logoApp.svg"
+            ></Image>
+            <div className={styles.appBannerInfoText}>
+              <p className={styles.appBannerInfoTextDesc}>Приложение</p>
+              <h2 className={styles.appBannerInfoTextTitle}>max.kg</h2>
+            </div>
+          </div>
+          <button onClick={handleOpenApp} className={styles.appBannerOpenBtn}>
+            Открыть
+          </button>
         </div>
-      </div>
-      <button onClick={handleOpenApp} className={styles.appBannerOpenBtn}>
-      Открыть
-      </button>
-    </div>
+      )}
+    </>
   );
 };
 
 export default AppBanner;
-
