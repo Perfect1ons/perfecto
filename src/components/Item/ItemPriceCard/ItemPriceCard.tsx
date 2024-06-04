@@ -7,17 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   CartIcon,
-  CopyIcon,
-  GrayFavoritesIcon,
   HeartIconShare,
   HeartIconShareFill,
   ShareIcon,
-  TgIcon,
-  VioletFavoritesIcon,
-  WhIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
@@ -54,18 +49,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setCopy(true);
     setTimeout(() => setCopy(false), 5000);
   };
-
-  useEffect(() => {
-    // Проверяем, доступен ли localStorage (только на клиентской стороне)
-    const isLocalStorageAvailable =
-      typeof window !== "undefined" && window.localStorage;
-
-    // Используем localStorage только если он доступен
-    if (isLocalStorageAvailable) {
-      const favoriteStatus = localStorage.getItem(data.id.toString());
-      setFavorite(favoriteStatus === "true");
-    }
-  }, [favorite, data.id]);
 
   const addToCart = () => {
     dispatch(addProductToCart(data));
