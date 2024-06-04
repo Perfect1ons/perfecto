@@ -22,21 +22,37 @@ const ItemAccordion = () => {
   }, []);
 
   const handleToggle = (index: any) => {
-    setActiveIndex(activeIndex === index ? null : index);
+    if (isMobile) {
+      setActiveIndex(activeIndex === index ? null : index);
+    }
   };
 
   return (
     <div className={styles.accordion}>
       <div className={styles.accordionItem}>
-        <div className={styles.accordionHeader} onClick={() => handleToggle(0)}>
-          <Image
-            className={styles.accordionHeader__icon}
-            src="https://max.kg/images/delivery_icon.svg"
-            height={34}
-            width={34}
-            alt="ddos"
-          />
-          Способы доставки
+        <div
+          className={`${styles.accordionHeader} ${
+            !isMobile ? styles.disabled : ""
+          }`}
+          onClick={() => handleToggle(0)}
+        >
+          <div className={styles.accordionHeader__title}>
+            <Image
+              className={styles.accordionHeader__icon}
+              src="https://max.kg/images/delivery_icon.svg"
+              height={isMobile ? 24 : 34}
+              width={isMobile ? 24 : 34}
+              alt="ddos"
+            />
+            <span className={styles.accordionHeader__title_name}>Способы доставки</span>
+          </div>
+          {isMobile && (
+            <span
+              className={
+                activeIndex === 0 ? styles.arrowDown : styles.arrowRight
+              }
+            ></span>
+          )}
         </div>
         <div
           className={
@@ -51,15 +67,29 @@ const ItemAccordion = () => {
         </div>
       </div>
       <div className={styles.accordionItem}>
-        <div className={styles.accordionHeader} onClick={() => handleToggle(1)}>
-          <Image
-            className={styles.accordionHeader__icon}
-            src="https://max.kg/images/opl.png"
-            height={34}
-            width={34}
-            alt="wallet"
-          />
-          Оплата удобным способом
+        <div
+          className={`${styles.accordionHeader} ${
+            !isMobile ? styles.disabled : ""
+          }`}
+          onClick={() => handleToggle(1)}
+        >
+          <div className={styles.accordionHeader__title}>
+            <Image
+              className={styles.accordionHeader__icon}
+              src="https://max.kg/images/opl.png"
+              height={isMobile ? 24 : 34}
+              width={isMobile ? 24 : 34}
+              alt="wallet"
+            />
+            <span className={styles.accordionHeader__title_name}>Оплата удобным способом</span>
+          </div>
+          {isMobile && (
+            <span
+              className={
+                activeIndex === 1 ? styles.arrowDown : styles.arrowRight
+              }
+            ></span>
+          )}
         </div>
         <div
           className={
@@ -74,15 +104,29 @@ const ItemAccordion = () => {
         </div>
       </div>
       <div className={styles.accordionItem}>
-        <div className={styles.accordionHeader} onClick={() => handleToggle(2)}>
-          <Image
-            className={styles.accordionHeader__icon}
-            src="https://max.kg/images/24xNxgarant.png.pagespeed.ic.Ow9d0Ckbof.webp"
-            height={34}
-            width={34}
-            alt="guarantee"
-          />
-          Гарантии покупателя
+        <div
+          className={`${styles.accordionHeader} ${
+            !isMobile ? styles.disabled : ""
+          }`}
+          onClick={() => handleToggle(2)}
+        >
+          <div className={styles.accordionHeader__title}>
+            <Image
+              className={styles.accordionHeader__icon}
+              src="https://max.kg/images/24xNxgarant.png.pagespeed.ic.Ow9d0Ckbof.webp"
+              height={isMobile ? 24 : 34}
+              width={isMobile ? 24 : 34}
+              alt="guarantee"
+            />
+            <span className={styles.accordionHeader__title_name}>Гарантии покупателя</span>
+          </div>
+          {isMobile && (
+            <span
+              className={
+                activeIndex === 2 ? styles.arrowDown : styles.arrowRight
+              }
+            ></span>
+          )}
         </div>
         <div
           className={
