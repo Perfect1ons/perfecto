@@ -347,7 +347,7 @@
 }
 
 .item__preview {
-  margin-top: 25px;
+  margin: 25px 0 0 0;
   @include mixin.flex(flex-start, space-between, null, 25px);
 
   &_info {
