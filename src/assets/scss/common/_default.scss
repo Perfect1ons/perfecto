@@ -7,6 +7,9 @@
 
 table {
   height: 150px !important;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
 }
 
 td {
@@ -548,32 +551,23 @@ body {
 }
 
 // !Для swiperrrrrrrrrrrrrrrrrrrrrrrrr
-.swiper-button-prev,
-.swiper-button-next {
+.swiper-button-prev_card,
+.swiper-button-next_card {
   transition: all 0.2s linear;
   user-select: none !important;
 }
 
-.swiper-button-prev:active,
-.swiper-button-next:active {
+.swiper-button-prev_card:active,
+.swiper-button-next_card:active {
   scale: 0.8;
 }
 
 .swiper-button-disabled {
-  opacity: 0;
+  display: none;
 }
 
 .customSwiper {
   padding: 0 15px !important;
-  // margin:  0px 15px !important;
-  &:hover {
-    .swiper-button-next,
-    .swiper-rtl .swiper-button-prev,
-    .swiper-button-prev,
-    .swiper-rtl .swiper-button-next {
-      opacity: 1;
-    }
-  }
 }
 
 .swiper-pagination-fraction {
@@ -581,7 +575,7 @@ body {
   left: 0 !important;
   bottom: 0 !important;
   z-index: 2;
-  max-width: 50px;
+  max-width: 60px;
   margin: 0 0 10px 10px;
   padding: 5px 10px;
 

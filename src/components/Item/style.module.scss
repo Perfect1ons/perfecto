@@ -365,7 +365,10 @@
       width: 100%;
       &_block {
         max-width: 410px;
-        width: 100%;
+        @media screen and (max-width: 1410px) {
+          max-width: 100%;
+          width: 100%;
+        }
       }
       @media screen and (max-width: 1410px) {
         @include mixin.flex(center, flex-start, column, 10px);
