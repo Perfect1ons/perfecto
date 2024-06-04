@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
@@ -8,6 +9,7 @@ import {
   addProductToCart,
   deleteProductQuantity,
   removeProductFromCart,
+  updateProductQuantity,
 } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 
@@ -20,27 +22,43 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
+  const [quantity, setQuantity] = useState(product?.quantity || data.minQty);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value ? parseInt(e.target.value) : 0;
+    if (isNaN(value) || value < 0) return;
+
+    setQuantity(value);
+    if (value >= data.minQty) {
+      if (product) {
+        dispatch(updateProductQuantity({ id: data.id, quantity: value }));
+      } else {
+        const newProduct = { ...data, quantity: value };
+        dispatch(addProductToCart(newProduct));
+      }
+    }
+  };
 
   const addToCart = () => {
-    const minQty = data.minQty || 1; // Используем minQty, если доступно, иначе по умолчанию 1
-
     if (product) {
       dispatch(addProductQuantity(data.id));
+      setQuantity((prevQuantity) => prevQuantity + 1);
     } else {
-      const newProduct = { ...data, quantity: minQty };
+      const newProduct = { ...data, quantity: data.minQty };
       dispatch(addProductToCart(newProduct));
+      setQuantity(data.minQty);
     }
   };
 
   const removeFromCart = () => {
-    const minQty = data.minQty || 1; // Используем minQty, если доступно, иначе по умолчанию 1
-
     if (product) {
-      if (product.quantity && product.quantity <= minQty) {
+      if (product.quantity && product.quantity <= data.minQty) {
         dispatch(removeProductFromCart(data.id));
         onCartEmpty();
+        setQuantity(0);
       } else {
         dispatch(deleteProductQuantity(data.id));
+        setQuantity((prevQuantity) => prevQuantity - 1);
       }
     }
   };
@@ -54,7 +72,13 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
           <MinusIcon />
         )}
       </button>
-      <span className={styles.btn_screen}>{product?.quantity || 0}</span>
+      <input
+        type="text"
+        className={styles.btn_screen}
+        value={quantity}
+        onChange={handleChange}
+        min={0}
+      />
       <button onClick={addToCart} className={styles.btn_right}>
         <PlusIcon />
       </button>

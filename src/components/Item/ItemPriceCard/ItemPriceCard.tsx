@@ -15,19 +15,17 @@ import {
   WhIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
-import OrderModal from "../OrderModal/OrderModal";
 import Link from "next/link";
 
 interface IPriceProps {
   data: Items;
-  func: () => void;
 }
 
-const ItemPriceCard = ({ data, func }: IPriceProps) => {
+const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -151,15 +149,16 @@ const ItemPriceCard = ({ data, func }: IPriceProps) => {
               onClick={addToCart}
               className={styles.ItemPriceCard__buttons_cart}
             >
+              <span className="add__to_cart_icon">
+                <CartIcon />
+              </span>
               В корзину
             </button>
           )}
           {product?.quantity && (
             <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
           )}
-          <button onClick={func} className={styles.ItemPriceCard__buttons_buy}>
-            Купить
-          </button>
+          <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
         </div>
 
         <div className={styles.ItemPriceCard__salesman}>
