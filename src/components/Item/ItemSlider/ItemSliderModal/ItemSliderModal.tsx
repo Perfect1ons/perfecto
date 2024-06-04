@@ -77,6 +77,7 @@ const ItemSliderModal = ({
                   }
                   zoomType="hover"
                   zoomScale={1.6}
+                  hideHint={true}
                   className={styles.photo}
                 />
               ) : (

@@ -1,8 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .section_wrap {
-  // max-width: 386px;
-  width: 100%;
   @include mixin.flex(center, center, column, 15px);
 }
 
@@ -13,6 +11,9 @@
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
+  @media screen and (max-width: 1410px) {
+    max-width: none;
+  }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));
     margin-top: 10px;
