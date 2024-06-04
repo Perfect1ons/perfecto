@@ -7,6 +7,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { useDispatch } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useEffect, useRef, useState } from "react";
+import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 
 interface IProductReviewProps {
   data: Items;
@@ -155,9 +156,32 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
           )}
         </div>
         <div className={styles.wrapper__containerFooter}>
-          <h2 className={styles.wrapper__containerFooter__h2}>
-            {data.price}с.
-          </h2>
+          {data.discount_prc > 0 ? (
+            <div className={styles.ItemPriceCard__cost}>
+              <h2 className={styles.ItemPriceCard__price_new}>
+                {data.cenaok}
+                <span className={styles.ItemPriceCard__price_new_custom}>
+                  с
+                </span>
+              </h2>
+              <span className={styles.ItemPriceCard__price_discount}>
+                -{data.discount_prc}%
+              </span>
+              <h2 className={styles.ItemPriceCard__old_price}>
+                {data.old_price.toLocaleString("ru-RU")}
+                <span className={styles.ItemPriceCard__old_price_custom}>
+                  с
+                </span>
+              </h2>
+            </div>
+          ) : (
+            <div className={styles.ItemPriceCard__cost}>
+              <h2 className={styles.ItemPriceCard__price}>
+                {data.cenaok}
+                <span className={styles.ItemPriceCard__price_custom}>с</span>
+              </h2>
+            </div>
+          )}
           <button
             onClick={() => dispatch(addProductToCart(data))}
             className={styles.wrapper__containerFooter__btn}

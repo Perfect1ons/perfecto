@@ -48,17 +48,18 @@
     &__header {
       @include mixin.flex(center, center, null, 10px);
       &__btn {
+        @include mixin.flex(center, center, null, null);
         scale: 2;
         cursor: pointer;
       }
       &__button {
         text-align: center;
         cursor: pointer;
-        @include mixin.font(18px, 600, null, var(--black));
+        @include mixin.font(18px, 600, null, #8f94ab);
         border-radius: 5px;
         transition: 0.3s all;
         &:hover {
-          color: var(--blue);
+          color: #101709;
         }
       }
     }
@@ -88,8 +89,50 @@
     }
   }
 }
+.ItemPriceCard {
+  user-select: none;
+  max-width: 344px;
+  width: 100%;
+  background: var(--light-white);
+  border-radius: 10px;
+  padding: 18px;
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    margin-top: 10px;
+  }
+  &__cost {
+    @include mixin.flex(flex-end, null, null, 10px);
+  }
+  &__price {
+    @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(28px, bold, 100%, var(--dark));
+
+    &_custom {
+      @include mixin.font(18px, bold, 100%, var(--dark));
+      border-bottom: 2px solid var(--dark);
+    }
+    &_discount {
+      @include mixin.font(14px, 500, 100%, var(--dark));
+      background: var(--violet);
+      color: var(--white);
+      border-radius: 5px;
+      padding: 3px;
+    }
+    &_new {
+      @include mixin.font(28px, bold, 100%, var(--violet));
+      &_custom {
+        @include mixin.font(18px, bold, 100%, var(--violet));
+        border-bottom: 2px solid var(--violet);
+      }
+    }
+  }
+  &__old_price {
+    @include mixin.font(16px, 500, 100%, var(--gray-dark));
+    text-decoration: line-through;
+  }
+}
 .activeH2 {
-  color: var(--blue);
+  color: #101709;
   // color: #1bc592;
 }
 
