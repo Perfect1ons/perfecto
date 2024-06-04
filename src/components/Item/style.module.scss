@@ -418,6 +418,7 @@
 
 .all__goods {
   @include mixin.flex(center, flex-start, null, 3px);
+  flex-wrap: wrap;
   @include mixin.font(14px, 400, 100%, var(--dark));
   margin-top: 5px;
   &_link {
