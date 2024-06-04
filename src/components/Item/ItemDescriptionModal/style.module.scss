@@ -55,11 +55,13 @@
       &__button {
         text-align: center;
         cursor: pointer;
-        @include mixin.font(18px, 600, null, #8f94ab);
+        @include mixin.font(18px, 600, null, #101709);
         border-radius: 5px;
         transition: 0.3s all;
+        opacity: 0.7;
         &:hover {
           color: #101709;
+          opacity: 1;
         }
       }
     }
@@ -76,7 +78,7 @@
       @include mixin.font(18px, 500, null, var(--dark));
     }
     &__btn {
-      @include mixin.flex(center, center, null, null);
+      @include mixin.flex(center, center, null, 5px);
       background: var(--dark-blue);
       cursor: pointer;
       color: var(--white);
@@ -88,6 +90,10 @@
       }
     }
   }
+}
+.activeH2 {
+  color: #101709;
+  opacity: 1;
 }
 .ItemPriceCard {
   user-select: none;
@@ -131,10 +137,6 @@
     text-decoration: line-through;
   }
 }
-.activeH2 {
-  color: #101709;
-  // color: #1bc592;
-}
 
 .visible {
   transform: translateX(0); // конечное положение, когда элемент видимый
@@ -156,8 +158,47 @@
     color: var(--dark);
     margin-bottom: 10px;
   }
+  p {
+    h2 {
+      margin-top: 30px;
+    }
+  }
   &__video {
     max-width: 100%;
+  }
+}
+.buttonsContainer {
+  max-width: 145px;
+  width: 100%;
+}
+.ItemPriceCard__buttons {
+  @include mixin.flex(center, space-between, null, 15px);
+  margin-top: 15px;
+  &_cart {
+    @include mixin.flex(center, center, null, 10px);
+    background: var(--dark-blue);
+    padding: 8px;
+    font-weight: bold;
+    width: 100%;
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3 ease-in;
+    &:hover {
+      background: #203e79;
+    }
+  }
+  &_buy {
+    padding: 10px;
+    width: 100%;
+    font-weight: bold;
+    background: var(--violet);
+    color: var(--white);
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background: #811f48;
+    }
   }
 }
 @media screen and (min-width: 1400px) {

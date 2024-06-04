@@ -2,12 +2,13 @@
 import { Items } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { CopyIcon, Cross } from "../../../../public/Icons/Icons";
+import { CartIcon, CopyIcon, Cross } from "../../../../public/Icons/Icons";
 import DOMPurify from "isomorphic-dompurify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useEffect, useRef, useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
+import { RootState } from "@/store";
 
 interface IProductReviewProps {
   data: Items;
@@ -22,6 +23,8 @@ interface ITogglerProps {
 
 const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === data.id);
   const [toggler, setToggler] = useState<ITogglerProps>({
     about: true,
     video: false,
@@ -29,6 +32,8 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [hasScroll, setHasScroll] = useState(true); // состояние для отслеживания наличия скролла
+  const [added, setAdded] = useState(false);
+
   const handleScroll = (section: keyof ITogglerProps) => {
     setToggler({
       about: false,
@@ -46,7 +51,13 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
       setHasScroll(wrapper.scrollHeight > wrapper.clientHeight);
     }
   }, [data, visible]);
-
+  const addToCart = () => {
+    dispatch(addProductToCart(data));
+    setAdded(true);
+  };
+  const handleCartEmpty = () => {
+    setAdded(false);
+  };
   const sanitizedVideoHTML = DOMPurify.sanitize(data.video, {
     ALLOWED_TAGS: ["iframe"], // разрешаем только тег <iframe>
     ALLOWED_ATTR: [
@@ -182,12 +193,22 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
               </h2>
             </div>
           )}
-          <button
-            onClick={() => dispatch(addProductToCart(data))}
-            className={styles.wrapper__containerFooter__btn}
-          >
-            В корзину
-          </button>
+          <div className={styles.buttonsContainer}>
+            {!product?.quantity && (
+              <button
+                onClick={addToCart}
+                className={styles.ItemPriceCard__buttons_cart}
+              >
+                <span className="add__to_cart_icon">
+                  <CartIcon />
+                </span>
+                В корзину
+              </button>
+            )}
+            {product?.quantity && (
+              <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
+            )}
+          </div>
         </div>
       </div>
     </div>
