@@ -14,6 +14,7 @@ import cn from "clsx";
 import ReviewDate from "./ReviewDate/ReviewDate";
 import Image from "next/image";
 import { postRating } from "@/api/clientRequest";
+import clsx from "clsx";
 
 interface IProductReviewProps {
   data: Items;
@@ -100,6 +101,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           navigation={{
             nextEl: ".team__btn_next",
             prevEl: ".team__btn_prev",
+            disabledClass: "swiper-button-disabled",
           }}
           breakpoints={{
             240: {
@@ -165,18 +167,27 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
               </div>
             </SwiperSlide>
           ))}
-          <div className={styles.team__swiper_buttons}>
-            <div className="team__btn_prev">
-              <button className={styles.team__swiper_btn}>
-                <ArrowLeftIcon />
-              </button>
-            </div>
-            <div className="team__btn_next">
-              <button className={styles.team__swiper_btn}>
-                <ArrowRightIcon />
-              </button>
-            </div>
-          </div>
+          <button
+            className={clsx(
+              styles.team__swiper_btn,
+              styles.team__swiper_btn_left,
+              "team__btn_prev"
+            )}
+          >
+            <ArrowLeftIcon />
+          </button>
+
+          <button
+            className={clsx(
+              styles.team__swiper_btn,
+              styles.team__swiper_btn_right,
+              "team__btn_next"
+            )}
+          >
+            <ArrowRightIcon />
+          </button>
+          {/* <div className={styles.team__swiper_buttons}>
+          </div> */}
         </Swiper>
       )}
     </div>

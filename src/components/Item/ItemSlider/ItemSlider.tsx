@@ -277,6 +277,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     }
                     alt={photo.url_part}
                     className={styles.product_img}
+                    onClick={modalSliderOpenOrClose}
                   />
                 )}
               </SwiperSlide>
