@@ -6,19 +6,16 @@ import Link from "next/link";
 import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
-import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 import ProductReview from "./ProductReview/ProductReview";
 import { useState } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
-import ItemBanner from "./ItemBanner/ItemBanner";
 import { BackArrow, CopyIcon } from "../../../public/Icons/Icons";
-import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
-import Image from "next/image";
+import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 
 interface IItemPageProps {
   data: Items;
@@ -152,10 +149,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   )}
                 </h3>
               </div>
-              <div className={styles.priceCard_wrap}>
-                <ItemPriceCard data={data} />
-                <ItemBanner />
-              </div>
+              <ItemPriceCardWrap data={data} />
             </div>
           </div>
         </div>
@@ -163,7 +157,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
-      {/* <SeenProduct /> */}
     </section>
   );
 };
