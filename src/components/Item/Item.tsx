@@ -16,6 +16,7 @@ import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
+import ItemBanner from "./ItemBanner/ItemBanner";
 
 interface IItemPageProps {
   data: Items;
@@ -150,6 +151,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     "Категория не найдена"
                   )}
                 </p>
+                <div className={styles.banner}>
+                  <ItemBanner />
+                </div>
               </div>
               <ItemPriceCardWrap data={data} />
             </div>

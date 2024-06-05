@@ -1,4 +1,5 @@
 "use client";
+
 import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";

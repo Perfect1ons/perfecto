@@ -295,7 +295,7 @@ body {
 //! Стили направлений для страниц показать все
 .all__directions {
   @include mixin.flex(center, flex-start, null, 10px);
-  margin-top: 20px;
+  margin-top: 10px;
   padding-bottom: 10px;
   overflow-x: auto; /* Добавлено для горизонтального скролла */
   overflow-y: hidden; /* Скрытие вертикального скроллбара, если он не нужен */
@@ -612,11 +612,12 @@ body {
 }
 
 .testoviy {
-  // margin-top: 30px;
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
   border-radius: 10px;
+
   @media screen and (max-width: 1280px) {
-    display: none;
+    width: 100%;
+    height: auto;
   }
 }
 

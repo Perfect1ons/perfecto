@@ -9,6 +9,7 @@ import {
   CartIcon,
   HeartIconShare,
   HeartIconShareFill,
+  SalesmanIcon,
   ShareIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
@@ -146,7 +147,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
         <div className={styles.ItemPriceCard__salesman}>
           <h3 className={styles.ItemPriceCard__salesman_title}>
-            ИП{" "}
+            <SalesmanIcon/> ИП
             <span className={styles.ItemPriceCard__salesman_title_custom}>
               Нурдин Улуу Нурболот
             </span>

@@ -33,6 +33,7 @@ import {
 import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import ItemBanner from "../ItemBanner/ItemBanner";
 
 interface IPhotosProps {
   photos: Items;
@@ -305,6 +306,9 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             </button>
           </Swiper>
         </div>
+      </div>
+      <div className={styles.banner}>
+        <ItemBanner />
       </div>
     </>
   );

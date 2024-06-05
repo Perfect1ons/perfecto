@@ -17,11 +17,11 @@
 }
 
 @mixin flex($align: null, $justify: null, $direction: null, $gap: null) {
-  display: flex !important;
-  align-items: $align !important;
-  justify-content: $justify !important;
-  flex-direction: $direction !important;
-  gap: $gap !important;
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  flex-direction: $direction;
+  gap: $gap;
 }
 
 @mixin button(
