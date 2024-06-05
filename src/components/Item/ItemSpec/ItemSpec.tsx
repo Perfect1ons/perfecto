@@ -55,6 +55,7 @@ const ItemSpec = ({ data }: IItemsProps) => {
       )}
       {sanitizedSpec && (
         <div
+          onClick={openItemModalDescription}
           dangerouslySetInnerHTML={{
             __html: sanitizedSpec,
           }}

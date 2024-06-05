@@ -53,7 +53,7 @@
         transition: 0.2s all;
         opacity: 0.6;
         cursor: pointer;
-        &:hover{
+        &:hover {
           opacity: 1;
         }
       }
@@ -116,7 +116,7 @@
   }
   &__price {
     @include mixin.flex(center, null, null, 3px);
-    @include mixin.font(28px, bold, 100%, var(--dark));
+    @include mixin.font(18px, bold, 100%, var(--dark));
 
     &_custom {
       @include mixin.font(18px, bold, 100%, var(--dark));
@@ -130,7 +130,7 @@
       padding: 3px;
     }
     &_new {
-      @include mixin.font(28px, bold, 100%, var(--violet));
+      @include mixin.font(18px, bold, 100%, var(--violet));
       &_custom {
         @include mixin.font(18px, bold, 100%, var(--violet));
         border-bottom: 2px solid var(--violet);
@@ -138,7 +138,7 @@
     }
   }
   &__old_price {
-    @include mixin.font(16px, 500, 100%, var(--gray-dark));
+    @include mixin.font(14px, 500, 100%, var(--gray-dark));
     text-decoration: line-through;
   }
 }
@@ -147,6 +147,7 @@
   transform: translateX(0); // конечное положение, когда элемент видимый
 }
 .aboutProductContainer {
+  text-align: justify;
   top: 0;
   @include mixin.flex(null, null, column, 10px);
   padding: 0 30px 30px;

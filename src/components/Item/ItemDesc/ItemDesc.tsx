@@ -57,6 +57,7 @@ const ItemDesc = ({ data }: IDescProps) => {
       <div className={styles.product__descriptionContainer}>
         <p className={styles.product__descriptionContainer_desc}>Описание</p>
         <div
+          onClick={openItemModalDescription}
           className={styles.product__descriptionContainer_text}
           dangerouslySetInnerHTML={{
             __html: sanitizedDescription,
