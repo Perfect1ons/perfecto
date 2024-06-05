@@ -347,7 +347,7 @@
 }
 
 .item__preview {
-  margin-top: 25px;
+  margin: 25px 0 0 0;
   @include mixin.flex(flex-start, space-between, null, 25px);
 
   &_info {
@@ -361,14 +361,18 @@
     }
 
     &_description {
-      @include mixin.flex(flex-start, flex-start, row, 25px);
+      @include mixin.flex(flex-start, space-between, row, 25px);
       width: 100%;
       &_block {
-        max-width: 410px;
+        max-width: 450px;
         width: 100%;
+        @media screen and (max-width: 1410px) {
+          max-width: 100%;
+          width: 100%;
+        }
       }
       @media screen and (max-width: 1410px) {
-        @include mixin.flex(center, flex-start, column, 10px);
+        @include mixin.flex(center, flex-start, column-reverse, 10px);
       }
       @media screen and (max-width: 670px) {
         @include mixin.flex(center, flex-start, column, 10px);
@@ -382,7 +386,6 @@
 
 .priceCard_wrap {
   @include mixin.flex(center, null, column, 15px);
-  width: 100%;
 
   @media screen and (max-width: 1410px) {
     @include mixin.flex(flex-start, space-around, column, null);

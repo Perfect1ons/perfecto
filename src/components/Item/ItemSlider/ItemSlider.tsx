@@ -19,6 +19,7 @@ import {
   Thumbs,
   Keyboard,
   Pagination,
+  Mousewheel,
 } from "swiper/modules";
 
 import InnerImageZoom from "react-inner-image-zoom";
@@ -51,15 +52,52 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     }
   };
 
-  const [cleanHTML, setCleanHTML] = useState("");
-
+  const [cleanHTML, setCleanHTML] = useState<string>("");
   useEffect(() => {
     const sanitizedHTML = DOMPurify.sanitize(photos.video, {
       ADD_TAGS: ["iframe"],
-      ADD_ATTR: ["allow", "allowfullscreen", "frameborder", "scrolling"],
+      ADD_ATTR: [
+        "allow",
+        "allowfullscreen",
+        "frameborder",
+        "scrolling",
+        "autoplay",
+      ],
     });
-    setCleanHTML(sanitizedHTML);
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = sanitizedHTML;
+    const iframe = tempDiv.querySelector("iframe");
+
+    if (iframe) {
+      const src = iframe.getAttribute("src");
+
+      if (src) {
+        try {
+          const newSrc = new URL(src);
+          newSrc.searchParams.set("autoplay", "1");
+          newSrc.searchParams.set("mute", "1");
+          iframe.setAttribute("src", newSrc.toString());
+          iframe.setAttribute("autoplay", "true");
+          iframe.setAttribute("muted", "");
+        } catch (e) {
+          console.error("Invalid URL: ", src);
+        }
+      }
+    }
+
+    setCleanHTML(tempDiv.innerHTML);
   }, [photos.video]);
+
+  const pauseVideo = () => {
+    const iframe = document.querySelector("iframe");
+    if (iframe) {
+      const iframeSrc = iframe.getAttribute("src");
+      if (iframeSrc) {
+        iframe.setAttribute("src", iframeSrc); // Reloads the iframe, effectively pausing the video
+      }
+    }
+  };
 
   if (!photos || !photos.photos || photos.photos.length === 0) {
     return (
@@ -87,6 +125,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             isOpen={modalSliderIsOpen}
             closeModal={modalSliderOpenOrClose}
             photos={photos}
+            zoom={isZoomEnabled}
           />
           <div
             onClick={() => setModalSliderIsOpen(false)}
@@ -96,6 +135,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
       )}
 
       <div className={styles.product__swipers}>
+        {/* Боковой слайдер */}
         <Swiper
           onSwiper={setThumbsSwiper}
           slidesPerView={6}
@@ -103,7 +143,13 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           spaceBetween={10}
           freeMode={true}
           watchSlidesProgress={true}
-          modules={[FreeMode, Navigation, Thumbs]}
+          modules={[FreeMode, Navigation, Thumbs, Mousewheel]}
+          mousewheel={true}
+          navigation={{
+            nextEl: ".swiper-button-next_card",
+            prevEl: ".swiper-button-prev_card",
+            disabledClass: "swiper-button-disabled",
+          }}
           className={clsx(styles.product__cards, "mySwiper")}
         >
           {photos.video && (
@@ -149,10 +195,31 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           >
             <PlusIcon />
           </SwiperSlide>
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_top,
+              "swiper-button-prev_card"
+            )}
+          >
+            <SwiperPrevArrow />
+          </button>
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_bottom,
+              "swiper-button-next_card"
+            )}
+          >
+            <SwiperNextArrow />
+          </button>
         </Swiper>
+
+        {/* Основной слайдер */}
         <div className={styles.mainSwiperWrap}>
           <Swiper
             onSwiper={setMainSwiper}
+            onSlideChange={pauseVideo} // Add this line to pause video on slide change
             keyboard={{
               enabled: true,
             }}
@@ -178,7 +245,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                 ></div>
               </SwiperSlide>
             )}
-            {photos.photos.slice(0, 7).map((photo, index) => (
+            {photos.photos.map((photo, index) => (
               <SwiperSlide
                 key={photos.video ? index + 1 : index}
                 className={styles.activeSlide}

@@ -7,12 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   CartIcon,
-  CopyIcon,
-  GrayFavoritesIcon,
+  HeartIconShare,
+  HeartIconShareFill,
   ShareIcon,
-  TgIcon,
-  VioletFavoritesIcon,
-  WhIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
 import { useState } from "react";
@@ -51,24 +48,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       });
     setCopy(true);
     setTimeout(() => setCopy(false), 5000);
-  };
-
-  const handleWhatsAppClick = () => {
-    window.location.href = `https://wa.me/?text=${encodeURIComponent(
-      window.location.href
-    )}`;
-    setDropdownActive(!dropdownActive);
-  };
-
-  const handleTelegramClick = () => {
-    window.location.href = `https://t.me/share/url?url=${encodeURIComponent(
-      window.location.href
-    )}`;
-    setDropdownActive(!dropdownActive);
-  };
-
-  const handleDropdown = () => {
-    setDropdownActive(!dropdownActive);
   };
 
   const addToCart = () => {
@@ -171,16 +150,15 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         </div>
       </div>
       <div className={styles.shareIcon}>
-        <div className={styles.share_btnControl}>
+        <div className={styles.share_btnControl} onClick={handleFavoriteClick}>
           <button
             title="Добавить в избранное"
-            className={cn("add__to_fav", {
-              ["add__to_fav_active"]: favorite,
+            className={cn(styles.heartIconShare, {
+              [styles.heartIconShareFill]: favorite,
             })}
-            onClick={handleFavoriteClick}
           >
             <span className="add__to_fav_icon">
-              {favorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              {favorite ? <HeartIconShareFill /> : <HeartIconShare />}
             </span>
           </button>
           <span
@@ -189,13 +167,16 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               dropdownActive && styles.share_btnControl_info_active
             )}
           >
+            {/* {favorite ? "Товар в избранном" : "Добавить в избранное"} */}
             Добавить в избранное
           </span>
         </div>
-        <div className={styles.share}>
-          <div className={styles.share_btnControl}>
+        <div className={styles.share} title="Скопировать ссылку">
+          <div
+            className={styles.share_btnControl}
+            onClick={() => handleCopyLink(window.location.href)}
+          >
             <button
-              onClick={handleDropdown}
               className={cn(
                 styles.share_btnControl_shareBtn,
                 dropdownActive && styles.share_btnControl_shareBtn_active
@@ -212,40 +193,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               Поделиться
             </span>
           </div>
-          <div
-            className={cn(
-              styles.share_shareDropdown,
-              dropdownActive && styles.share_shareDropdown_active
-            )}
-          >
-            <div
-              onClick={handleTelegramClick}
-              className={styles.share_shareDropdown_tg}
-            >
-              <TgIcon />
-              <button className={styles.share_shareDropdown_tg_btn}>
-                Telegram
-              </button>
-            </div>
-            <div
-              onClick={handleWhatsAppClick}
-              className={styles.share_shareDropdown_wh}
-            >
-              <WhIcon />
-              <button className={styles.share_shareDropdown_wh_btn}>
-                WhatsApp
-              </button>
-            </div>
-            <div
-              onClick={() => handleCopyLink(window.location.href)}
-              className={styles.share_shareDropdown_copy}
-            >
-              <CopyIcon />
-              <button className={styles.share_shareDropdown_copy_btn}>
-                Скопировать ссылку
-              </button>
-            </div>
-          </div>
+          <UserInfoModal visible={copy} onClose={closeModalCart}>
+            Ссылка скопирована
+          </UserInfoModal>
         </div>
       </div>
     </section>

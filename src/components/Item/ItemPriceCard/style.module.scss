@@ -1,8 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .section_wrap {
-  // max-width: 386px;
-  width: 100%;
   @include mixin.flex(center, center, column, 15px);
 }
 
@@ -13,6 +11,9 @@
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
+  @media screen and (max-width: 1410px) {
+    max-width: none;
+  }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));
     margin-top: 10px;
@@ -95,7 +96,7 @@
 }
 .linkCart {
   text-decoration: underline;
-  color: var(--white);
+  color: var(--dark);
 }
 
 .ItemPriceCard__salesman {
@@ -108,98 +109,37 @@
   }
 }
 .shareIcon {
-  @include mixin.flex(center, null, null, 5px);
+  @include mixin.flex(center, null, null, 10px);
 }
 .share {
   position: relative;
 
   &_btnControl {
     @include mixin.flex(center, null, null, 5px);
+    cursor: pointer;
+    &:hover {
+      > span {
+        color: var(--violet);
+      }
+    }
 
     &_shareBtn {
+      color: var(--dark);
       @include mixin.flex(center, flex-start, null, null);
-      position: relative;
-      padding: 10px;
       cursor: pointer;
-      border-radius: 5px;
       transition: 0.2s;
-      border: 2px solid var(--white);
-      &:hover {
-        border: 2px solid var(--violet);
-      }
-      &:active {
-        color: var(--violet);
-      }
-      &_active {
-        border: 2px solid var(--violet);
-        color: var(--violet);
-      }
+      max-width: 20px;
+      max-height: 18px;
     }
     &_info {
-      @include mixin.font(14px, 500, null, var(--dark));
+      @include mixin.font(14px, 400, null, var(--dark));
     }
   }
-
-  &_shareDropdown {
-    display: none;
-
-    &_active {
-      top: 55px;
-      right: -2px;
-      padding: 15px;
-      position: absolute;
-      background: var(--white);
-      border-radius: 5px;
-      @include mixin.flex(flex-start, null, column, 10px);
-      box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-    }
-    &_tg {
-      @include mixin.flex(center, center, null, 5px);
-      cursor: pointer;
-
-      &_btn {
-        @include mixin.font(0.8125rem, 500, null, var(--dark));
-        text-wrap: nowrap;
-        cursor: pointer;
-      }
-
-      &:hover {
-        > button {
-          color: var(--violet);
-        }
-      }
-    }
-    &_wh {
-      @include mixin.flex(center, center, null, 5px);
-      cursor: pointer;
-
-      &_btn {
-        @include mixin.font(0.8125rem, 500, null, var(--dark));
-        text-wrap: nowrap;
-        cursor: pointer;
-      }
-
-      &:hover {
-        > button {
-          color: var(--violet);
-        }
-      }
-    }
-    &_copy {
-      @include mixin.flex(center, center, null, 5px);
-      cursor: pointer;
-
-      &_btn {
-        @include mixin.font(0.8125rem, 500, null, var(--dark));
-        text-wrap: nowrap;
-        cursor: pointer;
-      }
-
-      &:hover {
-        > button {
-          color: var(--violet);
-        }
-      }
-    }
-  }
+}
+.heartIconShare {
+  color: var(--dark);
+  cursor: pointer;
+}
+.heartIconShareFill {
+  color: var(--red);
 }
