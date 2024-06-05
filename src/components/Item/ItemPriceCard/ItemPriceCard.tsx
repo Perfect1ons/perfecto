@@ -171,7 +171,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             Добавить в избранное
           </span>
         </div>
-        <div className={styles.share} title="Скопировать ссылку">
+        <div className={styles.share} title="Копировать ссылку">
           <div
             className={styles.share_btnControl}
             onClick={() => handleCopyLink(window.location.href)}

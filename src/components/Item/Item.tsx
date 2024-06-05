@@ -77,7 +77,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className="all__directions">
           {breadCrumbs.slice(-1).map((crumbs) => (
             <Link
-              className="all__directions_link all__directions_link_border"
+              className="all__directions_link"
               href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
@@ -161,7 +161,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
-      <SeenProduct />
+      {/* <SeenProduct /> */}
     </section>
   );
 };

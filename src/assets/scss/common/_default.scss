@@ -304,21 +304,17 @@ body {
     @include mixin.font(14px, 400, 150%, var(--gray-dark));
     cursor: pointer;
     background: var(--light-white);
-    padding: 5px 10px;
+    padding: 2px 5px;
     border-radius: 5px;
     transition: 0.2s ease-in;
     text-decoration: none;
     white-space: nowrap; /* Запрет переноса строк для ссылок */
-    border: 2px solid var(--light-white);
-    &_border{
-      border: 2px solid var(--dark-blue);
-    }
     &:hover {
       color: var(--white);
       background: var(--dark-blue);
       .all__directions_arrow{
-                border-right: 2px solid var(--white);
-        border-bottom: 2px solid var(--white);
+        border-right: 1px solid var(--white);
+        border-bottom: 1px solid var(--white);
       }
     }
   }
@@ -326,8 +322,8 @@ body {
         display: inline-block;
         width: 9px;
         height: 9px;
-        border-right: 2px solid var(--dark);
-        border-bottom: 2px solid var(--dark);
+        border-right: 1px solid var(--dark);
+        border-bottom: 1px solid var(--dark);
         transform: rotate(135deg);
   }
 
