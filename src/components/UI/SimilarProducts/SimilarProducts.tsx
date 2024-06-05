@@ -56,7 +56,7 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
 
   return (
     <div className="similarProducts">
-      <h1 className="sections__title container">Похожие товары</h1>
+      <h4 className="sections__title container">Похожие товары</h4>
       <div className="main__news_cards">
         {similar.map((item) => {
           const imageUrls =

@@ -44,9 +44,9 @@ const ItemAccordion = () => {
               width={isMobile ? 24 : 34}
               alt="ddos"
             />
-            <span className={styles.accordionHeader__title_name}>
+            <h3 className={styles.accordionHeader__title_name}>
               Способы доставки
-            </span>
+            </h3>
           </div>
           {isMobile && (
             <span
@@ -56,7 +56,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <div
+        <p
           className={
             activeIndex === 0
               ? styles.accordionContentActive
@@ -66,7 +66,7 @@ const ItemAccordion = () => {
           Согласовать с менеджером, Бесплатная доставка, Курьером по г. Бишкек
           от 200 сом, Самовывоз, По Кыргызстану – от 300 сом, Габаритный груз от
           600 сом.
-        </div>
+        </p>
       </div>
       <div className={styles.accordionItem}>
         <div
@@ -83,9 +83,9 @@ const ItemAccordion = () => {
               width={isMobile ? 24 : 34}
               alt="wallet"
             />
-            <span className={styles.accordionHeader__title_name}>
+            <h3 className={styles.accordionHeader__title_name}>
               Оплата удобным способом
-            </span>
+            </h3>
           </div>
           {isMobile && (
             <span
@@ -95,7 +95,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <div
+        <p
           className={
             activeIndex === 1
               ? styles.accordionContentActive
@@ -105,7 +105,7 @@ const ItemAccordion = () => {
           MBank Online, Наличными в офисе, На электронный кошелек Элсом, Онлайн
           картой Visa, MasterCard, Elcart, Через терминал, Банковский перевод,
           Оплата Balance.kg, Согласовать с менеджером.
-        </div>
+        </p>
       </div>
       <div className={styles.accordionItem}>
         <div
@@ -122,9 +122,9 @@ const ItemAccordion = () => {
               width={isMobile ? 24 : 34}
               alt="guarantee"
             />
-            <span className={styles.accordionHeader__title_name}>
+            <h3 className={styles.accordionHeader__title_name}>
               Гарантии покупателя
-            </span>
+            </h3>
           </div>
           {isMobile && (
             <span
@@ -134,7 +134,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <div
+        <p
           className={
             activeIndex === 2
               ? styles.accordionContentActive
@@ -142,7 +142,7 @@ const ItemAccordion = () => {
           }
         >
           Гарантии покупателя.
-        </div>
+        </p>
       </div>
     </div>
   );
