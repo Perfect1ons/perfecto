@@ -120,7 +120,7 @@
 
     &_custom {
       @include mixin.font(18px, bold, 100%, var(--dark));
-      border-bottom: 2px solid var(--dark);
+      border-bottom: 3px solid var(--dark);
     }
     &_discount {
       @include mixin.font(14px, 500, 100%, var(--dark));
@@ -130,10 +130,11 @@
       padding: 3px;
     }
     &_new {
+      @include mixin.flex(center, null, null, 3px);
       @include mixin.font(28px, bold, 100%, var(--violet));
       &_custom {
         @include mixin.font(18px, bold, 100%, var(--violet));
-        border-bottom: 2px solid var(--violet);
+        border-bottom: 3px solid var(--violet);
       }
     }
   }
@@ -173,8 +174,14 @@
   }
 }
 .buttonsContainer {
-  max-width: 145px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  max-width: 300px;
   width: 100%;
+    @media screen and (max-width: 768px) {
+      max-width: 150px;
+    }
 }
 .ItemPriceCard__buttons {
   @include mixin.flex(center, space-between, null, 15px);
@@ -183,6 +190,7 @@
     @include mixin.flex(center, center, null, 10px);
     background: var(--dark-blue);
     padding: 8px;
+    max-width: 150px;
     font-weight: bold;
     width: 100%;
     color: var(--white);
@@ -203,6 +211,10 @@
     cursor: pointer;
     &:hover {
       background: #811f48;
+    }
+    
+    @media screen and (max-width: 768px) {
+      display: none;
     }
   }
 }
