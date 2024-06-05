@@ -11,3 +11,9 @@
     @include mixin.flex(center, space-around, column, null);
   }
 }
+
+.banner {
+  @media screen and (max-width: 1280px) {
+    display: none;
+  }
+}

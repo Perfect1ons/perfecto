@@ -438,3 +438,11 @@
     width: 100%;
   }
 }
+
+.banner {
+  display: none;
+  @media screen and (max-width: 480px) {
+    display: block;
+    margin-top: 15px;
+  }
+}
