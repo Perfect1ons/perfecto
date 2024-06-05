@@ -186,15 +186,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               />
             </SwiperSlide>
           ))}
-          <SwiperSlide
-            className={clsx(
-              styles.product__cards_item,
-              styles.little_show_more
-            )}
-            onClick={modalSliderOpenOrClose}
-          >
-            <PlusIcon />
-          </SwiperSlide>
           <button
             className={clsx(
               styles.sliderArrow,
@@ -256,14 +247,14 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     height={500}
                     src={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700.jpg`
+                        ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                     }
                     zoomSrc={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700.jpg`
+                        ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
@@ -279,7 +270,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     height={500}
                     src={
                       photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700.jpg`
+                        ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
                         : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
@@ -291,7 +282,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               </SwiperSlide>
             ))}
             <button className={styles.seeAll} onClick={modalSliderOpenOrClose}>
-              Посмотреть все
+              Все фото
             </button>
             <button
               className={clsx(

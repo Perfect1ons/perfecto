@@ -45,6 +45,7 @@
     width: fit-content;
     scale: 0.7;
   }
+
   @media screen and (max-width: 475px) {
     max-width: 350px;
     &_iframe {
@@ -116,7 +117,15 @@
 .mainSwiperWrap {
   width: 450px;
   height: 450px;
+  &:hover {
+    .seeAll {
+      display: block;
+    }
+  }
   @include mixin.flex(flex-start, center, column, 5px);
+  @media screen and (max-width: 672px) {
+    @include mixin.flex(stretch, stretch, column, 0);
+  }
   &_btn {
     @include mixin.button(
       5px 10px,
@@ -171,15 +180,24 @@
 
 .seeAll {
   display: none;
-  @media screen and (max-width: 992px) {
+  position: absolute;
+  bottom: 0;
+  // right: 0;
+  left: 15%;
+  margin: 0 0 0.7em 1em;
+  z-index: 2;
+  user-select: none;
+  transition: all 0.2s linear;
+  @media screen and (max-width: 1410px) {
     display: block;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    margin: 10px;
-    z-index: 2;
-    user-select: none;
-    transition: all 0.2s linear;
+    font-size: 10px;
+    font-weight: 600;
+    margin: 0 0 0.9em 1.5em;
+  }
+
+  @media screen and (max-width: 476px) {
+    margin: 0 0 1.4em 3em;
+    font-size: 8px;
   }
 
   &:hover {
@@ -194,8 +212,8 @@
     2px solid var(--dark-blue),
     8px,
     var(--dark-blue),
-    14px,
-    600,
+    12px,
+    700,
     var(--white)
   );
 }
