@@ -9,18 +9,19 @@ import { ISeasonCategoryItem } from "@/types/seasonCategory";
 import Loader from "@/components/UI/Loader/Loader";
 import Link from "next/link";
 import { cookies } from "next/headers";
+import clsx from "clsx";
 interface ISeasonCategorySwiperProps {
   seasonItems: ISeasonCategoryItem[];
 }
 
 const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      setLoading(false);
-    }, []);
+  useEffect(() => {
+    setLoading(false);
+  }, []);
   return (
-    <section className="season__category">
+    <section className={clsx(styles.category_swiper, "season__category")}>
       <div className="container">
         <h1 className="sections__title">Сезонные категории</h1>
         {loading ? (
@@ -91,18 +92,24 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                 </SwiperSlide>
               );
             })}
-            <div className={styles.team__swiper_buttons}>
-              <div className="team__btn_prev">
-                <button className={styles.team__swiper_btn}>
-                  <ArrowLeftIcon />
-                </button>
-              </div>
-              <div className="team__btn_next">
-                <button className={styles.team__swiper_btn}>
-                  <ArrowRightIcon />
-                </button>
-              </div>
-            </div>
+            <button
+              className={clsx(
+                styles.team__swiper_btn,
+                styles.team__swiper_btn_left,
+                "team__btn_prev"
+              )}
+            >
+              <ArrowLeftIcon />
+            </button>
+            <button
+              className={clsx(
+                styles.team__swiper_btn,
+                styles.team__swiper_btn_right,
+                "team__btn_next"
+              )}
+            >
+              <ArrowRightIcon />
+            </button>
           </Swiper>
         )}
       </div>

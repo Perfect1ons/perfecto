@@ -182,7 +182,6 @@
   display: none;
   position: absolute;
   bottom: 0;
-  // right: 0;
   left: 15%;
   margin: 0 0 0.7em 1em;
   z-index: 2;
@@ -200,11 +199,11 @@
     font-size: 8px;
   }
 
-  &:hover {
-    background: var(--white);
-    color: var(--dark-blue);
-    font-weight: 700;
-  }
+  // &:hover {
+  //   background: var(--white);
+  //   color: var(--dark-blue);
+  //   font-weight: 700;
+  // }
 
   @include mixin.button(
     5px 8px,

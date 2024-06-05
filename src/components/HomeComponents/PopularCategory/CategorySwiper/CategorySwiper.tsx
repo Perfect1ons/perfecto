@@ -112,18 +112,24 @@ export default function CategorySwiper({ category }: ICategory) {
               </SwiperSlide>
             );
           })}
-          <div className={styles.team__swiper_buttons}>
-            <div className="team__btn_prev">
-              <button className={styles.team__swiper_btn}>
-                <ArrowLeftIcon />
-              </button>
-            </div>
-            <div className="team__btn_next">
-              <button className={styles.team__swiper_btn}>
-                <ArrowRightIcon />
-              </button>
-            </div>
-          </div>
+          <button
+            className={clsx(
+              styles.team__swiper_btn,
+              styles.team__swiper_btn_left,
+              "team__btn_prev"
+            )}
+          >
+            <ArrowLeftIcon />
+          </button>
+          <button
+            className={clsx(
+              styles.team__swiper_btn,
+              styles.team__swiper_btn_right,
+              "team__btn_next"
+            )}
+          >
+            <ArrowRightIcon />
+          </button>
         </Swiper>
       )}
     </div>

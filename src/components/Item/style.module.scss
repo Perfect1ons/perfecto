@@ -376,10 +376,10 @@
         }
       }
       @media screen and (max-width: 1410px) {
-        @include mixin.flex(center, flex-start, column-reverse, 10px);
+        @include mixin.flex(flex-start, flex-start, column-reverse, 10px);
       }
       @media screen and (max-width: 670px) {
-        @include mixin.flex(center, flex-start, column, 10px);
+        @include mixin.flex(center, flex-start, column-reverse, 10px);
       }
     }
   }

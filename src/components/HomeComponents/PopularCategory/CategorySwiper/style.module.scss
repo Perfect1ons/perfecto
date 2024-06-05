@@ -1,5 +1,7 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
-
+.category_swiper {
+  position: relative;
+}
 .swiper__slide_img {
   border-radius: 5px;
   user-select: none;
@@ -13,46 +15,43 @@
 }
 
 .team__swiper_btn {
+  z-index: 20;
   cursor: pointer;
-  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
+  top: 38%;
+  position: absolute;
+  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
   background: var(--white);
   padding: 12.5px 14px 10px 15px;
   border-radius: 10px;
   border: none;
-}
 
-.team__swiper_buttons {
-  position: absolute;
-  z-index: 10;
-  top: 43%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 99.5%;
-  left: 0.2%;
-
-  @media screen and (max-width: 640px) {
-    display: none;
+  &_left {
+    left: 5px;
+  }
+  &_right {
+    right: 5px;
+  }
+  @media screen and (max-width: 768px) {
+    top: 30%;
   }
 }
 
-
-.skeleton__container{
-      display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    @media screen and (max-width: 1200px) {
-        grid-template-columns: repeat(5, 1fr);
-    }
-    @media screen and (max-width: 992px) {
-        grid-template-columns: repeat(4, 1fr);
-    }
-    @media screen and (max-width: 768px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    @media screen and (max-width: 480px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    @media screen and (max-width: 280px) {
-        grid-template-columns: repeat(3, 1fr);
-    }
+.skeleton__container {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 280px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
