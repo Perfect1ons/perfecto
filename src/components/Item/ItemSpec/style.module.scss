@@ -3,6 +3,7 @@
 .product__aboutTheProduct {
   &_wrap {
     @include mixin.font(14px, 400, 120%, var(--dark));
+    cursor: pointer;
     max-height: 100px; // ограничение высоты блока текста
     overflow: hidden; // скрытие переполнения текста
     position: relative; // для абсолютного позиционирования псевдоэлемента
