@@ -55,7 +55,7 @@ const ItemDesc = ({ data }: IDescProps) => {
         />
       </div>
       <div className={styles.product__descriptionContainer}>
-        <h2 className={styles.product__descriptionContainer_desc}>Описание</h2>
+        <p className={styles.product__descriptionContainer_desc}>Описание</p>
         <div
           className={styles.product__descriptionContainer_text}
           dangerouslySetInnerHTML={{
