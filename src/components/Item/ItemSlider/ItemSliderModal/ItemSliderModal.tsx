@@ -6,6 +6,7 @@ import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
+import ItemPriceCardWrap from "../../ItemPriceCardWrap/ItemPriceCardWrap";
 
 interface IReviewModal {
   photos: Items; // Accessing the photos property from Items
@@ -54,6 +55,10 @@ const ItemSliderModal = ({
           </button>
         </div>
 
+        <div className={styles.priceCard}>
+          <ItemPriceCardWrap data={photos} />
+        </div>
+
         <ul className={styles.ul}>
           {photos.photos.map((photo, index) => (
             <li className={styles.li} key={index}>
@@ -63,14 +68,14 @@ const ItemSliderModal = ({
                   height={500}
                   src={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}700.jpg`
+                      ? `${photo.url_part}1080-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                   }
                   zoomSrc={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}700.jpg`
+                      ? `${photo.url_part}1080-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
@@ -86,7 +91,7 @@ const ItemSliderModal = ({
                   height={500}
                   src={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}700.jpg`
+                      ? `${photo.url_part}1080-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`

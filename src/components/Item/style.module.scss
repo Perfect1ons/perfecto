@@ -353,6 +353,10 @@
   &_info {
     width: 100%;
 
+    @media screen and (max-width: 672px) {
+      margin-top: -40px;
+    }
+
     &_title {
       font-size: 20px;
       line-height: 120%;
@@ -380,7 +384,10 @@
     }
   }
   @media screen and (max-width: 1024px) {
-    @include mixin.flex(center, space-between, column, 25px);
+    @include mixin.flex(center, null, column, 0);
+  }
+  @media screen and (max-width: 672px) {
+    margin: 0 !important;
   }
 }
 

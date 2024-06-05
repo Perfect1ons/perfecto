@@ -82,7 +82,6 @@
   width: 700px !important;
   height: 700px;
   user-select: none;
-  border: 2px solid var(--light-white);
 
   @media screen and (max-width: 768px) {
     height: auto;
@@ -114,5 +113,14 @@
     max-width: 100%;
     width: 100%;
     height: auto;
+  }
+}
+
+.priceCard {
+  position: fixed;
+  top: 15%;
+  right: 5%;
+  @media screen and (max-width: 1330px) {
+    display: none;
   }
 }

@@ -18,6 +18,7 @@ import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
+import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 
 interface IItemPageProps {
   data: Items;
@@ -81,7 +82,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
-             <span className="all__directions_arrow"></span> Назад
+              <span className="all__directions_arrow"></span> Назад
             </Link>
           ))}
 
@@ -150,10 +151,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   )}
                 </h3>
               </div>
-              <div className={styles.priceCard_wrap}>
+              {/* <div className={styles.priceCard_wrap}>
                 <ItemPriceCard data={data} />
                 <ItemBanner />
-              </div>
+              </div> */}
+              <ItemPriceCardWrap data={data} />
             </div>
           </div>
         </div>
