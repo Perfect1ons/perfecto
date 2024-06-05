@@ -4,7 +4,7 @@
   @include mixin.flex(flex-start, flex-start, column, 15px);
 
   @media screen and (max-width: 1410px) {
-    @include mixin.flex(flex-start, start, row, 10px);
+    @include mixin.flex(flex-start, flex-start, row, 10px);
     width: 100%;
   }
   @media screen and (max-width: 1270px) {
