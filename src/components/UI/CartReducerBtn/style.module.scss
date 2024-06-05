@@ -17,15 +17,16 @@
     padding: 2px;
     background: var(--white);
     border-radius: 5px;
+    color: var(--dark-blue);
 
     &:active {
       background: var(--light-gray);
     }
   }
   &_screen {
+    @include mixin.font(null, 700, null, var(--white));
     text-align: center;
-    color: var(--white);
-    width: 50px;
+    width: 45px;
     border-radius: 5px;
     &:focus {
       border: 1px solid var(--white);
@@ -37,6 +38,7 @@
     padding: 2px;
     background: var(--white);
     border-radius: 5px;
+    color: var(--dark-blue);
     &:active {
       background: var(--light-gray);
     }

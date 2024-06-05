@@ -6,15 +6,12 @@ import Link from "next/link";
 import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
-import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 import ProductReview from "./ProductReview/ProductReview";
 import { useState } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
-import ItemBanner from "./ItemBanner/ItemBanner";
-import { CopyIcon } from "../../../public/Icons/Icons";
-import SeenProduct from "./SeenProduct/SeenProduct";
+import { BackArrow, CopyIcon } from "../../../public/Icons/Icons";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
@@ -78,11 +75,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className="all__directions">
           {breadCrumbs.slice(-1).map((crumbs) => (
             <Link
-              className="all__directions_link all__directions_link_border"
+              className="all__directions_link"
               href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
-              <span className="all__directions_arrow"></span> Назад
+              <BackArrow />
+              Назад
             </Link>
           ))}
 
@@ -151,10 +149,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   )}
                 </h3>
               </div>
-              {/* <div className={styles.priceCard_wrap}>
-                <ItemPriceCard data={data} />
-                <ItemBanner />
-              </div> */}
               <ItemPriceCardWrap data={data} />
             </div>
           </div>
@@ -163,7 +157,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <ItemAccordion />
       </div>
       <SimilarProducts similar={similar} />
-      <SeenProduct />
     </section>
   );
 };

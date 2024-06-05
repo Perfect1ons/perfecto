@@ -6,14 +6,14 @@ import CatalogProductList from "./CatalogProductList";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
-import { Cross } from "../../../../public/Icons/Icons";// Assuming the API function is placed in @/api/catalog
+import { BackArrow, Cross } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import FiltersProducts from "../FiltersProducts/FiltersProducts";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
-  breadCrumbs: BreadCrumbs[]
+  breadCrumbs: BreadCrumbs[];
 }
 interface IFiltersProps {
   brand: string[];
@@ -30,7 +30,7 @@ type BrandSelection = {
 export default function CatalogProducts({
   catalog,
   filter,
-  breadCrumbs
+  breadCrumbs,
 }: ICatalogProductsProps) {
   const initialItems = catalog.category.tov || []; // Ensure initialItems is always an array
   const [items, setItems] = useState<Tov[]>(initialItems);
@@ -187,7 +187,7 @@ export default function CatalogProducts({
             href={`/catalog/${crumbs.full_slug}`}
             key={crumbs.id}
           >
-            <span className="all__directions_arrow"></span> Назад
+            <BackArrow /> Назад
           </Link>
         ))}
         {breadCrumbs.map((crumbs) => {
