@@ -9,17 +9,31 @@
   position: fixed;
   background: var(--white);
   z-index: 200;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 510px;
+  max-height: 90%;
   padding: 25px;
-  padding-right: 5px;
   border-radius: 5px;
   top: 35px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #b6b6b6;
+    border-radius: 5px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #7f7f7f;
+  }
 
   &_nav {
-    margin-right: 5px;
-    margin-bottom: 5px;
-    padding-right: 15px;
     width: 100%;
     @include mixin.flex(center, space-between, null, null);
     &_title {
@@ -40,7 +54,6 @@
   }
 
   &_sendBtn {
-    margin-right: 15px;
     user-select: none;
     cursor: pointer;
     border-radius: 5px;
@@ -62,39 +75,18 @@
       background-size: 100% 80000%;
     }
   }
-  @media screen and (max-width: 576px) {
-    margin: 0;
-    padding-left: 10px;
+  @media screen and (max-width: 640px) {
+    padding: 10px;
   }
 }
 .container {
   @include mixin.flex(center, null, column, null);
   background: var(--white);
-  width: 100%;
-  // max-height: 740px;
-  overflow-y: scroll;
   z-index: 200;
-  overflow-x: hidden;
 
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
 
-  /* Handle */
-  &::-webkit-scrollbar-thumb {
-    transition: 0.5s;
-    background: #888;
-    border-radius: 5px;
-  }
-
-  /* Handle on hover */
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
 
   &_product {
-    margin-right: 10px;
-    margin-top: 5px;
     align-self: flex-start;
     @include mixin.flex(center, center, null, 10px);
     &_imageContainer {
@@ -147,10 +139,8 @@
     }
   }
   &_inputs {
-    padding: 0 5px;
-    max-width: 450px;
     position: relative;
-    margin-top: 45px;
+    margin-top: 25px;
     width: 100%;
     @include mixin.flex(center, null, column, null);
 
@@ -162,13 +152,14 @@
     &_name {
       @include mixin.font(1rem, 400, null, var(--dark));
       width: 100%;
-      outline: 2px solid var(--secondary-white);
+      border: 2px solid var(--secondary-white);
       border-radius: 5px;
+      outline: none;
       padding: 8px 8px;
       // margin: 0 2px;
       &:focus {
         border-radius: 5px;
-        outline: 2px solid var(--focus);
+        border: 2px solid var(--focus);
       }
     }
     &_warning {
@@ -182,17 +173,15 @@
     }
   }
   &_areas {
-    margin-right: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
     width: 100%;
-    max-width: 450px;
     @include mixin.flex(center, null, column, null);
     &_block {
-      padding-top: 10px;
-      max-width: 450px;
       @include mixin.flex(flex-start, null, column, null);
+      width: 100%;
       &_title {
         user-select: none;
+        width: 100%;
         padding: 0;
         @include mixin.font(1rem, 400, null, var(--secondary-gray));
       }
@@ -204,12 +193,13 @@
         padding: 8px 8px;
         @include mixin.font(1rem, 400, null, var(--dark));
         resize: none;
-        width: 450px;
-        max-height: auto;
+        width: 100%;
         max-height: 165px;
-        outline: 2px solid var(--secondary-white);
+        border: 2px solid var(--secondary-white);;
+        outline: none;
         &:focus {
-          outline: 2px solid var(--focus);
+          border: 2px solid var(--focus);
+          outline: none;
         }
       }
     }
@@ -218,11 +208,8 @@
     }
   }
   &_selectMedia {
-    margin-right: 10px;
-    margin-top: 5px;
     @include mixin.flex(center, center, null, null);
     width: 100%;
-    max-width: 450px;
     &_uploadBtn {
       @include mixin.flex(center, center, null, 10px);
       background-color: var(--secondary);
@@ -230,8 +217,10 @@
       padding: 10px 60px;
       width: 100%;
       position: relative;
+      border: 2px solid var(--secondary-white);;
+      outline: none;
       transition: 0.4s all;
-      border: 2px solid var(--secondary);
+      
       &:hover {
         background-color: var(--white);
       }
@@ -277,6 +266,7 @@
         }
       }
       &_img {
+        margin-top: 10px;
         border: 2px solid var(--dark-blue);
         width: 100%;
         max-height: 80px;
