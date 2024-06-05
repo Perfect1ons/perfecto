@@ -24,9 +24,9 @@
     }
   }
   &_screen {
+    @include mixin.font(null, 700, null, var(--white));
     text-align: center;
-    color: var(--white);
-    width: 50px;
+    width: 45px;
     border-radius: 5px;
     &:focus {
       border: 1px solid var(--white);
