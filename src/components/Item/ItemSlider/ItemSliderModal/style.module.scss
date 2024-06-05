@@ -39,6 +39,7 @@
     margin-bottom: 5px;
     width: 100%;
     padding: 0 30px;
+    position: fixed;
     @include mixin.flex(center, space-between, null, null);
     &_title {
       user-select: none;
@@ -54,7 +55,7 @@
     }
     @media screen and (max-width: 725px) {
       margin-bottom: 15px;
-      padding: 0 10px;
+      padding: 0 20px;
     }
   }
 }
@@ -93,28 +94,30 @@
 
 .swipe_down {
   position: absolute;
-  left: 53%;
+  z-index: 100;
+  left: 50%;
   transform: translateX(-50%);
   bottom: 5%;
+
   transition: all 0.3s ease;
-  max-width: 430px;
-  width: 100%;
+  max-width: max-content;
+  width: max-content;
   padding: 8px 8px;
   border-radius: 8px;
   display: flex;
   align-items: center;
+  justify-content: space-evenly;
   gap: 8px;
   background: var(--light-white);
 
   @media screen and (max-width: 768px) {
     max-width: 370px;
-    font-size: 14px;
+    font-size: 13px;
   }
 
   @media screen and (max-width: 480px) {
-    max-width: 100%;
-    width: 100%;
     height: auto;
+    font-size: 12px;
   }
 }
 

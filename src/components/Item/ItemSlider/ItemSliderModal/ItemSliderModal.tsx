@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image"; // Assuming you're using Next.js Image component
 import styles from "./style.module.scss";
 import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
@@ -22,9 +22,19 @@ const ItemSliderModal = ({
   zoom,
 }: IReviewModal) => {
   const [isAtTop, setIsAtTop] = useState(false);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsAtTop(e.currentTarget.scrollTop === 0);
+  };
+
+  const handleSwipeDownClick = () => {
+    if (wrapperRef.current) {
+      wrapperRef.current.scrollBy({
+        top: window.innerHeight,
+        behavior: "smooth",
+      });
+    }
   };
 
   useEffect(() => {
@@ -41,9 +51,9 @@ const ItemSliderModal = ({
 
   return (
     <div className={styles.modal}>
-      <div className={styles.wrapper} onScroll={handleScroll}>
+      <div className={styles.wrapper} onScroll={handleScroll} ref={wrapperRef}>
         {isAtTop && (
-          <div className={styles.swipe_down}>
+          <div className={styles.swipe_down} onClick={handleSwipeDownClick}>
             {chevronDownIcon()}
             Листайте вниз, чтобы увидеть больше картинок
           </div>

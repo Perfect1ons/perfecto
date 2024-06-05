@@ -391,17 +391,6 @@
   }
 }
 
-.priceCard_wrap {
-  @include mixin.flex(null, null, column, 15px);
-
-  @media screen and (max-width: 1410px) {
-    @include mixin.flex(flex-start, space-around, column, null);
-  }
-  @media screen and (max-width: 1024px) {
-    @include mixin.flex(center, space-around, column, null);
-  }
-}
-
 .brand__link {
   margin-top: 30px;
   text-decoration: none;
