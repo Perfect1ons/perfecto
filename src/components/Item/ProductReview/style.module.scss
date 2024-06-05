@@ -1,5 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .wrap {
+  user-select: none;
   &_title {
     @include mixin.font(20px, 600, 120%, var(--gray));
     margin-bottom: 10px;

@@ -66,7 +66,7 @@ const AppBanner = () => {
             ></Image>
             <div className={styles.appBannerInfoText}>
               <p className={styles.appBannerInfoTextDesc}>Приложение</p>
-              <h2 className={styles.appBannerInfoTextTitle}>max.kg</h2>
+              <p className={styles.appBannerInfoTextTitle}>max.kg</p>
             </div>
           </div>
           <button onClick={handleOpenApp} className={styles.appBannerOpenBtn}>

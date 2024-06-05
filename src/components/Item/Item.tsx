@@ -105,7 +105,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               <div className={styles.item__preview_info_description_block}>
                 {data.description ? <ItemDesc data={data} /> : null}
                 <div className={styles.product__aboutTheProduct}>
-                  Код:
+                  <span className={styles.product__aboutTheProduct_codeName}>
+                    Код:
+                  </span>
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div
                     className={styles.product__aboutTheProduct_div}
@@ -135,7 +137,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     </span>
                   </Link>
                 ) : null}
-                <h3 className={styles.all__goods}>
+                <p className={styles.all__goods}>
                   Все товары категории:{" "}
                   {matchingBreadCrumb ? (
                     <Link
@@ -147,7 +149,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   ) : (
                     "Категория не найдена"
                   )}
-                </h3>
+                </p>
               </div>
               <ItemPriceCardWrap data={data} />
             </div>

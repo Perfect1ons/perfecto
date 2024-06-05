@@ -296,6 +296,9 @@
   &__aboutTheProduct {
     @include mixin.flex(center, space-between, null, 5px);
     @include mixin.font(14px, 400, 1.4, var(--dark));
+    &_codeName {
+      user-select: none;
+    }
     &_span {
       display: block;
       width: 100%;
@@ -309,6 +312,7 @@
       @include mixin.flex(center, center, null, 5px);
       &_copy {
         cursor: pointer;
+        scale: 0.9;
         &:hover {
           color: var(--violet);
         }
@@ -361,6 +365,7 @@
       font-size: 20px;
       line-height: 120%;
       font-weight: 600;
+      user-select: none;
       color: var(--gray-dark);
     }
 
@@ -392,6 +397,7 @@
 }
 
 .brand__link {
+  user-select: none;
   margin-top: 30px;
   text-decoration: none;
   color: var(--dark);
@@ -416,6 +422,7 @@
 }
 
 .all__goods {
+  user-select: none;
   @include mixin.flex(center, flex-start, null, 3px);
   flex-wrap: wrap;
   @include mixin.font(14px, 400, 100%, var(--dark));

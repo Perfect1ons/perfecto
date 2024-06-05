@@ -1,39 +1,37 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
-.product{
-     &__descriptionContainer {
-      max-width: 100%;
-      min-width: 100%;
+.product {
+  &__descriptionContainer {
+    max-width: 100%;
+    min-width: 100%;
+    width: 100%;
+    @include mixin.flex(flex-start, flex-start, column, 5px);
+    &_desc {
+      @include mixin.font(14px, 500, null, var(--dark));
+    }
+    &_text {
+      @include mixin.font(14px, 400, null, var(--dark));
       width: 100%;
-     @include mixin.flex(flex-start, flex-start, column, 5px);
-     &_desc {
-       @include mixin.font(14px, 500, null, var(--dark));
-     }
-     &_text {
-       @include mixin.font(14px, 400, null, var(--dark));
-       width: 100%;
-       cursor: pointer;
-       @media screen and (min-width: 1400px) {
+      cursor: pointer;
+      @media screen and (min-width: 1400px) {
         .aboutProduct {
           line-height: 1;
-       }
+        }
+      }
+    }
+    &_button {
+      @include mixin.font(14px, 500, null, var(--light-blue));
+      cursor: pointer;
+      transition: 0.3;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
 }
 
-     }
-     &_button {
-       @include mixin.font(14px, 500, null, var(--light-blue));
-       cursor: pointer;
-       transition: 0.3;
-       &:hover {
-         color: var(--violet);
-       }
-     }
-   }
-}
-
-.product__description{
+.product__description {
+  user-select: none;
   margin-top: 10px;
   max-width: 400px;
 }
-
-

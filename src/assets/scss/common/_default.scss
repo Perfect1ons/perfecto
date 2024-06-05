@@ -603,6 +603,7 @@ body {
 }
 
 .topten {
+  user-select: none;
   margin-top: 10px;
   margin-bottom: 10px;
   @media screen and (max-width: 480px) {
