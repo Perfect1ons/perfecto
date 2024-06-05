@@ -1,5 +1,10 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .wrap {
+  &_title {
+    @include mixin.font(20px, 600, 120%, var(--gray));
+    margin-bottom: 10px;
+    user-select: none;
+  }
   &_review {
     margin-bottom: 15px;
     &_grade_title {
