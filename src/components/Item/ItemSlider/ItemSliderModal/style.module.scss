@@ -38,6 +38,7 @@
   &_nav {
     margin-bottom: 5px;
     width: 100%;
+    padding: 0 30px;
     @include mixin.flex(center, space-between, null, null);
     &_title {
       user-select: none;
@@ -53,6 +54,7 @@
     }
     @media screen and (max-width: 725px) {
       margin-bottom: 15px;
+      padding: 0 10px;
     }
   }
 }

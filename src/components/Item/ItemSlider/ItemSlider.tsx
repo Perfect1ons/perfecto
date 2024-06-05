@@ -186,15 +186,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               />
             </SwiperSlide>
           ))}
-          <SwiperSlide
-            className={clsx(
-              styles.product__cards_item,
-              styles.little_show_more
-            )}
-            onClick={modalSliderOpenOrClose}
-          >
-            <PlusIcon />
-          </SwiperSlide>
           <button
             className={clsx(
               styles.sliderArrow,
