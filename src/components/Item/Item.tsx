@@ -13,11 +13,12 @@ import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import ItemBanner from "./ItemBanner/ItemBanner";
-import { CopyIcon } from "../../../public/Icons/Icons";
+import { BackArrow, CopyIcon } from "../../../public/Icons/Icons";
 import SeenProduct from "./SeenProduct/SeenProduct";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
+import Image from "next/image";
 
 interface IItemPageProps {
   data: Items;
@@ -81,7 +82,8 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
-             <span className="all__directions_arrow"></span> Назад
+              <BackArrow />
+              Назад
             </Link>
           ))}
 

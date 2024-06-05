@@ -132,6 +132,7 @@
       transition: 0.2s;
       max-width: 20px;
       max-height: 18px;
+      scale: 0.9;
     }
     &_info {
       @include mixin.font(14px, 400, null, var(--dark));

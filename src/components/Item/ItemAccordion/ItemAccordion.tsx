@@ -39,12 +39,14 @@ const ItemAccordion = () => {
           <div className={styles.accordionHeader__title}>
             <Image
               className={styles.accordionHeader__icon}
-              src="https://max.kg/images/delivery_icon.svg"
+              src="/img/delivery_icon.svg"
               height={isMobile ? 24 : 34}
               width={isMobile ? 24 : 34}
               alt="ddos"
             />
-            <span className={styles.accordionHeader__title_name}>Способы доставки</span>
+            <span className={styles.accordionHeader__title_name}>
+              Способы доставки
+            </span>
           </div>
           {isMobile && (
             <span
@@ -76,12 +78,14 @@ const ItemAccordion = () => {
           <div className={styles.accordionHeader__title}>
             <Image
               className={styles.accordionHeader__icon}
-              src="https://max.kg/images/opl.png"
+              src="/img/wallet_icon.svg"
               height={isMobile ? 24 : 34}
               width={isMobile ? 24 : 34}
               alt="wallet"
             />
-            <span className={styles.accordionHeader__title_name}>Оплата удобным способом</span>
+            <span className={styles.accordionHeader__title_name}>
+              Оплата удобным способом
+            </span>
           </div>
           {isMobile && (
             <span
@@ -113,12 +117,14 @@ const ItemAccordion = () => {
           <div className={styles.accordionHeader__title}>
             <Image
               className={styles.accordionHeader__icon}
-              src="https://max.kg/images/24xNxgarant.png.pagespeed.ic.Ow9d0Ckbof.webp"
+              src="/img/shield_icon.svg"
               height={isMobile ? 24 : 34}
               width={isMobile ? 24 : 34}
               alt="guarantee"
             />
-            <span className={styles.accordionHeader__title_name}>Гарантии покупателя</span>
+            <span className={styles.accordionHeader__title_name}>
+              Гарантии покупателя
+            </span>
           </div>
           {isMobile && (
             <span
