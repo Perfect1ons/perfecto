@@ -9,15 +9,11 @@
   margin-top: 10px;
 }
 .modal__more_button{
-  color: var(--light-blue);
-  border-bottom: 1px dashed var(--light-blue);
+  color: var(--dark-blue);
+  border-bottom: 1px dashed var(--dark-blue);
   cursor: pointer;
   font-weight: 500;
 
-  &:hover{
-    color: var(--dark-blue);
-    border-bottom: 1px dashed var(--dark-blue);
-  }
 }
 
 

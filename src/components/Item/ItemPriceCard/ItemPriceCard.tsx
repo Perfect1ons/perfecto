@@ -137,7 +137,11 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           {product?.quantity && (
             <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
           )}
-          <button className={styles.ItemPriceCard__buttons_buy}>Купить</button>
+          {data.cenaok < 1000 ? null : (
+            <button className={styles.ItemPriceCard__buttons_buy}>
+              Купить
+            </button>
+          )}
         </div>
 
         <div className={styles.ItemPriceCard__salesman}>
