@@ -19,11 +19,24 @@
       @include mixin.flex(center, flex-start, null, 25px);
       margin-bottom: 10px;
       margin-left: 10px;
-      &_star {
-        scale: 1.8;
-        background: none;
-        border: none;
-        cursor: pointer;
+
+      &_ocenka {
+        margin-right: 10px;
+        @include mixin.flex(null, center, null, null);
+        position: relative;
+        margin-top: 5px;
+        &_rating {
+          @include mixin.flex(center, center, null, 25px);
+          &_star {
+            scale: 1.8;
+            background: none;
+            border: none;
+            cursor: pointer;
+          }
+        }
+        @media screen and (max-width: 576px) {
+          margin: 10px auto 25px;
+        }
       }
     }
     &_otz {
@@ -35,32 +48,31 @@
         padding: 25px;
       }
     }
-
   }
-    &_otz {
-      padding: 5px !important;
-    }
+  &_otz {
+    padding: 5px !important;
+  }
 }
 
-.card__header{
-  @include mixin.flex(center,space-between,null, 20px);
+.card__header {
+  @include mixin.flex(center, space-between, null, 20px);
 
-  &_content{
+  &_content {
     width: 100%;
-    @include mixin.flex(flex-start,space-between)
+    @include mixin.flex(flex-start, space-between);
   }
 
-  &_userImage{
+  &_userImage {
     border-radius: 50%;
   }
 
-  &_user{
+  &_user {
     font-size: 16px;
     line-height: 22px;
     font-weight: 400;
     margin-bottom: 4px;
   }
-  &_date{
+  &_date {
     font-size: 16px;
     color: #868695;
     text-overflow: ellipsis;
@@ -69,9 +81,9 @@
   }
 }
 
-.card__content{
+.card__content {
   margin-top: 15px;
-  &_desc{
+  &_desc {
     color: var(--dark);
     line-height: 22px;
     font-size: 16px;
@@ -81,7 +93,6 @@
     }
   }
 }
-
 
 .team__swiper_btn {
   cursor: pointer;

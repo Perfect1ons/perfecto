@@ -545,6 +545,8 @@ export const ShareIcon = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" id="share">
       <g
+        width={21}
+        height={21}
         fill="none"
         fillRule="evenodd"
         stroke="currentColor"
@@ -1009,6 +1011,7 @@ export const TrashIcon = () => {
       id="trash"
       width={24}
       hanging={24}
+      stroke="currentColor"
     >
       <path
         d="M43.19,7.97h-8.42V5.51c0-1.66-1.35-3.01-3.01-3.01h-8.52c-1.66,0-3.01,1.35-3.01,3.01v2.46h-8.42
@@ -1074,6 +1077,27 @@ export const MinusIcon = () => {
         strokeWidth="2"
         d="M22 14.5H7"
       ></path>
+    </svg>
+  );
+};
+
+export const BackArrow = () => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 34 34"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="all__directions_backArrow"
+    >
+      <path
+        d="M8.5 17H25.5M8.5 17L15.5833 9.91663M8.5 17L15.5833 24.0833"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 };

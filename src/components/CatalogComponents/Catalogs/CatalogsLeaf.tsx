@@ -2,6 +2,7 @@
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Image from "next/image";
 import {
+  BackArrow,
   ChevronRightIcon,
   chevronDownIcon,
   chevronUpIcon,
@@ -55,7 +56,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
             href={`/catalog/${crumbs.full_slug}`}
             key={crumbs.id}
           >
-            <span className="all__directions_arrow"></span> Назад
+            <BackArrow /> Назад
           </Link>
         ))}
 
