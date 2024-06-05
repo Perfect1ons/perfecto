@@ -208,11 +208,11 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             {product?.quantity && (
               <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
             )}
-            {data.cenaok < 1000 ? (
-              <button className={styles.ItemPriceCard__buttons_buy}>
+            {data.cenaok < 1000 ? null : 
+                <button className={styles.ItemPriceCard__buttons_buy}>
                 Купить
               </button>
-            ) : null}
+          }
           </div>
         </div>
       </div>
