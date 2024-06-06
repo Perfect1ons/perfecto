@@ -108,6 +108,9 @@
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
+  &__counted{
+    max-width: 150px;
+  }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));
     margin-top: 10px;

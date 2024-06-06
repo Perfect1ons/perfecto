@@ -229,9 +229,11 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 В корзину
               </button>
             )}
-            {product?.quantity && (
-              <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
-            )}
+            <div className={styles.ItemPriceCard__counted}>
+              {product?.quantity && (
+                <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
+              )}
+            </div>
             {data.cenaok < 1000 ? null : (
               <button className={styles.ItemPriceCard__buttons_buy}>
                 Купить
