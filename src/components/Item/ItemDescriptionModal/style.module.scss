@@ -49,6 +49,7 @@
       @include mixin.flex(center, center, null, 10px);
       &__btn {
         @include mixin.flex(center, center, null, null);
+        @include mixin.font(null, null, null, #101709);
         scale: 2;
         transition: 0.2s all;
         opacity: 0.6;
@@ -130,7 +131,7 @@
       padding: 3px;
     }
     &_new {
-    @include mixin.flex(center, null, null, 3px);
+      @include mixin.flex(center, null, null, 3px);
       @include mixin.font(18px, bold, 100%, var(--violet));
       &_custom {
         @include mixin.font(18px, bold, 100%, var(--violet));
@@ -177,7 +178,7 @@
   }
 }
 .buttonsContainer {
-  @include mixin.flex(center,flex-end,null,10px);
+  @include mixin.flex(center, flex-end, null, 10px);
   max-width: 300px;
   width: 100%;
 }
