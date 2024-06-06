@@ -2,7 +2,7 @@
 
 .modal {
   position: relative;
-  z-index: 200;
+  z-index: 1000;
   @include mixin.flex(null, center, null, null);
   margin: 0 auto;
   max-width: 1440px;
@@ -41,7 +41,13 @@
     width: 100%;
     padding: 10px 30px 5px;
     position: fixed;
-    background: #fff;
+    z-index: 100;
+    background: rgb(238, 238, 238);
+    background: linear-gradient(
+      0deg,
+      rgba(238, 238, 238, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
     @include mixin.flex(center, space-between, null, null);
     &_title {
       user-select: none;
@@ -116,7 +122,7 @@
   cursor: pointer;
 
   @media screen and (max-width: 992px) {
-    margin-bottom: 40px;
+    // margin-bottom: 40px;
   }
   @media screen and (max-width: 768px) {
     max-width: 370px;

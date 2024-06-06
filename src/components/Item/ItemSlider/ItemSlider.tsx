@@ -123,14 +123,12 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   return (
     <>
       {modalSliderIsOpen && (
-        <div className={styles.wrap_modal}>
-          <ItemSliderModal
-            isOpen={modalSliderIsOpen}
-            closeModal={modalSliderOpenOrClose}
-            photos={photos}
-            zoom={isZoomEnabled}
-          />
-        </div>
+        <ItemSliderModal
+          isOpen={modalSliderIsOpen}
+          closeModal={modalSliderOpenOrClose}
+          photos={photos}
+          zoom={isZoomEnabled}
+        />
       )}
 
       <div className={styles.product__swipers}>
