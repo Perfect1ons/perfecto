@@ -31,6 +31,9 @@ interface IProps {
   };
   onReset: (mainKey: string) => void; // Add this prop
   resetSelectionAll: () => void;
+  addBrand: (brand: string) => void;
+  addDay: (day: string) => void;
+  addFilter: (filter: number) => void;
 }
 const FiltersProducts = ({
   filter,
@@ -41,6 +44,9 @@ const FiltersProducts = ({
   selectedBrands,
   onReset,
   resetSelectionAll,
+  addBrand,
+  addDay,
+  addFilter,
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
@@ -214,7 +220,10 @@ const FiltersProducts = ({
                   <ul
                     key={item}
                     className={styles.showFiltersUlContainer}
-                    onClick={() => onBrandToggle("dost", item)}
+                    onClick={() => {
+                      addDay(item);
+                      onBrandToggle("dost", item);
+                    }}
                   >
                     <span
                       className={cn(styles.showFiltersUlContainer__check, {
@@ -340,7 +349,9 @@ const FiltersProducts = ({
                   <ul
                     key={item}
                     className={styles.showFiltersUlContainer}
-                    onClick={() => onBrandToggle("brand", item)}
+                    onClick={() => {
+                      addBrand(item), onBrandToggle("brand", item);
+                    }}
                   >
                     <span
                       className={cn(styles.showFiltersUlContainer__check, {
@@ -397,6 +408,7 @@ const FiltersProducts = ({
         {!isMobile && (
           <Modal close={open} isVisible={filtersIsShow.allfilters}>
             <AllFilters
+              addFilter={addFilter}
               countSelected={countSelected}
               filter={filter}
               close={closeAllFilters}
