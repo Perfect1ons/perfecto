@@ -17,6 +17,7 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemBanner from "./ItemBanner/ItemBanner";
+import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 
 interface IItemPageProps {
   data: Items;
@@ -100,6 +101,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <ItemSlider photos={data} toggleScrollLock={toggleScrollLock} />
           </div>
           <div className={styles.item__preview_info}>
+            <div className={styles.priceCard_mobile}>
+              <ItemPriceCard data={data} />
+            </div>
+
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>

@@ -40,6 +40,7 @@ const ItemSliderModal = ({
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      setIsAtTop(true); // Set isAtTop to true when the modal is opened
     } else {
       document.body.style.overflow = "auto";
     }
