@@ -244,10 +244,15 @@
 }
 
 .ocenka {
+  @include mixin.flex(center,center)
+}
+
+.ocenku {
   @media screen and (max-width: 480px) {
     display: none;
   }
 }
+
 
 .default__card_name {
   opacity: 0.7;

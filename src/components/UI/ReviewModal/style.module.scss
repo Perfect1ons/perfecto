@@ -8,7 +8,7 @@
   @include mixin.flex(center, null, column, null);
   position: fixed;
   background: var(--white);
-  z-index: 200;
+  z-index: 2001;
   max-width: 510px;
   max-height: 90%;
   padding: 25px;
@@ -75,10 +75,21 @@
       background-size: 100% 80000%;
     }
   }
+
   @media screen and (max-width: 640px) {
     padding: 10px;
   }
+
+  @media screen and (max-width: 480px) {
+    max-height: 100%;
+    height: auto;
+    top: auto;
+    bottom: 0;
+  }
 }
+
+
+
 .container {
   @include mixin.flex(center, null, column, null);
   background: var(--white);
@@ -142,7 +153,6 @@
     position: relative;
     margin-top: 25px;
     width: 100%;
-    max-width: 450px;
     @include mixin.flex(center, null, column, null);
 
     &_title {
