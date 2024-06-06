@@ -19,7 +19,7 @@ const ItemOcenka = ({data}: IOcenkaProps) => {
   return (
     <div className={styles.product_info__ocenka}>
       <span className={styles.product_info_ocenka__count}>{data.ocenka}</span>
-      <div className="ocenka">
+      <div className="ocenku">
         {[...Array(5)].map((_, index) => (
           <span key={index}>
             {index < rating ? <YellowStar /> : <GrayStar />}

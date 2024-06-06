@@ -118,6 +118,8 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     toggleScrollLock();
   };
 
+  const paginationEnabled = photos.photos.length > 1;
+
   return (
     <>
       {modalSliderIsOpen && (
@@ -128,10 +130,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             photos={photos}
             zoom={isZoomEnabled}
           />
-          <div
-            onClick={() => setModalSliderIsOpen(false)}
-            className={styles.wrap_backdrop}
-          ></div>
         </div>
       )}
 
@@ -215,10 +213,14 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             keyboard={{
               enabled: true,
             }}
-            pagination={{
-              clickable: true,
-              type: "fraction",
-            }}
+            pagination={
+              paginationEnabled
+                ? {
+                    clickable: true,
+                    type: "fraction",
+                  }
+                : false
+            }
             spaceBetween={10}
             navigation={{
               nextEl: ".swiper-button-next_card",
@@ -283,9 +285,14 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                 )}
               </SwiperSlide>
             ))}
-            <button className={styles.seeAll} onClick={modalSliderOpenOrClose}>
-              Все фото
-            </button>
+            {paginationEnabled && (
+              <button
+                className={styles.seeAll}
+                onClick={modalSliderOpenOrClose}
+              >
+                Все фото
+              </button>
+            )}
             <button
               className={clsx(
                 styles.sliderArrow,

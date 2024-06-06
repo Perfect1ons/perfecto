@@ -13,7 +13,6 @@
       .accordionHeader__icon {
         width: 24px;
         height: 24px;
-
       }
     }
 
@@ -24,12 +23,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      &__title{
+      &__title {
         display: flex;
         align-items: center;
         gap: 10px;
-        &_name{
+        &_name {
           font-weight: 500;
+          user-select: none;
           @media screen and (max-width: 768px) {
             font-weight: 400;
           }
@@ -98,6 +98,7 @@
       .accordionHeader__icon {
         width: 30px;
         height: auto;
+        user-select: none;
       }
 
       .accordionContent {

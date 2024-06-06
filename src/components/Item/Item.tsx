@@ -7,7 +7,7 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
@@ -18,6 +18,8 @@ import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemBanner from "./ItemBanner/ItemBanner";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
+import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
+import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 
 interface IItemPageProps {
   data: Items;
@@ -26,10 +28,12 @@ interface IItemPageProps {
 }
 
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
+  const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
-  const toggleScrollLock = () => {
+
+  const scrollLockBlock = () => {
     const body = document.body;
     if (body) {
       const scrollBarWidth =
@@ -46,17 +50,52 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
       }
     }
   };
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpenReview) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [isOpenReview]);
+
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [isOpen]);
 
   const openModal = () => {
-    setIsOpen(!isOpen);
-    toggleScrollLock();
+    setIsOpenReview(!isOpenReview);
   };
 
   const handleCopyCode = (entryCode: string) => {
     navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 5000); // Скрыть уведомление через 3 секунды
+    setTimeout(() => setCopiedCode(false), 5000);
   };
+
   const closeModalCode = () => {
     setCopiedCode(false);
   };
@@ -66,12 +105,13 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   );
   const openItemModalDescription = () => {
     setItemModalDescription(!itemModalDescription);
-    toggleScrollLock();
+    scrollLockBlock();
   };
 
   return (
     <section className={styles.wrap}>
-      {isOpen && (
+      <MobileBuyBtn data={data} />
+      {isOpenReview && (
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data} />
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
@@ -102,9 +142,16 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            <ItemSlider photos={data} toggleScrollLock={toggleScrollLock} />
+            <ItemSlider
+              photos={data}
+              toggleScrollLock={() => setIsOpen(true)}
+            />
           </div>
           <div className={styles.item__preview_info}>
+            <div className={styles.priceCard_mobile}>
+              <ItemPriceCard data={data} />
+            </div>
+
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
@@ -116,7 +163,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   />
                 ) : null}
                 <div className={styles.product__aboutTheProduct}>
-                  Код:
+                  <span className={styles.product__aboutTheProduct_codeName}>
+                    Код:
+                  </span>
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div
                     className={styles.product__aboutTheProduct_div}
@@ -151,7 +200,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     </span>
                   </Link>
                 ) : null}
-                <h3 className={styles.all__goods}>
+                <p className={styles.all__goods}>
                   Все товары категории:{" "}
                   {matchingBreadCrumb ? (
                     <Link
@@ -163,7 +212,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   ) : (
                     "Категория не найдена"
                   )}
-                </h3>
+                </p>
                 <div className={styles.banner}>
                   <ItemBanner />
                 </div>

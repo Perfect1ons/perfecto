@@ -10,6 +10,9 @@
   @media screen and (max-width: 1270px) {
     @include mixin.flex(center, space-around, column, null);
   }
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
 }
 
 .banner {

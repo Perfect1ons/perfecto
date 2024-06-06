@@ -34,6 +34,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .container {
@@ -43,7 +44,7 @@ body {
     @include container(1440px);
   }
   @media screen and (max-width: 640px) {
-    padding: 0 7px;
+    padding: 0 8px;
   }
 }
 
@@ -294,7 +295,7 @@ body {
 //! Стили направлений для страниц показать все
 .all__directions {
   @include mixin.flex(center, flex-start, null, 10px);
-  margin-top: 20px;
+  margin-top: 10px;
   padding-bottom: 10px;
   overflow-x: auto; /* Добавлено для горизонтального скролла */
   overflow-y: hidden; /* Скрытие вертикального скроллбара, если он не нужен */
@@ -606,6 +607,7 @@ body {
 }
 
 .topten {
+  user-select: none;
   margin-top: 10px;
   margin-bottom: 10px;
   @media screen and (max-width: 480px) {

@@ -105,20 +105,26 @@
   margin-top: 15px;
   &_title {
     @include mixin.font(14px, 400, 100%, var(--dark));
-    @include mixin.flex(flex-end,null,null,3px);
+    @include mixin.flex(flex-end, null, null, 3px);
+    &_icon {
+      @include mixin.flex(center, center, null, null);
+      color: var(--dark);
+      scale: 0.9;
+    }
     &_custom {
       @include mixin.font(14px, 400, 100%, var(--dark));
     }
   }
 }
 .shareIcon {
-  @include mixin.flex(center, null, null, 10px);
+  @include mixin.flex(center, center, null, 10px);
+  user-select: none;
 }
 .share {
   position: relative;
 
   &_btnControl {
-    @include mixin.flex(center, null, null, 5px);
+    @include mixin.flex(center, center, null, 5px);
     cursor: pointer;
     &:hover {
       > span {
@@ -128,7 +134,7 @@
 
     &_shareBtn {
       color: var(--dark);
-      @include mixin.flex(center, flex-start, null, null);
+      @include mixin.flex(center, center, null, null);
       cursor: pointer;
       transition: 0.2s;
       max-width: 20px;

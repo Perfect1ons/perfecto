@@ -1,313 +1,309 @@
-@use '../common/mixins' as mixin;
+@use "../common/mixins" as mixin;
 
-
-.main__news{
-    &_cards{
-        max-width: 1440px;
-        margin: auto;
-        padding: 0 15px;
-        display: grid;
-        align-items: flex-start;
-        grid-template-columns: repeat(5,1fr);
-        gap: 25px;
-        @media screen and (max-width: 1200px) {
-            grid-template-columns: repeat(4,1fr);
-            gap: 15px;
-        }
-        @media screen and (max-width: 992px) {
-            grid-template-columns: repeat(3,1fr);
-            gap: 10px;
-        }
-        @media screen and (max-width: 768px) {
-            grid-template-columns: repeat(3, 1fr);
-        }
-        @media screen and (max-width: 640px) {
-            grid-template-columns: repeat(2,1fr);
-            align-items: center;
-            gap: 10px;
-            background: var(--gray-white);
-            padding: 10px;
-            border-radius: 15px;
-        }
-        @media screen and (max-width:480px) {
-            padding: 5px;
-        }
-        @media screen and (max-width:360px) {
-            max-width: 100%;
-            gap: 5px;
-        }
-    }
-}
-
-.sort__button_cards_active{
-    color: red;
-}
-
-.top{
-    margin-top: 30px;
-}
-
-.pad{
+.main__news {
+  &_cards {
+    max-width: 1440px;
+    margin: auto;
     padding: 0 15px;
-}
-.hoverEffects{
-    transition: all 0.1s ease !important;
-    opacity: 0 !important;
-}
-
-.default__card{
-    background: var(--white);
-    cursor: pointer;
-    user-select: none;
-    max-width: 262px;
-    width: 100%;
-    border-radius: 10px;
-    @include mixin.flex(flex-start,center,column);
-    transition: all 0.1s ease;
-    &:hover{
-        box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2); 
-
-        .default__card_name{
-            color: var(--gray-dark);
-            opacity: 1;
-        }
-        .hoverEffects{
-             opacity: 1 !important;
-        }
+    display: grid;
+    align-items: flex-start;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
     }
-    &_images{
-        max-width: 100%;
-        width: 100%;
-        max-height: 262px;
-        min-height: 262px;
-        overflow: hidden;
-        @media screen and (max-width: 1200px) {
-            max-height: 100%;
-        }
-        @media screen and (max-width: 768px) {
-            max-height: 100%;
-        }
-        @media screen and (max-width: 640px) {
-            max-height: 262px;
-            height: 100%;
-        }
-
-        @media screen and (max-width: 480px) {
-            max-height: 100%;
-            height: 100%;
-            min-height: auto;
-        }
+    @media screen and (max-width: 992px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
     }
-
-    &_image{
-        max-width: 262px;
-        min-height: 100%;
-        border-radius: 10px 10px 0px 0px;
-        width: 100%;
-        height: 100%;
-        min-height: 262px;
-        object-fit: cover;
-        @media screen and (max-width: 992px) {
-            max-height: 280px;
-
-        }
-        @media screen and (max-width: 768px) {
-            max-height: 300px;
-            width: 100%;
-            height: 100%;
-        }
-        @media screen and (max-width: 640px) {
-            min-height: auto;
-        }
-        @media screen and (max-width: 480px) {
-            min-height: 150px;
-            min-width: 150px;
-        }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
     }
-
-    &_price{
-        @include mixin.font(16px,700,100%,var(--gray-dark));
-        @include mixin.flex(center,null,null,3px);
-        width: 100%;
-        &_box{
-            @include mixin.flex(center,null,null, 15px);
-        }
-        &_custom{
-            @include mixin.flex(center,center);
-            text-decoration: 2px underline;
-        }
-        &_now{
-            @include mixin.font(18px,700,100%,var(--gray-dark));
-            @include mixin.flex(center,null,null,3px);
-        }
-        &_discount{
-            @include mixin.font(18px,700,100%,var(--violet));
-            @include mixin.flex(center,null,null,3px);
-        }
-        &_old{
-            @include mixin.font(16px,700,100%,var(--gray-dark));
-            @include mixin.flex(center,null,null,3px);
-            text-decoration: 2px line-through
-        }
-        &_prc{
-            @include mixin.font(14px,700,100%,var(--white));
-            background: var(--violet);
-            border-radius: 5px;
-            padding: 3px
-        }
+    @media screen and (max-width: 640px) {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: center;
+      gap: 10px;
+      background: var(--gray-white);
+      padding: 10px;
+      border-radius: 15px;
     }
-
-    &_name{
-        @include mixin.font(14px,400,120%,var(--gray-dark));
-        max-height: 30px;
-        overflow: hidden;
-        transition: all 0.1s ease;
-        max-width: 100%;
-    }
-
-    &_info{
-        padding: 10px 10px;
-        @include mixin.flex(flex-start,space-between,column);
-        min-height: 195px;
-        width: 100%;
-        max-height: 195px;
-        @media screen and (max-width: 480px) {
-            min-height: 155px;
-        }
-
-    }
-
-}
-
-.costyl{
-    min-width: 262px;
-    min-height: 262px
-}
-
-.add__to{
-    @include mixin.flex(null,space-between,null,10px);
-    width: 100%;
-
-    &_cart{
-        background: var(--dark-blue);
-        cursor: pointer;
-        color: var(--white);
-        padding: 10px 15px;
-        border-radius: 5px;
-        width: 100%;
-        @include mixin.flex(center,center,null, 10px);
-        transition: 0.3s all ease;
-        &:hover{
-            background: var(--violet);
-
-        }
-        @media screen and (max-width: 480px) {
-            @include mixin.font(14px,400,100%,var(--white))
-        }
-        &_icon{
-        @media screen and (max-width: 480px) {
-            display: none;
-        }
-        }
-
-    }
-
-    &_fav{
-        background: var(--gray-white);
-        border: 2px solid var(--gray-white);
-        padding: 10px; 
-        cursor: pointer;
-        border-radius: 5px;
-
-        &:hover{
-            border: 2px solid var(--violet)
-        }
-
-        &_icon{
-            @include mixin.flex(center,center);
-            height: 20px;
-        }
-        &_active{
-            border: 2px solid var(--violet)
-        }
-        @media screen and (max-width:480px) {
-            padding: 5px;
-        }
-    }
-}
-
-.ddos{
-    @include mixin.flex(center,center,null, 5px);
-    @include mixin.font(14px,400,100%,var(--light-blue));
-    &__icon{
-        width: 20px;
-        height: 20px;
+    @media screen and (max-width: 480px) {
+      padding: 5px;
     }
     @media screen and (max-width: 360px) {
-        max-height: 30px;
-        overflow: hidden;
+      max-width: 100%;
+      gap: 5px;
     }
-
+  }
 }
 
-.ocenka{
+.sort__button_cards_active {
+  color: red;
+}
+
+.top {
+  margin-top: 30px;
+}
+
+.pad {
+  padding: 0 15px;
+}
+.hoverEffects {
+  transition: all 0.1s ease !important;
+  opacity: 0 !important;
+}
+
+.default__card {
+  background: var(--white);
+  cursor: pointer;
+  user-select: none;
+  max-width: 262px;
+  width: 100%;
+  border-radius: 10px;
+  @include mixin.flex(flex-start, center, column);
+  transition: all 0.1s ease;
+  &:hover {
+    box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
+
+    .default__card_name {
+      color: var(--gray-dark);
+      opacity: 1;
+    }
+    .hoverEffects {
+      opacity: 1 !important;
+    }
+  }
+  &_images {
+    max-width: 100%;
+    width: 100%;
+    max-height: 262px;
+    min-height: 262px;
+    overflow: hidden;
+    @media screen and (max-width: 1200px) {
+      max-height: 100%;
+    }
+    @media screen and (max-width: 768px) {
+      max-height: 100%;
+    }
+    @media screen and (max-width: 640px) {
+      max-height: 262px;
+      height: 100%;
+    }
+
     @media screen and (max-width: 480px) {
-        display: none;
+      max-height: 100%;
+      height: 100%;
+      min-height: auto;
     }
+  }
+
+  &_image {
+    max-width: 262px;
+    min-height: 100%;
+    border-radius: 10px 10px 0px 0px;
+    width: 100%;
+    height: 100%;
+    min-height: 262px;
+    object-fit: cover;
+    @media screen and (max-width: 992px) {
+      max-height: 280px;
+    }
+    @media screen and (max-width: 768px) {
+      max-height: 300px;
+      width: 100%;
+      height: 100%;
+    }
+    @media screen and (max-width: 640px) {
+      min-height: auto;
+    }
+    @media screen and (max-width: 480px) {
+      min-height: 150px;
+      min-width: 150px;
+    }
+  }
+
+  &_price {
+    @include mixin.font(16px, 700, 100%, var(--gray-dark));
+    @include mixin.flex(center, null, null, 3px);
+    width: 100%;
+    &_box {
+      @include mixin.flex(center, null, null, 15px);
+    }
+    &_custom {
+      @include mixin.flex(center, center);
+      text-decoration: 2px underline;
+    }
+    &_now {
+      @include mixin.font(18px, 700, 100%, var(--gray-dark));
+      @include mixin.flex(center, null, null, 3px);
+    }
+    &_discount {
+      @include mixin.font(18px, 700, 100%, var(--violet));
+      @include mixin.flex(center, null, null, 3px);
+    }
+    &_old {
+      @include mixin.font(16px, 700, 100%, var(--gray-dark));
+      @include mixin.flex(center, null, null, 3px);
+      text-decoration: 2px line-through;
+    }
+    &_prc {
+      @include mixin.font(14px, 700, 100%, var(--white));
+      background: var(--violet);
+      border-radius: 5px;
+      padding: 3px;
+    }
+  }
+
+  &_name {
+    @include mixin.font(14px, 400, 120%, var(--gray-dark));
+    max-height: 30px;
+    overflow: hidden;
+    transition: all 0.1s ease;
+    max-width: 100%;
+  }
+
+  &_info {
+    padding: 10px 10px;
+    @include mixin.flex(flex-start, space-between, column);
+    min-height: 195px;
+    width: 100%;
+    max-height: 195px;
+    @media screen and (max-width: 480px) {
+      min-height: 155px;
+    }
+  }
 }
 
-.default__card_name{
-    opacity: 0.7;
+.costyl {
+  min-width: 262px;
+  min-height: 262px;
+}
+
+.add__to {
+  @include mixin.flex(null, space-between, null, 10px);
+  width: 100%;
+
+  &_cart {
+    background: var(--dark-blue);
+    cursor: pointer;
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    @include mixin.flex(center, center, null, 10px);
+    transition: 0.3s all ease;
+    &:hover {
+      background: var(--violet);
+    }
+    @media screen and (max-width: 480px) {
+      @include mixin.font(14px, 400, 100%, var(--white));
+    }
+    &_icon {
+      @media screen and (max-width: 480px) {
+        display: none;
+      }
+    }
+  }
+
+  &_fav {
+    background: var(--gray-white);
+    border: 2px solid var(--gray-white);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+      border: 2px solid var(--violet);
+    }
+
+    &_icon {
+      @include mixin.flex(center, center);
+      height: 20px;
+    }
+    &_active {
+      border: 2px solid var(--violet);
+    }
+    @media screen and (max-width: 480px) {
+      padding: 5px;
+    }
+  }
+}
+
+.ddos {
+  @include mixin.flex(center, center, null, 5px);
+  @include mixin.font(14px, 400, 100%, var(--light-blue));
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+  @media screen and (max-width: 360px) {
+    max-height: 30px;
+    overflow: hidden;
+  }
+}
+
+.ocenka {
+  @include mixin.flex(center,center)
+}
+
+.ocenku {
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+}
+
+
+.default__card_name {
+  opacity: 0.7;
 }
 
 .default__sort_icons {
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: repeat(2, 2fr);
-    gap: 2px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  gap: 2px;
 
-    &:hover {
-        .default__sort_icon {
-            border: 2px solid var(--violet);
-        }
+  &:hover {
+    .default__sort_icon {
+      border: 2px solid var(--violet);
     }
+  }
 }
 
-.default__sort_icons_column{
-    cursor: pointer;
-    display: grid;
-    grid-template-columns: repeat(1,2fr);
-    gap: 2px;
-    &:hover {
-        .default__sort_icon_column {
-            border: 2px solid var(--violet);
+.default__sort_icons_column {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: repeat(1, 2fr);
+  gap: 2px;
+  &:hover {
+    .default__sort_icon_column {
+      border: 2px solid var(--violet);
     }
-    }
+  }
 }
 
-.default__sort_icon_column{
-    border: 2px solid var(--gray-dark);
-    width: 20px;
-    height: 10px;
-    border-radius: 4px;
-    &.sort__button_icons_active{
-        border: 2px solid var(--violet);
-
+.default__sort_icon_column {
+  border: 2px solid var(--gray-dark);
+  width: 20px;
+  height: 10px;
+  border-radius: 4px;
+  &.sort__button_icons_active {
+    border: 2px solid var(--violet);
+  }
+  &:hover {
+    .default__sort_icon {
+      border: 2px solid var(--violet);
     }
-    &:hover {
-        .default__sort_icon {
-            border: 2px solid var(--violet);
-        }
-    }
+  }
 }
 
 .default__sort_icon {
-    border: 2px solid var(--gray-dark);
-    width: 10px;
-    height: 10px;
-    border-radius: 4px;
-    &.sort__button_icons_active{
-        border: 2px solid var(--violet);
-    }
+  border: 2px solid var(--gray-dark);
+  width: 10px;
+  height: 10px;
+  border-radius: 4px;
+  &.sort__button_icons_active {
+    border: 2px solid var(--violet);
+  }
 }
-

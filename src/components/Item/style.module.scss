@@ -6,6 +6,7 @@
   max-width: 1440px !important;
   margin: 0 auto;
   overflow: hidden;
+  position: relative;
   &_backdrop {
     z-index: 199;
     position: fixed;
@@ -296,6 +297,9 @@
   &__aboutTheProduct {
     @include mixin.flex(center, space-between, null, 5px);
     @include mixin.font(14px, 400, 1.4, var(--dark));
+    &_codeName {
+      user-select: none;
+    }
     &_span {
       display: block;
       width: 100%;
@@ -308,7 +312,9 @@
       cursor: pointer;
       @include mixin.flex(center, center, null, 5px);
       &_copy {
+        @include mixin.flex(center, null, null, null);
         cursor: pointer;
+        scale: 0.8;
         &:hover {
           color: var(--violet);
         }
@@ -361,6 +367,7 @@
       font-size: 20px;
       line-height: 120%;
       font-weight: 600;
+      user-select: none;
       color: var(--gray-dark);
     }
 
@@ -392,6 +399,7 @@
 }
 
 .brand__link {
+  user-select: none;
   margin-top: 30px;
   text-decoration: none;
   color: var(--dark);
@@ -416,6 +424,7 @@
 }
 
 .all__goods {
+  user-select: none;
   @include mixin.flex(center, flex-start, null, 3px);
   flex-wrap: wrap;
   @include mixin.font(14px, 400, 100%, var(--dark));
@@ -423,6 +432,14 @@
   &_link {
     text-decoration: none;
     color: var(--violet);
+  }
+}
+
+.priceCard_mobile {
+  display: none;
+  @media screen and (max-width: 1024px) {
+    display: block;
+    margin-bottom: 15px;
   }
 }
 
@@ -441,7 +458,7 @@
 
 .banner {
   display: none;
-  @media screen and (max-width: 480px) {
+  @media screen and (max-width: 1024px) {
     display: block;
     margin-top: 15px;
   }
