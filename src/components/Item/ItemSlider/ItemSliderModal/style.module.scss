@@ -84,6 +84,7 @@
   padding: 5px;
   width: 100% !important;
   height: 100vh;
+  object-fit: cover;
   user-select: none;
 
   @media screen and (max-width: 768px) {

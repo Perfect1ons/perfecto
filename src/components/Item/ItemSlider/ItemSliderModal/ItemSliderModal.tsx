@@ -75,7 +75,7 @@ const ItemSliderModal = ({
             <li className={styles.li} key={index}>
               {zoom ? (
                 <InnerImageZoom
-                  width={500}
+                  width={1000}
                   height={500}
                   src={
                     photo.url_part.startsWith("https://goods")
@@ -92,7 +92,7 @@ const ItemSliderModal = ({
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                   }
                   zoomType="hover"
-                  zoomScale={1.6}
+                  zoomScale={2.7}
                   hideHint={true}
                   className={styles.photo}
                 />
