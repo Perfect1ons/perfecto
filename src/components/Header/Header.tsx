@@ -33,6 +33,7 @@ const Header = ({
 
   const router = useRouter();
 
+  // для поиска
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (searchTerm.trim() !== "") {
@@ -61,11 +62,13 @@ const Header = ({
     }
   };
 
+  // перекидывание на главную
   const handleGoToMainPage = () => {
     setSearchTerm("");
     router.push("/");
   };
 
+  // открытие и закрытие
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
@@ -80,11 +83,49 @@ const Header = ({
     setIsOpen(false);
   };
 
-  // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
+  // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл. Отправляет fetch запрос по клику
   const openMobileModal = () => {
     setMobileModalOpen(!isMobileModalOpen);
     click();
+    scrollLockBlock();
   };
+
+  // для блокировки скролла на главной при открытой модалке
+  const scrollLockBlock = () => {
+    const body = document.body;
+    if (body) {
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (body.style.overflow === "hidden") {
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
+        body.style.top = "";
+      } else {
+        body.style.paddingRight = `${scrollBarWidth}px`;
+        body.style.overflow = "hidden";
+        body.style.top = `-${window.scrollY}px`;
+      }
+    }
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [isOpen]);
 
   return (
     <header className={styles.header}>
@@ -96,13 +137,15 @@ const Header = ({
         >
           <Logo gomain={handleGoToMainPage} />
         </Link>
-        <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
+
+        <Modal isVisible={isOpen}>
           <CatalogMenu
             catalog={catalogs}
             close={closeModal}
             loading={loading}
           />
         </Modal>
+
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
