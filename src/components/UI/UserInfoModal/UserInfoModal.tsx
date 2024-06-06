@@ -12,7 +12,7 @@ interface UserInfoModalProps {
 const UserInfoModal = ({ children, visible, onClose }: UserInfoModalProps) => {
   return (
     <div className={cn(styles.modal, { [styles.open]: visible })}>
-      {children}
+      <span className={styles.modal__title}>{children}</span>
       <span className={styles.closeModal} onClick={onClose}>
         <Cross />
       </span>

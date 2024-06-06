@@ -422,22 +422,6 @@ const FiltersProducts = ({
             />
           </Modal>
         )}
-        {/* {isMobile && (
-          <Modal close={open} isVisible={filtersIsShow.allfilters}>
-            <AllFiltersMobile
-              countSelected={countSelected}
-              filter={filter}
-              close={closeAllFilters}
-              onChange={onChange}
-              options={options}
-              value={value}
-              onBrandToggle={onBrandToggle}
-              onReset={onReset}
-              selectedBrands={selectedBrands}
-              resetSelectionAll={resetSelectionAll}
-            />
-          </Modal>
-        )} */}
       </div>
     </>
   );

@@ -31,7 +31,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   const [dropdownActive, setDropdownActive] = useState(false);
 
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState(true);
   const [added, setAdded] = useState(false);
   const [favorite, setFavorite] = useState(false);
 
