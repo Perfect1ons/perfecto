@@ -59,6 +59,12 @@
     max-width: 500px;
   }
 
+  @media screen and (max-width: 1024px) {
+    margin-bottom: 30px;
+  }
+  @media screen and (max-width: 672px) {
+    margin-bottom: 40px;
+  }
   @media screen and (max-width: 475px) {
     max-width: 350px;
     &_iframe {

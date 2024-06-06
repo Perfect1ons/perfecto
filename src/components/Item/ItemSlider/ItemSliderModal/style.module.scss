@@ -110,7 +110,9 @@
   justify-content: space-evenly;
   gap: 8px;
   background: var(--light-white);
+
   user-select: none;
+  cursor: pointer;
 
   @media screen and (max-width: 768px) {
     max-width: 370px;
