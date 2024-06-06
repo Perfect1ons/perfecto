@@ -23,6 +23,7 @@ interface ITogglerProps {
 
 const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   const dispatch = useDispatch();
+  const [cleanHTML, setCleanHTML] = useState<string>("");
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [toggler, setToggler] = useState<ITogglerProps>({
@@ -62,21 +63,40 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   const handleCartEmpty = () => {
     setAdded(false);
   };
-  const sanitizedVideoHTML = DOMPurify.sanitize(data.video, {
-    ALLOWED_TAGS: ["iframe"], // разрешаем только тег <iframe>
-    ALLOWED_ATTR: [
-      // разрешаем необходимые атрибуты
-      "src",
-      "width",
-      "height",
-      "frameborder",
-      "allow",
-      "allowfullscreen",
-      "type",
-      "data",
-    ],
-  });
+  useEffect(() => {
+    const sanitizedHTML = DOMPurify.sanitize(data.video, {
+      ADD_TAGS: ["iframe"],
+      ADD_ATTR: [
+        "allow",
+        "allowfullscreen",
+        "frameborder",
+        "scrolling",
+        "autoplay",
+      ],
+    });
 
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = sanitizedHTML;
+    const iframe = tempDiv.querySelector("iframe");
+
+    if (iframe) {
+      const src = iframe.getAttribute("src");
+
+      if (src) {
+        try {
+          const newSrc = new URL(src);
+          newSrc.searchParams.set("autoplay", "1");
+          newSrc.searchParams.set("mute", "1");
+          iframe.setAttribute("src", newSrc.toString());
+          iframe.setAttribute("autoplay", "true");
+          iframe.setAttribute("muted", "");
+        } catch (e) {
+          console.error("Invalid URL: ", src);
+        }
+      }
+    }
+    setCleanHTML(tempDiv.innerHTML);
+  }, [data.video]);
   return (
     <div className={styles.container}>
       <div
@@ -164,7 +184,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
               <div
                 className={styles.aboutProduct__video}
                 dangerouslySetInnerHTML={{
-                  __html: sanitizedVideoHTML,
+                  __html: cleanHTML,
                 }}
               />
             </div>
