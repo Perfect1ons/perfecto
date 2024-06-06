@@ -1,6 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.containerTitle {
+.catalogTitle {
   margin-bottom: 8px;
   font-family: var(--font-family);
   font-weight: 500;
@@ -8,12 +8,13 @@
   line-height: 120%;
   color: #212529;
 }
-.containerSubCatalog {
-  width: 244px;
-}
-.row {
-  @include mixin.flex(flex-start, flex-start, null, 50px);
-  &__containerRow {
+.catalogContainer {
+  @include mixin.flex(flex-start, flex-start, null, 20px);
+  &__containerSubCatalog {
+    width: 100%;
+    max-width: 244px;
+  }
+  &__cardContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     margin-top: 20px;
@@ -45,6 +46,12 @@
   border-radius: 5px;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0);
+  width: 100%;
+  &:hover {
+    > .nameCatalog {
+      color: var(--violet);
+    }
+  }
 }
 .nameCatalog {
   font-family: var(--font-family);
@@ -83,21 +90,19 @@
 }
 .subCatalogsContainerUL {
   user-select: none;
-  -webkit-tap-highlight-color: transparent;
   user-select: none;
-  min-width: 250px;
   padding: 10px;
   outline: 1px solid var(--super-light-white);
   border-radius: 5px;
   height: 100%;
-  @include mixin.flex(null, null, column, 25px);
-  @media screen and (max-width: 1200px) {
-    display: none;
-  }
-  @media screen and (max-width: 576px) {
-    margin-left: 8px;
-    padding: 8px;
-  }
+  @include mixin.flex(null, null, column, 15px);
+  // @media screen and (max-width: 1200px) {
+  //   display: none;
+  // }
+  // @media screen and (max-width: 576px) {
+  //   margin-left: 8px;
+  //   padding: 8px;
+  // }
 }
 .buttonsCatalogs {
   @include mixin.flex(center, center, null, 2px);
@@ -106,61 +111,29 @@
   cursor: pointer;
 }
 @media screen and (max-width: 1200px) {
-  .row__containerRow {
+  .catalogContainer__cardContainer {
     grid-template-columns: repeat(3, 1fr);
-  }
-}
-@media screen and (max-width: 992px) {
-  .contain {
-    max-width: 720px;
   }
 }
 
 @media screen and (max-width: 960px) {
-  .row {
-    flex-direction: column;
-    gap: 10px;
-  }
-  .wrapps {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-}
-@media screen and (max-width: 768px) {
-  .wrapps {
-    display: none;
-  }
-  .container {
-    max-width: 720px;
-  }
-  .row__containerRow {
+  .catalogContainer__cardContainer {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-@media screen and (max-width: 576px) {
-  .links {
+@media screen and (max-width: 768px) {
+  .subCatalogsContainerUL {
+    display: none;
+  }
+  .catalogContainer {
+    gap: 0;
     flex-direction: column;
   }
-  .container {
-    width: 100%;
-  }
-  .cotainerCart {
-    padding: 10px;
-  }
+}
+@media screen and (max-width: 576px) {
 }
 @media screen and (max-width: 480px) {
-  .row {
-    align-items: center;
-    justify-content: center;
-  }
-  .row__containerRow {
-    padding: 20px;
+  .catalogContainer__cardContainer {
     grid-template-columns: repeat(1, 1fr);
-    align-items: center;
-    justify-content: center;
-  }
-  .catalogFirst {
-    text-align: center;
   }
 }

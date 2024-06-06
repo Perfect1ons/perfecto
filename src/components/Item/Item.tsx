@@ -17,6 +17,7 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemBanner from "./ItemBanner/ItemBanner";
+import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 
@@ -29,8 +30,26 @@ interface IItemPageProps {
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
 
+  const scrollLockBlock = () => {
+    const body = document.body;
+    if (body) {
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (body.style.overflow === "hidden") {
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
+        body.style.top = "";
+      } else {
+        body.style.paddingRight = `${scrollBarWidth}px`;
+        body.style.overflow = "hidden";
+        body.style.top = `-${window.scrollY}px`;
+      }
+    }
+  };
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -84,6 +103,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const matchingBreadCrumb = breadCrumbs.find(
     (crumb) => crumb.id === data.id_cat
   );
+  const openItemModalDescription = () => {
+    setItemModalDescription(!itemModalDescription);
+    scrollLockBlock();
+  };
 
   return (
     <section className={styles.wrap}>
@@ -133,7 +156,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
-                {data.description ? <ItemDesc data={data} /> : null}
+                {data.description ? (
+                  <ItemDesc
+                    openItemModalDescription={openItemModalDescription}
+                    data={data}
+                  />
+                ) : null}
                 <div className={styles.product__aboutTheProduct}>
                   <span className={styles.product__aboutTheProduct_codeName}>
                     Код:
@@ -155,7 +183,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                {data.specification ? <ItemSpec data={data} /> : null}
+                {data.specification ? (
+                  <ItemSpec
+                    data={data}
+                    openItemModalDescription={openItemModalDescription}
+                  />
+                ) : null}
                 {data.trademark ? (
                   <Link
                     className={styles.brand__link}
@@ -191,6 +224,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <ProductReview data={data} func={openModal} />
         <ItemAccordion />
       </div>
+      <ItemDescriptionModal
+        data={data}
+        func={openItemModalDescription}
+        visible={itemModalDescription}
+      />
       <SimilarProducts similar={similar} />
     </section>
   );

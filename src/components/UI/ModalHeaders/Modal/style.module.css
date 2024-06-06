@@ -1,9 +1,8 @@
 .modal {
   position: absolute;
-  top: -100%;
+  top: 0;
   left: 0;
   width: 100%;
-  min-height: 100vh;
   max-height: max-content;
   background: #fff;
   z-index: 100;
