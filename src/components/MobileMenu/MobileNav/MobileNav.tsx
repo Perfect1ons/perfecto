@@ -66,7 +66,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
 
   return (
     <>
-      <MobileModal isVisible={isOpen} close={open}>
+      <MobileModal isVisible={isOpen}>
         <div className={styles.catalog_wrap}>
           <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
           <MobileCatalog
