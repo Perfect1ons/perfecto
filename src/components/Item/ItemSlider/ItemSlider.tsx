@@ -128,10 +128,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             photos={photos}
             zoom={isZoomEnabled}
           />
-          <div
-            onClick={() => setModalSliderIsOpen(false)}
-            className={styles.wrap_backdrop}
-          ></div>
         </div>
       )}
 
