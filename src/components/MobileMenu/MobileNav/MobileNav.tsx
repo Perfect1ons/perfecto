@@ -57,6 +57,8 @@ export default function MobileNav({
     let prevScrollY = window.scrollY;
 
     const handleScroll = () => {
+      if (pathname.startsWith("/item")) return;
+
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       setIsScrollingDown(scrollTop > 20 && scrollTop > prevScrollY);
       prevScrollY = scrollTop;
@@ -67,7 +69,7 @@ export default function MobileNav({
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <>

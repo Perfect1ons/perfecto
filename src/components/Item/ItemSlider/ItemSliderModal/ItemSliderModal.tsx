@@ -53,7 +53,7 @@ const ItemSliderModal = ({
   return (
     <div className={styles.modal}>
       <div className={styles.wrapper} onScroll={handleScroll} ref={wrapperRef}>
-        {isAtTop && (
+        {isAtTop && photos.photos.length < 1 && (
           <div className={styles.swipe_down} onClick={handleSwipeDownClick}>
             {chevronDownIcon()}
             Листайте вниз, чтобы увидеть больше картинок
@@ -86,7 +86,7 @@ const ItemSliderModal = ({
                   }
                   zoomSrc={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}1080-nw.jpg`
+                      ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
@@ -102,7 +102,7 @@ const ItemSliderModal = ({
                   height={500}
                   src={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}1080-nw.jpg`
+                      ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
