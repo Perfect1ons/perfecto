@@ -27,6 +27,7 @@ export interface IPropsAllFilters {
   };
   onReset: (mainKey: string) => void; // Add this prop
   resetSelectionAll: () => void;
+  addFilter: (filter: number) => void;
 }
 const AllFilters = ({
   filter,
@@ -39,6 +40,7 @@ const AllFilters = ({
   selectedBrands,
   countSelected,
   resetSelectionAll,
+  addFilter,
 }: IPropsAllFilters) => {
   const [brandIsShow, setBrandIsShow] = useState<{ [key: string]: boolean }>(
     {}
@@ -390,9 +392,10 @@ const AllFilters = ({
                               <li
                                 key={subItem.id_filter}
                                 className={styles.showFiltersUlContainer}
-                                onClick={() =>
-                                  onBrandToggle(item.type_name, subItem.name)
-                                }
+                                onClick={() => {
+                                  addFilter(subItem.id_filter);
+                                  onBrandToggle(item.type_name, subItem.name);
+                                }}
                               >
                                 <span
                                   className={cn(

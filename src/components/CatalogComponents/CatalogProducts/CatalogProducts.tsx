@@ -19,7 +19,7 @@ interface IFiltersProps {
   brand: string[];
   price: { max: number; min: number };
   dost: string[];
-  additional_filter: string[];
+  additional_filter: any[];
 }
 type BrandSelection = {
   [key: string]: {
@@ -41,6 +41,37 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
+  const addBrand = (brand: string) => {
+    setSelectedFilters((prevState) => {
+      if (prevState.brand.includes(brand)) {
+        return prevState; // Если бренд уже есть, возвращаем предыдущее состояние без изменений
+      }
+      return {
+        ...prevState,
+        brand: [...prevState.brand, brand],
+      };
+    });
+  };
+  const addDay = (day: string) => {
+    setSelectedFilters((prevState) => {
+      if (prevState.dost.includes(day)) {
+        return prevState; // Если день уже есть, возвращаем предыдущее состояние без изменений
+      }
+      return {
+        ...prevState,
+        dost: [...prevState.dost, day],
+      };
+    });
+  };
+  const addFilter = (filter: number) => {
+    setSelectedFilters((prevState) => {
+      // Можно добавить проверку на уникальность фильтров здесь, если необходимо
+      return {
+        ...prevState,
+        additional_filter: [...prevState.additional_filter, filter],
+      };
+    });
+  };
   // Функция для извлечения id_filter из данных фильтров
   const extractAdditionalFilters = (filterData: any) => {
     let additionalFilters = [];
@@ -205,6 +236,9 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <FiltersProducts
+            addFilter={addFilter}
+            addDay={addDay}
+            addBrand={addBrand}
             filter={filter}
             value={sortOrder || "default"}
             options={[
