@@ -11,19 +11,29 @@ import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
+import MobSearch from "../MobileMenu/MobileNav/MobSearch";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
   click: () => void;
   loading: boolean;
+  setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isMobileModalOpen: boolean;
 }
 
-const Header = ({ catalogs, click, loading }: ICatalogProps) => {
+const Header = ({
+  catalogs,
+  click,
+  loading,
+  isMobileModalOpen,
+  setMobileModalOpen,
+}: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
   const router = useRouter();
 
+  // для поиска
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (searchTerm.trim() !== "") {
@@ -52,11 +62,13 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
     }
   };
 
+  // перекидывание на главную
   const handleGoToMainPage = () => {
     setSearchTerm("");
     router.push("/");
   };
 
+  // открытие и закрытие
   const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
@@ -71,19 +83,69 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
     setIsOpen(false);
   };
 
+  // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл. Отправляет fetch запрос по клику
+  const openMobileModal = () => {
+    setMobileModalOpen(!isMobileModalOpen);
+    click();
+    scrollLockBlock();
+  };
+
+  // для блокировки скролла на главной при открытой модалке
+  const scrollLockBlock = () => {
+    const body = document.body;
+    if (body) {
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      if (body.style.overflow === "hidden") {
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
+        body.style.top = "";
+      } else {
+        body.style.paddingRight = `${scrollBarWidth}px`;
+        body.style.overflow = "hidden";
+        body.style.top = `-${window.scrollY}px`;
+      }
+    }
+  };
+
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [isOpen]);
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <Link href={'/'} className={cn(styles.header__logo, styles.logo)} onClick={onClose}>
+        <Link
+          href={"/"}
+          className={cn(styles.header__logo, styles.logo)}
+          onClick={onClose}
+        >
           <Logo gomain={handleGoToMainPage} />
-        </Link >
-        <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
+        </Link>
+
+        <Modal isVisible={isOpen}>
           <CatalogMenu
             catalog={catalogs}
             close={closeModal}
             loading={loading}
           />
         </Modal>
+
         <div className={styles.header__container_form}>
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
@@ -131,7 +193,7 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
         </div>
 
         <MobileSearchHeader />
-        <div className={styles.search__white}>
+        <div className={styles.search__white} onClick={openMobileModal}>
           <SearchIconWhite />
         </div>
       </div>

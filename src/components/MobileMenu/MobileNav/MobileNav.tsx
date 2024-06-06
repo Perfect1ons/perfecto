@@ -29,15 +29,20 @@ export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
   click: () => void;
   loading: boolean;
+  isMobileModalOpen: boolean;
+  setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
-  // задается state для открытия и закрытия
-  const [isOpen, setIsOpen] = useState(false);
-
-  // переключает state когда setIsOpen не равен isOpen, т.е. вкл/выкл
-  const open = () => {
-    setIsOpen(!isOpen);
+export default function MobileNav({
+  catalogs,
+  click,
+  loading,
+  isMobileModalOpen,
+  setMobileModalOpen,
+}: ICatalogProps) {
+  // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
+  const openMobileModal = () => {
+    setMobileModalOpen(!isMobileModalOpen);
     click();
   };
 
@@ -66,12 +71,15 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
 
   return (
     <>
-      <MobileModal isVisible={isOpen}>
+      <MobileModal isVisible={isMobileModalOpen}>
         <div className={styles.catalog_wrap}>
-          <MobSearch isOpen={isOpen} setIsOpen={setIsOpen} />
+          <MobSearch
+            isOpen={isMobileModalOpen}
+            setIsOpen={setMobileModalOpen}
+          />
           <MobileCatalog
             catalogs={catalogs}
-            closeMain={open}
+            closeMain={openMobileModal}
             loading={loading}
           />
         </div>
@@ -87,7 +95,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           <Link
             href="/"
             className={styles.option}
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileModalOpen(false)}
           >
             {pathname === "/" ? <HomeIconActive /> : <HomeIcon />}
             <span
@@ -101,10 +109,10 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
             </span>
           </Link>
 
-          <li className={styles.option} onClick={open}>
+          <li className={styles.option} onClick={openMobileModal}>
             <div className={styles.option} onClick={() => click()}>
               <span className={styles.option__icon}>
-                {isOpen === true ? <XMark /> : <CatalogSearchIcon />}
+                {isMobileModalOpen === true ? <XMark /> : <CatalogSearchIcon />}
               </span>
               <span>Каталог</span>
             </div>
@@ -113,7 +121,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           <Link
             href="/favorites"
             className={styles.option}
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileModalOpen(false)}
           >
             {pathname === "/favorites" ? (
               <FavoritesIconActive />
@@ -134,7 +142,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           <Link
             href="/cart"
             className={styles.option}
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileModalOpen(false)}
           >
             {pathname === "/cart" ? <CartIconActive /> : <CartIconDark />}
             <span
@@ -151,7 +159,7 @@ export default function MobileNav({ catalogs, click, loading }: ICatalogProps) {
           <Link
             href="/auth"
             className={styles.option}
-            onClick={() => setIsOpen(false)}
+            onClick={() => setMobileModalOpen(false)}
           >
             {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
             <span

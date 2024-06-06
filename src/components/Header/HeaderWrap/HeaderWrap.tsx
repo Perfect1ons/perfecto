@@ -30,10 +30,25 @@ export default function HeaderWrap() {
     }
   };
 
+  // задается state для открытия и закрытия
+  const [isMobileModalOpen, setMobileModalOpen] = useState(false);
+
   return (
     <>
-      <Header catalogs={catalog} click={fetchCatalogs} loading={loading} />
-      <MobileNav catalogs={catalog} click={fetchCatalogs} loading={loading} />
+      <Header
+        catalogs={catalog}
+        click={fetchCatalogs}
+        loading={loading}
+        isMobileModalOpen={isMobileModalOpen}
+        setMobileModalOpen={setMobileModalOpen}
+      />
+      <MobileNav
+        catalogs={catalog}
+        click={fetchCatalogs}
+        loading={loading}
+        isMobileModalOpen={isMobileModalOpen}
+        setMobileModalOpen={setMobileModalOpen}
+      />
     </>
   );
 }

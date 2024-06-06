@@ -14,11 +14,8 @@
     padding: 10px;
     margin: 0 10px;
     border-left: 1px solid #cfcfcf;
-    // &_skeleton {
-    //   margin-top: 15px;
-    //   @include skeleton.skeleton(100%, 100%, null);
-    // }
   }
+  min-height: 100vh;
   position: relative;
   z-index: 100;
 }
@@ -147,6 +144,7 @@
   padding: 0 5px;
   margin: 10px 1%;
   max-height: 805px;
+  height: 100%;
   overflow-y: auto;
   /* Стили для скроллбара вебкит-браузеров */
   /* Track */
@@ -166,7 +164,6 @@
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     cursor: pointer;
-
     background: #555;
   }
 }
