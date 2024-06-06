@@ -11,14 +11,23 @@ import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
+import MobSearch from "../MobileMenu/MobileNav/MobSearch";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
   click: () => void;
   loading: boolean;
+  setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isMobileModalOpen: boolean;
 }
 
-const Header = ({ catalogs, click, loading }: ICatalogProps) => {
+const Header = ({
+  catalogs,
+  click,
+  loading,
+  isMobileModalOpen,
+  setMobileModalOpen,
+}: ICatalogProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
@@ -71,12 +80,22 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
     setIsOpen(false);
   };
 
+  // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
+  const openMobileModal = () => {
+    setMobileModalOpen(!isMobileModalOpen);
+    click();
+  };
+
   return (
     <header className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
-        <Link href={'/'} className={cn(styles.header__logo, styles.logo)} onClick={onClose}>
+        <Link
+          href={"/"}
+          className={cn(styles.header__logo, styles.logo)}
+          onClick={onClose}
+        >
           <Logo gomain={handleGoToMainPage} />
-        </Link >
+        </Link>
         <Modal isVisible={isOpen} close={() => setIsOpen(!isOpen)}>
           <CatalogMenu
             catalog={catalogs}
@@ -131,7 +150,7 @@ const Header = ({ catalogs, click, loading }: ICatalogProps) => {
         </div>
 
         <MobileSearchHeader />
-        <div className={styles.search__white}>
+        <div className={styles.search__white} onClick={openMobileModal}>
           <SearchIconWhite />
         </div>
       </div>
