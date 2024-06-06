@@ -20,11 +20,14 @@
       }
     }
     &_button {
-      @include mixin.font(14px, 500, null, var(--light-blue));
+      @include mixin.font(14px, 500, null, var(--dark-blue));
+      border-bottom: 1px dashed var(--dark-blue);
+
       cursor: pointer;
       transition: 0.3;
       &:hover {
         color: var(--violet);
+        border-bottom: 1px dashed var(--violet);
       }
     }
   }

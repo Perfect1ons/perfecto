@@ -70,20 +70,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
         {errors.phone && (
           <span className={styles.errorText}>{errors.phone}</span>
         )}
-        {/* <input
-          className={cn(styles.modal__input, {
-            [styles.inputError]: errors.password,
-          })}
-          type="password"
-          name="password"
-          placeholder="Пароль"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onBlur={() => validate()}
-        />
-        {errors.password && (
-          <span className={styles.errorText}>{errors.password}</span>
-        )} */}
+
         <button type="submit" className={cn(styles.modal__button, "button")}>
           Войти
         </button>

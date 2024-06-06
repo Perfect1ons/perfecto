@@ -1,51 +1,55 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 .modal__form {
   display: flex;
   flex-direction: column;
 }
 
-.modal__more_buttons{
-  @include mixin.flex(center,space-between,);
+.modal__more_buttons {
+  @include mixin.flex(center, space-between);
   margin-top: 10px;
 }
-.modal__more_button{
+.modal__more_button {
   color: var(--dark-blue);
-  border-bottom: 1px dashed var(--dark-blue);
   cursor: pointer;
   font-weight: 500;
+  border-bottom: 1px dashed var(--dark-blue);
+
+  &:hover {
+    color: var(--violet);
+    border-bottom: 1px dashed var(--violet);
+  }
 }
 
-.modal__rememberMe{
-    user-select: none;
-    margin-top: 15px;
-    &_btn {
-      padding: 5px 0px;
-      cursor: pointer;
-      @include mixin.flex(center, center, null, 10px);
-    }
-    &_check {
-      @include mixin.flex(center, center, null, null);
-      width: 20px;
-      max-height: 20px;
-      height: 20px;
-      background: var(--white);
-      border: 2px solid var(--dark-blue);
-      border-radius: 6px;
-      padding-bottom: 1px;
-    }
-    &_checkActive {
-      color: white;
-      background: var(--dark-blue);
-      border-color: var(--dark-blue);
-      border: 0;
-    }
-    &_text {
-      @include mixin.font(15px, 500, null, var(--dark));
-    }
-  
+.modal__rememberMe {
+  user-select: none;
+  margin-top: 15px;
+  &_btn {
+    padding: 5px 0px;
+    cursor: pointer;
+    @include mixin.flex(center, center, null, 10px);
+  }
+  &_check {
+    @include mixin.flex(center, center, null, null);
+    width: 20px;
+    max-height: 20px;
+    height: 20px;
+    background: var(--white);
+    border: 2px solid var(--dark-blue);
+    border-radius: 6px;
+    padding-bottom: 1px;
+  }
+  &_checkActive {
+    color: white;
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    border: 0;
+  }
+  &_text {
+    @include mixin.font(15px, 500, null, var(--dark));
+  }
 }
 
-.errorText{
+.errorText {
   color: red;
 }
 
@@ -68,7 +72,7 @@
 .modal__input::placeholder {
   font-size: 17px;
   color: rgba(0, 0, 0, 0.8);
-  font-weight:lighter;
+  font-weight: lighter;
 }
 
 .modal__button {
@@ -81,7 +85,7 @@
   font-size: 17px;
   cursor: pointer;
   transition: all 0.4s ease-in;
-  &:hover{
+  &:hover {
     background: var(--violet);
   }
 }

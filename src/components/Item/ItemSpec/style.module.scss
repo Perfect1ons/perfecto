@@ -1,4 +1,4 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
 .product__aboutTheProduct {
   &_wrap {
@@ -15,7 +15,11 @@
       left: 0;
       right: 0;
       height: 70px; // высота градиентного затенения
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+      background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 1)
+      );
       // градиент от прозрачного к белому
     }
   }
@@ -24,8 +28,11 @@
     @include mixin.font(14px, 500, null, var(--light-blue));
     cursor: pointer;
     transition: 0.3s;
+    border-bottom: 1px dashed var(--dark-blue);
+
     &:hover {
       color: var(--violet);
+      border-bottom: 1px dashed var(--violet);
     }
   }
 

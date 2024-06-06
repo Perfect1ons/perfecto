@@ -1,20 +1,24 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 .modal__form {
   display: flex;
   flex-direction: column;
 }
 
-.modal__more_buttons{
-  @include mixin.flex(center,space-between,);
+.modal__more_buttons {
+  @include mixin.flex(center, space-between);
   margin-top: 10px;
 }
-.modal__more_button{
+.modal__more_button {
   color: var(--dark-blue);
-  border-bottom: 1px dashed var(--dark-blue);
   cursor: pointer;
   font-weight: 500;
-}
+  border-bottom: 1px dashed var(--dark-blue);
 
+  &:hover {
+    color: var(--violet);
+    border-bottom: 1px dashed var(--violet);
+  }
+}
 
 .modal__text {
   width: 100%;
@@ -35,7 +39,7 @@
 .modal__input::placeholder {
   font-size: 17px;
   color: rgba(0, 0, 0, 0.8);
-  font-weight:lighter;
+  font-weight: lighter;
 }
 
 .modal__button {
@@ -48,7 +52,7 @@
   font-size: 17px;
   cursor: pointer;
   transition: all 0.4s ease-in;
-  &:hover{
+  &:hover {
     background: var(--violet);
   }
 }
@@ -98,6 +102,6 @@
     font-size: 16px;
   }
 }
-.errorText{
+.errorText {
   color: red;
 }

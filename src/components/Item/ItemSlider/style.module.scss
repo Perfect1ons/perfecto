@@ -185,13 +185,17 @@
   position: absolute;
   bottom: 0;
   left: 15%;
+  border-bottom: 1px dashed var(--dark-blue);
+
   margin: 0 0 0.8em 1em;
   z-index: 2;
   user-select: none;
   transition: all 0.2s linear;
+  cursor: pointer;
+  transition: 0.3s;
   &:hover {
-    // border-bottom: 1px solid var(--dark-blue);
-    text-decoration: underline;
+    color: var(--violet);
+    border-bottom: 1px dashed var(--violet);
   }
   @media screen and (max-width: 1410px) {
     font-size: 14px;
@@ -208,10 +212,10 @@
     null,
     null,
     null,
-    8px,
+    null,
     null,
     14px,
-    600,
+    500,
     var(--dark-blue)
   );
 }
