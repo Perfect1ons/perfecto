@@ -147,7 +147,10 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
         <div className={styles.ItemPriceCard__salesman}>
           <h3 className={styles.ItemPriceCard__salesman_title}>
-            <SalesmanIcon/> ИП
+            <span className={styles.ItemPriceCard__salesman_title_icon}>
+              <SalesmanIcon />{" "}
+            </span>
+            ИП
             <span className={styles.ItemPriceCard__salesman_title_custom}>
               Нурдин Улуу Нурболот
             </span>

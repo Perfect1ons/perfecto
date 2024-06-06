@@ -1,0 +1,27 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+.container {
+  @include mixin.container(1440px);
+  position: relative;
+}
+.btn {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(1.125rem, 700, null, var(--violet));
+  padding: 8px 0px;
+  bottom: 70px;
+  z-index: 500;
+  display: none;
+  background: var(--white);
+  position: fixed;
+  border: 2px solid var(--violet);
+  border-radius: 5px;
+  align-self: center;
+  color: var(--violet);
+  width: 100%;
+  @media screen and (max-width: 992px) {
+    display: inline-block;
+  }
+  &_simbol {
+    @include mixin.font(16px, 700, 100%, var(--violet));
+    border-bottom: 2px solid var(--violet);
+  }
+}
