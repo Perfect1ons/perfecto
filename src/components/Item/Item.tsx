@@ -27,8 +27,27 @@ interface IItemPageProps {
 }
 
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
+  const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpenReview) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [isOpenReview]);
 
   useEffect(() => {
     const body = document.body;
@@ -49,7 +68,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   }, [isOpen]);
 
   const openModal = () => {
-    setIsOpen(!isOpen);
+    setIsOpenReview(!isOpenReview);
   };
 
   const handleCopyCode = (entryCode: string) => {
@@ -69,7 +88,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   return (
     <section className={styles.wrap}>
       <MobileBuyBtn data={data} />
-      {isOpen && (
+      {isOpenReview && (
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data} />
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
