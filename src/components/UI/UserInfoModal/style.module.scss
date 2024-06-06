@@ -3,7 +3,7 @@
 /* style.module.scss */
 .modal {
   @include mixin.container(1420px);
-  @include mixin.font(18px, 500, null, var(--white));
+  @include mixin.flex(center, space-between, null, null);
   text-align: center;
   width: 100%;
   position: fixed;
@@ -16,6 +16,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
   border-radius: 5px;
+  &__title {
+    @include mixin.font(18px, 500, null, var(--white));
+    line-height: 1.2;
+    width: 100%;
+  }
 }
 
 .modal.open {
@@ -23,11 +28,7 @@
 }
 .closeModal {
   @include mixin.flex(center, center, null, null);
-  top: 0;
-  right: 0;
-  bottom: 0;
-  position: absolute;
-  cursor: pointer;
+  @include mixin.font(18px, 500, null, var(--white));
 }
 .closeModal svg {
   width: 50px;
@@ -37,5 +38,28 @@
 @media screen and (min-width: 1400px) {
   .modal {
     line-height: 1.1;
+  }
+}
+@media screen and (max-width: 768px) {
+  .modal.open {
+    top: 40px;
+    z-index: 3;
+  }
+  .modal {
+    padding: 0.75rem 0.875rem;
+    &__title {
+      font-size: 16px;
+    }
+  }
+}
+@media screen and (max-width: 576px) {
+  .modal.open {
+    top: 20px;
+  }
+  .modal {
+    padding: 0.625rem 0.75rem;
+    &__title {
+      font-size: 16px;
+    }
   }
 }
