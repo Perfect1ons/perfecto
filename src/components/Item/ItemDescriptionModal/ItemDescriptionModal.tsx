@@ -35,16 +35,20 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   const [added, setAdded] = useState(false);
 
   const handleScroll = (section: keyof ITogglerProps) => {
-    setToggler({
-      about: false,
-      video: false,
-      characteristics: false,
-      [section]: true,
-    });
-    document
-      .querySelector(`#${section}`)
-      ?.scrollIntoView({ behavior: "smooth" });
+    const targetSection = document.getElementById(section);
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth" });
+      setToggler({
+        about: false,
+        video: false,
+        characteristics: false,
+        [section]: true,
+      });
+    } else {
+      console.error(`Section ${section} not found.`);
+    }
   };
+
   useEffect(() => {
     const wrapper = wrapperRef.current;
     if (wrapper) {
@@ -208,11 +212,11 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             {product?.quantity && (
               <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
             )}
-            {data.cenaok < 1000 ? null : 
-                <button className={styles.ItemPriceCard__buttons_buy}>
+            {data.cenaok < 1000 ? null : (
+              <button className={styles.ItemPriceCard__buttons_buy}>
                 Купить
               </button>
-          }
+            )}
           </div>
         </div>
       </div>

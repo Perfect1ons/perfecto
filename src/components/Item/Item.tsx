@@ -17,6 +17,7 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemBanner from "./ItemBanner/ItemBanner";
+import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 
 interface IItemPageProps {
   data: Items;
@@ -26,7 +27,7 @@ interface IItemPageProps {
 
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const toggleScrollLock = () => {
     const body = document.body;
@@ -63,6 +64,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const matchingBreadCrumb = breadCrumbs.find(
     (crumb) => crumb.id === data.id_cat
   );
+  const openItemModalDescription = () => {
+    setItemModalDescription(!itemModalDescription);
+    toggleScrollLock();
+  };
 
   return (
     <section className={styles.wrap}>
@@ -104,7 +109,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
             <ItemOcenka data={data} />
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
-                {data.description ? <ItemDesc data={data} /> : null}
+                {data.description ? (
+                  <ItemDesc
+                    openItemModalDescription={openItemModalDescription}
+                    data={data}
+                  />
+                ) : null}
                 <div className={styles.product__aboutTheProduct}>
                   Код:
                   <span className={styles.product__aboutTheProduct_span}></span>
@@ -124,7 +134,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                {data.specification ? <ItemSpec data={data} /> : null}
+                {data.specification ? (
+                  <ItemSpec
+                    data={data}
+                    openItemModalDescription={openItemModalDescription}
+                  />
+                ) : null}
                 {data.trademark ? (
                   <Link
                     className={styles.brand__link}
@@ -160,6 +175,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <ProductReview data={data} func={openModal} />
         <ItemAccordion />
       </div>
+      <ItemDescriptionModal
+        data={data}
+        func={openItemModalDescription}
+        visible={itemModalDescription}
+      />
       <SimilarProducts similar={similar} />
     </section>
   );

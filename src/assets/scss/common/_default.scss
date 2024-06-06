@@ -238,7 +238,6 @@ body {
     min-height: 130px;
     padding-top: 0;
   }
-
   &_img {
     user-select: none;
     @media screen and (max-width: 640px) {
@@ -331,17 +330,21 @@ body {
     font-weight: 500;
   }
   &::-webkit-scrollbar {
-    height: 3px;
+    opacity: 0;
+    height: 0;
   }
 
   &::-webkit-scrollbar-track {
+    opacity: 0;
     background: var(--light-gray); /* Цвет фона скроллбара */
   }
 
   &::-webkit-scrollbar-thumb {
+    opacity: 0;
     background: var(--dark-blue); /* Красный цвет ползунка скроллбара */
     border-radius: 5px; /* Закругленные края ползунка */
   }
+  // Устанавливаем стили для прокрутки
 }
 
 //! стили страницы поиска

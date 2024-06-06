@@ -146,14 +146,18 @@
   gap: 20px;
   padding: 0 5px;
   margin: 10px 1%;
+  max-height: 805px;
+  overflow-y: auto;
   /* Стили для скроллбара вебкит-браузеров */
   /* Track */
   &::-webkit-scrollbar {
+    cursor: pointer;
     width: 15px;
   }
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
+    cursor: pointer;
     transition: 0.5s;
     background: #888;
     border-radius: 6px;
@@ -161,6 +165,8 @@
 
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+
     background: #555;
   }
 }
@@ -191,7 +197,7 @@
 }
 @media screen and (min-width: 1920px) {
   .catalogs__h2 {
-    padding: 0;
+    padding: 4px;
   }
 }
 @media screen and (max-width: 992px) {
