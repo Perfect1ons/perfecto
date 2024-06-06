@@ -6,6 +6,7 @@
   max-width: 1440px !important;
   margin: 0 auto;
   overflow: hidden;
+  position: relative;
   &_backdrop {
     z-index: 199;
     position: fixed;
@@ -311,8 +312,9 @@
       cursor: pointer;
       @include mixin.flex(center, center, null, 5px);
       &_copy {
+        @include mixin.flex(center, null, null, null);
         cursor: pointer;
-        scale: 0.9;
+        scale: 0.8;
         &:hover {
           color: var(--violet);
         }

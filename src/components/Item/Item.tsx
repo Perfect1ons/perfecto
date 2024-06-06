@@ -7,7 +7,7 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
@@ -17,6 +17,7 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemBanner from "./ItemBanner/ItemBanner";
+import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 
 interface IItemPageProps {
   data: Items;
@@ -26,36 +27,36 @@ interface IItemPageProps {
 
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [copiedCode, setCopiedCode] = useState(false);
-  const toggleScrollLock = () => {
+
+  useEffect(() => {
     const body = document.body;
-    if (body) {
-      const scrollBarWidth =
-        window.innerWidth - document.documentElement.clientWidth;
-      if (body.style.overflow === "hidden") {
-        body.style.paddingRight = "";
-        body.style.overflow = "auto";
-        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
-        body.style.top = "";
-      } else {
-        body.style.paddingRight = `${scrollBarWidth}px`;
-        body.style.overflow = "hidden";
-        body.style.top = `-${window.scrollY}px`;
-      }
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isOpen) {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
     }
-  };
+  }, [isOpen]);
 
   const openModal = () => {
     setIsOpen(!isOpen);
-    toggleScrollLock();
   };
 
   const handleCopyCode = (entryCode: string) => {
     navigator.clipboard.writeText(entryCode);
     setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 5000); // Скрыть уведомление через 3 секунды
+    setTimeout(() => setCopiedCode(false), 5000);
   };
+
   const closeModalCode = () => {
     setCopiedCode(false);
   };
@@ -66,6 +67,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
 
   return (
     <section className={styles.wrap}>
+      <MobileBuyBtn data={data} />
       {isOpen && (
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data} />
@@ -97,7 +99,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
-            <ItemSlider photos={data} toggleScrollLock={toggleScrollLock} />
+            <ItemSlider
+              photos={data}
+              toggleScrollLock={() => setIsOpen(true)}
+            />
           </div>
           <div className={styles.item__preview_info}>
             <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
