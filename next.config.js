@@ -80,6 +80,18 @@ module.exports = {
         protocol: "https",
         hostname: "ru.bekhost.com",
       },
+      {
+        protocol: "https",
+        hostname: "ru.bekhost.com",
+      },
+      {
+        protocol: "https",
+        hostname: "mnogogerz.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "mnogogerz.ru",
+      },
     ],
   },
   async headers() {
