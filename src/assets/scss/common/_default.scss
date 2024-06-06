@@ -43,7 +43,7 @@ body {
     @include container(1440px);
   }
   @media screen and (max-width: 640px) {
-    padding: 0 7px;
+    padding: 0 8px;
   }
 }
 
