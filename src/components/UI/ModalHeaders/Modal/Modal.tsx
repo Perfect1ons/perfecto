@@ -4,6 +4,7 @@ import styles from "./style.module.css";
 interface ModalProps {
   isVisible: boolean;
   children: React.ReactNode;
+  close: () => void;
 }
 
 const Modal = ({ children, isVisible }: ModalProps) => {

@@ -138,7 +138,7 @@ const Header = ({
           <Logo gomain={handleGoToMainPage} />
         </Link>
 
-        <Modal isVisible={isOpen}>
+        <Modal isVisible={isOpen} close={open}>
           <CatalogMenu
             catalog={catalogs}
             close={closeModal}
