@@ -4,7 +4,8 @@ import {
   getSimilarProduct,
 } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
-
+import DynamicJsonLd from "@/utils/jsonld";
+import { Metadata } from "next";
 interface Params {
   params: { path: string };
 }
@@ -18,37 +19,45 @@ export default async function item({ params: { path } }: Params) {
   ]);
 
   return (
+    <>
+      <DynamicJsonLd meta={data.meta} data={data.items} />
     <ItemPage
       data={data.items}
       similar={similarData}
       breadCrumbs={breadCrumbs}
     />
+    </>
   );
 }
 
-export async function generateMetadata({ params: { path } }: Params) {
+export async function generateMetadata({
+  params: { path },
+}: Params): Promise<Metadata> {
   const data = await getCardProduct(path[0]);
 
-  const title = data.meta.og_title;
-  const description = data.meta.og_description;
-  const keywords = data.meta.keywords;
-  const url = "https://max.kg/";
-  const image = "https://max.kg/images/mobile-logo-colorized.svg";
+  const title = data.meta.title;
+  const ogtitle = data.meta.og_title;
+  const description = data.meta.description;
+  const ogdescription = data.meta.og_description;
+  const keywords = data.meta.keywords || "";
+  const url = `https://max.kg/item/${path[0]}`;
+  const image =
+    data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
 
   return {
     title: title,
     description: description,
     keywords: keywords,
     openGraph: {
-      title: title,
-      description: description,
+      title: ogtitle,
+      description: ogdescription,
       url: url,
       images: [
         {
           url: image,
           width: 800,
           height: 600,
-          alt: "Logo",
+          alt: title,
         },
       ],
       type: "article",

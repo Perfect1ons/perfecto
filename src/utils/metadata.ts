@@ -1,4 +1,6 @@
-export async function generatePageMetadata(getMetaData: () => Promise<any>) {
+import { Metadata } from "next";
+
+export async function generatePageMetadata(getMetaData: () => Promise<Metadata>) {
   const data = await getMetaData();
   const title = data.title;
   const description = data.description;
