@@ -22,31 +22,19 @@ import dynamic from "next/dynamic";
 
 const LazySecondBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/SecondBanner"),
-  {
-    ssr: false,
-  }
 );
 const LazyThirdBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/ThirdBanner"),
-  {
-    ssr: false,
-  }
 );
 
 const LazySeasonCategorySwiper = dynamic(
   () =>
     import(
       "@/components/HomeComponents/SeasonCategorySwiper/SeasonCategorySwiper"
-    ),
-  {
-    ssr: false,
-  }
+    )
 );
 const LazyTodaysBoughts = dynamic(
-  () => import("@/components/HomeComponents/TodayBoughts/TodayBoughts"),
-  {
-    ssr: false,
-  }
+  () => import("@/components/HomeComponents/TodayBoughts/TodayBoughts")
 );
 const LazyNews = dynamic(
   () => import("@/components/HomeComponents/News/News"),
@@ -54,9 +42,6 @@ const LazyNews = dynamic(
 );
 const LazyDiscounts = dynamic(
   () => import("@/components/HomeComponents/Discounts/Discounts"),
-  {
-    ssr: false,
-  }
 );
 const LazyPromotion = dynamic(
   () => import("@/components/HomeComponents/Promotion/Promotion"),
