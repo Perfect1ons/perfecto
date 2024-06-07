@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
-import { IPopularGood,} from "@/types/popularGoods";
+import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
 import PopularGoodsSkeletonCard from "./AllPopularGoods/PopularGoodsSkeletonCard";
 
@@ -15,11 +15,13 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const [allDataLoaded, setAllDataLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(false);
   const perPage = 10;
   const maxPagesToShowMore = 3;
   const router = useRouter();
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response: IPopularGood[] = await getPopularGoodsByClient(2);
       setData((prevData) => [...prevData, ...response]);
@@ -28,6 +30,8 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -42,17 +46,27 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
     }
   };
 
+  useEffect(() => {
+    // Initial data fetch if needed
+    fetchData();
+  }, []);
+
   return (
     <div className="goods">
-
       <div className="container">
         <h1 className="sections__title">Популярные товары</h1>
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">
-          {data.slice(0, page * perPage).map((item, index) => (
-            <PopularGoodsCards goods={item} key={index} />
-          ))}
+          {loading
+            ? Array.from({ length: perPage }).map((_, index) => (
+                <PopularGoodsSkeletonCard key={index} />
+              ))
+            : data
+                .slice(0, page * perPage)
+                .map((item, index) => (
+                  <PopularGoodsCards goods={item} key={index} />
+                ))}
         </div>
 
         {!showAll && page < maxPagesToShowMore && (

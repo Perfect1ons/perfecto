@@ -14,6 +14,11 @@
   padding: 18px;
   @media screen and (max-width: 1410px) {
     max-width: none;
+    height: 215px;
+    // height: 100%;
+  }
+  @media screen and (max-width: 1280px) {
+    height: 100%;
   }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));

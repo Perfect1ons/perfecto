@@ -11,9 +11,6 @@ import {
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
 
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
-
 import { IPopularGood } from "@/types/popularGoods";
 import Link from "next/link";
 
@@ -71,22 +68,15 @@ const PopularGoodsCards = ({ goods }: IgoodsProps) => {
     <Link href={`/item/${goods.art}/${goods.url}`} className="link">
       <div className="default__card">
         <div className="default__card_images">
-          <Skeleton
+          <Image
             className="default__card_image"
-            baseColor="#202020"
-            highlightColor="#444"
+            src={imageUrl}
+            width={200}
+            height={200}
+            alt={goods.naim}
+            quality={100}
+            loading="lazy"
           />
-          {/* {(
-            <Image
-              className="default__card_image"
-              src={imageUrl}
-              width={200}
-              height={200}
-              alt={goods.naim}
-              quality={100}
-              loading="lazy"
-            />
-          ) || <Skeleton />} */}
         </div>
         <div className="default__card_info">
           <div className="default__card_price">

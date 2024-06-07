@@ -459,7 +459,15 @@
 .banner {
   display: none;
   @media screen and (max-width: 1024px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     display: block;
     margin-top: 15px;
+    // overflow: hidden;
+    img {
+      max-width: 500px;
+    }
   }
 }
