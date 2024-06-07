@@ -1,6 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-/* style.module.scss */
 .modal {
   @include mixin.container(1420px);
   @include mixin.flex(center, space-between, null, null);
@@ -9,6 +8,7 @@
   position: fixed;
   top: -100%;
   left: 50%;
+  opacity: 0;
   transform: translateX(-50%);
   transition: top 0.3s ease-in-out;
   background-color: #1bc592;
@@ -25,6 +25,7 @@
 
 .modal.open {
   top: 80px;
+  opacity: 1;
 }
 .closeModal {
   @include mixin.flex(center, center, null, null);

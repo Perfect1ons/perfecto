@@ -10,6 +10,10 @@ import {
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 import { IPopularGood } from "@/types/popularGoods";
 import Link from "next/link";
 
@@ -18,7 +22,7 @@ interface IgoodsProps {
 }
 
 const PopularGoodsCards = ({ goods }: IgoodsProps) => {
-const imageUrl =
+  const imageUrl =
     goods.photos.length > 0
       ? goods.photos[0].url_part.startsWith("https://goods-photos")
         ? `${goods.photos[0].url_part}280.jpg`
@@ -53,11 +57,11 @@ const imageUrl =
       return newIsFavorite;
     });
   };
-            const maxLength = 52;
-            const truncatedText =
-              goods.ddos.length > maxLength
-                ? `${goods.ddos.slice(0, maxLength)}...`
-                : goods.ddos;
+  const maxLength = 52;
+  const truncatedText =
+    goods.ddos.length > maxLength
+      ? `${goods.ddos.slice(0, maxLength)}...`
+      : goods.ddos;
 
   useEffect(() => {
     setRating(Math.floor(goods.ocenka));
@@ -67,15 +71,22 @@ const imageUrl =
     <Link href={`/item/${goods.art}/${goods.url}`} className="link">
       <div className="default__card">
         <div className="default__card_images">
-          <Image
+          <Skeleton
             className="default__card_image"
-            src={imageUrl}
-            width={200}
-            height={200}
-            alt={goods.naim}
-            quality={100}
-            loading="lazy"
+            baseColor="#202020"
+            highlightColor="#444"
           />
+          {/* {(
+            <Image
+              className="default__card_image"
+              src={imageUrl}
+              width={200}
+              height={200}
+              alt={goods.naim}
+              quality={100}
+              loading="lazy"
+            />
+          ) || <Skeleton />} */}
         </div>
         <div className="default__card_info">
           <div className="default__card_price">
@@ -85,7 +96,9 @@ const imageUrl =
                   {goods.cenaok.toLocaleString("ru-RU")}
                   <span className="default__card_price_custom"> с</span>
                 </h3>
-                <span className="default__card_price_prc">-{goods.discount_prc} %</span>
+                <span className="default__card_price_prc">
+                  -{goods.discount_prc} %
+                </span>
                 <h3 className="default__card_price_old">
                   {goods.old_price.toLocaleString("ru-RU")}
                   <span className="default__card_price_custom"> с</span>
@@ -145,4 +158,3 @@ const imageUrl =
 };
 
 export default PopularGoodsCards;
-

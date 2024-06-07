@@ -138,9 +138,15 @@
 .priceCard {
   position: fixed;
   top: 15%;
-  right: 5%;
+  right: 2%;
   z-index: 100;
-  @media screen and (max-width: 1410px) {
+  max-width: 345px;
+  @media screen and (max-width: 1198px) {
+    scale: 0.7;
+    top: 5%;
+    right: 0;
+  }
+  @media screen and (max-width: 992px) {
     display: none;
   }
 }

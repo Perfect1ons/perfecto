@@ -6,7 +6,7 @@ import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
-import ItemPriceCardWrap from "../../ItemPriceCardWrap/ItemPriceCardWrap";
+import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
 
 interface IReviewModal {
   photos: Items; // Accessing the photos property from Items
@@ -53,7 +53,7 @@ const ItemSliderModal = ({
   return (
     <div className={styles.modal}>
       <div className={styles.wrapper} onScroll={handleScroll} ref={wrapperRef}>
-        {isAtTop && photos.photos.length < 1 && (
+        {isAtTop && photos.photos.length > 1 && (
           <div className={styles.swipe_down} onClick={handleSwipeDownClick}>
             {chevronDownIcon()}
             Листайте вниз, чтобы увидеть больше картинок
@@ -67,7 +67,7 @@ const ItemSliderModal = ({
         </div>
 
         <div className={styles.priceCard}>
-          <ItemPriceCardWrap data={photos} />
+          <ItemPriceCard data={photos} />
         </div>
 
         <ul className={styles.ul}>
@@ -79,7 +79,7 @@ const ItemSliderModal = ({
                   height={500}
                   src={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}1080-nw.jpg`
+                      ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`

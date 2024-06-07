@@ -1,0 +1,16 @@
+// test
+// @function remCalc($pixels) {
+//   @return calc($pixels / 10) + rem;
+// }
+
+// html {
+//   --refRes: 1920;
+//   font-size: calc(100vw / var(--refRes) * 10);
+
+//   @media (max-width: 1024px) {
+//     --refRes: 768;
+//   }
+//   @media (max-width: 530px) {
+//     --refRes: 320;
+//   }
+// }
