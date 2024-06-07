@@ -29,6 +29,7 @@
 .closeModal {
   @include mixin.flex(center, center, null, null);
   @include mixin.font(18px, 500, null, var(--white));
+  cursor: pointer;
 }
 .closeModal svg {
   width: 50px;
