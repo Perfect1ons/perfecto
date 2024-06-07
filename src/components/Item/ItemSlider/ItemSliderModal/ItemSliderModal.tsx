@@ -6,6 +6,7 @@ import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
+import clsx from "clsx";
 import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
 
 interface IReviewModal {
@@ -68,6 +69,7 @@ const ItemSliderModal = ({
 
         <div className={styles.priceCard}>
           <ItemPriceCard data={photos} />
+          {/* <ItemBanner /> */}
         </div>
 
         <ul className={styles.ul}>
@@ -108,7 +110,7 @@ const ItemSliderModal = ({
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                   }
                   alt={photo.url_part}
-                  className={styles.photo}
+                  className={clsx(styles.photo)}
                 />
               )}
             </li>
