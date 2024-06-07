@@ -1,13 +1,21 @@
+"use client";
+import { BrandsAll } from "@/types/bannerAll";
 import Image from "next/image";
 
-const ItemBanner = () => {
+interface IBanner {
+  banner: BrandsAll;
+}
+const ItemBanner = ({ banner }: IBanner) => {
+  const imageUrl = `https://max.kg/bimages/baner/baner_${banner?.baner[0]?.id}.jpg`;
+
   return (
     <Image
       className="testoviy"
-      src="https://avatars.mds.yandex.net/get-market-adv/8282799/a128394f-da2d-4fdb-aa92-083f5cd7e273/1080x450"
+      src={imageUrl}
+      // src={`https://max.kg/bimages/baner/baner_960.jpg`}
       width={344}
       height={143}
-      alt="Нурболот"
+      alt={`суууу`}
     />
   );
 };

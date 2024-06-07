@@ -8,6 +8,7 @@
   width: 100%;
   position: fixed;
   top: -100%;
+  opacity: 0;
   left: 50%;
   transform: translateX(-50%);
   transition: top 0.3s ease-in-out;
@@ -25,17 +26,14 @@
 
 .modal.open {
   top: 80px;
+  opacity: 1;
 }
 .closeModal {
   @include mixin.flex(center, center, null, null);
   @include mixin.font(18px, 500, null, var(--white));
   cursor: pointer;
+  scale: 2;
 }
-.closeModal svg {
-  width: 50px;
-  height: 50px;
-}
-
 @media screen and (min-width: 1400px) {
   .modal {
     line-height: 1.1;

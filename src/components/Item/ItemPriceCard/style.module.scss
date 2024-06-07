@@ -6,6 +6,7 @@
 }
 
 .ItemPriceCard {
+  position: relative;
   user-select: none;
   max-width: 344px;
   width: 100%;
@@ -105,7 +106,7 @@
   margin-top: 15px;
   &_title {
     @include mixin.font(14px, 400, 100%, var(--dark));
-    @include mixin.flex(flex-end, null, null, 3px);
+    @include mixin.flex(center, null, null, 3px);
     &_icon {
       @include mixin.flex(center, center, null, null);
       color: var(--dark);
@@ -114,10 +115,61 @@
     &_custom {
       @include mixin.font(14px, 400, 100%, var(--dark));
     }
+    &_arrowUp {
+      cursor: pointer;
+      @include mixin.flex(center, center, null, null);
+      transition: 0.3s all;
+      transform: rotate(180deg);
+    }
+    &_arrowDown {
+      cursor: pointer;
+      @include mixin.flex(center, center, null, null);
+      transition: 0.3s all;
+      transform: rotate(0deg);
+    }
+  }
+  &_ipModal {
+    padding: 20px;
+    text-wrap: nowrap;
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    left: 0;
+    bottom: -100px;
+    border-radius: 5px;
+    background: var(--light-white);
+    z-index: 10;
+    position: absolute;
+    &::after {
+      display: inline-flex;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translate(-50%);
+      z-index: 1000;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 12px 12px;
+      border-color: transparent transparent var(--light-white);
+      content: "";
+    }
+    &_name {
+      @include mixin.flex(flex-start, flex-start, column, null);
+      &_text {
+        @include mixin.font(16px, 400, null, var(--dark));
+      }
+    }
+    &_info {
+      @include mixin.flex(flex-start, flex-start, column, null);
+      &_text {
+        @include mixin.font(16px, 400, null, var(--dark));
+      }
+    }
   }
 }
 .shareIcon {
-  @include mixin.flex(center, center, null, 10px);
+  text-wrap: nowrap;
+  @include mixin.flex(center, space-between, null, 10px);
   user-select: none;
 }
 .share {

@@ -1146,3 +1146,29 @@ export const SalesmanIcon = () => {
     </svg>
   );
 };
+
+export const ArrowDropdown = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      id="arrow"
+      width={21}
+      height={21}
+      x="0"
+      y="0"
+      version="1.1"
+      viewBox="0 0 29 29"
+      xmlSpace="preserve"
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="10"
+        strokeWidth="2"
+        d="m20.5 11.5-6 6-6-6"
+      ></path>
+    </svg>
+  );
+};

@@ -1,5 +1,5 @@
 "use client";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import Link from "next/link";
@@ -20,14 +20,16 @@ import ItemBanner from "./ItemBanner/ItemBanner";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
+import { BrandsAll } from "@/types/bannerAll";
 
 interface IItemPageProps {
-  data: Items;
+  data: ICardProductItems;
   similar: ISimilarItem[];
   breadCrumbs: BreadCrumbs[];
+  banner: BrandsAll;
 }
 
-const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
+const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
@@ -101,7 +103,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   };
 
   const matchingBreadCrumb = breadCrumbs.find(
-    (crumb) => crumb.id === data.id_cat
+    (crumb) => crumb.id === data.items.id_cat
   );
   const openItemModalDescription = () => {
     setItemModalDescription(!itemModalDescription);
@@ -110,10 +112,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
 
   return (
     <section className={styles.wrap}>
-      <MobileBuyBtn data={data} />
+      <MobileBuyBtn data={data.items} />
       {isOpenReview && (
         <div className={styles.wrap_modal}>
-          <ReviewModal func={openModal} data={data} />
+          <ReviewModal func={openModal} data={data.items} />
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
         </div>
       )}
@@ -143,6 +145,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
             <ItemSlider
+              banner={banner}
               photos={data}
               toggleScrollLock={() => setIsOpen(true)}
             />
@@ -152,14 +155,16 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               <ItemPriceCard data={data} />
             </div>
 
-            <h1 className={styles.item__preview_info_title}>{data.naim}</h1>
-            <ItemOcenka data={data} />
+            <h1 className={styles.item__preview_info_title}>
+              {data.items.naim}
+            </h1>
+            <ItemOcenka data={data.items} />
             <div className={styles.item__preview_info_description}>
               <div className={styles.item__preview_info_description_block}>
-                {data.description ? (
+                {data.items.description ? (
                   <ItemDesc
                     openItemModalDescription={openItemModalDescription}
-                    data={data}
+                    data={data.items}
                   />
                 ) : null}
                 <div className={styles.product__aboutTheProduct}>
@@ -169,11 +174,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   <span className={styles.product__aboutTheProduct_span}></span>
                   <div
                     className={styles.product__aboutTheProduct_div}
-                    onClick={() => handleCopyCode(data.art.toString())}
+                    onClick={() => handleCopyCode(data.items.art.toString())}
                   >
-                    <span>{data.art}</span>
+                    <span>{data.items.art}</span>
                     <span
-                      onClick={() => handleCopyCode(data.art.toString())}
+                      onClick={() => handleCopyCode(data.items.art.toString())}
                       className={styles.product__aboutTheProduct_div_copy}
                     >
                       <CopyIcon />
@@ -183,20 +188,20 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     Код скопирован!
                   </UserInfoModal>
                 </div>
-                {data.specification ? (
+                {data.items.specification ? (
                   <ItemSpec
-                    data={data}
+                    data={data.items}
                     openItemModalDescription={openItemModalDescription}
                   />
                 ) : null}
-                {data.trademark ? (
+                {data.items.trademark ? (
                   <Link
                     className={styles.brand__link}
-                    href={`/brands/${data.trademark}-${data.trademark_id}`}
+                    href={`/brands/${data.items.trademark}-${data.items.trademark_id}`}
                   >
                     Бренд:{" "}
                     <span className={styles.brand__link_custom}>
-                      {data.trademark}
+                      {data.items.trademark}
                     </span>
                   </Link>
                 ) : null}
@@ -214,18 +219,18 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   )}
                 </p>
                 <div className={styles.banner}>
-                  <ItemBanner />
+                  <ItemBanner banner={banner} />
                 </div>
               </div>
-              <ItemPriceCardWrap data={data} />
+              <ItemPriceCardWrap banner={banner} data={data} />
             </div>
           </div>
         </div>
-        <ProductReview data={data} func={openModal} />
+        <ProductReview data={data.items} func={openModal} />
         <ItemAccordion />
       </div>
       <ItemDescriptionModal
-        data={data}
+        data={data.items}
         func={openItemModalDescription}
         visible={itemModalDescription}
       />

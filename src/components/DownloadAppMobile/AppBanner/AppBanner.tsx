@@ -11,7 +11,7 @@ interface WindowWithOpenURL extends Window {
 const AppBanner = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [appLink, setAppLink] = useState("");
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -30,8 +30,8 @@ const AppBanner = () => {
     }
 
     const hideTimer = setTimeout(() => {
-      setIsBannerVisible(false);
-    }, 5000);
+      setIsBannerVisible(true);
+    }, 15000);
 
     return () => clearTimeout(hideTimer);
   }, []);

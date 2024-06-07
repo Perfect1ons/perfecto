@@ -23,12 +23,12 @@ import { ISimilarProduct } from "@/types/SimilarProduct/similarProduct";
 import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
 import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import { BrandsAll } from "@/types/bannerAll";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 5 },
 });
-
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
   return maxkg.get(`site/popular?page=${page}`).json();
@@ -51,6 +51,9 @@ export const getCatalogsProducts = (
   path: string
 ): Promise<ICatalogsProducts> => {
   return maxkg.get(`catalog/cat-product/${path}`).json();
+};
+export const getBannerAll = (id: number): Promise<BrandsAll> => {
+  return maxkg.get(`baner/get-position?id=${id}`).json();
 };
 
 // на популярные категории
@@ -219,8 +222,6 @@ export const getMetaPopularPage = (): Promise<IMetaData> => {
 export const getMetaBrandPage = (): Promise<IMetaData> => {
   return maxkg.get("site/meta?type=main_brand").json();
 };
-
-
 
 export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
   return maxkg.get(`site/breadcrumbs?id=${id}`).json();

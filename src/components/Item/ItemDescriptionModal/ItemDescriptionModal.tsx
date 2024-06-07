@@ -31,7 +31,7 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
     video: false,
     characteristics: false,
   });
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const aboutProductContainerRef = useRef<HTMLDivElement>(null);
   const [hasScroll, setHasScroll] = useState(true); // состояние для отслеживания наличия скролла
   const [added, setAdded] = useState(false);
 
@@ -51,9 +51,11 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   };
 
   useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (wrapper) {
-      setHasScroll(wrapper.scrollHeight > wrapper.clientHeight);
+    const aboutProductContainer = aboutProductContainerRef.current;
+    if (aboutProductContainer) {
+      setHasScroll(
+        aboutProductContainer.scrollHeight > aboutProductContainer.clientHeight
+      );
     }
   }, [data, visible]);
   const addToCart = () => {
@@ -218,26 +220,25 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
             </div>
           )}
           <div className={styles.buttonsContainer}>
-            {!product?.quantity && (
-              <button
-                onClick={addToCart}
-                className={styles.ItemPriceCard__buttons_cart}
-              >
-                <span className="add__to_cart_icon">
-                  <CartIcon />
-                </span>
-                В корзину
-              </button>
-            )}
-            <div className={styles.ItemPriceCard__counted}>
+            <div className={styles.buttonsContainer__carts}>
+              {!product?.quantity && (
+                <button
+                  onClick={addToCart}
+                  className={styles.buttonsContainer__carts__cart}
+                >
+                  <span className="add__to_cart_icon">
+                    <CartIcon />
+                  </span>
+                  В корзину
+                </button>
+              )}
               {product?.quantity && (
                 <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
               )}
             </div>
+
             {data.cenaok < 1000 ? null : (
-              <button className={styles.ItemPriceCard__buttons_buy}>
-                Купить
-              </button>
+              <button className={styles.buttonsContainer__buy}>Купить</button>
             )}
           </div>
         </div>
