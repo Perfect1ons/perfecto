@@ -20,14 +20,16 @@ import ItemBanner from "./ItemBanner/ItemBanner";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
+import { BrandsAll } from "@/types/bannerAll";
 
 interface IItemPageProps {
   data: Items;
   similar: ISimilarItem[];
   breadCrumbs: BreadCrumbs[];
+  banner: BrandsAll;
 }
 
-const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
+const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
@@ -143,6 +145,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
             <ItemSlider
+              banner={banner}
               photos={data}
               toggleScrollLock={() => setIsOpen(true)}
             />
@@ -214,10 +217,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                   )}
                 </p>
                 <div className={styles.banner}>
-                  <ItemBanner />
+                  <ItemBanner banner={banner} />
                 </div>
               </div>
-              <ItemPriceCardWrap data={data} />
+              <ItemPriceCardWrap banner={banner} data={data} />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import {
+  getBannerAll,
   getBreadCrumbs,
   getCardProduct,
   getSimilarProduct,
@@ -12,6 +13,7 @@ interface Params {
 
 export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
+  const banner = await getBannerAll(21);
 
   const [breadCrumbs, similarData] = await Promise.all([
     getBreadCrumbs(data.items.id_cat),
@@ -21,11 +23,12 @@ export default async function item({ params: { path } }: Params) {
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-    <ItemPage
-      data={data.items}
-      similar={similarData}
-      breadCrumbs={breadCrumbs}
-    />
+      <ItemPage
+        banner={banner}
+        data={data.items}
+        similar={similarData}
+        breadCrumbs={breadCrumbs}
+      />
     </>
   );
 }
