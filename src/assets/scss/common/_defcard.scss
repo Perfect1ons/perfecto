@@ -3,6 +3,7 @@
 .main__news {
   &_cards {
     max-width: 1440px;
+    width: 100%;
     margin: auto;
     padding: 0 15px;
     display: grid;
@@ -59,7 +60,7 @@
   background: var(--white);
   cursor: pointer;
   user-select: none;
-  max-width: 262px;
+  // max-width: 262px;
   width: 100%;
   border-radius: 10px;
   @include mixin.flex(flex-start, center, column);

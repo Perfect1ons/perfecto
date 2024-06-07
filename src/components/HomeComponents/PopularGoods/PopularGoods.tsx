@@ -15,13 +15,12 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const [allDataLoaded, setAllDataLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const perPage = 10;
   const maxPagesToShowMore = 3;
   const router = useRouter();
 
   const fetchData = async () => {
-    setLoading(true);
     try {
       const response: IPopularGood[] = await getPopularGoodsByClient(2);
       setData((prevData) => [...prevData, ...response]);
@@ -30,8 +29,6 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -47,8 +44,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   };
 
   useEffect(() => {
-    // Initial data fetch if needed
-    fetchData();
+    setLoading(false);
   }, []);
 
   return (
@@ -58,15 +54,9 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">
-          {loading
-            ? Array.from({ length: perPage }).map((_, index) => (
-                <PopularGoodsSkeletonCard key={index} />
-              ))
-            : data
-                .slice(0, page * perPage)
-                .map((item, index) => (
-                  <PopularGoodsCards goods={item} key={index} />
-                ))}
+          {data.slice(0, page * perPage).map((item, index) => (
+            <PopularGoodsCards goods={item} key={index} loading={loading} />
+          ))}
         </div>
 
         {!showAll && page < maxPagesToShowMore && (
