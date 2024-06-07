@@ -1,9 +1,9 @@
 @use "../../assets/scss/common/mixins" as mixin;
-.app{
-    background: var(--white);
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    @include mixin.flex(null, space-between, null, null);
-    z-index: 100;
+.app {
+  background: var(--white);
+  position: fixed;
+  bottom: -50px;
+  @include mixin.flex(null, space-between, null, null);
+  z-index: 100;
+  width: 100%;
 }
