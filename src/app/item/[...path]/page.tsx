@@ -25,7 +25,7 @@ export default async function item({ params: { path } }: Params) {
       <DynamicJsonLd meta={data.meta} data={data.items} />
       <ItemPage
         banner={banner}
-        data={data.items}
+        data={data}
         similar={similarData}
         breadCrumbs={breadCrumbs}
       />

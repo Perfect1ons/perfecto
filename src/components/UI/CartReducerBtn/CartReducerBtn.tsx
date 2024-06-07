@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
@@ -22,13 +22,12 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
-  const [quantity, setQuantity] = useState(product?.quantity || data.minQty);
+  const quantity = product?.quantity || data.minQty;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value ? parseInt(e.target.value) : 0;
     if (isNaN(value) || value < 0) return;
 
-    setQuantity(value);
     if (value >= data.minQty) {
       if (product) {
         dispatch(updateProductQuantity({ id: data.id, quantity: value }));
@@ -42,11 +41,9 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
   const addToCart = () => {
     if (product) {
       dispatch(addProductQuantity(data.id));
-      setQuantity((prevQuantity) => prevQuantity + 1);
     } else {
       const newProduct = { ...data, quantity: data.minQty };
       dispatch(addProductToCart(newProduct));
-      setQuantity(data.minQty);
     }
   };
 
@@ -55,10 +52,8 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
       if (product.quantity && product.quantity <= data.minQty) {
         dispatch(removeProductFromCart(data.id));
         onCartEmpty();
-        setQuantity(0);
       } else {
         dispatch(deleteProductQuantity(data.id));
-        setQuantity((prevQuantity) => prevQuantity - 1);
       }
     }
   };
