@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import clsx from "clsx";
 
-import { Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -36,7 +36,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import ItemBanner from "../ItemBanner/ItemBanner";
 
 interface IPhotosProps {
-  photos: Items;
+  photos: ICardProductItems;
   toggleScrollLock: () => void;
 }
 
@@ -55,7 +55,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
 
   const [cleanHTML, setCleanHTML] = useState<string>("");
   useEffect(() => {
-    const sanitizedHTML = DOMPurify.sanitize(photos.video, {
+    const sanitizedHTML = DOMPurify.sanitize(photos.items.video, {
       ADD_TAGS: ["iframe"],
       ADD_ATTR: [
         "allow",
@@ -88,7 +88,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     }
 
     setCleanHTML(tempDiv.innerHTML);
-  }, [photos.video]);
+  }, [photos.items.video]);
 
   const pauseVideo = () => {
     const iframe = document.querySelector("iframe");
@@ -100,7 +100,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     }
   };
 
-  if (!photos || !photos.photos || photos.photos.length === 0) {
+  if (!photos || !photos.items.photos || photos.items.photos.length === 0) {
     return (
       <div className={styles.product__swipers}>
         <Image
@@ -118,7 +118,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     toggleScrollLock();
   };
 
-  const paginationEnabled = photos.photos.length > 1;
+  const paginationEnabled = photos.items.photos.length > 1;
 
   return (
     <>
@@ -149,7 +149,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           }}
           className={clsx(styles.product__cards, "mySwiper")}
         >
-          {photos.video && (
+          {photos.items.video && (
             <SwiperSlide
               className={styles.product__cards_item}
               onMouseEnter={() => handleMouseEnter(0)}
@@ -159,12 +159,12 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               </div>
             </SwiperSlide>
           )}
-          {photos.photos.map((photo, index) => (
+          {photos.items.photos.map((photo, index) => (
             <SwiperSlide
               className={styles.product__cards_item}
               key={index}
               onMouseEnter={() =>
-                handleMouseEnter(photos.video ? index + 1 : index)
+                handleMouseEnter(photos.items.video ? index + 1 : index)
               }
             >
               <Image
@@ -174,7 +174,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                     ? `${photo.url_part}280.jpg`
                     : photo.url_part.startsWith("https://")
                     ? photo.url_part
-                    : `${url}nal/img/${photos.id_post}/l_${photo.url_part}`
+                    : `${url}nal/img/${photos.items.id_post}/l_${photo.url_part}`
                 }
                 width={100}
                 height={100}
@@ -229,7 +229,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
             className={styles.activeSlide}
           >
-            {photos.video && (
+            {photos.items.video && (
               <SwiperSlide className={styles.activeSlide} key={0}>
                 <div
                   dangerouslySetInnerHTML={{ __html: cleanHTML }}
@@ -237,9 +237,9 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                 ></div>
               </SwiperSlide>
             )}
-            {photos.photos.map((photo, index) => (
+            {photos.items.photos.map((photo, index) => (
               <SwiperSlide
-                key={photos.video ? index + 1 : index}
+                key={photo.url_part ? index + 1 : index}
                 className={styles.activeSlide}
               >
                 {isZoomEnabled ? (
@@ -251,14 +251,14 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                         ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
-                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                     }
                     zoomSrc={
                       photo.url_part.startsWith("https://goods")
                         ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
-                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                     }
                     zoomType="hover"
                     hideHint={true}
@@ -274,7 +274,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                         ? `${photo.url_part}700-nw.jpg`
                         : photo.url_part.startsWith("https://")
                         ? photo.url_part
-                        : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                     }
                     alt={photo.url_part}
                     className={styles.product_img}

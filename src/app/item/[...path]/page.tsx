@@ -21,11 +21,7 @@ export default async function item({ params: { path } }: Params) {
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-    <ItemPage
-      data={data.items}
-      similar={similarData}
-      breadCrumbs={breadCrumbs}
-    />
+      <ItemPage data={data} similar={similarData} breadCrumbs={breadCrumbs} />
     </>
   );
 }

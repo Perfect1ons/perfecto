@@ -3,16 +3,15 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image"; // Assuming you're using Next.js Image component
 import styles from "./style.module.scss";
 import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
-import ItemPriceCardWrap from "../../ItemPriceCardWrap/ItemPriceCardWrap";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
 
 interface IReviewModal {
-  photos: Items; // Accessing the photos property from Items
+  photos: ICardProductItems; // Accessing the photos property from Items
   isOpen: boolean;
   closeModal: () => void;
   zoom: boolean;
@@ -58,7 +57,7 @@ const ItemSliderModal = ({
   return (
     <div className={styles.modal}>
       <div className={styles.wrapper} onScroll={handleScroll} ref={wrapperRef}>
-        {isAtTop && photos.photos.length < 1 && (
+        {isAtTop && photos.items.photos.length < 1 && (
           <div className={styles.swipe_down} onClick={handleSwipeDownClick}>
             {chevronDownIcon()}
             Листайте вниз, чтобы увидеть больше картинок
@@ -77,7 +76,7 @@ const ItemSliderModal = ({
         </div>
 
         <ul className={styles.ul}>
-          {photos.photos.map((photo, index) => (
+          {photos?.items?.photos?.map((photo, index) => (
             <li className={styles.li} key={index}>
               {zoom ? (
                 <InnerImageZoom
@@ -88,14 +87,14 @@ const ItemSliderModal = ({
                       ? `${photo.url_part}1080-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
                   zoomSrc={
                     photo.url_part.startsWith("https://goods")
                       ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
                   zoomType="hover"
                   zoomScale={2.7}
@@ -111,7 +110,7 @@ const ItemSliderModal = ({
                       ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
-                      : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
                   alt={photo.url_part}
                   className={clsx(styles.photo)}

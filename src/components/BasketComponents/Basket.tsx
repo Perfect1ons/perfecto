@@ -58,11 +58,11 @@ const Basket = () => {
                     <Image
                       className="default__card_image_column"
                       src={
-                        item.photos[0].url_part.startsWith("https://goods")
-                          ? `${item.photos[0].url_part}280.jpg`
-                          : item.photos[0].url_part.startsWith("https://")
-                          ? item.photos[0].url_part
-                          : `${url}nal/img/${item.id_post}/l_${item.photos[0].url_part}`
+                        item.photos[0]?.url_part.startsWith("https://goods")
+                          ? `${item.photos[0]?.url_part}280.jpg`
+                          : item.photos[0]?.url_part.startsWith("https://")
+                          ? item.photos[0]?.url_part
+                          : `${url}nal/img/${item.id_post}/l_${item.photos[0]?.url_part}`
                       }
                       width={200}
                       height={200}
