@@ -1,11 +1,11 @@
-import { Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import ItemBanner from "../ItemBanner/ItemBanner";
 import ItemPriceCard from "../ItemPriceCard/ItemPriceCard";
 import styles from "./style.module.scss";
 import { BrandsAll } from "@/types/bannerAll";
 
 interface IPriceCardProps {
-  data: Items;
+  data: ICardProductItems;
   banner: BrandsAll;
 }
 

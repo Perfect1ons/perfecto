@@ -1,11 +1,13 @@
 "use client";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
+  ArrowDropdown,
+  ArrowLeftIcon,
   CartIcon,
   HeartIconShare,
   HeartIconShareFill,
@@ -18,16 +20,17 @@ import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import Link from "next/link";
+import clsx from "clsx";
 
 interface IPriceProps {
-  data: Items;
+  data: ICardProductItems;
 }
 
 const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item) => item.id === data.id);
+  const product = cart.find((item) => item.id === data.items.id);
 
   const [dropdownActive, setDropdownActive] = useState(false);
 
@@ -36,6 +39,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const [favorite, setFavorite] = useState(false);
 
   const [copy, setCopy] = useState(false);
+
+  const [ipOpen, setIpOpen] = useState(false);
 
   const handleCopyLink = (entryText: string) => {
     navigator.clipboard
@@ -52,7 +57,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   };
 
   const addToCart = () => {
-    dispatch(addProductToCart(data));
+    dispatch(addProductToCart(data.items));
     setAdded(true);
     setModal(true);
     setTimeout(() => setModal(false), 5000);
@@ -71,27 +76,34 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setCopy(false);
   };
 
+  const IpOpenHandler = () => {
+    setIpOpen(true);
+  };
+  const IpCloseHandler = () => {
+    setIpOpen(false);
+  };
+
   return (
     <section className={styles.section_wrap}>
       <div className={styles.ItemPriceCard}>
-        {data.discount_prc > 0 ? (
+        {data.items?.discount_prc > 0 ? (
           <div className={styles.ItemPriceCard__cost}>
             <span className={styles.ItemPriceCard__price_new}>
-              {data.cenaok.toLocaleString("ru-RU")}
+              {data.items.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_new_custom}>с</span>
             </span>
             <span className={styles.ItemPriceCard__price_discount}>
-              -{data.discount_prc}%
+              -{data.items.discount_prc}%
             </span>
             <span className={styles.ItemPriceCard__old_price}>
-              {data.old_price.toLocaleString("ru-RU")}
+              {data.items.old_price.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__old_price_custom}>с</span>
             </span>
           </div>
         ) : (
           <div className={styles.ItemPriceCard__cost}>
             <span className={styles.ItemPriceCard__price}>
-              {data.cenaok.toLocaleString("ru-RU")}
+              {data.items?.cenaok.toLocaleString("ru-RU")}
               <span className={styles.ItemPriceCard__price_custom}>с</span>
             </span>
           </div>
@@ -110,11 +122,11 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               Наличие и доставка!
             </p>
           </div>
-          <p className={styles.ItemPriceCard__ddos_desc}>{data.ddos}</p>
+          <p className={styles.ItemPriceCard__ddos_desc}>{data.items?.ddos}</p>
         </div>
-        {data.minQty > 1 ? (
+        {data.items?.minQty > 1 ? (
           <p className={styles.ItemPriceCard__minQty}>
-            минимальное количество к заказу от {data.minQty} шт.
+            минимальное количество к заказу от {data.items.minQty} шт.
           </p>
         ) : (
           <span className={styles.ItemPriceCard__minQty_none}></span>
@@ -139,26 +151,67 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             </button>
           )}
           {product?.quantity && (
-            <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
+            <CartReducerBtn data={data.items} onCartEmpty={handleCartEmpty} />
           )}
-          {data.cenaok < 1000 ? null : (
+          {data.items?.cenaok < 1000 ? null : (
             <button className={styles.ItemPriceCard__buttons_buy}>
               Купить
             </button>
           )}
         </div>
 
-        <div className={styles.ItemPriceCard__salesman}>
-          <h3 className={styles.ItemPriceCard__salesman_title}>
-            <span className={styles.ItemPriceCard__salesman_title_icon}>
-              <SalesmanIcon />{" "}
-            </span>
-            ИП
-            <span className={styles.ItemPriceCard__salesman_title_custom}>
-              Нурдин Улуу Нурболот
-            </span>
-          </h3>
-        </div>
+        {data.seller?.name && (
+          <div className={styles.ItemPriceCard__salesman}>
+            <h3 className={styles.ItemPriceCard__salesman_title}>
+              <span className={styles.ItemPriceCard__salesman_title_icon}>
+                <SalesmanIcon />{" "}
+              </span>
+              ИП
+              <span className={styles.ItemPriceCard__salesman_title_custom}>
+                {data.seller?.name}
+              </span>
+              <span
+                onMouseEnter={IpOpenHandler}
+                onMouseLeave={IpCloseHandler}
+                className={clsx(
+                  ipOpen
+                    ? styles.ItemPriceCard__salesman_title_arrowUp
+                    : styles.ItemPriceCard__salesman_title_arrowDown
+                )}
+              >
+                <ArrowDropdown />
+              </span>
+            </h3>
+            {ipOpen && (
+              <div className={styles.ItemPriceCard__salesman_ipModal}>
+                <div className={styles.ItemPriceCard__salesman_ipModal_name}>
+                  <span
+                    className={styles.ItemPriceCard__salesman_ipModal_name_text}
+                  >
+                    OcOO:
+                  </span>
+                  <span
+                    className={styles.ItemPriceCard__salesman_ipModal_name_text}
+                  >
+                    ИНН:
+                  </span>
+                </div>
+                <div className={styles.ItemPriceCard__salesman_ipModal_info}>
+                  <span
+                    className={styles.ItemPriceCard__salesman_ipModal_info_text}
+                  >
+                    {data.seller.full_name}
+                  </span>
+                  <span
+                    className={styles.ItemPriceCard__salesman_ipModal_info_text}
+                  >
+                    {data.seller.inn}
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className={styles.shareIcon}>
         <div className={styles.share_btnControl} onClick={handleFavoriteClick}>

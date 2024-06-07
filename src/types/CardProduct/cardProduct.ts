@@ -1,5 +1,6 @@
 export interface ICardProductItems {
   items: Items;
+  seller: Seller;
   meta: Meta;
 }
 
@@ -107,6 +108,12 @@ export interface Items {
   quantity?: number;
 }
 
+export interface Seller {
+  full_name: string;
+  inn: string;
+  name: string;
+}
+
 export interface Country {
   name: string;
 }
@@ -165,7 +172,6 @@ export interface Viddost {
   prim: string;
   id_tov?: number;
 }
-
 export interface Meta {
   title: string;
   description: string;
