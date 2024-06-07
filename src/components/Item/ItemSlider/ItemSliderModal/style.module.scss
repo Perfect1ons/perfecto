@@ -93,6 +93,9 @@
   height: 100vh;
   object-fit: cover;
   user-select: none;
+  @media screen and (max-width: 992px) {
+    scale: 0.5;
+  }
 
   @media screen and (max-width: 768px) {
     height: auto;
@@ -134,13 +137,27 @@
     font-size: 12px;
   }
 }
+.li {
+  @media screen and (min-width: 1586px) and (max-width: 1700px) {
+    max-width: 700px;
+  }
+  @media screen and (min-width: 992px) and (max-width: 1586px) {
+    max-width: 500px;
+  }
+}
 
 .priceCard {
   position: fixed;
   top: 15%;
-  right: 5%;
+  right: 2%;
   z-index: 100;
-  @media screen and (max-width: 1410px) {
+  max-width: 345px;
+  @media screen and (max-width: 1240px) {
+    scale: 0.8;
+    top: 3%;
+    right: 0;
+  }
+  @media screen and (max-width: 1150px) {
     display: none;
   }
 }

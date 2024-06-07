@@ -117,7 +117,8 @@
   }
 }
 .shareIcon {
-  @include mixin.flex(center, center, null, 10px);
+  text-wrap: nowrap;
+  @include mixin.flex(center, space-between, null, 10px);
   user-select: none;
 }
 .share {

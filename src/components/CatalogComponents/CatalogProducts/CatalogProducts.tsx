@@ -41,6 +41,9 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
+
+  const fetchFilter = () => {};
+
   const addBrand = (brand: string) => {
     setSelectedFilters((prevState) => {
       if (prevState.brand.includes(brand)) {

@@ -7,6 +7,9 @@ import { Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
 import ItemPriceCardWrap from "../../ItemPriceCardWrap/ItemPriceCardWrap";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import clsx from "clsx";
+import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
 
 interface IReviewModal {
   photos: Items; // Accessing the photos property from Items
@@ -23,6 +26,8 @@ const ItemSliderModal = ({
 }: IReviewModal) => {
   const [isAtTop, setIsAtTop] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const mobileWidth = useMediaQuery("(max-width: 1500px)");
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsAtTop(e.currentTarget.scrollTop === 0);
@@ -67,7 +72,8 @@ const ItemSliderModal = ({
         </div>
 
         <div className={styles.priceCard}>
-          <ItemPriceCardWrap data={photos} />
+          <ItemPriceCard data={photos} />
+          {/* <ItemBanner /> */}
         </div>
 
         <ul className={styles.ul}>
@@ -108,7 +114,7 @@ const ItemSliderModal = ({
                       : `${url}nal/img/${photos.id_post}/b_${photo.url_part}`
                   }
                   alt={photo.url_part}
-                  className={styles.photo}
+                  className={clsx(styles.photo)}
                 />
               )}
             </li>
