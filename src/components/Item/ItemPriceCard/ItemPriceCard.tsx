@@ -67,6 +67,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const closeModalCart = () => {
     setModal(false);
   };
+  const closeModalCopy = () => {
+    setCopy(false);
+  };
 
   return (
     <section className={styles.section_wrap}>
@@ -201,7 +204,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               Поделиться
             </span>
           </div>
-          <UserInfoModal visible={copy} onClose={closeModalCart}>
+          <UserInfoModal visible={copy} onClose={closeModalCopy}>
             Ссылка скопирована
           </UserInfoModal>
         </div>
