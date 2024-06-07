@@ -34,13 +34,15 @@ import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ItemBanner from "../ItemBanner/ItemBanner";
+import { BrandsAll } from "@/types/bannerAll";
 
 interface IPhotosProps {
   photos: Items;
   toggleScrollLock: () => void;
+  banner: BrandsAll;
 }
 
-const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock, banner }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
@@ -313,7 +315,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
         </div>
       </div>
       <div className={styles.banner}>
-        <ItemBanner />
+        <ItemBanner banner={banner} />
       </div>
     </>
   );
