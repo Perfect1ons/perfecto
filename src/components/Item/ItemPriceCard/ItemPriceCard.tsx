@@ -21,6 +21,7 @@ import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import Link from "next/link";
 import clsx from "clsx";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -28,6 +29,8 @@ interface IPriceProps {
 
 const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
+
+  const isMobile = useMediaQuery("(max-width: 992px)");
 
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.items.id);
@@ -81,6 +84,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   };
   const IpCloseHandler = () => {
     setIpOpen(false);
+  };
+  const ipMobileOpen = () => {
+    setIpOpen(!ipOpen);
   };
 
   return (
@@ -160,19 +166,20 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           )}
         </div>
 
-        {data.seller?.name && (
+        {data.seller?.name && !isMobile && (
           <div className={styles.ItemPriceCard__salesman}>
-            <h3 className={styles.ItemPriceCard__salesman_title}>
+            <h3
+              onMouseEnter={IpOpenHandler}
+              onMouseLeave={IpCloseHandler}
+              className={styles.ItemPriceCard__salesman_title}
+            >
               <span className={styles.ItemPriceCard__salesman_title_icon}>
                 <SalesmanIcon />{" "}
               </span>
-              ИП
               <span className={styles.ItemPriceCard__salesman_title_custom}>
                 {data.seller?.name}
               </span>
               <span
-                onMouseEnter={IpOpenHandler}
-                onMouseLeave={IpCloseHandler}
                 className={clsx(
                   ipOpen
                     ? styles.ItemPriceCard__salesman_title_arrowUp
@@ -185,28 +192,148 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             {ipOpen && (
               <div className={styles.ItemPriceCard__salesman_ipModal}>
                 <div className={styles.ItemPriceCard__salesman_ipModal_name}>
-                  <span
-                    className={styles.ItemPriceCard__salesman_ipModal_name_text}
-                  >
-                    OcOO:
-                  </span>
-                  <span
-                    className={styles.ItemPriceCard__salesman_ipModal_name_text}
-                  >
-                    ИНН:
-                  </span>
+                  {data.seller.full_name && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      OcOO:
+                    </span>
+                  )}
+                  {data.seller.inn && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      ИНН:
+                    </span>
+                  )}
+                  {data.seller.balance_warehouse && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      На складе:
+                    </span>
+                  )}
                 </div>
                 <div className={styles.ItemPriceCard__salesman_ipModal_info}>
-                  <span
-                    className={styles.ItemPriceCard__salesman_ipModal_info_text}
-                  >
-                    {data.seller.full_name}
-                  </span>
-                  <span
-                    className={styles.ItemPriceCard__salesman_ipModal_info_text}
-                  >
-                    {data.seller.inn}
-                  </span>
+                  {data.seller.full_name && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.full_name}
+                    </span>
+                  )}
+                  {data.seller.inn && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.inn}
+                    </span>
+                  )}
+                  {data.seller.balance_warehouse && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.balance_warehouse} шт.
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {data.seller?.name && isMobile && (
+          <div
+            onClick={ipMobileOpen}
+            className={styles.ItemPriceCard__salesman}
+          >
+            <h3 className={styles.ItemPriceCard__salesman_title}>
+              <span className={styles.ItemPriceCard__salesman_title_icon}>
+                <SalesmanIcon />{" "}
+              </span>
+              <span className={styles.ItemPriceCard__salesman_title_custom}>
+                {data.seller?.name}
+              </span>
+              <span
+                className={clsx(
+                  ipOpen
+                    ? styles.ItemPriceCard__salesman_title_arrowUp
+                    : styles.ItemPriceCard__salesman_title_arrowDown
+                )}
+              >
+                <ArrowDropdown />
+              </span>
+            </h3>
+            {ipOpen && (
+              <div className={styles.ItemPriceCard__salesman_ipModal}>
+                <div className={styles.ItemPriceCard__salesman_ipModal_name}>
+                  {data.seller.full_name && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      OcOO:
+                    </span>
+                  )}
+                  {data.seller.inn && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      ИНН:
+                    </span>
+                  )}
+                  {data.seller.balance_warehouse && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_name_text
+                      }
+                    >
+                      На складе:
+                    </span>
+                  )}
+                </div>
+                <div className={styles.ItemPriceCard__salesman_ipModal_info}>
+                  {data.seller.full_name && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.full_name}
+                    </span>
+                  )}
+                  {data.seller.inn && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.inn}
+                    </span>
+                  )}
+                  {data.seller.balance_warehouse && (
+                    <span
+                      className={
+                        styles.ItemPriceCard__salesman_ipModal_info_text
+                      }
+                    >
+                      {data.seller.balance_warehouse} шт.
+                    </span>
+                  )}
                 </div>
               </div>
             )}
