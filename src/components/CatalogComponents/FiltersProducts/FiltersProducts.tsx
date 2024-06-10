@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import AllFiltersMobile from "./AllFiltersMobile";
+import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 interface IProps {
   filter: IFiltersBrand;
@@ -405,7 +405,41 @@ const FiltersProducts = ({
             </button>
           </div>
         )}
-        {!isMobile && (
+        {isMobile ? (
+          <>
+            <div className={styles.brandContainer}>
+              <button
+                className={styles.buttonBrand}
+                onClick={() => toggleFilters("allfilters")}
+              >
+                Все фильтры
+                {countSelectedBrands() > 0 && (
+                  <span className={styles.selectedCount}>
+                    {countSelectedBrands()}
+                  </span>
+                )}
+                <span className={cn(styles.footerNavItemArrowIsActive)}>
+                  {filterIcon()}
+                </span>
+              </button>
+            </div>
+            <Modal close={open} isVisible={filtersIsShow.allfilters}>
+              <AllFiltersMobile
+                addFilter={addFilter}
+                countSelected={countSelected}
+                filter={filter}
+                close={closeAllFilters}
+                onChange={onChange}
+                options={options}
+                value={value}
+                onBrandToggle={onBrandToggle}
+                onReset={onReset}
+                selectedBrands={selectedBrands}
+                resetSelectionAll={resetSelectionAll}
+              />
+            </Modal>
+          </>
+        ) : (
           <Modal close={open} isVisible={filtersIsShow.allfilters}>
             <AllFilters
               addFilter={addFilter}

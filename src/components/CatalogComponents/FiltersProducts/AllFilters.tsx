@@ -81,7 +81,10 @@ const AllFilters = ({
   const filterChunks = Array.from({ length: numberOfChunks }, (_, index) =>
     allFilters.slice(index * chunkSize, (index + 1) * chunkSize)
   );
-
+  // Проверка наличия выбранных брендов
+  const hasSelectedBrands = Object.keys(selectedBrands).some((key) =>
+    Object.values(selectedBrands[key]).some((value) => value)
+  );
   return (
     <>
       <div className={styles.backDropdiv} onClick={close}></div>
@@ -92,18 +95,20 @@ const AllFilters = ({
         <div className={styles.sidebarContainer}>
           <h1 className={styles.sidebarContainer__h1}>Все фильтры</h1>
           <div className={styles.buttonsContainerReset}>
-            <button
-              onClick={() => {
-                resetSelectionAll();
-                close();
-              }}
-              className={cn(
-                styles.buttonsContainerReset__button,
-                styles.buttonsContainerReset__buttonDiscard
-              )}
-            >
-              Сбросить все
-            </button>
+            {hasSelectedBrands && (
+              <button
+                onClick={() => {
+                  resetSelectionAll();
+                  close();
+                }}
+                className={cn(
+                  styles.buttonsContainerReset__button,
+                  styles.buttonsContainerReset__buttonDiscard
+                )}
+              >
+                Сбросить все
+              </button>
+            )}
             <button
               onClick={close}
               className={cn(

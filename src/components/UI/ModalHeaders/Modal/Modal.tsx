@@ -1,5 +1,5 @@
 import cn from "clsx";
-import styles from "./style.module.css";
+import styles from "./style.module.scss";
 
 interface ModalProps {
   isVisible: boolean;
