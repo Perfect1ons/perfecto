@@ -43,17 +43,6 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
-  useEffect(() => {
-    const storedItems = localStorage.getItem("items");
-    if (storedItems) {
-      setItems(JSON.parse(storedItems));
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-  }, [items]);
-
   const fetchFilter = () => {};
 
   const fetchProductsByBrand = async (brands: string) => {

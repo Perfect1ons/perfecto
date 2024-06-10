@@ -218,9 +218,6 @@ const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
                     "Категория не найдена"
                   )}
                 </p>
-                <div className={styles.banner}>
-                  <ItemBanner banner={banner} />
-                </div>
               </div>
               <ItemPriceCardWrap banner={banner} data={data} />
             </div>

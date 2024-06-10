@@ -13,9 +13,6 @@ export default function ItemPriceCardWrap({ data, banner }: IPriceCardProps) {
   return (
     <div className={styles.priceCard_wrap}>
       <ItemPriceCard data={data} />
-      <div className={styles.banner}>
-        <ItemBanner banner={banner} />
-      </div>
     </div>
   );
 }
