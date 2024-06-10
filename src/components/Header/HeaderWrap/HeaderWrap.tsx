@@ -5,10 +5,11 @@ import { getCatalogsMenu } from "@/api/clientRequest";
 import Header from "../Header";
 
 import dynamic from "next/dynamic";
-const MobileNav = dynamic(
-  () => import("@/components/MobileMenu/MobileNav/MobileNav"),
-  { ssr: false }
-);
+import MobileNav from "@/components/MobileMenu/MobileNav/MobileNav";
+// const MobileNav = dynamic(
+//   () => import("@/components/MobileMenu/MobileNav/MobileNav"),
+//   { ssr: false }
+// );
 
 export default function HeaderWrap() {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
