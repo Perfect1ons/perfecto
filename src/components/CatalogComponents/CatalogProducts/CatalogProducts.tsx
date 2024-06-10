@@ -9,6 +9,7 @@ import Link from "next/link";
 import { BackArrow, Cross } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import FiltersProducts from "../FiltersProducts/FiltersProducts";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import { getProductsByBrand } from "@/api/clientRequest";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -32,7 +33,7 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
-  const initialItems = catalog.category.tov || []; // Ensure initialItems is always an array
+  const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<Tov[]>(initialItems);
   const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
   const [selectedFilters, setSelectedFilters] = useState<IFiltersProps>({
@@ -42,7 +43,27 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
+  useEffect(() => {
+    const storedItems = localStorage.getItem("items");
+    if (storedItems) {
+      setItems(JSON.parse(storedItems));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(items));
+  }, [items]);
+
   const fetchFilter = () => {};
+
+  const fetchProductsByBrand = async (brands: string) => {
+    try {
+      const response = await getProductsByBrand(catalog.category.id, brands);
+      setItems(response.category.tov || []);
+    } catch (error) {
+      console.error("Failed to fetch products by brand", error);
+    }
+  };
 
   const addBrand = (brand: string) => {
     setSelectedFilters((prevState) => {
@@ -131,14 +152,31 @@ export default function CatalogProducts({
         )
         .join(",");
       if (selectedBrandsPaths) {
-        // fetchProductsByBrand(selectedBrandsPaths);
+        fetchProductsByBrand(selectedBrandsPaths);
+
+        // Update URL
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set("brands", selectedBrandsPaths);
+        window.history.pushState(
+          {},
+          "",
+          `${window.location.pathname}?${queryParams.toString()}`
+        );
       } else {
         setItems(initialItems); // Reset to initial items if no brand is selected
+
+        // Remove brands from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.delete("brands");
+        window.history.pushState(
+          {},
+          "",
+          `${window.location.pathname}?${queryParams.toString()}`
+        );
       }
       return updatedSelection;
     });
   };
-
   const resetSelection = (mainKey: string) => {
     setSelectedBrands((prevState) => {
       const updatedSelection = { ...prevState };

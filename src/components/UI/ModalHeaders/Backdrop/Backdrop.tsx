@@ -1,4 +1,4 @@
-import styles from "./style.module.css";
+import styles from "./style.module.scss";
 
 interface BackdropProps {
   isVisible: boolean;
@@ -6,9 +6,7 @@ interface BackdropProps {
 }
 
 const Backdrop = ({ isVisible, close }: BackdropProps) => {
-  return isVisible ? (
-    <div className={styles.backDrop} onClick={close} />
-  ) : null;
+  return isVisible ? <div className={styles.backDrop} onClick={close} /> : null;
 };
 
 export default Backdrop;
