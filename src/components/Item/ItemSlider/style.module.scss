@@ -30,38 +30,40 @@
   user-select: none;
 }
 
-.activeSlide {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  flex-direction: column !important;
-
-  position: relative;
-
-  user-select: none;
-  border-radius: 8px;
-
+.mainSwiperWrap {
   max-width: 500px;
-  height: auto; // Установим фиксированную высоту
-  &:hover {
+  max-height: 500px;
+  @include mixin.flex(flex-start, center, column, 5px);
+
+  &:hover,
+  :active {
     .sliderArrow {
       opacity: 1;
     }
   }
 
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(0, 15%);
-    z-index: 1 !important;
-    width: 100%;
-    @media screen and (max-width: 475px) {
-        height: 300px;
+  @media screen and (max-width: 480px) {
+    max-height: 420px;
   }
-        @media screen and (max-width: 320px) {
-    height: 200px;
-  }
+  &_btn {
+    @include mixin.button(
+      5px 10px,
+      null,
+      1px solid var(--white),
+      5px,
+      var(--dark-blue),
+      16px,
+      600,
+      var(--white)
+    );
+    transition: all 0.3s linear;
+    &:hover,
+    :active {
+      border: 1px solid var(--dark-blue);
+      background: var(--white);
+      font-weight: 700;
+      color: var(--dark-blue);
+    }
   }
 
   @media screen and (max-width: 1024px) {
@@ -73,12 +75,57 @@
   @media screen and (max-width: 475px) {
     max-width: 360px;
   }
-    @media screen and (max-width: 380px) {
-    max-width: 320px;
+  @media screen and (max-width: 380px) {
+    max-width: 350px;
   }
-      @media screen and (max-width: 320px) {
+  @media screen and (max-width: 320px) {
     max-width: 280px;
   }
+}
+
+.iframe_wrap {
+  position: relative;
+  z-index: 1;
+  transform: translateY(15%);
+  overflow: hidden;
+  width: 100%;
+  padding-top: 75%;
+
+  @media screen and (max-width: 480px) {
+    // padding-top: 100%;
+    // padding-top: 75%;
+    // padding-top: 66.66%;
+    // padding-top: 62.5%;
+    // padding-top: 56.25%;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 1 !important;
+
+    width: 100%;
+    height: 100%;
+    // @media screen and (max-width: 475px) {
+    //   height: 300px;
+    // }
+    // @media screen and (max-width: 320px) {
+    //   height: 200px;
+    // }
+  }
+}
+
+.activeSlide {
+  position: relative;
+
+  user-select: none;
+  border-radius: 8px;
+
+  max-width: 500px;
+  height: auto;
 }
 
 .product_img {
@@ -115,7 +162,7 @@
 }
 
 .sliderArrow {
-  opacity: 1;
+  opacity: 0;
   position: absolute;
   top: 40%;
   z-index: 2;
@@ -136,36 +183,7 @@
     rotate: 90deg;
   }
   @media screen and (max-width: 672px) {
-    display: none;
-  }
-}
-
-.mainSwiperWrap {
-  max-width: 500px;
-  max-height: 500px;
-  @include mixin.flex(flex-start, center, column, 5px);
-  @media screen and (max-width: 480px) {
-    max-height: 420px;
-  }
-  &_btn {
-    @include mixin.button(
-      5px 10px,
-      null,
-      1px solid var(--white),
-      5px,
-      var(--dark-blue),
-      16px,
-      600,
-      var(--white)
-    );
-    transition: all 0.3s linear;
-    &:hover,
-    :active {
-      border: 1px solid var(--dark-blue);
-      background: var(--white);
-      font-weight: 700;
-      color: var(--dark-blue);
-    }
+    display: none !important;
   }
 }
 
