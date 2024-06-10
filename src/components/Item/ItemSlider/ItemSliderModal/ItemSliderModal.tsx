@@ -6,7 +6,6 @@ import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
 import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
-import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
 
@@ -25,8 +24,6 @@ const ItemSliderModal = ({
 }: IReviewModal) => {
   const [isAtTop, setIsAtTop] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-
-  const mobileWidth = useMediaQuery("(max-width: 1500px)");
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsAtTop(e.currentTarget.scrollTop === 0);
@@ -72,19 +69,19 @@ const ItemSliderModal = ({
 
         <div className={styles.priceCard}>
           <ItemPriceCard data={photos} />
-          {/* <ItemBanner /> */}
         </div>
 
-        <ul className={styles.ul}>
-          {photos?.items?.photos?.map((photo, index) => (
-            <li className={styles.li} key={index}>
-              {zoom ? (
+        {zoom ? (
+          <div className={styles.photos}>
+            {photos.items.photos.map((photo, index) => {
+              return (
                 <InnerImageZoom
-                  width={1000}
-                  height={500}
+                  key={index}
+                  width={750}
+                  height={750}
                   src={
                     photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}1080-nw.jpg`
+                      ? `${photo.url_part}700-nw.jpg`
                       : photo.url_part.startsWith("https://")
                       ? photo.url_part
                       : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
@@ -97,14 +94,21 @@ const ItemSliderModal = ({
                       : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
                   zoomType="hover"
-                  zoomScale={2.7}
                   hideHint={true}
-                  className={styles.photo}
+                  zoomScale={2}
+                  className={styles.product_img}
                 />
-              ) : (
+              );
+            })}
+          </div>
+        ) : (
+          <div className={styles.photos}>
+            {photos.items.photos.map((photo, index) => {
+              return (
                 <Image
-                  width={500}
-                  height={500}
+                  key={index}
+                  width={750}
+                  height={750}
                   src={
                     photo.url_part.startsWith("https://goods")
                       ? `${photo.url_part}700-nw.jpg`
@@ -112,16 +116,37 @@ const ItemSliderModal = ({
                       ? photo.url_part
                       : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
-                  alt={photo.url_part}
-                  className={clsx(styles.photo)}
+                  alt={photos.items.naim}
+                  className={styles.photos__img}
                 />
-              )}
-            </li>
-          ))}
-        </ul>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 export default ItemSliderModal;
+
+
+          // {photos?.items?.photos?.map((photo, index) => (
+          //     {zoom ? (
+          //      
+          //     ) : (
+          //       <Image
+          //         width={500}
+          //         height={500}
+          //         src={
+          //           photo.url_part.startsWith("https://goods")
+          //             ? `${photo.url_part}700-nw.jpg`
+          //             : photo.url_part.startsWith("https://")
+          //             ? photo.url_part
+          //             : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+          //         }
+          //         alt={photo.url_part}
+          //         className={clsx(styles.photo)}
+          //       />
+          //     )}
+          // ))}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
@@ -83,7 +83,7 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
       <div className="cardContainer">
         <div className="main__news_cards">
           {data.map((item, index) => (
-            <PopularGoodsCards goods={item} key={item.id} />
+            <PopularGoodsCards goods={item} key={index} loading={isLoading} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">
@@ -92,7 +92,7 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
           ) : (
             <div className="main__news_cards">
               {Array.from({ length: 20 }).map((_, index) => (
-                <PopularGoodsSkeletonCard key={index} />
+                <PopularGoodsSkeletonCard key={index} loading={isLoading} />
               ))}
             </div>
           )}

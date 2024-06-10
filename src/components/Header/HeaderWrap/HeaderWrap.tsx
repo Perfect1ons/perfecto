@@ -5,10 +5,11 @@ import { getCatalogsMenu } from "@/api/clientRequest";
 import Header from "../Header";
 
 import dynamic from "next/dynamic";
-const MobileNav = dynamic(
-  () => import("@/components/MobileMenu/MobileNav/MobileNav"),
-  { ssr: false }
-);
+import MobileNav from "@/components/MobileMenu/MobileNav/MobileNav";
+// const MobileNav = dynamic(
+//   () => import("@/components/MobileMenu/MobileNav/MobileNav"),
+//   { ssr: false }
+// );
 
 export default function HeaderWrap() {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
@@ -34,7 +35,7 @@ export default function HeaderWrap() {
   const [isMobileModalOpen, setMobileModalOpen] = useState(false);
 
   return (
-    <>
+    <div className="header">
       <Header
         catalogs={catalog}
         click={fetchCatalogs}
@@ -49,6 +50,6 @@ export default function HeaderWrap() {
         isMobileModalOpen={isMobileModalOpen}
         setMobileModalOpen={setMobileModalOpen}
       />
-    </>
+    </div>
   );
 }

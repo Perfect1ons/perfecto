@@ -15,6 +15,10 @@
   padding: 18px;
   @media screen and (max-width: 1410px) {
     max-width: none;
+    // height: 100%;
+  }
+  @media screen and (max-width: 1280px) {
+    height: 100%;
   }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));
@@ -74,6 +78,7 @@
     background: var(--dark-blue);
     padding: 8px;
     font-weight: bold;
+    min-width: 150px;
     width: 100%;
     color: var(--white);
     border-radius: 5px;
@@ -82,18 +87,31 @@
     &:hover {
       background: #203e79;
     }
+    @media screen and (max-width: 480px) {
+      min-width: 120px;
+      padding: 10px;
+    }
+        @media screen and (max-width: 360px) {
+      min-width: 0;
+    }
   }
   &_buy {
     padding: 10px;
     width: 100%;
     font-weight: bold;
-
+    min-width: 150px;
     background: var(--violet);
     color: var(--white);
     border-radius: 5px;
     cursor: pointer;
     &:hover {
       background: #811f48;
+    }
+    @media screen and (max-width: 480px) {
+      min-width: 120px;
+    }
+            @media screen and (max-width: 360px) {
+      min-width: 0;
     }
   }
 }

@@ -7,12 +7,11 @@ interface IBuyBtnProps {
 
 const MobileBuyBtn = ({ data }: IBuyBtnProps) => {
   return (
-    <div className={styles.container}>
-      <button className={styles.btn}>
-        Купить за: {data.cenaok.toLocaleString("ru-Ru")}{" "}
-        <span className={styles.btn_simbol}>с</span>
-      </button>
-    </div>
+    <button className={styles.btn}>
+      Купить за: {data.cenaok.toLocaleString("ru-Ru")}{" "}
+      <span className={styles.btn_simbol}>с</span>
+      {/* <div className={styles.container}></div> */}
+    </button>
   );
 };
 

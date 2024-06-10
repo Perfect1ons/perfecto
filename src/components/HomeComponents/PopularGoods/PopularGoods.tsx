@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
-import { IPopularGood,} from "@/types/popularGoods";
+import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
 import PopularGoodsSkeletonCard from "./AllPopularGoods/PopularGoodsSkeletonCard";
 
@@ -15,6 +15,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const [allDataLoaded, setAllDataLoaded] = useState(false);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
+  const [loading, setLoading] = useState(true);
   const perPage = 10;
   const maxPagesToShowMore = 3;
   const router = useRouter();
@@ -42,16 +43,19 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
     }
   };
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   return (
     <div className="goods">
-
       <div className="container">
         <h1 className="sections__title">Популярные товары</h1>
       </div>
       <div className="cardContainer">
         <div className="main__news_cards">
           {data.slice(0, page * perPage).map((item, index) => (
-            <PopularGoodsCards goods={item} key={index} />
+            <PopularGoodsCards goods={item} key={index} loading={loading} />
           ))}
         </div>
 
