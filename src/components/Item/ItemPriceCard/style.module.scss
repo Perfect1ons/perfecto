@@ -108,25 +108,32 @@
 }
 
 .ItemPriceCard__salesman {
+  cursor: pointer;
   margin-top: 15px;
+  max-width: 100px;
+  text-wrap: nowrap;
+
   &_title {
-    @include mixin.font(14px, 400, 100%, var(--dark));
-    @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(0.875rem, 400, 100%, var(--dark));
+    @include mixin.flex(center, null, null, 5px);
+    @media screen and (max-width: 992px) {
+      padding: 5px 0px;
+    }
     &_icon {
-      @include mixin.flex(center, center, null, null);
       color: var(--dark);
-      scale: 0.9;
     }
     &_custom {
-      @include mixin.font(14px, 400, 100%, var(--dark));
+      @include mixin.font(0.875rem, 400, 100%, var(--dark));
     }
     &_arrowUp {
+      margin-left: -4px;
       cursor: pointer;
       @include mixin.flex(center, center, null, null);
       transition: 0.3s all;
       transform: rotate(180deg);
     }
     &_arrowDown {
+      margin-left: -4px;
       cursor: pointer;
       @include mixin.flex(center, center, null, null);
       transition: 0.3s all;
@@ -161,13 +168,13 @@
     &_name {
       @include mixin.flex(flex-start, flex-start, column, null);
       &_text {
-        @include mixin.font(16px, 400, null, var(--dark));
+        @include mixin.font(1rem, 400, null, var(--dark));
       }
     }
     &_info {
       @include mixin.flex(flex-start, flex-start, column, null);
       &_text {
-        @include mixin.font(16px, 400, null, var(--dark));
+        @include mixin.font(1rem, 400, null, var(--dark));
       }
     }
   }
@@ -199,7 +206,7 @@
       scale: 0.9;
     }
     &_info {
-      @include mixin.font(14px, 400, null, var(--dark));
+      @include mixin.font(0.875rem, 400, null, var(--dark));
     }
   }
 }

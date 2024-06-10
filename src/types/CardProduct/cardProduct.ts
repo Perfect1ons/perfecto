@@ -112,6 +112,7 @@ export interface Seller {
   full_name: string;
   inn: string;
   name: string;
+  balance_warehouse: any;
 }
 
 export interface Country {
