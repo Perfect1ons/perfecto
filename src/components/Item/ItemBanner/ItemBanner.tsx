@@ -8,17 +8,19 @@ interface IBanner {
 }
 
 const ItemBanner = ({ banner }: IBanner) => {
-  const imageUrl = `https://max.kg/bimages/baner/baner_${banner?.baner[0]?.id}.jpg`;
-  const relativeUrl = banner.baner[0].url.replace("https://max.kg", "");
+  const imageUrl = `https://max.kg/bimages/baner/baner_960.jpg`;
 
   return (
-    <Link className="topten" href={relativeUrl}>
+    <Link
+      className="topten"
+      href="/catalog/bytovaya-tehnika-i-elektronika/tehnika-dlya-ofisa/laminatory-i-rashodnye-materialy/laminatory"
+    >
       <Image
         className="testoviy"
         src={imageUrl}
         width={344}
         height={143}
-        alt={banner.baner[0].naim}
+        alt="ЛАМИНАААААТ"
       />
     </Link>
   );

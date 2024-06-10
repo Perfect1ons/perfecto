@@ -625,14 +625,11 @@ body {
   image-rendering: -webkit-optimize-contrast; /* Optimize contrast for better quality */
   image-rendering: crisp-edges; /* Ensures sharp edges for pixel art images */
   image-rendering: high-quality; /* Render at high quality if supported by the browser */
-  
+
   @media screen and (max-width: 1310px) {
     width: 100%;
   }
-
-
 }
-
 
 .mySwiper .swiper-slide-thumb-active {
   .thumb-actived {

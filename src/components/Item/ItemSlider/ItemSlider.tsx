@@ -206,113 +206,108 @@ const ItemSlider = ({ photos, toggleScrollLock, banner }: IPhotosProps) => {
         </Swiper>
 
         {/* Основной слайдер */}
-        <div className={styles.mainSwiperWrap}>
-          <Swiper
-            onSwiper={setMainSwiper}
-            onSlideChange={pauseVideo} // Add this line to pause video on slide change
-            keyboard={{
-              enabled: true,
-            }}
-            pagination={
-              paginationEnabled
-                ? {
-                    clickable: true,
-                    type: "fraction",
+        <Swiper
+          onSwiper={setMainSwiper}
+          onSlideChange={pauseVideo} // Add this line to pause video on slide change
+          keyboard={{
+            enabled: true,
+          }}
+          pagination={
+            paginationEnabled
+              ? {
+                  clickable: true,
+                  type: "fraction",
+                }
+              : false
+          }
+          spaceBetween={10}
+          navigation={{
+            nextEl: ".swiper-button-next_card",
+            prevEl: ".swiper-button-prev_card",
+            disabledClass: "swiper-button-disabled",
+          }}
+          thumbs={{ swiper: thumbsSwiper }}
+          modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
+          className={styles.mainSwiperWrap}
+        >
+          {photos.items.video && (
+            <SwiperSlide className={styles.activeSlide} key={0}>
+              <div
+                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+                className={styles.iframe_wrap}
+              ></div>
+            </SwiperSlide>
+          )}
+          {photos.items.photos.map((photo, index) => (
+            <SwiperSlide
+              key={photo.url_part ? index + 1 : index}
+              className={styles.activeSlide}
+            >
+              {isZoomEnabled ? (
+                <InnerImageZoom
+                  width={500}
+                  height={500}
+                  src={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}700-nw.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
                   }
-                : false
-            }
-            spaceBetween={10}
-            navigation={{
-              nextEl: ".swiper-button-next_card",
-              prevEl: ".swiper-button-prev_card",
-              disabledClass: "swiper-button-disabled",
-            }}
-            thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
-            className={styles.activeSlide}
+                  zoomSrc={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}700-nw.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+                  }
+                  zoomType="hover"
+                  hideHint={true}
+                  zoomScale={1.6}
+                  className={styles.product_img}
+                />
+              ) : (
+                <Image
+                  width={500}
+                  height={500}
+                  src={
+                    photo.url_part.startsWith("https://goods")
+                      ? `${photo.url_part}700-nw.jpg`
+                      : photo.url_part.startsWith("https://")
+                      ? photo.url_part
+                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+                  }
+                  alt={photo.url_part}
+                  className={styles.product_img}
+                  onClick={modalSliderOpenOrClose}
+                />
+              )}
+            </SwiperSlide>
+          ))}
+          {paginationEnabled && (
+            <button className={styles.seeAll} onClick={modalSliderOpenOrClose}>
+              Все фото
+            </button>
+          )}
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_left,
+              "swiper-button-prev_card"
+            )}
           >
-            {photos.items.video && (
-              <SwiperSlide className={styles.activeSlide} key={0}>
-                <div
-                  dangerouslySetInnerHTML={{ __html: cleanHTML }}
-                  className={styles.activeSlide_iframe}
-                ></div>
-              </SwiperSlide>
+            <SwiperPrevArrow />
+          </button>
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_right,
+              "swiper-button-next_card"
             )}
-            {photos.items.photos.map((photo, index) => (
-              <SwiperSlide
-                key={photo.url_part ? index + 1 : index}
-                className={styles.activeSlide}
-              >
-                {isZoomEnabled ? (
-                  <InnerImageZoom
-                    width={500}
-                    height={500}
-                    src={
-                      photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700-nw.jpg`
-                        : photo.url_part.startsWith("https://")
-                        ? photo.url_part
-                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
-                    }
-                    zoomSrc={
-                      photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700-nw.jpg`
-                        : photo.url_part.startsWith("https://")
-                        ? photo.url_part
-                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
-                    }
-                    zoomType="hover"
-                    hideHint={true}
-                    zoomScale={1.6}
-                    className={styles.product_img}
-                  />
-                ) : (
-                  <Image
-                    width={500}
-                    height={500}
-                    src={
-                      photo.url_part.startsWith("https://goods")
-                        ? `${photo.url_part}700-nw.jpg`
-                        : photo.url_part.startsWith("https://")
-                        ? photo.url_part
-                        : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
-                    }
-                    alt={photo.url_part}
-                    className={styles.product_img}
-                    onClick={modalSliderOpenOrClose}
-                  />
-                )}
-              </SwiperSlide>
-            ))}
-            {paginationEnabled && (
-              <button
-                className={styles.seeAll}
-                onClick={modalSliderOpenOrClose}
-              >
-                Все фото
-              </button>
-            )}
-            <button
-              className={clsx(
-                styles.sliderArrow,
-                styles.sliderArrow_left,
-                "swiper-button-prev_card"
-              )}
-            >
-              <SwiperPrevArrow />
-            </button>
-            <button
-              className={clsx(
-                styles.sliderArrow,
-                styles.sliderArrow_right,
-                "swiper-button-next_card"
-              )}
-            >
-              <SwiperNextArrow />
-            </button>
-          </Swiper>
-        </div>
+          >
+            <SwiperNextArrow />
+          </button>
+        </Swiper>
       </div>
       <div className={styles.banner}>
         <ItemBanner banner={banner} />
