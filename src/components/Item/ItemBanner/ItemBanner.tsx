@@ -1,13 +1,8 @@
 "use client";
-import { BrandsAll } from "@/types/bannerAll";
 import Image from "next/image";
 import Link from "next/link";
 
-interface IBanner {
-  banner: BrandsAll;
-}
-
-const ItemBanner = ({ banner }: IBanner) => {
+const ItemBanner = () => {
   const imageUrl = `https://max.kg/bimages/baner/baner_960.jpg`;
 
   return (

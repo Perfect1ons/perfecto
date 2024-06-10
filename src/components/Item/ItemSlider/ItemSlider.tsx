@@ -39,10 +39,9 @@ import { BrandsAll } from "@/types/bannerAll";
 interface IPhotosProps {
   photos: ICardProductItems;
   toggleScrollLock: () => void;
-  banner: BrandsAll;
 }
 
-const ItemSlider = ({ photos, toggleScrollLock, banner }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
@@ -310,7 +309,7 @@ const ItemSlider = ({ photos, toggleScrollLock, banner }: IPhotosProps) => {
         </Swiper>
       </div>
       <div className={styles.banner}>
-        <ItemBanner banner={banner} />
+        <ItemBanner />
       </div>
     </>
   );

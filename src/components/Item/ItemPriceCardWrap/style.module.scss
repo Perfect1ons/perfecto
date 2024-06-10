@@ -5,6 +5,7 @@
   max-width: 344px;
 
   @media screen and (max-width: 1410px) {
+    max-width: 100%;
     @include mixin.flex(flex-start, flex-start, row, 10px);
     width: 100%;
   }

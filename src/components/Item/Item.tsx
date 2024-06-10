@@ -26,10 +26,9 @@ interface IItemPageProps {
   data: ICardProductItems;
   similar: ISimilarItem[];
   breadCrumbs: BreadCrumbs[];
-  banner: BrandsAll;
 }
 
-const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
+const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
@@ -145,7 +144,6 @@ const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
         <div className={styles.item__preview}>
           <div className={styles.item__preview_slider}>
             <ItemSlider
-              banner={banner}
               photos={data}
               toggleScrollLock={() => setIsOpen(true)}
             />
@@ -219,10 +217,10 @@ const ItemPage = ({ data, similar, breadCrumbs, banner }: IItemPageProps) => {
                   )}
                 </p>
                 <div className={styles.banner}>
-                  <ItemBanner banner={banner} />
+                  <ItemBanner />
                 </div>
               </div>
-              <ItemPriceCardWrap banner={banner} data={data} />
+              <ItemPriceCardWrap data={data} />
             </div>
           </div>
         </div>
