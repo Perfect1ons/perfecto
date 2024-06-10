@@ -1131,9 +1131,9 @@ export const BackArrow = () => {
 export const SalesmanIcon = () => {
   return (
     <svg
-      width="20"
-      height="18"
-      viewBox="0 0 20 18"
+      width="15"
+      height="15"
+      viewBox="0 0 20 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -1150,25 +1150,16 @@ export const SalesmanIcon = () => {
 export const ArrowDropdown = () => {
   return (
     <svg
+      width="24"
+      height="24"
+      viewBox="0 0 34 40"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      id="arrow"
-      width={21}
-      height={21}
-      x="0"
-      y="0"
-      version="1.1"
-      viewBox="0 0 29 29"
-      xmlSpace="preserve"
     >
       <path
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeMiterlimit="10"
-        strokeWidth="2"
-        d="m20.5 11.5-6 6-6-6"
-      ></path>
+        d="M23.7888 13.8721C23.3983 13.4816 22.7652 13.4816 22.3746 13.8721L17.7071 18.5397C17.3166 18.9302 16.6834 18.9302 16.2929 18.5397L11.6253 13.8721C11.2348 13.4816 10.6017 13.4816 10.2111 13.8721L9.62218 14.4611C9.23165 14.8516 9.23165 15.4848 9.62218 15.8753L16.2929 22.546C16.6834 22.9365 17.3166 22.9365 17.7071 22.546L24.3778 15.8753C24.7683 15.4848 24.7683 14.8516 24.3778 14.4611L23.7888 13.8721Z"
+        fill="currentColor"
+      />
     </svg>
   );
 };

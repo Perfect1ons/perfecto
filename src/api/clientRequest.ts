@@ -32,6 +32,17 @@ const obj = {
 };
 // page=1&VNaltovaroksearch[dost]=1
 
+export const getProductsByBrand = (
+  id: number,
+  brands: string
+): Promise<ICatalogsProducts> => {
+  const params = qs.stringify({
+    page: 1,
+    "VNaltovaroksearch[brand]": brands,
+  });
+  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
+};
+
 const filterProduct = qs.stringify({});
 
 export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
