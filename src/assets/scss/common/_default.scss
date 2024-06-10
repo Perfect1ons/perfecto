@@ -618,12 +618,21 @@ body {
 .testoviy {
   box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
   border-radius: 10px;
-  height: 100%;
+  object-fit: cover;
+  height: auto;
+  width: 100%; /* Ensure the image uses full width for better responsiveness */
 
+  image-rendering: -webkit-optimize-contrast; /* Optimize contrast for better quality */
+  image-rendering: crisp-edges; /* Ensures sharp edges for pixel art images */
+  image-rendering: high-quality; /* Render at high quality if supported by the browser */
+  
   @media screen and (max-width: 1310px) {
     width: 100%;
   }
+
+
 }
+
 
 .mySwiper .swiper-slide-thumb-active {
   .thumb-actived {

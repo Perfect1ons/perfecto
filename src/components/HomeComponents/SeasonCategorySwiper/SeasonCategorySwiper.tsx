@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { ISeasonCategoryItem } from "@/types/seasonCategory";
 import Loader from "@/components/UI/Loader/Loader";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import clsx from "clsx";
 interface ISeasonCategorySwiperProps {
   seasonItems: ISeasonCategoryItem[];
