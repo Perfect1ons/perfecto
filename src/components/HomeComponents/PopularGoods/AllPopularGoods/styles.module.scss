@@ -1,25 +1,55 @@
-@use '../../../../assets/scss/common/mixins' as mixin;
+@use "../../../../assets/scss/common/mixins" as mixin;
+@use "../../../../assets/scss/common/skeleton" as skeleton;
 
-.skeletonCard{
-    margin-top: 15px;
-    @media screen and (max-width: 640px) {
-        margin-top: 10px;
-    }
-    @media screen and (max-width: 480px) {
-        margin-top: 5px;
-    }
+.skeletonCard {
+  margin-top: 15px;
+  max-width: 262px;
+  width: 100%;
+  opacity: 1;
+  @media screen and (max-width: 640px) {
+    margin-top: 10px;
+  }
+  @media screen and (max-width: 480px) {
+    margin-top: 5px;
+  }
+  &_hide {
+    opacity: 1;
+  }
 }
 
-.skeleton__buttons{
-    display: flex;
-    margin-top: 10px;
-    gap: 10px;
-    width: 100%;
-    height: 100%;
-    &_left{
-        flex: 4;
-    }
-    &_right{
-        flex: 1;
-    }
+.image {
+  @include skeleton.skeleton(100%, 262px, 0);
+}
+
+.price {
+  @include skeleton.skeleton(30%, 25px, 10px);
+  margin-top: 10px;
+}
+
+.name {
+  // @include skeleton.skeleton(25%, 15px, 0);
+  &_first {
+    @include skeleton.skeleton(100%, 15px, 5px);
+  }
+  &_second {
+    @include skeleton.skeleton(75%, 15px, 5px);
+  }
+}
+
+.stars {
+  @include skeleton.skeleton(75%, 15px, 5px);
+}
+
+.buttons {
+  display: flex;
+  margin-top: 10px;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  &_left {
+    flex: 3;
+  }
+  &_right {
+    flex: 2;
+  }
 }
