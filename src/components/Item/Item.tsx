@@ -111,7 +111,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
 
   return (
     <section className={styles.wrap}>
-      <MobileBuyBtn data={data.items} />
       {isOpenReview && (
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data.items} />

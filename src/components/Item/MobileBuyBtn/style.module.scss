@@ -1,27 +1,61 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
+.container_position {
+  position: fixed;
+  left: 3%;
+  right: 3%;
+  bottom: 70px;
+  z-index: 199;
+  transition: all 0.5s ease;
+
+  &_scrolled {
+    bottom: 12px;
+  }
+}
+
 .btn {
   display: none;
   @include mixin.font(1.125rem, 700, null, var(--violet));
   max-width: 100%;
-  width: auto;
+  width: 100%;
   padding: 8px 0px;
-  bottom: 70px;
-  background: var(--white);
+  bottom: 60px;
 
-  position: fixed;
-  left: 3%;
-  right: 3%;
-  z-index: 199;
-  border: 2px solid var(--violet);
   border-radius: 5px;
-  color: var(--violet);
   @media screen and (max-width: 992px) {
     display: inline-block;
+    transition: all 0.5s ease;
   }
 
   &_simbol {
     @include mixin.font(16px, 700, 100%, var(--violet));
     border-bottom: 2px solid var(--violet);
+  }
+  // &_scrolled {
+  //   bottom: 10px;
+  //   transition: all 0.5s ease;
+  // }
+}
+.btn_content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn_buy {
+  background: var(--white);
+  border: 2px solid var(--violet);
+  color: var(--violet);
+}
+
+.btn_cart {
+  display: none;
+  background: var(--dark-blue);
+  border: 2px solid var(--dark-blue);
+  color: var(--white);
+
+  @media screen and (max-width: 992px) {
+    display: block;
   }
 }

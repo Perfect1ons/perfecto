@@ -7,7 +7,7 @@
 
   position: fixed;
   bottom: 0;
-  z-index: 1000;
+  z-index: 300;
 
   -webkit-box-shadow: 0px -3px 19px -4px rgba(0, 0, 0, 0.4);
   -moz-box-shadow: 0px -3px 19px -4px rgba(0, 0, 0, 0.4);
@@ -15,7 +15,7 @@
 
   background-color: var(--white);
   padding: 5px 0;
-  transition: transform 0.5s ease; // добавляем transition для плавности анимации
+  transition: all 0.5s ease; // добавляем transition для плавности анимации
   transform: translateY(0); // по умолчанию меню видно
 
   @media screen and (max-width: 992px) {
