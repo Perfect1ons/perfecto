@@ -179,17 +179,6 @@ export default function CatalogProducts({
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
 
-  // const fetchProductsByBrand = async (brandPath: string) => {
-  //   try {
-  //     const response = await getProductsSortsBrand(
-  //       catalog.category.id,
-  //       brandPath
-  //     );
-  //     setItems(response.category.tov || []);
-  //   } catch (error) {
-  //     console.error("Failed to fetch products by brand", error);
-  //   }
-  // };
   const toggleBrandSelection = (mainKey: string, subKey: string) => {
     setSelectedBrands((prevState) => {
       const updatedSelection = {
