@@ -2,9 +2,9 @@
 
 .modal {
   @include mixin.container(1420px);
-  @include mixin.flex(center, space-between, null, null);
+  @include mixin.flex(center, space-between, null, 10px);
   text-align: center;
-  width: 100%;
+  max-width: 100%;
   position: fixed;
   top: -100%;
   opacity: 0;
@@ -12,7 +12,7 @@
   opacity: 0;
   transform: translateX(-50%);
   transition: top 0.3s ease-in-out;
-  background-color: #1bc592;
+  background-color: var(--dark);
   padding: 0.875rem 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 1;
@@ -32,7 +32,7 @@
   @include mixin.flex(center, center, null, null);
   @include mixin.font(18px, 500, null, var(--white));
   cursor: pointer;
-  scale: 2;
+  scale: 1.4;
 }
 @media screen and (min-width: 1400px) {
   .modal {

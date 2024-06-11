@@ -142,7 +142,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             Ваш товар добавлен в корзину. <br />
             Перейдите в корзину чтобы оформить заказ!{" "}
             <Link className={styles.linkCart} href={"/cart"}>
-              Перейти в корзину
+              Перейти в корзину!
             </Link>
           </UserInfoModal>
           {!product?.quantity && (
@@ -156,6 +156,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               В корзину
             </button>
           )}
+
           {product?.quantity && (
             <CartReducerBtn data={data.items} onCartEmpty={handleCartEmpty} />
           )}

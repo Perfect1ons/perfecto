@@ -193,30 +193,30 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
           )}
         </div>
         <div className={styles.wrapper__containerFooter}>
-          {data.discount_prc > 0 ? (
+          {data?.discount_prc > 0 ? (
             <div className={styles.ItemPriceCard__cost}>
-              <h2 className={styles.ItemPriceCard__price_new}>
+              <span className={styles.ItemPriceCard__price_new}>
                 {data.cenaok.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__price_new_custom}>
                   с
                 </span>
-              </h2>
+              </span>
               <span className={styles.ItemPriceCard__price_discount}>
                 -{data.discount_prc}%
               </span>
-              <h2 className={styles.ItemPriceCard__old_price}>
+              <span className={styles.ItemPriceCard__old_price}>
                 {data.old_price.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__old_price_custom}>
                   с
                 </span>
-              </h2>
+              </span>
             </div>
           ) : (
             <div className={styles.ItemPriceCard__cost}>
-              <h2 className={styles.ItemPriceCard__price}>
-                {data.cenaok.toLocaleString("ru-RU")}
+              <span className={styles.ItemPriceCard__price}>
+                {data?.cenaok.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__price_custom}>с</span>
-              </h2>
+              </span>
             </div>
           )}
           <div className={styles.buttonsContainer}>

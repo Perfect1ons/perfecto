@@ -14,6 +14,8 @@ import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
+import { IFiltersProps } from "../CatalogProducts/CatalogProducts";
+import Slider from "react-slider";
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 interface IProps {
   filter: IFiltersBrand;
@@ -34,7 +36,10 @@ interface IProps {
   addBrand: (brand: string) => void;
   addDay: (day: string) => void;
   addFilter: (filter: number) => void;
+  selectedFilters: IFiltersProps;
 }
+const MIN = 100;
+const MAX = 99999;
 const FiltersProducts = ({
   filter,
   options,
@@ -47,11 +52,11 @@ const FiltersProducts = ({
   addBrand,
   addDay,
   addFilter,
+  selectedFilters,
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
-
   const [filtersIsShow, setFiltersIsShow] = useState({
     brand: false,
     price: false,
@@ -59,7 +64,6 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
-
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -128,7 +132,37 @@ const FiltersProducts = ({
       default: false,
     });
   };
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const dropdownElement = document.querySelector(
+        `.${styles.filtersContainer}`
+      );
+      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
+        setFiltersIsShow({
+          brand: false,
+          price: false,
+          delivery: false,
+          allfilters: false,
+          default: false,
+        });
+      }
+    };
 
+    if (Object.values(filtersIsShow).some((isShow) => isShow)) {
+      document.addEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [filtersIsShow]);
+  const [minPrice, setMinPrice] = useState(10);
+  const [maxPrice, setMaxPrice] = useState(10000);
+
+  const handlePriceChange = (values: any) => {
+    setMinPrice(values[0]);
+    setMaxPrice(values[1]);
+  };
   return (
     <>
       <div className={styles.filtersContainer}>
@@ -291,16 +325,41 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              <input
-                type="number"
-                className={styles.inputPrice}
-                placeholder="От 0"
-              />
-              <input
-                type="number"
-                className={styles.inputPrice}
-                placeholder="До 0"
-              />
+              <div className={styles.priceContainerRange}>
+                <Slider
+                  onChange={handlePriceChange}
+                  defaultValue={[10, 100]}
+                  className={styles.sliderRange}
+                  thumbClassName={styles.thumbClassName}
+                  trackClassName={cn(styles.trackClassName)}
+                  minDistance={1} // минимальное расстояние между ползунками в 1 единицу
+                  min={10}
+                  max={10000}
+                  renderTrack={(props, state) => (
+                    <div
+                      {...props}
+                      className={cn(styles.trackClassName, {
+                        [styles.trackBetween]: state.index === 1,
+                        [styles.trackOutside]: state.index !== 1,
+                      })}
+                    />
+                  )}
+                />
+                <div className={styles.containerPriceInputs}>
+                  <input
+                    type="number"
+                    className={styles.inputPrice}
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                  />
+                  <input
+                    type="number"
+                    className={styles.inputPrice}
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                  />
+                </div>
+              </div>
             </div>
             <div className={styles.buttonsContainer}>
               <button className={styles.buttonsContainer__button}>

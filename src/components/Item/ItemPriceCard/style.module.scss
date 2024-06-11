@@ -91,7 +91,7 @@
       min-width: 120px;
       padding: 10px;
     }
-        @media screen and (max-width: 360px) {
+    @media screen and (max-width: 360px) {
       min-width: 0;
     }
   }
@@ -110,14 +110,14 @@
     @media screen and (max-width: 480px) {
       min-width: 120px;
     }
-            @media screen and (max-width: 360px) {
+    @media screen and (max-width: 360px) {
       min-width: 0;
     }
   }
 }
 .linkCart {
   text-decoration: underline;
-  color: var(--dark);
+  color: var(--white);
 }
 
 .ItemPriceCard__salesman {
