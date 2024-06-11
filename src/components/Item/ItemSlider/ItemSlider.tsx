@@ -308,9 +308,9 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           </button>
         </Swiper>
       </div>
-      <div className={styles.banner}>
+      {/* <div className={styles.banner}>
         <ItemBanner />
-      </div>
+      </div> */}
     </>
   );
 };

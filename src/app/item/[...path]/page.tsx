@@ -13,7 +13,6 @@ interface Params {
 
 export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
-  // const banner = await getBannerAll(21);
 
   const [breadCrumbs, similarData] = await Promise.all([
     getBreadCrumbs(data.items.id_cat),

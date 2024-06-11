@@ -75,9 +75,6 @@ const PopularGoodsCards = ({ goods, loading }: IgoodsProps) => {
         <Link href={`/item/${goods.art}/${goods.url}`} className="link">
           <div className="default__card">
             <div className="default__card_images">
-              {/* {loading ? (
-                <Skeleton className="default__card_image" />
-              ) : ( */}
               <Image
                 className="default__card_image"
                 src={imageUrl}
@@ -87,7 +84,6 @@ const PopularGoodsCards = ({ goods, loading }: IgoodsProps) => {
                 quality={100}
                 loading="lazy"
               />
-              {/* )} */}
             </div>
             <div className="default__card_info">
               <div className="default__card_price">

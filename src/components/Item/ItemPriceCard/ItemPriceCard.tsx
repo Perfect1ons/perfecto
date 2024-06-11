@@ -143,6 +143,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             </div>
             <p className={styles.ItemPriceCard__ddos_desc}>
               {data.items?.ddos}
+              {data?.seller?.balance_warehouse &&
+                `На складе: ${data.seller.balance_warehouse} шт.`}
             </p>
           </div>
           {data.items?.minQty > 1 ? (
@@ -225,15 +227,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                         ИНН:
                       </span>
                     )}
-                    {data.seller.balance_warehouse && (
-                      <span
-                        className={
-                          styles.ItemPriceCard__salesman_ipModal_name_text
-                        }
-                      >
-                        На складе:
-                      </span>
-                    )}
                   </div>
                   <div className={styles.ItemPriceCard__salesman_ipModal_info}>
                     {data.seller.full_name && (
@@ -252,15 +245,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                         }
                       >
                         {data.seller.inn}
-                      </span>
-                    )}
-                    {data.seller.balance_warehouse && (
-                      <span
-                        className={
-                          styles.ItemPriceCard__salesman_ipModal_info_text
-                        }
-                      >
-                        {data.seller.balance_warehouse} шт.
                       </span>
                     )}
                   </div>
@@ -311,15 +295,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                         ИНН:
                       </span>
                     )}
-                    {data.seller.balance_warehouse && (
-                      <span
-                        className={
-                          styles.ItemPriceCard__salesman_ipModal_name_text
-                        }
-                      >
-                        На складе:
-                      </span>
-                    )}
                   </div>
                   <div className={styles.ItemPriceCard__salesman_ipModal_info}>
                     {data.seller.full_name && (
@@ -338,15 +313,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                         }
                       >
                         {data.seller.inn}
-                      </span>
-                    )}
-                    {data.seller.balance_warehouse && (
-                      <span
-                        className={
-                          styles.ItemPriceCard__salesman_ipModal_info_text
-                        }
-                      >
-                        {data.seller.balance_warehouse} шт.
                       </span>
                     )}
                   </div>
