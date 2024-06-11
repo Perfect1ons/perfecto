@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Cross,
   CheckIcon,
@@ -14,7 +14,9 @@ import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
+
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
+
 interface IProps {
   filter: IFiltersBrand;
   options: {
@@ -34,7 +36,9 @@ interface IProps {
   addBrand: (brand: string) => void;
   addDay: (day: string) => void;
   addFilter: (filter: number) => void;
+  fetchProductsByMinMax: (min: number | null, max: number | null) => void;
 }
+
 const FiltersProducts = ({
   filter,
   options,
@@ -47,6 +51,7 @@ const FiltersProducts = ({
   addBrand,
   addDay,
   addFilter,
+  fetchProductsByMinMax,
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
@@ -60,6 +65,49 @@ const FiltersProducts = ({
     default: false,
   });
 
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+
+  const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value)) {
+      setMinPrice(value);
+    }
+  };
+
+  const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value)) {
+      setMaxPrice(value);
+    }
+  };
+
+  const handleDoneClick = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (minPrice !== null && maxPrice !== null) {
+      if (minPrice <= maxPrice) {
+        queryParams.set("min", minPrice.toString());
+        queryParams.set("max", maxPrice.toString());
+        fetchProductsByMinMax(minPrice, maxPrice);
+      }
+    } else {
+      queryParams.delete("min");
+      queryParams.delete("max");
+      setMinPrice(null);
+      setMaxPrice(null);
+      fetchProductsByMinMax(null, null);
+    }
+
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams.toString()}`
+    );
+
+    closeFilters(); // Закрыть модальное окно фильтров
+  };
+
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -68,21 +116,23 @@ const FiltersProducts = ({
 
     // Закрываем другие фильтры при открытии текущего
     if (!filtersIsShow[filterType]) {
-      setFiltersIsShow((prevState) => ({
-        brand: filterType === "brand" ? true : false,
-        price: filterType === "price" ? true : false,
-        delivery: filterType === "delivery" ? true : false,
-        allfilters: filterType === "allfilters" ? true : false,
-        default: filterType === "default" ? true : false,
-      }));
+      setFiltersIsShow({
+        brand: filterType === "brand",
+        price: filterType === "price",
+        delivery: filterType === "delivery",
+        allfilters: filterType === "allfilters",
+        default: filterType === "default",
+      });
     }
   };
+
   const open = () => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
       allfilters: false,
     }));
   };
+
   const closeAllFilters = () => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -93,7 +143,11 @@ const FiltersProducts = ({
   const handleShowAllBrands = () => {
     setBrandIsShow(true);
   };
-  const anyBrandSelected = Object.values(selectedBrands).some((value) => value);
+
+  const anyBrandSelected = Object.values(selectedBrands).some((value) =>
+    Object.values(value).some((isSelected) => isSelected)
+  );
+
   const countSelected = (...selectedArrays: any[]) => {
     let totalCount = 0;
     selectedArrays.forEach((selected: any) => {
@@ -107,7 +161,7 @@ const FiltersProducts = ({
     });
     return totalCount;
   };
-  // Функция для подсчета количества выбранных элементов в selectedBrands
+
   const countSelectedBrands = (): number => {
     let totalCount = 0;
     Object.values(selectedBrands).forEach((subSelections) => {
@@ -119,6 +173,7 @@ const FiltersProducts = ({
     });
     return totalCount;
   };
+
   const closeFilters = () => {
     setFiltersIsShow({
       brand: false,
@@ -139,7 +194,6 @@ const FiltersProducts = ({
             className={styles.buttonBrand}
           >
             <li className={styles.showFiltersUlContainer__li}>
-              {/* Сортировка */}
               {options.find((option) => option.value === value)?.label ||
                 "По умолчанию"}
             </li>
@@ -167,13 +221,12 @@ const FiltersProducts = ({
                   className={cn(styles.option, {
                     [styles.selected]: value === option.value,
                   })}
-                  // className={`option ${value === option.value ? "selected" : ""}`}
                   onClick={() => {
                     onChange(option.value);
+                    closeFilters();
                   }}
                 >
                   <span className={styles.option__cyrcle}></span>
-                  {/* <span className="option__cyrcle"></span> */}
                   {option.label}
                 </div>
               ))}
@@ -183,7 +236,6 @@ const FiltersProducts = ({
         <div className={styles.brandContainer}>
           <button
             onClick={() => toggleFilters("delivery")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
             className={styles.buttonBrand}
           >
             Сроки доставки
@@ -210,7 +262,6 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              {/* Если брендов нет, выводим сообщение */}
               {filter.variant_day.length === 0 && <p>Нет доступных дней</p>}
               {filter.variant_day.map((item, index) => {
                 if (!brandIsShow && index >= 7) {
@@ -260,7 +311,7 @@ const FiltersProducts = ({
               className={cn(styles.buttonsContainer__button, {
                 [styles.buttonsContainer__buttonDisabled]: !anyBrandSelected,
               })}
-              onClick={() => onReset("day")}
+              onClick={() => onReset("dost")}
             >
               Сбросить
             </button>
@@ -270,7 +321,6 @@ const FiltersProducts = ({
           <button
             className={styles.buttonBrand}
             onClick={() => toggleFilters("price")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
           >
             Цена
             <span
@@ -295,16 +345,21 @@ const FiltersProducts = ({
                 type="number"
                 className={styles.inputPrice}
                 placeholder="От 0"
+                onChange={handleMinPriceChange}
               />
               <input
                 type="number"
                 className={styles.inputPrice}
                 placeholder="До 0"
+                onChange={handleMaxPriceChange}
               />
             </div>
             <div className={styles.buttonsContainer}>
-              <button className={styles.buttonsContainer__button}>
-                Готово
+              <button
+                onClick={handleDoneClick}
+                className={styles.buttonsContainer__button}
+              >
+                Применить
               </button>
             </div>
           </ul>
@@ -312,7 +367,6 @@ const FiltersProducts = ({
         <div className={styles.brandContainer}>
           <button
             onClick={() => toggleFilters("brand")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
             className={styles.buttonBrand}
           >
             Бренд
@@ -339,7 +393,6 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              {/* Если брендов нет, выводим сообщение */}
               {filter.brand.length === 0 && <p>Нет доступных брендов</p>}
               {filter.brand.map((item, index) => {
                 if (!brandIsShow && index >= 7) {
@@ -350,7 +403,8 @@ const FiltersProducts = ({
                     key={item}
                     className={styles.showFiltersUlContainer}
                     onClick={() => {
-                      addBrand(item), onBrandToggle("brand", item);
+                      addBrand(item);
+                      onBrandToggle("brand", item);
                     }}
                   >
                     <span
