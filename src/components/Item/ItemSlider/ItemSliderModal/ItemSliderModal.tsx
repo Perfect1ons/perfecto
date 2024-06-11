@@ -54,7 +54,7 @@ const ItemSliderModal = ({
   return (
     <div className={styles.modal}>
       <div className={styles.wrapper} onScroll={handleScroll} ref={wrapperRef}>
-        {isAtTop && photos.items.photos.length < 1 && (
+        {isAtTop && photos.items.photos.length > 1 && (
           <div className={styles.swipe_down} onClick={handleSwipeDownClick}>
             {chevronDownIcon()}
             Листайте вниз, чтобы увидеть больше картинок
@@ -130,23 +130,22 @@ const ItemSliderModal = ({
 
 export default ItemSliderModal;
 
-
-          // {photos?.items?.photos?.map((photo, index) => (
-          //     {zoom ? (
-          //      
-          //     ) : (
-          //       <Image
-          //         width={500}
-          //         height={500}
-          //         src={
-          //           photo.url_part.startsWith("https://goods")
-          //             ? `${photo.url_part}700-nw.jpg`
-          //             : photo.url_part.startsWith("https://")
-          //             ? photo.url_part
-          //             : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
-          //         }
-          //         alt={photo.url_part}
-          //         className={clsx(styles.photo)}
-          //       />
-          //     )}
-          // ))}
+// {photos?.items?.photos?.map((photo, index) => (
+//     {zoom ? (
+//
+//     ) : (
+//       <Image
+//         width={500}
+//         height={500}
+//         src={
+//           photo.url_part.startsWith("https://goods")
+//             ? `${photo.url_part}700-nw.jpg`
+//             : photo.url_part.startsWith("https://")
+//             ? photo.url_part
+//             : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+//         }
+//         alt={photo.url_part}
+//         className={clsx(styles.photo)}
+//       />
+//     )}
+// ))}
