@@ -9,7 +9,11 @@ import Link from "next/link";
 import { BackArrow, Cross } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import FiltersProducts from "../FiltersProducts/FiltersProducts";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import { getProductsByBrand } from "@/api/clientRequest";
+import {
+  getProductsByBrand,
+  getProductsByCenaMinMax,
+  getProductsByDost,
+} from "@/api/clientRequest";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -38,7 +42,7 @@ export default function CatalogProducts({
   const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
   const [selectedFilters, setSelectedFilters] = useState<IFiltersProps>({
     brand: [],
-    price: { max: 10000, min: 10 },
+    price: { min: 0, max: 0 },
     dost: [],
     additional_filter: [],
   });
@@ -71,9 +75,50 @@ export default function CatalogProducts({
     try {
       const response = await getProductsByBrand(catalog.category.id, brands);
       setItems(response.category.tov || []);
-    } catch (error) {
-      console.error("Failed to fetch products by brand", error);
+    } catch (err) {
+      console.error("Failed to fetch products by brand", err);
     }
+  };
+
+  const fetchProductsByDost = async (day: string) => {
+    try {
+      const response = await getProductsByDost(catalog.category.id, day);
+      setItems(response.category.tov || []);
+    } catch (err) {
+      console.error("Failed to fetch products by dost", err);
+    }
+  };
+
+  const toggleDostSelection = (day: string) => {
+    setSelectedFilters((prevState) => {
+      const updatedSelection = {
+        ...prevState,
+        dost: prevState.dost.includes(day)
+          ? prevState.dost.filter((d) => d !== day)
+          : [...prevState.dost, day],
+      };
+      const selectedDostPaths = updatedSelection.dost.join(",");
+      if (selectedDostPaths) {
+        fetchProductsByDost(selectedDostPaths);
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set("dost", selectedDostPaths);
+        window.history.pushState(
+          {},
+          "",
+          `${window.location.pathname}?${queryParams.toString()}`
+        );
+      } else {
+        setItems(initialItems);
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.delete("dost");
+        window.history.pushState(
+          {},
+          "",
+          `${window.location.pathname}?${queryParams.toString()}`
+        );
+      }
+      return updatedSelection;
+    });
   };
 
   const addBrand = (brand: string) => {
@@ -92,12 +137,34 @@ export default function CatalogProducts({
       if (prevState.dost.includes(day)) {
         return prevState; // Если день уже есть, возвращаем предыдущее состояние без изменений
       }
-      return {
+      const updatedSelection = {
         ...prevState,
         dost: [...prevState.dost, day],
       };
+      toggleDostSelection(day); // Добавляем вызов toggleDostSelection после обновления выбранных дней
+      return updatedSelection;
     });
   };
+
+  const fetchProductsByMinMax = async (
+    min: number | null,
+    max: number | null
+  ) => {
+    try {
+      const response = await getProductsByCenaMinMax(
+        catalog.category.id,
+        min,
+        max
+      );
+      let sortedItems = response.category.tov || [];
+      // Sort the items by price
+      sortedItems.sort((a, b) => a.cenaok - b.cenaok);
+      setItems(sortedItems);
+    } catch (err) {
+      console.error("Failed to fetch products by cena: min & max", err);
+    }
+  };
+
   const addFilter = (filter: number) => {
     setSelectedFilters((prevState) => {
       // Можно добавить проверку на уникальность фильтров здесь, если необходимо
@@ -134,6 +201,17 @@ export default function CatalogProducts({
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
 
+  // const fetchProductsByBrand = async (brandPath: string) => {
+  //   try {
+  //     const response = await getProductsSortsBrand(
+  //       catalog.category.id,
+  //       brandPath
+  //     );
+  //     setItems(response.category.tov || []);
+  //   } catch (error) {
+  //     console.error("Failed to fetch products by brand", error);
+  //   }
+  // };
   const toggleBrandSelection = (mainKey: string, subKey: string) => {
     setSelectedBrands((prevState) => {
       const updatedSelection = {
@@ -297,7 +375,6 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <FiltersProducts
-            selectedFilters={selectedFilters}
             addFilter={addFilter}
             addDay={addDay}
             addBrand={addBrand}
@@ -314,6 +391,7 @@ export default function CatalogProducts({
             selectedBrands={selectedBrands}
             onReset={resetSelection}
             resetSelectionAll={resetSelectionAll}
+            fetchProductsByMinMax={fetchProductsByMinMax}
           />
           <div className="default__sort_style">
             <button

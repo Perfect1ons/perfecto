@@ -16,7 +16,9 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IFiltersProps } from "../CatalogProducts/CatalogProducts";
 import Slider from "react-slider";
+
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
+
 interface IProps {
   filter: IFiltersBrand;
   options: {
@@ -36,10 +38,9 @@ interface IProps {
   addBrand: (brand: string) => void;
   addDay: (day: string) => void;
   addFilter: (filter: number) => void;
-  selectedFilters: IFiltersProps;
+  fetchProductsByMinMax: (min: number | null, max: number | null) => void;
 }
-const MIN = 100;
-const MAX = 99999;
+
 const FiltersProducts = ({
   filter,
   options,
@@ -52,7 +53,7 @@ const FiltersProducts = ({
   addBrand,
   addDay,
   addFilter,
-  selectedFilters,
+  fetchProductsByMinMax,
 }: IProps) => {
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
@@ -64,6 +65,50 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
+
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+
+  const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value)) {
+      setMinPrice(value);
+    }
+  };
+
+  const handleMaxPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(event.target.value);
+    if (!isNaN(value)) {
+      setMaxPrice(value);
+    }
+  };
+
+  const handleDoneClick = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    if (minPrice !== null && maxPrice !== null) {
+      if (minPrice <= maxPrice) {
+        queryParams.set("min", minPrice.toString());
+        queryParams.set("max", maxPrice.toString());
+        fetchProductsByMinMax(minPrice, maxPrice);
+      }
+    } else {
+      queryParams.delete("min");
+      queryParams.delete("max");
+      setMinPrice(null);
+      setMaxPrice(null);
+      fetchProductsByMinMax(null, null);
+    }
+
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams.toString()}`
+    );
+
+    closeFilters(); // Закрыть модальное окно фильтров
+  };
+
   const toggleFilters = (filterType: FilterType) => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -72,21 +117,23 @@ const FiltersProducts = ({
 
     // Закрываем другие фильтры при открытии текущего
     if (!filtersIsShow[filterType]) {
-      setFiltersIsShow((prevState) => ({
-        brand: filterType === "brand" ? true : false,
-        price: filterType === "price" ? true : false,
-        delivery: filterType === "delivery" ? true : false,
-        allfilters: filterType === "allfilters" ? true : false,
-        default: filterType === "default" ? true : false,
-      }));
+      setFiltersIsShow({
+        brand: filterType === "brand",
+        price: filterType === "price",
+        delivery: filterType === "delivery",
+        allfilters: filterType === "allfilters",
+        default: filterType === "default",
+      });
     }
   };
+
   const open = () => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
       allfilters: false,
     }));
   };
+
   const closeAllFilters = () => {
     setFiltersIsShow((prevState) => ({
       ...prevState,
@@ -97,7 +144,11 @@ const FiltersProducts = ({
   const handleShowAllBrands = () => {
     setBrandIsShow(true);
   };
-  const anyBrandSelected = Object.values(selectedBrands).some((value) => value);
+
+  const anyBrandSelected = Object.values(selectedBrands).some((value) =>
+    Object.values(value).some((isSelected) => isSelected)
+  );
+
   const countSelected = (...selectedArrays: any[]) => {
     let totalCount = 0;
     selectedArrays.forEach((selected: any) => {
@@ -111,7 +162,7 @@ const FiltersProducts = ({
     });
     return totalCount;
   };
-  // Функция для подсчета количества выбранных элементов в selectedBrands
+
   const countSelectedBrands = (): number => {
     let totalCount = 0;
     Object.values(selectedBrands).forEach((subSelections) => {
@@ -123,6 +174,7 @@ const FiltersProducts = ({
     });
     return totalCount;
   };
+
   const closeFilters = () => {
     setFiltersIsShow({
       brand: false,
@@ -156,8 +208,6 @@ const FiltersProducts = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, [filtersIsShow]);
-  const [minPrice, setMinPrice] = useState(10);
-  const [maxPrice, setMaxPrice] = useState(10000);
 
   const handlePriceChange = (values: any) => {
     setMinPrice(values[0]);
@@ -173,7 +223,6 @@ const FiltersProducts = ({
             className={styles.buttonBrand}
           >
             <li className={styles.showFiltersUlContainer__li}>
-              {/* Сортировка */}
               {options.find((option) => option.value === value)?.label ||
                 "По умолчанию"}
             </li>
@@ -201,13 +250,12 @@ const FiltersProducts = ({
                   className={cn(styles.option, {
                     [styles.selected]: value === option.value,
                   })}
-                  // className={`option ${value === option.value ? "selected" : ""}`}
                   onClick={() => {
                     onChange(option.value);
+                    closeFilters();
                   }}
                 >
                   <span className={styles.option__cyrcle}></span>
-                  {/* <span className="option__cyrcle"></span> */}
                   {option.label}
                 </div>
               ))}
@@ -217,7 +265,6 @@ const FiltersProducts = ({
         <div className={styles.brandContainer}>
           <button
             onClick={() => toggleFilters("delivery")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
             className={styles.buttonBrand}
           >
             Сроки доставки
@@ -244,7 +291,6 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              {/* Если брендов нет, выводим сообщение */}
               {filter.variant_day.length === 0 && <p>Нет доступных дней</p>}
               {filter.variant_day.map((item, index) => {
                 if (!brandIsShow && index >= 7) {
@@ -294,7 +340,7 @@ const FiltersProducts = ({
               className={cn(styles.buttonsContainer__button, {
                 [styles.buttonsContainer__buttonDisabled]: !anyBrandSelected,
               })}
-              onClick={() => onReset("day")}
+              onClick={() => onReset("dost")}
             >
               Сбросить
             </button>
@@ -304,7 +350,6 @@ const FiltersProducts = ({
           <button
             className={styles.buttonBrand}
             onClick={() => toggleFilters("price")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
           >
             Цена
             <span
@@ -328,13 +373,13 @@ const FiltersProducts = ({
               <div className={styles.priceContainerRange}>
                 <Slider
                   onChange={handlePriceChange}
-                  defaultValue={[10, 100]}
+                  defaultValue={[1, 100]}
                   className={styles.sliderRange}
                   thumbClassName={styles.thumbClassName}
                   trackClassName={cn(styles.trackClassName)}
                   minDistance={1} // минимальное расстояние между ползунками в 1 единицу
-                  min={10}
-                  max={10000}
+                  min={1}
+                  max={1000000}
                   renderTrack={(props, state) => (
                     <div
                       {...props}
@@ -349,21 +394,26 @@ const FiltersProducts = ({
                   <input
                     type="number"
                     className={styles.inputPrice}
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(parseInt(e.target.value))}
+                    value={minPrice !== null ? minPrice.toString() : ""}
+                    onChange={handleMinPriceChange}
+                    placeholder={`от 0`}
                   />
                   <input
                     type="number"
                     className={styles.inputPrice}
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(parseInt(e.target.value))}
+                    value={maxPrice !== null ? maxPrice.toString() : ""}
+                    placeholder={`до 0`}
+                    onChange={handleMaxPriceChange}
                   />
                 </div>
               </div>
             </div>
             <div className={styles.buttonsContainer}>
-              <button className={styles.buttonsContainer__button}>
-                Готово
+              <button
+                onClick={handleDoneClick}
+                className={styles.buttonsContainer__button}
+              >
+                Применить
               </button>
             </div>
           </ul>
@@ -371,7 +421,6 @@ const FiltersProducts = ({
         <div className={styles.brandContainer}>
           <button
             onClick={() => toggleFilters("brand")}
-            //   onClick={() => setFiltersIsShow(!filtersIsShow)}
             className={styles.buttonBrand}
           >
             Бренд
@@ -398,7 +447,6 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              {/* Если брендов нет, выводим сообщение */}
               {filter.brand.length === 0 && <p>Нет доступных брендов</p>}
               {filter.brand.map((item, index) => {
                 if (!brandIsShow && index >= 7) {
@@ -409,7 +457,8 @@ const FiltersProducts = ({
                     key={item}
                     className={styles.showFiltersUlContainer}
                     onClick={() => {
-                      addBrand(item), onBrandToggle("brand", item);
+                      addBrand(item);
+                      onBrandToggle("brand", item);
                     }}
                   >
                     <span

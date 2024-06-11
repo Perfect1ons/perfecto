@@ -43,6 +43,34 @@ export const getProductsByBrand = (
   return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
 };
 
+export const getProductsByDost = (
+  id: number,
+  day: string
+): Promise<ICatalogsProducts> => {
+  const params = qs.stringify(
+    {
+      page: 1,
+      "VNaltovaroksearch[dost]": day,
+    },
+    { addQueryPrefix: true }
+  );
+
+  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
+};
+
+export const getProductsByCenaMinMax = (
+  id: number,
+  min: number | null,
+  max: number | null
+): Promise<ICatalogsProducts> => {
+  const params = qs.stringify({
+    page: 1,
+    "VNaltovaroksearch[cena_min]": min,
+    "VNaltovaroksearch[cena_max]": max,
+  });
+  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
+};
+
 const filterProduct = qs.stringify({});
 
 export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
