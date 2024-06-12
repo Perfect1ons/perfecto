@@ -20,7 +20,7 @@ interface ICatalogProductsProps {
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
 }
-interface IFiltersProps {
+export interface IFiltersProps {
   brand: string[];
   price: { max: number; min: number };
   dost: string[];
@@ -46,8 +46,30 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
+  const handlePriceChange = (values: [number, number]) => {
+    const [min, max] = values;
 
-  const fetchFilter = () => {};
+    // Проверяем, какой ползунок был изменен
+    if (min !== selectedFilters.price.min) {
+      // Если изменен min, обновляем min
+      setSelectedFilters((prevFilters) => ({
+        ...prevFilters,
+        price: {
+          min: min,
+          max: prevFilters.price.max,
+        },
+      }));
+    } else if (max !== selectedFilters.price.max) {
+      // Если изменен max, обновляем max
+      setSelectedFilters((prevFilters) => ({
+        ...prevFilters,
+        price: {
+          min: prevFilters.price.min,
+          max: max,
+        },
+      }));
+    }
+  };
 
   const fetchProductsByBrand = async (brands: string) => {
     try {
@@ -293,6 +315,27 @@ export default function CatalogProducts({
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
+  const [page, setPage] = useState(1); // Add page state
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [hasMore, setHasMore] = useState(true); // Add hasMore state
+
+  // const fetchMoreProducts = async () => {
+  //   if (isLoading || !hasMore) return;
+  //   setIsLoading(true);
+  //   try {
+  //     const response = await getProducts(catalog.category.id, page + 1); // Your API function to fetch products
+  //     if (response.category.tov.length > 0) {
+  //       setItems((prevItems) => [...prevItems, ...response.category.tov]);
+  //       setPage((prevPage) => prevPage + 1);
+  //     } else {
+  //       setHasMore(false);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to fetch more products", error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   return (
     <section className="seek">

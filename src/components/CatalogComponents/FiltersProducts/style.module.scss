@@ -73,7 +73,7 @@
   display: none;
 }
 .showFiltersActive {
-  @include mixin.flex(flex-start, null, column, null);
+  @include mixin.flex(null, null, column, null);
   width: 296px;
   max-height: 360px;
   padding: 20px;
@@ -442,12 +442,54 @@
 .selectedCountAllFilters {
   padding-left: 4px;
 }
+.containerPriceInputs {
+  @include mixin.flex(center, center, null, 8px);
+}
+.priceContainerRange {
+  @include mixin.flex(null, null, column, 8px);
+}
 @media screen and (max-width: 992px) {
   .brandContainer {
     padding: 8px 6px;
   }
 }
+.sliderRange {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 4px;
+  background: #cbcbcb;
+  border-radius: 5px;
+  padding: 0 8px;
+  margin: 15px 0;
+}
+.trackClassName {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
 
+.trackOutside {
+  background: #cccccc; /* Серый цвет для участков до и после ползунков */
+}
+
+.trackBetween {
+  background: var(--blue); /* Синий цвет для участка между ползунками */
+}
+.thumbClassName {
+  background: var(--dark-blue);
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 2px solid var(--dark-blue);
+}
+// .trackClassName {
+//   width: 100%;
+//   height: 2px;
+//   background: var(--dark-blue);
+// }
 @media screen and (max-width: 768px) {
   .select_header_sort {
     display: none;
