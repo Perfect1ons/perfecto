@@ -101,15 +101,66 @@
   color: var(--violet);
   opacity: 1;
 }
+// .ItemPriceCard {
+//   user-select: none;
+//   max-width: 344px;
+//   width: 100%;
+//   background: var(--light-white);
+//   border-radius: 10px;
+//   padding: 18px;
+//   &__counted {
+//     max-width: 150px;
+//   }
+//   &__minQty {
+//     @include mixin.font(14px, 400, 100%, var(--dark));
+//     margin-top: 10px;
+//   }
+//   &__cost {
+//     @include mixin.flex(flex-end, null, null, 10px);
+//   }
+//   &__price {
+//     @include mixin.flex(center, null, null, 3px);
+//     @include mixin.font(18px, bold, 100%, var(--dark));
+
+//     &_custom {
+//       @include mixin.font(18px, bold, 100%, var(--dark));
+//       border-bottom: 3px solid var(--dark);
+//     }
+//     &_discount {
+//       @include mixin.font(14px, 500, 100%, var(--dark));
+//       background: var(--violet);
+//       color: var(--white);
+//       border-radius: 5px;
+//       padding: 3px;
+//     }
+//     &_new {
+//       @include mixin.flex(center, null, null, 3px);
+//       @include mixin.font(18px, bold, 100%, var(--violet));
+//       &_custom {
+//         @include mixin.font(18px, bold, 100%, var(--violet));
+//         border-bottom: 3px solid var(--violet);
+//       }
+//     }
+//   }
+//   &__old_price {
+//     @include mixin.font(14px, 500, 100%, var(--gray-dark));
+//     text-decoration: line-through;
+//   }
+// }
 .ItemPriceCard {
+  position: relative;
   user-select: none;
   max-width: 344px;
   width: 100%;
   background: var(--light-white);
   border-radius: 10px;
   padding: 18px;
-  &__counted {
-    max-width: 150px;
+  @media screen and (max-width: 1410px) {
+    max-width: none;
+    // height: 100%;
+  }
+  @media screen and (max-width: 1280px) {
+    height: 100%;
   }
   &__minQty {
     @include mixin.font(14px, 400, 100%, var(--dark));
@@ -134,8 +185,8 @@
       padding: 3px;
     }
     &_new {
-      @include mixin.flex(center, null, null, 3px);
       @include mixin.font(18px, bold, 100%, var(--violet));
+      @include mixin.flex(center, null, null, 3px);
       &_custom {
         @include mixin.font(18px, bold, 100%, var(--violet));
         border-bottom: 3px solid var(--violet);
@@ -143,7 +194,7 @@
     }
   }
   &__old_price {
-    @include mixin.font(14px, 500, 100%, var(--gray-dark));
+    @include mixin.font(16px, 500, 100%, var(--gray-dark));
     text-decoration: line-through;
   }
 }
