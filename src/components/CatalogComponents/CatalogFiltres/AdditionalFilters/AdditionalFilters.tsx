@@ -86,55 +86,6 @@ const AdditionalFilters = ({
             )}
           </div>
         ))}
-      {/* {filter.filter && (
-        
-        // <div className="positionContainer">
-        //   <button
-        //     className="catalogFilterButton"
-        //     onClick={() => toggleFilter("brand")}
-        //   >
-        //     Бренд
-        //     <span
-        //       className={cn(
-        //         "filterNavItemArrowIsActive",
-        //         visibleFilter === "brand" && "filterNavItemArrow"
-        //       )}
-        //     >
-        //       <СhevronDownIcon />
-        //     </span>
-        //   </button>
-        //   {visibleFilter === "brand" && (
-        //     <ul className="showCatalogFilterActive">
-        //       <div className="showCatalogFilterActiveChild">
-        //         <button
-        //           className="closeFilterUl"
-        //           onClick={() => toggleFilter("brand")}
-        //         >
-        //           <Cross />
-        //         </button>
-        //         {filter.brand.map((item) => (
-        //           <ul
-        //             onClick={() => handleSelectChange(item)}
-        //             key={item}
-        //             className="showFiltersUlContainer"
-        //           >
-        //             <span
-        //               className={cn("showFiltersUlContainer__check", {
-        //                 ["showFiltersUlContainer__checkActive"]:
-        //                   selectedFilters.includes(item),
-        //               })}
-        //             >
-        //               {selectedFilters.includes(item) && <CheckIcon />}
-        //             </span>
-        //             <li>{item}</li>
-        //           </ul>
-        //           // <div key={item}>{item}</div>
-        //         ))}
-        //       </div>
-        //     </ul>
-        //   )}
-        // </div>
-      )} */}
     </>
   );
 };

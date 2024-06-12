@@ -6,15 +6,9 @@ import CatalogProductList from "./CatalogProductList";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
-import { BackArrow, Cross } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
-import FiltersProducts from "../FiltersProducts/FiltersProducts";
+import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import {
-  getCatalogProductFilter,
-  getProductsByBrand,
-  getProductsByCenaMinMax,
-  getProductsByDost,
-} from "@/api/clientRequest";
+import { getCatalogProductFilter } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
@@ -171,25 +165,6 @@ export default function CatalogProducts({
               { label: "По рейтингу", value: "rating" },
             ]}
           />
-          {/* <FiltersProducts
-            addFilter={addFilter}
-            addDay={addDay}
-            addBrand={addBrand}
-            filter={filter}
-            value={sortOrder || "default"}
-            options={[
-              { label: "По умолчанию", value: "default" },
-              { label: "Сначала дешевле", value: "cheap" },
-              { label: "Сначала дороже", value: "expensive" },
-              { label: "По рейтингу", value: "rating" },
-            ]}
-            onChange={(value) => handleSort(value)}
-            onBrandToggle={toggleBrandSelection}
-            selectedBrands={selectedBrands}
-            onReset={resetSelection}
-            resetSelectionAll={resetSelectionAll}
-            fetchProductsByMinMax={fetchProductsByMinMax}
-          /> */}
           <div className="default__sort_style">
             <button
               className="default__sort_icons"
