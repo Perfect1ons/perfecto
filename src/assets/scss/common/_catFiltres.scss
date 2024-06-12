@@ -1,0 +1,122 @@
+@use "./mixins" as mixin;
+.filtresContainer {
+  @include mixin.flex(center, flex-start, null, 10px);
+}
+.positionContainer {
+  position: relative;
+}
+.catalogFilterButton {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(14px, 500, null, var(--dark));
+  padding: 8px 12px;
+  background: var(--white);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    > .filterNavItemArrowIsActive {
+      color: #242424;
+    }
+  }
+}
+.showCatalogFilterActive {
+  @include mixin.flex(null, null, column, null);
+  width: 296px;
+  max-height: 360px;
+  padding: 20px;
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  z-index: 10;
+  cursor: default;
+}
+.catalogFilterCheck {
+  @include mixin.flex(center, center, null, null);
+  width: 22px;
+  height: 22px;
+  background: var(--white);
+  border: 1px solid #d3d4dd;
+  border-radius: 6px;
+}
+.catalogFilterCheckActive {
+  color: white;
+  background: var(--dark-blue);
+  border: 0;
+}
+.showCatalogFilterActiveChild {
+  /* Стили для скроллбара вебкит-браузеров */
+  /* Track */
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #888;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  @include mixin.flex(flex-start, flex-start, column, 12px);
+  overflow-y: auto;
+  width: 100%;
+  max-height: 260px;
+  padding-right: 6px;
+}
+.closeFilterUl {
+  @include mixin.flex(center, center, null, null);
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  cursor: pointer;
+  scale: 1.5;
+  color: var(--dark-blue);
+}
+.filterNavItemArrowIsActive {
+  @include mixin.flex(center, center, null, null);
+  user-select: none;
+  transform: rotate(0deg);
+  //   transition: 0.1s all;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  color: #b9b9c1;
+}
+.filterNavItemArrow {
+  transform: rotate(180deg);
+}
+.showFiltersUlContainer {
+  @include mixin.flex(center, center, null, 10px);
+  cursor: pointer;
+  &:hover {
+    > .showFiltersUlContainer__check {
+      border-color: #a9a8b0;
+    }
+  }
+  &__check {
+    @include mixin.flex(center, center, null, null);
+    width: 22px;
+    height: 22px;
+    background: var(--white);
+    border: 1px solid #d3d4dd;
+    border-radius: 6px;
+  }
+  &__checkActive {
+    color: white;
+    background: var(--dark-blue);
+    border-color: var(--dark-blue);
+    border: 0;
+  }
+  &__title {
+    font-size: 16px;
+    line-height: 22px;
+    color: #242424;
+  }
+}

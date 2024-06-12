@@ -1,0 +1,57 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+.containerPriceInputs {
+  @include mixin.flex(center, center, null, 8px);
+}
+.priceContainerRange {
+  @include mixin.flex(null, null, column, 8px);
+}
+.inputPrice {
+  padding: 6px 12px;
+  height: 36px;
+  background-color: #f1f1f5;
+  border-color: #f1f1f5;
+  transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
+  width: 100%;
+  border: 1px solid #d3d4dd;
+  border-radius: 8px;
+  height: auto;
+  font-size: 16px;
+  line-height: 16px;
+  color: #242424;
+  &:hover {
+    background-color: #e8e8f0;
+    border-color: #e8e8f0;
+  }
+}
+.sliderRange {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 4px;
+  background: #cbcbcb;
+  border-radius: 5px;
+  padding: 0 8px;
+  margin: 15px 0;
+}
+.trackClassName {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.trackOutside {
+  background: #cccccc; /* Серый цвет для участков до и после ползунков */
+}
+
+.trackBetween {
+  background: var(--blue); /* Синий цвет для участка между ползунками */
+}
+.thumbClassName {
+  background: var(--dark-blue);
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 2px solid var(--dark-blue);
+}

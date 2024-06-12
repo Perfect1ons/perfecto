@@ -1,5 +1,5 @@
+import { ISelectedFilterProps } from "@/components/CatalogComponents/CatalogFiltres/CatalogFiltres";
 import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
-
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
@@ -25,12 +25,39 @@ export const getPopularGoodsByClient = (
 export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
+export const getCatalogProductFilter = (
+  id: number,
+  selected: ISelectedFilterProps
+): Promise<ICatalogsProducts> => {
+  const url = `catalog/cat-product/${id}`;
 
-const obj = {
-  page: 1,
-  "VNaltovaroksearch[dost]": 1,
+  const params = new URLSearchParams();
+  // Добавить фильтры бренда
+  if (selected.brand.length > 0) {
+    params.append("VNaltovaroksearch[brand]", selected.brand.join(","));
+  }
+
+  // Добавить фильтр доставки
+  if (selected.dost.length > 0) {
+    params.append("VNaltovaroksearch[dost]", selected.dost.join(","));
+  }
+
+  // Добавить дополнительные фильтры
+  if (selected.additional_filter.length > 0) {
+    params.append(
+      "VNaltovaroksearch[additional_filter]",
+      selected.additional_filter.join(",")
+    );
+  }
+
+  // // Добавить фильтры цены
+  // params.append("VNaltovaroksearch[cena_min]", selected.price.min.toString());
+  // params.append("VNaltovaroksearch[cena_max]", selected.price.max.toString());
+
+  const apiUrl = `${url}?${params.toString()}`;
+
+  return maxkg.get(apiUrl).json();
 };
-// page=1&VNaltovaroksearch[dost]=1
 
 export const getProductsByBrand = (
   id: number,
@@ -76,14 +103,6 @@ const filterProduct = qs.stringify({});
 export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
   return maxkg.get(`catalog/cat-product/${id}?${filterProduct}`).json();
 };
-// export const getProductsSortsDost = (
-//   id: number,
-//   path: string
-// ): Promise<ICatalogsProducts> => {
-//   return maxkg
-//     .get(`catalog/cat-product/${id}?page=1&VNaltovaroksearch[dost]=${path}`)
-//     .json();
-// };
 
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });

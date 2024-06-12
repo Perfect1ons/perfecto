@@ -1,5 +1,4 @@
 import styles from "./style.module.scss";
-import { IPropsAllFilters } from "../FiltersProducts/AllFilters";
 import { Cross } from "../../../../public/Icons/Icons";
 import cn from "clsx";
 
@@ -8,7 +7,7 @@ const AllFiltersMobile = ({
   filter,
   onBrandToggle,
   selectedBrands,
-}: IPropsAllFilters) => {
+}: any) => {
   const allFilters =
     filter && filter.filter ? Object.values(filter.filter) : [];
 
@@ -48,7 +47,7 @@ const AllFiltersMobile = ({
           <div className={styles.filterPrice}>
             <h3 className={styles.filterPrice__value}>Бренды</h3>
             <div className={styles.filterPrice__brands}>
-              {filter.brand.map((item) => {
+              {filter.brand.map((item: any) => {
                 return (
                   <button
                     onClick={() => onBrandToggle("brand", item)}
@@ -67,7 +66,7 @@ const AllFiltersMobile = ({
           <div className={styles.filterPrice}>
             <h3 className={styles.filterPrice__value}>Сроки доставки</h3>
             <div className={styles.filterPrice__brands}>
-              {filter.variant_day.map((item) => {
+              {filter.variant_day.map((item: any) => {
                 return (
                   <button
                     onClick={() => onBrandToggle("day", item)}
