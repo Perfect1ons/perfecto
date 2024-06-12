@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Cross,
   CheckIcon,
@@ -14,8 +14,6 @@ import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import AllFilters from "./AllFilters";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
-import { IFiltersProps } from "../CatalogProducts/CatalogProducts";
-import Slider from "react-slider";
 
 type FilterType = "brand" | "price" | "delivery" | "allfilters" | "default";
 
@@ -58,6 +56,7 @@ const FiltersProducts = ({
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
+
   const [filtersIsShow, setFiltersIsShow] = useState({
     brand: false,
     price: false,
@@ -65,8 +64,9 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
-  const [minPrice, setMinPrice] = useState<number>(1);
-  const [maxPrice, setMaxPrice] = useState<number>(99999);
+
+  const [minPrice, setMinPrice] = useState<number | null>(null);
+  const [maxPrice, setMaxPrice] = useState<number | null>(null);
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
@@ -87,13 +87,15 @@ const FiltersProducts = ({
 
     if (minPrice !== null && maxPrice !== null) {
       if (minPrice <= maxPrice) {
-        queryParams.set("minCena", minPrice.toString());
-        queryParams.set("maxCena", maxPrice.toString());
+        queryParams.set("min", minPrice.toString());
+        queryParams.set("max", maxPrice.toString());
         fetchProductsByMinMax(minPrice, maxPrice);
       }
     } else {
       queryParams.delete("min");
       queryParams.delete("max");
+      setMinPrice(null);
+      setMaxPrice(null);
       fetchProductsByMinMax(null, null);
     }
 
@@ -181,35 +183,7 @@ const FiltersProducts = ({
       default: false,
     });
   };
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const dropdownElement = document.querySelector(
-        `.${styles.filtersContainer}`
-      );
-      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
-        setFiltersIsShow({
-          brand: false,
-          price: false,
-          delivery: false,
-          allfilters: false,
-          default: false,
-        });
-      }
-    };
 
-    if (Object.values(filtersIsShow).some((isShow) => isShow)) {
-      document.addEventListener("click", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [filtersIsShow]);
-
-  const handlePriceChange = (values: any) => {
-    setMinPrice(values[0]);
-    setMaxPrice(values[1]);
-  };
   return (
     <>
       <div className={styles.filtersContainer}>
@@ -367,46 +341,18 @@ const FiltersProducts = ({
               <button className={styles.closeFilterUl} onClick={closeFilters}>
                 <Cross />
               </button>
-              <div className={styles.priceContainerRange}>
-                <Slider
-                  defaultValue={[1, 99999] as [number, number]} // Явно указываем тип
-                  className={styles.sliderRange}
-                  thumbClassName={styles.thumbClassName}
-                  trackClassName={cn(styles.trackClassName)}
-                  value={[minPrice, maxPrice]}
-                  onChange={handlePriceChange}
-                  min={1}
-                  max={99999}
-                  step={1}
-                  withTracks={true}
-                  renderTrack={(props, state) => (
-                    <div
-                      key={state.index}
-                      {...props}
-                      className={cn(styles.trackClassName, {
-                        [styles.trackBetween]: state.index === 1,
-                        [styles.trackOutside]: state.index !== 1,
-                      })}
-                    />
-                  )}
-                />
-                <div className={styles.containerPriceInputs}>
-                  <input
-                    type="number"
-                    className={styles.inputPrice}
-                    value={minPrice}
-                    onChange={handleMinPriceChange}
-                    placeholder={`от 0`}
-                  />
-                  <input
-                    type="number"
-                    className={styles.inputPrice}
-                    value={maxPrice}
-                    onChange={handleMaxPriceChange}
-                    placeholder={`до 0`}
-                  />
-                </div>
-              </div>
+              <input
+                type="number"
+                className={styles.inputPrice}
+                placeholder="От 0"
+                onChange={handleMinPriceChange}
+              />
+              <input
+                type="number"
+                className={styles.inputPrice}
+                placeholder="До 0"
+                onChange={handleMaxPriceChange}
+              />
             </div>
             <div className={styles.buttonsContainer}>
               <button
