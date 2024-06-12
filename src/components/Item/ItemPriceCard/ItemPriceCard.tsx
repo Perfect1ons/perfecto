@@ -90,13 +90,23 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setIpOpen(!ipOpen);
   };
 
+  // для перевода фокуса на инпут
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
+
   return (
     <>
       <MobileBuyBtn
         data={data}
         handleCartEmpty={handleCartEmpty}
         product={product}
-        addToCart={addToCart}
+        handleAddToCart={handleAddToCart}
+        shouldFocusInput={shouldFocusInput}
+        onFocusHandled={() => setShouldFocusInput(false)}
       />
 
       <section className={styles.section_wrap}>
@@ -142,7 +152,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               </p>
             </div>
             <p className={styles.ItemPriceCard__ddos_desc}>
-              {data.items?.ddos}
+              <span>{data.items?.ddos}</span>
               {data?.seller?.balance_warehouse &&
                 `На складе: ${data.seller.balance_warehouse} шт.`}
             </p>
@@ -164,7 +174,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             </UserInfoModal>
             {!product?.quantity && (
               <button
-                onClick={addToCart}
+                onClick={handleAddToCart}
                 className={styles.ItemPriceCard__buttons_cart}
               >
                 <span className="add__to_cart_icon">
@@ -174,7 +184,12 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               </button>
             )}
             {product?.quantity && (
-              <CartReducerBtn data={data.items} onCartEmpty={handleCartEmpty} />
+              <CartReducerBtn
+                data={data.items}
+                onCartEmpty={handleCartEmpty}
+                shouldFocusInput={shouldFocusInput}
+                onFocusHandled={() => setShouldFocusInput(false)}
+              />
             )}
             {data.items?.cenaok < 1000 ? null : (
               <button className={styles.ItemPriceCard__buttons_buy}>

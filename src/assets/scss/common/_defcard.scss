@@ -207,7 +207,14 @@
     }
     &_icon {
       @media screen and (max-width: 480px) {
-        display: none;
+        // display: none;
+        // scale: 0.8;
+        max-height: 18px !important;
+
+        svg {
+          max-width: 16px;
+          max-height: 16px !important;
+        }
       }
     }
   }

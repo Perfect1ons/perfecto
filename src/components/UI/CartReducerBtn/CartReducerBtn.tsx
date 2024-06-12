@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
@@ -16,9 +16,17 @@ import { RootState } from "@/store";
 interface ICartReducerBtnProps {
   data: Items;
   onCartEmpty: () => void;
+  shouldFocusInput: boolean; // Changed from function to boolean
+  onFocusHandled: () => void; // Callback to reset focus state
 }
 
-const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
+const CartReducerBtn = ({
+  data,
+  onCartEmpty,
+  shouldFocusInput,
+  onFocusHandled,
+}: ICartReducerBtnProps) => {
+  // логика добавления в корзину
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
@@ -58,6 +66,16 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
     }
   };
 
+  // перевод фокуса на инпут
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (shouldFocusInput && inputRef.current) {
+      inputRef.current.focus();
+      onFocusHandled(); // Reset focus state
+    }
+  }, [shouldFocusInput, onFocusHandled]);
+
   return (
     <div className={styles.btn}>
       <button onClick={removeFromCart} className={styles.btn_left}>
@@ -73,6 +91,7 @@ const CartReducerBtn = ({ data, onCartEmpty }: ICartReducerBtnProps) => {
         value={quantity}
         onChange={handleChange}
         min={0}
+        ref={inputRef}
       />
       <button onClick={addToCart} className={styles.btn_right}>
         <PlusIcon />

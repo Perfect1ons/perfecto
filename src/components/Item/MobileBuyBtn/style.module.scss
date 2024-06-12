@@ -8,6 +8,11 @@
   z-index: 199;
   transition: all 0.5s ease;
 
+  display: none !important;
+  @media screen and (max-width: 992px) {
+    display: block !important;
+  }
+
   &_scrolled {
     bottom: 12px;
   }
@@ -36,6 +41,7 @@
   //   transition: all 0.5s ease;
   // }
 }
+
 .btn_content {
   display: flex;
   align-items: center;

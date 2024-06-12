@@ -66,6 +66,9 @@
 
   &_desc,
   &_title {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     @include mixin.font(14px, 400, 100%, var(--dark));
   }
 }
@@ -78,7 +81,7 @@
     @include mixin.flex(center, center, null, 10px);
     background: var(--dark-blue);
     padding: 8px;
-    font-weight: bold;
+    font-weight: 700;
     min-width: 150px;
     width: 100%;
     color: var(--white);
@@ -94,6 +97,8 @@
     }
     @media screen and (max-width: 360px) {
       min-width: 0;
+      font-weight: 600;
+      font-size: 14px;
     }
   }
   &_buy {
@@ -113,6 +118,8 @@
     }
     @media screen and (max-width: 360px) {
       min-width: 0;
+      font-weight: 600;
+      font-size: 14px;
     }
   }
 }

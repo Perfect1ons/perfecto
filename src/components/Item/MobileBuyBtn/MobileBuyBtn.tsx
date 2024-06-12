@@ -9,14 +9,18 @@ interface IBuyBtnProps {
   data: ICardProductItems;
   handleCartEmpty: () => void;
   product: any;
-  addToCart: () => void;
+  handleAddToCart: () => void;
+  shouldFocusInput: boolean;
+  onFocusHandled: () => void;
 }
 
 const MobileBuyBtn = ({
   data,
   handleCartEmpty,
   product,
-  addToCart,
+  handleAddToCart,
+  shouldFocusInput,
+  onFocusHandled,
 }: IBuyBtnProps) => {
   // для отображения при пролистывании
   const [isScrolled, setIsScrolled] = useState(false);
@@ -48,7 +52,7 @@ const MobileBuyBtn = ({
       {data.items?.cenaok < 1000 ? (
         !product?.quantity ? (
           <button
-            onClick={addToCart}
+            onClick={handleAddToCart}
             className={clsx(styles.btn, styles.btn_cart)}
           >
             <div className={styles.btn_content}>
@@ -59,7 +63,12 @@ const MobileBuyBtn = ({
             </div>
           </button>
         ) : (
-          <CartReducerBtn data={data.items} onCartEmpty={handleCartEmpty} />
+          <CartReducerBtn
+            data={data.items}
+            onCartEmpty={handleCartEmpty}
+            shouldFocusInput={shouldFocusInput}
+            onFocusHandled={onFocusHandled}
+          />
         )
       ) : (
         <button className={clsx(styles.btn, styles.btn_buy)}>
