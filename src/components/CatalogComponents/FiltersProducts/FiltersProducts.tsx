@@ -65,9 +65,8 @@ const FiltersProducts = ({
     allfilters: false,
     default: false,
   });
-
-  const [minPrice, setMinPrice] = useState<number | null>(null);
-  const [maxPrice, setMaxPrice] = useState<number | null>(null);
+  const [minPrice, setMinPrice] = useState<number>(1);
+  const [maxPrice, setMaxPrice] = useState<number>(99999);
 
   const handleMinPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
@@ -95,8 +94,6 @@ const FiltersProducts = ({
     } else {
       queryParams.delete("min");
       queryParams.delete("max");
-      setMinPrice(null);
-      setMaxPrice(null);
       fetchProductsByMinMax(null, null);
     }
 
@@ -372,16 +369,19 @@ const FiltersProducts = ({
               </button>
               <div className={styles.priceContainerRange}>
                 <Slider
-                  onChange={handlePriceChange}
-                  defaultValue={[1, 100]}
+                  defaultValue={[1, 99999] as [number, number]} // Явно указываем тип
                   className={styles.sliderRange}
                   thumbClassName={styles.thumbClassName}
                   trackClassName={cn(styles.trackClassName)}
-                  minDistance={1} // минимальное расстояние между ползунками в 1 единицу
+                  value={[minPrice, maxPrice]}
+                  onChange={handlePriceChange}
                   min={1}
-                  max={1000000}
+                  max={99999}
+                  step={1}
+                  withTracks={true}
                   renderTrack={(props, state) => (
                     <div
+                      key={state.index}
                       {...props}
                       className={cn(styles.trackClassName, {
                         [styles.trackBetween]: state.index === 1,
@@ -394,16 +394,16 @@ const FiltersProducts = ({
                   <input
                     type="number"
                     className={styles.inputPrice}
-                    value={minPrice !== null ? minPrice.toString() : ""}
+                    value={minPrice}
                     onChange={handleMinPriceChange}
                     placeholder={`от 0`}
                   />
                   <input
                     type="number"
                     className={styles.inputPrice}
-                    value={maxPrice !== null ? maxPrice.toString() : ""}
-                    placeholder={`до 0`}
+                    value={maxPrice}
                     onChange={handleMaxPriceChange}
+                    placeholder={`до 0`}
                   />
                 </div>
               </div>

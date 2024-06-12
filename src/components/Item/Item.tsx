@@ -33,7 +33,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // блокировка скролла
   const scrollLockBlock = () => {
     const body = document.body;
     if (body) {
@@ -51,6 +53,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
       }
     }
   };
+  // для Review modal
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -69,6 +72,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     }
   }, [isOpenReview]);
 
+  // для SliderModal
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -111,7 +115,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
 
   return (
     <section className={styles.wrap}>
-      <MobileBuyBtn data={data.items} />
       {isOpenReview && (
         <div className={styles.wrap_modal}>
           <ReviewModal func={openModal} data={data.items} />
