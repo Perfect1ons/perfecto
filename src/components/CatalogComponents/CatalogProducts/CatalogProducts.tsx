@@ -14,6 +14,7 @@ import {
   getProductsByCenaMinMax,
   getProductsByDost,
 } from "@/api/clientRequest";
+import CatalogFiltres from "../CatalogFiltres/CatalogFiltres";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -362,6 +363,9 @@ export default function CatalogProducts({
             </Link>
           );
         })}
+      </div>
+      <div className="container">
+        <CatalogFiltres filter={filter} catalog={catalog} />
       </div>
       <div className="container">
         <div className="sort__buttons">
