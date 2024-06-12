@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import styles from "./style.module.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Cross,
   CheckIcon,
@@ -58,6 +58,7 @@ const FiltersProducts = ({
   const router = useRouter();
   const [brandIsShow, setBrandIsShow] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
+
   const [filtersIsShow, setFiltersIsShow] = useState({
     brand: false,
     price: false,
@@ -94,6 +95,8 @@ const FiltersProducts = ({
     } else {
       queryParams.delete("min");
       queryParams.delete("max");
+      setMinPrice(null);
+      setMaxPrice(null);
       fetchProductsByMinMax(null, null);
     }
 
@@ -181,35 +184,12 @@ const FiltersProducts = ({
       default: false,
     });
   };
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const dropdownElement = document.querySelector(
-        `.${styles.filtersContainer}`
-      );
-      if (dropdownElement && !dropdownElement.contains(event.target as Node)) {
-        setFiltersIsShow({
-          brand: false,
-          price: false,
-          delivery: false,
-          allfilters: false,
-          default: false,
-        });
-      }
-    };
-
-    if (Object.values(filtersIsShow).some((isShow) => isShow)) {
-      document.addEventListener("click", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [filtersIsShow]);
-
-  const handlePriceChange = (values: any) => {
+  const handlePriceChange = (values: number[]) => {
     setMinPrice(values[0]);
     setMaxPrice(values[1]);
+    fetchProductsByMinMax(values[0], values[1]);
   };
+
   return (
     <>
       <div className={styles.filtersContainer}>

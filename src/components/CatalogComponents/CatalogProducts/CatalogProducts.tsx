@@ -14,6 +14,7 @@ import {
   getProductsByCenaMinMax,
   getProductsByDost,
 } from "@/api/clientRequest";
+import CatalogFiltres from "../CatalogFiltres/CatalogFiltres";
 
 interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
@@ -98,25 +99,27 @@ export default function CatalogProducts({
           : [...prevState.dost, day],
       };
       const selectedDostPaths = updatedSelection.dost.join(",");
+
+      // Update the URL parameters
+      const queryParams = new URLSearchParams(window.location.search);
+      if (selectedDostPaths) {
+        queryParams.set("dost", selectedDostPaths);
+      } else {
+        queryParams.delete("dost");
+      }
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${queryParams.toString()}`
+      );
+
+      // Fetch products based on the updated selection
       if (selectedDostPaths) {
         fetchProductsByDost(selectedDostPaths);
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.set("dost", selectedDostPaths);
-        window.history.pushState(
-          {},
-          "",
-          `${window.location.pathname}?${queryParams.toString()}`
-        );
       } else {
         setItems(initialItems);
-        const queryParams = new URLSearchParams(window.location.search);
-        queryParams.delete("dost");
-        window.history.pushState(
-          {},
-          "",
-          `${window.location.pathname}?${queryParams.toString()}`
-        );
       }
+
       return updatedSelection;
     });
   };
@@ -360,6 +363,9 @@ export default function CatalogProducts({
             </Link>
           );
         })}
+      </div>
+      <div className="container">
+        <CatalogFiltres filter={filter} catalog={catalog} />
       </div>
       <div className="container">
         <div className="sort__buttons">
