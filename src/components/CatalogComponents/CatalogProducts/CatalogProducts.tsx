@@ -68,7 +68,8 @@ export default function CatalogProducts({
     };
 
     fetchData();
-  }, [selectedFilters]);
+  }, [catalog.category.id, selectedFilters]);
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");

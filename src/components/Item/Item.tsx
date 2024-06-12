@@ -117,7 +117,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
 
   useEffect(() => {
     setIsLoading(false);
-  });
+  }, []);
 
   return (
     <section className={styles.wrap}>

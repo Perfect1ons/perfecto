@@ -110,6 +110,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const [isSectionVisible, setIsSectionVisible] = useState(true);
 
   useEffect(() => {
+    const sectionRefCurrent = sectionRef.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -119,13 +121,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (sectionRefCurrent) {
+      observer.observe(sectionRefCurrent);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (sectionRefCurrent) {
+        observer.unobserve(sectionRefCurrent);
       }
     };
   }, [sectionRef]);
