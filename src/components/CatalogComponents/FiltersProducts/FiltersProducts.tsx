@@ -87,8 +87,8 @@ const FiltersProducts = ({
 
     if (minPrice !== null && maxPrice !== null) {
       if (minPrice <= maxPrice) {
-        queryParams.set("min", minPrice.toString());
-        queryParams.set("max", maxPrice.toString());
+        queryParams.set("minCena", minPrice.toString());
+        queryParams.set("maxCena", maxPrice.toString());
         fetchProductsByMinMax(minPrice, maxPrice);
       }
     } else {
