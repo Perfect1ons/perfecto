@@ -9,18 +9,14 @@ interface IBuyBtnProps {
   data: ICardProductItems;
   handleCartEmpty: () => void;
   product: any;
-  handleAddToCart: () => void;
-  shouldFocusInput: boolean;
-  onFocusHandled: () => void;
+  addToCart: () => void;
 }
 
 const MobileBuyBtn = ({
   data,
   handleCartEmpty,
   product,
-  handleAddToCart,
-  shouldFocusInput,
-  onFocusHandled,
+  addToCart,
 }: IBuyBtnProps) => {
   // для отображения при пролистывании
   const [isScrolled, setIsScrolled] = useState(false);
@@ -41,6 +37,14 @@ const MobileBuyBtn = ({
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  // отдельный стейт и калбэк для того, чтобы фокус был на инпут редюсера здесь, а не в родительском
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
 
   return (
     <section
@@ -67,7 +71,7 @@ const MobileBuyBtn = ({
             data={data.items}
             onCartEmpty={handleCartEmpty}
             shouldFocusInput={shouldFocusInput}
-            onFocusHandled={onFocusHandled}
+            onFocusHandled={() => setShouldFocusInput(false)}
           />
         )
       ) : (

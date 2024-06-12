@@ -15,7 +15,7 @@ import {
   ShareIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
@@ -33,18 +33,23 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   const isMobile = useMediaQuery("(max-width: 992px)");
 
+  // логика добавления в корзину в редакс
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.items.id);
 
-  const [dropdownActive, setDropdownActive] = useState(false);
-
-  const [modal, setModal] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
   const [added, setAdded] = useState(false);
-  const [favorite, setFavorite] = useState(false);
 
+  const addToCart = () => {
+    dispatch(addProductToCart(data.items));
+    setAdded(true);
+    setCartModal(true);
+    setTimeout(() => setCartModal(false), 5000);
+  };
+
+  // копирования ссылки
   const [copy, setCopy] = useState(false);
-
-  const [ipOpen, setIpOpen] = useState(false);
+  const [dropdownActive, setDropdownActive] = useState(false);
 
   const handleCopyLink = (entryText: string) => {
     navigator.clipboard
@@ -60,12 +65,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setTimeout(() => setCopy(false), 5000);
   };
 
-  const addToCart = () => {
-    dispatch(addProductToCart(data.items));
-    setAdded(true);
-    setModal(true);
-    setTimeout(() => setModal(false), 5000);
+  const closeModalCopy = () => {
+    setCopy(false);
   };
+
+  // добавление в избранное
+  const [favorite, setFavorite] = useState(false);
+
   const handleFavoriteClick = () => {
     setFavorite(!favorite);
   };
@@ -73,12 +79,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const handleCartEmpty = () => {
     setAdded(false);
   };
+
   const closeModalCart = () => {
-    setModal(false);
+    setCartModal(false);
   };
-  const closeModalCopy = () => {
-    setCopy(false);
-  };
+
+  // для открытия модалки ИП (не айпи)
+  const [ipOpen, setIpOpen] = useState(false);
 
   const IpOpenHandler = () => {
     setIpOpen(true);
@@ -98,18 +105,43 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
     setShouldFocusInput(true);
   };
 
+  // для отображения MobileBuyBtn на мобильных устройствах
+  const sectionRef = useRef(null);
+  const [isSectionVisible, setIsSectionVisible] = useState(true);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsSectionVisible(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [sectionRef]);
+
   return (
     <>
-      <MobileBuyBtn
-        data={data}
-        handleCartEmpty={handleCartEmpty}
-        product={product}
-        handleAddToCart={handleAddToCart}
-        shouldFocusInput={shouldFocusInput}
-        onFocusHandled={() => setShouldFocusInput(false)}
-      />
+      {!isSectionVisible && (
+        <MobileBuyBtn
+          data={data}
+          handleCartEmpty={handleCartEmpty}
+          product={product}
+          addToCart={addToCart}
+        />
+      )}
 
-      <section className={styles.section_wrap}>
+      <section className={styles.section_wrap} ref={sectionRef}>
         <div className={styles.ItemPriceCard}>
           {data.items?.discount_prc > 0 ? (
             <div className={styles.ItemPriceCard__cost}>
@@ -165,7 +197,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             <span className={styles.ItemPriceCard__minQty_none}></span>
           )}
           <div className={styles.ItemPriceCard__buttons}>
-            <UserInfoModal visible={modal} onClose={closeModalCart}>
+            <UserInfoModal visible={cartModal} onClose={closeModalCart}>
               Ваш товар добавлен в корзину. <br />
               Перейдите в корзину чтобы оформить заказ!{" "}
               <Link className={styles.linkCart} href={"/cart"}>

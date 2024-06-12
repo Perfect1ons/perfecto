@@ -36,10 +36,6 @@
     @include mixin.font(16px, 700, 100%, var(--violet));
     border-bottom: 2px solid var(--violet);
   }
-  // &_scrolled {
-  //   bottom: 10px;
-  //   transition: all 0.5s ease;
-  // }
 }
 
 .btn_content {

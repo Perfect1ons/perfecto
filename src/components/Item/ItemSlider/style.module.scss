@@ -89,17 +89,26 @@
   border-radius: 8px;
   position: relative;
   z-index: 1;
-  transform: translateY(15%);
+  transform: translateY(25%);
   overflow: hidden;
   width: 100%;
-  padding-top: 75%;
+  padding-top: 62.5%;
 
-  @media screen and (max-width: 480px) {
-    // padding-top: 100%;
-    // padding-top: 75%;
-    // padding-top: 66.66%;
-    // padding-top: 62.5%;
-    // padding-top: 56.25%;
+  @media screen and (max-width: 1024px) {
+    padding-top: 66.66%;
+    transform: translateY(20%);
+  }
+  @media screen and (max-width: 992px) {
+    padding-top: 66.66%;
+    transform: translateY(15%);
+  }
+  @media screen and (max-width: 475px) {
+    // padding-top: 100%; /* 1:1 Aspect Ratio */
+    // padding-top: 75%; /* 4:3 */
+    padding-top: 66.66%; /* 3:2 Aspect Ratio */
+    // padding-top: 62.5%; /* 8:5 Aspect Ratio */
+    // padding-top: 56.25%; /* 16:9 */
+    transform: translateY(30%);
   }
 
   iframe {
@@ -212,12 +221,12 @@
   position: absolute;
   bottom: 0;
   left: 15%;
-  border-bottom: 1px dashed var(--dark-blue);
+  // border-bottom: 1px dashed var(--dark-blue);
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.4px);
   -webkit-backdrop-filter: blur(6.4px);
-  border: 1px solid rgba(255, 255, 255, 0.53);
+  border: 1px solid rgba(17, 43, 102, 0.5);
   padding: 5px 8px;
   border-radius: 5px;
 
@@ -229,17 +238,15 @@
   transition: 0.3s;
   &:hover {
     color: var(--violet);
-    border-bottom: 1px dashed var(--violet);
   }
   @media screen and (max-width: 1410px) {
     font-size: 14px;
     font-weight: 600;
-    margin: 0 0 0.7em 2em;
+    margin-left: 1em;
   }
 
   @media screen and (max-width: 476px) {
-    margin: 0 0 0.6em 2em;
-    font-size: 14px;
+    margin-left: 2em;
   }
 
   @include mixin.button(
