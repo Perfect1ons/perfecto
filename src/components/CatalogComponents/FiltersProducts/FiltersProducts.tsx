@@ -381,8 +381,8 @@ const FiltersProducts = ({
                   withTracks={true}
                   renderTrack={(props, state) => (
                     <div
-                      key={state.index}
                       {...props}
+                      key={state.index}
                       className={cn(styles.trackClassName, {
                         [styles.trackBetween]: state.index === 1,
                         [styles.trackOutside]: state.index !== 1,
