@@ -116,9 +116,10 @@
     }
   }
   &__input {
+    height: 40px;
     background: var(--white);
     opacity: 0.2;
-    padding: 12px 15px;
+    padding: 12px 10px;
     font-weight: 600;
     border-radius: 5px;
     color: var(--black);

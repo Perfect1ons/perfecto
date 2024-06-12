@@ -3,6 +3,7 @@ import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
+import { ISearch } from "@/types/Search/search";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
 import ky from "ky";
@@ -110,4 +111,15 @@ export const postOtz = (otz: IUser) => {
 
 export const postRating = (ocenka: IOcenka) => {
   return maxkg.post("otz/set-ocenka", { json: ocenka });
+};
+
+
+//! USER REQUESTS FOR SEARCH -
+
+export const getUserSearch = (slug: string): Promise<ISearch> => {
+  return maxkg.get(`naltovarok/seek?${slug}`).json();
+};
+
+export const getFastUserSearch = (slug: string): Promise<ISearch> => {
+  return maxkg.get(`naltovarok/seek?search=${slug}`).json();
 };

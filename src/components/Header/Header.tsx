@@ -12,6 +12,7 @@ import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import MobSearch from "../MobileMenu/MobileNav/MobSearch";
+import HeaderSearch from "./HeaderSearch/HeaderSearch";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -164,7 +165,8 @@ const Header = ({
           </div>
 
           <div className={styles.search} onClick={onClose}>
-            <form onSubmit={handleSearchSubmit} className={styles.search__form}>
+            <HeaderSearch/>
+            {/* <form onSubmit={handleSearchSubmit} className={styles.search__form}>
               <input
                 value={searchTerm}
                 onChange={handleSearchChange}
@@ -184,7 +186,7 @@ const Header = ({
               <button type="submit" className={styles.search__icon}>
                 <SearchIcon />
               </button>
-            </form>
+            </form> */}
           </div>
 
           <div className={styles.header__nav} onClick={onClose}>
