@@ -96,7 +96,7 @@ const ItemSliderModal = ({
                   zoomType="hover"
                   hideHint={true}
                   zoomScale={2}
-                  className={styles.product_img}
+                  className={styles.photos__img}
                 />
               );
             })}
@@ -129,23 +129,3 @@ const ItemSliderModal = ({
 };
 
 export default ItemSliderModal;
-
-// {photos?.items?.photos?.map((photo, index) => (
-//     {zoom ? (
-//
-//     ) : (
-//       <Image
-//         width={500}
-//         height={500}
-//         src={
-//           photo.url_part.startsWith("https://goods")
-//             ? `${photo.url_part}700-nw.jpg`
-//             : photo.url_part.startsWith("https://")
-//             ? photo.url_part
-//             : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
-//         }
-//         alt={photo.url_part}
-//         className={clsx(styles.photo)}
-//       />
-//     )}
-// ))}
