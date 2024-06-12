@@ -95,8 +95,6 @@ const FiltersProducts = ({
     } else {
       queryParams.delete("min");
       queryParams.delete("max");
-      setMinPrice(null);
-      setMaxPrice(null);
       fetchProductsByMinMax(null, null);
     }
 

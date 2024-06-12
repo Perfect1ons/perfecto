@@ -649,3 +649,39 @@ body {
   max-width: 100%;
   width: 100%;
 }
+.catalogFilterButton {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(14px, 500, null, var(--dark));
+  padding: 8px 12px;
+  background: var(--white);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+}
+.showCatalogFilterActive {
+  @include mixin.flex(null, null, column, null);
+  width: 296px;
+  max-height: 360px;
+  padding: 20px;
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  z-index: 10;
+  cursor: default;
+}
+.catalogFilterCheck {
+  @include mixin.flex(center, center, null, null);
+  width: 22px;
+  height: 22px;
+  background: var(--white);
+  border: 1px solid #d3d4dd;
+  border-radius: 6px;
+}
+.catalogFilterCheckActive {
+  color: white;
+  background: var(--dark-blue);
+  border: 0;
+}
