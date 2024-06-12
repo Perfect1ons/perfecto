@@ -1,0 +1,68 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+// main
+.fakeMain {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  @include mixin.container(1440px);
+}
+
+// breadcrumbs
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+// sliders
+.sliders_wrap {
+  @include mixin.flex(flex-start, space-between, row, 30px);
+  max-height: 510px; // Set the maximum height for the container
+  overflow: hidden; // Hide any overflow content
+  width: 100%;
+}
+
+.mini_slider {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-left: 10px;
+  max-height: 500px;
+  height: 100%;
+  max-width: 60px;
+  @media screen and (max-width: 672px) {
+    display: none !important;
+  }
+}
+
+// info
+.info {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+
+  width: 100%;
+
+  @media screen and (max-width: 672px) {
+    margin-top: -40px;
+  }
+}
+
+.headline {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 100%;
+}

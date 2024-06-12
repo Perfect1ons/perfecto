@@ -160,6 +160,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               </div>
             </SwiperSlide>
           )}
+
           {photos.items.photos.map((photo, index) => (
             <SwiperSlide
               className={styles.product__cards_item}

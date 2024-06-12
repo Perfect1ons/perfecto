@@ -99,6 +99,15 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
     }
     setCleanHTML(tempDiv.innerHTML);
   }, [data.video]);
+
+  // отдельный стейт и калбэк для того, чтобы фокус был на инпут редюсера здесь, а не в родительском
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
+
   return (
     <div className={styles.container}>
       <div
@@ -233,7 +242,12 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 </button>
               )}
               {product?.quantity && (
-                <CartReducerBtn data={data} onCartEmpty={handleCartEmpty} />
+                <CartReducerBtn
+                  data={data}
+                  onCartEmpty={handleCartEmpty}
+                  shouldFocusInput={shouldFocusInput}
+                  onFocusHandled={() => setShouldFocusInput(false)}
+                />
               )}
             </div>
 

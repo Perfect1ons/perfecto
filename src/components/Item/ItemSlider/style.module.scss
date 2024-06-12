@@ -10,7 +10,9 @@
   margin-right: 0 !important;
   margin-left: 0 !important;
   width: 60px; // Установим ширину вместо max-width
-  max-height: 45 0px !important;
+  max-height: 500px !important;
+  min-width: 60px;
+  gap: 0 !important;
   &:hover,
   &:active {
     .sliderArrow {
@@ -32,9 +34,9 @@
 
 .mainSwiperWrap {
   border-radius: 8px !important;
-
   max-width: 500px;
   max-height: 500px;
+
   @include mixin.flex(flex-start, center, column, 5px);
 
   &:hover,
@@ -121,12 +123,6 @@
 
     width: 100%;
     height: 100%;
-    // @media screen and (max-width: 475px) {
-    //   height: 300px;
-    // }
-    // @media screen and (max-width: 320px) {
-    //   height: 200px;
-    // }
   }
 }
 

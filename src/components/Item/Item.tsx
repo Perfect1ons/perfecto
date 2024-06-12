@@ -7,7 +7,7 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
@@ -22,6 +22,8 @@ import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 import { BrandsAll } from "@/types/bannerAll";
 
+import ItemMainSkeleton from "./ItemMainSkeleton/ItemMainSkeleton";
+
 interface IItemPageProps {
   data: ICardProductItems;
   similar: ISimilarItem[];
@@ -33,7 +35,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // блокировка скролла
   const scrollLockBlock = () => {
@@ -113,6 +115,10 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     scrollLockBlock();
   };
 
+  useEffect(() => {
+    setIsLoading(false);
+  });
+
   return (
     <section className={styles.wrap}>
       {isOpenReview && (
@@ -121,112 +127,123 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           <div onClick={openModal} className={styles.wrap_backdrop}></div>
         </div>
       )}
-      <div className="container">
-        <div className="all__directions">
-          {breadCrumbs.slice(-1).map((crumbs) => (
-            <Link
-              className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
-              key={crumbs.id}
-            >
-              <BackArrow />
-              Назад
-            </Link>
-          ))}
+      {isLoading ? (
+        <ItemMainSkeleton />
+      ) : (
+        <div className="container">
+          <div className="all__directions">
+            {breadCrumbs.slice(-1).map((crumbs) => (
+              <Link
+                className="all__directions_link"
+                href={`/catalog/${crumbs.full_slug}`}
+                key={crumbs.id}
+              >
+                <BackArrow />
+                Назад
+              </Link>
+            ))}
 
-          {breadCrumbs.map((crumbs) => (
-            <Link
-              className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
-              key={crumbs.id}
-            >
-              {crumbs.name}
-            </Link>
-          ))}
-        </div>
-        <div className={styles.item__preview}>
-          <div className={styles.item__preview_slider}>
-            <ItemSlider
-              photos={data}
-              toggleScrollLock={() => setIsOpen(true)}
-            />
+            {breadCrumbs.map((crumbs) => (
+              <Link
+                className="all__directions_link"
+                href={`/catalog/${crumbs.full_slug}`}
+                key={crumbs.id}
+              >
+                {crumbs.name}
+              </Link>
+            ))}
           </div>
-          <div className={styles.item__preview_info}>
-            <div className={styles.priceCard_mobile}>
-              <ItemPriceCard data={data} />
+          <div className={styles.item__preview}>
+            <div className={styles.item__preview_slider}>
+              <ItemSlider
+                photos={data}
+                toggleScrollLock={() => setIsOpen(true)}
+              />
             </div>
-
-            <h1 className={styles.item__preview_info_title}>
-              {data.items.naim}
-            </h1>
-            <ItemOcenka data={data.items} />
-            <div className={styles.item__preview_info_description}>
-              <div className={styles.item__preview_info_description_block}>
-                {data.items.description ? (
-                  <ItemDesc
-                    openItemModalDescription={openItemModalDescription}
-                    data={data.items}
-                  />
-                ) : null}
-                <div className={styles.product__aboutTheProduct}>
-                  <span className={styles.product__aboutTheProduct_codeName}>
-                    Код:
-                  </span>
-                  <span className={styles.product__aboutTheProduct_span}></span>
-                  <div
-                    className={styles.product__aboutTheProduct_div}
-                    onClick={() => handleCopyCode(data.items.art.toString())}
-                  >
-                    <span>{data.items.art}</span>
-                    <span
-                      onClick={() => handleCopyCode(data.items.art.toString())}
-                      className={styles.product__aboutTheProduct_div_copy}
-                    >
-                      <CopyIcon />
-                    </span>
-                  </div>
-                  <UserInfoModal visible={copiedCode} onClose={closeModalCode}>
-                    Код скопирован!
-                  </UserInfoModal>
-                </div>
-                {data.items.specification ? (
-                  <ItemSpec
-                    data={data.items}
-                    openItemModalDescription={openItemModalDescription}
-                  />
-                ) : null}
-                {data.items.trademark ? (
-                  <Link
-                    className={styles.brand__link}
-                    href={`/brands/${data.items.trademark}-${data.items.trademark_id}`}
-                  >
-                    Бренд:{" "}
-                    <span className={styles.brand__link_custom}>
-                      {data.items.trademark}
-                    </span>
-                  </Link>
-                ) : null}
-                <p className={styles.all__goods}>
-                  Все товары категории:{" "}
-                  {matchingBreadCrumb ? (
-                    <Link
-                      className={styles.all__goods_link}
-                      href={`/catalog/${matchingBreadCrumb.full_slug}`}
-                    >
-                      {matchingBreadCrumb.name}
-                    </Link>
-                  ) : (
-                    "Категория не найдена"
-                  )}
-                </p>
+            <div className={styles.item__preview_info}>
+              <div className={styles.priceCard_mobile}>
+                <ItemPriceCard data={data} />
               </div>
-              <ItemPriceCardWrap data={data} />
+
+              <h1 className={styles.item__preview_info_title}>
+                {data.items.naim}
+              </h1>
+              <ItemOcenka data={data.items} />
+              <div className={styles.item__preview_info_description}>
+                <div className={styles.item__preview_info_description_block}>
+                  {data.items.description ? (
+                    <ItemDesc
+                      openItemModalDescription={openItemModalDescription}
+                      data={data.items}
+                    />
+                  ) : null}
+                  <div className={styles.product__aboutTheProduct}>
+                    <span className={styles.product__aboutTheProduct_codeName}>
+                      Код:
+                    </span>
+                    <span
+                      className={styles.product__aboutTheProduct_span}
+                    ></span>
+                    <div
+                      className={styles.product__aboutTheProduct_div}
+                      onClick={() => handleCopyCode(data.items.art.toString())}
+                    >
+                      <span>{data.items.art}</span>
+                      <span
+                        onClick={() =>
+                          handleCopyCode(data.items.art.toString())
+                        }
+                        className={styles.product__aboutTheProduct_div_copy}
+                      >
+                        <CopyIcon />
+                      </span>
+                    </div>
+                    <UserInfoModal
+                      visible={copiedCode}
+                      onClose={closeModalCode}
+                    >
+                      Код скопирован!
+                    </UserInfoModal>
+                  </div>
+                  {data.items.specification ? (
+                    <ItemSpec
+                      data={data.items}
+                      openItemModalDescription={openItemModalDescription}
+                    />
+                  ) : null}
+                  {data.items.trademark ? (
+                    <Link
+                      className={styles.brand__link}
+                      href={`/brands/${data.items.trademark}-${data.items.trademark_id}`}
+                    >
+                      Бренд:{" "}
+                      <span className={styles.brand__link_custom}>
+                        {data.items.trademark}
+                      </span>
+                    </Link>
+                  ) : null}
+                  <p className={styles.all__goods}>
+                    Все товары категории:{" "}
+                    {matchingBreadCrumb ? (
+                      <Link
+                        className={styles.all__goods_link}
+                        href={`/catalog/${matchingBreadCrumb.full_slug}`}
+                      >
+                        {matchingBreadCrumb.name}
+                      </Link>
+                    ) : (
+                      "Категория не найдена"
+                    )}
+                  </p>
+                </div>
+                <ItemPriceCardWrap data={data} />
+              </div>
             </div>
           </div>
+          <ProductReview data={data.items} func={openModal} />
+          <ItemAccordion />
         </div>
-        <ProductReview data={data.items} func={openModal} />
-        <ItemAccordion />
-      </div>
+      )}
       <ItemDescriptionModal
         data={data.items}
         func={openItemModalDescription}
