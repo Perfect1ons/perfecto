@@ -22,13 +22,12 @@
   }
 }
 .showCatalogFilterActive {
+  user-select: none;
   @include mixin.flex(null, null, column, null);
   width: 296px;
   max-height: 360px;
   padding: 20px;
   position: absolute;
-  // top: calc(100% + 20px);
-  // left: 0;
   top: calc(100% + 20px);
   left: 0;
   border-radius: 8px;
@@ -78,7 +77,7 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-  @include mixin.flex(flex-start, flex-start, column, 10px);
+  @include mixin.flex(flex-start, flex-start, column, 12px);
   overflow-y: auto;
   width: 100%;
   max-height: 260px;
@@ -139,4 +138,24 @@
   cursor: pointer;
   color: #242424;
   border-color: #868695;
+}
+.resetButton {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
+  &__active {
+    color: var(--violet);
+    border-color: var(--violet);
+  }
+}
+.containerButtons {
+  position: sticky;
+  bottom: 0;
+  padding: 5px 0 0 0;
+  background: var(--white);
+  width: 100%;
+  @include mixin.flex(center, space-between, null, null);
 }

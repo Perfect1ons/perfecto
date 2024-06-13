@@ -10,6 +10,7 @@ import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 
 interface ICatalogFiltresProps {
+  clearFilter: (name: string) => void;
   price: { min: number; max: number };
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
@@ -38,6 +39,7 @@ const CatalogFiltres = ({
   selectedFilters,
   handleFilterChange,
   handlePriceRangeChange,
+  clearFilter,
   price,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
@@ -71,6 +73,7 @@ const CatalogFiltres = ({
         visibleFilter={visibleFilter}
       />
       <BrandFilter
+        clearFilter={clearFilter}
         selectedFilters={selectedFilters.brand}
         changeSelect={(value: string[]) => handleFilterChange("brand", value)}
         toggleFilter={toggleFilter}

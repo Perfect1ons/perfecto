@@ -14,6 +14,7 @@ interface IBrandFilterProps {
   toggleFilter: (name: string) => void;
   changeSelect: (value: string[]) => void;
   selectedFilters: string[];
+  clearFilter: (name: string) => void;
 }
 
 const BrandFilter = ({
@@ -22,6 +23,7 @@ const BrandFilter = ({
   filter,
   selectedFilters,
   changeSelect,
+  clearFilter,
 }: IBrandFilterProps) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -84,11 +86,23 @@ const BrandFilter = ({
                     <li>{item}</li>
                   </ul>
                 ))}
+              </div>
+              <div className="containerButtons">
                 {filter.brand.length > 7 && !showAll && (
                   <button onClick={handleShowAll} className="showAllButton">
                     Показать все
                   </button>
                 )}
+                <button
+                  onClick={() => clearFilter("brand")}
+                  disabled={selectedFilters.length <= 0}
+                  className={cn(
+                    "resetButton",
+                    selectedFilters.length > 0 && "resetButton__active"
+                  )}
+                >
+                  Сбросить
+                </button>
               </div>
             </ul>
           )}
