@@ -143,6 +143,14 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
         />
       )}
 
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className={styles.linkCart} href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
+
       <section className={styles.section_wrap} ref={sectionRef}>
         <div className={styles.ItemPriceCard}>
           {data.items?.discount_prc > 0 ? (
@@ -199,13 +207,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             <span className={styles.ItemPriceCard__minQty_none}></span>
           )}
           <div className={styles.ItemPriceCard__buttons}>
-            <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-              Ваш товар добавлен в корзину. <br />
-              Перейдите в корзину чтобы оформить заказ!{" "}
-              <Link className={styles.linkCart} href={"/cart"}>
-                Перейти в корзину
-              </Link>
-            </UserInfoModal>
             {!product?.quantity && (
               <button
                 onClick={handleAddToCart}
