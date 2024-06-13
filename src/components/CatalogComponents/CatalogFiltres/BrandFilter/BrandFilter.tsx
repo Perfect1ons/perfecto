@@ -6,6 +6,7 @@ import {
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import { useState } from "react";
 
 interface IBrandFilterProps {
   filter: IFiltersBrand;
@@ -22,6 +23,13 @@ const BrandFilter = ({
   selectedFilters,
   changeSelect,
 }: IBrandFilterProps) => {
+  const [showAll, setShowAll] = useState(false);
+
+  const handleShowAll = () => {
+    setShowAll(true);
+  };
+
+  const visibleBrands = showAll ? filter.brand : filter.brand.slice(0, 7);
   const handleSelectChange = (item: string) => {
     const filters = selectedFilters;
     const newFilters = filters.includes(item)
@@ -59,7 +67,7 @@ const BrandFilter = ({
                 >
                   <Cross />
                 </button>
-                {filter.brand.map((item) => (
+                {visibleBrands.map((item) => (
                   <ul
                     onClick={() => handleSelectChange(item)}
                     key={item}
@@ -75,8 +83,12 @@ const BrandFilter = ({
                     </span>
                     <li>{item}</li>
                   </ul>
-                  // <div key={item}>{item}</div>
                 ))}
+                {filter.brand.length > 7 && !showAll && (
+                  <button onClick={handleShowAll} className="showAllButton">
+                    Показать все
+                  </button>
+                )}
               </div>
             </ul>
           )}

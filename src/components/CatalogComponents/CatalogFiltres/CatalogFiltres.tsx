@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import { getCatalogProductFilter } from "@/api/clientRequest";
+import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 
 interface ICatalogFiltresProps {
   filter: IFiltersBrand;
@@ -83,6 +84,11 @@ const CatalogFiltres = ({
         changeSelect={(value: string[]) =>
           handleFilterChange("additional_filter", value)
         }
+        toggleFilter={toggleFilter}
+        visibleFilter={visibleFilter}
+        filter={filter}
+      />
+      <EveryFilters
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
         filter={filter}

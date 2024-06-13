@@ -27,6 +27,8 @@
   max-height: 360px;
   padding: 20px;
   position: absolute;
+  // top: calc(100% + 20px);
+  // left: 0;
   top: calc(100% + 20px);
   left: 0;
   border-radius: 8px;
@@ -34,6 +36,16 @@
   background: #fff;
   z-index: 10;
   cursor: default;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #fff;
+  }
 }
 .catalogFilterCheck {
   @include mixin.flex(center, center, null, null);
@@ -59,14 +71,14 @@
   &::-webkit-scrollbar-thumb {
     transition: 0.5s;
     background: #888;
-    border-radius: 6px;
+    border-radius: 5px;
   }
 
   /* Handle on hover */
   &::-webkit-scrollbar-thumb:hover {
     background: #555;
   }
-  @include mixin.flex(flex-start, flex-start, column, 12px);
+  @include mixin.flex(flex-start, flex-start, column, 10px);
   overflow-y: auto;
   width: 100%;
   max-height: 260px;
@@ -119,4 +131,12 @@
     line-height: 22px;
     color: #242424;
   }
+}
+.showAllButton {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
 }
