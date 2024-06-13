@@ -30,18 +30,35 @@ const Header = ({
   isMobileModalOpen,
   setMobileModalOpen,
 }: ICatalogProps) => {
+  //!
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  const handleSearchIconClick = () => {
+    if (searchInputRef.current) {
+      if (searchValue) {
+        handleSubmit();
+      } else {
+        searchInputRef.current.focus();
+      }
+    }
+  };
+
+  const handleSubmit = () => {
+    window.location.href = `/seek/search=${searchValue}`;
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+  //!
+
+
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
   const router = useRouter();
 
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  const handleSearchIconClick = () => {
-    if (searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  };
 
   // для поиска
   useEffect(() => {
@@ -174,12 +191,13 @@ const Header = ({
           </div>
 
           <div className={styles.search} onClick={onClose}>
-            <HeaderSearch searchInputRef={searchInputRef} />
+            <HeaderSearch
+              searchInputRef={searchInputRef}
+              onInputChange={handleChange}
+              searchValue={searchValue}
+            />
             <div
-              className={clsx(
-                "header__search_icon",
-                styles.search_icon
-              )}
+              className={clsx("header__search_icon", styles.search_icon)}
               onClick={handleSearchIconClick}
             >
               <SearchIconAbdu />
