@@ -89,7 +89,7 @@ export const getProductsByDost = (
 export const getProductsByCenaMinMax = (
   id: number,
   min: number | null,
-  max: number | null
+  max: number | null 
 ): Promise<ICatalogsProducts> => {
   const params = qs.stringify({
     page: 1,

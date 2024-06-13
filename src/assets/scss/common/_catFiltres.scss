@@ -22,6 +22,7 @@
   }
 }
 .showCatalogFilterActive {
+  user-select: none;
   @include mixin.flex(null, null, column, null);
   width: 296px;
   max-height: 360px;
@@ -34,6 +35,16 @@
   background: #fff;
   z-index: 10;
   cursor: default;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid #fff;
+  }
 }
 .catalogFilterCheck {
   @include mixin.flex(center, center, null, null);
@@ -59,7 +70,7 @@
   &::-webkit-scrollbar-thumb {
     transition: 0.5s;
     background: #888;
-    border-radius: 6px;
+    border-radius: 5px;
   }
 
   /* Handle on hover */
@@ -119,4 +130,70 @@
     line-height: 22px;
     color: #242424;
   }
+}
+.showAllButton {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
+}
+.resetButton {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
+  &__active {
+    color: var(--violet);
+    border-color: var(--violet);
+  }
+}
+
+.applyBtn {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
+  &__active {
+    color: var(--violet);
+    border-color: var(--violet);
+  }
+}
+
+.containerButtons {
+  position: sticky;
+  bottom: 0;
+  padding: 5px 0 0 0;
+  background: var(--white);
+  width: 100%;
+  @include mixin.flex(center, space-between, null, null);
+}
+.everyFilterContainer {
+  @include mixin.flex(flex-start, flex-start, null, 20px);
+  flex-wrap: wrap;
+}
+.filterColumn {
+  background-color: #f5f7fa;
+  border-radius: 5px;
+}
+.catalogFilterButtonEvery {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(14px, 500, null, var(--dark));
+  padding: 8px 12px;
+  overflow: hidden;
+  position: relative;
+  &:hover {
+    > .filterNavItemArrowIsActive {
+      color: #242424;
+    }
+  }
+}
+.additionalFilterActiveDropdown {
+  @include mixin.flex(center, null, column, 12px);
+  padding: 20px;
 }

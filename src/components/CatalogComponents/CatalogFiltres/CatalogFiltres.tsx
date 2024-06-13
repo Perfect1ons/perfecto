@@ -7,8 +7,10 @@ import BrandFilter from "./BrandFilter/BrandFilter";
 import { useState } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import DefaultFilter from "./DefaultFilter/DefaultFilter";
+import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 
 interface ICatalogFiltresProps {
+  clearFilter: (name: string) => void;
   price: { min: number; max: number };
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
@@ -21,6 +23,8 @@ interface ICatalogFiltresProps {
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
+  applyPrice: () => void;
+  clearFilterCena: () => void;
 }
 
 export interface ISelectedFilterProps {
@@ -37,7 +41,10 @@ const CatalogFiltres = ({
   selectedFilters,
   handleFilterChange,
   handlePriceRangeChange,
+  clearFilter,
   price,
+  applyPrice,
+  clearFilterCena,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
   const toggleFilter = (filterName: string) => {
@@ -61,6 +68,8 @@ const CatalogFiltres = ({
         selectedFilters={selectedFilters.dost}
       />
       <PriceMinaMaxFilter
+        clearFilterCena={clearFilterCena}
+        applyPrice={applyPrice}
         handlePriceRangeChange={handlePriceRangeChange}
         price={price}
         changeSelect={(value: { min: number; max: number }) =>
@@ -70,6 +79,7 @@ const CatalogFiltres = ({
         visibleFilter={visibleFilter}
       />
       <BrandFilter
+        clearFilter={clearFilter}
         selectedFilters={selectedFilters.brand}
         changeSelect={(value: string[]) => handleFilterChange("brand", value)}
         toggleFilter={toggleFilter}
@@ -83,6 +93,15 @@ const CatalogFiltres = ({
         }
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
+        filter={filter}
+      />
+      <EveryFilters
+        selectedFilters={selectedFilters.additional_filter}
+        toggleFilter={toggleFilter}
+        visibleFilter={visibleFilter}
+        changeSelect={(value: string[]) =>
+          handleFilterChange("additional_filter", value)
+        }
         filter={filter}
       />
     </div>
