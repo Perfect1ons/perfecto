@@ -2,15 +2,15 @@
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import DostFilter from "./DostFilter/DostFilter";
-import PriceMinaMaxFilter from "./PriceMinMaxFilter/PriceMinaMaxFilter";
+import PriceMinaMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import DefaultFilter from "./DefaultFilter/DefaultFilter";
-import { getCatalogProductFilter } from "@/api/clientRequest";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 
 interface ICatalogFiltresProps {
+  price: { min: number; max: number };
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
   options: {
@@ -21,6 +21,7 @@ interface ICatalogFiltresProps {
   onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
+  handlePriceRangeChange: (min: number, max: number) => void;
 }
 
 export interface ISelectedFilterProps {
@@ -36,12 +37,9 @@ const CatalogFiltres = ({
   value,
   selectedFilters,
   handleFilterChange,
+  handlePriceRangeChange,
+  price,
 }: ICatalogFiltresProps) => {
-  const [price, setPrice] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 0,
-  });
-
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
   const toggleFilter = (filterName: string) => {
     setVisibleFilter((prev) => (prev === filterName ? null : filterName));
@@ -64,13 +62,13 @@ const CatalogFiltres = ({
         selectedFilters={selectedFilters.dost}
       />
       <PriceMinaMaxFilter
-        selectedFilters={price}
+        handlePriceRangeChange={handlePriceRangeChange}
+        price={price}
         changeSelect={(value: { min: number; max: number }) =>
           handleFilterChange("price", value)
         }
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
-        filter={filter}
       />
       <BrandFilter
         selectedFilters={selectedFilters.brand}
