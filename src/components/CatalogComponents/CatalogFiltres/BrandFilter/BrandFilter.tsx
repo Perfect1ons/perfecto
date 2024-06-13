@@ -2,6 +2,7 @@
 import cn from "clsx";
 import {
   CheckIcon,
+  CheckIconFilter,
   Cross,
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
@@ -59,6 +60,9 @@ const BrandFilter = ({
             >
               <СhevronDownIcon />
             </span>
+            {selectedFilters.length > 0 && (
+              <span className="filterCount">{selectedFilters.length}</span>
+            )}
           </button>
           {visibleFilter === "brand" && (
             <ul className="showCatalogFilterActive">
@@ -81,9 +85,9 @@ const BrandFilter = ({
                           selectedFilters.includes(item),
                       })}
                     >
-                      {selectedFilters.includes(item) && <CheckIcon />}
+                      {selectedFilters.includes(item) && <CheckIconFilter />}
                     </span>
-                    <li>{item}</li>
+                    <li className="nameAndKol">{item}</li>
                   </ul>
                 ))}
               </div>

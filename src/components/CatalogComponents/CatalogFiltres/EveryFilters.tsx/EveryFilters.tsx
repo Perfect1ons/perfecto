@@ -1,5 +1,5 @@
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { СhevronDownIcon } from "../../../../../public/Icons/Icons";
+import { FilterIcon, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import cn from "clsx";
 import AllFiltersMobile from "../../AllFiltersMobile/AllFiltersMobile";
 import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
@@ -26,12 +26,9 @@ const EveryFilters = ({
           onClick={() => toggleFilter("every")}
         >
           Все фильтры
-          <span
-            className={cn(
-              "filterNavItemArrowIsActive",
-              visibleFilter === "every" && "filterNavItemArrow"
-            )}
-          ></span>
+          <span className={cn("filterNavItemArrowIsActive")}>
+            <FilterIcon />
+          </span>
         </button>
         <Modal close={closeEveryFilter} isVisible={visibleFilter === "every"}>
           eqwasddasd
