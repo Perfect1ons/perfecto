@@ -6,34 +6,19 @@ import cn from "clsx";
 import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPriceMinMaxFilterProps {
-  selectedFilters: { min: number; max: number };
+  price: { min: number; max: number };
   changeSelect: (value: { min: number; max: number }) => void;
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
-  filter: IFiltersBrand;
+  handlePriceRangeChange: (min: number, max: number) => void;
 }
 
 const PriceMinMaxFilter = ({
   toggleFilter,
   visibleFilter,
-  filter,
-  selectedFilters,
-  changeSelect,
+  price,
+  handlePriceRangeChange,
 }: IPriceMinMaxFilterProps) => {
-  const handleSliderChange = ([min, max]: [number, number]) => {
-    changeSelect({ min, max });
-  };
-
-  const handleMinPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMin = parseInt(e.target.value, 10);
-    changeSelect({ ...selectedFilters, min: newMin });
-  };
-
-  const handleMaxPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMax = parseInt(e.target.value, 10);
-    changeSelect({ ...selectedFilters, max: newMax });
-  };
-
   return (
     <div className="positionContainer">
       <button
@@ -61,12 +46,11 @@ const PriceMinMaxFilter = ({
             </button>
             <div className={styles.priceContainerRange}>
               <Slider
-                defaultValue={[selectedFilters.min, selectedFilters.max]}
                 className={styles.sliderRange}
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
-                value={[selectedFilters.min, selectedFilters.max]}
-                onChange={handleSliderChange}
+                value={[price.min, price.max]}
+                onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
                 max={99999}
                 step={1}
@@ -86,15 +70,19 @@ const PriceMinMaxFilter = ({
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={selectedFilters.min}
-                  onChange={handleMinPriceChange}
+                  value={price.min === 0 ? "" : price.min}
+                  onChange={(e) =>
+                    handlePriceRangeChange(Number(e.target.value), price.max)
+                  }
                   placeholder={`от 0`}
                 />
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={selectedFilters.max}
-                  onChange={handleMaxPriceChange}
+                  value={price.max === 0 ? "" : price.max}
+                  onChange={(e) =>
+                    handlePriceRangeChange(price.min, Number(e.target.value))
+                  }
                   placeholder={`до 0`}
                 />
               </div>
