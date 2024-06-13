@@ -8,7 +8,10 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import { getCatalogProductFilter } from "@/api/clientRequest";
+import {
+  getCatalogProductFilter,
+  getProductsByCenaMinMax,
+} from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
@@ -43,6 +46,12 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
+
+  const [price, setPrice] = useState<{ min: number; max: number }>({
+    min: 0,
+    max: 0,
+  });
+
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
@@ -125,6 +134,9 @@ export default function CatalogProducts({
     setIsColumnView(isColumn);
   };
 
+  const handlePriceRangeChange = (min: number, max: number) => {
+    setPrice({ min, max });
+  };
   return (
     <section className="seek">
       <div className="all__directions container">
@@ -153,6 +165,8 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <CatalogFiltres
+            price={price}
+            handlePriceRangeChange={handlePriceRangeChange}
             handleFilterChange={handleFilterChange}
             selectedFilters={selectedFilters}
             onChange={(value) => handleSort(value)}

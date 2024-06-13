@@ -12,15 +12,20 @@ import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
-import { getFastUserSearch } from "@/api/clientRequest";
 import { ExitIcon } from "../../../../public/Icons/Icons";
+import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
   searchInputRef: React.RefObject<HTMLInputElement>;
+  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  searchValue: string;
 }
 
-const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchInputRef }) => {
-  const [value, setValue] = useState<string>("");
+const HeaderSearch: React.FC<HeaderSearchProps> = ({
+  searchInputRef,
+  onInputChange,
+  searchValue,
+}) => {
   const [inputActive, setInputActive] = useState<boolean>(false);
   const searchWrapperRef = useRef<HTMLDivElement>(null);
   const [fastValue, setFastValue] = useState<ISearch | undefined>(undefined);
@@ -43,8 +48,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchInputRef }) => {
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onInputChange(event);
     const newValue = event.target.value;
-    setValue(newValue);
     fetchData(decodeURIComponent(newValue));
     setInputActive(true);
   };
@@ -71,14 +76,14 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchInputRef }) => {
   };
 
   const handleCloseModal = () => {
-    setValue("");
+    onInputChange({ target: { value: "" } } as ChangeEvent<HTMLInputElement>);
     setFastValue(undefined);
     setInputActive(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.location.href = `/seek/search=${value}`;
+    window.location.href = `/seek/search=${searchValue}`;
   };
 
   const catalogLength = useMemo(
@@ -96,11 +101,11 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchInputRef }) => {
         <DebounceInput
           inputRef={searchInputRef}
           className="search__input"
-          minLength={1}
-          debounceTimeout={700}
+          minLength={2}
+          debounceTimeout={300}
           onChange={handleChange}
           onFocus={handleInputFocus}
-          value={value}
+          value={searchValue}
           placeholder="Искать товары и категории"
         />
         {inputActive ? (
