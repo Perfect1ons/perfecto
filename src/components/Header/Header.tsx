@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HeaderNav from "./HeaderNav/HeaderNav";
-import { SearchIcon, SearchIconWhite } from "../../../public/Icons/Icons";
+import { SearchIconAbdu, SearchIconWhite } from "../../../public/Icons/Icons";
 import Logo from "../Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
@@ -13,6 +13,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import MobSearch from "../MobileMenu/MobileNav/MobSearch";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
+import clsx from "clsx";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -33,6 +34,14 @@ const Header = ({
   const [inputEmpty, setInputEmpty] = useState(false);
 
   const router = useRouter();
+
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSearchIconClick = () => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  };
 
   // для поиска
   useEffect(() => {
@@ -165,7 +174,16 @@ const Header = ({
           </div>
 
           <div className={styles.search} onClick={onClose}>
-            <HeaderSearch/>
+            <HeaderSearch searchInputRef={searchInputRef} />
+            <div
+              className={clsx(
+                "header__search_icon",
+                styles.search_icon
+              )}
+              onClick={handleSearchIconClick}
+            >
+              <SearchIconAbdu />
+            </div>
             {/* <form onSubmit={handleSearchSubmit} className={styles.search__form}>
               <input
                 value={searchTerm}
