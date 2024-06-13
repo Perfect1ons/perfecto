@@ -60,7 +60,7 @@ const AdditionalFilters = ({
                 >
                   <СhevronDownIcon />
                 </span>
-                {Object.keys(item.filter).map((key: string) => {
+                {/* {Object.keys(item.filter).map((key: string) => {
                   const id_filter = parseInt(key);
                   const count = selectedFilters.filter(
                     (filter) => filter === id_filter
@@ -70,7 +70,7 @@ const AdditionalFilters = ({
                       {count}
                     </span>
                   );
-                })}
+                })} */}
               </button>
               {visibleFilter === item.type_name && (
                 <ul className="showCatalogFilterActive">
