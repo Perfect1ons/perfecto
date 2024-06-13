@@ -35,7 +35,7 @@ const AdditionalFilters = ({
   return (
     <>
       {Object.values(filter.filter)
-        .slice(0, 4)
+        .slice(0, 3)
         .map((item: N11) => (
           <div key={item.id_type} className="positionContainer">
             <button

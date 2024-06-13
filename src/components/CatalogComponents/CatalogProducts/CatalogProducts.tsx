@@ -63,6 +63,22 @@ export default function CatalogProducts({
       [name]: value,
     }));
   };
+  // Функция для очистки фильтров
+  const clearFilter = (name: string) => {
+    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
+      // Создаем копию предыдущего состояния, чтобы избежать мутации
+      const updatedFilters: any = { ...prevFilters };
+
+      // Проверяем, существует ли имя фильтра в selectedFilters
+      if (updatedFilters.hasOwnProperty(name)) {
+        // Сбрасываем массив значений фильтра
+        updatedFilters[name] = [];
+      }
+
+      return updatedFilters;
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -165,6 +181,7 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <CatalogFiltres
+            clearFilter={clearFilter}
             price={price}
             handlePriceRangeChange={handlePriceRangeChange}
             handleFilterChange={handleFilterChange}
