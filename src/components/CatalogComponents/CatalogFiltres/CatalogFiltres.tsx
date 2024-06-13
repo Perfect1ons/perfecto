@@ -61,6 +61,7 @@ const CatalogFiltres = ({
         value={value}
       />
       <DostFilter
+        clearFilter={clearFilter}
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
         filter={filter}

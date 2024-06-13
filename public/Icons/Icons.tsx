@@ -572,7 +572,7 @@ export const CheckIcon = () => {
     </svg>
   );
 };
-export const filterIcon = () => {
+export const FilterIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -637,7 +637,19 @@ export const HomeIcon = () => {
     </svg>
   );
 };
-
+export const CheckIconFilter = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style={{ fill: "currentcolor" }}
+    >
+      <path d="m10 15.586-3.293-3.293-1.414 1.414L10 18.414l9.707-9.707-1.414-1.414z"></path>
+    </svg>
+  );
+};
 export const WhIcon = () => {
   return (
     <svg
@@ -1216,7 +1228,6 @@ export const ClickIcon = () => {
   );
 };
 
-
 export const ExitIcon = () => {
   return (
     <svg
@@ -1250,7 +1261,6 @@ export const ExitIcon = () => {
     </svg>
   );
 };
-
 
 export const SearchIconAbdu = () => {
   return (

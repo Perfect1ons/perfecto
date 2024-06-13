@@ -6,12 +6,11 @@
   position: relative;
 }
 .catalogFilterButton {
-  @include mixin.flex(center, center, null, null);
+  @include mixin.flex(center, center, null, 2px);
   @include mixin.font(14px, 500, null, var(--dark));
   padding: 8px 12px;
   background: var(--white);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
   position: relative;
   cursor: pointer;
   border-radius: 5px;
@@ -24,7 +23,7 @@
 .showCatalogFilterActive {
   user-select: none;
   @include mixin.flex(null, null, column, null);
-  width: 296px;
+  width: 266px;
   max-height: 360px;
   padding: 20px;
   position: absolute;
@@ -63,7 +62,7 @@
   /* Стили для скроллбара вебкит-браузеров */
   /* Track */
   &::-webkit-scrollbar {
-    width: 12px;
+    width: 5px;
   }
 
   /* Handle */
@@ -80,7 +79,7 @@
   @include mixin.flex(flex-start, flex-start, column, 12px);
   overflow-y: auto;
   width: 100%;
-  max-height: 260px;
+  max-height: 228px;
   padding-right: 6px;
 }
 .closeFilterUl {
@@ -131,6 +130,15 @@
     color: #242424;
   }
 }
+.containerButtons {
+  position: sticky;
+  bottom: 0;
+  padding: 5px 0 0 0;
+  background: var(--white);
+  width: 100%;
+  @include mixin.flex(center, space-between, null, null);
+}
+
 .showAllButton {
   border-bottom: 1px dashed;
   font-size: 16px;
@@ -140,6 +148,7 @@
   border-color: #868695;
 }
 .resetButton {
+  margin-left: auto;
   border-bottom: 1px dashed;
   font-size: 16px;
   line-height: 22px;
@@ -151,7 +160,27 @@
     border-color: var(--violet);
   }
 }
-
+.nameAndKol {
+  @include mixin.flex(center, null, null, 5px);
+  @include mixin.font(16px, 500, null, null);
+}
+.quantity {
+  @include mixin.font(14px, 400, null, null);
+}
+.filterCount {
+  @include mixin.flex(center, center, null, null);
+  font-size: 10px;
+  line-height: 13px;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  background: var(--violet);
+  padding: 2px 5px 1px;
+  border-radius: 13px;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
 .applyBtn {
   border-bottom: 1px dashed;
   font-size: 16px;
