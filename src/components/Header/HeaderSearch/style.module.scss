@@ -82,36 +82,7 @@
     }
 }
       
-.search__input {
-    position: relative;
-    background: var(--white);
-    color: var(--black);
-    font-size: 18px;
-    font-weight: 700;
-    width: 100%;
-    padding: 11px 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    opacity: 0.4;
-    transition: all 0.3s ease;
-    &:hover{
-        opacity: 1;
-    }
-    &:focus{
-        opacity: 1;
-    }
 
-    &_close{
-        position: absolute;
-        cursor: pointer;
-        top: -10%;
-        right: 5%;
-        color: var(--black);
-        font-size: 32px;
-        font-weight: bold;
-    }
-}
 
 .searchResults {
   position: absolute;

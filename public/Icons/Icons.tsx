@@ -1183,6 +1183,7 @@ export const ArrowDropdown = () => {
   );
 };
 
+//! Иконки Мастера шифу!!  НЕ ТРОГАТЬ!!!
 
 export const ClickIcon = () => {
   return (
@@ -1211,6 +1212,76 @@ export const ClickIcon = () => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+};
+
+
+export const ExitIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_1222_37032)">
+        <path
+          d="M15.4286 0.571411L0.571411 15.4286"
+          stroke="black"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M0.571411 0.571411L15.4286 15.4286"
+          stroke="black"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1222_37032">
+          <rect width="16" height="16" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+
+export const SearchIconAbdu = () => {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 22 22"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clipPath="url(#clip0_1222_37470)">
+        <path
+          d="M9.46153 17.9232C14.1347 17.9232 17.9231 14.1348 17.9231 9.46158C17.9231 4.78837 14.1347 1 9.46153 1C4.78835 1 1 4.78837 1 9.46158C1 14.1348 4.78835 17.9232 9.46153 17.9232Z"
+          stroke="black"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M20.9998 20.9999L15.6152 15.6152"
+          stroke="black"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_1222_37470">
+          <rect width="22" height="22" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 };

@@ -1,18 +1,28 @@
 "use client";
-import { useState, ChangeEvent, useRef, useEffect, useMemo } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useRef,
+  useEffect,
+  useMemo,
+  forwardRef,
+} from "react";
 import { DebounceInput } from "react-debounce-input";
 import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
 import { getFastUserSearch } from "@/api/clientRequest";
-import { XMark } from "../../../../public/Icons/Icons";
+import { ExitIcon } from "../../../../public/Icons/Icons";
 
-const HeaderSearch = () => {
+interface HeaderSearchProps {
+  searchInputRef: React.RefObject<HTMLInputElement>;
+}
+
+const HeaderSearch: React.FC<HeaderSearchProps> = ({ searchInputRef }) => {
   const [value, setValue] = useState<string>("");
   const [inputActive, setInputActive] = useState<boolean>(false);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const searchRef = useRef<HTMLDivElement>(null);
+  const searchWrapperRef = useRef<HTMLDivElement>(null);
   const [fastValue, setFastValue] = useState<ISearch | undefined>(undefined);
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
@@ -52,10 +62,9 @@ const HeaderSearch = () => {
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
-      searchRef.current &&
-      !searchRef.current.contains(event.target as Node)
+      searchWrapperRef.current &&
+      !searchWrapperRef.current.contains(event.target as Node)
     ) {
-      setValue("");
       setFastValue(undefined);
       setInputActive(false);
     }
@@ -65,7 +74,6 @@ const HeaderSearch = () => {
     setValue("");
     setFastValue(undefined);
     setInputActive(false);
-    setIsOpen(false);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -83,10 +91,11 @@ const HeaderSearch = () => {
   );
 
   return (
-    <div className={styles.searchWrapper} ref={searchRef}>
+    <div className={styles.searchWrapper} ref={searchWrapperRef}>
       <form className={styles.search} onSubmit={handleSubmit}>
         <DebounceInput
-          className={styles.search__input}
+          inputRef={searchInputRef}
+          className="search__input"
           minLength={1}
           debounceTimeout={700}
           onChange={handleChange}
@@ -97,10 +106,10 @@ const HeaderSearch = () => {
         {inputActive ? (
           <button
             type="button"
-            className={styles.search__input_close}
+            className="search__input_close"
             onClick={handleCloseModal}
           >
-            <XMark/>
+            <ExitIcon />
           </button>
         ) : null}
         {inputActive &&
@@ -131,5 +140,3 @@ const HeaderSearch = () => {
 };
 
 export default HeaderSearch;
-
-
