@@ -34,7 +34,8 @@
 
   &_simbol {
     @include mixin.font(16px, 700, 100%, var(--violet));
-    border-bottom: 2px solid var(--violet);
+    position: absolute;
+    transform: translate(2px, 4px);
   }
 }
 
