@@ -40,7 +40,6 @@ export default function CatalogProducts({
 }: ICatalogProductsProps) {
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<Tov[]>(initialItems);
-  const [selectedBrands, setSelectedBrands] = useState<BrandSelection>({});
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     brand: [],
     dost: [],
@@ -77,6 +76,11 @@ export default function CatalogProducts({
 
       return updatedFilters;
     });
+  };
+
+  const clearFilterCena = () => {
+    setPrice({ min: 0, max: 0 });
+    console.log("Цена сброшена до", { min: 0, max: 0 });
   };
 
   useEffect(() => {
@@ -153,6 +157,25 @@ export default function CatalogProducts({
   const handlePriceRangeChange = (min: number, max: number) => {
     setPrice({ min, max });
   };
+
+  const handleApplyPrice = () => {
+    const fetchData = async () => {
+      try {
+        const response = await getProductsByCenaMinMax(
+          catalog.category.id,
+          price.min,
+          price.max
+        );
+        const sortedItems = response.category.tov.sort(
+          (a, b) => a.price - b.price
+        );
+        setItems(sortedItems);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  };
   return (
     <section className="seek">
       <div className="all__directions container">
@@ -181,6 +204,8 @@ export default function CatalogProducts({
       <div className="container">
         <div className="sort__buttons">
           <CatalogFiltres
+            clearFilterCena={clearFilterCena}
+            applyPrice={handleApplyPrice}
             clearFilter={clearFilter}
             price={price}
             handlePriceRangeChange={handlePriceRangeChange}

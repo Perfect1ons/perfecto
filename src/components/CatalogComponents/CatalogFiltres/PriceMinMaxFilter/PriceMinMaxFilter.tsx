@@ -3,7 +3,6 @@ import styles from "./style.module.scss";
 import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import Slider from "react-slider";
 import cn from "clsx";
-import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPriceMinMaxFilterProps {
   price: { min: number; max: number };
@@ -11,6 +10,8 @@ interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
   handlePriceRangeChange: (min: number, max: number) => void;
+  applyPrice: () => void;
+  clearFilterCena: () => void;
 }
 
 const PriceMinMaxFilter = ({
@@ -18,6 +19,8 @@ const PriceMinMaxFilter = ({
   visibleFilter,
   price,
   handlePriceRangeChange,
+  applyPrice,
+  clearFilterCena,
 }: IPriceMinMaxFilterProps) => {
   return (
     <div className="positionContainer">
@@ -86,6 +89,27 @@ const PriceMinMaxFilter = ({
                   placeholder={`до 0`}
                 />
               </div>
+            </div>
+            <div className="containerButtons">
+              <button
+                onClick={applyPrice}
+                className={cn(
+                  "applyBtn",
+                  price.min && price.max > 0 && "applyBtn__active"
+                )}
+              >
+                Применить
+              </button>
+              <button
+                onClick={clearFilterCena}
+                disabled={price.min <= 0 || price.max <= 0}
+                className={cn(
+                  "resetButton",
+                  price.min && price.max > 0 && "resetButton__active"
+                )}
+              >
+                Сбросить
+              </button>
             </div>
           </div>
         </ul>

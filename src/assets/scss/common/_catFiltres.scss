@@ -181,3 +181,24 @@
   top: -4px;
   right: -4px;
 }
+.applyBtn {
+  border-bottom: 1px dashed;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+  color: #242424;
+  border-color: #868695;
+  &__active {
+    color: var(--violet);
+    border-color: var(--violet);
+  }
+}
+
+.containerButtons {
+  position: sticky;
+  bottom: 0;
+  padding: 5px 0 0 0;
+  background: var(--white);
+  width: 100%;
+  @include mixin.flex(center, space-between, null, null);
+}
