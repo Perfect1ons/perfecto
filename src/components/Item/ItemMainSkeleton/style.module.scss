@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  padding: 0 15px;
 
   @include mixin.container(1440px);
 }
@@ -16,7 +17,7 @@
   justify-content: flex-start;
   gap: 10px;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   padding-bottom: 10px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -25,11 +26,20 @@
   user-select: none;
 }
 
+// content
+.content_wrap {
+  @include mixin.flex(flex-start, space-between, row, 35px);
+  @media screen and (max-width: 425px) {
+    flex-direction: column;
+  }
+}
+
 // sliders
 .sliders_wrap {
   @include mixin.flex(flex-start, space-between, row, 30px);
   max-height: 510px; // Set the maximum height for the container
   overflow: hidden; // Hide any overflow content
+  max-width: 600px;
   width: 100%;
 }
 
@@ -38,7 +48,6 @@
   flex-direction: column;
   gap: 10px;
 
-  margin-left: 10px;
   max-height: 500px;
   height: 100%;
   max-width: 60px;
@@ -47,16 +56,35 @@
   }
 }
 
+.main_slider {
+  margin-right: 15px;
+  @media screen and (max-width: 1410px) {
+    max-width: 500px;
+    width: 100%;
+    max-height: 500px;
+  }
+  @media screen and (max-width: 425px) {
+    max-height: 360px;
+  }
+}
+
 // info
-.info {
+.info_wrap {
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
 
   width: 100%;
+}
 
-  @media screen and (max-width: 672px) {
-    margin-top: -40px;
+.info {
+  @include mixin.flex(flex-start, space-between, row, null);
+  max-width: 795px;
+
+  width: 100%;
+  height: 100%;
+  @media screen and (max-width: 1410px) {
+    align-items: unset;
+    flex-direction: column-reverse;
   }
 }
 
@@ -64,5 +92,92 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  max-width: 100%;
+  margin-bottom: 15px;
+  max-width: 795px;
+
+  &_firstChild {
+    width: 100%;
+    height: 30px;
+  }
+}
+
+.info_part {
+  @include mixin.flex(flex-start, space-between, column, null);
+
+  max-width: 426px;
+  max-height: 446px;
+
+  @media screen and (max-width: 425px) {
+    margin-top: 30px;
+  }
+}
+
+.desc {
+  max-width: 426px;
+  width: 100%;
+}
+
+.copyArt {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+// price card
+.price_part {
+  @include mixin.flex(flex-start, center, column, null);
+  max-width: 344px;
+  margin-top: 22px;
+  @media screen and (max-width: 1410px) {
+    max-width: 100%;
+  }
+}
+
+.priceCard {
+  margin-bottom: 10px;
+  max-width: 345px;
+  width: 345px;
+  max-height: 230px;
+  height: 230px;
+  @media screen and (max-width: 1410px) {
+    max-width: 700px;
+    width: 700px;
+  }
+}
+
+.priceCard_minies {
+  @include mixin.flex(flex-start, space-between, row, null);
+  width: 100%;
+  span {
+    max-width: 150px;
+    width: auto;
+  }
+}
+
+// feedback
+.feedback_wrap {
+  margin-top: 30px;
+}
+
+.stars {
+  margin-bottom: 15px;
+}
+
+.feedbackBait {
+  margin-bottom: 20px;
+}
+
+.feedbacks_slider {
+  @include mixin.flex(center, space-between, row, null);
+  overflow-x: hidden;
+
+  margin-top: 20px;
+}
+
+.slide {
+  max-height: 272px;
+  max-width: 470px;
+  span {
+    height: 100%;
+    width: 100%;
+  }
 }

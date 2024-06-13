@@ -158,6 +158,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               <ItemSlider
                 photos={data}
                 toggleScrollLock={() => setIsOpen(true)}
+                isLoading={isLoading}
               />
             </div>
             <div className={styles.item__preview_info}>

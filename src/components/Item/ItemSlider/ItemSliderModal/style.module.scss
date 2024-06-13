@@ -38,17 +38,23 @@
 
   &_nav {
     margin-bottom: 5px;
-    width: 100%;
     padding: 10px 30px 5px;
+    width: 100%;
+
+    @include mixin.flex(center, space-between, null, null);
+
     position: fixed;
+    top: 0;
+    left: 0;
     z-index: 100;
+
     background: rgb(238, 238, 238);
     background: linear-gradient(
       0deg,
       rgba(238, 238, 238, 0) 0%,
       rgba(255, 255, 255, 1) 50%
     );
-    @include mixin.flex(center, space-between, null, null);
+
     &_title {
       user-select: none;
       @include mixin.font(1.125rem, 500, null, var(--dark));

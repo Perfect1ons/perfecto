@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import styles from "./style.module.scss";
-import { SearchIcon } from "../../../../public/Icons/Icons";
+import { SearchIcon, XMark } from "../../../../public/Icons/Icons";
 
 interface MobSearchProps {
   isOpen: boolean;
@@ -31,8 +31,11 @@ export default function MobSearch({ isOpen, setIsOpen }: MobSearchProps) {
     }
   };
   return (
-    <>
-      <form onSubmit={handleSearchSubmit} className={styles.search_bar}>
+    <section className={styles.search_bar}>
+      <button className={styles.xmark} onClick={() => setIsOpen(false)}>
+        <XMark />
+      </button>
+      <form onSubmit={handleSearchSubmit} className={styles.search_form}>
         <input
           value={searchTerm}
           onChange={handleSearchChange}
@@ -46,6 +49,6 @@ export default function MobSearch({ isOpen, setIsOpen }: MobSearchProps) {
           <SearchIcon />
         </button>
       </form>
-    </>
+    </section>
   );
 }

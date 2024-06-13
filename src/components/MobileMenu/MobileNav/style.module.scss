@@ -64,8 +64,14 @@
 }
 
 .search_bar {
-  @include mixin.flex(center, space, null, 8px);
+  @include mixin.flex(center, space-between, null, 8px);
   margin-bottom: 15px;
+  width: 100%;
+}
+
+.search_form {
+  @include mixin.flex(center, space-between, null, 8px);
+  width: 100%;
 }
 
 .search__input {
@@ -85,7 +91,11 @@
 }
 
 .catalog_wrap {
-  margin: 10px 15px 90px;
+  margin: 10px 15px;
+}
+
+.xmark {
+  color: var(--secondary-gray);
 }
 
 @media screen and (max-width: 530px) {

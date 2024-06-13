@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import clsx from "clsx";
 
-import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -25,7 +25,6 @@ import {
 import InnerImageZoom from "react-inner-image-zoom";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import {
-  PlusIcon,
   SmallVideoPreview,
   SwiperNextArrow,
   SwiperPrevArrow,
@@ -33,15 +32,17 @@ import {
 import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import ItemBanner from "../ItemBanner/ItemBanner";
-import { BrandsAll } from "@/types/bannerAll";
+
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 interface IPhotosProps {
   photos: ICardProductItems;
   toggleScrollLock: () => void;
+  isLoading: boolean;
 }
 
-const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
@@ -230,6 +231,13 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
           className={styles.mainSwiperWrap}
         >
+          {isLoading && (
+            <Skeleton
+              className={styles.sliderSkeleton}
+              width={500}
+              height={500}
+            />
+          )}
           {photos.items.video && (
             <SwiperSlide className={styles.activeSlide} key={0}>
               <div
