@@ -176,6 +176,9 @@ const EveryFilters = ({
             </div>
           </div>
         </Modal>
+        {visibleFilter === "every" && (
+          <div onClick={closeEveryFilter} className="filterBackdrop"></div>
+        )}
       </div>
     </>
   );
