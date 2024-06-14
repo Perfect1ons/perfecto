@@ -19,6 +19,7 @@ import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import clsx from "clsx";
 
 import cn from "clsx";
 interface ICatalogProductsProps {
@@ -342,7 +343,7 @@ export default function CatalogProducts({
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
-      <div className={styles.descriptionContainer}>
+      <div className={clsx(styles.descriptionContainer, "container")}>
         <h2 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
         </h2>

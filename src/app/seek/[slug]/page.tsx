@@ -10,7 +10,6 @@ import SeekNotFound from "@/components/NotFound/SeekNotFound";
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
 
 export default async function PathPage({ params: { slug } }: any) {
-  try {
     const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
       getPopularGoods(1),
       getPopularGoods(2),
@@ -41,9 +40,4 @@ export default async function PathPage({ params: { slug } }: any) {
     }
 
     return <Seek catalog={catalog} product={result} />;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle error, for example show ErrorPage or return different content
-    return <ErrorPage/>; // Show SeekNotFound with empty goods array
-  }
 }
