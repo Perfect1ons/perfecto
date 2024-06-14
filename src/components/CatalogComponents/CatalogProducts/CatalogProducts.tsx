@@ -19,6 +19,7 @@ import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import clsx from "clsx";
 
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
@@ -190,7 +191,7 @@ export default function CatalogProducts({
     fetchData();
   };
   return (
-    <section className="container">
+    <section>
       <div className="all__directions container">
         {breadCrumbs.slice(-2, -1).map((crumbs) => (
           <Link
@@ -337,7 +338,7 @@ export default function CatalogProducts({
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
-      <div className={styles.descriptionContainer}>
+      <div className={clsx(styles.descriptionContainer, "container")}>
         <h2 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
         </h2>

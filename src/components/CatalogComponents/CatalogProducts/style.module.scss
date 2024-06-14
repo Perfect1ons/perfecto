@@ -91,6 +91,7 @@
 }
 .descriptionContainer {
   @include mixin.flex(null, null, column, 10px);
+  margin-bottom: 30pxg;
   &__categoryTitle {
     @include mixin.font(25px, 500, 1.2, var(--dark));
   }
@@ -102,8 +103,16 @@
   }
 }
 
+.category__title{
+  font-size: 20px;
+  color: var(--gray-dark);
+  font-weight: 500;
+  user-select: none;
+}
+
 .category__image {
   margin-top: 10px;
+  user-select: none;
   object-fit: cover;
   width: 100%;
   height: auto;
