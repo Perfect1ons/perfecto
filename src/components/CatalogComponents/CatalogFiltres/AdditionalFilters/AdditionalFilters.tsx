@@ -1,8 +1,7 @@
 "use client";
 import cn from "clsx";
-import { Filter, Filter2, IFiltersBrand, N11, N43 } from "@/types/filtersBrand";
+import { Filter2, IFiltersBrand, N11, N43 } from "@/types/filtersBrand";
 import {
-  CheckIcon,
   CheckIconFilter,
   Cross,
   СhevronDownIcon,
@@ -15,6 +14,7 @@ interface IAdditionalFiltersProps {
   toggleFilter: (name: string) => void;
   changeSelect: (value: string[]) => void;
   selectedFilters: string[];
+  clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
 }
 
 const AdditionalFilters = ({
@@ -23,6 +23,7 @@ const AdditionalFilters = ({
   filter,
   changeSelect,
   selectedFilters,
+  clearFilterByID,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -124,7 +125,9 @@ const AdditionalFilters = ({
                     </button>
                   )}
                   <button
-                    // onClick={() => clearFilter(item.type_name)}
+                    onClick={() =>
+                      clearFilterByID(item.filter, selectedFilters)
+                    }
                     disabled={selectedFilters.length <= 0}
                     className={cn(
                       "resetButton",
