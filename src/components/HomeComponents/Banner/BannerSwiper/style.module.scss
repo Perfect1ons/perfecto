@@ -38,8 +38,9 @@
       max-height: 400px;
       margin: 0 auto;
       min-height: 394.28px;
-      @include skeleton.skeleton(auto, 20em, null);
+      // @include skeleton.skeleton(auto, 20em, null);
       @media screen and (max-width: 992px) {
+        min-height: auto;
         height: 250px;
         padding: 0 30px;
       }

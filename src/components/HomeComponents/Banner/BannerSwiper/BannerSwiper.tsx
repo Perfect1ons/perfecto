@@ -16,6 +16,9 @@ import {
   SwiperPrevArrow,
 } from "../../../../../public/Icons/Icons";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 interface ISlide {
   slides: IIntro[];
 }
@@ -51,7 +54,8 @@ const BannerSwiper = ({ slides }: ISlide) => {
         >
           <Link href={slide.url.replace("https://max.kg/", "")}>
             {imageLoaded ? (
-              <div className={styles.swiper__slide_img_skeleton}></div>
+              // <div className={styles.swiper__slide_img_skeleton}></div>
+              <Skeleton className={styles.swiper__slide_img_skeleton} />
             ) : (
               <Image
                 className={styles.swiper__slide_img}
@@ -63,7 +67,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
                 width={1410}
                 height={410}
                 alt={slide.naim}
-                loading="lazy"
+                priority
               />
             )}
           </Link>

@@ -55,3 +55,18 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.skeleton_items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  // background: var(--gray-white);
+  border: 2px solid var(--gray-white);
+  border-radius: 5px;
+  gap: 10px;
+
+  width: 214px;
+  height: 180px;
+  margin-bottom: 10px;
+}

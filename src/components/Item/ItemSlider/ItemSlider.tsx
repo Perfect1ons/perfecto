@@ -46,6 +46,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
+  const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   const isZoomEnabled = useMediaQuery("(min-width: 992px)");
 
@@ -122,6 +123,10 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
 
   const paginationEnabled = photos.items.photos.length > 1;
 
+  useEffect(() => {
+    setIsImageLoaded(false);
+  }, []);
+
   return (
     <>
       {modalSliderIsOpen && (
@@ -182,7 +187,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                 width={100}
                 height={100}
                 alt={photo.url_part}
-                priority
+                loading="lazy"
               />
             </SwiperSlide>
           ))}
@@ -231,7 +236,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
           modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
           className={styles.mainSwiperWrap}
         >
-          {isLoading && (
+          {isImageLoaded && (
             <Skeleton
               className={styles.sliderSkeleton}
               width={500}
@@ -288,7 +293,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                   alt={photo.url_part}
                   className={styles.product_img}
                   onClick={modalSliderOpenOrClose}
-                  priority={true}
+                  loading="lazy"
                 />
               )}
             </SwiperSlide>
