@@ -2,7 +2,7 @@ import { ISearchCatalog } from "@/types/Search/search";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import Image from "next/image";
-import { ClickIcon } from "../../../../public/Icons/Icons";
+import { ClickIcon, SearchIcon } from "../../../../public/Icons/Icons";
 
 interface ISearchCategoryProps {
   category: ISearchCatalog[];
@@ -25,6 +25,7 @@ const SearchCategory = ({ category, closeModal }: ISearchCategoryProps) => {
               key={index}
               href={`/catalog/${categoria.full_slug}`}
               onClick={closeModal}
+              title="Перейти в категорию"
             >
               <Image
                 className={styles.search__category_img}
@@ -34,11 +35,13 @@ const SearchCategory = ({ category, closeModal }: ISearchCategoryProps) => {
                 alt={categoria.name}
               />
               <li className={styles.search__category_name}>{categoria.name}</li>
-              <ClickIcon />
+              <span className={styles.search__category_icon}>
+                <SearchIcon/>
+              </span>
             </Link>
           );
         })
-        .slice(0, 4)}
+        .slice(0, 5)}
     </ul>
   );
 };

@@ -200,7 +200,9 @@ export default function CatalogProducts({
           );
         })}
       </div>
-      <div className="container"></div>
+      <div className="container">
+        <h1 className="sections__title">{catalog.category.name}</h1>
+      </div>
       <div className="container">
         <div className="sort__buttons">
           <CatalogFiltres

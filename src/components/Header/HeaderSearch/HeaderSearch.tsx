@@ -5,7 +5,6 @@ import React, {
   useRef,
   useEffect,
   useMemo,
-  forwardRef,
 } from "react";
 import { DebounceInput } from "react-debounce-input";
 import styles from "./style.module.scss";
@@ -50,6 +49,10 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onInputChange(event);
     const newValue = event.target.value;
+    if (newValue.length < 2) {
+      setFastValue(undefined);
+      return;
+    }
     fetchData(decodeURIComponent(newValue));
     setInputActive(true);
   };
@@ -83,16 +86,17 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    window.location.href = `/seek/search=${searchValue}`;
+    if (searchValue.trim() !== "") {
+      window.location.href = `/seek/search=${searchValue}`;
+    }
   };
 
-  const catalogLength = useMemo(
-    () => fastValue?.catalog?.length ?? 0,
-    [fastValue?.catalog?.length]
-  );
-  const modelTotalCount = useMemo(
-    () => fastValue?.model?._meta.totalCount ?? 0,
-    [fastValue?.model?._meta.totalCount]
+  const hasResults = useMemo(
+    () =>
+      fastValue &&
+      ((fastValue.catalog && fastValue.catalog.length > 0) ||
+        (fastValue.model && fastValue.model._meta.totalCount > 0)),
+    [fastValue]
   );
 
   return (
@@ -117,28 +121,30 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             <ExitIcon />
           </button>
         ) : null}
-        {inputActive &&
-          fastValue &&
-          (catalogLength > 0 || modelTotalCount > 0) && (
-            <div className={styles.searchResults}>
-              <h1 className={styles.searchResults__title}>
-                Найдено в категориях
-              </h1>
-              {catalogLength > 0 && (
+        {inputActive && hasResults && (
+          <div className={styles.searchResults}>
+            {fastValue?.catalog && fastValue.catalog.length > 0 && (
+              <>
+                <h1 className={styles.searchResults__title}>
+                  Найдено в категориях
+                </h1>
                 <SearchCategory
                   category={fastValue.catalog}
                   closeModal={handleCloseModal}
                 />
-              )}
-              <h2 className={styles.searchResults__title}>Товары</h2>
-              {modelTotalCount > 0 && (
+              </>
+            )}
+            {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
+              <>
+                <h2 className={styles.searchResults__title}>Товары</h2>
                 <SearchItems
                   items={fastValue.model.items}
                   closeModal={handleCloseModal}
                 />
-              )}
-            </div>
-          )}
+              </>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );

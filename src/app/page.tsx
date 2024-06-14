@@ -13,6 +13,8 @@ import {
   getSecondBanner,
   getThirdBanner,
 } from "@/api/requests";
+import FormComponent from "@/components/Form/Form";
+import FormData from "@/components/Form/Form";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import { generatePageMetadata } from "@/utils/metadata";

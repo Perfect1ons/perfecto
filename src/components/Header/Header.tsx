@@ -30,7 +30,9 @@ const Header = ({
   isMobileModalOpen,
   setMobileModalOpen,
 }: ICatalogProps) => {
-  //!
+
+  //
+  //! Функционал и стейты для быстрого в Header
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -51,14 +53,14 @@ const Header = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
   };
-  //!
+  //! Функционал и стейты для быстрого в Header
+  //
 
 
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
 
   const router = useRouter();
-
 
   // для поиска
   useEffect(() => {
