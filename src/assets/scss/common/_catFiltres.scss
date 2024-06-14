@@ -242,3 +242,7 @@
   background: var(--dark);
   opacity: 0.5;
 }
+
+.highlighted {
+  outline: 2px solid var(--dark);
+}
