@@ -50,6 +50,9 @@
   height: 100%;
   overflow-y: auto;
 }
+.buttonModalContainer {
+  @include mixin.flex(center, null, null, 8px);
+}
 .filterPrice {
   @include mixin.flex(null, flex-start, column, 15px);
   &__value {

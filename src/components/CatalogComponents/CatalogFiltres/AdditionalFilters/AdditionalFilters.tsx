@@ -7,7 +7,7 @@ import {
   Cross,
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface IAdditionalFiltersProps {
   filter: IFiltersBrand;
@@ -25,6 +25,20 @@ const AdditionalFilters = ({
   selectedFilters,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const getVisibleItems = () => {
+    if (windowWidth <= 996) return 0;
+    if (windowWidth <= 1200) return 1;
+    if (windowWidth <= 1400) return 2;
+    return 3;
+  };
 
   const handleShowAll = () => {
     setShowAll(true);
@@ -42,93 +56,8 @@ const AdditionalFilters = ({
 
   return (
     <>
-      <>
-        {Object.values(filter.filter)
-          .slice(0, 3)
-          .map((item: N11) => (
-            <div key={item.id_type} className="positionContainer">
-              <button
-                className="catalogFilterButton"
-                onClick={() => toggleFilter(item.type_name)}
-              >
-                {item.type_name}
-                <span
-                  className={cn(
-                    "filterNavItemArrowIsActive",
-                    visibleFilter === item.type_name && "filterNavItemArrow"
-                  )}
-                >
-                  <СhevronDownIcon />
-                </span>
-                {/* {Object.keys(item.filter).map((key: string) => {
-                  const id_filter = parseInt(key);
-                  const count = selectedFilters.filter(
-                    (filter) => filter === id_filter
-                  ).length;
-                  return (
-                    <span key={key} className="filterCount">
-                      {count}
-                    </span>
-                  );
-                })} */}
-              </button>
-              {visibleFilter === item.type_name && (
-                <ul className="showCatalogFilterActive">
-                  <div className="showCatalogFilterActiveChild">
-                    <button
-                      className="closeFilterUl"
-                      onClick={() => toggleFilter(item.type_name)}
-                    >
-                      <Cross />
-                    </button>
-                    {Object.values(item.filter).map((data: any) => (
-                      <ul
-                        onClick={() => handleSelectChange(data.id_filter)}
-                        key={data.id_filter}
-                        className="showFiltersUlContainer"
-                      >
-                        <span
-                          className={cn("showFiltersUlContainer__check", {
-                            ["showFiltersUlContainer__checkActive"]:
-                              selectedFilters.includes(data.id_filter),
-                          })}
-                        >
-                          {selectedFilters.includes(data.id_filter) && (
-                            <CheckIconFilter />
-                          )}
-                        </span>
-                        <li className="nameAndKol">
-                          {data.name}{" "}
-                          <span className="quantity">({data.kol})</span>
-                        </li>
-                      </ul>
-                    ))}
-                  </div>
-                  <div className="containerButtons">
-                    {Object.values(item.filter).length > 7 && !showAll && (
-                      <button onClick={handleShowAll} className="showAllButton">
-                        Показать все
-                      </button>
-                    )}
-                    <button
-                      // onClick={() => clearFilter(item.type_name)}
-                      disabled={selectedFilters.length <= 0}
-                      className={cn(
-                        "resetButton",
-                        selectedFilters.length > 0 && "resetButton__active"
-                      )}
-                      style={{ marginLeft: "auto" }}
-                    >
-                      Сбросить
-                    </button>
-                  </div>
-                </ul>
-              )}
-            </div>
-          ))}
-      </>
-      {/* {Object.values(filter.filter)
-        .slice(0, 3)
+      {Object.values(filter.filter)
+        .slice(0, getVisibleItems())
         .map((item: N11) => (
           <div key={item.id_type} className="positionContainer">
             <button
@@ -144,6 +73,17 @@ const AdditionalFilters = ({
               >
                 <СhevronDownIcon />
               </span>
+              {/* {Object.keys(item.filter).map((key: string) => {
+                  const id_filter = parseInt(key);
+                  const count = selectedFilters.filter(
+                    (filter) => filter === id_filter
+                  ).length;
+                  return (
+                    <span key={key} className="filterCount">
+                      {count}
+                    </span>
+                  );
+                })} */}
             </button>
             {visibleFilter === item.type_name && (
               <ul className="showCatalogFilterActive">
@@ -167,7 +107,7 @@ const AdditionalFilters = ({
                         })}
                       >
                         {selectedFilters.includes(data.id_filter) && (
-                          <CheckIcon />
+                          <CheckIconFilter />
                         )}
                       </span>
                       <li className="nameAndKol">
@@ -175,13 +115,30 @@ const AdditionalFilters = ({
                         <span className="quantity">({data.kol})</span>
                       </li>
                     </ul>
-                    // <div key={item}>{item}</div>
                   ))}
+                </div>
+                <div className="containerButtons">
+                  {Object.values(item.filter).length > 7 && !showAll && (
+                    <button onClick={handleShowAll} className="showAllButton">
+                      Показать все
+                    </button>
+                  )}
+                  <button
+                    // onClick={() => clearFilter(item.type_name)}
+                    disabled={selectedFilters.length <= 0}
+                    className={cn(
+                      "resetButton",
+                      selectedFilters.length > 0 && "resetButton__active"
+                    )}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    Сбросить
+                  </button>
                 </div>
               </ul>
             )}
           </div>
-        ))} */}
+        ))}
     </>
   );
 };

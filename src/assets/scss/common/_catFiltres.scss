@@ -8,7 +8,8 @@
 .catalogFilterButton {
   outline: 2px solid var(--white);
   @include mixin.flex(center, center, null, 2px);
-  @include mixin.font(0.875rem, 500, null, var(--dark));
+  @include mixin.font(0.875rem, 400, null, var(--dark));
+  font-family: var(--font-inter);
   text-align: center;
   padding: 8px 12px;
   text-wrap: nowrap;
@@ -152,12 +153,10 @@
   border-color: #868695;
 }
 .resetButton {
+  @include mixin.font(16px, 400, 22px, #242424);
   margin-left: auto;
   border-bottom: 1px dashed;
-  font-size: 16px;
-  line-height: 22px;
   cursor: pointer;
-  color: #242424;
   border-color: #868695;
   &__active {
     color: var(--violet);
@@ -207,19 +206,18 @@
   @include mixin.flex(center, space-between, null, null);
 }
 .everyFilterContainer {
-  @include mixin.flex(flex-start, flex-start, null, 20px);
+  // @include mixin.flex(flex-start, flex-start, null, 20px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
   flex-wrap: wrap;
   cursor: pointer;
 }
-.filterColumn {
-  background-color: #f5f7fa;
-  border-radius: 5px;
-}
-.catalogFilterButtonEvery {
+.catalogFilterContainerButtonEvery {
   cursor: pointer;
-  @include mixin.flex(center, center, null, null);
-  @include mixin.font(0.875rem, 500, null, var(--dark));
-  padding: 8px 12px;
+  width: 100%;
+  @include mixin.flex(center, space-between, null, null);
+  padding: 0 0 12px 0;
   overflow: hidden;
   position: relative;
   &:hover {
@@ -228,9 +226,20 @@
     }
   }
 }
+.filterColumn {
+  background-color: #f5f7fa;
+  border-radius: 5px;
+  padding: 12px;
+  max-height: 100%;
+}
+.catalogFilterButtonEvery {
+  @include mixin.flex(center, null, null, null);
+  @include mixin.font(0.875rem, 400, null, var(--dark));
+  font-family: var(--font-inter);
+}
 .additionalFilterActiveDropdown {
   @include mixin.flex(center, null, column, 12px);
-  padding: 20px;
+  padding: 10px 0 24px;
 }
 
 .filterBackdrop {
