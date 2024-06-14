@@ -180,6 +180,10 @@ export const getDekstopData = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=1").json();
 };
 
+export const getCatalogBanner = (): Promise<IIntroBannerDekstop> => {
+  return maxkg.get("baner/get-position?id=11").json();
+};
+
 export const getSecondBanner = (): Promise<IIntroBannerDekstop> => {
   return maxkg.get("baner/get-position?id=3").json();
 };

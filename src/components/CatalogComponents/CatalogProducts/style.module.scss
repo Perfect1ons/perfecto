@@ -101,3 +101,24 @@
     @include mixin.font(14px, 400, 1.2, var(--dark));
   }
 }
+
+.category__image {
+  margin-top: 10px;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.catalog__skeleton {
+  width: 100%;
+  height: auto;
+  padding-bottom: 62.5%; /* Соотношение сторон 16:9 */
+  overflow: hidden;
+
+  > span {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+}
