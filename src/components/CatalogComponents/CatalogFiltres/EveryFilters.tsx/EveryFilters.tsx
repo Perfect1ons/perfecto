@@ -1,6 +1,7 @@
 import { IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   CheckIcon,
+  CheckIconFilter,
   FilterIcon,
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
@@ -70,11 +71,13 @@ const EveryFilters = ({
                             key={item.id_type}
                             className="everyFilterContainerChild"
                           >
-                            <button
-                              className="catalogFilterButtonEvery"
+                            <div
                               onClick={() => toggleFilters(item.type_name)}
+                              className="catalogFilterContainerButtonEvery"
                             >
-                              {item.type_name}
+                              <button className="catalogFilterButtonEvery">
+                                {item.type_name}
+                              </button>
                               <span
                                 className={cn(
                                   "filterNavItemArrowIsActive",
@@ -84,7 +87,7 @@ const EveryFilters = ({
                               >
                                 <СhevronDownIcon />
                               </span>
-                            </button>
+                            </div>
                             {visibleFilters === item.type_name && (
                               <ul className="additionalFilterActiveDropdown">
                                 <div className="showCatalogFilterActiveChild">
@@ -110,7 +113,7 @@ const EveryFilters = ({
                                         >
                                           {selectedFilters.includes(
                                             data.id_filter
-                                          ) && <CheckIcon />}
+                                          ) && <CheckIconFilter />}
                                         </span>
                                         <li>{data.name}</li>
                                       </ul>

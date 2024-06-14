@@ -13,6 +13,10 @@
   max-width: 1440px;
   margin: 0 auto;
 }
+.titleCatalog {
+  margin-left: 5px;
+  @include mixin.font(25px, 500, 1.2, var(--dark));
+}
 .container__h1 {
   margin-bottom: 8px;
   font-family: var(--font-family);
@@ -82,5 +86,17 @@
   &:hover {
     background: var(--dark-blue);
     color: var(--white);
+  }
+}
+.descriptionContainer {
+  @include mixin.flex(null, null, column, 10px);
+  &__categoryTitle {
+    @include mixin.font(25px, 500, 1.2, var(--dark));
+  }
+}
+.parapContainer {
+  @include mixin.flex(null, null, column, 5px);
+  &__keywords {
+    @include mixin.font(14px, 400, 1.2, var(--dark));
   }
 }
