@@ -201,7 +201,14 @@ export default function CatalogProducts({
         })}
       </div>
       <div className="container">
-        <h1 className="sections__title">{catalog.category.name}</h1>
+        <h1 className={styles.category__title}>{catalog.category.name}</h1>
+        <Image
+          src="https://max.kg/bimages/baner/baner_987.jpg"
+          width={1440}
+          height={300}
+          alt="banner"
+          className={styles.category__image}
+        />
       </div>
       <div className="container">
         <div className="sort__buttons">
