@@ -98,6 +98,7 @@ const CatalogFiltres = ({
       />
       {filter.filter[11] && (
         <EveryFilters
+          clearFilter={clearFilter}
           selectedFilters={selectedFilters.additional_filter}
           toggleFilter={toggleFilter}
           visibleFilter={visibleFilter}
