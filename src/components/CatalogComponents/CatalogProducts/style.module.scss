@@ -98,3 +98,16 @@
   height: auto;
   border-radius: 10px;
 }
+
+.catalog__skeleton{
+    width: 100%;
+    height: auto;
+    padding-bottom: 62.5%; /* Соотношение сторон 16:9 */
+    overflow: hidden;
+
+    > span {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+}

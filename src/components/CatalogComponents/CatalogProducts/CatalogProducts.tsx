@@ -15,8 +15,12 @@ import {
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
+import { IIntroBannerDekstop } from "@/types/Home/banner";
+import { url } from "@/components/temporary/data";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface ICatalogProductsProps {
+  banner: IIntroBannerDekstop
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
@@ -34,10 +38,12 @@ type BrandSelection = {
 };
 
 export default function CatalogProducts({
+  banner,
   catalog,
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<Tov[]>(initialItems);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -204,10 +210,15 @@ export default function CatalogProducts({
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
         <Link href={"/page/partneram/prodavcam"}>
           <Image
-            src="https://max.kg/bimages/baner/baner_987.jpg"
+            src={
+              isMobile
+                ? `${url}bimages/baner/mobile/baner_${banner.baner[0].id}.jpg`
+                : `${url}bimages/baner/baner_${banner.baner[0].id}.jpg`
+            }
+            // src="https://max.kg/bimages/baner/baner_${}.jpg
             width={1440}
             height={300}
-            alt="banner"
+            alt={banner.baner[0].naim}
             className={styles.category__image}
           />
         </Link>
