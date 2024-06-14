@@ -39,10 +39,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 interface IPhotosProps {
   photos: ICardProductItems;
   toggleScrollLock: () => void;
-  isLoading: boolean;
 }
 
-const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
@@ -182,7 +181,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                 width={100}
                 height={100}
                 alt={photo.url_part}
-                priority
+                loading="lazy"
               />
             </SwiperSlide>
           ))}
@@ -231,13 +230,6 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
           modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
           className={styles.mainSwiperWrap}
         >
-          {isLoading && (
-            <Skeleton
-              className={styles.sliderSkeleton}
-              width={500}
-              height={500}
-            />
-          )}
           {photos.items.video && (
             <SwiperSlide className={styles.activeSlide} key={0}>
               <div
@@ -288,7 +280,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                   alt={photo.url_part}
                   className={styles.product_img}
                   onClick={modalSliderOpenOrClose}
-                  priority={true}
+                  loading="lazy"
                 />
               )}
             </SwiperSlide>
