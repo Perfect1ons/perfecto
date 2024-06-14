@@ -91,8 +91,9 @@
 }
 .descriptionContainer {
   @include mixin.flex(null, null, column, 10px);
+  margin-bottom: 30px;
   &__categoryTitle {
-    @include mixin.font(25px, 500, 1.2, var(--dark));
+    @include mixin.font(20px, 500, 1.2, var(--dark));
   }
 }
 .parapContainer {
@@ -102,8 +103,16 @@
   }
 }
 
+.category__title {
+  font-size: 22px;
+  color: var(--gray-dark);
+  font-weight: 500;
+  user-select: none;
+}
+
 .category__image {
   margin-top: 10px;
+  user-select: none;
   object-fit: cover;
   width: 100%;
   height: auto;

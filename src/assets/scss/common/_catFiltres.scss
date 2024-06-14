@@ -6,6 +6,7 @@
   position: relative;
 }
 .catalogFilterButton {
+  outline: 2px solid var(--white);
   @include mixin.flex(center, center, null, 2px);
   @include mixin.font(0.875rem, 400, null, var(--dark));
   font-family: var(--font-inter);
@@ -254,4 +255,12 @@
 
 .highlighted {
   outline: 2px solid var(--dark);
+}
+
+.sortBoxShadow {
+  padding: 8px 12px;
+  border-radius: 5px;
+  outline: 2px solid var(--white);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #fff;
 }

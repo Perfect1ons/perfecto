@@ -1,4 +1,4 @@
-import { IFiltersBrand, N11 } from "@/types/filtersBrand";
+import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   CheckIcon,
   CheckIconFilter,
@@ -27,10 +27,6 @@ const EveryFilters = ({
   changeSelect,
   clearFilter,
 }: IEveryFilterProps) => {
-  const filtersArray = Object.values(filter.filter);
-  const half = Math.ceil(filtersArray.length / 2);
-  const firstHalf = filtersArray.slice(0, half);
-  const secondHalf = filtersArray.slice(half);
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
@@ -48,6 +44,11 @@ const EveryFilters = ({
   const [visibleFilters, setVisibleFilters] = useState<string | null>(null); // State to manage which filter is visible
   const toggleFilters = (filterName: string) => {
     setVisibleFilters((prev) => (prev === filterName ? null : filterName));
+  };
+  const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
+    return Object.values(filters).filter((filter) =>
+      selectedFilters.includes(filter.id_filter.toString())
+    ).length;
   };
   return (
     <>
@@ -86,6 +87,11 @@ const EveryFilters = ({
                           <button className="catalogFilterButtonEvery">
                             {item.type_name}
                           </button>
+                          {getFilterCount(item.filter, selectedFilters) > 0 && (
+                            <span>
+                              {getFilterCount(item.filter, selectedFilters)}
+                            </span>
+                          )}
                           <span
                             className={cn(
                               "filterNavItemArrowIsActive",

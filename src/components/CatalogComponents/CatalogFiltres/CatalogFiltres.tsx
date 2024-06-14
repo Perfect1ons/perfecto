@@ -1,6 +1,6 @@
 "use client";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
-import { IFiltersBrand } from "@/types/filtersBrand";
+import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import DostFilter from "./DostFilter/DostFilter";
 import PriceMinaMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
@@ -25,6 +25,7 @@ interface ICatalogFiltresProps {
   handlePriceRangeChange: (min: number, max: number) => void;
   applyPrice: () => void;
   clearFilterCena: () => void;
+  clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
 }
 
 export interface ISelectedFilterProps {
@@ -45,6 +46,7 @@ const CatalogFiltres = ({
   price,
   applyPrice,
   clearFilterCena,
+  clearFilterByID,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
   const toggleFilter = (filterName: string) => {
@@ -88,6 +90,7 @@ const CatalogFiltres = ({
         filter={filter}
       />
       <AdditionalFilters
+        clearFilterByID={clearFilterByID}
         selectedFilters={selectedFilters.additional_filter}
         changeSelect={(value: string[]) =>
           handleFilterChange("additional_filter", value)
