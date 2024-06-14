@@ -50,7 +50,7 @@ export default function CategorySwiper({ category }: ICategory) {
 
   return (
     <div className={styles.category__swiper}>
-      {loading === false ? (
+      {loading ? (
         <div className={styles.skeleton__container}>
           {skeletonArray12.map((_, index) => (
             <div className={styles.skeleton_items} key={index}>

@@ -39,14 +39,12 @@ import "react-loading-skeleton/dist/skeleton.css";
 interface IPhotosProps {
   photos: ICardProductItems;
   toggleScrollLock: () => void;
-  isLoading: boolean;
 }
 
-const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
+const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const [mainSwiper, setMainSwiper] = useState<any>(null);
   const [modalSliderIsOpen, setModalSliderIsOpen] = useState(false);
-  const [isImageLoaded, setIsImageLoaded] = useState(true);
 
   const isZoomEnabled = useMediaQuery("(min-width: 992px)");
 
@@ -122,10 +120,6 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
   };
 
   const paginationEnabled = photos.items.photos.length > 1;
-
-  useEffect(() => {
-    setIsImageLoaded(false);
-  }, []);
 
   return (
     <>
@@ -236,13 +230,6 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
           modules={[FreeMode, Navigation, Thumbs, Keyboard, Pagination]}
           className={styles.mainSwiperWrap}
         >
-          {isImageLoaded && (
-            <Skeleton
-              className={styles.sliderSkeleton}
-              width={500}
-              height={500}
-            />
-          )}
           {photos.items.video && (
             <SwiperSlide className={styles.activeSlide} key={0}>
               <div
