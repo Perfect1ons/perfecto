@@ -1,4 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
+
 .containerUndefined {
   @include mixin.flex(center, center, null, 10px);
   flex-wrap: wrap;
@@ -83,4 +84,17 @@
     background: var(--dark-blue);
     color: var(--white);
   }
+}
+
+
+.category__title{
+  @include mixin.font(20px,500,1.2, var(--gray-dark));
+}
+
+.category__image{
+  margin-top: 10px;
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
