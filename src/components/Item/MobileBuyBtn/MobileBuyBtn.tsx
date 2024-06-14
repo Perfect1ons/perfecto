@@ -77,7 +77,7 @@ const MobileBuyBtn = ({
       ) : (
         <button className={clsx(styles.btn, styles.btn_buy)}>
           Купить за {data.items.cenaok.toLocaleString("ru-Ru")}{" "}
-          <span className={styles.btn_simbol}>⃀</span>
+          <span className={styles.btn_simbol}>с</span>
         </button>
       )}
     </section>

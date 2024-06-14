@@ -28,14 +28,17 @@
 
   border-radius: 5px;
   @media screen and (max-width: 992px) {
-    display: inline-block;
+    @include mixin.flex(center, center);
     transition: all 0.5s ease;
   }
 
   &_simbol {
-    @include mixin.font(16px, 700, 100%, var(--violet));
-    position: absolute;
-    transform: translate(2px, 4px);
+    // @include mixin.flex(flex-start);
+    @include mixin.font(18px, bold, 100%, var(--violet));
+    padding-bottom: 5px;
+    padding-left: 3px;
+    // border-bottom: 2.5px solid var(--violet);
+    text-decoration: 2px underline var(--violet);
   }
 }
 

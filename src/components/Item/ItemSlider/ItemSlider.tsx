@@ -182,7 +182,6 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                 width={100}
                 height={100}
                 alt={photo.url_part}
-                loading="lazy"
               />
             </SwiperSlide>
           ))}
@@ -288,6 +287,7 @@ const ItemSlider = ({ photos, toggleScrollLock, isLoading }: IPhotosProps) => {
                   alt={photo.url_part}
                   className={styles.product_img}
                   onClick={modalSliderOpenOrClose}
+                  priority={true}
                 />
               )}
             </SwiperSlide>
