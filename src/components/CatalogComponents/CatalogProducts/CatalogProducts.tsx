@@ -1,7 +1,7 @@
 "use client";
 import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { useEffect, useState } from "react";
-import { IFiltersBrand } from "@/types/filtersBrand";
+import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import CatalogProductList from "./CatalogProductList";
 import Image from "next/image";
 import styles from "./style.module.scss";
@@ -21,6 +21,7 @@ import { url } from "@/components/temporary/data";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 
+import cn from "clsx";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -79,17 +80,20 @@ export default function CatalogProducts({
   // Функция для очистки фильтров
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters: ISelectedFilterProps) => {
-      // Создаем копию предыдущего состояния, чтобы избежать мутации
       const updatedFilters: any = { ...prevFilters };
 
-      // Проверяем, существует ли имя фильтра в selectedFilters
       if (updatedFilters.hasOwnProperty(name)) {
-        // Сбрасываем массив значений фильтра
         updatedFilters[name] = [];
       }
 
       return updatedFilters;
     });
+  };
+
+  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
+    return Object.values(filters).filter(
+      (filter) => !selectedFilters.includes(filter.id_filter.toString())
+    );
   };
 
   const clearFilterCena = () => {
@@ -249,6 +253,7 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              clearFilterByID={clearFilterByID}
               clearFilterCena={clearFilterCena}
               applyPrice={handleApplyPrice}
               clearFilter={clearFilter}
@@ -268,7 +273,7 @@ export default function CatalogProducts({
               ]}
             />
 
-            <div className="default__sort_style">
+            <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button
                 className="default__sort_icons"
                 onClick={() => handleViewChange(false)}

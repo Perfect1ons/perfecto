@@ -1,4 +1,4 @@
-import { IFiltersBrand, N11 } from "@/types/filtersBrand";
+import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   CheckIcon,
   CheckIconFilter,
@@ -49,6 +49,11 @@ const EveryFilters = ({
   const toggleFilters = (filterName: string) => {
     setVisibleFilters((prev) => (prev === filterName ? null : filterName));
   };
+  const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
+    return Object.values(filters).filter((filter) =>
+      selectedFilters.includes(filter.id_filter.toString())
+    ).length;
+  };
   return (
     <>
       <div>
@@ -87,6 +92,12 @@ const EveryFilters = ({
                               <button className="catalogFilterButtonEvery">
                                 {item.type_name}
                               </button>
+                              {getFilterCount(item.filter, selectedFilters) >
+                                0 && (
+                                <span>
+                                  {getFilterCount(item.filter, selectedFilters)}
+                                </span>
+                              )}
                               <span
                                 className={cn(
                                   "filterNavItemArrowIsActive",
@@ -104,7 +115,9 @@ const EveryFilters = ({
                                     (data: any) => (
                                       <ul
                                         onClick={() =>
-                                          handleSelectChange(data.id_filter)
+                                          handleSelectChange(
+                                            data.id_filter.toString()
+                                          )
                                         }
                                         key={data.id_filter}
                                         className="showFiltersUlContainer"
@@ -115,13 +128,13 @@ const EveryFilters = ({
                                             {
                                               ["showFiltersUlContainer__checkActive"]:
                                                 selectedFilters.includes(
-                                                  data.id_filter
+                                                  data.id_filter.toString()
                                                 ),
                                             }
                                           )}
                                         >
                                           {selectedFilters.includes(
-                                            data.id_filter
+                                            data.id_filter.toString()
                                           ) && <CheckIconFilter />}
                                         </span>
                                         <li>{data.name}</li>
