@@ -50,6 +50,7 @@ const EveryFilters = ({
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
+
   return (
     <>
       <div>
@@ -108,7 +109,9 @@ const EveryFilters = ({
                               {Object.values(item.filter).map((data: any) => (
                                 <ul
                                   onClick={() =>
-                                    handleSelectChange(data.id_filter)
+                                    handleSelectChange(
+                                      data.id_filter.toString()
+                                    )
                                   }
                                   key={data.id_filter}
                                   className="showFiltersUlContainer"
@@ -119,13 +122,13 @@ const EveryFilters = ({
                                       {
                                         ["showFiltersUlContainer__checkActive"]:
                                           selectedFilters.includes(
-                                            data.id_filter
+                                            data.id_filter.toString()
                                           ),
                                       }
                                     )}
                                   >
                                     {selectedFilters.includes(
-                                      data.id_filter
+                                      data.id_filter.toString()
                                     ) && <CheckIconFilter />}
                                   </span>
                                   <li>{data.name}</li>
