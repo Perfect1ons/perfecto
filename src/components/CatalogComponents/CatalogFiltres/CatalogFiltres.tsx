@@ -96,15 +96,17 @@ const CatalogFiltres = ({
         visibleFilter={visibleFilter}
         filter={filter}
       />
-      <EveryFilters
-        selectedFilters={selectedFilters.additional_filter}
-        toggleFilter={toggleFilter}
-        visibleFilter={visibleFilter}
-        changeSelect={(value: string[]) =>
-          handleFilterChange("additional_filter", value)
-        }
-        filter={filter}
-      />
+      {filter.filter[11] && (
+        <EveryFilters
+          selectedFilters={selectedFilters.additional_filter}
+          toggleFilter={toggleFilter}
+          visibleFilter={visibleFilter}
+          changeSelect={(value: string[]) =>
+            handleFilterChange("additional_filter", value)
+          }
+          filter={filter}
+        />
+      )}
     </div>
   );
 };

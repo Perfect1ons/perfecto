@@ -5,10 +5,11 @@
   width: 100%;
   max-height: max-content;
   background: #fff;
-  z-index: 100;
+  z-index: 200;
   display: none;
   visibility: hidden;
   transition: 0.3s;
+  border-radius: 5px;
 }
 
 .wrap {

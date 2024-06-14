@@ -7,8 +7,10 @@
 }
 .catalogFilterButton {
   @include mixin.flex(center, center, null, 2px);
-  @include mixin.font(14px, 500, null, var(--dark));
+  @include mixin.font(0.875rem, 500, null, var(--dark));
+  text-align: center;
   padding: 8px 12px;
+  text-wrap: nowrap;
   background: var(--white);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   position: relative;
@@ -104,6 +106,7 @@
 }
 .showFiltersUlContainer {
   @include mixin.flex(center, center, null, 10px);
+  @include mixin.font(0.875rem, 400, null, var(--dark));
   cursor: pointer;
   &:hover {
     > .showFiltersUlContainer__check {
@@ -162,10 +165,10 @@
 }
 .nameAndKol {
   @include mixin.flex(center, null, null, 5px);
-  @include mixin.font(16px, 500, null, null);
+  @include mixin.font(0.875rem, 400, null, null);
 }
 .quantity {
-  @include mixin.font(14px, 400, null, null);
+  @include mixin.font(0.875rem, 400, null, null);
 }
 .filterCount {
   @include mixin.flex(center, center, null, null);
@@ -205,14 +208,16 @@
 .everyFilterContainer {
   @include mixin.flex(flex-start, flex-start, null, 20px);
   flex-wrap: wrap;
+  cursor: pointer;
 }
 .filterColumn {
   background-color: #f5f7fa;
   border-radius: 5px;
 }
 .catalogFilterButtonEvery {
+  cursor: pointer;
   @include mixin.flex(center, center, null, null);
-  @include mixin.font(14px, 500, null, var(--dark));
+  @include mixin.font(0.875rem, 500, null, var(--dark));
   padding: 8px 12px;
   overflow: hidden;
   position: relative;
@@ -225,4 +230,15 @@
 .additionalFilterActiveDropdown {
   @include mixin.flex(center, null, column, 12px);
   padding: 20px;
+}
+
+.filterBackdrop {
+  z-index: 199;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--dark);
+  opacity: 0.5;
 }
