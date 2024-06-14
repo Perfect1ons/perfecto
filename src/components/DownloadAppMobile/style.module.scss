@@ -2,14 +2,14 @@
 .app {
   background: var(--white);
   position: fixed;
-  bottom: 60px;
+  top: 55px;
   @include mixin.flex(null, space-between, null, null);
   z-index: 400;
   width: 100%;
   transition: all 0.5s ease;
 
   &_scrolled {
-    bottom: 0px;
+    top: 0;
   }
 }
 
@@ -65,13 +65,13 @@
   border-radius: 10px;
 }
 .appBannerInfoText {
-  @include mixin.flex(null, center, column, 5px);
+  @include mixin.flex(null, center, column, 3px);
 }
 .appBannerInfoTextDesc {
   @include mixin.font(0.9375rem, 300, null, var(--light-gray));
 }
 .appBannerInfoTextTitle {
-  @include mixin.font(1.25rem, 500, null, var(--black));
+  @include mixin.font(20px, 500, 0.7, var(--black));
 }
 .appBannerOpenBtn {
   -webkit-tap-highlight-color: transparent;

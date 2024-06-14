@@ -13,6 +13,7 @@ import {
   getSecondBanner,
   getThirdBanner,
 } from "@/api/requests";
+import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import FormComponent from "@/components/Form/Form";
 import FormData from "@/components/Form/Form";
 import Banner from "@/components/HomeComponents/Banner/Banner";
@@ -20,15 +21,12 @@ import PopularCategory from "@/components/HomeComponents/PopularCategory/Popular
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
 
-
-
 const LazySecondBanner = dynamic(
-  () => import("@/components/HomeComponents/Banner/SecondBanner"),
+  () => import("@/components/HomeComponents/Banner/SecondBanner")
 );
 const LazyThirdBanner = dynamic(
-  () => import("@/components/HomeComponents/Banner/ThirdBanner"),
+  () => import("@/components/HomeComponents/Banner/ThirdBanner")
 );
-
 const LazySeasonCategorySwiper = dynamic(
   () =>
     import(
@@ -38,70 +36,80 @@ const LazySeasonCategorySwiper = dynamic(
 const LazyTodaysBoughts = dynamic(
   () => import("@/components/HomeComponents/TodayBoughts/TodayBoughts")
 );
-const LazyNews = dynamic(
-  () => import("@/components/HomeComponents/News/News"),
-
-);
+const LazyNews = dynamic(() => import("@/components/HomeComponents/News/News"));
 const LazyDiscounts = dynamic(
-  () => import("@/components/HomeComponents/Discounts/Discounts"),
+  () => import("@/components/HomeComponents/Discounts/Discounts")
 );
 const LazyPromotion = dynamic(
-  () => import("@/components/HomeComponents/Promotion/Promotion"),
-
+  () => import("@/components/HomeComponents/Promotion/Promotion")
 );
 const LazyPopularGoods = dynamic(
-  () => import("@/components/HomeComponents/PopularGoods/PopularGoods"),
+  () => import("@/components/HomeComponents/PopularGoods/PopularGoods")
 );
-
 const LazyBrands = dynamic(
-  () => import("@/components/HomeComponents/Brands/Brands"),
+  () => import("@/components/HomeComponents/Brands/Brands")
 );
 
 export default async function Home() {
-  const [popularCategoryData,goodsData] = await Promise.all([
-    getPopularCategory(),
-    getPopularGoods(1),
-  ])
-  const [
-    mobileData,
-    desktopData,
-    newsData,
-    discounts,
-    secondBanner,
-    promotionData,
-    seasonCategoryData,
-    brandsData,
-  ] = await Promise.all([
-    getMobileData(),
-    getDekstopData(),
-    getNewsByLimit(),
-    getDiscounts(),
-    getSecondBanner(),
-    getPromotion(),
-    getSeasonCategory(),
-    getBrands(),
-  ]);
+  let popularCategoryData, goodsData;
 
-  const [todayBoughtsData, thirdBanner] = await Promise.all([
-    getBoughts(1),
-    getThirdBanner(),
-  ])
+  try {
+    [popularCategoryData, goodsData] = await Promise.all([
+      getPopularCategory(),
+      getPopularGoods(1),
+    ]);
+  } catch (error) {
+    console.error("Error fetching popular category or goods data:", error);
+    // Handle error, e.g., show ErrorPage
+    return <ErrorPage />;
+  }
 
-  return (
-    <>
-      <Banner mobileData={mobileData} deskstopData={desktopData} />
-      <PopularCategory category={popularCategoryData} />
-      <LazyPopularGoods goods={goodsData} />
-      <LazyNews news={newsData} />
-      <LazyDiscounts discounts={discounts} />
-      <LazySecondBanner banner={secondBanner.baner} />
-      <LazyPromotion promotion={promotionData} />
-      <LazySeasonCategorySwiper seasonItems={seasonCategoryData} />
-      <LazyBrands brands={brandsData} />
-      <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
-      <LazyThirdBanner banner={thirdBanner.baner} />
-    </>
-  );
+  try {
+    const [
+      mobileData,
+      desktopData,
+      newsData,
+      discounts,
+      secondBanner,
+      promotionData,
+      seasonCategoryData,
+      brandsData,
+    ] = await Promise.all([
+      getMobileData(),
+      getDekstopData(),
+      getNewsByLimit(),
+      getDiscounts(),
+      getSecondBanner(),
+      getPromotion(),
+      getSeasonCategory(),
+      getBrands(),
+    ]);
+
+    const [todayBoughtsData, thirdBanner] = await Promise.all([
+      getBoughts(1),
+      getThirdBanner(),
+    ]);
+
+    return (
+      <>
+        <Banner mobileData={mobileData} deskstopData={desktopData} />
+        <PopularCategory category={popularCategoryData} />
+        <LazyPopularGoods goods={goodsData} />
+        <LazyNews news={newsData} />
+        <LazyDiscounts discounts={discounts} />
+        <LazySecondBanner banner={secondBanner.baner} />
+        <LazyPromotion promotion={promotionData} />
+        <LazySeasonCategorySwiper seasonItems={seasonCategoryData} />
+        <LazyBrands brands={brandsData} />
+        <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
+        <LazyThirdBanner banner={thirdBanner.baner} />
+        <ErrorPage />
+      </>
+    );
+  } catch (error) {
+    console.error("Error fetching other data:", error);
+    return <ErrorPage />;
+  }
 }
 
 export async function generateMetadata() {
