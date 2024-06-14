@@ -15,12 +15,13 @@ import {
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
+import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface ICatalogProductsProps {
-  banner: IIntroBannerDekstop
+  banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
@@ -61,6 +62,12 @@ export default function CatalogProducts({
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
+  const mobileFilter = useMediaQuery("(max-width: 992px)");
+
+  const toggleView = (view: boolean) => {
+    setIsColumnView(view);
+    handleViewChange(view);
+  };
 
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
@@ -183,7 +190,7 @@ export default function CatalogProducts({
     fetchData();
   };
   return (
-    <section className="seek">
+    <section className="container">
       <div className="all__directions container">
         {breadCrumbs.slice(-2, -1).map((crumbs) => (
           <Link
@@ -223,58 +230,76 @@ export default function CatalogProducts({
           />
         </Link>
       </div>
-      <div className="container">
-        <div className="sort__buttons">
-          <CatalogFiltres
-            clearFilterCena={clearFilterCena}
-            applyPrice={handleApplyPrice}
-            clearFilter={clearFilter}
-            price={price}
-            handlePriceRangeChange={handlePriceRangeChange}
-            handleFilterChange={handleFilterChange}
-            selectedFilters={selectedFilters}
-            onChange={(value) => handleSort(value)}
-            filter={filter}
-            catalog={catalog}
-            value={sortOrder || "default"}
-            options={[
-              { label: "По умолчанию", value: "default" },
-              { label: "Сначала дешевле", value: "cheap" },
-              { label: "Сначала дороже", value: "expensive" },
-              { label: "По рейтингу", value: "rating" },
-            ]}
-          />
-          <div className="default__sort_style">
-            <button
-              className="default__sort_icons"
-              onClick={() => handleViewChange(false)}
-            >
-              {[...Array(4)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`default__sort_icon ${
-                    !isColumnView ? "sort__button_icons_active" : ""
-                  }`}
-                ></div>
-              ))}
-            </button>
+      {mobileFilter ? (
+        <AllFiltersMobile
+          value={sortOrder || "default"}
+          options={[
+            { label: "По умолчанию", value: "default" },
+            { label: "Сначала дешевле", value: "cheap" },
+            { label: "Сначала дороже", value: "expensive" },
+            { label: "По рейтингу", value: "rating" },
+          ]}
+          onChange={(value) => handleSort(value)}
+          filter={filter}
+          isColumnView={isColumnView}
+          toggleView={toggleView}
+        />
+      ) : (
+        <div className="container">
+          <div className="sort__buttons">
+            <CatalogFiltres
+              clearFilterCena={clearFilterCena}
+              applyPrice={handleApplyPrice}
+              clearFilter={clearFilter}
+              price={price}
+              handlePriceRangeChange={handlePriceRangeChange}
+              handleFilterChange={handleFilterChange}
+              selectedFilters={selectedFilters}
+              onChange={(value) => handleSort(value)}
+              filter={filter}
+              catalog={catalog}
+              value={sortOrder || "default"}
+              options={[
+                { label: "По умолчанию", value: "default" },
+                { label: "Сначала дешевле", value: "cheap" },
+                { label: "Сначала дороже", value: "expensive" },
+                { label: "По рейтингу", value: "rating" },
+              ]}
+            />
 
-            <button
-              className="default__sort_icons_column"
-              onClick={() => handleViewChange(true)}
-            >
-              {[...Array(2)].map((_, index) => (
-                <div
-                  key={index}
-                  className={`default__sort_icon_column ${
-                    isColumnView ? "sort__button_icons_active" : ""
-                  }`}
-                ></div>
-              ))}
-            </button>
+            <div className="default__sort_style">
+              <button
+                className="default__sort_icons"
+                onClick={() => handleViewChange(false)}
+              >
+                {[...Array(4)].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`default__sort_icon ${
+                      !isColumnView ? "sort__button_icons_active" : ""
+                    }`}
+                  ></div>
+                ))}
+              </button>
+
+              <button
+                className="default__sort_icons_column"
+                onClick={() => handleViewChange(true)}
+              >
+                {[...Array(2)].map((_, index) => (
+                  <div
+                    key={index}
+                    className={`default__sort_icon_column ${
+                      isColumnView ? "sort__button_icons_active" : ""
+                    }`}
+                  ></div>
+                ))}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
       {/* <ul className={styles.choiseList}>
         {Object.entries(selectedBrands).map(([mainKey, subKeys]) =>
           Object.entries(subKeys).map(
@@ -312,6 +337,19 @@ export default function CatalogProducts({
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
+      <div className={styles.descriptionContainer}>
+        <h2 className={styles.descriptionContainer__categoryTitle}>
+          {catalog.category.title}
+        </h2>
+        <div className={styles.parapContainer}>
+          <p className={styles.parapContainer__keywords}>
+            {catalog.category.description}
+          </p>
+          <p className={styles.parapContainer__keywords}>
+            {catalog.category.keywords}
+          </p>
+        </div>
+      </div>
     </section>
   );
 }
