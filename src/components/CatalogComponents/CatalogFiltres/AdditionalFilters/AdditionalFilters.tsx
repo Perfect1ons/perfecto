@@ -43,15 +43,19 @@ const AdditionalFilters = ({
   const handleShowAll = () => {
     setShowAll(true);
   };
-  const handleSelectChange = (item: string) => {
-    const filters = selectedFilters;
-    const newFilters = filters.includes(item)
-      ? filters.filter((f) => f !== item)
-      : [...filters, item];
 
-    if (changeSelect) {
-      changeSelect(newFilters);
-    }
+  const handleSelectChange = (item: string) => {
+    const newFilters = selectedFilters.includes(item)
+      ? selectedFilters.filter((f) => f !== item)
+      : [...selectedFilters, item];
+
+    changeSelect(newFilters);
+  };
+
+  const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
+    return Object.values(filters).filter((filter) =>
+      selectedFilters.includes(filter.id_filter.toString())
+    ).length;
   };
 
   return (
@@ -73,17 +77,11 @@ const AdditionalFilters = ({
               >
                 <СhevronDownIcon />
               </span>
-              {/* {Object.keys(item.filter).map((key: string) => {
-                  const id_filter = parseInt(key);
-                  const count = selectedFilters.filter(
-                    (filter) => filter === id_filter
-                  ).length;
-                  return (
-                    <span key={key} className="filterCount">
-                      {count}
-                    </span>
-                  );
-                })} */}
+              {getFilterCount(item.filter, selectedFilters) > 0 && (
+                <span className="filterCount">
+                  {getFilterCount(item.filter, selectedFilters)}
+                </span>
+              )}
             </button>
             {visibleFilter === item.type_name && (
               <ul className="showCatalogFilterActive">
@@ -94,21 +92,23 @@ const AdditionalFilters = ({
                   >
                     <Cross />
                   </button>
-                  {Object.values(item.filter).map((data: any) => (
+                  {Object.values(item.filter).map((data: N43) => (
                     <ul
-                      onClick={() => handleSelectChange(data.id_filter)}
+                      onClick={() =>
+                        handleSelectChange(data.id_filter.toString())
+                      }
                       key={data.id_filter}
                       className="showFiltersUlContainer"
                     >
                       <span
                         className={cn("showFiltersUlContainer__check", {
                           ["showFiltersUlContainer__checkActive"]:
-                            selectedFilters.includes(data.id_filter),
+                            selectedFilters.includes(data.id_filter.toString()),
                         })}
                       >
-                        {selectedFilters.includes(data.id_filter) && (
-                          <CheckIconFilter />
-                        )}
+                        {selectedFilters.includes(
+                          data.id_filter.toString()
+                        ) && <CheckIconFilter />}
                       </span>
                       <li className="nameAndKol">
                         {data.name}{" "}
