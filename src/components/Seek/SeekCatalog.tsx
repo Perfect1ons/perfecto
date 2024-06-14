@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -10,6 +10,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "../../../public/Icons/Icons";
 import { ISeekCatalog } from "@/types/Search/seek";
 import styles from "./style.module.scss";
 import SeekCatalogLoader from "../UI/Loader/SeekCatalogLoader";
+import clsx from "clsx";
 
 interface ISeekCatalogProps {
   catalog: ISeekCatalog[];
@@ -28,7 +29,6 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
     return () => clearTimeout(timer);
   }, []);
 
-
   if (isLoading) {
     return <SeekCatalogLoader />;
   }
@@ -40,8 +40,9 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
       slidesPerGroup={7}
       spaceBetween={15}
       navigation={{
-        nextEl: ".team__btn_next",
-        prevEl: ".team__btn_prev",
+        nextEl: ".swiper-button-next_card",
+        prevEl: ".swiper-button-prev_card",
+        disabledClass: "swiper-button-disabled",
       }}
       pagination={{ clickable: true }}
       breakpoints={{
@@ -97,21 +98,26 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
           </SwiperSlide>
         );
       })}
-      <div className={styles.team__swiper_buttons}>
-        <div className="team__btn_prev">
-          <button className={styles.team__swiper_btn}>
-            <ArrowLeftIcon />
-          </button>
-        </div>
-        <div className="team__btn_next">
-          <button className={styles.team__swiper_btn}>
-            <ArrowRightIcon />
-          </button>
-        </div>
-      </div>
+      <button
+        className={clsx(
+          styles.sliderArrow,
+          styles.sliderArrow_left,
+          "swiper-button-prev_card"
+        )}
+      >
+        <ArrowLeftIcon />
+      </button>
+      <button
+        className={clsx(
+          styles.sliderArrow,
+          styles.sliderArrow_right,
+          "swiper-button-next_card"
+        )}
+      >
+        <ArrowRightIcon />
+      </button>
     </Swiper>
   );
 };
 
 export default SeekCatalog;
-

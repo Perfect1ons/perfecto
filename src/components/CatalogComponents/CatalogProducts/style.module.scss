@@ -1,4 +1,5 @@
 @use "../../../assets/scss/common/mixins" as mixin;
+
 .containerUndefined {
   @include mixin.flex(center, center, null, 10px);
   flex-wrap: wrap;

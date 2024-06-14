@@ -3,11 +3,12 @@ import {
   CheckIcon,
   CheckIconFilter,
   FilterIcon,
+  XMark,
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
+import styles from "./style.module.scss";
 import cn from "clsx";
 import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
-import styles from "./style.module.scss";
 import { useState } from "react";
 interface IEveryFilterProps {
   filter: IFiltersBrand;
@@ -15,6 +16,7 @@ interface IEveryFilterProps {
   toggleFilter: (name: string) => void;
   selectedFilters: string[];
   changeSelect: (value: string[]) => void;
+  clearFilter: (name: string) => void;
 }
 
 const EveryFilters = ({
@@ -23,6 +25,7 @@ const EveryFilters = ({
   visibleFilter,
   selectedFilters,
   changeSelect,
+  clearFilter,
 }: IEveryFilterProps) => {
   const filtersArray = Object.values(filter.filter);
   const half = Math.ceil(filtersArray.length / 2);
@@ -50,7 +53,7 @@ const EveryFilters = ({
     <>
       <div>
         <button
-          className="catalogFilterButton"
+          className={cn("catalogFilterButton", "highlighted")}
           onClick={() => toggleFilter("every")}
         >
           Все фильтры
@@ -60,6 +63,12 @@ const EveryFilters = ({
         </button>
         <Modal close={closeEveryFilter} isVisible={visibleFilter === "every"}>
           <div className={styles.container}>
+            <button
+              onClick={closeEveryFilter}
+              className={styles.container_cross}
+            >
+              <XMark />
+            </button>
             <div className="everyFilterContainer">
               {[...Array(2)].map((_, index) => (
                 <div key={index} className="filterColumn">
@@ -176,6 +185,30 @@ const EveryFilters = ({
                   )}
                 </div>
               ))} */}
+            </div>
+            <div className={styles.container_btnControl}>
+              <button
+                onClick={() => clearFilter("additional_filter")}
+                disabled={selectedFilters.length <= 0}
+                className={cn(
+                  styles.container_btnControl_reset,
+                  selectedFilters.length > 0 &&
+                    styles.container_btnControl_reset_active
+                )}
+              >
+                Сбросить
+              </button>
+              <button
+                onClick={closeEveryFilter}
+                disabled={selectedFilters.length <= 0}
+                className={cn(
+                  styles.container_btnControl_apply,
+                  selectedFilters.length > 0 &&
+                    styles.container_btnControl_apply_active
+                )}
+              >
+                Применить
+              </button>
             </div>
           </div>
         </Modal>

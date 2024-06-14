@@ -34,7 +34,8 @@
 
 .mainSwiperWrap {
   border-radius: 8px !important;
-  width: 500px;
+  min-width: 500px;
+  max-width: 500px;
   height: 500px;
 
   @include mixin.flex(flex-start, center, column, 5px);
