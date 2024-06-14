@@ -61,86 +61,82 @@ const EveryFilters = ({
             <FilterIcon />
           </span>
         </button>
-        <Modal close={closeEveryFilter} isVisible={visibleFilter === "every"}>
-          <div className={styles.container}>
-            <button
-              onClick={closeEveryFilter}
-              className={styles.container_cross}
-            >
-              <XMark />
-            </button>
-            <div className="everyFilterContainer">
-              {[...Array(2)].map((_, index) => (
-                <div key={index} className="filterColumn">
-                  {Object.values(filter.filter).map(
-                    (item: N11, idx: number) => {
-                      if (idx % 2 === index) {
-                        return (
-                          <div
-                            key={item.id_type}
-                            className="everyFilterContainerChild"
-                          >
-                            <div
-                              onClick={() => toggleFilters(item.type_name)}
-                              className="catalogFilterContainerButtonEvery"
-                            >
-                              <button className="catalogFilterButtonEvery">
-                                {item.type_name}
-                              </button>
-                              <span
-                                className={cn(
-                                  "filterNavItemArrowIsActive",
-                                  visibleFilters === item.type_name &&
-                                    "filterNavItemArrow"
-                                )}
-                              >
-                                <СhevronDownIcon />
-                              </span>
-                            </div>
-                            {visibleFilters === item.type_name && (
-                              <ul className="additionalFilterActiveDropdown">
-                                <div className="showCatalogFilterActiveChild">
-                                  {Object.values(item.filter).map(
-                                    (data: any) => (
-                                      <ul
-                                        onClick={() =>
-                                          handleSelectChange(data.id_filter)
-                                        }
-                                        key={data.id_filter}
-                                        className="showFiltersUlContainer"
-                                      >
-                                        <span
-                                          className={cn(
-                                            "showFiltersUlContainer__check",
-                                            {
-                                              ["showFiltersUlContainer__checkActive"]:
-                                                selectedFilters.includes(
-                                                  data.id_filter
-                                                ),
-                                            }
-                                          )}
-                                        >
-                                          {selectedFilters.includes(
-                                            data.id_filter
-                                          ) && <CheckIconFilter />}
-                                        </span>
-                                        <li>{data.name}</li>
-                                      </ul>
-                                    )
-                                  )}
-                                </div>
-                              </ul>
+        <div
+          className={cn(styles.container, {
+            [styles.containerActive]: visibleFilter === "every",
+          })}
+        >
+          <button onClick={closeEveryFilter} className={styles.container_cross}>
+            <XMark />
+          </button>
+          <div className="everyFilterContainer">
+            {[...Array(2)].map((_, index) => (
+              <div key={index} className="filterColumn">
+                {Object.values(filter.filter).map((item: N11, idx: number) => {
+                  if (idx % 2 === index) {
+                    return (
+                      <div
+                        key={item.id_type}
+                        className="everyFilterContainerChild"
+                      >
+                        <div
+                          onClick={() => toggleFilters(item.type_name)}
+                          className="catalogFilterContainerButtonEvery"
+                        >
+                          <button className="catalogFilterButtonEvery">
+                            {item.type_name}
+                          </button>
+                          <span
+                            className={cn(
+                              "filterNavItemArrowIsActive",
+                              visibleFilters === item.type_name &&
+                                "filterNavItemArrow"
                             )}
-                          </div>
-                        );
-                      }
-                      return null;
-                    }
-                  )}
-                </div>
-              ))}
+                          >
+                            <СhevronDownIcon />
+                          </span>
+                        </div>
+                        {visibleFilters === item.type_name && (
+                          <ul className="additionalFilterActiveDropdown">
+                            <div className="showCatalogFilterActiveChild">
+                              {Object.values(item.filter).map((data: any) => (
+                                <ul
+                                  onClick={() =>
+                                    handleSelectChange(data.id_filter)
+                                  }
+                                  key={data.id_filter}
+                                  className="showFiltersUlContainer"
+                                >
+                                  <span
+                                    className={cn(
+                                      "showFiltersUlContainer__check",
+                                      {
+                                        ["showFiltersUlContainer__checkActive"]:
+                                          selectedFilters.includes(
+                                            data.id_filter
+                                          ),
+                                      }
+                                    )}
+                                  >
+                                    {selectedFilters.includes(
+                                      data.id_filter
+                                    ) && <CheckIconFilter />}
+                                  </span>
+                                  <li>{data.name}</li>
+                                </ul>
+                              ))}
+                            </div>
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            ))}
 
-              {/* {Object.values(filter.filter).map((item: N11) => (
+            {/* {Object.values(filter.filter).map((item: N11) => (
                 <div key={item.id_type} className="everyFilterContainerChild">
                   <button
                     className="catalogFilterButtonEvery"
@@ -185,33 +181,32 @@ const EveryFilters = ({
                   )}
                 </div>
               ))} */}
-            </div>
-            <div className={styles.container_btnControl}>
-              <button
-                onClick={() => clearFilter("additional_filter")}
-                disabled={selectedFilters.length <= 0}
-                className={cn(
-                  styles.container_btnControl_reset,
-                  selectedFilters.length > 0 &&
-                    styles.container_btnControl_reset_active
-                )}
-              >
-                Сбросить
-              </button>
-              <button
-                onClick={closeEveryFilter}
-                disabled={selectedFilters.length <= 0}
-                className={cn(
-                  styles.container_btnControl_apply,
-                  selectedFilters.length > 0 &&
-                    styles.container_btnControl_apply_active
-                )}
-              >
-                Применить
-              </button>
-            </div>
           </div>
-        </Modal>
+          <div className={styles.container_btnControl}>
+            <button
+              onClick={() => clearFilter("additional_filter")}
+              disabled={selectedFilters.length <= 0}
+              className={cn(
+                styles.container_btnControl_reset,
+                selectedFilters.length > 0 &&
+                  styles.container_btnControl_reset_active
+              )}
+            >
+              Сбросить
+            </button>
+            <button
+              onClick={closeEveryFilter}
+              disabled={selectedFilters.length <= 0}
+              className={cn(
+                styles.container_btnControl_apply,
+                selectedFilters.length > 0 &&
+                  styles.container_btnControl_apply_active
+              )}
+            >
+              Применить
+            </button>
+          </div>
+        </div>
         {visibleFilter === "every" && (
           <div onClick={closeEveryFilter} className="filterBackdrop"></div>
         )}

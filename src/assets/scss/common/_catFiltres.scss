@@ -216,7 +216,7 @@
   cursor: pointer;
   width: 100%;
   @include mixin.flex(center, space-between, null, null);
-  padding: 0 0 12px 0;
+  padding: 12px;
   overflow: hidden;
   position: relative;
   &:hover {

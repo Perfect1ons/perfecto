@@ -8,6 +8,7 @@
   height: 500px;
   padding: 20px;
   border-radius: 5px;
+  display: none;
   &_cross {
     position: absolute;
     right: 20px;
@@ -64,4 +65,13 @@
       }
     }
   }
+}
+.containerActive {
+  background: var(--white);
+  position: fixed;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Убедитесь, что элемент находится поверх других */
 }

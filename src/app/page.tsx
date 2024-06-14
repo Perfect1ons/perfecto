@@ -103,7 +103,6 @@ export default async function Home() {
         <LazyBrands brands={brandsData} />
         <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
         <LazyThirdBanner banner={thirdBanner.baner} />
-        <ErrorPage />
       </>
     );
   } catch (error) {
