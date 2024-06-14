@@ -355,10 +355,8 @@ body {
   margin-top: 10px;
   margin-bottom: 15px;
   border-radius: 5px;
-
   @include mixin.flex(center, space-between, null, 10px);
 
-  padding: 5px 10px;
   &_title {
     background: var(--dark-blue);
     color: var(--white);
