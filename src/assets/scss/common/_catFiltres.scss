@@ -256,3 +256,11 @@
 .highlighted {
   outline: 2px solid var(--dark);
 }
+
+.sortBoxShadow {
+  padding: 8px 12px;
+  border-radius: 5px;
+  outline: 2px solid var(--white);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
