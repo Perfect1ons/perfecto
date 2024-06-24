@@ -10,25 +10,30 @@ interface WindowWithOpenURL extends Window {
 }
 
 const DownloadAppMobile = () => {
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const isMobile = useMediaQuery("(max-width: 992px)");
   const [appLink, setAppLink] = useState("");
   const [isBannerVisible, setIsBannerVisible] = useState(false);
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent.toLowerCase();
-    if (userAgent.includes("android")) {
-      setAppLink(
-        "https://play.google.com/store/apps/details?id=kg.max.maxapp&utm_source=app_download_android"
-      );
-    } else if (
-      userAgent.includes("iphone") ||
-      userAgent.includes("ipad") ||
-      userAgent.includes("ipod")
-    ) {
-      setAppLink(
-        "https://apps.apple.com/kg/app/%D0%BC%D0%B0%D1%80%D0%BA%D0%B5%D1%82%D0%BF%D0%BB%D0%B5%D0%B9%D1%81-max-kg/id6475755307"
-      );
+    let appLink;
+
+    switch (true) {
+      case userAgent.includes("android"):
+        appLink =
+          "https://play.google.com/store/apps/details?id=kg.max.maxapp&utm_source=app_download_android";
+        break;
+      case userAgent.includes("iphone") ||
+        userAgent.includes("ipad") ||
+        userAgent.includes("ipod"):
+        appLink =
+          "https://apps.apple.com/kg/app/%D0%BC%D0%B0%D1%80%D0%BA%D0%B5%D1%82%D0%BF%D0%BB%D0%B5%D0%B9%D1%81-max-kg/id6475755307";
+        break;
+      default:
+        appLink = "";
     }
+
+    setAppLink(appLink);
 
     const hideTimer = setTimeout(() => {
       setIsBannerVisible(true);

@@ -1,6 +1,5 @@
 import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
-  CheckIcon,
   CheckIconFilter,
   FilterIcon,
   XMark,
@@ -8,7 +7,6 @@ import {
 } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import Modal from "@/components/UI/ModalHeaders/Modal/Modal";
 import { useState } from "react";
 interface IEveryFilterProps {
   filter: IFiltersBrand;
@@ -89,7 +87,7 @@ const EveryFilters = ({
                             {item.type_name}
                           </button>
                           {getFilterCount(item.filter, selectedFilters) > 0 && (
-                            <span>
+                            <span className="catalogFilterSelected">
                               {getFilterCount(item.filter, selectedFilters)}
                             </span>
                           )}

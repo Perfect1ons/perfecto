@@ -34,11 +34,6 @@ export interface IFiltersProps {
   dost: string[];
   additional_filter: any[];
 }
-type BrandSelection = {
-  [key: string]: {
-    [key: string]: boolean;
-  };
-};
 
 export default function CatalogProducts({
   banner,
@@ -50,10 +45,15 @@ export default function CatalogProducts({
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<Tov[]>(initialItems);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
+    id: catalog.category.id,
     brand: [],
     dost: [],
     additional_filter: [],
+    priceMin: 0,
+    priceMax: 0,
   });
+
+  console.log(selectedFilters);
 
   const [price, setPrice] = useState<{ min: number; max: number }>({
     min: 0,
@@ -173,7 +173,11 @@ export default function CatalogProducts({
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
-    setPrice({ min, max });
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      priceMin: min,
+      priceMax: max,
+    }));
   };
 
   const handleApplyPrice = () => {
@@ -220,6 +224,7 @@ export default function CatalogProducts({
       </div>
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
+        {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
         <Link href={"/page/partneram/prodavcam"}>
           <Image
             src={
@@ -227,7 +232,6 @@ export default function CatalogProducts({
                 ? `${url}bimages/baner/mobile/baner_${banner.baner[0].id}.jpg`
                 : `${url}bimages/baner/baner_${banner.baner[0].id}.jpg`
             }
-            // src="https://max.kg/bimages/baner/baner_${}.jpg
             width={1440}
             height={300}
             alt={banner.baner[0].naim}
@@ -305,33 +309,6 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
-
-      {/* <ul className={styles.choiseList}>
-        {Object.entries(selectedBrands).map(([mainKey, subKeys]) =>
-          Object.entries(subKeys).map(
-            ([subKey, isSelected]) =>
-              isSelected && (
-                <li
-                  key={`${mainKey}-${subKey}`}
-                  className={styles.choiseList__li}
-                >
-                  {subKey}
-                  <span
-                    className={styles.choiseList__li__button}
-                    onClick={() => toggleBrandSelection(mainKey, subKey)}
-                  >
-                    <Cross />
-                  </span>
-                </li>
-              )
-          )
-        )}
-        {Object.keys(selectedBrands).length > 0 && (
-          <button onClick={resetSelectionAll} className={styles.clearAllButton}>
-            Очистить все
-          </button>
-        )}
-      </ul> */}
       {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
@@ -344,9 +321,9 @@ export default function CatalogProducts({
         <CatalogProductList items={items} isColumnView={isColumnView} />
       )}
       <div className={clsx(styles.descriptionContainer, "container")}>
-        <h2 className={styles.descriptionContainer__categoryTitle}>
+        <h3 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
-        </h2>
+        </h3>
         <div className={styles.parapContainer}>
           <p className={styles.parapContainer__keywords}>
             {catalog.category.description}

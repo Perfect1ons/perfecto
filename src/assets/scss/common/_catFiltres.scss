@@ -231,6 +231,7 @@
   border-radius: 5px;
   padding: 12px;
   max-height: 100%;
+  margin-bottom: 60px;
 }
 .catalogFilterButtonEvery {
   @include mixin.flex(center, null, null, null);
@@ -263,4 +264,12 @@
   outline: 2px solid var(--white);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   background: #fff;
+}
+
+.catalogFilterSelected {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(12px, 400, null, var(--white));
+  background: var(--violet);
+  border-radius: 50%;
+  padding: 0px 7px;
 }
