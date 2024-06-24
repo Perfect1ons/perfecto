@@ -22,7 +22,10 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 
 import cn from "clsx";
-import { ICategoryFilter, ICategoryModel } from "@/types/Catalog/catalogFilters";
+import {
+  ICategoryFilter,
+  ICategoryModel,
+} from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -103,10 +106,10 @@ export default function CatalogProducts({
           selectedFilters.priceMin,
           selectedFilters.priceMax,
           selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(","),
+          selectedFilters.additional_filter.join(",")
         );
         console.log(response);
-        
+
         setItems(response.model || []);
       } catch (error) {
         console.error("Error fetching data:", error);
