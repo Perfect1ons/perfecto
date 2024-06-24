@@ -51,7 +51,13 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
-  console.log(selectedFilters);
+  const [tempPrice, setTempPrice] = useState<{
+    tempMin: number;
+    tempMax: number;
+  }>({
+    tempMin: 0,
+    tempMax: 0,
+  });
 
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
@@ -168,14 +174,23 @@ export default function CatalogProducts({
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
+    setTempPrice((prevTempPrice) => ({
+      ...prevTempPrice,
+      tempMin: min,
+      tempMax: max,
+    }));
+  };
+
+  const applyFilterCena = () => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
-      priceMin: min,
-      priceMax: max,
+      priceMin: tempPrice.tempMin,
+      priceMax: tempPrice.tempMax,
     }));
   };
 
   const clearFilterCena = () => {
+    setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       priceMin: 0,
@@ -242,9 +257,11 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              tempPrice={tempPrice}
               clearFilterByID={clearFilterByID}
               clearFilterCena={clearFilterCena}
               clearFilter={clearFilter}
+              applyFilterCena={applyFilterCena}
               handlePriceRangeChange={handlePriceRangeChange}
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
@@ -295,7 +312,12 @@ export default function CatalogProducts({
       {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
-          <Image src="/img/undefinedPage.png" alt="" width={180} height={180} />
+          <Image
+            src="/img/undefinedPage.png"
+            alt="undefinedPage"
+            width={180}
+            height={180}
+          />
           <p className={styles.containerUndefined__parap}>
             В этой категории нет товаров продавай на max kg
           </p>

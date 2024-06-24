@@ -23,6 +23,11 @@ interface ICatalogFiltresProps {
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
   clearFilterCena: () => void;
+  applyFilterCena: () => void;
+  tempPrice: {
+    tempMin: number;
+    tempMax: number;
+  };
   clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
 }
 
@@ -37,7 +42,6 @@ export interface ISelectedFilterProps {
 }
 const CatalogFiltres = ({
   filter,
-  catalog,
   onChange,
   options,
   value,
@@ -47,6 +51,8 @@ const CatalogFiltres = ({
   clearFilter,
   clearFilterCena,
   clearFilterByID,
+  applyFilterCena,
+  tempPrice,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
   const toggleFilter = (filterName: string) => {
@@ -71,9 +77,10 @@ const CatalogFiltres = ({
         selectedFilters={selectedFilters.dost}
       />
       <PriceMinMaxFilter
+        tempPrice={tempPrice}
         clearFilterCena={clearFilterCena}
+        applyFilterCena={applyFilterCena}
         handlePriceRangeChange={handlePriceRangeChange}
-        price={selectedFilters}
         changeSelect={(value: { min: number; max: number }) =>
           handleFilterChange("price", value)
         }

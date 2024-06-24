@@ -6,20 +6,25 @@ import cn from "clsx";
 import { ISelectedFilterProps } from "../CatalogFiltres";
 
 interface IPriceMinMaxFilterProps {
-  price: ISelectedFilterProps;
   changeSelect: (value: { min: number; max: number }) => void;
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
   handlePriceRangeChange: (min: number, max: number) => void;
   clearFilterCena: () => void;
+  applyFilterCena: () => void;
+  tempPrice: {
+    tempMin: number;
+    tempMax: number;
+  };
 }
 
 const PriceMinMaxFilter = ({
   toggleFilter,
   visibleFilter,
-  price,
   handlePriceRangeChange,
   clearFilterCena,
+  applyFilterCena,
+  tempPrice,
 }: IPriceMinMaxFilterProps) => {
   return (
     <div className="positionContainer">
@@ -51,7 +56,7 @@ const PriceMinMaxFilter = ({
                 className={styles.sliderRange}
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
-                value={[price.priceMin, price.priceMax]}
+                value={[tempPrice.tempMin, tempPrice.tempMax]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
                 max={1000000}
@@ -72,11 +77,11 @@ const PriceMinMaxFilter = ({
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={price.priceMin === 0 ? "" : price.priceMin}
+                  value={tempPrice.tempMin === 0 ? "" : tempPrice.tempMin}
                   onChange={(e) =>
                     handlePriceRangeChange(
                       Number(e.target.value),
-                      price.priceMax
+                      tempPrice.tempMin
                     )
                   }
                   placeholder={`от 0`}
@@ -84,10 +89,10 @@ const PriceMinMaxFilter = ({
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={price.priceMin === 0 ? "" : price.priceMax}
+                  value={tempPrice.tempMax === 0 ? "" : tempPrice.tempMax}
                   onChange={(e) =>
                     handlePriceRangeChange(
-                      price.priceMin,
+                      tempPrice.tempMax,
                       Number(e.target.value)
                     )
                   }
@@ -97,19 +102,27 @@ const PriceMinMaxFilter = ({
             </div>
             <div className="containerButtons">
               <button
+                onClick={() => {
+                  applyFilterCena();
+                  toggleFilter("");
+                }}
                 className={cn(
                   "applyBtn",
-                  price.priceMax && price.priceMax > 0 && "applyBtn__active"
+                  tempPrice.tempMax &&
+                    tempPrice.tempMax > 0 &&
+                    "applyBtn__active"
                 )}
               >
                 Применить
               </button>
               <button
                 onClick={clearFilterCena}
-                disabled={price.priceMin <= 0 || price.priceMax <= 0}
+                disabled={tempPrice.tempMin <= 0 || tempPrice.tempMax <= 0}
                 className={cn(
                   "resetButton",
-                  price.priceMin && price.priceMax > 0 && "resetButton__active"
+                  tempPrice.tempMin &&
+                    tempPrice.tempMax > 0 &&
+                    "resetButton__active"
                 )}
               >
                 Сбросить
