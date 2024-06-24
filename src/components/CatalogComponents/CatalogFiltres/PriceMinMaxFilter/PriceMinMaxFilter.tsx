@@ -11,7 +11,6 @@ interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
   handlePriceRangeChange: (min: number, max: number) => void;
-  applyPrice: () => void;
   clearFilterCena: () => void;
 }
 
@@ -20,7 +19,6 @@ const PriceMinMaxFilter = ({
   visibleFilter,
   price,
   handlePriceRangeChange,
-  applyPrice,
   clearFilterCena,
 }: IPriceMinMaxFilterProps) => {
   return (
@@ -56,7 +54,7 @@ const PriceMinMaxFilter = ({
                 value={[price.priceMin, price.priceMax]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
-                max={99999}
+                max={1000000}
                 step={1}
                 withTracks={true}
                 renderTrack={(props, state) => (
@@ -99,7 +97,6 @@ const PriceMinMaxFilter = ({
             </div>
             <div className="containerButtons">
               <button
-                onClick={applyPrice}
                 className={cn(
                   "applyBtn",
                   price.priceMax && price.priceMax > 0 && "applyBtn__active"
