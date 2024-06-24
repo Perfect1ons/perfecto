@@ -8,10 +8,7 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import {
-  getCatalogProductsFiltered,
-  getProductsByCenaMinMax,
-} from "@/api/clientRequest";
+import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
@@ -22,10 +19,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 
 import cn from "clsx";
-import {
-  ICategoryFilter,
-  ICategoryModel,
-} from "@/types/Catalog/catalogFilters";
+import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -46,7 +40,6 @@ export default function CatalogProducts({
   breadCrumbs,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<ICategoryModel[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
