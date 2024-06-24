@@ -25,12 +25,12 @@ interface ICatalogProductsProps {
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
 }
-export interface IFiltersProps {
-  brand: string[];
-  price: { max: number; min: number };
-  dost: string[];
-  additional_filter: any[];
-}
+// export interface IFiltersProps {
+//   brand: string[];
+//   price: { max: number; min: number };
+//   dost: string[];
+//   additional_filter: any[];
+// }
 
 export default function CatalogProducts({
   banner,
@@ -49,6 +49,8 @@ export default function CatalogProducts({
     priceMin: 0,
     priceMax: 0,
   });
+
+  console.log(selectedFilters);
 
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
