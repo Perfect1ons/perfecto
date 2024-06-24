@@ -51,7 +51,7 @@
         @include mixin.flex(flex-start,space-between,column, 4px);
         // padding: 0px 6px 6px 6px;
         padding: 6px;
-        height: 143.58px;
+        height: 140.58px;
         @media screen and (max-width: 1280px) {
             height: 146.83px;
         }
@@ -70,11 +70,12 @@
         }
 
         &_title{
-            @include mixin.font(16px,500,1.1,var(--dark));
+            @include mixin.font(14px,400,1.1,var(--gray-dark));
             opacity: 0.8;
-            padding: 3px 0;
-            height: 41px;
+            padding: 2px 0;
+            height: 36px;
             overflow: hidden;
+            //   font-size: 14px;
 
             @media screen and (max-width: 480px) {
                 height: 32px;
@@ -119,7 +120,7 @@
 
         &_skidkapercent{
             position: absolute;
-            bottom: 11px;
+            bottom: 9px;
             left: 5px;
             background: var(--violet);
             @include mixin.font(12px,bold,1,var(--white));
@@ -165,14 +166,13 @@
 
         &_rating{
             @include mixin.flex(center,null,null,2px);
-
+            padding: 0 0 5px 0;
             &_span{
                 height: 17px;
             }
         }
 
         &_button{
-            margin-top: 5px;
             width: 100%;
             // background: var(--dark-blue);
         }

@@ -1314,7 +1314,6 @@ export const CardFavoritesIcon = () => {
       />
       <path
         d="M11.0063 20L2.51888 11.2485C-2.09384 5.99748 4.68685 -4.08439 11.0063 4.07212C17.3256 -4.08439 24.0757 6.03249 19.4937 11.2485L11.0063 20Z"
-        stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

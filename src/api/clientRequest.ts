@@ -1,6 +1,7 @@
 import { ISelectedFilterProps } from "@/components/CatalogComponents/CatalogFiltres/CatalogFiltres";
 import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
+import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { ISearch } from "@/types/Search/search";
@@ -60,6 +61,49 @@ export const getCatalogProductFilter = (
 
   return maxkg.get(apiUrl).json();
 };
+
+export const getCatalogProductsFiltered = (
+  id: number,
+  page?: number,
+  brands?: string,
+  cenamin?: number,
+  cenamax?: number,
+  ddos?: string,
+  additional?: any
+): Promise<ICategoryFilter> => {
+  return maxkg
+    .get(
+      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}`
+    )
+    .json();
+};
+
+//mpage=1&VNaltovaroksearch[brand]=ASUS&VNaltovaroksearch[cena_min]=0&VNaltovaroksearch[cena_max]=30000&VNaltovaroksearch[dost]=1-2&VNaltovaroksearch[nal]=&VNaltovaroksearch[post]=&VNaltovaroksearch[category]=&VNaltovaroksearch[additional_filter]=
+
+// &VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[nal]=&VNaltovaroksearch[post]=&VNaltovaroksearch[category]=&VNaltovaroksearch[additional_filter]=${additional}
+
+//! Условии для запроса!
+// Важно передавать все значение по порядку строго по порядку то есть сначала --->
+//1) Передать id категории
+//2) Передать номер страницы при необходимости ( Сделанно для загрузки по скроллу)
+//3) Передать бренды  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//4) Передать время доставки  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//5) Передать минимальную цену  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//6) Передать максимальную цену  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//7) Передать дополнительные фильтры  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//https://max.kg/catalog/komputery-i-noutbuki-planshety/noutbuki?page=1&VNaltovaroksearch[brand]=Lenovo&VNaltovaroksearch[cena_min]=&VNaltovaroksearch[cena_max]=&VNaltovaroksearch[dost]=1&VNaltovaroksearch[nal]=&VNaltovaroksearch[post]=&VNaltovaroksearch[category]=&VNaltovaroksearch[additional_filter]=48
+
+// export const getCatalogProductsFiltereds = (
+//   page?: number
+// ): Promise<IBoughts> => {
+//   return maxkg
+//     .get(
+//       `catalog/28631?page=1${
+//         page ? `&VNaltovaroksearch[brand]=Lenovo,Foxcon` : null
+//       }&VNaltovaroksearch[dost]=1&VNaltovaroksearch[cena_min]=0&VNaltovaroksearch[cena_max]=20000`
+//     )
+//     .json();
+// };
 
 export const getProductsByBrand = (
   id: number,

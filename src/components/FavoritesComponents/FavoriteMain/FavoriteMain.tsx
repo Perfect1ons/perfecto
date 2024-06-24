@@ -16,9 +16,24 @@ export default function FavoriteMain() {
   const clickTest = () => {
     console.log("hello world");
   };
+  const filters = {
+    id: 12341,
+    brands: ["lenovo", "apple"],
+  };
+    // const [selectedFilters, setSelectedFilters] =
+    //   useState<ISelectedFilterProps>({
+    //     id: catalog.category.id,
+    //     page: 1,
+    //     brand: [],
+    //     dost: [],
+    //     additional_filter: [],
+    //     priceMin: 0,
+    //     priceMax: 0,
+    //   });
 
   return (
     <>
+      <h1>{filters.brands.join("")}</h1>
       {/* <section className={styles.mainSection}>
         <div className={cn(styles.container, "container")}>
           <div className={styles.optionsWrap}>
