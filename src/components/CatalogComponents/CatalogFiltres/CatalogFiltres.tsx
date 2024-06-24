@@ -2,16 +2,15 @@
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import DostFilter from "./DostFilter/DostFilter";
-import PriceMinaMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
 import { useState } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
+import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 
 interface ICatalogFiltresProps {
   clearFilter: (name: string) => void;
-  price: { min: number; max: number };
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
   options: {
@@ -23,7 +22,6 @@ interface ICatalogFiltresProps {
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
-  applyPrice: () => void;
   clearFilterCena: () => void;
   clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
 }
@@ -46,8 +44,6 @@ const CatalogFiltres = ({
   handleFilterChange,
   handlePriceRangeChange,
   clearFilter,
-  price,
-  applyPrice,
   clearFilterCena,
   clearFilterByID,
 }: ICatalogFiltresProps) => {
@@ -73,9 +69,8 @@ const CatalogFiltres = ({
         changeSelect={(value: string[]) => handleFilterChange("dost", value)}
         selectedFilters={selectedFilters.dost}
       />
-      <PriceMinaMaxFilter
+      <PriceMinMaxFilter
         clearFilterCena={clearFilterCena}
-        applyPrice={applyPrice}
         handlePriceRangeChange={handlePriceRangeChange}
         price={selectedFilters}
         changeSelect={(value: { min: number; max: number }) =>

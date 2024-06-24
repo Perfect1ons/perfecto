@@ -8,10 +8,7 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import {
-  getCatalogProductFilter,
-  getProductsByCenaMinMax,
-} from "@/api/clientRequest";
+import { getCatalogProductFilter } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
@@ -53,13 +50,6 @@ export default function CatalogProducts({
     priceMax: 0,
   });
 
-  console.log(selectedFilters);
-
-  const [price, setPrice] = useState<{ min: number; max: number }>({
-    min: 0,
-    max: 0,
-  });
-
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
@@ -94,11 +84,6 @@ export default function CatalogProducts({
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
-  };
-
-  const clearFilterCena = () => {
-    setPrice({ min: 0, max: 0 });
-    console.log("Цена сброшена до", { min: 0, max: 0 });
   };
 
   useEffect(() => {
@@ -180,24 +165,14 @@ export default function CatalogProducts({
     }));
   };
 
-  const handleApplyPrice = () => {
-    const fetchData = async () => {
-      try {
-        const response = await getProductsByCenaMinMax(
-          catalog.category.id,
-          price.min,
-          price.max
-        );
-        const sortedItems = response.category.tov.sort(
-          (a, b) => a.price - b.price
-        );
-        setItems(sortedItems);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
+  const clearFilterCena = () => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      priceMin: 0,
+      priceMax: 0,
+    }));
   };
+
   return (
     <section className="container">
       <div className="all__directions container">
@@ -259,9 +234,7 @@ export default function CatalogProducts({
             <CatalogFiltres
               clearFilterByID={clearFilterByID}
               clearFilterCena={clearFilterCena}
-              applyPrice={handleApplyPrice}
               clearFilter={clearFilter}
-              price={price}
               handlePriceRangeChange={handlePriceRangeChange}
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
