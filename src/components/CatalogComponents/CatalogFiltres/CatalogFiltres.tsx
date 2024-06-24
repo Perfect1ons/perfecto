@@ -29,10 +29,11 @@ interface ICatalogFiltresProps {
 }
 
 export interface ISelectedFilterProps {
-  id: any;
+  id: number;
+  page: number;
   brand: string[];
   dost: string[];
-  additional_filter: string[];
+  additional_filter: any;
   priceMin: number;
   priceMax: number;
 }

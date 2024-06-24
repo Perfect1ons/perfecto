@@ -10,6 +10,7 @@ import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API 
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import {
   getCatalogProductFilter,
+  getCatalogProductsFiltered,
   getProductsByCenaMinMax,
 } from "@/api/clientRequest";
 import CatalogFiltres, {
@@ -22,6 +23,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 
 import cn from "clsx";
+import { ICategoryFilter, ICategoryModel } from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -43,14 +45,15 @@ export default function CatalogProducts({
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
-  const [items, setItems] = useState<Tov[]>(initialItems);
+  const [items, setItems] = useState<ICategoryModel[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
+    page: 1,
     brand: [],
-    dost: [],
-    additional_filter: [],
     priceMin: 0,
     priceMax: 0,
+    dost: [],
+    additional_filter: [],
   });
 
   console.log(selectedFilters);
@@ -104,11 +107,18 @@ export default function CatalogProducts({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getCatalogProductFilter(
-          catalog.category.id,
-          selectedFilters
+        const response = await getCatalogProductsFiltered(
+          selectedFilters.id,
+          selectedFilters.page,
+          selectedFilters.brand.join(","),
+          selectedFilters.priceMin,
+          selectedFilters.priceMax,
+          selectedFilters.dost.join(","),
+          selectedFilters.additional_filter.join(","),
         );
-        setItems(response.category.tov || []);
+        console.log(response);
+        
+        setItems(response.model || []);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -188,10 +198,7 @@ export default function CatalogProducts({
           price.min,
           price.max
         );
-        const sortedItems = response.category.tov.sort(
-          (a, b) => a.price - b.price
-        );
-        setItems(sortedItems);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
