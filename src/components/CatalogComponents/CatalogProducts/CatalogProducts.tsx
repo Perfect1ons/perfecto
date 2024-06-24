@@ -198,7 +198,7 @@ export default function CatalogProducts({
   };
 
   return (
-    <section className="container">
+    <section>
       <div className="all__directions container">
         {breadCrumbs.slice(-2, -1).map((crumbs) => (
           <Link
