@@ -54,7 +54,7 @@ const PriceMinMaxFilter = ({
                 value={[price.priceMin, price.priceMax]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
-                max={1000000}
+                max={500000}
                 step={1}
                 withTracks={true}
                 renderTrack={(props, state) => (

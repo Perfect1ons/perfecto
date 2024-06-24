@@ -43,7 +43,7 @@ export default function CatalogProducts({
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
-  const [items, setItems] = useState<ICategoryModel[]>([]);
+  const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,

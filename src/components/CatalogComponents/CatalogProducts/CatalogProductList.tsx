@@ -1,9 +1,10 @@
 import dynamic from "next/dynamic";
 import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 import Card from "@/components/UI/Card/Card";
+import { Tov } from "@/types/Catalog/catalogProducts";
 
 interface ProductListProps {
-  items: ICategoryModel[];
+  items: ICategoryModel[] | Tov[];
   isColumnView: boolean; // Добавляем пропс для определения вида отображения
 }
 const CatalogProductsColumn = dynamic(() => import("./CatalogProductsColumn"));

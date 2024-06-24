@@ -21,7 +21,7 @@ export interface ICard {
   minQty: number;
   isNovelty?: number; // Сделано необязательным
   country_id: any;
-  country: string;
+  country?: string;
   stuff?: string;
   size: string;
   keep_package: any;
