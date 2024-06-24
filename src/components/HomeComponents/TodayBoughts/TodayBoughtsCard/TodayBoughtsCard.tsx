@@ -18,14 +18,14 @@ interface IgoodsProps {
 }
 
 const TodayBoughtsCards = ({ goods }: IgoodsProps) => {
- const imageUrl =
-   goods.photos.length > 0
-     ? goods.photos[0].url_part.startsWith("https://goods")
-       ? goods.photos[0].url_part + "280.jpg" // Добавляем "280.jpg" в конец URL, если он начинается с "https://goods"
-       : goods.photos[0].url_part.startsWith("https://")
-       ? goods.photos[0].url_part // Используем URL без изменений, если он начинается с "https://", но не "https://goods"
-       : `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}` // Используем URL с префиксом `${url}nal/img/`, если нет "https://"
-     : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+  const imageUrl =
+    goods.photos.length > 0
+      ? goods.photos[0].url_part.startsWith("https://goods")
+        ? goods.photos[0].url_part + "280.jpg" // Добавляем "280.jpg" в конец URL, если он начинается с "https://goods"
+        : goods.photos[0].url_part.startsWith("https://")
+        ? goods.photos[0].url_part // Используем URL без изменений, если он начинается с "https://", но не "https://goods"
+        : `${url}nal/img/${goods.id_post}/l_${goods.photos[0].url_part}` // Используем URL с префиксом `${url}nal/img/`, если нет "https://"
+      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
 

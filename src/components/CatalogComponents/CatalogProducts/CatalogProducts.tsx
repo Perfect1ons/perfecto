@@ -8,9 +8,7 @@ import styles from "./style.module.scss";
 import Link from "next/link";
 import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import {
-  getCatalogProductsFiltered,
-} from "@/api/clientRequest";
+import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
@@ -21,19 +19,19 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
 
 import cn from "clsx";
-import { ICategoryFilter, ICategoryModel } from "@/types/Catalog/catalogFilters";
+import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
 }
-export interface IFiltersProps {
-  brand: string[];
-  price: { max: number; min: number };
-  dost: string[];
-  additional_filter: any[];
-}
+// export interface IFiltersProps {
+//   brand: string[];
+//   price: { max: number; min: number };
+//   dost: string[];
+//   additional_filter: any[];
+// }
 
 export default function CatalogProducts({
   banner,
@@ -52,6 +50,14 @@ export default function CatalogProducts({
     priceMax: 0,
     dost: [],
     additional_filter: [],
+  });
+
+  const [tempPrice, setTempPrice] = useState<{
+    tempMin: number;
+    tempMax: number;
+  }>({
+    tempMin: 0,
+    tempMax: 0,
   });
 
   const [sortOrder, setSortOrder] = useState<
@@ -100,7 +106,7 @@ export default function CatalogProducts({
           selectedFilters.priceMin,
           selectedFilters.priceMax,
           selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(","),
+          selectedFilters.additional_filter.join(",")
         );
         setItems(response.model || []);
       } catch (error) {
@@ -167,14 +173,23 @@ export default function CatalogProducts({
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
+    setTempPrice((prevTempPrice) => ({
+      ...prevTempPrice,
+      tempMin: min,
+      tempMax: max,
+    }));
+  };
+
+  const applyFilterCena = () => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
-      priceMin: min,
-      priceMax: max,
+      priceMin: tempPrice.tempMin,
+      priceMax: tempPrice.tempMax,
     }));
   };
 
   const clearFilterCena = () => {
+    setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       priceMin: 0,
@@ -241,9 +256,11 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              tempPrice={tempPrice}
               clearFilterByID={clearFilterByID}
               clearFilterCena={clearFilterCena}
               clearFilter={clearFilter}
+              applyFilterCena={applyFilterCena}
               handlePriceRangeChange={handlePriceRangeChange}
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
@@ -294,7 +311,12 @@ export default function CatalogProducts({
       {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
-          <Image src="/img/undefinedPage.png" alt="" width={180} height={180} />
+          <Image
+            src="/img/undefinedPage.png"
+            alt="undefinedPage"
+            width={180}
+            height={180}
+          />
           <p className={styles.containerUndefined__parap}>
             В этой категории нет товаров продавай на max kg
           </p>
