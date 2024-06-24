@@ -10,19 +10,6 @@ interface SkeletonCards {
 const PopularGoodsSkeletonCard = (loading: SkeletonCards) => {
   return (
     <div className={loading ? styles.skeletonCard_hide : styles.skeletonCard}>
-      {/* <div className={styles.image} />
-      <div className={styles.price} />
-      <div className={styles.name}>
-        <div className={styles.name_first} />
-        <div className={styles.name_second} />
-      </div>
-      <div className={styles.stars} />
-      <div className={styles.adress} />
-      <div className={styles.buttons}>
-        <div className={styles.buttons_left} />
-        <div className={styles.buttons_right} />
-      </div> */}
-
       <Skeleton height={262} borderRadius={10} />
       <Skeleton
         height={15}

@@ -51,16 +51,17 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
   return (
     <>
       <AuthBackdrop isVisible={isVisible} close={close} />
+
       <div className={cn(styles.modal, isVisible && styles.show)}>
         <div className={styles.modal__intro}>
           <h1 className={styles.modal__title}>{title}</h1>
-
           <button className={styles.modal__exit} onClick={close}>
             <XMark />
           </button>
         </div>
         {content}
       </div>
+      
     </>
   );
 };

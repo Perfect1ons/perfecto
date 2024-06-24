@@ -5,6 +5,7 @@ import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
 import PopularGoodsSkeletonCard from "./AllPopularGoods/PopularGoodsSkeletonCard";
+import Card from "@/components/UI/Card/Card";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -16,7 +17,7 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const [loading, setLoading] = useState(true);
-  const perPage = 10;
+  const perPage = 12;
   const maxPagesToShowMore = 3;
   const router = useRouter();
 
@@ -53,9 +54,10 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
         <h1 className="sections__title">Популярные товары</h1>
       </div>
       <div className="cardContainer">
-        <div className="main__news_cards">
+        <div className="cards">
           {data.slice(0, page * perPage).map((item, index) => (
-            <PopularGoodsCards goods={item} key={index} loading={loading} />
+            <Card cardData={item} key={index} />
+            // <Card cardData={item} key={index} loading={loading} />
           ))}
         </div>
 

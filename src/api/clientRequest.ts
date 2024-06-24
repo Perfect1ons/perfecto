@@ -26,6 +26,7 @@ export const getPopularGoodsByClient = (
 export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
+
 export const getCatalogProductFilter = (
   id: number,
   selected: ISelectedFilterProps

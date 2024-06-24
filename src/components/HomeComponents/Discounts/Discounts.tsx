@@ -15,7 +15,7 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
   const [shownCount, setShownCount] = useState(8);
 
   const handleShowMore = () => {
-    setShownCount((prevCount) => prevCount + 6);
+    setShownCount((prevCount) => prevCount + 8);
   };
 
   return (
@@ -39,25 +39,26 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
                 />
               </div>
 
-                <div className={styles.discount__card_content}>
-                  <div className={styles.discount__data}>
-                    <h3 className={styles.discount__item_title}>{item.name}</h3>
-                    <span className={styles.discount__item_days}>
-                      {item.word} {item.days} {item.word_day}
+              <div className={styles.discount__card_content}>
+                <div className={styles.discount__data}>
+                  <h3 className={styles.discount__item_title}>{item.name}</h3>
+                  <span className={styles.discount__item_days}>
+                    {item.word} {item.days} {item.word_day}
+                  </span>
+                  <span className={styles.discount__item_fromTo}>
+                    {item.message}
+                  </span>
+                  <span className={styles.discount__by_percent}>
+                    Скидка
+                    <span className={styles.discount__by_percent_custom}>
+                      {item.bonuses[1].discount_value} %
                     </span>
-                    <span className={styles.discount__item_fromTo}>
-                      {item.message}
-                    </span>
-                    <span className={styles.discount__by_percent}>
-                      Скидка
-                      <span className={styles.discount__by_percent_custom}>
-                        {item.bonuses[1].discount_value} %
-                      </span>
-                    </span>
-                  </div>
+                  </span>
                 </div>
+              </div>
             </Link>
           ))}
+          
         </div>
 
         {shownCount < 20 && (

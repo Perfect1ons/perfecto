@@ -35,7 +35,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     event.preventDefault();
     if (validate()) {
       console.log("Форма отправлена", { phone, password });
-      // Добавить логику для отправки данных на сервер
     }
   };
 

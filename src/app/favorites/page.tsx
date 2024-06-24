@@ -1,7 +1,5 @@
 import { Metadata } from "next";
-
 import FavoriteMain from "@/components/FavoritesComponents/FavoriteMain/FavoriteMain";
-
 export const metadata: Metadata = {
   title: "Избранное",
   description:
@@ -10,7 +8,7 @@ export const metadata: Metadata = {
     "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
-const favorites = () => {
+export default async function Favorites ()  {
   return (
     <>
       <FavoriteMain />
@@ -18,4 +16,3 @@ const favorites = () => {
   );
 };
 
-export default favorites;

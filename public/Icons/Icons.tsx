@@ -1295,3 +1295,30 @@ export const SearchIconAbdu = () => {
     </svg>
   );
 };
+
+
+export const CardFavoritesIcon = () => {
+  return (
+    <svg
+      className="icon-favorites"
+      width="22"
+      height="21"
+      viewBox="0 0 22 21"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M11.0071 19L2.51971 9.9642C-2.09301 4.54266 4.6815 -3.8459 11.0009 4.57554C17.3203 -3.8459 24.0765 4.57881 19.4945 9.9642L11.0071 19Z"
+        fill="currentColor"
+        fillOpacity="0.15"
+      />
+      <path
+        d="M11.0063 20L2.51888 11.2485C-2.09384 5.99748 4.68685 -4.08439 11.0063 4.07212C17.3256 -4.08439 24.0757 6.03249 19.4937 11.2485L11.0063 20Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};

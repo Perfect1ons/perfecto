@@ -1,24 +1,23 @@
 "use client";
 import { useState, useEffect } from "react";
-import { NewsResult } from "@/types/News/NewsById";
-import Image from "next/image";
 import { url } from "@/components/temporary/data";
-import cn from "clsx";
 import {
+  CardFavoritesIcon,
   CartIcon,
-  GrayFavoritesIcon,
   GrayStar,
-  VioletFavoritesIcon,
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import Link from "next/link";
 import { truncateText } from "@/utils/utils";
-
+import { ICard } from "@/types/Card/card";
+import Image from "next/image";
+import styles from './style.module.scss'
 interface IcardDataProps {
-  cardData: NewsResult;
+  cardData: ICard;
 }
 
-const Cards = ({ cardData }: IcardDataProps) => {
+const Card = ({ cardData }: IcardDataProps) => {
+
   const imageUrl =
     cardData.photos.length > 0
       ? cardData.photos[0].url_part.startsWith("https://goods-photos")
@@ -30,113 +29,94 @@ const Cards = ({ cardData }: IcardDataProps) => {
 
   const [rating, setRating] = useState(0);
 
-  // Проверяем, доступен ли localStorage (только на клиентской стороне)
-  const isLocalStorageAvailable =
-    typeof window !== "undefined" && window.localStorage;
-
-  // Используем localStorage только если он доступен
-  const [isFavorite, setIsFavorite] = useState(
-    isLocalStorageAvailable &&
-      localStorage.getItem(cardData.id.toString()) === "true"
-  );
-
-  const handleFavoriteClick = () => {
-    setIsFavorite((prevIsFavorite) => {
-      const newIsFavorite = !prevIsFavorite;
-      if (isLocalStorageAvailable) {
-        localStorage.setItem(cardData.id.toString(), newIsFavorite.toString());
-      }
-      return newIsFavorite;
-    });
-  };
-
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
   }, [cardData.ocenka]);
 
-  const maxLength = 52;
-  const truncatedText = truncateText(cardData.naim, maxLength);
+  const maxLength = 40;
+  const truncatedTitle = truncateText(cardData.naim, maxLength);
   const truncatedDdos = truncateText(cardData.ddos, maxLength);
 
   return (
-    <Link className="link" href={`/item/${cardData.id_tov}/${cardData.url}`}>
-      <div className="default__card">
-        <div className="default__card_images">
+    <div className={styles.card}>
+      <div className={styles.card__images}>
+        <Link
+          className="link"
+          href={`/item/${cardData.id_tov}/${cardData.url}`}
+        >
           <Image
-            className="default__card_image"
+            className={styles.card__image}
             src={imageUrl}
-            width={200}
-            height={200}
+            width={300}
+            height={250}
             alt={cardData.naim}
-            quality={100}
-            loading="lazy"
           />
-        </div>
-        <div className="default__card_info">
-          {cardData.discount > 0 ? (
-            <div className="default__card_price_box">
-              <h3 className="default__card_price_discount">
-                {cardData.cenaok.toLocaleString("ru-RU")}
-                <span className="default__card_price_custom"> с</span>
-              </h3>
-              <span className="default__card_price_prc">
-                -{cardData.discount_prc} %
+        </Link>
+        <span className={styles.card__info_addFavorites}>
+          <CardFavoritesIcon/>
+        </span>
+        {cardData.discount_prc > 0 ? (
+          <div className={styles.card__info_skidkapercent}>
+            {cardData.discount_prc}%
+          </div>
+        ) : null}
+      </div>
+      <div className={styles.card__info}>
+        {cardData.discount_prc > 0 ? (
+          <div className={styles.card__info_price}>
+            <div className={styles.card__info_skidkaprice}>
+              <span className={styles.card__info_skidkaprice_price}>
+                {cardData.cenaok?.toLocaleString("ru-RU")}
               </span>
-              <h3 className="default__card_price_old">
-                {cardData.old_price.toLocaleString("ru-RU")}
-                <span className="default__card_price_custom"> с</span>
-              </h3>
+              <span className={styles.card__info_skidkaprice_price_custom}>
+                с
+              </span>
             </div>
-          ) : (
-            <h3 className="default__card_price_now">
-              {cardData.cenaok.toLocaleString("ru-RU")}
-              <span className="default__card_price_custom"> с</span>
-            </h3>
-          )}
-          <h2 className="default__card_name">{truncatedText}</h2>
-          <div className="ocenka">
-            {[...Array(5)].map((_, index) => (
-              <span key={index}>
-                {index < rating ? <YellowStar /> : <GrayStar />}
+
+            <div className={styles.card__info_oldprice}>
+              <span className={styles.card__info_oldprice_price}>
+                {cardData.old_price.toLocaleString("ru-RU")}c
               </span>
-            ))}
+            </div>
           </div>
-          <div className="ddos">
-            <Image
-              src={`${url}images/delivery_icon.svg`}
-              width={20}
-              height={20}
-              alt="delivery_icon"
-            />
-            <p className="ddos__text">{truncatedDdos}</p>
-          </div>
-          <div className="add__to">
-            <button
-              title="Добавить в корзину"
-              className="add__to_cart"
-              onClick={() => console.log("Добавлено в корзину")}
-            >
-              <span className="add__to_cart_icon">
-                <CartIcon />
+        ) : (
+          <div className={styles.card__info_price}>
+            <div className={styles.card__info_currentprice}>
+              <span className={styles.card__info_currentprice_price}>
+                {cardData.cenaok.toLocaleString("ru-RU")}
               </span>
-              В корзину
-            </button>
-            <button
-              title="Добавить в избранное"
-              className={cn("add__to_fav", {
-                ["add__to_fav_active"]: isFavorite,
-              })}
-              onClick={handleFavoriteClick}
-            >
-              <span className="add__to_fav_icon">
-                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              <span className={styles.card__info_currentprice_price_custom}>
+                с
               </span>
-            </button>
+            </div>
           </div>
+        )}
+        <Link
+          className="link"
+          href={`/item/${cardData.id_tov}/${cardData.url}`}
+        >
+          <h1 className={styles.card__info_title}>{truncatedTitle}</h1>
+        </Link>
+
+        <div className={styles.card__info_rating}>
+          {[...Array(5)].map((_, index) => (
+            <span className={styles.card__info_rating_span} key={index}>
+              {index < rating ? <YellowStar /> : <GrayStar />}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.card__info_button}>
+          <button className={styles.card__info_addproduct}>
+            <span className={styles.card__info_addproduct_icon}>
+              <CartIcon />
+            </span>
+            В корзину
+          </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
-export default Cards;
+export default Card;

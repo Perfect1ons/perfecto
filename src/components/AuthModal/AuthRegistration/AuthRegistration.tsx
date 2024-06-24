@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import InputMask from "react-input-mask";
-
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration") => void;
   close: () => void;
