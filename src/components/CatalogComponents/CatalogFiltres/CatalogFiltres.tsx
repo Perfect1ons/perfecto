@@ -29,9 +29,12 @@ interface ICatalogFiltresProps {
 }
 
 export interface ISelectedFilterProps {
+  id: any;
   brand: string[];
   dost: string[];
   additional_filter: string[];
+  priceMin: number;
+  priceMax: number;
 }
 const CatalogFiltres = ({
   filter,
@@ -74,7 +77,7 @@ const CatalogFiltres = ({
         clearFilterCena={clearFilterCena}
         applyPrice={applyPrice}
         handlePriceRangeChange={handlePriceRangeChange}
-        price={price}
+        price={selectedFilters}
         changeSelect={(value: { min: number; max: number }) =>
           handleFilterChange("price", value)
         }

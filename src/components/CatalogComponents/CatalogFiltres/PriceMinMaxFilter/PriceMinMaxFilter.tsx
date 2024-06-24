@@ -3,9 +3,10 @@ import styles from "./style.module.scss";
 import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import Slider from "react-slider";
 import cn from "clsx";
+import { ISelectedFilterProps } from "../CatalogFiltres";
 
 interface IPriceMinMaxFilterProps {
-  price: { min: number; max: number };
+  price: ISelectedFilterProps;
   changeSelect: (value: { min: number; max: number }) => void;
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
@@ -52,7 +53,7 @@ const PriceMinMaxFilter = ({
                 className={styles.sliderRange}
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
-                value={[price.min, price.max]}
+                value={[price.priceMin, price.priceMax]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
                 max={99999}
@@ -73,18 +74,24 @@ const PriceMinMaxFilter = ({
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={price.min === 0 ? "" : price.min}
+                  value={price.priceMin === 0 ? "" : price.priceMin}
                   onChange={(e) =>
-                    handlePriceRangeChange(Number(e.target.value), price.max)
+                    handlePriceRangeChange(
+                      Number(e.target.value),
+                      price.priceMax
+                    )
                   }
                   placeholder={`от 0`}
                 />
                 <input
                   type="number"
                   className={styles.inputPrice}
-                  value={price.max === 0 ? "" : price.max}
+                  value={price.priceMin === 0 ? "" : price.priceMax}
                   onChange={(e) =>
-                    handlePriceRangeChange(price.min, Number(e.target.value))
+                    handlePriceRangeChange(
+                      price.priceMin,
+                      Number(e.target.value)
+                    )
                   }
                   placeholder={`до 0`}
                 />
@@ -95,17 +102,17 @@ const PriceMinMaxFilter = ({
                 onClick={applyPrice}
                 className={cn(
                   "applyBtn",
-                  price.min && price.max > 0 && "applyBtn__active"
+                  price.priceMax && price.priceMax > 0 && "applyBtn__active"
                 )}
               >
                 Применить
               </button>
               <button
                 onClick={clearFilterCena}
-                disabled={price.min <= 0 || price.max <= 0}
+                disabled={price.priceMin <= 0 || price.priceMax <= 0}
                 className={cn(
                   "resetButton",
-                  price.min && price.max > 0 && "resetButton__active"
+                  price.priceMin && price.priceMax > 0 && "resetButton__active"
                 )}
               >
                 Сбросить

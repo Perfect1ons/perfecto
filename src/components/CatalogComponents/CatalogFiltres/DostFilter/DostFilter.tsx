@@ -1,7 +1,6 @@
 "use client";
 import cn from "clsx";
 import {
-  CheckIcon,
   CheckIconFilter,
   Cross,
   СhevronDownIcon,
@@ -47,7 +46,7 @@ const DostFilter = ({
   };
   return (
     <>
-      {/* {filter.variant_day.length > 0 && (
+      {filter.variant_day.length > 0 && (
         <div className="positionContainer">
           <button
             className="catalogFilterButton"
@@ -62,6 +61,9 @@ const DostFilter = ({
             >
               <СhevronDownIcon />
             </span>
+            {selectedFilters.length > 0 && (
+              <span className="filterCount">{selectedFilters.length}</span>
+            )}
           </button>
           {visibleFilter === "dost" && (
             <ul className="showCatalogFilterActive">
@@ -72,7 +74,7 @@ const DostFilter = ({
                 >
                   <Cross />
                 </button>
-                {filter.variant_day.map((item) => (
+                {visibleDost.map((item) => (
                   <ul
                     onClick={() => handleSelectChange(item)}
                     key={item}
@@ -84,86 +86,34 @@ const DostFilter = ({
                           selectedFilters.includes(item),
                       })}
                     >
-                      {selectedFilters.includes(item) && <CheckIcon />}
+                      {selectedFilters.includes(item) && <CheckIconFilter />}
                     </span>
                     <li className="nameAndKol">{item}</li>
                   </ul>
                 ))}
               </div>
+              <div className="containerButtons">
+                {filter.variant_day.length > 7 && !showAll && (
+                  <button onClick={handleShowAll} className="showAllButton">
+                    Показать все
+                  </button>
+                )}
+                <button
+                  onClick={() => clearFilter("dost")}
+                  disabled={selectedFilters.length <= 0}
+                  className={cn(
+                    "resetButton",
+                    selectedFilters.length > 0 && "resetButton__active"
+                  )}
+                  style={{ marginLeft: "auto" }}
+                >
+                  Сбросить
+                </button>
+              </div>
             </ul>
           )}
         </div>
-      )} */}
-      <>
-        {filter.variant_day.length > 0 && (
-          <div className="positionContainer">
-            <button
-              className="catalogFilterButton"
-              onClick={() => toggleFilter("dost")}
-            >
-              Сроки доставки
-              <span
-                className={cn(
-                  "filterNavItemArrowIsActive",
-                  visibleFilter === "dost" && "filterNavItemArrow"
-                )}
-              >
-                <СhevronDownIcon />
-              </span>
-              {selectedFilters.length > 0 && (
-                <span className="filterCount">{selectedFilters.length}</span>
-              )}
-            </button>
-            {visibleFilter === "dost" && (
-              <ul className="showCatalogFilterActive">
-                <div className="showCatalogFilterActiveChild">
-                  <button
-                    className="closeFilterUl"
-                    onClick={() => toggleFilter("dost")}
-                  >
-                    <Cross />
-                  </button>
-                  {visibleDost.map((item) => (
-                    <ul
-                      onClick={() => handleSelectChange(item)}
-                      key={item}
-                      className="showFiltersUlContainer"
-                    >
-                      <span
-                        className={cn("showFiltersUlContainer__check", {
-                          ["showFiltersUlContainer__checkActive"]:
-                            selectedFilters.includes(item),
-                        })}
-                      >
-                        {selectedFilters.includes(item) && <CheckIconFilter />}
-                      </span>
-                      <li className="nameAndKol">{item}</li>
-                    </ul>
-                  ))}
-                </div>
-                <div className="containerButtons">
-                  {filter.variant_day.length > 7 && !showAll && (
-                    <button onClick={handleShowAll} className="showAllButton">
-                      Показать все
-                    </button>
-                  )}
-                  <button
-                    onClick={() => clearFilter("dost")}
-                    disabled={selectedFilters.length <= 0}
-                    className={cn(
-                      "resetButton",
-                      selectedFilters.length > 0 && "resetButton__active"
-                    )}
-                    style={{ marginLeft: "auto" }}
-                  >
-                    Сбросить
-                  </button>
-                </div>
-              </ul>
-            )}
-          </div>
-        )}
-      </>
+      )}
     </>
   );
 };

@@ -2,14 +2,14 @@
 .app {
   background: var(--white);
   position: fixed;
-  top: 55px;
+  bottom: 55px;
   @include mixin.flex(null, space-between, null, null);
   z-index: 400;
   width: 100%;
   transition: all 0.5s ease;
 
   &_scrolled {
-    top: 0;
+    bottom: 0;
   }
 }
 

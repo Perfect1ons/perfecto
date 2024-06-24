@@ -1,7 +1,6 @@
 "use client";
 import cn from "clsx";
 import {
-  CheckIcon,
   CheckIconFilter,
   Cross,
   СhevronDownIcon,
