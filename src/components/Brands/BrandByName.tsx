@@ -38,7 +38,7 @@ const BrandByName = ({ path, brand, id, name }: IBrandByNameProps) => {
       {brand.count === 0 ? (
         <BrandNotFound />
       ) : (
-        <div className="main__news_cards">
+        <div className="cards">
           {brand.items.map((item, index) => (
             <Cards cardData={item} key={index} />
           ))}

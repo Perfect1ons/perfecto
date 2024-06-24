@@ -38,11 +38,11 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           </Link>
         </div>
 
-        <div className={styles.discount__by_id}>
+        <div className={styles.discountById}>
           <h1 className="default__showMore_title">Скидки</h1>
           <div className={styles.main__discount}>
             <div className={styles.main__discount_images}>
-              <Link className="link" href={`/discounts/${discount.id}`}>
+              <Link className="link" href={`/discount/${discount.id}`}>
                 <Image
                   className={styles.main__discount_image}
                   src={`${url}${discount.promotion.image}`}
@@ -55,7 +55,7 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
 
             <div className={styles.main__discount_info}>
               <h1
-                onClick={() => router.push(`/discounts/${discount.id}`)}
+                onClick={() => router.push(`/discount/${discount.id}`)}
                 className="allNews__content_title"
               >
                 {discount.promotion.name}

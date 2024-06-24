@@ -10,7 +10,6 @@ import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API 
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import {
   getCatalogProductsFiltered,
-  getProductsByCenaMinMax,
 } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
@@ -103,8 +102,6 @@ export default function CatalogProducts({
           selectedFilters.dost.join(","),
           selectedFilters.additional_filter.join(","),
         );
-        console.log(response);
-        
         setItems(response.model || []);
       } catch (error) {
         console.error("Error fetching data:", error);

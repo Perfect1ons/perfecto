@@ -34,8 +34,9 @@ const Card = ({ cardData }: IcardDataProps) => {
   }, [cardData.ocenka]);
 
   const maxLength = 40;
+  const maxLengthDdos = 32;
   const truncatedTitle = truncateText(cardData.naim, maxLength);
-  const truncatedDdos = truncateText(cardData.ddos, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
 
   return (
     <div className={styles.card}>
@@ -53,7 +54,7 @@ const Card = ({ cardData }: IcardDataProps) => {
           />
         </Link>
         <span className={styles.card__info_addFavorites}>
-          <CardFavoritesIcon/>
+          <CardFavoritesIcon />
         </span>
         {cardData.discount_prc > 0 ? (
           <div className={styles.card__info_skidkapercent}>
@@ -104,6 +105,17 @@ const Card = ({ cardData }: IcardDataProps) => {
               {index < rating ? <YellowStar /> : <GrayStar />}
             </span>
           ))}
+        </div>
+
+        <div className={styles.card__info_ddos}>
+          <Image
+            className={styles.card__info_ddos_icon}
+            src={`${url}images/delivery_icon.svg`}
+            width={20}
+            height={20}
+            alt="delivery_icon"
+          />
+          <p className={styles.card__info_ddos_desc}>{truncatedDdos}</p>
         </div>
 
         <div className={styles.card__info_button}>

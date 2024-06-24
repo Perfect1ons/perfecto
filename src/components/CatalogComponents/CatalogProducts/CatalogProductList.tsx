@@ -1,7 +1,6 @@
-import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
-import CatalogProductsCard from "./CatalogProductsCard";
 import dynamic from "next/dynamic";
 import { ICategoryModel } from "@/types/Catalog/catalogFilters";
+import Card from "@/components/UI/Card/Card";
 
 interface ProductListProps {
   items: ICategoryModel[];
@@ -12,13 +11,13 @@ const CatalogProductsColumn = dynamic(() => import("./CatalogProductsColumn"));
 const CatalogProductList = ({ items, isColumnView }: ProductListProps) => {
   return (
     <div
-      className={isColumnView ? "main__news_cards_column" : "main__news_cards"}
+      className={isColumnView ? "main__news_cards_column" : "cards"}
     >
       {items.map((item, index) =>
         isColumnView ? (
           <CatalogProductsColumn key={index} cardData={item} />
         ) : (
-          <CatalogProductsCard key={index} cardData={item} />
+          <Card key={index} cardData={item} />
         )
       )}
     </div>

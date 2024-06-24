@@ -12,7 +12,7 @@ export interface ICard {
   cena_kyrs: any;
   naim: string;
   url: string;
-  prim: string;
+  prim?: string;
   img: string;
   idt?: string;
   notfound: number;
@@ -22,7 +22,7 @@ export interface ICard {
   isNovelty?: number; // Сделано необязательным
   country_id: any;
   country: string;
-  stuff: string;
+  stuff?: string;
   size: string;
   keep_package: any;
   is_paid_delivery: any;
@@ -39,16 +39,16 @@ export interface ICard {
   moder: number;
   id_tov: number;
   copy: any;
-  weight: any;
-  description: string;
-  short_description: string;
-  trademark: string;
-  cert: string;
+  weight?: any;
+  description?: string;
+  short_description?: string;
+  trademark?: string;
+  cert?: string;
   pli?: number; // Сделано необязательным
   naim_word?: string;
-  img1sm: string;
-  img2big: string;
-  art_post: string;
+  img1sm?: string;
+  img2big?: string;
+  art_post?: string;
   id_user_add?: number;
   price_cost?: string; // Сделано необязательным
   price_update?: string;
@@ -62,13 +62,13 @@ export interface ICard {
   meta_description?: string;
   meta_keywords?: string;
   trademark_id: any;
-  in_box: any;
-  box: any;
-  img_url: any;
+  in_box?: any;
+  box?: any;
+  img_url?: any;
   status: number;
-  id_micro_serv: any;
-  d_min: any;
-  d_max: any;
+  id_micro_serv?: any;
+  d_min?: any;
+  d_max?: any;
   apply_test_per?: string;
   active_img?: any;
   discount: number;

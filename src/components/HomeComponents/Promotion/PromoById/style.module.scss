@@ -1,5 +1,9 @@
 @use '../../../../assets/scss/common/mixins' as mixin;
 
+.promoById{
+    margin-bottom: 10px;
+}
+
 .main__news{
     @include mixin.flex(null,space-between,null,30px);
     margin-top: 10px;

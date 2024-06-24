@@ -5,6 +5,7 @@ import TodayBoughtsCards from "./TodayBoughtsCard/TodayBoughtsCard";
 import { IBoughtItem, IBoughts } from "@/types/lastBoughts";
 import { getBoughts } from "@/api/requests";
 import { getBoughtsByClient } from "@/api/clientRequest";
+import Card from "@/components/UI/Card/Card";
 
 interface IPopularGoodsProps {
   boughts: IBoughtItem[];
@@ -15,7 +16,7 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
   const [showAll, setShowAll] = useState(false);
   const [data, setData] = useState<IBoughtItem[]>(boughts);
   const [allDataLoaded, setAllDataLoaded] = useState(false);
-  const perPage = 10;
+  const perPage = 12;
   const maxPagesToShowMore = 3;
   const router = useRouter();
 
@@ -49,9 +50,9 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
         <h1 className="sections__title">Сегодня купили</h1>
       </div>
       <div className="cardContainer">
-        <div className="main__news_cards">
+        <div className="cards">
           {data.slice(0, page * perPage).map((item, index) => (
-            <TodayBoughtsCards goods={item} key={index} />
+            <Card cardData={item} key={index} />
           ))}
         </div>
 

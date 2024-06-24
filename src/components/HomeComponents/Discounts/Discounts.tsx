@@ -26,7 +26,7 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
           {discounts.slice(0, shownCount).map((item, index) => (
             <Link
               className={clsx(styles.discount__card, "link")}
-              href={`discounts/${item.promotion_id}`}
+              href={`discount/${item.promotion_id}`}
               key={index}
             >
               <div className={styles.discount__card_images}>
@@ -74,7 +74,7 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
 
         {shownCount >= 20 && (
           <div className="default__buttons">
-            <Link className="link" href="/discounts?page=1">
+            <Link className="link" href="/discount?page=1">
               <button className="default__buttons_showMore">
                 Показать все
               </button>

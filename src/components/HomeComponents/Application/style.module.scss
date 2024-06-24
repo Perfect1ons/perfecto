@@ -2,7 +2,7 @@
 
 .application {
   background: var(--gray-white);
-  margin-top: auto;
+  margin-top: 20px;
   &__container {
     max-height: 300px;
     @include mixin.flex(center, space-around, null, 30px);

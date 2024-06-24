@@ -7,7 +7,7 @@ import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import { IPromoProduct } from "@/types/Promo/PromoById";
 import { NewsByPath } from "@/types/News/NewsById";
-import PromoCards from "./PromoCard";
+import Card from "@/components/UI/Card/Card";
 
 export interface INewsByIdProps {
   promo: IPromoProduct[];
@@ -50,7 +50,7 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
           </Link>
         </div>
 
-        <div className={styles.news__by_id}>
+        <div className={styles.promoById}>
           <h1 className="default__showMore_title">Акции</h1>
           <div className={styles.main__content}>
             <div className={styles.main__news}>
@@ -89,9 +89,9 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
           </div>
         </div>
       </div>
-      <div className="main__news_cards top">
+      <div className="cards">
         {promo.map((item, index) => {
-          return <PromoCards promo={item} key={index} />;
+          return <Card cardData={item} key={index} />;
         })}
       </div>
     </section>

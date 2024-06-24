@@ -36,7 +36,7 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
             href={"/discounts"}
             className={clsx(
               "all__directions_link",
-              pathname === "/discounts" && "all__directions_linkActive"
+              pathname === "/discount" && "all__directions_linkActive"
             )}
           >
               Скидки
@@ -48,7 +48,7 @@ const AllDiscounts = ({ discountsOne, discountsTwo }: IDiscountsProps) => {
           <div className={styles.discount__container}>
             {(pageNumber === 1 ? discountsOne : discountsTwo).map(
               (item, index) => (
-                <Link className="link" href={`discounts/${item.promotion_id}`} key={index}>
+                <Link className="link" href={`discount/${item.promotion_id}`} key={index}>
                     <DiscountCard item={item} />
                 </Link>
               )

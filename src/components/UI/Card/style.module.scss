@@ -9,8 +9,8 @@
     cursor: pointer;
 
     &:hover{
-        box-shadow: 0px 1px 5px 1px rgb(121, 121, 121);
-        
+        box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
+
         .card__info_title{
             opacity: 1;
         }
@@ -48,20 +48,20 @@
     }
 
     &__info{
-        @include mixin.flex(flex-start,space-between,column, 4px);
+        @include mixin.flex(flex-start,space-between,column, 2px);
         // padding: 0px 6px 6px 6px;
         padding: 6px;
-        height: 140.58px;
+        height: 170px;
         @media screen and (max-width: 1280px) {
-            height: 146.83px;
+            height: 160px;
         }
         
 
-        @media screen and (max-width: 640px) {
-            height: 150px;
-        }
-        @media screen and (max-width: 480px) {
-            height: 140px;
+        // @media screen and (max-width: 640px) {
+        //     height: 150px;
+        // }
+        @media screen and (max-width: 380px) {
+            height: 180px;
         }
 
         &_price{
@@ -69,11 +69,27 @@
             height: 20px;
         }
 
+        &_ddos{
+            @include mixin.flex(center,center,null,3px);
+            height: 34.1px;
+            overflow: hidden;
+            &_desc{
+                @include mixin.font(14px,400,1.1,var(--light-blue));
+                 @media screen and (max-width: 380px) {
+                font-size: 13px;
+            }
+            }
+            @media screen and (max-width: 380px) {
+                height: 40px;
+                font-size: 12px;
+            }
+        }
+
         &_title{
             @include mixin.font(14px,400,1.1,var(--gray-dark));
             opacity: 0.8;
-            padding: 2px 0;
-            height: 36px;
+            padding: 2px 0 0 0;
+            height: 34.1px;
             overflow: hidden;
             //   font-size: 14px;
 
@@ -166,7 +182,6 @@
 
         &_rating{
             @include mixin.flex(center,null,null,2px);
-            padding: 0 0 5px 0;
             &_span{
                 height: 17px;
             }

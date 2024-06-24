@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { url } from '@/components/temporary/data';
-import NewsCards from './NewsCards';
+import Card from '@/components/UI/Card/Card';
 
 export interface INewsByIdProps {
     news: NewsResult[];
@@ -47,7 +47,7 @@ const NewsById = ({news, main}: INewsByIdProps) => {
             </Link>
           </div>
 
-          <div className={styles.news__by_id}>
+          <div className={styles.newsById}>
             <h1 className="default__showMore_title">Новости</h1>
             <div className={styles.main__content}>
               <div className={styles.main__news}>
@@ -87,9 +87,9 @@ const NewsById = ({news, main}: INewsByIdProps) => {
             </div>
           </div>
         </div>
-        <div className="main__news_cards top">
+        <div className="cards">
           {news.map((item, index) => {
-            return <NewsCards newData={item} key={index} />;
+            return <Card cardData={item} key={index} />;
           })}
         </div>
       </section>

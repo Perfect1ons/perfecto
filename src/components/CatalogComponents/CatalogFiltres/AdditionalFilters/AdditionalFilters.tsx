@@ -26,12 +26,17 @@ const AdditionalFilters = ({
   clearFilterByID,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      setWindowWidth(window.innerWidth);
+
+      const handleResize = () => setWindowWidth(window.innerWidth);
+      window.addEventListener("resize", handleResize);
+
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   const getVisibleItems = () => {
