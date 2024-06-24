@@ -19,6 +19,7 @@ export default function FavoriteMain() {
 
   return (
     <>
+      {/* <h1>{filters.brands.map((i, index) => i).join(", ")}</h1> */}
       {/* <section className={styles.mainSection}>
         <div className={cn(styles.container, "container")}>
           <div className={styles.optionsWrap}>
