@@ -57,7 +57,7 @@ export default function CatalogProducts({
     tempMax: number;
   }>({
     tempMin: 0,
-    tempMax: 500000,
+    tempMax: 999999999,
   });
 
   const [sortOrder, setSortOrder] = useState<
@@ -180,13 +180,13 @@ export default function CatalogProducts({
     }));
   };
 
-const applyFilterCena = () => {
-  setSelectedFilters({
-    ...selectedFilters,
-    priceMin: tempPrice.tempMin,
-    priceMax: tempPrice.tempMax,
-  });
-};
+  const applyFilterCena = () => {
+    setSelectedFilters({
+      ...selectedFilters,
+      priceMin: tempPrice.tempMin,
+      priceMax: tempPrice.tempMax,
+    });
+  };
 
   const clearFilterCena = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
