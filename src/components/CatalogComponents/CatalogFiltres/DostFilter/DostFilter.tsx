@@ -1,12 +1,9 @@
 "use client";
 import cn from "clsx";
-import {
-  CheckIconFilter,
-  Cross,
-  СhevronDownIcon,
-} from "../../../../../public/Icons/Icons";
+import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface IDostFilterProps {
   filter: IFiltersBrand;
@@ -44,6 +41,7 @@ const DostFilter = ({
       changeSelect(newFilters);
     }
   };
+
   return (
     <>
       {filter.variant_day.length > 0 && (
@@ -86,7 +84,21 @@ const DostFilter = ({
                           selectedFilters.includes(item),
                       })}
                     >
-                      {selectedFilters.includes(item) && <CheckIconFilter />}
+                      {selectedFilters.includes(item) ? (
+                        <Image
+                          src="/img/checkIconWhite.svg"
+                          width={15}
+                          height={15}
+                          alt="check"
+                        />
+                      ) : (
+                        <Image
+                          src="/img/checkIconWhite.svg"
+                          width={15}
+                          height={15}
+                          alt="check"
+                        />
+                      )}
                     </span>
                     <li className="nameAndKol">{item}</li>
                   </ul>

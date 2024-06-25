@@ -107,9 +107,11 @@
   transform: rotate(180deg);
 }
 .showFiltersUlContainer {
-  @include mixin.flex(center, center, null, 10px);
+  user-select: none;
+  @include mixin.flex(center, null, null, 10px);
   @include mixin.font(0.875rem, 400, null, var(--dark));
   cursor: pointer;
+  width: 100%;
   &:hover {
     > .showFiltersUlContainer__check {
       border-color: #a9a8b0;
