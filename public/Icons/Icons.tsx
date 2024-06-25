@@ -1296,7 +1296,6 @@ export const SearchIconAbdu = () => {
   );
 };
 
-
 export const CardFavoritesIcon = () => {
   return (
     <svg

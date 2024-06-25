@@ -1,12 +1,9 @@
 "use client";
 import cn from "clsx";
 import { Filter2, IFiltersBrand, N11, N43 } from "@/types/filtersBrand";
-import {
-  CheckIconFilter,
-  Cross,
-  СhevronDownIcon,
-} from "../../../../../public/Icons/Icons";
+import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface IAdditionalFiltersProps {
   filter: IFiltersBrand;
@@ -112,9 +109,21 @@ const AdditionalFilters = ({
                             selectedFilters.includes(data.id_filter.toString()),
                         })}
                       >
-                        {selectedFilters.includes(
-                          data.id_filter.toString()
-                        ) && <CheckIconFilter />}
+                        {selectedFilters.includes(data.id_filter.toString()) ? (
+                          <Image
+                            src="/img/checkIconWhite.svg"
+                            width={15}
+                            height={15}
+                            alt="check"
+                          />
+                        ) : (
+                          <Image
+                            src="/img/checkIconWhite.svg"
+                            width={15}
+                            height={15}
+                            alt="check"
+                          />
+                        )}
                       </span>
                       <li className="nameAndKol">
                         {data.name}{" "}
@@ -124,10 +133,12 @@ const AdditionalFilters = ({
                   ))}
                 </div>
                 <div className="containerButtons">
-                  {Object.values(item.filter).length > 7 && !showAll && (
+                  {Object.values(item.filter).length > 7 && !showAll ? (
                     <button onClick={handleShowAll} className="showAllButton">
                       Показать все
                     </button>
+                  ) : (
+                    <button disabled={showAll}></button>
                   )}
                   <button
                     onClick={() =>

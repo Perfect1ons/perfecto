@@ -1,12 +1,10 @@
 "use client";
 import cn from "clsx";
-import {
-  CheckIconFilter,
-  Cross,
-  СhevronDownIcon,
-} from "../../../../../public/Icons/Icons";
+import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Solway } from "next/font/google";
 
 interface IBrandFilterProps {
   filter: IFiltersBrand;
@@ -42,6 +40,7 @@ const BrandFilter = ({
       changeSelect(newFilters);
     }
   };
+
   return (
     <>
       {filter.brand.length > 0 && (
@@ -84,17 +83,33 @@ const BrandFilter = ({
                           selectedFilters.includes(item),
                       })}
                     >
-                      {selectedFilters.includes(item) && <CheckIconFilter />}
+                      {selectedFilters.includes(item) ? (
+                        <Image
+                          src="/img/checkIconWhite.svg"
+                          width={15}
+                          height={15}
+                          alt="check"
+                        />
+                      ) : (
+                        <Image
+                          src="/img/checkIconWhite.svg"
+                          width={15}
+                          height={15}
+                          alt="check"
+                        />
+                      )}
                     </span>
                     <li className="nameAndKol">{item}</li>
                   </ul>
                 ))}
               </div>
               <div className="containerButtons">
-                {filter.brand.length > 7 && !showAll && (
+                {filter.brand.length > 7 && !showAll ? (
                   <button onClick={handleShowAll} className="showAllButton">
                     Показать все
                   </button>
+                ) : (
+                  <button disabled={showAll}></button>
                 )}
                 <button
                   onClick={() => clearFilter("brand")}

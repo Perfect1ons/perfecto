@@ -3,7 +3,7 @@ import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import DostFilter from "./DostFilter/DostFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
@@ -40,6 +40,7 @@ export interface ISelectedFilterProps {
   priceMin: number;
   priceMax: number;
 }
+
 const CatalogFiltres = ({
   filter,
   onChange,
@@ -55,12 +56,32 @@ const CatalogFiltres = ({
   tempPrice,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
+
   const toggleFilter = (filterName: string) => {
     setVisibleFilter((prev) => (prev === filterName ? null : filterName));
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setVisibleFilter(null);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="filtresContainer">
+    <div ref={containerRef} className="filtresContainer">
       <DefaultFilter
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}

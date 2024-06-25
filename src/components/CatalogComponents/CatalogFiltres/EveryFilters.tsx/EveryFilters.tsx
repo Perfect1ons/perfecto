@@ -1,6 +1,5 @@
 import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
-  CheckIconFilter,
   FilterIcon,
   XMark,
   СhevronDownIcon,
@@ -8,6 +7,7 @@ import {
 import styles from "./style.module.scss";
 import cn from "clsx";
 import { useState } from "react";
+import Image from "next/image";
 interface IEveryFilterProps {
   filter: IFiltersBrand;
   visibleFilter: string | null;
@@ -127,7 +127,21 @@ const EveryFilters = ({
                                   >
                                     {selectedFilters.includes(
                                       data.id_filter.toString()
-                                    ) && <CheckIconFilter />}
+                                    ) ? (
+                                      <Image
+                                        src="/img/checkIconWhite.svg"
+                                        width={15}
+                                        height={15}
+                                        alt="check"
+                                      />
+                                    ) : (
+                                      <Image
+                                        src="/img/checkIconWhite.svg"
+                                        width={15}
+                                        height={15}
+                                        alt="check"
+                                      />
+                                    )}
                                   </span>
                                   <li>{data.name}</li>
                                 </ul>
