@@ -98,13 +98,23 @@ export default function CatalogProducts({
 
   useEffect(() => {
     const fetchData = async () => {
+      let maxPrice = 0;
+      if (selectedFilters.priceMax > 0) {
+        maxPrice = selectedFilters.priceMax;
+      } else if (
+        selectedFilters.priceMax <= 0 &&
+        selectedFilters.priceMin > 0
+      ) {
+        maxPrice = 9999999; // или любое другое большое число, например 999999
+      }
       try {
         const response = await getCatalogProductsFiltered(
           selectedFilters.id,
           selectedFilters.page,
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
-          selectedFilters.priceMax > 0 ? selectedFilters.priceMax : undefined,
+          maxPrice,
+          // selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 0,
           selectedFilters.dost.join(","),
           selectedFilters.additional_filter.join(",")
         );

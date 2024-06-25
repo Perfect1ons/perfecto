@@ -20,6 +20,20 @@
   }
 }
 
+.clearFavoritesButton{
+  @include mixin.flex(center,null,null,5px);
+  background: var(--dark-blue);
+  color: var(--white);
+  padding: 10px 13px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  &:hover{
+    background: var(--violet);
+
+  }
+}
+
 // for empty
 .section__isEmpty {
   @include mixin.flex(center, space-between, row);

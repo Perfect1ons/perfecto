@@ -6,13 +6,12 @@ import { ICard } from "@/types/Card/card"; // Импорт типа для то�
 import styles from "./style.module.scss";
 import Card from "@/components/UI/Card/Card";
 import MainLoader from "@/components/UI/Loader/MainLoader";
-import FavoritesSearch from "@/components/FavoritesComponents/FavoritesSearch/FavoritesSearch"; // Импорт компонента поиска
+import { TrashIcon } from "../../../../public/Icons/Icons";
 
 export default function FavoriteMain() {
   const [favorites, setFavorites] = useState<ICard[]>([]);
   const [filteredFavorites, setFilteredFavorites] = useState<ICard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const savedFavorites = JSON.parse(
@@ -28,19 +27,6 @@ export default function FavoriteMain() {
     setFavorites([]);
     setFilteredFavorites([]);
     window.dispatchEvent(new Event("favoritesUpdated"));
-  };
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    if (!query) {
-      setFilteredFavorites(favorites);
-    } else {
-      const lowerCaseQuery = query.toLowerCase();
-      const filtered = favorites.filter((item) =>
-        item.naim.toLowerCase().includes(lowerCaseQuery)
-      );
-      setFilteredFavorites(filtered);
-    }
   };
 
   return (
@@ -83,23 +69,18 @@ export default function FavoriteMain() {
                   товара
                 </h1>
                 <button
+                  title="Удалить все товары в избранном"
                   className={styles.clearFavoritesButton}
                   onClick={clearFavorites}
                 >
+                  <TrashIcon/>
                   Очистить избранное
                 </button>
-                  <FavoritesSearch onSearch={handleSearch} />
               </div>
               <div className="cards">
-                {filteredFavorites.length > 0 ? (
-                  filteredFavorites.map((item, index) => (
-                    <Card cardData={item} key={index} />
-                  ))
-                ) : (
-                  <div className={styles.noResults}>
-                    По вашему запросу {searchQuery} ничего не найдено.
-                  </div>
-                )}
+                {filteredFavorites.map((item, index) => (
+                  <Card cardData={item} key={index} />
+                ))}
               </div>
             </div>
           )}
