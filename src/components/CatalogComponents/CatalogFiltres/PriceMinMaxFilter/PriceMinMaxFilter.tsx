@@ -9,8 +9,8 @@ interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
   visibleFilter: string | null;
   handlePriceRangeChange: (min: number, max: number) => void;
-  clearFilterCena: () => void;
-  applyFilterCena: () => void;
+  clearFilterPrice: () => void;
+  applyFilterPrice: () => void;
   tempPrice: {
     tempMin: number;
     tempMax: number;
@@ -21,28 +21,29 @@ const PriceMinMaxFilter = ({
   toggleFilter,
   visibleFilter,
   handlePriceRangeChange,
-  clearFilterCena,
-  applyFilterCena,
+  clearFilterPrice,
+  applyFilterPrice,
   tempPrice,
 }: IPriceMinMaxFilterProps) => {
+  //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
       min = 0;
     }
     handlePriceRangeChange(min, tempPrice.tempMax);
   };
-
+  //input max price changer
   const handleMaxChange = (max: number) => {
     if (max < 0) {
       max = 0;
     }
     handlePriceRangeChange(tempPrice.tempMin, max);
   };
-
+  //input add separation
   const addSeparators = (value: string) => {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
-
+  //key down function for input
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       !/[0-9]/.test(event.key) &&
@@ -56,16 +57,17 @@ const PriceMinMaxFilter = ({
       event.preventDefault();
     }
   };
+  //hook useRef for min price input
   const minPriceInputRef = useRef<HTMLInputElement>(null);
-
+  //focus for input if visible filter === price
   useEffect(() => {
     minPriceInputRef?.current?.focus();
   }, [visibleFilter]);
-
+  //hook for enter key down
   useEffect(() => {
     const handleEnterKey = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
-        applyFilterCena();
+        applyFilterPrice();
         toggleFilter("");
       }
     };
@@ -104,6 +106,7 @@ const PriceMinMaxFilter = ({
               <Cross />
             </button>
             <div className={styles.priceContainerRange}>
+              {/* slider input type range library */}
               <Slider
                 className={styles.sliderRange}
                 thumbClassName={styles.thumbClassName}
@@ -162,7 +165,7 @@ const PriceMinMaxFilter = ({
             <div className="containerButtons">
               <button
                 onClick={() => {
-                  applyFilterCena();
+                  applyFilterPrice();
                   toggleFilter("");
                 }}
                 className={cn(
@@ -174,7 +177,7 @@ const PriceMinMaxFilter = ({
                 Применить
               </button>
               <button
-                onClick={clearFilterCena}
+                onClick={clearFilterPrice}
                 disabled={tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0}
                 className={cn(
                   "resetButton",

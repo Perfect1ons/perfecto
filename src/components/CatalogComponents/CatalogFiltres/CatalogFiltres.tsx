@@ -22,8 +22,8 @@ interface ICatalogFiltresProps {
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
-  clearFilterCena: () => void;
-  applyFilterCena: () => void;
+  clearFilterPrice: () => void;
+  applyFilterPrice: () => void;
   tempPrice: {
     tempMin: number;
     tempMax: number;
@@ -50,9 +50,9 @@ const CatalogFiltres = ({
   handleFilterChange,
   handlePriceRangeChange,
   clearFilter,
-  clearFilterCena,
+  clearFilterPrice,
   clearFilterByID,
-  applyFilterCena,
+  applyFilterPrice,
   tempPrice,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
@@ -62,7 +62,7 @@ const CatalogFiltres = ({
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
-
+  // hook on the outside to close the active filter modal
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -99,8 +99,8 @@ const CatalogFiltres = ({
       />
       <PriceMinMaxFilter
         tempPrice={tempPrice}
-        clearFilterCena={clearFilterCena}
-        applyFilterCena={applyFilterCena}
+        clearFilterPrice={clearFilterPrice}
+        applyFilterPrice={applyFilterPrice}
         handlePriceRangeChange={handlePriceRangeChange}
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
