@@ -102,9 +102,6 @@ const CatalogFiltres = ({
         clearFilterCena={clearFilterCena}
         applyFilterCena={applyFilterCena}
         handlePriceRangeChange={handlePriceRangeChange}
-        changeSelect={(value: { min: number; max: number }) =>
-          handleFilterChange("price", value)
-        }
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
       />

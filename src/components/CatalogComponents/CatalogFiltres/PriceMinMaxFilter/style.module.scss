@@ -12,7 +12,7 @@
   border-color: #f1f1f5;
   transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
   width: 100%;
-  border: 1px solid #d3d4dd;
+  border: 2px solid #d3d4dd;
   border-radius: 8px;
   height: auto;
   font-size: 16px;
@@ -21,6 +21,9 @@
   &:hover {
     background-color: #e8e8f0;
     border-color: #e8e8f0;
+  }
+  &:focus {
+    border: 2px solid var(--dark-blue);
   }
 }
 .sliderRange {
