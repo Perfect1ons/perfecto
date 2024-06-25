@@ -57,7 +57,7 @@ export default function CatalogProducts({
     tempMax: number;
   }>({
     tempMin: 0,
-    tempMax: 999999999,
+    tempMax: 0,
   });
 
   const [sortOrder, setSortOrder] = useState<
@@ -104,7 +104,7 @@ export default function CatalogProducts({
           selectedFilters.page,
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
-          selectedFilters.priceMax,
+          selectedFilters.priceMax > 0 ? selectedFilters.priceMax : undefined,
           selectedFilters.dost.join(","),
           selectedFilters.additional_filter.join(",")
         );
