@@ -92,6 +92,18 @@ module.exports = {
         protocol: "https",
         hostname: "mnogogerz.ru",
       },
+      {
+        protocol: "https",
+        hostname: "ua.powerwalker.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ua.powerwalker.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ua.powerwalker.com",
+      },
     ],
   },
   async headers() {

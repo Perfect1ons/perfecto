@@ -1,23 +1,35 @@
-import { ISelectedFilterProps } from "@/components/CatalogComponents/CatalogFiltres/CatalogFiltres";
+//! Типизация запросов
 import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
-import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { ISearch } from "@/types/Search/search";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
-import ky from "ky";
-import qs from "qs";
 
+//! Импорт библиотеки
+import ky from "ky";
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! Используем библиотеку ky для fetch запросов
+//  Как им пользоваться вам расскажет ютуб :)
 const maxkg = ky.create({
   prefixUrl: "/api/",
 });
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! GET запрос для получения каталог меню
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
   return maxkg.get("catalog/cat-list-menu?_format=json").json();
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! GET запросы сделаны для загрузки по скроллу и по клику - передаем номер page
 export const getPopularGoodsByClient = (
   page: number
 ): Promise<IPopularGood[]> => {
@@ -27,50 +39,20 @@ export const getPopularGoodsByClient = (
 export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-export const getCatalogProductFilter = (
-  id: number,
-  selected: ISelectedFilterProps
-): Promise<ICatalogsProducts> => {
-  const url = `catalog/cat-product/${id}`;
 
-  const params = new URLSearchParams();
-  // Добавить фильтры бренда
-  if (selected.brand.length > 0) {
-    params.append("VNaltovaroksearch[brand]", selected.brand.join(","));
-  }
 
-  // Добавить фильтр доставки
-  if (selected.dost.length > 0) {
-    params.append("VNaltovaroksearch[dost]", selected.dost.join(","));
-  }
-
-  // Добавить дополнительные фильтры
-  if (selected.additional_filter.length > 0) {
-    params.append(
-      "VNaltovaroksearch[additional_filter]",
-      selected.additional_filter.join(",")
-    );
-  }
-
-  // // Добавить фильтры цены
-  // params.append("VNaltovaroksearch[cena_min]", selected.price.min.toString());
-  // params.append("VNaltovaroksearch[cena_max]", selected.price.max.toString());
-
-  const apiUrl = `${url}?${params.toString()}`;
-
-  return maxkg.get(apiUrl).json();
-};
-
-//! Условии для запроса фильтрации!
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! GET запрос на фильтрацию и условии для запроса фильтрации!
 // Важно передавать все значение по порядку строго по порядку то есть сначала --->
 //1) Передать id категории
-//2) Передать номер страницы при необходимости ( Сделанно для загрузки по скроллу)
-//3) Передать бренды  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
-//4) Передать минимальную цену  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
-//5) Передать максимальную цену  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
-//6) Передать время доставки  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
-//7) Передать дополнительные фильтры  ---> Примечание если не выбранно ничего в этом фильтре а в другом выбран то передавать просто нужно кое что сделать но я еще не придумал что сделать
+//2) Передать номер страницы при необходимости но по дефолтному должно стоять 1 ( Сделанно для загрузки по скроллу)
+//3) Передать бренды
+//4) Передать минимальную цену
+//5) Передать максимальную цену
+//6) Передать время доставки
+//7) Передать дополнительные фильтры
 
 export const getCatalogProductsFiltered = (
   id: number,
@@ -87,54 +69,12 @@ export const getCatalogProductsFiltered = (
     )
     .json();
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 
 
-export const getProductsByBrand = (
-  id: number,
-  brands: string
-): Promise<ICatalogsProducts> => {
-  const params = qs.stringify({
-    page: 1,
-    "VNaltovaroksearch[brand]": brands,
-  });
-  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
-};
-
-export const getProductsByDost = (
-  id: number,
-  day: string
-): Promise<ICatalogsProducts> => {
-  const params = qs.stringify(
-    {
-      page: 1,
-      "VNaltovaroksearch[dost]": day,
-    },
-    { addQueryPrefix: true }
-  );
-
-  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
-};
-
-export const getProductsByCenaMinMax = (
-  id: number,
-  min: number | null,
-  max: number | null 
-): Promise<ICatalogsProducts> => {
-  const params = qs.stringify({
-    page: 1,
-    "VNaltovaroksearch[cena_min]": min,
-    "VNaltovaroksearch[cena_max]": max,
-  });
-  return maxkg.get(`catalog/cat-product/${id}?${params}`).json();
-};
-
-const filterProduct = qs.stringify({});
-
-export const getProductFilter = (id: number): Promise<ICatalogsProducts> => {
-  return maxkg.get(`catalog/cat-product/${id}?${filterProduct}`).json();
-};
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! POST запросы для отзывов
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });
 };
@@ -142,10 +82,12 @@ export const postOtz = (otz: IUser) => {
 export const postRating = (ocenka: IOcenka) => {
   return maxkg.post("otz/set-ocenka", { json: ocenka });
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 
-//! USER REQUESTS FOR SEARCH -
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! GET запросы для поиска
 export const getUserSearch = (slug: string): Promise<ISearch> => {
   return maxkg.get(`naltovarok/seek?${slug}`).json();
 };
@@ -153,3 +95,4 @@ export const getUserSearch = (slug: string): Promise<ISearch> => {
 export const getFastUserSearch = (slug: string): Promise<ISearch> => {
   return maxkg.get(`naltovarok/seek?search=${slug}`).json();
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//

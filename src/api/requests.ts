@@ -128,7 +128,7 @@ export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
 };
 
-//footer pages request
+//footer pages requests
 export const getFooterPages = (url: string): Promise<IFooterPage> => {
   return maxkg.get(`site/get-page/${url}`).json();
 };
@@ -199,8 +199,9 @@ export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
 };
 
-//! GETS METADATA FOR PAGES
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//! GET запросы для получения Meta тего на страницах
 export const getMetaMainPage = (): Promise<IMetaData> => {
   return maxkg.get("site/meta?type=main").json();
 };
@@ -230,3 +231,4 @@ export const getMetaBrandPage = (): Promise<IMetaData> => {
 export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
   return maxkg.get(`site/breadcrumbs?id=${id}`).json();
 };
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
