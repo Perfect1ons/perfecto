@@ -6,23 +6,47 @@ import { ICard } from "@/types/Card/card"; // Импорт типа для то�
 import styles from "./style.module.scss";
 import Card from "@/components/UI/Card/Card";
 import MainLoader from "@/components/UI/Loader/MainLoader";
+import FavoritesSearch from "@/components/FavoritesComponents/FavoritesSearch/FavoritesSearch"; // Импорт компонента поиска
 
 export default function FavoriteMain() {
   const [favorites, setFavorites] = useState<ICard[]>([]);
+  const [filteredFavorites, setFilteredFavorites] = useState<ICard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const savedFavorites = JSON.parse(
       localStorage.getItem("favorites") || "[]"
     );
     setFavorites(savedFavorites);
+    setFilteredFavorites(savedFavorites);
     setIsLoading(false);
   }, []);
+
+  const clearFavorites = () => {
+    localStorage.removeItem("favorites");
+    setFavorites([]);
+    setFilteredFavorites([]);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (!query) {
+      setFilteredFavorites(favorites);
+    } else {
+      const lowerCaseQuery = query.toLowerCase();
+      const filtered = favorites.filter((item) =>
+        item.naim.toLowerCase().includes(lowerCaseQuery)
+      );
+      setFilteredFavorites(filtered);
+    }
+  };
 
   return (
     <section>
       {isLoading ? (
-        <MainLoader/>
+        <MainLoader />
       ) : (
         <>
           {favorites.length === 0 ? (
@@ -50,17 +74,32 @@ export default function FavoriteMain() {
             </div>
           ) : (
             <div className={styles.favorites__card}>
-              <h1 className={cn(styles.favorites__card_title, "container")}>
-                В избранном{" "}
-                <span className={styles.favorites__card_count}>
-                  {favorites.length}
-                </span>{" "}
-                товара
-              </h1>
+              <div className={cn(styles.favorites__card_header, "container")}>
+                <h1 className={styles.favorites__card_title}>
+                  В избранном{" "}
+                  <span className={styles.favorites__card_count}>
+                    {favorites.length}
+                  </span>{" "}
+                  товара
+                </h1>
+                <button
+                  className={styles.clearFavoritesButton}
+                  onClick={clearFavorites}
+                >
+                  Очистить избранное
+                </button>
+                  <FavoritesSearch onSearch={handleSearch} />
+              </div>
               <div className="cards">
-                {favorites.map((item, index) => (
-                  <Card cardData={item} key={index} />
-                ))}
+                {filteredFavorites.length > 0 ? (
+                  filteredFavorites.map((item, index) => (
+                    <Card cardData={item} key={index} />
+                  ))
+                ) : (
+                  <div className={styles.noResults}>
+                    По вашему запросу {searchQuery} ничего не найдено.
+                  </div>
+                )}
               </div>
             </div>
           )}

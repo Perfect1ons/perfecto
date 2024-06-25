@@ -12,6 +12,8 @@ import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
 import styles from "./style.module.scss";
+import clsx from "clsx";
+import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -29,23 +31,45 @@ const Card = ({ cardData }: IcardDataProps) => {
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isRedirect, setIsRedirect] = useState(false);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
-      favorites.some((item: ICard) => item.id_tov === cardData.id_tov)
+      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
 
-  const toggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const updatedFavorites = isFavorite
-      ? favorites.filter((item: ICard) => item.id_tov !== cardData.id_tov)
-      : [...favorites, cardData];
+  const handleFavoriteClick = () => {
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
 
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(cardData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   const maxLength = 40;
@@ -55,6 +79,12 @@ const Card = ({ cardData }: IcardDataProps) => {
 
   return (
     <div className={styles.card}>
+      <FavoriteModal
+        isVisible={isModalVisible}
+        message={modalMessage}
+        isRedirect={isRedirect}
+        onClose={handleModalClose}
+      />
       <div className={styles.card__images}>
         <Link
           className="link"
@@ -72,8 +102,7 @@ const Card = ({ cardData }: IcardDataProps) => {
           className={`${styles.card__info_addFavorites} ${
             isFavorite ? styles.card__info_addedFavorites : ""
           }`}
-          title={isFavorite ? "Удалить из избранного" : "Добавить в избранное"}
-          onClick={toggleFavorite}
+          onClick={handleFavoriteClick}
         >
           <CardFavoritesIcon />
         </span>
@@ -97,7 +126,7 @@ const Card = ({ cardData }: IcardDataProps) => {
 
             <div className={styles.card__info_oldprice}>
               <span className={styles.card__info_oldprice_price}>
-                {cardData.old_price.toLocaleString("ru-RU")}с
+                {cardData.old_price.toLocaleString("ru-RU")}c
               </span>
             </div>
           </div>

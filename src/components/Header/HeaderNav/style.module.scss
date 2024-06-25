@@ -50,6 +50,12 @@
                 text-align: center;
                 height: 20px;
                 border-radius: 50%;
+
+                &_max{
+                    width: 30px;
+                    @include mixin.flex(center,center);
+                    font-size: 12px;
+                }
             }
         }
     }

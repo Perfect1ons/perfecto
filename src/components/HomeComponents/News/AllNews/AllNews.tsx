@@ -2,11 +2,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import clsx from "clsx";
 import styles from "./style.module.scss";
 import { INews } from "@/types/news";
 import { url } from "@/components/temporary/data";
+import DOMPurify from "isomorphic-dompurify";
+import { useRouter } from "next/navigation";
 
 interface IAllNewsProps {
   allnews: INews[];
@@ -23,7 +24,7 @@ const [currentPage, setCurrentPage] = useState(() => {
 
   const itemsPerPage = 10;
   const maxPage = Math.ceil(allnews.length / itemsPerPage);
-
+  const router = useRouter();
   const topRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (topRef.current) {
@@ -59,10 +60,10 @@ const [currentPage, setCurrentPage] = useState(() => {
             href={"/news"}
             className={clsx(
               "all__directions_link",
-                "all__directions_linkActive"
+              "all__directions_linkActive"
             )}
           >
-              Новости
+            Новости
           </Link>
         </div>
         <div className={styles.all__news_container}>
@@ -97,6 +98,13 @@ const [currentPage, setCurrentPage] = useState(() => {
                       </Link>
                     </h1>
                     <div className={styles.allNews__desc}>
+                      <div
+                        onClick={() => router.push(`/news/${news.id}`)}
+                        className={styles.textFade}
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(news.anons),
+                        }}
+                      />
                       <Link
                         className={styles.allNews__desc_link}
                         href={`/news/${news.id}`}

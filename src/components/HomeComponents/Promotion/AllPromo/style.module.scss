@@ -17,6 +17,25 @@
     }
 }
 
+.textFade {
+  position: relative;
+  max-height: 200px;
+  cursor: pointer;
+  overflow: hidden;
+  line-height: 1.5em; // Adjust as needed for the line height
+  padding-bottom: 1em; // Space for the gradient
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 85%; // Height of the gradient overlay
+    background: linear-gradient(to top, white, transparent);
+  }
+}
+
 .allNews__content{
     @include mixin.flex(null,space-between,null,30px);
 
@@ -51,7 +70,7 @@
     &_info{
         max-width: 100%;
         width: 100%;
-        @include mixin.flex(center,space-between,column, 10px);
+        @include mixin.flex(null,space-between,column, 10px);
         height: auto;
 
         @media screen and (max-width: 992px)  {
