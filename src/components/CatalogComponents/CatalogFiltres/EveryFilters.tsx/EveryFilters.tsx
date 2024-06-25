@@ -28,7 +28,7 @@ const EveryFilters = ({
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
-
+  //select changer for every filters
   const handleSelectChange = (item: string) => {
     const filters = selectedFilters;
     const newFilters = filters.includes(item)
@@ -39,10 +39,13 @@ const EveryFilters = ({
       changeSelect(newFilters);
     }
   };
+
   const [visibleFilters, setVisibleFilters] = useState<string | null>(null); // State to manage which filter is visible
+  //filter toogler
   const toggleFilters = (filterName: string) => {
     setVisibleFilters((prev) => (prev === filterName ? null : filterName));
   };
+  //filter count function
   const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter((filter) =>
       selectedFilters.includes(filter.id_filter.toString())

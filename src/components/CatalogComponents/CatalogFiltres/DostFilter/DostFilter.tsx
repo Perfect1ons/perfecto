@@ -2,7 +2,7 @@
 import cn from "clsx";
 import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { IFiltersBrand } from "@/types/filtersBrand";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 interface IDostFilterProps {
@@ -22,12 +22,13 @@ const DostFilter = ({
   selectedFilters,
   clearFilter,
 }: IDostFilterProps) => {
+  //show all boolean storage
   const [showAll, setShowAll] = useState(false);
-
+  //show all handler function
   const handleShowAll = () => {
     setShowAll(true);
   };
-
+  //filter slice if filter variant day > 7
   const visibleDost = showAll
     ? filter.variant_day
     : filter.variant_day.slice(0, 7);

@@ -25,24 +25,25 @@ const PriceMinMaxFilter = ({
   applyFilterCena,
   tempPrice,
 }: IPriceMinMaxFilterProps) => {
+  //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
       min = 0;
     }
     handlePriceRangeChange(min, tempPrice.tempMax);
   };
-
+  //input max price changer
   const handleMaxChange = (max: number) => {
     if (max < 0) {
       max = 0;
     }
     handlePriceRangeChange(tempPrice.tempMin, max);
   };
-
+  //input add separation
   const addSeparators = (value: string) => {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
-
+  //key down function for input
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (
       !/[0-9]/.test(event.key) &&
@@ -56,12 +57,13 @@ const PriceMinMaxFilter = ({
       event.preventDefault();
     }
   };
+  //hook useRef for min price input
   const minPriceInputRef = useRef<HTMLInputElement>(null);
-
+  //focus for input if visible filter === price
   useEffect(() => {
     minPriceInputRef?.current?.focus();
   }, [visibleFilter]);
-
+  //hook for enter key down
   useEffect(() => {
     const handleEnterKey = (event: KeyboardEvent) => {
       if (event.key === "Enter") {

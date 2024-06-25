@@ -26,12 +26,6 @@ interface ICatalogProductsProps {
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
 }
-// export interface IFiltersProps {
-//   brand: string[];
-//   price: { max: number; min: number };
-//   dost: string[];
-//   additional_filter: any[];
-// }
 
 export default function CatalogProducts({
   banner,
@@ -39,9 +33,12 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
+  // custom hook media query
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
+
+  // selected filters storage
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,
@@ -52,6 +49,7 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
+  //temp price storage
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
@@ -60,17 +58,19 @@ export default function CatalogProducts({
     tempMax: 0,
   });
 
+  //default sort storage
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
+  //custom hook media query
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
     handleViewChange(view);
   };
-
+  // filter change function
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -78,6 +78,7 @@ export default function CatalogProducts({
     }));
   };
   // Функция для очистки фильтров
+  //clear filter function
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters: ISelectedFilterProps) => {
       const updatedFilters: any = { ...prevFilters };
@@ -89,13 +90,13 @@ export default function CatalogProducts({
       return updatedFilters;
     });
   };
-
+  //clear filter by id function
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
   };
-
+  // useEffect hook for fetching data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -117,6 +118,7 @@ export default function CatalogProducts({
     fetchData();
   }, [catalog.category.id, selectedFilters]);
 
+  //useEffect hook for url params
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -132,6 +134,7 @@ export default function CatalogProducts({
     }
   }, []);
 
+  //useEffect hook for default sort
   useEffect(() => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
@@ -139,6 +142,7 @@ export default function CatalogProducts({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
+  //default sort function
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
     const sortedItems = [...items]; // Use current items for sorting
     switch (order) {
@@ -156,7 +160,7 @@ export default function CatalogProducts({
     }
     setItems(sortedItems);
   };
-
+  //default sort handler
   const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
@@ -167,11 +171,11 @@ export default function CatalogProducts({
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-
+  //column view handler
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
-
+  // filter price range changer
   const handlePriceRangeChange = (min: number, max: number) => {
     setTempPrice((prevTempPrice) => ({
       ...prevTempPrice,
@@ -179,7 +183,7 @@ export default function CatalogProducts({
       tempMax: max,
     }));
   };
-
+  //apply filter price function
   const applyFilterCena = () => {
     setSelectedFilters({
       ...selectedFilters,
@@ -187,7 +191,7 @@ export default function CatalogProducts({
       priceMax: tempPrice.tempMax,
     });
   };
-
+  //clear filter price function
   const clearFilterCena = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({

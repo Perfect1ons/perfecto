@@ -62,7 +62,7 @@ const CatalogFiltres = ({
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
-
+  // hook on the outside to close the active filter modal
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
