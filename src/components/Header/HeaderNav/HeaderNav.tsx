@@ -40,7 +40,7 @@ const HeaderNav = () => {
 
   const pathname = usePathname();
 
-  useEffect(() => {
+  const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
@@ -54,6 +54,18 @@ const HeaderNav = () => {
         return link;
       })
     );
+  };
+
+  useEffect(() => {
+    updateCounts();
+
+    window.addEventListener("favoritesUpdated", updateCounts);
+    window.addEventListener("cartUpdated", updateCounts);
+
+    return () => {
+      window.removeEventListener("favoritesUpdated", updateCounts);
+      window.removeEventListener("cartUpdated", updateCounts);
+    };
   }, []);
 
   return (
@@ -88,8 +100,13 @@ const HeaderNav = () => {
               <div className={styles.nav__link_items_icon}>
                 {link.icon}
                 {link.count !== undefined && link.count > 0 && (
-                  <span className={styles.nav__link_items_count}>
-                    {link.count}
+                  <span
+                    className={cn(
+                      styles.nav__link_items_count,
+                      link.count <= 99 ? null : styles.nav__link_items_count_max
+                    )}
+                  >
+                    {link.count <= 99 ? link.count : "99+"}
                   </span>
                 )}
               </div>

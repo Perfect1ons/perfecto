@@ -7,6 +7,7 @@ import clsx from "clsx";
 import styles from "./style.module.scss";
 import { INews } from "@/types/news";
 import { url } from "@/components/temporary/data";
+import DOMPurify from "isomorphic-dompurify";
 
 interface IAllNewsProps {
   allpromo: INews[];
@@ -94,13 +95,16 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
 
                 <div className={styles.allNews__content_info}>
                   <Link className="link" href={`/promotions/${news.id}`}>
-                    <h1
-                      className="allNews__content_title"
-                    >
-                      {news.naim}
-                    </h1>
+                    <h1 className="allNews__content_title">{news.naim}</h1>
                   </Link>
                   <div className={styles.allNews__desc}>
+                    <div
+                      onClick={() => router.push(`/news/${news.id}`)}
+                      className={styles.textFade}
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(news.anons),
+                      }}
+                    />
                     <Link
                       className={styles.allNews__desc_link}
                       href={`/promotions/${news.id}`}

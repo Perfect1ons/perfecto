@@ -14,8 +14,6 @@ import {
   getThirdBanner,
 } from "@/api/requests";
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
-import FormComponent from "@/components/Form/Form";
-import FormData from "@/components/Form/Form";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import { generatePageMetadata } from "@/utils/metadata";
@@ -60,7 +58,6 @@ export default async function Home() {
     ]);
   } catch (error) {
     console.error("Error fetching popular category or goods data:", error);
-    // Handle error, e.g., show ErrorPage
     return <ErrorPage />;
   }
 
