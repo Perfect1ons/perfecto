@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import FavoriteMain from "@/components/FavoritesComponents/FavoriteMain/FavoriteMain";
+
 export const metadata: Metadata = {
   title: "Избранное",
   description:
@@ -10,9 +11,7 @@ export const metadata: Metadata = {
 
 export default async function Favorites ()  {
   return (
-    <>
       <FavoriteMain />
-    </>
   );
 };
 

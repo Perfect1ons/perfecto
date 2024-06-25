@@ -23,14 +23,14 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
           <Link href={"/"} className="all__directions_link">
             Главная
           </Link>
-          <Link href={"/discounts"} className="all__directions_link">
+          <Link href={"/discount"} className="all__directions_link">
             Скидки
           </Link>
           <Link
             href={`${discount.id}`}
             className={clsx(
               "all__directions_link",
-              pathname === `/discounts/${discount.id}` &&
+              pathname === `/discount/${discount.id}` &&
                 "all__directions_linkActive"
             )}
           >

@@ -7,6 +7,7 @@
     overflow: hidden;
     user-select: none;
     cursor: pointer;
+    background: var(--white);
 
     &:hover{
         box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
@@ -23,43 +24,41 @@
         align-items: center;
         height: 220.83px;
         @media screen and (max-width: 480px) {
-            height: 165px;
+            height: 200px;
+        }
+        @media screen and (max-width: 360px) {
+            height: 170px;
         }
         @media screen and (max-width: 320px) {
-            height: 130px;
+            height: 150px;
         }
     }
 
     &__image{
         max-height: 220.83px;
         overflow: hidden;
-        // width: 100%;
         width: 222.5px;
         object-fit: cover;
         height: auto;
         // border-radius: 5px 5px 0px 0px; //! Только вверхние части скругленные
         border-radius: 5px; //! все углы скругленные
         @media screen and (max-width: 480px) {
-            max-height: 165px;
+           width: 100%;
+           height: 100%;
         }
         @media screen and (max-width: 320px) {
-            max-height: 130px;
+            max-height: 150px;
         }
     }
 
     &__info{
         @include mixin.flex(flex-start,space-between,column, 2px);
-        // padding: 0px 6px 6px 6px;
         padding: 6px;
         height: 170px;
         @media screen and (max-width: 1280px) {
             height: 160px;
         }
-        
 
-        // @media screen and (max-width: 640px) {
-        //     height: 150px;
-        // }
         @media screen and (max-width: 380px) {
             height: 180px;
         }
@@ -91,7 +90,6 @@
             padding: 2px 0 0 0;
             height: 34.1px;
             overflow: hidden;
-            //   font-size: 14px;
 
             @media screen and (max-width: 480px) {
                 height: 32px;
@@ -125,13 +123,23 @@
 
         &_addFavorites{
             position: absolute;
-              top: 10px;
-              right: 10px;
-              opacity: 0.8;
+            top: 10px;
+            right: 10px;
+            opacity: 0.8;
+            &:hover {
+              opacity: 1;
+            }
+        }
 
-              &:hover {
-                opacity: 1;
-              }
+        &_addedFavorites{
+            opacity: 1 !important;
+            svg{
+                fill: var(--red);
+                stroke: var(--red);
+                &:hover{
+                    stroke: var(--gray-dark);
+                }
+            }
         }
 
         &_skidkapercent{
@@ -176,6 +184,13 @@
                     text-decoration: 2px underline var(--dark);
                     @include mixin.font(16px,bold,null,var(--dark));
                     padding-bottom: 3px;
+                    @media screen and (max-width: 480px) {
+                    font-size: 14px;
+                }
+                }
+
+                @media screen and (max-width: 480px) {
+                    font-size: 16px;
                 }
             }
         }
@@ -189,7 +204,6 @@
 
         &_button{
             width: 100%;
-            // background: var(--dark-blue);
         }
 
         &_addproduct{

@@ -4,7 +4,7 @@
 
 .cards{
     max-width: 1440px;
-    padding: 0 15px;
+    padding: 5px 15px;
     margin: 0px auto;
     width: 100%;
     display: grid;
@@ -12,15 +12,18 @@
     gap: 15px;
 
     @media screen and (max-width: 1280px) {
-        grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
     @media screen and (max-width: 768px) {
-        grid-template-columns: repeat(3, 1fr);
-        padding: 0 10px;
+      grid-template-columns: repeat(3, 1fr);
+      padding: 5 10px;
+      gap: 10px;
+      background: var(--gray-white);
     }
     @media screen and (max-width: 640px) {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 0 8px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+      padding: 5 8px;
     }
 }
 

@@ -11,13 +11,13 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import styles from './style.module.scss'
+import styles from "./style.module.scss";
+
 interface IcardDataProps {
   cardData: ICard;
 }
 
 const Card = ({ cardData }: IcardDataProps) => {
-
   const imageUrl =
     cardData.photos.length > 0
       ? cardData.photos[0].url_part.startsWith("https://goods-photos")
@@ -28,10 +28,25 @@ const Card = ({ cardData }: IcardDataProps) => {
       : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
   const [rating, setRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-  }, [cardData.ocenka]);
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(
+      favorites.some((item: ICard) => item.id_tov === cardData.id_tov)
+    );
+  }, [cardData.ocenka, cardData.id_tov]);
+
+  const toggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const updatedFavorites = isFavorite
+      ? favorites.filter((item: ICard) => item.id_tov !== cardData.id_tov)
+      : [...favorites, cardData];
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    setIsFavorite(!isFavorite);
+  };
 
   const maxLength = 40;
   const maxLengthDdos = 32;
@@ -53,7 +68,13 @@ const Card = ({ cardData }: IcardDataProps) => {
             alt={cardData.naim}
           />
         </Link>
-        <span className={styles.card__info_addFavorites}>
+        <span
+          className={`${styles.card__info_addFavorites} ${
+            isFavorite ? styles.card__info_addedFavorites : ""
+          }`}
+          title={isFavorite ? "Удалить из избранного" : "Добавить в избранное"}
+          onClick={toggleFavorite}
+        >
           <CardFavoritesIcon />
         </span>
         {cardData.discount_prc > 0 ? (
@@ -76,7 +97,7 @@ const Card = ({ cardData }: IcardDataProps) => {
 
             <div className={styles.card__info_oldprice}>
               <span className={styles.card__info_oldprice_price}>
-                {cardData.old_price.toLocaleString("ru-RU")}c
+                {cardData.old_price.toLocaleString("ru-RU")}с
               </span>
             </div>
           </div>

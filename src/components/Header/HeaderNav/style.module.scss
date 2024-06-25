@@ -21,14 +21,7 @@
             opacity: 1;
         }
 
-        span {
-            width: 100%;
-            text-align: center;
-            height: 20px; 
-            margin: 0; 
-            padding: 0;
-            margin: 0;
-        }
+
 
         &_items{
             height: 100%;
@@ -36,6 +29,7 @@
             &_icon{
                 max-width: 20px;
                 max-height: 20px;
+                position: relative;
             }
 
             &_title{
@@ -44,6 +38,18 @@
                 line-height: 100%;
                 font-weight: 400;
                 font-size: 16px;
+            }
+
+            &_count{
+                @include mixin.font(14px,400,null,var(--white));
+                position: absolute;
+                top: -5px;
+                left: 15px;
+                background: var(--red);
+                width: 20px;
+                text-align: center;
+                height: 20px;
+                border-radius: 50%;
             }
         }
     }

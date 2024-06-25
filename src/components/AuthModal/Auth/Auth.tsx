@@ -12,30 +12,8 @@ interface FormProps {
 
 const AuthForm = ({ setView, close }: FormProps) => {
   const [isAnonim, setIsAnonim] = useState(false);
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ phone: "", password: "" });
-
-  const validate = () => {
-    const errors = { phone: "", password: "" };
-    const phoneRegex = /^\+\9\96 \(\d{3}\) \d{2}-\d{2}-\d{2}$/;
-
-    if (!phoneRegex.test(phone)) {
-      errors.phone = "Необходимо заполнить «Телефон».";
-    }
-    if (password.length < 6) {
-      errors.password = "Необходимо заполнить «Пароль»,не менее 6 символов";
-    }
-    setErrors(errors);
-
-    return !errors.phone && !errors.password;
-  };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (validate()) {
-      console.log("Форма отправлена", { phone, password });
-    }
   };
 
   const AnonimHandler = () => {
@@ -49,26 +27,12 @@ const AuthForm = ({ setView, close }: FormProps) => {
         отслеживать заказы, получать персональные скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <InputMask
-          mask="+\9\96 (999) 99-99-99"
-          value={phone}
-          onChange={(e: any) => setPhone(e.target.value)}
-          onBlur={() => validate()}
-        >
-          {() => (
             <input
-              className={cn(styles.modal__input, {
-                [styles.inputError]: errors.phone,
-              })}
+              className={styles.modal__input}
               type="text"
               name="phone"
               placeholder="Телефон"
             />
-          )}
-        </InputMask>
-        {errors.phone && (
-          <span className={styles.errorText}>{errors.phone}</span>
-        )}
 
         <button type="submit" className={cn(styles.modal__button, "button")}>
           Войти
