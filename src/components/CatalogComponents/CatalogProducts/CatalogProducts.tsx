@@ -184,7 +184,7 @@ export default function CatalogProducts({
     }));
   };
   //apply filter price function
-  const applyFilterCena = () => {
+  const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
@@ -192,7 +192,7 @@ export default function CatalogProducts({
     });
   };
   //clear filter price function
-  const clearFilterCena = () => {
+  const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -262,9 +262,9 @@ export default function CatalogProducts({
             <CatalogFiltres
               tempPrice={tempPrice}
               clearFilterByID={clearFilterByID}
-              clearFilterCena={clearFilterCena}
+              clearFilterPrice={clearFilterPrice}
               clearFilter={clearFilter}
-              applyFilterCena={applyFilterCena}
+              applyFilterPrice={applyFilterPrice}
               handlePriceRangeChange={handlePriceRangeChange}
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}

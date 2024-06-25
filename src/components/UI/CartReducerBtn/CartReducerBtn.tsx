@@ -45,7 +45,7 @@ const CartReducerBtn = ({
       }
     }
   };
-
+  //add to redux cart storage function
   const addToCart = () => {
     if (product) {
       dispatch(addProductQuantity(data.id));
@@ -54,7 +54,7 @@ const CartReducerBtn = ({
       dispatch(addProductToCart(newProduct));
     }
   };
-
+  //remove from redux cart storage function
   const removeFromCart = () => {
     if (product) {
       if (product.quantity && product.quantity <= data.minQty) {
