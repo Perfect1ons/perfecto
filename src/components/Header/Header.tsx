@@ -11,9 +11,7 @@ import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
-import MobSearch from "../MobileMenu/MobileNav/MobSearch";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
-import clsx from "clsx";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -199,7 +197,7 @@ const Header = ({
               searchValue={searchValue}
             />
             <div
-              className={clsx("header__search_icon", styles.search_icon)}
+              className={cn("header__search_icon", styles.search_icon)}
               onClick={handleSearchIconClick}
             >
               <SearchIconAbdu />

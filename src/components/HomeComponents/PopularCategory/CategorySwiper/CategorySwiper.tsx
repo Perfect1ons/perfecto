@@ -20,11 +20,12 @@ import clsx from "clsx";
 
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useRouter } from "next/navigation";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
   const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
-
+  const router = useRouter()
   const skeletonArray12 = new Array(12).fill(null);
 
   useEffect(() => {
@@ -107,8 +108,15 @@ export default function CategorySwiper({ category }: ICategory) {
                 : `${url}${item.icon}`
               : `${url}images/discount/empty-image.png`;
             return (
-              <SwiperSlide key={item.idd} className="swiper__slide">
-                <Link href={`/catalog/${item.full_slug}`} className="link">
+              <SwiperSlide
+                onClick={() => router.push(`/catalog/${item.full_slug}`)}
+                key={item.idd}
+                className="swiper__slide"
+              >
+                <Link
+                  href={`/catalog/${item.full_slug}`}
+                  className="link"
+                >
                   <Image
                     className="swiper__slide_img"
                     src={imageUrl}

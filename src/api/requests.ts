@@ -24,6 +24,7 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
 import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { BrandsAll } from "@/types/bannerAll";
+import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -62,7 +63,7 @@ export const getPopularCategory = (): Promise<ICategory> => {
 };
 
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
-  return maxkg.get(`catalog/listfilter?id_cat=${id}?`).json();
+  return maxkg.get(`catalog/listfilter?id_cat=${id}`).json();
 };
 export const getProductsSortsBrand = (
   id: number,
@@ -232,3 +233,23 @@ export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
   return maxkg.get(`site/breadcrumbs?id=${id}`).json();
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+
+
+//! TEST REQUESTS BY ABDULAZIZ
+export const getCatalogProductsFilteredByAbdulaziz = (
+  id: number,
+  page: number,
+  brands?: string,
+  cenamin?: number,
+  cenamax?: number,
+  ddos?: string,
+  additional?: any
+): Promise<ICategoryFilter> => {
+  return maxkg
+    .get(
+      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}`
+    )
+    .json();
+};
+

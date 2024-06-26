@@ -1,24 +1,25 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { BackArrow } from "../../../../public/Icons/Icons";
-import styles from "./style.module.scss";
+import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
+import { useEffect, useState } from "react";
+import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import CatalogProductList from "./CatalogProductList";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import Image from "next/image";
+import styles from "./style.module.scss";
+import Link from "next/link";
+import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
-import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
-import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
-import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import { getCatalogProductsFiltered } from "@/api/clientRequest";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
-import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 
+import cn from "clsx";
+import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -32,10 +33,12 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
+  // custom hook media query
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const [items, setItems] = useState<ICatalogsProducts["category"]["tov"]>(
-    catalog.category.tov || []
-  );
+  const initialItems = catalog.category.tov || [];
+  const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
+
+  // selected filters storage
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,
@@ -45,14 +48,22 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
+
+  //temp price storage
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
-  }>({ tempMin: 0, tempMax: 0 });
+  }>({
+    tempMin: 0,
+    tempMax: 0,
+  });
+
+  //default sort storage
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
+  //custom hook media query
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
   const toggleView = (view: boolean) => {
@@ -91,41 +102,23 @@ export default function CatalogProducts({
       let maxPrice = 0;
       if (selectedFilters.priceMax > 0) {
         maxPrice = selectedFilters.priceMax;
-      } else if (selectedFilters.priceMin > 0) {
-        maxPrice = 9999999; // Or any large number, like 999999
+      } else if (
+        selectedFilters.priceMax <= 0 &&
+        selectedFilters.priceMin > 0
+      ) {
+        maxPrice = 9999999; // или любое другое большое число, например 999999
       }
-
-      const promises = [];
-      for (let page = 1; page <= selectedFilters.page; page++) {
-        promises.push(
-          getCatalogProductsFiltered(
-            selectedFilters.id,
-            page,
-            selectedFilters.brand.join(","),
-            selectedFilters.priceMin,
-            maxPrice,
-            selectedFilters.dost.join(","),
-            selectedFilters.additional_filter.join(",")
-          )
-        );
-      }
-
       try {
-        const responses = await Promise.all(promises);
-
-        // Объединяем данные всех страниц в один массив
-        const allItems = responses.reduce(
-          (acc: (ICategoryModel | Tov)[], response) => {
-            if (response.model) {
-              acc.push(...response.model);
-            }
-            return acc;
-          },
-          []
+        const response = await getCatalogProductsFiltered(
+          selectedFilters.id,
+          selectedFilters.page,
+          selectedFilters.brand.join(","),
+          selectedFilters.priceMin,
+          maxPrice,
+          selectedFilters.dost.join(","),
+          selectedFilters.additional_filter.join(",")
         );
-
-        // Устанавливаем все полученные товары
-        setItems(allItems);
+        setItems((prevItems) => [...prevItems, ...(response.model || [])]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -144,7 +137,7 @@ export default function CatalogProducts({
       // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
       if (
         scrollTop > lastScrollTop &&
-        scrollTop % 0.2 === 0 &&
+        scrollTop % 10 === 0 &&
         selectedFilters.page < 5 // Максимальное значение страницы 5
       ) {
         setSelectedFilters((prevFilters) => {
@@ -187,15 +180,17 @@ export default function CatalogProducts({
     }
   }, []);
 
+  //useEffect hook for default sort
   useEffect(() => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
+  //default sort function
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
-    const sortedItems = [...items];
+    const sortedItems = [...items]; // Use current items for sorting
     switch (order) {
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
@@ -211,7 +206,7 @@ export default function CatalogProducts({
     }
     setItems(sortedItems);
   };
-
+  //default sort handler
   const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
@@ -222,15 +217,19 @@ export default function CatalogProducts({
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-
+  //column view handler
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
-
+  // filter price range changer
   const handlePriceRangeChange = (min: number, max: number) => {
-    setTempPrice({ tempMin: min, tempMax: max });
+    setTempPrice((prevTempPrice) => ({
+      ...prevTempPrice,
+      tempMin: min,
+      tempMax: max,
+    }));
   };
-
+  //apply filter price function
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
@@ -238,7 +237,7 @@ export default function CatalogProducts({
       priceMax: tempPrice.tempMax,
     });
   };
-
+  //clear filter price function
   const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
@@ -260,18 +259,21 @@ export default function CatalogProducts({
             <BackArrow /> Назад
           </Link>
         ))}
-        {breadCrumbs.map((crumbs) => (
-          <Link
-            className="all__directions_link"
-            href={`/catalog/${crumbs.full_slug}`}
-            key={crumbs.id}
-          >
-            {crumbs.name}
-          </Link>
-        ))}
+        {breadCrumbs.map((crumbs) => {
+          return (
+            <Link
+              className="all__directions_link"
+              href={`/catalog/${crumbs.full_slug}`}
+              key={crumbs.id}
+            >
+              {crumbs.name}
+            </Link>
+          );
+        })}
       </div>
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
+        {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
         <Link href={"/page/partneram/prodavcam"}>
           <Image
             src={
@@ -298,7 +300,7 @@ export default function CatalogProducts({
           onChange={(value) => handleSort(value)}
           filter={filter}
           isColumnView={isColumnView}
-          toggleView={handleViewChange}
+          toggleView={toggleView}
         />
       ) : (
         <div className="container">
@@ -323,7 +325,8 @@ export default function CatalogProducts({
                 { label: "По рейтингу", value: "rating" },
               ]}
             />
-            <div className={clsx("default__sort_style", "sortBoxShadow")}>
+
+            <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button
                 className="default__sort_icons"
                 onClick={() => handleViewChange(false)}
@@ -337,6 +340,7 @@ export default function CatalogProducts({
                   ></div>
                 ))}
               </button>
+
               <button
                 className="default__sort_icons_column"
                 onClick={() => handleViewChange(true)}
@@ -354,6 +358,7 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
+      {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
           <Image
