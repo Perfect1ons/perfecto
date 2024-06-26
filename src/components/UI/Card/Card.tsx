@@ -77,20 +77,20 @@ const Card = ({ cardData }: IcardDataProps) => {
   const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
 
   return (
-    <div className={styles.card}>
+    <div className="card">
       <FavoriteModal
         isVisible={isModalVisible}
         message={modalMessage}
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      <div className={styles.card__images}>
+      <div className="card__images">
         <Link
           className="link"
           href={`/item/${cardData.id_tov}/${cardData.url}`}
         >
           <Image
-            className={styles.card__image}
+            className="card__image"
             src={imageUrl}
             width={300}
             height={250}
@@ -99,44 +99,44 @@ const Card = ({ cardData }: IcardDataProps) => {
           />
         </Link>
         <span
-          className={`${styles.card__info_addFavorites} ${
-            isFavorite ? styles.card__info_addedFavorites : ""
+          className={`card__info_addFavorites ${
+            isFavorite ? "card__info_addedFavorites" : ""
           }`}
           onClick={handleFavoriteClick}
         >
           <CardFavoritesIcon />
         </span>
         {cardData.discount_prc > 0 ? (
-          <div className={styles.card__info_skidkapercent}>
+          <div className="card__info_skidkapercent">
             {cardData.discount_prc}%
           </div>
         ) : null}
       </div>
-      <div className={styles.card__info}>
+      <div className="card__info">
         {cardData.discount_prc > 0 ? (
-          <div className={styles.card__info_price}>
-            <div className={styles.card__info_skidkaprice}>
-              <span className={styles.card__info_skidkaprice_price}>
+          <div className="card__info_price">
+            <div className="card__info_skidkaprice">
+              <span className="card__info_skidkaprice_price">
                 {cardData.cenaok?.toLocaleString("ru-RU")}
               </span>
-              <span className={styles.card__info_skidkaprice_price_custom}>
+              <span className="card__info_skidkaprice_price_custom">
                 с
               </span>
             </div>
 
-            <div className={styles.card__info_oldprice}>
-              <span className={styles.card__info_oldprice_price}>
+            <div className="card__info_oldprice">
+              <span className="card__info_oldprice_price">
                 {cardData.old_price.toLocaleString("ru-RU")}c
               </span>
             </div>
           </div>
         ) : (
-          <div className={styles.card__info_price}>
-            <div className={styles.card__info_currentprice}>
-              <span className={styles.card__info_currentprice_price}>
+          <div className="card__info_price">
+            <div className="card__info_currentprice">
+              <span className="card__info_currentprice_price">
                 {cardData.cenaok.toLocaleString("ru-RU")}
               </span>
-              <span className={styles.card__info_currentprice_price_custom}>
+              <span className="card__info_currentprice_price_custom">
                 с
               </span>
             </div>
@@ -146,31 +146,31 @@ const Card = ({ cardData }: IcardDataProps) => {
           className="link"
           href={`/item/${cardData.id_tov}/${cardData.url}`}
         >
-          <h1 className={styles.card__info_title}>{truncatedTitle}</h1>
+          <h1 className="card__info_title">{truncatedTitle}</h1>
         </Link>
 
-        <div className={styles.card__info_rating}>
+        <div className="card__info_rating">
           {[...Array(5)].map((_, index) => (
-            <span className={styles.card__info_rating_span} key={index}>
+            <span className="card__info_rating_span" key={index}>
               {index < rating ? <YellowStar /> : <GrayStar />}
             </span>
           ))}
         </div>
 
-        <div className={styles.card__info_ddos}>
+        <div className="card__info_ddos">
           <Image
-            className={styles.card__info_ddos_icon}
+            className="card__info_ddos_icon"
             src={`${url}images/delivery_icon.svg`}
             width={20}
             height={20}
             alt="delivery_icon"
           />
-          <p className={styles.card__info_ddos_desc}>{truncatedDdos}</p>
+          <p className="card__info_ddos_desc">{truncatedDdos}</p>
         </div>
 
-        <div className={styles.card__info_button}>
-          <button className={styles.card__info_addproduct}>
-            <span className={styles.card__info_addproduct_icon}>
+        <div className="card__info_button">
+          <button className="card__info_addproduct">
+            <span className="card__info_addproduct_icon">
               <CartIcon />
             </span>
             В корзину
