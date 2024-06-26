@@ -90,7 +90,7 @@ export default function CatalogProducts({
       return updatedFilters;
     });
   };
-  //clear filter by id function
+  //clear additional filter by id function
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
