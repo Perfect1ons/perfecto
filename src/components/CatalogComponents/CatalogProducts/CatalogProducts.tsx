@@ -115,11 +115,10 @@ export default function CatalogProducts({
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
           maxPrice,
-          // selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 0,
           selectedFilters.dost.join(","),
           selectedFilters.additional_filter.join(",")
         );
-        setItems(response.model || []);
+        setItems((prevItems) => [...prevItems, ...(response.model || [])]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -127,6 +126,43 @@ export default function CatalogProducts({
 
     fetchData();
   }, [catalog.category.id, selectedFilters]);
+
+  //hook for scroll fetching pages
+  useEffect(() => {
+    let lastScrollTop = 0; // переменная для отслеживания последнего положения скролла
+
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+
+      // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
+      if (
+        scrollTop > lastScrollTop &&
+        scrollTop % 10 === 0 &&
+        selectedFilters.page < 5 // Максимальное значение страницы 5
+      ) {
+        setSelectedFilters((prevFilters) => {
+          // Проверяем, что текущая страница меньше 5 перед увеличением
+          if (prevFilters.page < 5) {
+            return {
+              ...prevFilters,
+              page: prevFilters.page + 1, // Увеличиваем номер страницы
+            };
+          }
+          return prevFilters; // Возвращаем текущие фильтры без изменений
+        });
+      }
+
+      lastScrollTop = scrollTop; // Обновляем последнее положение скролла
+    };
+
+    // Присоединяем слушатель события скролла
+    window.addEventListener("scroll", handleScroll);
+
+    // Удаляем слушатель события скролла при размонтировании компонента
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [selectedFilters]); // Обновляем эффект только при изменении selectedFilters
 
   //useEffect hook for url params
   useEffect(() => {
