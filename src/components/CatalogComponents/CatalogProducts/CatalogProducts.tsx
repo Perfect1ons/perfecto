@@ -1,12 +1,12 @@
 "use client";
 import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import CatalogProductList from "./CatalogProductList";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import Link from "next/link";
-import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
+import { BackArrow } from "../../../../public/Icons/Icons";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import CatalogFiltres, {
@@ -17,9 +17,9 @@ import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import clsx from "clsx";
-
 import cn from "clsx";
 import { ICategoryModel } from "@/types/Catalog/catalogFilters";
+
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -33,12 +33,12 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
-  // custom hook media query
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
+  const [page, setPage] = useState<number>(1);
+  const loader = useRef<HTMLDivElement | null>(null);
 
-  // selected filters storage
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,
@@ -49,7 +49,6 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
-  //temp price storage
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
@@ -58,77 +57,73 @@ export default function CatalogProducts({
     tempMax: 0,
   });
 
-  //default sort storage
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-  //custom hook media query
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
     handleViewChange(view);
   };
-  // filter change function
+
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
+    setPage(1);
   };
-  // Функция для очистки фильтров
-  //clear filter function
+
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters: ISelectedFilterProps) => {
       const updatedFilters: any = { ...prevFilters };
-
       if (updatedFilters.hasOwnProperty(name)) {
         updatedFilters[name] = [];
       }
-
       return updatedFilters;
     });
+    setPage(1);
   };
-  //clear filter by id function
+
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
   };
-  // useEffect hook for fetching data
+
+  const fetchData = async () => {
+    let maxPrice = 0;
+    if (selectedFilters.priceMax > 0) {
+      maxPrice = selectedFilters.priceMax;
+    } else if (selectedFilters.priceMax <= 0 && selectedFilters.priceMin > 0) {
+      maxPrice = 9999999;
+    }
+    try {
+      const response = await getCatalogProductsFiltered(
+        selectedFilters.id,
+        page,
+        selectedFilters.brand.join(","),
+        selectedFilters.priceMin,
+        maxPrice,
+        selectedFilters.dost.join(","),
+        selectedFilters.additional_filter.join(",")
+      );
+      if (page === 1) {
+        setItems(response.model);
+      } else {
+        setItems((prevItems) => [...prevItems, ...response.model]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      let maxPrice = 0;
-      if (selectedFilters.priceMax > 0) {
-        maxPrice = selectedFilters.priceMax;
-      } else if (
-        selectedFilters.priceMax <= 0 &&
-        selectedFilters.priceMin > 0
-      ) {
-        maxPrice = 9999999; // или любое другое большое число, например 999999
-      }
-      try {
-        const response = await getCatalogProductsFiltered(
-          selectedFilters.id,
-          selectedFilters.page,
-          selectedFilters.brand.join(","),
-          selectedFilters.priceMin,
-          maxPrice,
-          // selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 0,
-          selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(",")
-        );
-        setItems(response.model || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     fetchData();
-  }, [catalog.category.id, selectedFilters]);
+  }, [catalog.category.id, selectedFilters, page]);
 
-  //useEffect hook for url params
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -144,17 +139,14 @@ export default function CatalogProducts({
     }
   }, []);
 
-  //useEffect hook for default sort
   useEffect(() => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
-  //default sort function
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
-    const sortedItems = [...items]; // Use current items for sorting
+    const sortedItems = [...items];
     switch (order) {
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
@@ -170,7 +162,7 @@ export default function CatalogProducts({
     }
     setItems(sortedItems);
   };
-  //default sort handler
+
   const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
@@ -180,12 +172,13 @@ export default function CatalogProducts({
       "",
       `${window.location.pathname}?${queryParams.toString()}`
     );
+    setPage(1);
   };
-  //column view handler
+
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
-  // filter price range changer
+
   const handlePriceRangeChange = (min: number, max: number) => {
     setTempPrice((prevTempPrice) => ({
       ...prevTempPrice,
@@ -193,15 +186,16 @@ export default function CatalogProducts({
       tempMax: max,
     }));
   };
-  //apply filter price function
+
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
       priceMax: tempPrice.tempMax,
     });
+    setPage(1);
   };
-  //clear filter price function
+
   const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
@@ -209,7 +203,33 @@ export default function CatalogProducts({
       priceMin: 0,
       priceMax: 0,
     }));
+    setPage(1);
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "600px",
+        threshold: 0,
+      }
+    );
+
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+
+    return () => {
+      if (loader.current) {
+        observer.unobserve(loader.current);
+      }
+    };
+  }, []);
 
   return (
     <section>
@@ -237,7 +257,6 @@ export default function CatalogProducts({
       </div>
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
-        {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
         <Link rel="preload" href={"/page/partneram/prodavcam"} as="image">
           <Image
             src={
@@ -290,7 +309,6 @@ export default function CatalogProducts({
                 { label: "По рейтингу", value: "rating" },
               ]}
             />
-
             <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button
                 className="default__sort_icons"
@@ -305,7 +323,6 @@ export default function CatalogProducts({
                   ></div>
                 ))}
               </button>
-
               <button
                 className="default__sort_icons_column"
                 onClick={() => handleViewChange(true)}
@@ -323,7 +340,6 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
-      {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
           <Image
@@ -352,6 +368,7 @@ export default function CatalogProducts({
           </p>
         </div>
       </div>
+      <div ref={loader} style={{ height: "20px" }} />
     </section>
   );
 }
