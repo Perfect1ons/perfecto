@@ -102,10 +102,18 @@ export default function CategorySwiper({ category }: ICategory) {
         >
           {category.map((item) => {
             const imageUrl = item.icon
-              ? item.icon.startsWith("https://")
+              ? item.icon.startsWith(
+                  "https://cdn2.static1-sima-land.com/categories/25872.jpg"
+                ) ||
+                item.icon.startsWith(
+                  "https://cdn2.static1-sima-land.com/categories/27465.jpg"
+                )
+                ? "/img/noPhoto.svg"
+                : item.icon.startsWith("https://")
                 ? item.icon
                 : `${url}${item.icon}`
-              : `${url}images/discount/empty-image.png`;
+              : "/img/noPhoto.svg";
+
             return (
               <SwiperSlide key={item.idd} className="swiper__slide">
                 <Link href={`/catalog/${item.full_slug}`} className="link">

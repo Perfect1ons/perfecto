@@ -75,7 +75,7 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
                     ? catalogItem.icon.startsWith("https://")
                       ? catalogItem.icon
                       : `https://max.kg/${catalogItem.icon}`
-                    : "https://max.kg/images/discount/empty-image.png"
+                    : "/img/noPhoto.svg"
                 }
                 alt={catalogItem.name}
                 width={60}

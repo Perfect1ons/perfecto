@@ -106,10 +106,12 @@ const DostFilter = ({
                 ))}
               </div>
               <div className="containerButtons">
-                {filter.variant_day.length > 7 && !showAll && (
+                {filter.variant_day.length > 7 && !showAll ? (
                   <button onClick={handleShowAll} className="showAllButton">
                     Показать все
                   </button>
+                ) : (
+                  <button disabled={showAll}></button>
                 )}
                 <button
                   onClick={() => clearFilter("dost")}

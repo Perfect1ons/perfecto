@@ -9,7 +9,7 @@ import { IDiscountsById } from "@/types/Discounts/discountById";
 import Cards from "@/components/UI/Card/Card";
 
 export interface IDiscountProps {
-    discount: IDiscountsById
+  discount: IDiscountsById;
 }
 
 const DiscountsById = ({ discount }: IDiscountProps) => {
@@ -45,7 +45,11 @@ const DiscountsById = ({ discount }: IDiscountProps) => {
               <Link className="link" href={`/discount/${discount.id}`}>
                 <Image
                   className={styles.main__discount_image}
-                  src={`${url}${discount.promotion.image}`}
+                  src={
+                    discount.promotion.image
+                      ? `${url}${discount.promotion.image}`
+                      : "/img/noPhotoDiscount.svg"
+                  }
                   width={450}
                   height={280}
                   alt={discount.promotion.name}
