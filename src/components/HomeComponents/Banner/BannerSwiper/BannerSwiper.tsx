@@ -31,6 +31,8 @@ const BannerSwiper = ({ slides }: ISlide) => {
     setImageLoaded(false);
   }, []);
 
+  const isLoop = slides.length > 1;
+
   return (
     <Swiper
       pagination={{ clickable: true }}
@@ -43,7 +45,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
         disabledClass: "swiper-button-disabled",
       }}
       className={clsx("customSwiper", styles.swiper)}
-      loop={true}
+      loop={isLoop} // Условное включение режима loop
     >
       {slides.map((slide) => (
         <SwiperSlide
@@ -54,7 +56,6 @@ const BannerSwiper = ({ slides }: ISlide) => {
         >
           <Link href={slide.url.replace("https://max.kg/", "")}>
             {imageLoaded ? (
-              // <div className={styles.swiper__slide_img_skeleton}></div>
               <Skeleton className={styles.swiper__slide_img_skeleton} />
             ) : (
               <Image
@@ -73,24 +74,28 @@ const BannerSwiper = ({ slides }: ISlide) => {
           </Link>
         </SwiperSlide>
       ))}
-      <button
-        className={clsx(
-          styles.sliderArrow,
-          styles.sliderArrow_left,
-          "swiper-button-prev_card"
-        )}
-      >
-        <SwiperPrevArrow />
-      </button>
-      <button
-        className={clsx(
-          styles.sliderArrow,
-          styles.sliderArrow_right,
-          "swiper-button-next_card"
-        )}
-      >
-        <SwiperNextArrow />
-      </button>
+      {isLoop && (
+        <>
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_left,
+              "swiper-button-prev_card"
+            )}
+          >
+            <SwiperPrevArrow />
+          </button>
+          <button
+            className={clsx(
+              styles.sliderArrow,
+              styles.sliderArrow_right,
+              "swiper-button-next_card"
+            )}
+          >
+            <SwiperNextArrow />
+          </button>
+        </>
+      )}
     </Swiper>
   );
 };

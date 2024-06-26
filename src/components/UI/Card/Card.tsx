@@ -12,7 +12,6 @@ import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
 import styles from "./style.module.scss";
-import clsx from "clsx";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 
 interface IcardDataProps {
@@ -96,6 +95,7 @@ const Card = ({ cardData }: IcardDataProps) => {
             width={300}
             height={250}
             alt={cardData.naim}
+            priority
           />
         </Link>
         <span

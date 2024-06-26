@@ -2,6 +2,7 @@
 const MAXKG = process.env.NEXT_PUBLIC_API;
 
 module.exports = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {

@@ -8,15 +8,16 @@ interface ILogoProps {
 
 const Logo = ({ gomain }: ILogoProps) => {
   return (
-    <Image
-      onClick={() => gomain()}
-      src={"/img/logo.svg"}
-      className={styles.logo}
-      width={210}
-      height={40}
-      alt="logo"
-      priority
-    />
+    <div className={styles.logo} onClick={() => gomain()}>
+      <Image
+        className={styles.logo__img}
+        src="/img/logo.svg"
+        width={210}
+        height={42} // Убедитесь, что высота соответствует значениям в CSS
+        alt="logo"
+        priority
+      />
+    </div>
   );
 };
 

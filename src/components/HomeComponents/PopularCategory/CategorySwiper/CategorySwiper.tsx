@@ -13,7 +13,6 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
-import Loader from "@/components/UI/Loader/Loader";
 import { url } from "@/components/temporary/data";
 import { IPopularCategory } from "@/types/PopularCategory";
 import Link from "next/link";
@@ -42,7 +41,6 @@ export default function CategorySwiper({ category }: ICategory) {
   }, [category]);
 
   useEffect(() => {
-    // Сохраняем категории в локальное хранилище при каждом изменении
     if (cachedData !== null) {
       localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
     }

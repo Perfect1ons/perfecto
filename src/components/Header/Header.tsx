@@ -204,27 +204,6 @@ const Header = ({
             >
               <SearchIconAbdu />
             </div>
-            {/* <form onSubmit={handleSearchSubmit} className={styles.search__form}>
-              <input
-                value={searchTerm}
-                onChange={handleSearchChange}
-                placeholder={
-                  inputEmpty
-                    ? "Введите название товара!!!"
-                    : "Искать товары и категории"
-                }
-                type="text"
-                maxLength={100}
-                id="searchInput"
-                autoComplete="off"
-                className={cn(styles.search__input, {
-                  [styles.empty]: inputEmpty, // Добавляем класс empty, если inputEmpty равен true
-                })}
-              />
-              <button type="submit" className={styles.search__icon}>
-                <SearchIcon />
-              </button>
-            </form> */}
           </div>
 
           <div className={styles.header__nav} onClick={onClose}>

@@ -238,7 +238,7 @@ export default function CatalogProducts({
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
         {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
-        <Link href={"/page/partneram/prodavcam"}>
+        <Link rel="preload" href={"/page/partneram/prodavcam"} as="image">
           <Image
             src={
               isMobile
@@ -249,6 +249,7 @@ export default function CatalogProducts({
             height={300}
             alt={banner.baner[0].naim}
             className={styles.category__image}
+            priority={true}
           />
         </Link>
       </div>
