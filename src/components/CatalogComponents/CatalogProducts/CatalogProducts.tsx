@@ -90,43 +90,80 @@ export default function CatalogProducts({
       return updatedFilters;
     });
   };
-  //clear filter by id function
+  //clear additional filter by id function
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
   };
   // useEffect hook for fetching data
+useEffect(() => {
+  const fetchData = async () => {
+    let maxPrice = 0;
+    if (selectedFilters.priceMax > 0) {
+      maxPrice = selectedFilters.priceMax;
+    } else if (selectedFilters.priceMin > 0) {
+      maxPrice = 9999999; // Or any large number, like 999999
+    }
+    try {
+      const response = await getCatalogProductsFiltered(
+        selectedFilters.id,
+        selectedFilters.page,
+        selectedFilters.brand.join(","),
+        selectedFilters.priceMin,
+        maxPrice,
+        selectedFilters.dost.join(","),
+        selectedFilters.additional_filter.join(",")
+      );
+      if (selectedFilters.page === 1) {
+        setItems(response.model);
+      } else {
+        setItems((prevItems) => [...prevItems, ...(response.model || [])]);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+}, [catalog.category.id, selectedFilters]);
+
+  //hook for scroll fetching pages
   useEffect(() => {
-    const fetchData = async () => {
-      let maxPrice = 0;
-      if (selectedFilters.priceMax > 0) {
-        maxPrice = selectedFilters.priceMax;
-      } else if (
-        selectedFilters.priceMax <= 0 &&
-        selectedFilters.priceMin > 0
+    let lastScrollTop = 0; // переменная для отслеживания последнего положения скролла
+
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+
+      // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
+      if (
+        scrollTop > lastScrollTop &&
+        scrollTop % 50 === 0 &&
+        selectedFilters.page < 5 // Максимальное значение страницы 5
       ) {
-        maxPrice = 9999999; // или любое другое большое число, например 999999
+        setSelectedFilters((prevFilters) => {
+          // Проверяем, что текущая страница меньше 5 перед увеличением
+          if (prevFilters.page < 5) {
+            return {
+              ...prevFilters,
+              page: prevFilters.page + 1, // Увеличиваем номер страницы
+            };
+          }
+          return prevFilters; // Возвращаем текущие фильтры без изменений
+        });
       }
-      try {
-        const response = await getCatalogProductsFiltered(
-          selectedFilters.id,
-          selectedFilters.page,
-          selectedFilters.brand.join(","),
-          selectedFilters.priceMin,
-          maxPrice,
-          // selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 0,
-          selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(",")
-        );
-        setItems(response.model || []);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+
+      lastScrollTop = scrollTop; // Обновляем последнее положение скролла
     };
 
-    fetchData();
-  }, [catalog.category.id, selectedFilters]);
+    // Присоединяем слушатель события скролла
+    window.addEventListener("scroll", handleScroll);
+
+    // Удаляем слушатель события скролла при размонтировании компонента
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [selectedFilters]); // Обновляем эффект только при изменении selectedFilters
 
   //useEffect hook for url params
   useEffect(() => {
