@@ -6,7 +6,7 @@ import {
 } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 interface IEveryFilterProps {
   filter: IFiltersBrand;
@@ -51,6 +51,24 @@ const EveryFilters = ({
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
+  // для Review modal
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (visibleFilter === "every") {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      body.style.top = "";
+    }
+  }, [visibleFilter]);
 
   return (
     <>

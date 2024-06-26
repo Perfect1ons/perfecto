@@ -22,7 +22,7 @@ const AdditionalFilters = ({
   selectedFilters,
   clearFilterByID,
 }: IAdditionalFiltersProps) => {
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState<{ [key: string]: boolean }>({});
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
@@ -43,8 +43,11 @@ const AdditionalFilters = ({
     return 3;
   };
 
-  const handleShowAll = () => {
-    setShowAll(true);
+  const handleShowAll = (typeName: string) => {
+    setShowAll((prevShowAll) => ({
+      ...prevShowAll,
+      [typeName]: true,
+    }));
   };
 
   const handleSelectChange = (item: string) => {
@@ -95,51 +98,63 @@ const AdditionalFilters = ({
                   >
                     <Cross />
                   </button>
-                  {Object.values(item.filter).map((data: N43) => (
-                    <ul
-                      onClick={() =>
-                        handleSelectChange(data.id_filter.toString())
-                      }
-                      key={data.id_filter}
-                      className="showFiltersUlContainer"
-                    >
-                      <span
-                        className={cn("showFiltersUlContainer__check", {
-                          ["showFiltersUlContainer__checkActive"]:
-                            selectedFilters.includes(data.id_filter.toString()),
-                        })}
+                  {Object.values(item.filter)
+                    .slice(0, showAll[item.type_name] ? undefined : 7)
+                    .map((data: N43) => (
+                      <ul
+                        onClick={() =>
+                          handleSelectChange(data.id_filter.toString())
+                        }
+                        key={data.id_filter}
+                        className="showFiltersUlContainer"
                       >
-                        {selectedFilters.includes(data.id_filter.toString()) ? (
-                          <Image
-                            src="/img/checkIconWhite.svg"
-                            width={15}
-                            height={15}
-                            alt="check"
-                          />
-                        ) : (
-                          <Image
-                            src="/img/checkIconWhite.svg"
-                            width={15}
-                            height={15}
-                            alt="check"
-                          />
-                        )}
-                      </span>
-                      <li className="nameAndKol">
-                        {data.name}{" "}
-                        <span className="quantity">({data.kol})</span>
-                      </li>
-                    </ul>
-                  ))}
+                        <span
+                          className={cn("showFiltersUlContainer__check", {
+                            ["showFiltersUlContainer__checkActive"]:
+                              selectedFilters.includes(
+                                data.id_filter.toString()
+                              ),
+                          })}
+                        >
+                          {selectedFilters.includes(
+                            data.id_filter.toString()
+                          ) ? (
+                            <Image
+                              src="/img/checkIconWhite.svg"
+                              width={15}
+                              height={15}
+                              alt="check"
+                            />
+                          ) : (
+                            <Image
+                              src="/img/checkIconWhite.svg"
+                              width={15}
+                              height={15}
+                              alt="check"
+                            />
+                          )}
+                        </span>
+                        <li className="nameAndKol">
+                          {data.name}{" "}
+                          <span className="quantity">({data.kol})</span>
+                        </li>
+                      </ul>
+                    ))}
                 </div>
                 <div className="containerButtons">
-                  {Object.values(item.filter).length > 7 && !showAll ? (
-                    <button onClick={handleShowAll} className="showAllButton">
-                      Показать все
-                    </button>
-                  ) : (
-                    <button disabled={showAll}></button>
-                  )}
+                  {Object.values(item.filter).length > 7 &&
+                    (!showAll[item.type_name] ? (
+                      <button
+                        onClick={() => handleShowAll(item.type_name)}
+                        className="showAllButton"
+                      >
+                        Показать все
+                      </button>
+                    ) : (
+                      <button
+                        disabled={Object.values(item.filter).length < 7}
+                      ></button>
+                    ))}
                   <button
                     onClick={() =>
                       clearFilterByID(item.filter, selectedFilters)

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Image from "next/image";
 import { IDiscounts } from "@/types/discounts";
@@ -32,7 +32,11 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
               <div className={styles.discount__card_images}>
                 <Image
                   className={styles.discount__card_img}
-                  src={`${url}${item.image}`}
+                  src={
+                    item.image
+                      ? `${url}${item.image}`
+                      : "/img/noPhotoDiscount.svg"
+                  }
                   width={400}
                   height={250}
                   alt={item.name}
@@ -58,7 +62,6 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
               </div>
             </Link>
           ))}
-          
         </div>
 
         {shownCount < 20 && (
@@ -87,4 +90,3 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
 };
 
 export default Discounts;
-

@@ -13,7 +13,7 @@ const DiscountCard: FC<DiscountCardProps> = ({ item }) => (
     <div className={styles.discount__card_images}>
       <Image
         className={styles.discount__card_img}
-        src={`${url}${item.image}`}
+        src={item.image ? `${url}${item.image}` : "/img/noPhotoDiscount.svg"}
         width={400}
         height={250}
         alt={item.name}

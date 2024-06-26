@@ -208,12 +208,11 @@
   @include mixin.flex(center, space-between, null, null);
 }
 .everyFilterContainer {
-  // @include mixin.flex(flex-start, flex-start, null, 20px);
+  user-select: none;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+  gap: 20px;
   flex-wrap: wrap;
-  cursor: pointer;
 }
 .catalogFilterContainerButtonEvery {
   cursor: pointer;
@@ -236,6 +235,7 @@
   margin-bottom: 60px;
 }
 .catalogFilterButtonEvery {
+  cursor: pointer;
   @include mixin.flex(center, null, null, null);
   @include mixin.font(0.875rem, 400, null, var(--dark));
   font-family: var(--font-inter);
