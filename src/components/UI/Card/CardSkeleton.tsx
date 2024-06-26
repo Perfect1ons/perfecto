@@ -4,7 +4,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import styles from "./style.module.scss";
 
 interface SkeletonCards {
-  loading: boolean;
+  loading?: boolean;
 }
 
 const CardSkeleton = (loading: SkeletonCards) => {

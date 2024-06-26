@@ -77,6 +77,7 @@ export default function CatalogProducts({
         observerRef.current.disconnect();
       }
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.tov]);
 
   useEffect(() => {
@@ -156,6 +157,7 @@ export default function CatalogProducts({
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {

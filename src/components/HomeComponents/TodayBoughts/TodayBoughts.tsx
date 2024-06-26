@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import TodayBoughtsCards from "./TodayBoughtsCard/TodayBoughtsCard";
 import { IBoughtItem, IBoughts } from "@/types/lastBoughts";
 import { getBoughts } from "@/api/requests";
 import { getBoughtsByClient } from "@/api/clientRequest";

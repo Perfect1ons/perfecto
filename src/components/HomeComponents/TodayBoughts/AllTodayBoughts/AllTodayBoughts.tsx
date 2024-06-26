@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IBoughtItem, IBoughts } from "@/types/lastBoughts";
 import { getBoughtsByClient } from "@/api/clientRequest";
-import TodayBoughtsCards from "../TodayBoughtsCard/TodayBoughtsCard";
-import TodaySkeletonCard from "./TodaySkeletonCard";
+import Card from "@/components/UI/Card/Card";
+import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 interface IPopularGoodsProps {
   boughts: IBoughtItem[];
 }
@@ -79,18 +79,18 @@ const fetchData = async (pageNum: number) => {
         <h2 className="sections__title">Сегодня купили</h2>
       </div>
       <div className="cardContainer">
-        <div className="main__news_cards">
+        <div className="cards">
           {data.map((item) => (
-            <TodayBoughtsCards goods={item} key={item.id} />
+            <Card cardData={item} key={item.id} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">
           {allDataLoaded ? (
             <h1 className="finished container">Все данные загружены</h1>
           ) : (
-            <div className="main__news_cards toptwenty">
-              {Array.from({ length: 20 }).map((_, index) => (
-                <TodaySkeletonCard key={index} />
+            <div className="cards toptwenty">
+              {Array.from({ length: 18 }).map((_, index) => (
+                <CardSkeleton key={index} />
               ))}
             </div>
           )}
