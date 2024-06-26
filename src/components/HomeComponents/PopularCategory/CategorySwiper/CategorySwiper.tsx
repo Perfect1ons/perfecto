@@ -116,7 +116,6 @@ export default function CategorySwiper({ category }: ICategory) {
               : "/img/noPhoto.svg";
             return (
               <SwiperSlide
-                // onClick={() => router.push(`/catalog/${item.full_slug}`)}
                 key={item.idd}
                 className="swiper__slide"
               >
