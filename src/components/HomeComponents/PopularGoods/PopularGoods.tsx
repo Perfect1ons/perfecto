@@ -1,10 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import PopularGoodsCards from "./PopularGoodsCards/PopularGoodsCards";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
-import PopularGoodsSkeletonCard from "./AllPopularGoods/PopularGoodsSkeletonCard";
 import Card from "@/components/UI/Card/Card";
 
 interface IPopularGoodsProps {

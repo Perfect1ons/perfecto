@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
-import PopularGoodsCards from "../PopularGoodsCards/PopularGoodsCards";
-import PopularGoodsSkeletonCard from "./PopularGoodsSkeletonCard";
+import Card from "@/components/UI/Card/Card";
+import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -81,18 +81,18 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
         <h2 className="sections__title">Популярные товары</h2>
       </div>
       <div className="cardContainer">
-        <div className="main__news_cards">
+        <div className="cards">
           {data.map((item, index) => (
-            <PopularGoodsCards goods={item} key={index} loading={isLoading} />
+            <Card cardData={item} key={index} loading={isLoading} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">
           {allDataLoaded ? (
             <h1 className="finished container">Все данные загружены</h1>
           ) : (
-            <div className="main__news_cards">
-              {Array.from({ length: 20 }).map((_, index) => (
-                <PopularGoodsSkeletonCard key={index} loading={isLoading} />
+            <div className="cards">
+              {Array.from({ length: 18 }).map((_, index) => (
+                <CardSkeleton key={index} loading={isLoading} />
               ))}
             </div>
           )}

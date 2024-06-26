@@ -230,3 +230,20 @@
         }
     }
 }
+
+.skeletonCard {
+  margin-top: 15px;
+  max-width: 262px;
+  width: 100%;
+  opacity: 1;
+  @media screen and (max-width: 640px) {
+    margin-top: 10px;
+  }
+  @media screen and (max-width: 480px) {
+    margin-top: 5px;
+  }
+  &_hide {
+    opacity: 1;
+  }
+}
+

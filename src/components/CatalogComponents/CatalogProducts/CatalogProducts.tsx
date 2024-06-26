@@ -1,25 +1,23 @@
 "use client";
-import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
-import { useEffect, useState } from "react";
-import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
-import CatalogProductList from "./CatalogProductList";
+import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
-import styles from "./style.module.scss";
 import Link from "next/link";
-import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
-import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import { getCatalogProductsFiltered } from "@/api/clientRequest";
+import { BackArrow } from "../../../../public/Icons/Icons";
+import styles from "./style.module.scss";
+import CatalogProductList from "./CatalogProductList";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
+import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import clsx from "clsx";
 
-import cn from "clsx";
-import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -33,12 +31,10 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
-  // custom hook media query
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const initialItems = catalog.category.tov || [];
-  const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
-
-  // selected filters storage
+  const [items, setItems] = useState<ICatalogsProducts["category"]["tov"]>(
+    catalog.category.tov || []
+  );
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,
@@ -48,124 +44,99 @@ export default function CatalogProducts({
     dost: [],
     additional_filter: [],
   });
-
-  //temp price storage
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
-  }>({
-    tempMin: 0,
-    tempMax: 0,
-  });
-
-  //default sort storage
+  }>({ tempMin: 0, tempMax: 0 });
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-  //custom hook media query
   const mobileFilter = useMediaQuery("(max-width: 992px)");
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
-  const toggleView = (view: boolean) => {
-    setIsColumnView(view);
-    handleViewChange(view);
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "500px",
+      threshold: 0.1,
+    });
+
+    if (
+      observerRef.current &&
+      catalog.category.tov &&
+      catalog.category.tov.length > 0 &&
+      sentinelRef.current
+    ) {
+      observerRef.current.observe(sentinelRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, [catalog.category.tov]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let maxPrice =
+        selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 9999999;
+      try {
+        const response = await getCatalogProductsFiltered(
+          selectedFilters.id,
+          selectedFilters.page,
+          selectedFilters.brand.join(","),
+          selectedFilters.priceMin,
+          maxPrice,
+          selectedFilters.dost.join(","),
+          selectedFilters.additional_filter.join(",")
+        );
+        if (selectedFilters.page === 1) {
+          setItems(response.model);
+        } else {
+          setItems((prevItems) => [...prevItems, ...(response.model || [])]);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [catalog.category.id, selectedFilters]);
+
+  const handleObserver: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && selectedFilters.page < 5) {
+        setSelectedFilters((prevFilters) => ({
+          ...prevFilters,
+          page: prevFilters.page + 1,
+        }));
+      }
+    });
   };
-  // filter change function
+
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
   };
-  // Функция для очистки фильтров
-  //clear filter function
+
   const clearFilter = (name: string) => {
-    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
-      const updatedFilters: any = { ...prevFilters };
-
-      if (updatedFilters.hasOwnProperty(name)) {
-        updatedFilters[name] = [];
-      }
-
-      return updatedFilters;
-    });
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: [],
+    }));
   };
-  //clear additional filter by id function
+
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
   };
-  // useEffect hook for fetching data
-useEffect(() => {
-  const fetchData = async () => {
-    let maxPrice = 0;
-    if (selectedFilters.priceMax > 0) {
-      maxPrice = selectedFilters.priceMax;
-    } else if (selectedFilters.priceMin > 0) {
-      maxPrice = 9999999; // Or any large number, like 999999
-    }
-    try {
-      const response = await getCatalogProductsFiltered(
-        selectedFilters.id,
-        selectedFilters.page,
-        selectedFilters.brand.join(","),
-        selectedFilters.priceMin,
-        maxPrice,
-        selectedFilters.dost.join(","),
-        selectedFilters.additional_filter.join(",")
-      );
-      if (selectedFilters.page === 1) {
-        setItems(response.model);
-      } else {
-        setItems((prevItems) => [...prevItems, ...(response.model || [])]);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
-  fetchData();
-}, [catalog.category.id, selectedFilters]);
-
-  //hook for scroll fetching pages
-  useEffect(() => {
-    let lastScrollTop = 0; // переменная для отслеживания последнего положения скролла
-
-    const handleScroll = () => {
-      const scrollTop = document.documentElement.scrollTop;
-
-      // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
-      if (
-        scrollTop > lastScrollTop &&
-        scrollTop % 50 === 0 &&
-        selectedFilters.page < 5 // Максимальное значение страницы 5
-      ) {
-        setSelectedFilters((prevFilters) => {
-          // Проверяем, что текущая страница меньше 5 перед увеличением
-          if (prevFilters.page < 5) {
-            return {
-              ...prevFilters,
-              page: prevFilters.page + 1, // Увеличиваем номер страницы
-            };
-          }
-          return prevFilters; // Возвращаем текущие фильтры без изменений
-        });
-      }
-
-      lastScrollTop = scrollTop; // Обновляем последнее положение скролла
-    };
-
-    // Присоединяем слушатель события скролла
-    window.addEventListener("scroll", handleScroll);
-
-    // Удаляем слушатель события скролла при размонтировании компонента
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [selectedFilters]); // Обновляем эффект только при изменении selectedFilters
-
-  //useEffect hook for url params
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -181,17 +152,14 @@ useEffect(() => {
     }
   }, []);
 
-  //useEffect hook for default sort
   useEffect(() => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
-  //default sort function
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
-    const sortedItems = [...items]; // Use current items for sorting
+    const sortedItems = [...items];
     switch (order) {
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
@@ -207,7 +175,7 @@ useEffect(() => {
     }
     setItems(sortedItems);
   };
-  //default sort handler
+
   const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
@@ -218,19 +186,15 @@ useEffect(() => {
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-  //column view handler
+
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
   };
-  // filter price range changer
+
   const handlePriceRangeChange = (min: number, max: number) => {
-    setTempPrice((prevTempPrice) => ({
-      ...prevTempPrice,
-      tempMin: min,
-      tempMax: max,
-    }));
+    setTempPrice({ tempMin: min, tempMax: max });
   };
-  //apply filter price function
+
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
@@ -238,7 +202,7 @@ useEffect(() => {
       priceMax: tempPrice.tempMax,
     });
   };
-  //clear filter price function
+
   const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
@@ -260,21 +224,18 @@ useEffect(() => {
             <BackArrow /> Назад
           </Link>
         ))}
-        {breadCrumbs.map((crumbs) => {
-          return (
-            <Link
-              className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
-              key={crumbs.id}
-            >
-              {crumbs.name}
-            </Link>
-          );
-        })}
+        {breadCrumbs.map((crumbs) => (
+          <Link
+            className="all__directions_link"
+            href={`/catalog/${crumbs.full_slug}`}
+            key={crumbs.id}
+          >
+            {crumbs.name}
+          </Link>
+        ))}
       </div>
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
-        {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
         <Link href={"/page/partneram/prodavcam"}>
           <Image
             src={
@@ -301,7 +262,7 @@ useEffect(() => {
           onChange={(value) => handleSort(value)}
           filter={filter}
           isColumnView={isColumnView}
-          toggleView={toggleView}
+          toggleView={handleViewChange}
         />
       ) : (
         <div className="container">
@@ -326,8 +287,7 @@ useEffect(() => {
                 { label: "По рейтингу", value: "rating" },
               ]}
             />
-
-            <div className={cn("default__sort_style", "sortBoxShadow")}>
+            <div className={clsx("default__sort_style", "sortBoxShadow")}>
               <button
                 className="default__sort_icons"
                 onClick={() => handleViewChange(false)}
@@ -341,7 +301,6 @@ useEffect(() => {
                   ></div>
                 ))}
               </button>
-
               <button
                 className="default__sort_icons_column"
                 onClick={() => handleViewChange(true)}
@@ -359,7 +318,6 @@ useEffect(() => {
           </div>
         </div>
       )}
-      {/* Проверяем, есть ли товары в каталоге */}
       {items && items.length === 0 ? (
         <div className={styles.containerUndefined}>
           <Image
@@ -388,6 +346,7 @@ useEffect(() => {
           </p>
         </div>
       </div>
+      <div ref={sentinelRef} style={{ height: "1px", margin: "0 auto" }}></div>
     </section>
   );
 }
