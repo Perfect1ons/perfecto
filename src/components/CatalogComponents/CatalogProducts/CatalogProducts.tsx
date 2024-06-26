@@ -102,23 +102,40 @@ export default function CatalogProducts({
       let maxPrice = 0;
       if (selectedFilters.priceMax > 0) {
         maxPrice = selectedFilters.priceMax;
-      } else if (
-        selectedFilters.priceMax <= 0 &&
-        selectedFilters.priceMin > 0
-      ) {
-        maxPrice = 9999999; // или любое другое большое число, например 999999
+      } else if (selectedFilters.priceMin > 0) {
+        maxPrice = 9999999; // Or any large number, like 999999
       }
-      try {
-        const response = await getCatalogProductsFiltered(
-          selectedFilters.id,
-          selectedFilters.page,
-          selectedFilters.brand.join(","),
-          selectedFilters.priceMin,
-          maxPrice,
-          selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(",")
+      const promises = [];
+      for (let page = 1; page <= selectedFilters.page; page++) {
+        promises.push(
+          getCatalogProductsFiltered(
+            selectedFilters.id,
+            page,
+            selectedFilters.brand.join(","),
+            selectedFilters.priceMin,
+            maxPrice,
+            selectedFilters.dost.join(","),
+            selectedFilters.additional_filter.join(",")
+          )
         );
-        setItems((prevItems) => [...prevItems, ...(response.model || [])]);
+      }
+
+      try {
+        const responses = await Promise.all(promises);
+
+        // Объединяем данные всех страниц в один массив
+        const allItems = responses.reduce(
+          (acc: (ICategoryModel | Tov)[], response) => {
+            if (response.model) {
+              acc.push(...response.model);
+            }
+            return acc;
+          },
+          []
+        );
+
+        // Устанавливаем все полученные товары
+        setItems(allItems);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
