@@ -48,7 +48,7 @@ export default function CategorySwiper({ category }: ICategory) {
   }, [cachedData]);
 
   return (
-    <div className={styles.category__swiper}>
+    <div className={styles.category_swiper}>
       {loading ? (
         <div className={styles.skeleton__container}>
           {skeletonArray12.map((_, index) => (
@@ -61,7 +61,7 @@ export default function CategorySwiper({ category }: ICategory) {
       ) : (
         <Swiper
           slidesPerView={6}
-          spaceBetween={15}
+          spaceBetween={25}
           slidesPerGroup={6}
           navigation={{
             nextEl: ".team__btn_next",
@@ -76,15 +76,15 @@ export default function CategorySwiper({ category }: ICategory) {
             240: {
               slidesPerView: 3,
               slidesPerGroup: 3,
-              spaceBetween: 3,
+              spaceBetween: 5,
             },
             480: {
               slidesPerView: 3,
-              spaceBetween: 3,
+              spaceBetween: 15,
               slidesPerGroup: 10,
             },
             768: {
-              spaceBetween: 3,
+              spaceBetween: 15,
               slidesPerView: 4,
               slidesPerGroup: 15,
             },
@@ -99,31 +99,23 @@ export default function CategorySwiper({ category }: ICategory) {
             },
           }}
           modules={[Grid, Pagination, Navigation]}
-          className={clsx("myCategory__swiper", styles.mySwiperok)}
+          className={clsx("myCategory__swiper", styles.mySwiper)}
         >
           {category.map((item) => {
             const imageUrl = item.icon
-              ? item.icon.startsWith(
-                  "https://cdn2.static1-sima-land.com/categories/25872.jpg"
-                ) ||
-                item.icon.startsWith(
-                  "https://cdn2.static1-sima-land.com/categories/27465.jpg"
-                )
-                ? "/img/noPhoto.svg"
-                : item.icon.startsWith("https://")
+              ? item.icon.startsWith("https://")
                 ? item.icon
                 : `${url}${item.icon}`
-              : "/img/noPhoto.svg";
-
+              : `${url}images/discount/empty-image.png`;
             return (
               <SwiperSlide
-                onClick={() => router.push(`/catalog/${item.full_slug}`)}
+                // onClick={() => router.push(`/catalog/${item.full_slug}`)}
                 key={item.idd}
                 className="swiper__slide"
               >
                 <Link
                   href={`/catalog/${item.full_slug}`}
-                  className="link"
+                  className={clsx("link", styles.category_swiper_link)}
                 >
                   <Image
                     className="swiper__slide_img"

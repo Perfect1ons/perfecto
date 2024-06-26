@@ -228,19 +228,15 @@ body {
 }
 
 .swiper__slide {
-  margin-top: 1px;
-  margin-right: 2px;
   cursor: pointer;
   height: 180px !important;
   text-align: center;
-  max-width: 220px !important;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  max-width: 210px !important;
   margin-bottom: 5px;
   border-radius: 5px;
   font-size: 18px;
   background: var(--white);
-  @include mixin.flex(center, flex-start, column, 10px);
+  @include mixin.flex(center, center, column, 10px);
   @media screen and (max-width: 992px) {
     max-height: 160px;
     height: auto !important;
