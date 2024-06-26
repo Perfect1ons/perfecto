@@ -17,6 +17,7 @@ import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import clsx from "clsx";
+import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
@@ -53,52 +54,78 @@ export default function CatalogProducts({
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
   const mobileFilter = useMediaQuery("(max-width: 992px)");
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const sentinelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: "500px",
-      threshold: 0.1,
-    });
+  const toggleView = (view: boolean) => {
+    setIsColumnView(view);
+    handleViewChange(view);
+  };
+  // filter change function
+  const handleFilterChange = (name: string, value: any) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+  // Функция для очистки фильтров
+  //clear filter function
+  const clearFilter = (name: string) => {
+    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
+      const updatedFilters: any = { ...prevFilters };
 
-    if (
-      observerRef.current &&
-      catalog.category.tov &&
-      catalog.category.tov.length > 0 &&
-      sentinelRef.current
-    ) {
-      observerRef.current.observe(sentinelRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
+      if (updatedFilters.hasOwnProperty(name)) {
+        updatedFilters[name] = [];
       }
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalog.category.tov]);
 
+      return updatedFilters;
+    });
+  };
+  //clear additional filter by id function
+  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
+    return Object.values(filters).filter(
+      (filter) => !selectedFilters.includes(filter.id_filter.toString())
+    );
+  };
+  // useEffect hook for fetching data
   useEffect(() => {
     const fetchData = async () => {
-      let maxPrice =
-        selectedFilters.priceMax > 0 ? selectedFilters.priceMax : 9999999;
-      try {
-        const response = await getCatalogProductsFiltered(
-          selectedFilters.id,
-          selectedFilters.page,
-          selectedFilters.brand.join(","),
-          selectedFilters.priceMin,
-          maxPrice,
-          selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(",")
+      let maxPrice = 0;
+      if (selectedFilters.priceMax > 0) {
+        maxPrice = selectedFilters.priceMax;
+      } else if (selectedFilters.priceMin > 0) {
+        maxPrice = 9999999; // Or any large number, like 999999
+      }
+
+      const promises = [];
+      for (let page = 1; page <= selectedFilters.page; page++) {
+        promises.push(
+          getCatalogProductsFiltered(
+            selectedFilters.id,
+            page,
+            selectedFilters.brand.join(","),
+            selectedFilters.priceMin,
+            maxPrice,
+            selectedFilters.dost.join(","),
+            selectedFilters.additional_filter.join(",")
+          )
         );
-        if (selectedFilters.page === 1) {
-          setItems(response.model);
-        } else {
-          setItems((prevItems) => [...prevItems, ...(response.model || [])]);
-        }
+      }
+
+      try {
+        const responses = await Promise.all(promises);
+
+        // Объединяем данные всех страниц в один массив
+        const allItems = responses.reduce(
+          (acc: (ICategoryModel | Tov)[], response) => {
+            if (response.model) {
+              acc.push(...response.model);
+            }
+            return acc;
+          },
+          []
+        );
+
+        // Устанавливаем все полученные товары
+        setItems(allItems);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -107,37 +134,44 @@ export default function CatalogProducts({
     fetchData();
   }, [catalog.category.id, selectedFilters]);
 
-  const handleObserver: IntersectionObserverCallback = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && selectedFilters.page < 5) {
-        setSelectedFilters((prevFilters) => ({
-          ...prevFilters,
-          page: prevFilters.page + 1,
-        }));
+  //hook for scroll fetching pages
+  useEffect(() => {
+    let lastScrollTop = 0; // переменная для отслеживания последнего положения скролла
+
+    const handleScroll = () => {
+      const scrollTop = document.documentElement.scrollTop;
+
+      // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
+      if (
+        scrollTop > lastScrollTop &&
+        scrollTop % 0.2 === 0 &&
+        selectedFilters.page < 5 // Максимальное значение страницы 5
+      ) {
+        setSelectedFilters((prevFilters) => {
+          // Проверяем, что текущая страница меньше 5 перед увеличением
+          if (prevFilters.page < 5) {
+            return {
+              ...prevFilters,
+              page: prevFilters.page + 1, // Увеличиваем номер страницы
+            };
+          }
+          return prevFilters; // Возвращаем текущие фильтры без изменений
+        });
       }
-    });
-  };
 
-  const handleFilterChange = (name: string, value: any) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
+      lastScrollTop = scrollTop; // Обновляем последнее положение скролла
+    };
 
-  const clearFilter = (name: string) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: [],
-    }));
-  };
+    // Присоединяем слушатель события скролла
+    window.addEventListener("scroll", handleScroll);
 
-  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
-    return Object.values(filters).filter(
-      (filter) => !selectedFilters.includes(filter.id_filter.toString())
-    );
-  };
+    // Удаляем слушатель события скролла при размонтировании компонента
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [selectedFilters]); // Обновляем эффект только при изменении selectedFilters
 
+  //useEffect hook for url params
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -348,7 +382,6 @@ export default function CatalogProducts({
           </p>
         </div>
       </div>
-      <div ref={sentinelRef} style={{ height: "1px", margin: "0 auto" }}></div>
     </section>
   );
 }
