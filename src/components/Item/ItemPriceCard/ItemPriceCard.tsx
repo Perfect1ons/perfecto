@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   ArrowDropdown,
-  ArrowLeftIcon,
   CartIcon,
   HeartIconShare,
   HeartIconShareFill,

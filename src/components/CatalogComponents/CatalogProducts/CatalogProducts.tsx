@@ -20,6 +20,7 @@ import clsx from "clsx";
 
 import cn from "clsx";
 import { ICategoryModel } from "@/types/Catalog/catalogFilters";
+import { usePathname, useSearchParams } from "next/navigation";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -37,6 +38,15 @@ export default function CatalogProducts({
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
+
+  const searchParams = useSearchParams();
+  const pageNumber = parseInt(searchParams.get("page") ?? "1");
+
+  const totalPages = Math.max(Math.ceil(100 / 10), 1);
+  const pageNumbers = Array.from(
+    { length: totalPages },
+    (_, index) => index + 1
+  );
 
   // selected filters storage
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -390,6 +400,44 @@ export default function CatalogProducts({
         </div>
       ) : (
         <CatalogProductList items={items} isColumnView={isColumnView} />
+      )}
+      {selectedFilters.page >= 5 && (
+        <div className="pagination">
+          <Link className="link" href={`?page=${pageNumber - 1}`} passHref>
+            <button
+              disabled={pageNumber === 1}
+              className={clsx(
+                "pagination__button",
+                pageNumber === 1 && "pagination__button_disactive"
+              )}
+            >
+              {"<"}
+            </button>
+          </Link>
+          {pageNumbers.map((page) => (
+            <Link className="link" href={`?page=${page}`} key={page} passHref>
+              <button
+                className={clsx(
+                  "pagination__button",
+                  page === pageNumber && "pagination__button_active"
+                )}
+              >
+                {page}
+              </button>
+            </Link>
+          ))}
+          <Link className="link" href={`?page=${pageNumber + 1}`} passHref>
+            <button
+              disabled={pageNumber === totalPages}
+              className={clsx(
+                "pagination__button",
+                pageNumber === totalPages && "pagination__button_disactive"
+              )}
+            >
+              {">"}
+            </button>
+          </Link>
+        </div>
       )}
       <div className={clsx(styles.descriptionContainer, "container")}>
         <h3 className={styles.descriptionContainer__categoryTitle}>
