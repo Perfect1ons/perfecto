@@ -127,7 +127,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
       <UserInfoModal visible={cartModal} onClose={closeModalCart}>
         Ваш товар добавлен в корзину. <br />
         Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="link_cart" href={"/cart"}>
+        <Link className="linkCart" href={"/cart"}>
           Перейти в корзину
         </Link>
       </UserInfoModal>
@@ -238,11 +238,11 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
                 <p className="card__info_ddos_desc">{truncatedDdos}</p>
               </div>
             </Link>
-            <div
-              onClick={(e) => e.stopPropagation()}
-              className="card__info_button"
-            >
-              {!product?.quantity && (
+            {!product?.quantity && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="card__info_button"
+              >
                 <button
                   title="Добавить в корзину"
                   className="card__info_addproduct"
@@ -253,16 +253,21 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
                   </span>
                   В корзину
                 </button>
-              )}
-              {product?.quantity && (
+              </div>
+            )}
+            {product?.quantity && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="card__info_button_active"
+              >
                 <CartReducerBtn
                   data={cardData}
                   onCartEmpty={handleCartEmpty}
                   shouldFocusInput={shouldFocusInput}
                   onFocusHandled={() => setShouldFocusInput(false)}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       )}
