@@ -76,6 +76,7 @@ export default function CatalogProducts({
   //custom hook media query
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
+  //catalog view toggler
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
     handleViewChange(view);
