@@ -1,0 +1,219 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+.myTitle{
+    @include mixin.font(48px,600,null,var(--dark));
+    text-align: center;
+    width: 100%;
+
+    &_by{
+        @include mixin.font(32px,600,null,var(--dark));
+        text-align: right;
+        width: 100%;
+    }
+}
+
+
+.selected{
+  border: 2px solid var(--dark-blue);
+  padding: 1px 7px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  cursor: pointer;
+
+  &__filters{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+}
+
+.deleteButton {
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+
+  svg{
+    path{
+      stroke: var(--dark);
+      fill: var(--dark);
+    }
+  }
+}
+
+.clearAllButton {
+  padding: 3px 10px;
+  background-color: var(--dark-blue);
+  color: white;
+  border: none;
+  border: 2px solid var(--dark-blue);
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 15px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  user-select: none;
+
+  &__title{
+    outline: 2px solid var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--dark);
+    font-family: var(--font-inter);
+    text-align: center;
+    padding: 8px 12px;
+    text-wrap: nowrap;
+    background: var(--white);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    position: relative;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &_count{
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--violet);
+      color: var(--white);
+      width: 15px;
+      height: 15px;
+      font-size: 10px;
+      line-height: 13px;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+  }
+}
+
+.filters__sections {
+  max-width: 100%;
+  position: relative;
+}
+
+.section__title {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.clearButton {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 10px;
+  color: var(--dark);
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  
+  &__reset{
+    border-bottom: 1px dashed var(--dark);
+
+  }
+}
+
+.clearButtonActive{
+  color: var(--violet);
+  border-bottom: 1px dashed var(--violet);
+}
+
+.closeButton{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+  svg{
+    cursor: pointer;
+    &:hover{
+          path{
+        fill: var(--dark-blue);
+        stroke: var(--dark-blue);
+      }
+    }
+  }
+
+}
+
+.filterbtn__container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 0.875rem;
+  padding: 5px 10px;
+  font-weight: 400;
+    cursor: pointer;
+  user-select: none;
+}
+
+// .dropdownContent label {
+//   display: block;
+// }
+
+.empty{
+  color: var(--white);
+}
+
+.dropdownContent::before{
+  content: "";
+  display: block;
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #ffffff;
+}
+
+.dropdownContent {
+  padding: 5px;
+  display: block;
+  position: absolute;
+  top: 50px;
+  background-color: #ffffff;
+  min-width: 250px;
+  max-width: 250px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+
+
+.dropdownContent label:hover {
+  background-color: #f1f1f1;
+}
+
+
+
+@media (max-width: 768px) {
+  .filters__sections {
+    width: 100%;
+  }
+}

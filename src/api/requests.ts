@@ -25,6 +25,7 @@ import { IMetaData } from "@/types/MetaData/MetaData";
 import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { BrandsAll } from "@/types/bannerAll";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
+import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -63,6 +64,10 @@ export const getPopularCategory = (): Promise<ICategory> => {
 };
 
 export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
+  return maxkg.get(`catalog/listfilter?id_cat=${id}`).json();
+};
+
+export const getFiltersBrandByAbdulaziz = (id: number): Promise<IFiltersBrandByAbdulaziz> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}`).json();
 };
 export const getProductsSortsBrand = (

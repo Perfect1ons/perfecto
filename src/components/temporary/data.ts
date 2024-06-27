@@ -1,26 +1,31 @@
 export const url = "https://max.kg/";
 
-
 export interface IFiltersBrandByAbdulaziz {
   brand: string[];
   variant_day: string[];
-  filter: Filter[];
+  filter: Filter;
   nalsklad: number;
 }
 
 export interface Filter {
-  "11": N11;
-  "12": N12;
-  "13": N13;
-  "14": N14;
-  "15": N15;
-  "16": N16;
-  "17": N17;
-  "18": N18;
-  "19": N19;
-  "21": N21;
-  "47": N47;
+  [key: string]: FilterGroup;
 }
+
+export interface FilterGroup {
+  id_type: number;
+  type_name: string;
+  type_desc: string;
+  filter: {
+    [key: string]: SubFilter;
+  };
+}
+
+export interface SubFilter {
+  id_filter: number;
+  name: string;
+  kol: number;
+}
+
 
 export interface N11 {
   id_type: number;
