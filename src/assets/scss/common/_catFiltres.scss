@@ -174,13 +174,11 @@
 }
 .filterCount {
   @include mixin.flex(center, center, null, null);
-  font-size: 0.625rem;
-  color: var(--white);
-  font-weight: 700;
+  @include mixin.font(0.625rem, 700, 18px, var(--white));
   flex-wrap: nowrap;
   text-align: center;
   background: var(--violet);
-  padding: 2px 5px 2px 5px;
+  width: 18px;
   border-radius: 50%;
   position: absolute;
   top: -6px;

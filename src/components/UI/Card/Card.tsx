@@ -11,9 +11,13 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import styles from "./style.module.scss";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import CardSkeleton from "./CardSkeleton";
+import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
+import { useDispatch, useSelector } from "react-redux";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
+import UserInfoModal from "../UserInfoModal/UserInfoModal";
+import { RootState } from "@/store";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -88,8 +92,45 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
   const truncatedTitle = truncateText(cardData.naim, maxLength);
   const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
 
+  const [added, setAdded] = useState(false);
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+  const handleCartEmpty = () => {
+    setAdded(false);
+  };
+
+  const [cartModal, setCartModal] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(addProductToCart(cardData));
+    setAdded(true);
+    setCartModal(true);
+    setTimeout(() => setCartModal(false), 5000);
+  };
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
+
+  const closeModalCart = () => {
+    setCartModal(false);
+  };
+
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === cardData.id);
+
   return (
     <>
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className="link_cart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
       {loading ? (
         <CardSkeleton loading={loading} />
       ) : (
@@ -168,46 +209,59 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
               href={`/item/${cardData.id_tov}/${cardData.url}`}
               className="link"
             >
-            <h1 className="card__info_title">{truncatedTitle}</h1>
+              <h1 className="card__info_title">{truncatedTitle}</h1>
             </Link>
             <Link
               href={`/item/${cardData.id_tov}/${cardData.url}`}
               className="link"
             >
-            <div className="card__info_rating">
-              {[...Array(5)].map((_, index) => (
-                <span className="card__info_rating_span" key={index}>
-                  {index < rating ? <YellowStar /> : <GrayStar />}
-                </span>
-              ))}
-            </div>
+              <div className="card__info_rating">
+                {[...Array(5)].map((_, index) => (
+                  <span className="card__info_rating_span" key={index}>
+                    {index < rating ? <YellowStar /> : <GrayStar />}
+                  </span>
+                ))}
+              </div>
             </Link>
             <Link
               href={`/item/${cardData.id_tov}/${cardData.url}`}
               className="link"
             >
-            <div className="card__info_ddos">
-              <Image
-                className="card__info_ddos_icon"
-                src={`${url}images/delivery_icon.svg`}
-                width={20}
-                height={20}
-                alt="delivery_icon"
-              />
-              <p className="card__info_ddos_desc">{truncatedDdos}</p>
-            </div>
+              <div className="card__info_ddos">
+                <Image
+                  className="card__info_ddos_icon"
+                  src={`${url}images/delivery_icon.svg`}
+                  width={20}
+                  height={20}
+                  alt="delivery_icon"
+                />
+                <p className="card__info_ddos_desc">{truncatedDdos}</p>
+              </div>
             </Link>
-            <div className="card__info_button">
-              <button
-                title="Добавить в корзину"
-                className="card__info_addproduct"
-                onClick={handleAddToCartClick}
-              >
-                <span className="card__info_addproduct_icon">
-                  <CartIcon />
-                </span>
-                В корзину
-              </button>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="card__info_button"
+            >
+              {!product?.quantity && (
+                <button
+                  title="Добавить в корзину"
+                  className="card__info_addproduct"
+                  onClick={handleAddToCart}
+                >
+                  <span className="card__info_addproduct_icon">
+                    <CartIcon />
+                  </span>
+                  В корзину
+                </button>
+              )}
+              {product?.quantity && (
+                <CartReducerBtn
+                  data={cardData}
+                  onCartEmpty={handleCartEmpty}
+                  shouldFocusInput={shouldFocusInput}
+                  onFocusHandled={() => setShouldFocusInput(false)}
+                />
+              )}
             </div>
           </div>
         </div>

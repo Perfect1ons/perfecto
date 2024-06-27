@@ -7,7 +7,7 @@ import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
 import ItemSpec from "./ItemSpec/ItemSpec";
 import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
@@ -16,11 +16,8 @@ import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
-import ItemBanner from "./ItemBanner/ItemBanner";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
-import MobileBuyBtn from "./MobileBuyBtn/MobileBuyBtn";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
-import { BrandsAll } from "@/types/bannerAll";
 
 import ItemMainSkeleton from "./ItemMainSkeleton/ItemMainSkeleton";
 
