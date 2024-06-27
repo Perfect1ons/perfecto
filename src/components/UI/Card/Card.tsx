@@ -44,7 +44,8 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
     );
   }, [cardData.ocenka, cardData.id_tov]);
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message = "";
 
@@ -69,8 +70,17 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
     setModalVisible(true);
   };
 
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Ваша логика добавления в корзину
+  };
+
   const handleModalClose = () => {
     setModalVisible(false);
+  };
+
+  const handleCardClick = () => {
+    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
 
   const maxLength = 40;
@@ -83,7 +93,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
       {loading ? (
         <CardSkeleton loading={loading} />
       ) : (
-        <div className="card">
+        <div className="card" onClick={handleCardClick}>
           <FavoriteModal
             isVisible={isModalVisible}
             message={modalMessage}
@@ -92,8 +102,8 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
           />
           <div className="card__images">
             <Link
-              className="link"
               href={`/item/${cardData.id_tov}/${cardData.url}`}
+              className="link"
             >
               <Image
                 className="card__image"
@@ -103,8 +113,14 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
                 alt={cardData.naim}
                 priority
               />
+              {cardData.discount_prc > 0 ? (
+                <div className="card__info_skidkapercent">
+                  {cardData.discount_prc}%
+                </div>
+              ) : null}
             </Link>
             <span
+              title="Добавить в избранное"
               className={`card__info_addFavorites ${
                 isFavorite ? "card__info_addedFavorites" : ""
               }`}
@@ -112,47 +128,52 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
             >
               <CardFavoritesIcon />
             </span>
-            {cardData.discount_prc > 0 ? (
-              <div className="card__info_skidkapercent">
-                {cardData.discount_prc}%
-              </div>
-            ) : null}
           </div>
           <div className="card__info">
-            {cardData.discount_prc > 0 ? (
-              <div className="card__info_price">
-                <div className="card__info_skidkaprice">
-                  <span className="card__info_skidkaprice_price">
-                    {cardData.cenaok?.toLocaleString("ru-RU")}
-                  </span>
-                  <span className="card__info_skidkaprice_price_custom">с</span>
-                </div>
-
-                <div className="card__info_oldprice">
-                  <span className="card__info_oldprice_price">
-                    {cardData.old_price.toLocaleString("ru-RU")}c
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <div className="card__info_price">
-                <div className="card__info_currentprice">
-                  <span className="card__info_currentprice_price">
-                    {cardData.cenaok.toLocaleString("ru-RU")}
-                  </span>
-                  <span className="card__info_currentprice_price_custom">
-                    с
-                  </span>
-                </div>
-              </div>
-            )}
             <Link
-              className="link"
               href={`/item/${cardData.id_tov}/${cardData.url}`}
+              className="link"
             >
-              <h1 className="card__info_title">{truncatedTitle}</h1>
-            </Link>
+              {cardData.discount_prc > 0 ? (
+                <div className="card__info_price">
+                  <div className="card__info_skidkaprice">
+                    <span className="card__info_skidkaprice_price">
+                      {cardData.cenaok?.toLocaleString("ru-RU")}
+                    </span>
+                    <span className="card__info_skidkaprice_price_custom">
+                      с
+                    </span>
+                  </div>
 
+                  <div className="card__info_oldprice">
+                    <span className="card__info_oldprice_price">
+                      {cardData.old_price.toLocaleString("ru-RU")}c
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="card__info_price">
+                  <div className="card__info_currentprice">
+                    <span className="card__info_currentprice_price">
+                      {cardData.cenaok.toLocaleString("ru-RU")}
+                    </span>
+                    <span className="card__info_currentprice_price_custom">
+                      с
+                    </span>
+                  </div>
+                </div>
+              )}
+            </Link>
+            <Link
+              href={`/item/${cardData.id_tov}/${cardData.url}`}
+              className="link"
+            >
+            <h1 className="card__info_title">{truncatedTitle}</h1>
+            </Link>
+            <Link
+              href={`/item/${cardData.id_tov}/${cardData.url}`}
+              className="link"
+            >
             <div className="card__info_rating">
               {[...Array(5)].map((_, index) => (
                 <span className="card__info_rating_span" key={index}>
@@ -160,7 +181,11 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
                 </span>
               ))}
             </div>
-
+            </Link>
+            <Link
+              href={`/item/${cardData.id_tov}/${cardData.url}`}
+              className="link"
+            >
             <div className="card__info_ddos">
               <Image
                 className="card__info_ddos_icon"
@@ -171,9 +196,13 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
               />
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
-
+            </Link>
             <div className="card__info_button">
-              <button className="card__info_addproduct">
+              <button
+                title="Добавить в корзину"
+                className="card__info_addproduct"
+                onClick={handleAddToCartClick}
+              >
                 <span className="card__info_addproduct_icon">
                   <CartIcon />
                 </span>

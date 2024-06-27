@@ -13,6 +13,9 @@
         .card__info_title{
             opacity: 1;
         }
+        .card__info_button{
+            opacity: 1;
+        }
     }
 
     &__images{
@@ -202,13 +205,15 @@
 
         &_button{
             width: 100%;
+            opacity: 0;
         }
 
         &_addproduct{
             cursor: pointer;
-            @include mixin.flex(center,center,null,4px);
+            @include mixin.flex(center,center,null,10px);
             background: var(--dark-blue);
             color: var(--white);
+            font-weight: 500;
             width: 100%;
             padding: 7px 5px;
             border-radius: 5px;
@@ -216,6 +221,7 @@
 
             &_icon{
                 @include mixin.flex(center);
+                padding-bottom: 3px;
 
                 @media screen and (max-width: 480px) {
                     display: none;

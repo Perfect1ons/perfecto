@@ -9,9 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fancyapps/fancybox": "^3.5.7",
-    "@fancyapps/ui": "^5.0.36",
-    "@plaiceholder/next": "^3.0.0",
     "@reduxjs/toolkit": "^2.2.5",
     "clipboard": "^2.0.11",
     "clsx": "^2.1.0",
