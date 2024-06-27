@@ -42,10 +42,10 @@ export default function CatalogProducts({
   const searchParams = useSearchParams();
   const pageNumber = parseInt(searchParams.get("page") ?? "1");
 
-  const totalPages = Math.max(Math.ceil(100 / 10), 1);
+  const totalPages = Math.max(Math.ceil(100 / 30), 1);
   const pageNumbers = Array.from(
     { length: totalPages },
-    (_, index) => index + 1
+    (_, index) => index + 5
   );
 
   // selected filters storage
@@ -274,6 +274,26 @@ export default function CatalogProducts({
     }));
   };
 
+  const handlePageChange = (simbol: "+" | "-") => {
+    if (selectedFilters.page >= 5) {
+      switch (simbol) {
+        case "+":
+          setSelectedFilters({
+            ...selectedFilters,
+            page: selectedFilters.page + 1,
+          });
+          break;
+        case "-":
+          setSelectedFilters({
+            ...selectedFilters,
+            page: selectedFilters.page - 1,
+          });
+        default:
+          break;
+      }
+    }
+  };
+
   return (
     <section>
       <div className="all__directions container">
@@ -300,7 +320,6 @@ export default function CatalogProducts({
       </div>
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
-        {/* <h2 className={styles.category__title}>Хиты продаж</h2> */}
         <Link href={"/page/partneram/prodavcam"}>
           <Image
             src={
@@ -405,6 +424,7 @@ export default function CatalogProducts({
         <div className="pagination">
           <Link className="link" href={`?page=${pageNumber - 1}`} passHref>
             <button
+              onClick={() => handlePageChange("-")}
               disabled={pageNumber === 1}
               className={clsx(
                 "pagination__button",
@@ -421,6 +441,7 @@ export default function CatalogProducts({
                   "pagination__button",
                   page === pageNumber && "pagination__button_active"
                 )}
+                onClick={() => handlePageChange("+")}
               >
                 {page}
               </button>
@@ -428,6 +449,7 @@ export default function CatalogProducts({
           ))}
           <Link className="link" href={`?page=${pageNumber + 1}`} passHref>
             <button
+              onClick={() => handlePageChange("+")}
               disabled={pageNumber === totalPages}
               className={clsx(
                 "pagination__button",

@@ -174,17 +174,17 @@
 }
 .filterCount {
   @include mixin.flex(center, center, null, null);
-  font-size: 10px;
-  line-height: 13px;
-  color: #fff;
+  font-size: 0.625rem;
+  color: var(--white);
   font-weight: 700;
+  flex-wrap: nowrap;
   text-align: center;
   background: var(--violet);
-  padding: 2px 5px 1px;
-  border-radius: 13px;
+  padding: 2px 5px 2px 5px;
+  border-radius: 50%;
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -6px;
+  right: -6px;
 }
 .applyBtn {
   border-bottom: 1px dashed;

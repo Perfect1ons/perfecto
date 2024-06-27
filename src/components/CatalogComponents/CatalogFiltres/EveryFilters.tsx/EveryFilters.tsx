@@ -28,7 +28,8 @@ const EveryFilters = ({
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
-  //select changer for every filters
+
+  // Select changer for every filters
   const handleSelectChange = (item: string) => {
     const filters = selectedFilters;
     const newFilters = filters.includes(item)
@@ -41,17 +42,29 @@ const EveryFilters = ({
   };
 
   const [visibleFilters, setVisibleFilters] = useState<string | null>(null); // State to manage which filter is visible
-  //filter toogler
+
+  // Toggle filters visibility
   const toggleFilters = (filterName: string) => {
     setVisibleFilters((prev) => (prev === filterName ? null : filterName));
   };
-  //filter count function
+
+  // Function to get count of selected filters
   const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter((filter) =>
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
-  // для Review modal
+
+  // Get count of selected filters
+  const getSelectedFiltersCount = () => {
+    let count = 0;
+    Object.values(filter.filter).forEach((item: N11) => {
+      count += getFilterCount(item.filter, selectedFilters);
+    });
+    return count;
+  };
+
+  // Effect to handle body styles for modal
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -81,6 +94,9 @@ const EveryFilters = ({
           <span className={cn("filterNavItemArrowIsActive")}>
             <FilterIcon />
           </span>
+          {getSelectedFiltersCount() > 0 && (
+            <span className="filterCount">{getSelectedFiltersCount()}</span>
+          )}
         </button>
         <div
           className={cn(styles.container, {
