@@ -23,6 +23,7 @@
     "react-google-recaptcha": "^3.1.0",
     "react-inner-image-zoom": "^3.0.2",
     "react-loading-skeleton": "^3.4.0",
+    "react-paginate": "^8.2.0",
     "react-redux": "^9.1.2",
     "react-slider": "^2.0.6",
     "sanitize-html": "^2.13.0",

@@ -1,26 +1,29 @@
 "use client";
-import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { useEffect, useState } from "react";
-import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
-import CatalogProductList from "./CatalogProductList";
+import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import styles from "./style.module.scss";
 import Link from "next/link";
-import { BackArrow } from "../../../../public/Icons/Icons"; // Assuming the API function is placed in @/api/catalog
-import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import styles from "./style.module.scss";
+import { BackArrow } from "../../../../public/Icons/Icons";
 import { getCatalogProductsFiltered } from "@/api/clientRequest";
+import CatalogProductList from "./CatalogProductList";
 import CatalogFiltres, {
   ISelectedFilterProps,
 } from "../CatalogFiltres/CatalogFiltres";
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import cn from "clsx";
+import {
+  ICategoryFilter,
+  ICategoryModel,
+} from "@/types/Catalog/catalogFilters";
+import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
+import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
+import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
-import useMediaQuery from "@/hooks/useMediaQuery";
-import clsx from "clsx";
+import ReactPaginate from "react-paginate";
 
-import cn from "clsx";
-import { ICategoryModel } from "@/types/Catalog/catalogFilters";
-import { usePathname, useSearchParams } from "next/navigation";
 interface ICatalogProductsProps {
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
@@ -34,21 +37,12 @@ export default function CatalogProducts({
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
-  // custom hook media query
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = catalog.category.tov || [];
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
 
   const searchParams = useSearchParams();
-  const pageNumber = parseInt(searchParams.get("page") ?? "1");
 
-  const totalPages = Math.max(Math.ceil(100 / 30), 1);
-  const pageNumbers = Array.from(
-    { length: totalPages },
-    (_, index) => index + 5
-  );
-
-  // selected filters storage
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: 1,
@@ -59,7 +53,6 @@ export default function CatalogProducts({
     additional_filter: [],
   });
 
-  //temp price storage
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
@@ -68,46 +61,51 @@ export default function CatalogProducts({
     tempMax: 0,
   });
 
-  //default sort storage
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-  //custom hook media query
+  const [pageCount, setPageCount] = useState<any>(0);
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
-  //catalog view toggler
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
     handleViewChange(view);
   };
-  // filter change function
-  const handleFilterChange = (name: string, value: any) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
-  // Функция для очистки фильтров
-  //clear filter function
-  const clearFilter = (name: string) => {
-    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
-      const updatedFilters: any = { ...prevFilters };
 
-      if (updatedFilters.hasOwnProperty(name)) {
-        updatedFilters[name] = [];
-      }
+const handleFilterChange = (name: string, value: any) => {
+  setSelectedFilters((prevFilters) => ({
+    ...prevFilters,
+    [name]: value,
+    page: 1, // Reset page when filters change
+  }));
+  setPageCount(1);
+};
 
-      return updatedFilters;
-    });
-  };
-  //clear additional filter by id function
+
+const clearFilter = (name: string) => {
+  setSelectedFilters((prevFilters: ISelectedFilterProps) => {
+    const updatedFilters: any = { ...prevFilters };
+
+    if (updatedFilters.hasOwnProperty(name)) {
+      updatedFilters[name] = [];
+    }
+
+    return {
+      ...updatedFilters,
+      page: 1, // Reset page when filters change
+    };
+  });
+  setPageCount(1)
+};
+
+
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
       (filter) => !selectedFilters.includes(filter.id_filter.toString())
     );
   };
-  // useEffect hook for fetching data
+
   useEffect(() => {
     const fetchData = async () => {
       let maxPrice = 0;
@@ -116,83 +114,31 @@ export default function CatalogProducts({
       } else if (selectedFilters.priceMin > 0) {
         maxPrice = 9999999; // Or any large number, like 999999
       }
-      const promises = [];
-      for (let page = 1; page <= selectedFilters.page; page++) {
-        promises.push(
-          getCatalogProductsFiltered(
-            selectedFilters.id,
-            page,
-            selectedFilters.brand.join(","),
-            selectedFilters.priceMin,
-            maxPrice,
-            selectedFilters.dost.join(","),
-            selectedFilters.additional_filter.join(",")
-          )
-        );
-      }
 
       try {
-        const responses = await Promise.all(promises);
-
-        // Объединяем данные всех страниц в один массив
-        const allItems = responses.reduce(
-          (acc: (ICategoryModel | Tov)[], response) => {
-            if (response.model) {
-              acc.push(...response.model);
-            }
-            return acc;
-          },
-          []
+        const response = await getCatalogProductsFiltered(
+          selectedFilters.id,
+          selectedFilters.page,
+          selectedFilters.brand.join(","),
+          selectedFilters.priceMin,
+          maxPrice,
+          selectedFilters.dost.join(","),
+          selectedFilters.additional_filter.join(",")
         );
 
-        // Устанавливаем все полученные товары
-        setItems(allItems);
+        if (response.model) {
+          setPageCount(Math.ceil(response.totalCount / 20));
+          setItems(response.model);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters]);
 
-  //hook for scroll fetching pages
-  useEffect(() => {
-    let lastScrollTop = 0; // переменная для отслеживания последнего положения скролла
-
-    const handleScroll = () => {
-      const scrollTop = document.documentElement.scrollTop;
-
-      // Проверяем, что пользователь скроллит вниз и не меняем page при скроллинге вверх
-      if (
-        scrollTop > lastScrollTop &&
-        scrollTop % 10 === 0 &&
-        selectedFilters.page < 5 // Максимальное значение страницы 5
-      ) {
-        setSelectedFilters((prevFilters) => {
-          // Проверяем, что текущая страница меньше 5 перед увеличением
-          if (prevFilters.page < 5) {
-            return {
-              ...prevFilters,
-              page: prevFilters.page + 1, // Увеличиваем номер страницы
-            };
-          }
-          return prevFilters; // Возвращаем текущие фильтры без изменений
-        });
-      }
-
-      lastScrollTop = scrollTop; // Обновляем последнее положение скролла
-    };
-
-    // Присоединяем слушатель события скролла
-    window.addEventListener("scroll", handleScroll);
-
-    // Удаляем слушатель события скролла при размонтировании компонента
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [selectedFilters]); // Обновляем эффект только при изменении selectedFilters
-
-  //useEffect hook for url params
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const sortParam = queryParams.get("sort");
@@ -208,7 +154,6 @@ export default function CatalogProducts({
     }
   }, []);
 
-  //useEffect hook for default sort
   useEffect(() => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
@@ -216,9 +161,8 @@ export default function CatalogProducts({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
-  //default sort function
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
-    const sortedItems = [...items]; // Use current items for sorting
+    const sortedItems = [...items];
     switch (order) {
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
@@ -234,7 +178,7 @@ export default function CatalogProducts({
     }
     setItems(sortedItems);
   };
-  //default sort handler
+
   const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
@@ -245,11 +189,13 @@ export default function CatalogProducts({
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-  //column view handler
+
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
+    // Scroll to the top of the page when changing view
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  // filter price range changer
+
   const handlePriceRangeChange = (min: number, max: number) => {
     setTempPrice((prevTempPrice) => ({
       ...prevTempPrice,
@@ -257,42 +203,34 @@ export default function CatalogProducts({
       tempMax: max,
     }));
   };
-  //apply filter price function
+
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
       priceMax: tempPrice.tempMax,
+      page: 1, // Reset page when price filter changes
     });
   };
-  //clear filter price function
+
   const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       priceMin: 0,
       priceMax: 0,
+      page: 1, // Reset page when price filter changes
     }));
   };
 
-  const handlePageChange = (simbol: "+" | "-") => {
-    if (selectedFilters.page >= 5) {
-      switch (simbol) {
-        case "+":
-          setSelectedFilters({
-            ...selectedFilters,
-            page: selectedFilters.page + 1,
-          });
-          break;
-        case "-":
-          setSelectedFilters({
-            ...selectedFilters,
-            page: selectedFilters.page - 1,
-          });
-        default:
-          break;
-      }
-    }
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      page: selected + 1, // React-paginate uses zero-based index, so we adjust to 1-based index
+    }));
+
+    // Scroll to the top of the page when changing page
+    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   return (
@@ -415,54 +353,26 @@ export default function CatalogProducts({
             height={180}
           />
           <p className={styles.containerUndefined__parap}>
-            В этой категории нет товаров продавай на max kg
+            В этой категории нет товаров
           </p>
         </div>
       ) : (
-        <CatalogProductList items={items} isColumnView={isColumnView} />
+        <>
+          <CatalogProductList items={items} isColumnView={isColumnView} />
+          <div className={styles.paginationContainer}>
+            <ReactPaginate
+              initialPage={pageCount}
+              pageCount={pageCount}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={1}
+              onPageChange={handlePageChange}
+              containerClassName={"pagination"}
+              activeClassName={"pagination-active"}
+            />
+          </div>
+        </>
       )}
-      {selectedFilters.page >= 5 && (
-        <div className="pagination">
-          <Link className="link" href={`?page=${pageNumber - 1}`} passHref>
-            <button
-              onClick={() => handlePageChange("-")}
-              disabled={pageNumber === 1}
-              className={clsx(
-                "pagination__button",
-                pageNumber === 1 && "pagination__button_disactive"
-              )}
-            >
-              {"<"}
-            </button>
-          </Link>
-          {pageNumbers.map((page) => (
-            <Link className="link" href={`?page=${page}`} key={page} passHref>
-              <button
-                className={clsx(
-                  "pagination__button",
-                  page === pageNumber && "pagination__button_active"
-                )}
-                onClick={() => handlePageChange("+")}
-              >
-                {page}
-              </button>
-            </Link>
-          ))}
-          <Link className="link" href={`?page=${pageNumber + 1}`} passHref>
-            <button
-              onClick={() => handlePageChange("+")}
-              disabled={pageNumber === totalPages}
-              className={clsx(
-                "pagination__button",
-                pageNumber === totalPages && "pagination__button_disactive"
-              )}
-            >
-              {">"}
-            </button>
-          </Link>
-        </div>
-      )}
-      <div className={clsx(styles.descriptionContainer, "container")}>
+      <div className={cn(styles.descriptionContainer, "container")}>
         <h3 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
         </h3>
@@ -478,3 +388,4 @@ export default function CatalogProducts({
     </section>
   );
 }
+
