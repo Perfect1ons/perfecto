@@ -34,6 +34,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [copiedCode, setCopiedCode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // блокировка скролла
   const scrollLockBlock = () => {
     const body = document.body;
@@ -241,11 +247,13 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           <ItemAccordion />
         </div>
       )}
-      <ItemDescriptionModal
-        data={data.items}
-        func={openItemModalDescription}
-        visible={itemModalDescription}
-      />
+      {isClient && (
+        <ItemDescriptionModal
+          data={data.items}
+          func={openItemModalDescription}
+          visible={itemModalDescription}
+        />
+      )}
       <SimilarProducts similar={similar} />
     </section>
   );

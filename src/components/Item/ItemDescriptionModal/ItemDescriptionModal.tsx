@@ -15,6 +15,7 @@ interface IProductReviewProps {
   func: () => void;
   visible: boolean;
 }
+
 interface ITogglerProps {
   about: boolean;
   video: boolean;
@@ -58,55 +59,55 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
       );
     }
   }, [data, visible]);
+
   const addToCart = () => {
     dispatch(addProductToCart(data));
     setAdded(true);
   };
+
   const handleCartEmpty = () => {
     setAdded(false);
   };
+
   useEffect(() => {
-    const sanitizedHTML = DOMPurify.sanitize(data.video, {
-      ADD_TAGS: ["iframe"],
-      ADD_ATTR: [
-        "allow",
-        "allowfullscreen",
-        "frameborder",
-        "scrolling",
-        "autoplay",
-      ],
-    });
+    if (data.video) {
+      const sanitizedHTML = DOMPurify.sanitize(data.video, {
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: [
+          "allow",
+          "allowfullscreen",
+          "frameborder",
+          "scrolling",
+          "autoplay",
+        ],
+      });
 
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = sanitizedHTML;
-    const iframe = tempDiv.querySelector("iframe");
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = sanitizedHTML;
+      const iframe = tempDiv.querySelector("iframe");
 
-    if (iframe) {
-      const src = iframe.getAttribute("src");
+      if (iframe) {
+        const src = iframe.getAttribute("src");
 
-      if (src) {
-        try {
-          const newSrc = new URL(src);
-          newSrc.searchParams.set("autoplay", "1");
-          newSrc.searchParams.set("mute", "1");
-          iframe.setAttribute("src", newSrc.toString());
-          iframe.setAttribute("autoplay", "true");
-          iframe.setAttribute("muted", "");
-        } catch (e) {
-          console.error("Invalid URL: ", src);
+        if (src) {
+          try {
+            const newSrc = new URL(src);
+            newSrc.searchParams.set("autoplay", "1");
+            newSrc.searchParams.set("mute", "1");
+            iframe.setAttribute("src", newSrc.toString());
+            iframe.setAttribute("autoplay", "true");
+            iframe.setAttribute("muted", "");
+          } catch (e) {
+            console.error("Invalid URL: ", src);
+          }
         }
       }
+      setCleanHTML(tempDiv.innerHTML);
     }
-    setCleanHTML(tempDiv.innerHTML);
   }, [data.video]);
 
-  // отдельный стейт и калбэк для того, чтобы фокус был на инпут редюсера здесь, а не в родительском
+  // отдельный state и callback для того, чтобы фокус был на инпут редюсера здесь, а не в родительском
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-
-  const handleAddToCart = () => {
-    addToCart();
-    setShouldFocusInput(true);
-  };
 
   return (
     <div className={styles.container}>
