@@ -55,7 +55,6 @@ const Header = ({
     setSearchValue(event.target.value);
   };
   //! Функционал и стейты для быстрого в Header
-  //
 
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
