@@ -94,7 +94,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           Написать отзыв
         </button>
       </div>
-      {data.otz.length !== 0 && (
+      {data.otz && data.otz.length !== 0 && (
         <Swiper
           slidesPerView={3}
           spaceBetween={25}
@@ -132,41 +132,42 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           modules={[Navigation]}
           className={cn(styles.wrap_otz, "mySwiper")}
         >
-          {data.otz.map((item, index) => (
-            <SwiperSlide key={index} className={styles.wrap_review_otz_item}>
-              <div className={styles.card__header}>
-                <Image
-                  className={styles.card__header_userImage}
-                  src="https://static-basket-01.wbbasket.ru/vol0/i/v3/user/avatar.png"
-                  width={50}
-                  height={50}
-                  alt="user"
-                />
-                <div className={styles.card__header_content}>
-                  <div className={styles.card__header_content_userInfo}>
-                    {item.anonim ? (
-                      <p className={styles.card__header_user}>
-                        Анонимный пользователь
-                      </p>
-                    ) : (
-                      <p className={styles.card__header_user}>{item.name}</p>
-                    )}
-                    <ReviewDate date={item.dat1} />
-                  </div>
-                  <div className="ocenka">
-                    {[...Array(5)].map((_, index) => (
-                      <span key={index}>
-                        {index < item.ocenka ? <YellowStar /> : <GrayStar />}
-                      </span>
-                    ))}
+          {data.otz &&
+            data.otz.map((item, index) => (
+              <SwiperSlide key={index} className={styles.wrap_review_otz_item}>
+                <div className={styles.card__header}>
+                  <Image
+                    className={styles.card__header_userImage}
+                    src="https://static-basket-01.wbbasket.ru/vol0/i/v3/user/avatar.png"
+                    width={50}
+                    height={50}
+                    alt="user"
+                  />
+                  <div className={styles.card__header_content}>
+                    <div className={styles.card__header_content_userInfo}>
+                      {item.anonim ? (
+                        <p className={styles.card__header_user}>
+                          Анонимный пользователь
+                        </p>
+                      ) : (
+                        <p className={styles.card__header_user}>{item.name}</p>
+                      )}
+                      <ReviewDate date={item.dat1} />
+                    </div>
+                    <div className="ocenka">
+                      {[...Array(5)].map((_, index) => (
+                        <span key={index}>
+                          {index < item.ocenka ? <YellowStar /> : <GrayStar />}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.card__content}>
-                <p className={styles.card__content_desc}>{item.text}</p>
-              </div>
-            </SwiperSlide>
-          ))}
+                <div className={styles.card__content}>
+                  <p className={styles.card__content_desc}>{item.text}</p>
+                </div>
+              </SwiperSlide>
+            ))}
           <button
             className={clsx(
               styles.team__swiper_btn,

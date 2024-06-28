@@ -55,40 +55,43 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   };
 
   const [cleanHTML, setCleanHTML] = useState<string>("");
+
   useEffect(() => {
-    const sanitizedHTML = DOMPurify.sanitize(photos.items.video, {
-      ADD_TAGS: ["iframe"],
-      ADD_ATTR: [
-        "allow",
-        "allowfullscreen",
-        "frameborder",
-        "scrolling",
-        "autoplay",
-      ],
-    });
+    if (photos.items.video) {
+      const sanitizedHTML = DOMPurify.sanitize(photos.items.video, {
+        ADD_TAGS: ["iframe"],
+        ADD_ATTR: [
+          "allow",
+          "allowfullscreen",
+          "frameborder",
+          "scrolling",
+          "autoplay",
+        ],
+      });
 
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = sanitizedHTML;
-    const iframe = tempDiv.querySelector("iframe");
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = sanitizedHTML;
+      const iframe = tempDiv.querySelector("iframe");
 
-    if (iframe) {
-      const src = iframe.getAttribute("src");
+      if (iframe) {
+        const src = iframe.getAttribute("src");
 
-      if (src) {
-        try {
-          const newSrc = new URL(src);
-          newSrc.searchParams.set("autoplay", "1");
-          newSrc.searchParams.set("mute", "1");
-          iframe.setAttribute("src", newSrc.toString());
-          iframe.setAttribute("autoplay", "true");
-          iframe.setAttribute("muted", "");
-        } catch (e) {
-          console.error("Invalid URL: ", src);
+        if (src) {
+          try {
+            const newSrc = new URL(src);
+            newSrc.searchParams.set("autoplay", "1");
+            newSrc.searchParams.set("mute", "1");
+            iframe.setAttribute("src", newSrc.toString());
+            iframe.setAttribute("autoplay", "true");
+            iframe.setAttribute("muted", "");
+          } catch (e) {
+            console.error("Invalid URL: ", src);
+          }
         }
       }
-    }
 
-    setCleanHTML(tempDiv.innerHTML);
+      setCleanHTML(tempDiv.innerHTML);
+    }
   }, [photos.items.video]);
 
   const pauseVideo = () => {
@@ -233,7 +236,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           {photos.items.video && (
             <SwiperSlide className={styles.activeSlide} key={0}>
               <div
-                dangerouslySetInnerHTML={{ __html: cleanHTML }}
+                dangerouslySetInnerHTML={{ __html: cleanHTML || "" }} // Ensure cleanHTML is defined before using it
                 className={styles.iframe_wrap}
               ></div>
             </SwiperSlide>

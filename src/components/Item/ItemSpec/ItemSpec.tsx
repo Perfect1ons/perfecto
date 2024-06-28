@@ -11,12 +11,15 @@ export interface IItemsProps {
 }
 
 const ItemSpec = ({ data, openItemModalDescription }: IItemsProps) => {
-  const [sanitizedSpec, setSanitizedSpec] = useState("");
+  const [sanitizedSpec, setSanitizedSpec] = useState<string | undefined>("");
 
   useEffect(() => {
-    setSanitizedSpec(
-      DOMPurify.sanitize(data.specification).split(" ").slice(0, 70).join(" ")
-    );
+    if (data.specification) {
+      const sanitized = DOMPurify.sanitize(data.specification);
+      setSanitizedSpec(sanitized.split(" ").slice(0, 70).join(" "));
+    } else {
+      setSanitizedSpec("");
+    }
   }, [data.specification]);
 
   return (

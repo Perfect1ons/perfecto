@@ -7,8 +7,7 @@ import CatalogFilterByAbdulaziz from "@/components/temporary/CatalogFiltersByAbd
 export default async function page() {
   // const getCatalogFilteredId = await getCatalogsProducts(fullPath);
   const catalogFilteredData = await getCatalogProductsFilteredByAbdulaziz(
-    28631,
-    1
+    28631
   );
   const catalogFilteredFilters = await getFiltersBrandByAbdulaziz(28631);
 
