@@ -244,16 +244,11 @@ export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
 //! TEST REQUESTS BY ABDULAZIZ
 export const getCatalogProductsFilteredByAbdulaziz = (
   id: number,
-  page: number,
-  brands?: string,
-  cenamin?: number,
-  cenamax?: number,
-  ddos?: string,
-  additional?: any
+ 
 ): Promise<ICategoryFilter> => {
   return maxkg
     .get(
-      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}`
+      `catalog/${id}?page=1`
     )
     .json();
 };

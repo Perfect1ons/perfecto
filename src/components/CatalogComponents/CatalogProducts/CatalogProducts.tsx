@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,8 +23,10 @@ import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { url } from "@/components/temporary/data";
 import ReactPaginate from "react-paginate";
+import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 
 interface ICatalogProductsProps {
+  init: ICategoryFilter;
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
@@ -32,40 +34,53 @@ interface ICatalogProductsProps {
 }
 
 export default function CatalogProducts({
+  init,
   banner,
   catalog,
   filter,
   breadCrumbs,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const initialItems = catalog.category.tov || [];
-  const [items, setItems] = useState<ICategoryModel[] | Tov[]>(initialItems);
-
+  const initialItems = init.model || [];
   const searchParams = useSearchParams();
+  const initialPage = parseInt(searchParams.get("page") || "1", 10);
 
+  // Parse initial filter values from URL
+  const initialBrand = searchParams.get("brand")?.split(",") || [];
+  const initialPriceMin = parseInt(searchParams.get("priceMin") || "0", 10);
+  const initialPriceMax = parseInt(searchParams.get("priceMax") || "0", 10);
+  const initialDost = searchParams.get("dost")?.split(",") || [];
+  const initialAdditionalFilter =
+    searchParams.get("additional_filter")?.split(",") || [];
+
+  const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
+  const [count, setCount] = useState<number>(0);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
-    page: 1,
-    brand: [],
-    priceMin: 0,
-    priceMax: 0,
-    dost: [],
-    additional_filter: [],
+    page: initialPage,
+    brand: initialBrand,
+    priceMin: initialPriceMin,
+    priceMax: initialPriceMax,
+    dost: initialDost,
+    additional_filter: initialAdditionalFilter,
   });
 
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
   }>({
-    tempMin: 0,
-    tempMax: 0,
+    tempMin: initialPriceMin,
+    tempMax: initialPriceMax,
   });
 
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
-  const [pageCount, setPageCount] = useState<any>(0);
+  const [pageCount, setPageCount] = useState<any>(
+    Math.ceil(Math.ceil(init.totalCount / 20))
+  );
+  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const mobileFilter = useMediaQuery("(max-width: 992px)");
 
   const toggleView = (view: boolean) => {
@@ -73,32 +88,30 @@ export default function CatalogProducts({
     handleViewChange(view);
   };
 
-const handleFilterChange = (name: string, value: any) => {
-  setSelectedFilters((prevFilters) => ({
-    ...prevFilters,
-    [name]: value,
-    page: 1, // Reset page when filters change
-  }));
-  setPageCount(1);
-};
-
-
-const clearFilter = (name: string) => {
-  setSelectedFilters((prevFilters: ISelectedFilterProps) => {
-    const updatedFilters: any = { ...prevFilters };
-
-    if (updatedFilters.hasOwnProperty(name)) {
-      updatedFilters[name] = [];
-    }
-
-    return {
-      ...updatedFilters,
+  const handleFilterChange = (name: string, value: any) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
       page: 1, // Reset page when filters change
-    };
-  });
-  setPageCount(1)
-};
+    }));
+    updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
+  };
 
+  const clearFilter = (name: string) => {
+    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
+      const updatedFilters: any = { ...prevFilters };
+
+      if (updatedFilters.hasOwnProperty(name)) {
+        updatedFilters[name] = [];
+      }
+
+      return {
+        ...updatedFilters,
+        page: 1, // Reset page when filters change
+      };
+    });
+    updateURLWithFilters({ ...selectedFilters, [name]: [], page: 1 });
+  };
 
   const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
     return Object.values(filters).filter(
@@ -108,6 +121,7 @@ const clearFilter = (name: string) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true); // Set loading to true when fetching data
       let maxPrice = 0;
       if (selectedFilters.priceMax > 0) {
         maxPrice = selectedFilters.priceMax;
@@ -127,16 +141,19 @@ const clearFilter = (name: string) => {
         );
 
         if (response.model) {
+          setCount(response.model.length)
           setPageCount(Math.ceil(response.totalCount / 20));
           setItems(response.model);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false); // Set loading to false when data fetching is complete
       }
     };
 
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters]);
 
   useEffect(() => {
@@ -211,6 +228,12 @@ const clearFilter = (name: string) => {
       priceMax: tempPrice.tempMax,
       page: 1, // Reset page when price filter changes
     });
+    updateURLWithFilters({
+      ...selectedFilters,
+      priceMin: tempPrice.tempMin,
+      priceMax: tempPrice.tempMax,
+      page: 1,
+    });
   };
 
   const clearFilterPrice = () => {
@@ -221,18 +244,42 @@ const clearFilter = (name: string) => {
       priceMax: 0,
       page: 1, // Reset page when price filter changes
     }));
+    updateURLWithFilters({
+      ...selectedFilters,
+      priceMin: 0,
+      priceMax: 0,
+      page: 1,
+    });
   };
 
   const handlePageChange = ({ selected }: { selected: number }) => {
+    const newPage = selected + 1;
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
-      page: selected + 1, // React-paginate uses zero-based index, so we adjust to 1-based index
+      page: newPage,
     }));
-
-    // Scroll to the top of the page when changing page
+    updateURLWithFilters({ ...selectedFilters, page: newPage });
     window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
+  const updateURLWithFilters = (filters: ISelectedFilterProps) => {
+    const queryParams = new URLSearchParams();
+    if (filters.page > 1) queryParams.set("page", filters.page.toString());
+    if (filters.brand.length > 0)
+      queryParams.set("brand", filters.brand.join(","));
+    if (filters.priceMin > 0)
+      queryParams.set("priceMin", filters.priceMin.toString());
+    if (filters.priceMax > 0)
+      queryParams.set("priceMax", filters.priceMax.toString());
+    if (filters.dost.length > 0)
+      queryParams.set("dost", filters.dost.join(","));
+    if (filters.additional_filter.length > 0)
+      queryParams.set("additional_filter", filters.additional_filter.join(","));
+
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState({ path: newUrl }, "", newUrl);
+  };
   return (
     <section>
       <div className="all__directions container">
@@ -343,35 +390,53 @@ const clearFilter = (name: string) => {
           </div>
         </div>
       )}
-      {/* Проверяем, есть ли товары в каталоге */}
-      {items && items.length === 0 ? (
-        <div className={styles.containerUndefined}>
-          <Image
-            src="/img/undefinedPage.png"
-            alt="undefinedPage"
-            width={180}
-            height={180}
-          />
-          <p className={styles.containerUndefined__parap}>
-            В этой категории нет товаров
-          </p>
-        </div>
-      ) : (
-        <>
-          <CatalogProductList items={items} isColumnView={isColumnView} />
-          <div className={styles.paginationContainer}>
+      {
+        isLoading ? ( 
+          <div className="cards toptwenty">
+            {Array.from({ length: (count > 0 ? count : 18) }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))}
+          </div>
+        ) : items && items.length !== 0 ? (
+          <>
+            <CatalogProductList items={items} isColumnView={isColumnView} />
             <ReactPaginate
-              initialPage={pageCount}
+              previousLabel={"<"}
+              forcePage={selectedFilters.page - 1}
+              nextLabel={">"}
+              breakLabel={"..."}
               pageCount={pageCount}
-              pageRangeDisplayed={3}
               marginPagesDisplayed={1}
+              pageRangeDisplayed={3}
               onPageChange={handlePageChange}
               containerClassName={"pagination"}
-              activeClassName={"pagination-active"}
+              pageClassName={"page-item"}
+              pageLinkClassName={"page-link"}
+              previousClassName={"page-item-btn"}
+              previousLinkClassName={"page-link-previous"}
+              nextClassName={"page-item-btn"}
+              nextLinkClassName={"page-link-next"}
+              breakClassName={"page-item"}
+              breakLinkClassName={"page-link"}
+              activeClassName={"active"}
             />
+          </>
+        ) : (
+          <div className={styles.containerUndefined}>
+            <Image
+              src="/img/undefinedPage.png"
+              alt="undefinedPage"
+              width={180}
+              height={180}
+            />
+            <p className={styles.containerUndefined__parap}>
+              В этой категории нет товаров
+            </p>
           </div>
-        </>
-      )}
+        )
+
+      }
+     
       <div className={cn(styles.descriptionContainer, "container")}>
         <h3 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
@@ -388,4 +453,3 @@ const clearFilter = (name: string) => {
     </section>
   );
 }
-
