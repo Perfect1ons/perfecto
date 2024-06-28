@@ -72,7 +72,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                 ? item.icon.startsWith("https://")
                   ? item.icon
                   : `https://max.kg/${item.icon}`
-                : "https://max.kg/images/discount/empty-image.png";
+                : "/img/noPhoto.svg";
               return (
                 <SwiperSlide key={item.idd} className={styles.swiper__slide}>
                   <Link className="link" href={`/catalog/${item.full_slug}`}>

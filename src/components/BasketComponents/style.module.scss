@@ -83,3 +83,196 @@
     width: 100%;
   }
 }
+
+//for ne empty
+
+.basketTilte {
+  @include mixin.font(1.25rem, 700, null, var(--dark));
+  margin-top: 20px;
+}
+
+.default__card_column {
+  @include mixin.flex(center, space-between, null, 15px);
+  max-width: 100%;
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+    .default__card_name_column {
+      color: var(--violet);
+    }
+  }
+  &_right {
+    @include mixin.flex(center, null, null, 15px);
+    width: 100%;
+  }
+  @media screen and (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+.default__card_buttons_column {
+  max-width: 500px;
+  width: 100%;
+  border-left: 1px solid #e6e6e6;
+  padding-left: 15px;
+  @include mixin.flex(flex-start, space-between, column, 20px);
+  &_price {
+    @include mixin.flex(center, space-between);
+    width: 100%;
+    @media screen and (max-width: 992px) {
+      align-items: flex-end;
+    }
+    @media screen and (max-width: 640px) {
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 992px) {
+    border: none;
+    max-width: 100%;
+    gap: 10px;
+    padding-left: 0;
+  }
+}
+
+.minimal__items {
+  @include mixin.font(16px, 400, 100%, var(--light-gray));
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+}
+
+.default__card_info_column {
+  max-width: 600px;
+  @include mixin.flex(null, center, column, 10px);
+  @media screen and (max-width: 992px) {
+    max-width: 100%;
+  }
+}
+
+.default__card_name_column {
+  min-width: 350px;
+  width: 100%;
+  @include mixin.font(16px, 400, 100%, var(--light-gray));
+  @media screen and (max-width: 640px) {
+    min-width: 100%;
+    font-size: 14px;
+  }
+}
+
+.default__card {
+  &_images_column {
+    max-width: 200px;
+    max-height: 200px;
+    min-height: 200px;
+    min-width: 200px;
+    overflow: hidden;
+    @media screen and (max-width: 640px) {
+      max-height: 150px;
+      max-width: 150px;
+      min-height: 150px;
+      min-width: 150px;
+    }
+  }
+
+  &_image_column {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+}
+
+.column_buy {
+  border: 2px solid var(--violet) !important;
+  background: var(--white) !important;
+  color: var(--violet) !important;
+  transition: all 0.2s ease;
+  &:hover {
+    color: var(--white) !important;
+    background: var(--dark-blue) !important;
+    border: 2px solid var(--dark-blue) !important;
+  }
+}
+
+.add__to_cart_column {
+  @include mixin.flex(null, space-between, null, 10px);
+  width: 100%;
+
+  &_button {
+    background: var(--dark-blue);
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--white);
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 100%;
+    @include mixin.flex(center, center, null, 10px);
+    transition: 0.3s all ease;
+    &:hover {
+      background: var(--violet);
+    }
+    @media screen and (max-width: 480px) {
+      @include mixin.font(14px, 400, 100%, var(--white));
+    }
+    &_icon {
+      @media screen and (max-width: 480px) {
+        display: none;
+      }
+    }
+  }
+
+  &_fav {
+    background: var(--gray-white);
+    border: 2px solid var(--gray-white);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+      border: 2px solid var(--violet);
+    }
+
+    &_icon {
+      @include mixin.flex(center, center);
+      height: 20px;
+    }
+    &_active {
+      border: 2px solid var(--violet);
+    }
+    @media screen and (max-width: 480px) {
+      padding: 5px;
+    }
+  }
+}
+
+.card__column_id {
+  color: var(--dark-blue);
+}
+
+.ddos__column {
+  @include mixin.flex(center, flex-start, null, 10px);
+  @include mixin.font(14px, 400, 100%, var(--light-blue));
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+  @media screen and (max-width: 360px) {
+    max-height: 30px;
+    overflow: hidden;
+  }
+  &__text {
+    max-height: 28px;
+    overflow: hidden;
+    @media screen and (max-width: 640px) {
+    }
+  }
+}
+
+.ocenka {
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
+}
