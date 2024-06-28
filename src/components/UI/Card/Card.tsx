@@ -32,7 +32,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
         : cardData.photos[0].url_part.startsWith("https://")
         ? cardData.photos[0].url_part
         : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
-      : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+      : "/img/noPhoto.svg";
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
