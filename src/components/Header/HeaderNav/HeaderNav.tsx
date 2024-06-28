@@ -10,6 +10,8 @@ import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AuthModal from "@/components/AuthModal/AuthModal";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface ILinks {
   href: string;
@@ -40,16 +42,25 @@ const HeaderNav = () => {
 
   const pathname = usePathname();
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
+    let totalItemsInCart = 0;
+    cart.forEach((item) => {
+      if (item.quantity !== undefined) {
+        totalItemsInCart += item.quantity;
+      }
+    });
+
+    // Обновление состояния ссылок с учетом количества товаров в корзине
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
           return { ...link, count: favorites.length };
         } else if (link.href === "/cart") {
-          return { ...link, count: cart.length };
+          return { ...link, count: totalItemsInCart };
         }
         return link;
       })
@@ -66,7 +77,8 @@ const HeaderNav = () => {
       window.removeEventListener("favoritesUpdated", updateCounts);
       window.removeEventListener("cartUpdated", updateCounts);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
 
   return (
     <nav className={styles.nav}>
