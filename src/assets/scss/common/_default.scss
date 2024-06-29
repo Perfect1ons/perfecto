@@ -12,6 +12,14 @@ table {
   text-align: center;
 }
 
+.pagination-active{
+  cursor: pointer;
+  color: var(--white);
+  background: var(--dark-blue);
+  padding: 5px 15px;
+  border-radius: 5px;
+}
+
 .icon-favorites {
   fill: var(--white);
   stroke: #7A7A7A;

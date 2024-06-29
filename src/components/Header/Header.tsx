@@ -12,8 +12,6 @@ import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
-import UserLocationStorage from "@/utils/UserLocationStorage";
-import { NextApiResponse } from "next";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -35,35 +33,6 @@ const Header = ({
   isMobileModalOpen,
   setMobileModalOpen,
 }: ICatalogProps) => {
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getUserLocation = async () => {
-      try {
-        navigator.geolocation.getCurrentPosition(
-          (position: GeolocationPosition) => {
-            const { latitude, longitude } = position.coords;
-            UserLocationStorage(latitude, longitude); // Сохраняем координаты пользователя
-          },
-          (error) => {
-            if (error.code === error.PERMISSION_DENIED) {
-              // Можно оставить этот блок пустым или вывести какое-то сообщение
-            } else {
-              setError(error.message); // Обрабатываем другие ошибки получения геолокации
-              console.error("Geolocation error:", error);
-            }
-          }
-        );
-      } catch (error: any) {
-        setError(`Error getting user location: ${error.message}`);
-        console.error("Error getting user location:", error);
-      }
-    };
-
-    getUserLocation();
-  }, []);
-
-  //
   //! Функционал и стейты для быстрого в Header
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState<string>("");
@@ -86,7 +55,6 @@ const Header = ({
     setSearchValue(event.target.value);
   };
   //! Функционал и стейты для быстрого в Header
-  //
 
   const [searchTerm, setSearchTerm] = useState("");
   const [inputEmpty, setInputEmpty] = useState(false);
@@ -186,38 +154,6 @@ const Header = ({
       body.style.top = "";
     }
   }, [isOpen]);
-
-  // function getLocationFromCookie() {
-  //   const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
-  //   const userLocationCookie = cookies.find((cookie) =>
-  //     cookie.startsWith("userLocation=")
-  //   );
-
-  //   if (userLocationCookie) {
-  //     const cookieValue = userLocationCookie.split("=")[1];
-  //     try {
-  //       const location = JSON.parse(decodeURIComponent(cookieValue));
-  //       return location;
-  //     } catch (error) {
-  //       console.error("Error parsing cookie:", error);
-  //       return null;
-  //     }
-  //   }
-
-  //   return null; // Возвращает null, если куки "userLocation" не найдено
-  // }
-
-  // // Пример использования:
-  // const storedLocation = getLocationFromCookie();
-  // if (storedLocation) {
-  //   console.log(
-  //     "Stored location:",
-  //     storedLocation.latitude,
-  //     storedLocation.longitude
-  //   );
-  // } else {
-  //   console.log("Location not found in cookies.");
-  // }
 
   return (
     <header className={styles.header}>

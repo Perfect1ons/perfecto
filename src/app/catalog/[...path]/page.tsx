@@ -1,6 +1,8 @@
+import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import {
   getBreadCrumbs,
   getCatalogBanner,
+  getCatalogProductsFilteredByAbdulaziz,
   getCatalogsProducts,
 } from "@/api/requests";
 import Catalogs from "@/components/Catalog/Catalog";
@@ -19,12 +21,13 @@ export default async function page({ params: { path } }: Params) {
       fullPath = path;
     }
     try {
-      // const catalogs = await getCatalogsMenu();
       const catalogs = await getCatalogsProducts(fullPath);
       const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
+      const init = await getCatalogProductsFilteredByAbdulaziz(catalogs.category.id);
       const banner = await getCatalogBanner();
       return (
         <Catalogs
+          init={init}
           banner={banner}
           catalog={catalogs}
           path={fullPath}
