@@ -61,7 +61,7 @@ const News = ({ news }: INewProps) => {
               ))}
         </div>
         <div className="default__buttons">
-          {shownCount < 18 && !showAllButton && (
+          {!loading && shownCount < 18 && !showAllButton && (
             <button
               className="default__buttons_showMore"
               onClick={handleShowMore}

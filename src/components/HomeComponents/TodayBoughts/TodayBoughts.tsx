@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { IBoughtItem, IBoughts } from "@/types/lastBoughts";
 import { getBoughts } from "@/api/requests";
 import { getBoughtsByClient } from "@/api/clientRequest";
 import Card from "@/components/UI/Card/Card";
+import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 
 interface IPopularGoodsProps {
   boughts: IBoughtItem[];
@@ -15,9 +16,12 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
   const [showAll, setShowAll] = useState(false);
   const [data, setData] = useState<IBoughtItem[]>(boughts);
   const [allDataLoaded, setAllDataLoaded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const perPage = 12;
   const maxPagesToShowMore = 3;
   const router = useRouter();
+
+  const skeletonCards = new Array(12).fill(null);
 
   const fetchData = async () => {
     try {
@@ -43,6 +47,10 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
     }
   };
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
   return (
     <div className="goods">
       <div className="container">
@@ -50,12 +58,16 @@ export default function TodayBoughts({ boughts }: IPopularGoodsProps) {
       </div>
       <div className="cardContainer">
         <div className="cards">
-          {data.slice(0, page * perPage).map((item, index) => (
-            <Card cardData={item} key={index} />
-          ))}
+          {loading
+            ? skeletonCards.map((_, index) => (
+                <CardSkeleton key={index} loading={loading} />
+              ))
+            : data
+                .slice(0, page * perPage)
+                .map((item, index) => <Card cardData={item} key={index} />)}
         </div>
 
-        {!showAll && page < maxPagesToShowMore && (
+        {loading === false && !showAll && page < maxPagesToShowMore && (
           <div className="showMoreBtn">
             <button
               className="default__buttons_showMore"

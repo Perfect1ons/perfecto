@@ -18,8 +18,7 @@ import { IPopularCategory } from "@/types/PopularCategory";
 import Link from "next/link";
 import clsx from "clsx";
 
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import CategoryItemSkeleton from "../CategoryItemSkeleton/CategoryItemSkeleton";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
@@ -49,14 +48,7 @@ export default function CategorySwiper({ category }: ICategory) {
   return (
     <div className={styles.category_swiper}>
       {loading ? (
-        <div className={styles.skeleton__container}>
-          {skeletonArray.map((_, index) => (
-            <div className={styles.skeleton_items} key={index}>
-              <Skeleton className={styles.skeletonImage} />
-              <Skeleton className={styles.skeletonImageName} />
-            </div>
-          ))}
-        </div>
+        <CategoryItemSkeleton array={skeletonArray} />
       ) : (
         <Swiper
           slidesPerView={6}
