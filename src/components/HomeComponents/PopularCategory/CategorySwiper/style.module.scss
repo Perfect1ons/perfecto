@@ -2,8 +2,8 @@
 .category_swiper {
   position: relative;
 
-  &_link{
-    display:flex;
+  &_link {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -28,7 +28,7 @@
   }
 }
 
-.mySwiper{
+.mySwiper {
   padding: 3px 5px;
 }
 
@@ -56,35 +56,55 @@
 
 .skeleton__container {
   display: grid;
+  justify-items: center;
   grid-template-columns: repeat(6, 1fr);
+  overflow: hidden;
   @media screen and (max-width: 1200px) {
     grid-template-columns: repeat(5, 1fr);
   }
   @media screen and (max-width: 992px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (max-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
   }
-  @media screen and (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media screen and (max-width: 280px) {
+  @media screen and (max-width: 650px) {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 .skeleton_items {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   // background: var(--gray-white);
   border: 2px solid var(--gray-white);
   border-radius: 5px;
   gap: 10px;
 
-  width: 214px;
-  height: 180px;
+  height: max-content !important;
+  width: 214.167px !important;
+  @media screen and (max-width: 685px) {
+    max-width: 113px;
+    max-height: 130px;
+  }
+
+  padding: 1em 0;
   margin-bottom: 10px;
+}
+
+.skeletonImage {
+  min-width: 80px;
+  min-height: 80px;
+  @media screen and (max-width: 685px) {
+    min-width: 60px;
+    min-height: 60px;
+  }
+}
+
+.skeletonImageName {
+  min-width: 150px;
+  min-height: 18px;
+  @media screen and (max-width: 685px) {
+    min-width: 99px;
+    min-height: 18px;
+  }
 }

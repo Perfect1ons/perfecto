@@ -24,7 +24,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
   const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
-  const skeletonArray12 = new Array(12).fill(null);
+
+  const skeletonArray = new Array(6).fill(null);
 
   useEffect(() => {
     const cachedCategory = localStorage.getItem("cachedCategory");
@@ -49,10 +50,10 @@ export default function CategorySwiper({ category }: ICategory) {
     <div className={styles.category_swiper}>
       {loading ? (
         <div className={styles.skeleton__container}>
-          {skeletonArray12.map((_, index) => (
+          {skeletonArray.map((_, index) => (
             <div className={styles.skeleton_items} key={index}>
-              <Skeleton width={90} height={90} />
-              <Skeleton width={150} height={18} />
+              <Skeleton className={styles.skeletonImage} />
+              <Skeleton className={styles.skeletonImageName} />
             </div>
           ))}
         </div>
@@ -113,10 +114,7 @@ export default function CategorySwiper({ category }: ICategory) {
                 : `${url}${item.icon}`
               : "/img/noPhoto.svg";
             return (
-              <SwiperSlide
-                key={item.idd}
-                className="swiper__slide"
-              >
+              <SwiperSlide key={item.idd} className="swiper__slide">
                 <Link
                   href={`/catalog/${item.full_slug}`}
                   className={clsx("link", styles.category_swiper_link)}
