@@ -113,6 +113,33 @@ export default function CatalogProducts({
     updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
   };
 
+  const clearAllCrumbs = () => {
+    setSelectedFilters({
+      id: selectedFilters.id, // Preserve catalog.category.id
+      page: 1,
+      brand: [],
+      priceMin: 0,
+      priceMax: 0,
+      dost: [],
+      additional_filter: [],
+    });
+
+    setTempPrice({
+      tempMin: 0,
+      tempMax: 0,
+    });
+
+    updateURLWithFilters({
+      id: selectedFilters.id,
+      page: 1,
+      brand: [],
+      priceMin: 0,
+      priceMax: 0,
+      dost: [],
+      additional_filter: [],
+    });
+  };
+
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters: ISelectedFilterProps) => {
       const updatedFilters: any = { ...prevFilters };
@@ -475,6 +502,7 @@ export default function CatalogProducts({
             <FiltersCrumbs
               selectedFilters={selectedFilters}
               clearFilterCrumbs={clearFilterCrumbs}
+              clearAllCrumbs={clearAllCrumbs}
             />
           )}
         </div>

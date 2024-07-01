@@ -1,15 +1,17 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 
 .container {
+  user-select: none;
   @include mixin.flex(center, flex-start, null, 10px);
   flex-wrap: wrap;
   width: 100%;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
   &_filter {
+    text-align: center;
     cursor: pointer;
     @include mixin.flex(center, center, null, null);
-    border: 1px solid var(--dark-blue);
+    outline: 1px solid var(--dark-blue);
     padding: 0px 10px;
     border-radius: 5px;
 
@@ -18,9 +20,26 @@
       @include mixin.font(1rem, 500, null, var(--dark-blue));
     }
     &__cross {
+      margin-top: 3px;
       cursor: pointer;
       scale: 0.5;
       color: var(--dark-blue);
+    }
+  }
+  &__clear_all {
+    background: var(--dark-blue);
+    padding: 6px 10px;
+    border-radius: 5px;
+    outline: 1px solid var(--white);
+    @include mixin.font(1rem, 500, null, var(--white));
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
+    transition: 0.2s all;
+    text-align: center;
+    &:hover {
+      background: none;
+      outline: 1px solid var(--dark);
+      color: var(--dark);
     }
   }
 }
