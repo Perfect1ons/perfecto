@@ -24,6 +24,8 @@ import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
 import ReactPaginate from "react-paginate";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
+import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
+import { useRouter } from "next/navigation";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -33,6 +35,16 @@ interface ICatalogProductsProps {
   breadCrumbs: BreadCrumbs[];
   filtered: IFiltersBrandByAbdulaziz;
 }
+
+type SelectedFilters = {
+  brand: string[];
+  priceMin: number;
+  priceMax: number;
+  dost: string[];
+  additional_filter: string[];
+};
+
+export type FilterKey = keyof SelectedFilters;
 
 export default function CatalogProducts({
   init,
@@ -75,6 +87,8 @@ export default function CatalogProducts({
     tempMax: initialPriceMax,
   });
 
+  const router = useRouter();
+
   const [sortOrder, setSortOrder] = useState<
     "rating" | "cheap" | "expensive" | null
   >(null);
@@ -99,6 +113,33 @@ export default function CatalogProducts({
     updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
   };
 
+  const clearAllCrumbs = () => {
+    setSelectedFilters({
+      id: selectedFilters.id, // Preserve catalog.category.id
+      page: 1,
+      brand: [],
+      priceMin: 0,
+      priceMax: 0,
+      dost: [],
+      additional_filter: [],
+    });
+
+    setTempPrice({
+      tempMin: 0,
+      tempMax: 0,
+    });
+
+    updateURLWithFilters({
+      id: selectedFilters.id,
+      page: 1,
+      brand: [],
+      priceMin: 0,
+      priceMax: 0,
+      dost: [],
+      additional_filter: [],
+    });
+  };
+
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters: ISelectedFilterProps) => {
       const updatedFilters: any = { ...prevFilters };
@@ -115,10 +156,20 @@ export default function CatalogProducts({
     updateURLWithFilters({ ...selectedFilters, [name]: [], page: 1 });
   };
 
-  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
-    return Object.values(filters).filter(
-      (filter) => !selectedFilters.includes(filter.id_filter.toString())
-    );
+  const resetCategoryFilters = (categoryFilters: Filter2) => {
+    setSelectedFilters((prevSelectedFilters) => {
+      const updatedFilters = {
+        ...prevSelectedFilters,
+        additional_filter: prevSelectedFilters.additional_filter.filter(
+          (id: any) =>
+            !Object.values(categoryFilters).some(
+              (filter) => filter.id_filter.toString() === id
+            )
+        ),
+      };
+      updateURLWithFilters(updatedFilters); // Переместили вызов сюда
+      return updatedFilters; // Обновляем состояние с обновленными фильтрами
+    });
   };
 
   useEffect(() => {
@@ -286,6 +337,57 @@ export default function CatalogProducts({
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.pushState({ path: newUrl }, "", newUrl);
   };
+
+  const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
+    setSelectedFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters };
+
+      if (filterKey === "priceMin") {
+        updatedFilters[filterKey] = 0;
+        setTempPrice({ tempMin: 0, tempMax: tempPrice.tempMax });
+      } else if (filterKey === "priceMax") {
+        updatedFilters[filterKey] = 0;
+        setTempPrice({ tempMin: tempPrice.tempMin, tempMax: 0 });
+      } else if (Array.isArray(updatedFilters[filterKey])) {
+        updatedFilters[filterKey] = (
+          updatedFilters[filterKey] as string[]
+        ).filter((item) => item !== value);
+      }
+
+      updateURL(updatedFilters);
+
+      return updatedFilters;
+    });
+  };
+
+  // Function to update URL parameters
+  const updateURL = (filters: SelectedFilters) => {
+    const params = new URLSearchParams();
+
+    if (filters.brand.length > 0) {
+      params.set("brand", filters.brand.join(","));
+    }
+    if (filters.priceMin > 0) {
+      params.set("priceMin", filters.priceMin.toString());
+    }
+    if (filters.priceMax > 0) {
+      params.set("priceMax", filters.priceMax.toString());
+    }
+    if (filters.dost.length > 0) {
+      params.set("dost", filters.dost.join(","));
+    }
+    if (filters.additional_filter.length > 0) {
+      params.set("additional_filter", filters.additional_filter.join(","));
+    }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    router.push(newUrl, undefined);
+
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      page: 1,
+    }));
+  };
+
   return (
     <section>
       <div className="all__directions container">
@@ -347,8 +449,8 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              resetCategoryFilters={resetCategoryFilters}
               tempPrice={tempPrice}
-              clearFilterByID={clearFilterByID}
               clearFilterPrice={clearFilterPrice}
               clearFilter={clearFilter}
               applyFilterPrice={applyFilterPrice}
@@ -366,7 +468,6 @@ export default function CatalogProducts({
                 { label: "Сначала дороже", value: "expensive" },
               ]}
             />
-
             <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button
                 className="default__sort_icons"
@@ -397,6 +498,13 @@ export default function CatalogProducts({
               </button>
             </div>
           </div>
+          {selectedFilters && (
+            <FiltersCrumbs
+              selectedFilters={selectedFilters}
+              clearFilterCrumbs={clearFilterCrumbs}
+              clearAllCrumbs={clearAllCrumbs}
+            />
+          )}
         </div>
       )}
       {isLoading ? (
@@ -408,26 +516,28 @@ export default function CatalogProducts({
       ) : items && items.length !== 0 ? (
         <>
           <CatalogProductList items={items} isColumnView={isColumnView} />
-          <ReactPaginate
-            previousLabel={"<"}
-            forcePage={selectedFilters.page - 1}
-            nextLabel={">"}
-            breakLabel={"..."}
-            pageCount={pageCount}
-            marginPagesDisplayed={1}
-            pageRangeDisplayed={3}
-            onPageChange={handlePageChange}
-            containerClassName={"pagination"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            previousClassName={"page-item-btn"}
-            previousLinkClassName={"page-link-previous"}
-            nextClassName={"page-item-btn"}
-            nextLinkClassName={"page-link-next"}
-            breakClassName={"page-item"}
-            breakLinkClassName={"page-link"}
-            activeClassName={"active"}
-          />
+          {pageCount > 1 && (
+            <ReactPaginate
+              previousLabel={"<"}
+              forcePage={selectedFilters.page - 1}
+              nextLabel={">"}
+              breakLabel={"..."}
+              pageCount={pageCount}
+              marginPagesDisplayed={1}
+              pageRangeDisplayed={3}
+              onPageChange={handlePageChange}
+              containerClassName={"pagination"}
+              pageClassName={"page-item"}
+              pageLinkClassName={"page-link"}
+              previousClassName={"page-item-btn"}
+              previousLinkClassName={"page-link-previous"}
+              nextClassName={"page-item-btn"}
+              nextLinkClassName={"page-link-next"}
+              breakClassName={"page-item"}
+              breakLinkClassName={"page-link"}
+              activeClassName={"active"}
+            />
+          )}
         </>
       ) : (
         <div className={styles.containerUndefined}>

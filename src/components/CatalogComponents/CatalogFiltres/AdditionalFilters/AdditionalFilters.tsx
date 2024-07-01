@@ -12,7 +12,7 @@ interface IAdditionalFiltersProps {
   toggleFilter: (name: string) => void;
   changeSelect: (value: string[]) => void;
   selectedFilters: string[];
-  clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
+  resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
 
 const AdditionalFilters = ({
@@ -21,8 +21,8 @@ const AdditionalFilters = ({
   filter,
   changeSelect,
   selectedFilters,
-  clearFilterByID,
   initialAdditional,
+  resetCategoryFilters,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState<{ [key: string]: boolean }>({});
   const [windowWidth, setWindowWidth] = useState(0);
@@ -158,10 +158,16 @@ const AdditionalFilters = ({
                       ></button>
                     ))}
                   <button
-                    onClick={() =>
-                      clearFilterByID(item.filter, initialAdditional)
-                    }
-                    className={cn("resetButton", "resetButton__active")}
+                    onClick={() => resetCategoryFilters(item.filter)}
+                    disabled={selectedFilters.length <= 0}
+                    // onClick={() =>
+                    //   removeSelectedFilters(item.filter, selectedFilters)
+                    // }
+                    // disabled={selectedFilters.length <= 0}
+                    className={cn(
+                      "resetButton",
+                      selectedFilters.length > 0 && "resetButton__active"
+                    )}
                     style={{ marginLeft: "auto" }}
                   >
                     Сбросить
