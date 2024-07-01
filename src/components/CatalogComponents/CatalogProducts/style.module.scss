@@ -3,6 +3,7 @@
 .containerUndefined {
   @include mixin.flex(center, center, null, 10px);
   flex-wrap: wrap;
+  height: 400px;
   &__parap {
     font-size: 20px;
     font-weight: 600;

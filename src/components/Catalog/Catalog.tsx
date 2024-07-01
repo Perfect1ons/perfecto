@@ -2,7 +2,7 @@ import React from "react";
 import CatalogsLeaf from "@/components/CatalogComponents/CatalogsLeaf/CatalogsLeaf";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import CatalogProducts from "@/components/CatalogComponents/CatalogProducts/CatalogProducts";
-import { getFiltersBrand } from "@/api/requests";
+import { getFiltersBrand, getFiltersBrandByAbdulaziz } from "@/api/requests";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
@@ -17,6 +17,7 @@ interface IProps {
 
 const Catalogs = async ({ init, banner, catalog, path, breadCrumbs }: IProps) => {
   const filterProduct = await getFiltersBrand(catalog.category.id);
+  const filtered = await getFiltersBrandByAbdulaziz(catalog.category.id)
   const filteredCatalog = () => {
     if (catalog.category.is_leaf === 1) {
       return (
@@ -26,6 +27,7 @@ const Catalogs = async ({ init, banner, catalog, path, breadCrumbs }: IProps) =>
           catalog={catalog}
           filter={filterProduct}
           breadCrumbs={breadCrumbs}
+          filtered={filtered}
         />
       );
     } else {

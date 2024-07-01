@@ -21,9 +21,11 @@ import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
-import { url } from "@/components/temporary/data";
-import ReactPaginate from "react-paginate";
+import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
+import CatalogPagination from "./CatalogPagination/CatalogPagination";
+import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
+import CatalogDesc from "./CatalogDesc/CatalogDesc";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -31,6 +33,7 @@ interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
+  filtered: IFiltersBrandByAbdulaziz;
 }
 
 export default function CatalogProducts({
@@ -39,12 +42,17 @@ export default function CatalogProducts({
   catalog,
   filter,
   breadCrumbs,
+  filtered,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const initialItems = init.model || [];
+  const mobileFilter = useMediaQuery("(max-width: 992px)");
+  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
-
+  const [isColumnView, setIsColumnView] = useState(false);
+  const [pageCount, setPageCount] = useState<any>(
+    Math.ceil(Math.ceil(init.totalCount / 20))
+  );
   // Parse initial filter values from URL
   const initialBrand = searchParams.get("brand")?.split(",") || [];
   const initialPriceMin = parseInt(searchParams.get("priceMin") || "0", 10);
@@ -52,9 +60,7 @@ export default function CatalogProducts({
   const initialDost = searchParams.get("dost")?.split(",") || [];
   const initialAdditionalFilter =
     searchParams.get("additional_filter")?.split(",") || [];
-
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
-  const [count, setCount] = useState<number>(0);
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: initialPage,
@@ -64,7 +70,6 @@ export default function CatalogProducts({
     dost: initialDost,
     additional_filter: initialAdditionalFilter,
   });
-
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
@@ -76,12 +81,7 @@ export default function CatalogProducts({
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
-  const [isColumnView, setIsColumnView] = useState(false);
-  const [pageCount, setPageCount] = useState<any>(
-    Math.ceil(Math.ceil(init.totalCount / 20))
-  );
-  const [isLoading, setIsLoading] = useState(true); // State for loading indicator
-  const mobileFilter = useMediaQuery("(max-width: 992px)");
+
 
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
@@ -141,14 +141,13 @@ export default function CatalogProducts({
         );
 
         if (response.model) {
-          setCount(response.model.length)
           setPageCount(Math.ceil(response.totalCount / 20));
           setItems(response.model);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
-        setIsLoading(false); // Set loading to false when data fetching is complete
+        setIsLoading(false);
       }
     };
 
@@ -210,7 +209,7 @@ export default function CatalogProducts({
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
@@ -221,12 +220,13 @@ export default function CatalogProducts({
     }));
   };
 
+  //Func задать цену
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
       priceMax: tempPrice.tempMax,
-      page: 1, // Reset page when price filter changes
+      page: 1, // Сбрасываем страницу когда цена меняется
     });
     updateURLWithFilters({
       ...selectedFilters,
@@ -236,13 +236,14 @@ export default function CatalogProducts({
     });
   };
 
+  //Func очистить поле цены
   const clearFilterPrice = () => {
     setTempPrice({ tempMin: 0, tempMax: 0 });
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       priceMin: 0,
       priceMax: 0,
-      page: 1, // Reset page when price filter changes
+      page: 1, // Сбрасываем страницу когда цена меняется
     }));
     updateURLWithFilters({
       ...selectedFilters,
@@ -252,6 +253,7 @@ export default function CatalogProducts({
     });
   };
 
+  // Func при смене страницы пагинации
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
     setSelectedFilters((prevFilters) => ({
@@ -259,8 +261,7 @@ export default function CatalogProducts({
       page: newPage,
     }));
     updateURLWithFilters({ ...selectedFilters, page: newPage });
-    window.scrollTo({ top: 300, behavior: "smooth" });
-
+    window.scrollTo({ top: 300, behavior: "auto" });
   };
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
@@ -280,8 +281,10 @@ export default function CatalogProducts({
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.pushState({ path: newUrl }, "", newUrl);
   };
+
   return (
     <section>
+      {/* Хлебные крошки */}
       <div className="all__directions container">
         {breadCrumbs.slice(-2, -1).map((crumbs) => (
           <Link
@@ -304,8 +307,8 @@ export default function CatalogProducts({
           );
         })}
       </div>
+      {/* Рекламный банер */}
       <div className="container">
-        <h1 className={styles.category__title}>{catalog.category.name}</h1>
         <Link href={"/page/partneram/prodavcam"}>
           <Image
             src={
@@ -319,7 +322,9 @@ export default function CatalogProducts({
             className={styles.category__image}
           />
         </Link>
+        <h1 className={styles.category__title}>{catalog.category.name}</h1>
       </div>
+
       {mobileFilter ? (
         <AllFiltersMobile
           value={sortOrder || "default"}
@@ -330,9 +335,12 @@ export default function CatalogProducts({
             { label: "По рейтингу", value: "rating" },
           ]}
           onChange={(value) => handleSort(value)}
-          filter={filter}
+          filter={filtered}
           isColumnView={isColumnView}
           toggleView={toggleView}
+          setSelected={(filters) =>
+            setSelectedFilters((prev) => ({ ...prev, ...filters }))
+          }
         />
       ) : (
         <div className="container">
@@ -390,66 +398,33 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
-      {
-        isLoading ? ( 
-          <div className="cards toptwenty">
-            {Array.from({ length: (count > 0 ? count : 18) }).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </div>
-        ) : items && items.length !== 0 ? (
-          <>
-            <CatalogProductList items={items} isColumnView={isColumnView} />
-            <ReactPaginate
-              previousLabel={"<"}
-              forcePage={selectedFilters.page - 1}
-              nextLabel={">"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={1}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName={"pagination"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item-btn"}
-              previousLinkClassName={"page-link-previous"}
-              nextClassName={"page-item-btn"}
-              nextLinkClassName={"page-link-next"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-link"}
-              activeClassName={"active"}
-            />
-          </>
-        ) : (
-          <div className={styles.containerUndefined}>
-            <Image
-              src="/img/undefinedPage.png"
-              alt="undefinedPage"
-              width={180}
-              height={180}
-            />
-            <p className={styles.containerUndefined__parap}>
-              В этой категории нет товаров
-            </p>
-          </div>
-        )
 
-      }
-     
-      <div className={cn(styles.descriptionContainer, "container")}>
-        <h3 className={styles.descriptionContainer__categoryTitle}>
-          {catalog.category.title}
-        </h3>
-        <div className={styles.parapContainer}>
-          <p className={styles.parapContainer__keywords}>
-            {catalog.category.description}
-          </p>
-          <p className={styles.parapContainer__keywords}>
-            {catalog.category.keywords}
-          </p>
+      {/* Карточки */}
+      {isLoading ? (
+        <div className="cards">
+          {Array.from({ length: 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
         </div>
-      </div>
+      ) : items && items.length !== 0 ? (
+        <>
+          <CatalogProductList items={items} isColumnView={isColumnView} />
+          {/* Пагинация */}
+          <CatalogPagination
+            forcePage={selectedFilters.page - 1}
+            pageCount={pageCount}
+            pageChange={handlePageChange}
+          />
+        </>
+      ) : (
+        <CatalogUndefined />
+      )}
+      {/* Описание каталога товара */}
+      <CatalogDesc
+        title={catalog.category.title}
+        desc={catalog.category.description}
+        keywords={catalog.category.keywords}
+      />
     </section>
   );
 }

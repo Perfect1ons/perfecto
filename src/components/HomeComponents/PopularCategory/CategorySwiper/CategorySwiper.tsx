@@ -14,7 +14,6 @@ import {
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
-import { IPopularCategory } from "@/types/PopularCategory";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -23,27 +22,11 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
-  const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
   const skeletonArray12 = new Array(12).fill(null);
 
   useEffect(() => {
-    const cachedCategory = localStorage.getItem("cachedCategory");
-
-    if (cachedCategory) {
-      setCachedData(JSON.parse(cachedCategory));
       setLoading(false);
-    } else {
-      localStorage.setItem("cachedCategory", JSON.stringify(category));
-      setCachedData(category);
-      setLoading(false);
-    }
-  }, [category]);
-
-  useEffect(() => {
-    if (cachedData !== null) {
-      localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
-    }
-  }, [cachedData]);
+  }, []);
 
   return (
     <div className={styles.category_swiper}>

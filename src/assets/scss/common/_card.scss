@@ -7,14 +7,16 @@
   cursor: pointer;
   background: var(--white);
 
-  &:hover {
-    box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
+  @media (min-width: 768px) {
+    &:hover {
+      box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
 
-    .card__info_title {
-      opacity: 1;
-    }
-    .card__info_button {
-      opacity: 1;
+      .card__info_title {
+        opacity: 1;
+      }
+      .card__info_button {
+        opacity: 1;
+      }
     }
   }
 
@@ -56,9 +58,6 @@
     @include mixin.flex(flex-start, space-between, column, 2px);
     padding: 6px;
     height: 170px;
-    @media screen and (max-width: 1280px) {
-      height: 160px;
-    }
 
     @media screen and (max-width: 380px) {
       height: 180px;
@@ -136,9 +135,7 @@
       svg {
         fill: var(--red);
         stroke: var(--red);
-        &:hover {
-          stroke: var(--gray-dark);
-        }
+
       }
     }
 
@@ -207,6 +204,10 @@
       opacity: 0;
       &_active {
         width: 100%;
+        opacity: 1;
+      }
+
+      @media screen and (max-width: 768px) {
         opacity: 1;
       }
     }

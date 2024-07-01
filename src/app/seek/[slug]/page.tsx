@@ -13,10 +13,10 @@ const SeekNotFound = dynamic(
 export async function generateMetadata({ params: { slug } }: any) {
   const decodedPath = decodeURIComponent(slug);
   const dataTitle = await getSearchItem(decodedPath);
-  const title = dataTitle.model.items[0].naim;
-
+  const title = dataTitle.model.items[0]?.naim;
+  const extractedValue = decodedPath.replace(/^search=/, "");
   return {
-    title: title,
+    title: title || extractedValue,
     description:
       "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
   };
