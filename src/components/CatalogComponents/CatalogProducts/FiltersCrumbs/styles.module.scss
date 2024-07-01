@@ -1,0 +1,26 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+
+.container {
+  @include mixin.flex(center, flex-start, null, 10px);
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  &_filter {
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
+    border: 1px solid var(--dark-blue);
+    padding: 0px 10px;
+    border-radius: 5px;
+
+    &__value {
+      cursor: pointer;
+      @include mixin.font(1rem, 500, null, var(--dark-blue));
+    }
+    &__cross {
+      cursor: pointer;
+      scale: 0.5;
+      color: var(--dark-blue);
+    }
+  }
+}
