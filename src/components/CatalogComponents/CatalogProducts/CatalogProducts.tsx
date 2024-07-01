@@ -430,21 +430,28 @@ export default function CatalogProducts({
         </Link>
       </div>
       {mobileFilter ? (
-        <AllFiltersMobile
-          setSelected={(filters) =>
-            setSelectedFilters((prev) => ({ ...prev, ...filters }))
-          }
-          value={sortOrder || "rating"}
-          options={[
-            { label: "По рейтингу", value: "rating" },
-            { label: "Сначала дешевле", value: "cheap" },
-            { label: "Сначала дороже", value: "expensive" },
-          ]}
-          onChange={(value) => handleSort(value)}
-          filter={filtered}
-          isColumnView={isColumnView}
-          toggleView={toggleView}
-        />
+        <>
+          <AllFiltersMobile
+            setSelected={(filters) =>
+              setSelectedFilters((prev) => ({ ...prev, ...filters }))
+            }
+            value={sortOrder || "rating"}
+            options={[
+              { label: "По рейтингу", value: "rating" },
+              { label: "Сначала дешевле", value: "cheap" },
+              { label: "Сначала дороже", value: "expensive" },
+            ]}
+            onChange={(value) => handleSort(value)}
+            filter={filtered}
+            isColumnView={isColumnView}
+            toggleView={toggleView}
+          />
+          <FiltersCrumbs
+            selectedFilters={selectedFilters}
+            clearFilterCrumbs={clearFilterCrumbs}
+            clearAllCrumbs={clearAllCrumbs}
+          />
+        </>
       ) : (
         <div className="container">
           <div className="sort__buttons">
