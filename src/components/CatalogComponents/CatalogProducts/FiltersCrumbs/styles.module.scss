@@ -5,6 +5,7 @@
   @include mixin.flex(center, flex-start, null, 10px);
   flex-wrap: wrap;
   width: 100%;
+  max-width: 1440px;
   margin-top: 20px;
   margin-bottom: 20px;
   &_filter {
@@ -41,5 +42,8 @@
       outline: 1px solid var(--dark);
       color: var(--dark);
     }
+  }
+  @media screen and (max-width: 992px) {
+    padding: 0px 8px;
   }
 }

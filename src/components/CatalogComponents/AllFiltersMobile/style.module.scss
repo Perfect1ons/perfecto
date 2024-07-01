@@ -36,7 +36,7 @@
     cursor: pointer;
     font-size: 14px;
     color: var(--dark-blue);
-    border-bottom: 1px dashed var(--dark-blue)
+    border-bottom: 1px dashed var(--dark-blue);
   }
   &__filters{
     @include mixin.flex(flex-end,null,null,20px);
