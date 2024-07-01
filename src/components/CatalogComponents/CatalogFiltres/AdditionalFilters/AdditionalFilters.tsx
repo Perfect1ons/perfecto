@@ -11,7 +11,7 @@ interface IAdditionalFiltersProps {
   toggleFilter: (name: string) => void;
   changeSelect: (value: string[]) => void;
   selectedFilters: string[];
-  clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
+  resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
 
 const AdditionalFilters = ({
@@ -20,7 +20,7 @@ const AdditionalFilters = ({
   filter,
   changeSelect,
   selectedFilters,
-  clearFilterByID,
+  resetCategoryFilters,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState<{ [key: string]: boolean }>({});
   const [windowWidth, setWindowWidth] = useState(0);
@@ -63,6 +63,58 @@ const AdditionalFilters = ({
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
+
+  type FilterType = any;
+  const removeSelectedFilters = (
+    filters: Record<string, FilterType>,
+    selectedFilters: string[]
+  ): string[] => {
+    // Фильтры, которые будут удалены
+    const filtersToRemove: string[] = [];
+
+    // Определяем, какие фильтры нужно удалить из selectedFilters
+    selectedFilters.forEach((filterId) => {
+      if (filters.hasOwnProperty(filterId)) {
+        console.log(`Deleting filter with ID ${filterId}`);
+        filtersToRemove.push(filterId); // Добавляем ID фильтра в список для удаления из selectedFilters
+      } else {
+        console.log(`Filter with ID ${filterId} not found`);
+      }
+    });
+
+    // Возвращаем обновленный массив selectedFilters без удаленных фильтров
+    const updatedSelectedFilters = selectedFilters.filter(
+      (filterId) => !filtersToRemove.includes(filterId)
+    );
+
+    console.log("Updated selectedFilters:", updatedSelectedFilters);
+
+    // Возвращаем список фильтров, которые были удалены из selectedFilters
+    return updatedSelectedFilters;
+  };
+
+  // const removeSelectedFilters = (
+  //   filters: Record<string, FilterType>,
+  //   selectedFilters: string[]
+  // ): Record<string, FilterType> => {
+  //   // Создаем копию объекта фильтров
+  //   const updatedFilters: Record<string, FilterType> = { ...filters };
+
+  //   console.log("Initial filters:", updatedFilters);
+
+  //   selectedFilters.forEach((filterId) => {
+  //     if (updatedFilters.hasOwnProperty(filterId)) {
+  //       console.log(`Deleting filter with ID ${filterId}`);
+  //       delete updatedFilters[filterId];
+  //     } else {
+  //       console.log(`Filter with ID ${filterId} not found`);
+  //     }
+  //   });
+
+  //   console.log("Updated filters:", updatedFilters);
+
+  //   return updatedFilters;
+  // };
 
   return (
     <>
@@ -156,10 +208,12 @@ const AdditionalFilters = ({
                       ></button>
                     ))}
                   <button
-                    onClick={() =>
-                      clearFilterByID(item.filter, selectedFilters)
-                    }
+                    onClick={() => resetCategoryFilters(item.filter)}
                     disabled={selectedFilters.length <= 0}
+                    // onClick={() =>
+                    //   removeSelectedFilters(item.filter, selectedFilters)
+                    // }
+                    // disabled={selectedFilters.length <= 0}
                     className={cn(
                       "resetButton",
                       selectedFilters.length > 0 && "resetButton__active"

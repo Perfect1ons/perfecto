@@ -28,7 +28,7 @@ interface ICatalogFiltresProps {
     tempMin: number;
     tempMax: number;
   };
-  clearFilterByID: (filters: Filter2, selectedFilters: string[]) => void;
+  resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
 
 export interface ISelectedFilterProps {
@@ -51,9 +51,9 @@ const CatalogFiltres = ({
   handlePriceRangeChange,
   clearFilter,
   clearFilterPrice,
-  clearFilterByID,
   applyFilterPrice,
   tempPrice,
+  resetCategoryFilters,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -79,6 +79,10 @@ const CatalogFiltres = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    // Обновление состояния или вызов других функций при изменении selectedFilters
+    // Например, вызов функции, которая обновляет фильтры или другие данные
+  }, [selectedFilters]);
 
   return (
     <div ref={containerRef} className="filtresContainer">
@@ -114,7 +118,7 @@ const CatalogFiltres = ({
         filter={filter}
       />
       <AdditionalFilters
-        clearFilterByID={clearFilterByID}
+        resetCategoryFilters={resetCategoryFilters}
         selectedFilters={selectedFilters.additional_filter}
         changeSelect={(value: string[]) =>
           handleFilterChange("additional_filter", value)

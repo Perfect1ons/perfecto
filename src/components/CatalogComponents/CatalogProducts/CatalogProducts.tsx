@@ -64,6 +64,21 @@ export default function CatalogProducts({
     dost: initialDost,
     additional_filter: initialAdditionalFilter,
   });
+  const resetCategoryFilters = (categoryFilters: Filter2) => {
+    setSelectedFilters((prevSelectedFilters) => {
+      const updatedFilters = {
+        ...prevSelectedFilters,
+        additional_filter: prevSelectedFilters.additional_filter.filter(
+          (id: any) =>
+            !Object.values(categoryFilters).some(
+              (filter) => filter.id_filter.toString() === id
+            )
+        ),
+      };
+      updateURLWithFilters(updatedFilters); // Переместили вызов сюда
+      return updatedFilters; // Обновляем состояние с обновленными фильтрами
+    });
+  };
 
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
@@ -113,12 +128,6 @@ export default function CatalogProducts({
     updateURLWithFilters({ ...selectedFilters, [name]: [], page: 1 });
   };
 
-  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
-    return Object.values(filters).filter(
-      (filter) => !selectedFilters.includes(filter.id_filter.toString())
-    );
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true); // Set loading to true when fetching data
@@ -141,7 +150,7 @@ export default function CatalogProducts({
         );
 
         if (response.model) {
-          setCount(response.model.length)
+          setCount(response.model.length);
           setPageCount(Math.ceil(response.totalCount / 20));
           setItems(response.model);
         }
@@ -220,13 +229,12 @@ export default function CatalogProducts({
       tempMax: max,
     }));
   };
-
   const applyFilterPrice = () => {
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
       priceMax: tempPrice.tempMax,
-      page: 1, // Reset page when price filter changes
+      page: 1, // Сбрасываем страницу при изменении фильтра цены
     });
     updateURLWithFilters({
       ...selectedFilters,
@@ -236,18 +244,55 @@ export default function CatalogProducts({
     });
   };
 
+  // const applyFilterPrice = () => {
+  //   setSelectedFilters({
+  //     ...selectedFilters,
+  //     priceMin: tempPrice.tempMin,
+  //     priceMax: tempPrice.tempMax,
+  //     page: 1, // Reset page when price filter changes
+  //   });
+  //   updateURLWithFilters({
+  //     ...selectedFilters,
+  //     priceMin: tempPrice.tempMin,
+  //     priceMax: tempPrice.tempMax,
+  //     page: 1,
+  //   });
+  // };
+
+  // const clearFilterPrice = () => {
+  //   setTempPrice({ tempMin: 0, tempMax: 0 });
+  //   setSelectedFilters((prevFilters) => ({
+  //     ...prevFilters,
+  //     priceMin: 0,
+  //     priceMax: 0,
+  //     page: 1, // Reset page when price filter changes
+  //   }));
+  //   updateURLWithFilters({
+  //     ...selectedFilters,
+  //     priceMin: 0,
+  //     priceMax: 0,
+  //     page: 1,
+  //   });
+  // };
   const clearFilterPrice = () => {
-    setTempPrice({ tempMin: 0, tempMax: 0 });
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      priceMin: 0,
-      priceMax: 0,
-      page: 1, // Reset page when price filter changes
-    }));
+    // Установить tempPrice в начальные значения
+    setTempPrice({
+      tempMin: initialPriceMin,
+      tempMax: initialPriceMax,
+    });
+
+    // Обновить selectedFilters и URL с начальными значениями
+    setSelectedFilters({
+      ...selectedFilters,
+      priceMin: initialPriceMin,
+      priceMax: initialPriceMax,
+      page: 1,
+    });
+
     updateURLWithFilters({
       ...selectedFilters,
-      priceMin: 0,
-      priceMax: 0,
+      priceMin: initialPriceMin,
+      priceMax: initialPriceMax,
       page: 1,
     });
   };
@@ -260,7 +305,6 @@ export default function CatalogProducts({
     }));
     updateURLWithFilters({ ...selectedFilters, page: newPage });
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
@@ -280,6 +324,7 @@ export default function CatalogProducts({
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.pushState({ path: newUrl }, "", newUrl);
   };
+
   return (
     <section>
       <div className="all__directions container">
@@ -338,8 +383,8 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              resetCategoryFilters={resetCategoryFilters}
               tempPrice={tempPrice}
-              clearFilterByID={clearFilterByID}
               clearFilterPrice={clearFilterPrice}
               clearFilter={clearFilter}
               applyFilterPrice={applyFilterPrice}
@@ -390,53 +435,50 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
-      {
-        isLoading ? ( 
-          <div className="cards toptwenty">
-            {Array.from({ length: (count > 0 ? count : 18) }).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </div>
-        ) : items && items.length !== 0 ? (
-          <>
-            <CatalogProductList items={items} isColumnView={isColumnView} />
-            <ReactPaginate
-              previousLabel={"<"}
-              forcePage={selectedFilters.page - 1}
-              nextLabel={">"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={1}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName={"pagination"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item-btn"}
-              previousLinkClassName={"page-link-previous"}
-              nextClassName={"page-item-btn"}
-              nextLinkClassName={"page-link-next"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-link"}
-              activeClassName={"active"}
-            />
-          </>
-        ) : (
-          <div className={styles.containerUndefined}>
-            <Image
-              src="/img/undefinedPage.png"
-              alt="undefinedPage"
-              width={180}
-              height={180}
-            />
-            <p className={styles.containerUndefined__parap}>
-              В этой категории нет товаров
-            </p>
-          </div>
-        )
+      {isLoading ? (
+        <div className="cards toptwenty">
+          {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
+      ) : items && items.length !== 0 ? (
+        <>
+          <CatalogProductList items={items} isColumnView={isColumnView} />
+          <ReactPaginate
+            previousLabel={"<"}
+            forcePage={selectedFilters.page - 1}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item-btn"}
+            previousLinkClassName={"page-link-previous"}
+            nextClassName={"page-item-btn"}
+            nextLinkClassName={"page-link-next"}
+            breakClassName={"page-item"}
+            breakLinkClassName={"page-link"}
+            activeClassName={"active"}
+          />
+        </>
+      ) : (
+        <div className={styles.containerUndefined}>
+          <Image
+            src="/img/undefinedPage.png"
+            alt="undefinedPage"
+            width={180}
+            height={180}
+          />
+          <p className={styles.containerUndefined__parap}>
+            В этой категории нет товаров
+          </p>
+        </div>
+      )}
 
-      }
-     
       <div className={cn(styles.descriptionContainer, "container")}>
         <h3 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
