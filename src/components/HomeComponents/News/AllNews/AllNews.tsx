@@ -102,7 +102,7 @@ const [currentPage, setCurrentPage] = useState(() => {
                         onClick={() => router.push(`/news/${news.id}`)}
                         className={styles.textFade}
                         dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(news.anons),
+                          __html: DOMPurify.sanitize(news.text),
                         }}
                       />
                       <Link
