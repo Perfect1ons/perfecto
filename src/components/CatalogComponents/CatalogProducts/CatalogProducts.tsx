@@ -129,10 +129,20 @@ export default function CatalogProducts({
     updateURLWithFilters({ ...selectedFilters, [name]: [], page: 1 });
   };
 
-  const clearFilterByID = (filters: Filter2, selectedFilters: string[]) => {
-    return Object.values(filters).filter(
-      (filter) => !selectedFilters.includes(filter.id_filter.toString())
-    );
+  const resetCategoryFilters = (categoryFilters: Filter2) => {
+    setSelectedFilters((prevSelectedFilters) => {
+      const updatedFilters = {
+        ...prevSelectedFilters,
+        additional_filter: prevSelectedFilters.additional_filter.filter(
+          (id: any) =>
+            !Object.values(categoryFilters).some(
+              (filter) => filter.id_filter.toString() === id
+            )
+        ),
+      };
+      updateURLWithFilters(updatedFilters); // Переместили вызов сюда
+      return updatedFilters; // Обновляем состояние с обновленными фильтрами
+    });
   };
 
   useEffect(() => {
@@ -412,8 +422,8 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              resetCategoryFilters={resetCategoryFilters}
               tempPrice={tempPrice}
-              clearFilterByID={clearFilterByID}
               clearFilterPrice={clearFilterPrice}
               clearFilter={clearFilter}
               applyFilterPrice={applyFilterPrice}
