@@ -13,7 +13,7 @@ interface IPropsMobileFilter {
     value: "default" | "cheap" | "expensive" | "rating";
   }[];
   value: string;
-  onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onChange: (value: "cheap" | "expensive" | "rating") => void;
 }
 const AllFiltersMobile = ({
   filter,

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 interface IAdditionalFiltersProps {
+  initialAdditional: string[];
   filter: IFiltersBrand;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
@@ -21,6 +22,7 @@ const AdditionalFilters = ({
   changeSelect,
   selectedFilters,
   clearFilterByID,
+  initialAdditional,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState<{ [key: string]: boolean }>({});
   const [windowWidth, setWindowWidth] = useState(0);
@@ -157,13 +159,9 @@ const AdditionalFilters = ({
                     ))}
                   <button
                     onClick={() =>
-                      clearFilterByID(item.filter, selectedFilters)
+                      clearFilterByID(item.filter, initialAdditional)
                     }
-                    disabled={selectedFilters.length <= 0}
-                    className={cn(
-                      "resetButton",
-                      selectedFilters.length > 0 && "resetButton__active"
-                    )}
+                    className={cn("resetButton", "resetButton__active")}
                     style={{ marginLeft: "auto" }}
                   >
                     Сбросить

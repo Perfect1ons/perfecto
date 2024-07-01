@@ -113,17 +113,19 @@ const DostFilter = ({
                 ) : (
                   <button disabled={showAll}></button>
                 )}
-                <button
-                  onClick={() => clearFilter("dost")}
-                  disabled={selectedFilters.length <= 0}
-                  className={cn(
-                    "resetButton",
-                    selectedFilters.length > 0 && "resetButton__active"
-                  )}
-                  style={{ marginLeft: "auto" }}
-                >
-                  Сбросить
-                </button>
+                {selectedFilters.length > 0 && (
+                  <button
+                    onClick={() => clearFilter("dost")}
+                    disabled={selectedFilters.length <= 0}
+                    className={cn(
+                      "resetButton",
+                      selectedFilters.length > 0 && "resetButton__active"
+                    )}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    Сбросить
+                  </button>
+                )}
               </div>
             </ul>
           )}

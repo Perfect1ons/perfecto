@@ -1,66 +1,66 @@
-@use '../../../../assets/scss/common/mixins' as mixin;
+@use "../../../../assets/scss/common/mixins" as mixin;
 
-.main__news{
-    @include mixin.flex(null,space-between,null,30px);
-    margin-top: 10px;
-    width: 100%;
+.main__news {
+  @include mixin.flex(null, space-between, null, 30px);
+  margin-top: 10px;
+  width: 100%;
+  @media screen and (max-width: 640px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &_images {
+    max-width: 480px;
     @media screen and (max-width: 640px) {
-        flex-direction: column;
-        gap: 20px;
+      max-width: 100%;
     }
+  }
+  &_image {
+    cursor: pointer;
+    object-fit: cover;
+    user-select: none;
+    height: auto;
+    border-radius: 10px;
+    max-width: 100%; //добавил это потму что был варнинг в консоли будут проблемы уберите
+    width: 650px; //также здесь поменяйте на 450 пикселей
+    height: auto; //также уберите это
 
-    &_images{
-        max-width: 480px;
-        @media screen and (max-width: 640px) {
-            max-width: 100%;
-        }
+    @media screen and (max-width: 992px) {
+      width: 380px;
     }
-    &_image{
-        cursor: pointer;
-        object-fit: cover;
-        user-select: none;
-        height: auto;
-        border-radius: 10px;
-
-
-
-        @media screen and (max-width: 992px) {
-            width: 380px;
-        }
-        @media screen and (max-width: 640px) {
-            width: 100%;
-            max-width: 100%;
-        }
+    @media screen and (max-width: 640px) {
+      width: 100%;
+      max-width: 100%;
     }
+  }
 
-    &_info{
-        max-width: 100%;
-        width: 100%;
-        @include mixin.flex(center,space-between,column, 10px);
-        height: auto;
+  &_info {
+    max-width: 100%;
+    width: 100%;
+    @include mixin.flex(center, space-between, column, 10px);
+    height: auto;
 
-        @media screen and (max-width: 992px)  {
-            max-width: 600px;
-        }
+    @media screen and (max-width: 992px) {
+      max-width: 600px;
     }
+  }
 
-    &_data{
-        @include mixin.flex(center,space-between,null, null);
-        width: 100%;
-        @include mixin.font(16px,400,150%,var(--gray-dark));
+  &_data {
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    @include mixin.font(16px, 400, 150%, var(--gray-dark));
+  }
+  &_desc {
+    height: 100%;
+    width: 100%;
+    &_link {
+      color: var(--dark-blue);
+      text-decoration: none;
+      border-bottom: 2px dashed var(--dark-blue);
     }
-    &_desc{
-        height: 100%;
-        width: 100%;
-        &_link{
-            color: var(--dark-blue);
-            text-decoration: none;
-            border-bottom: 2px dashed var(--dark-blue);
-        }
-    }
+  }
 }
 
-
-.newsById{
-    margin-bottom: 10px;
+.newsById {
+  margin-bottom: 10px;
 }

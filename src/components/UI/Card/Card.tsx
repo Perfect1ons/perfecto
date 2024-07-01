@@ -225,7 +225,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
             <div className="card__info_ddos">
               <Image
                 className="card__info_ddos_icon"
-                src={`${url}images/delivery_icon.svg`}
+                src={`/img/deliveryIconLightBlue.svg`}
                 width={20}
                 height={20}
                 alt="delivery_icon"

@@ -111,16 +111,18 @@ const BrandFilter = ({
                 ) : (
                   <button disabled={showAll}></button>
                 )}
-                <button
-                  onClick={() => clearFilter("brand")}
-                  disabled={selectedFilters.length <= 0}
-                  className={cn(
-                    "resetButton",
-                    selectedFilters.length > 0 && "resetButton__active"
-                  )}
-                >
-                  Сбросить
-                </button>
+                {selectedFilters.length > 0 && (
+                  <button
+                    onClick={() => clearFilter("brand")}
+                    disabled={selectedFilters.length <= 0}
+                    className={cn(
+                      "resetButton",
+                      selectedFilters.length > 0 && "resetButton__active"
+                    )}
+                  >
+                    Сбросить
+                  </button>
+                )}
               </div>
             </ul>
           )}

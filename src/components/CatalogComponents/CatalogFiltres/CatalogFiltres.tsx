@@ -10,15 +10,16 @@ import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 
 interface ICatalogFiltresProps {
+  intialAdditional: string[];
   clearFilter: (name: string) => void;
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
   options: {
     label: string;
-    value: "default" | "cheap" | "expensive" | "rating";
+    value: "rating" | "cheap" | "expensive";
   }[];
   value: string;
-  onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onChange: (value: "rating" | "cheap" | "expensive") => void;
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
@@ -54,6 +55,7 @@ const CatalogFiltres = ({
   clearFilterByID,
   applyFilterPrice,
   tempPrice,
+  intialAdditional,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -116,6 +118,7 @@ const CatalogFiltres = ({
       <AdditionalFilters
         clearFilterByID={clearFilterByID}
         selectedFilters={selectedFilters.additional_filter}
+        initialAdditional={intialAdditional}
         changeSelect={(value: string[]) =>
           handleFilterChange("additional_filter", value)
         }

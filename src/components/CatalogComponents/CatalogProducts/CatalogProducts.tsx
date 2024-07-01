@@ -74,8 +74,8 @@ export default function CatalogProducts({
   });
 
   const [sortOrder, setSortOrder] = useState<
-    "default" | "cheap" | "expensive" | "rating" | null
-  >(null);
+    "rating" | "cheap" | "expensive" | null
+  >("rating");
   const [isColumnView, setIsColumnView] = useState(false);
   const [pageCount, setPageCount] = useState<any>(
     Math.ceil(Math.ceil(init.totalCount / 20))
@@ -141,7 +141,7 @@ export default function CatalogProducts({
         );
 
         if (response.model) {
-          setCount(response.model.length)
+          setCount(response.model.length);
           setPageCount(Math.ceil(response.totalCount / 20));
           setItems(response.model);
         }
@@ -161,34 +161,34 @@ export default function CatalogProducts({
     const sortParam = queryParams.get("sort");
     if (
       sortParam &&
-      (sortParam === "cheap" ||
-        sortParam === "expensive" ||
-        sortParam === "rating")
+      (sortParam === "rating" ||
+        sortParam === "cheap" ||
+        sortParam === "expensive")
     ) {
-      setSortOrder(sortParam as "cheap" | "expensive" | "rating");
+      setSortOrder(sortParam as "rating" | "cheap" | "expensive");
     } else {
-      setSortOrder("default");
+      setSortOrder("rating");
     }
   }, []);
 
   useEffect(() => {
-    if (sortOrder !== null && sortOrder !== "default") {
+    if (sortOrder !== null && sortOrder !== null) {
       sortItems(sortOrder);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
-  const sortItems = (order: "cheap" | "expensive" | "rating") => {
+  const sortItems = (order: "rating" | "cheap" | "expensive") => {
     const sortedItems = [...items];
     switch (order) {
+      case "rating":
+        sortedItems.sort((a, b) => b.ocenka - a.ocenka);
+        break;
       case "cheap":
         sortedItems.sort((a, b) => a.cenaok - b.cenaok);
         break;
       case "expensive":
         sortedItems.sort((a, b) => b.cenaok - a.cenaok);
-        break;
-      case "rating":
-        sortedItems.sort((a, b) => b.ocenka - a.ocenka);
         break;
       default:
         break;
@@ -196,7 +196,7 @@ export default function CatalogProducts({
     setItems(sortedItems);
   };
 
-  const handleSort = (order: "default" | "cheap" | "expensive" | "rating") => {
+  const handleSort = (order: "rating" | "cheap" | "expensive") => {
     setSortOrder(order);
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set("sort", order);
@@ -260,7 +260,6 @@ export default function CatalogProducts({
     }));
     updateURLWithFilters({ ...selectedFilters, page: newPage });
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
@@ -315,6 +314,7 @@ export default function CatalogProducts({
             }
             width={1440}
             height={300}
+            priority={true}
             alt={banner.baner[0].naim}
             className={styles.category__image}
           />
@@ -322,12 +322,11 @@ export default function CatalogProducts({
       </div>
       {mobileFilter ? (
         <AllFiltersMobile
-          value={sortOrder || "default"}
+          value={sortOrder || "rating"}
           options={[
-            { label: "По умолчанию", value: "default" },
+            { label: "По рейтингу", value: "rating" },
             { label: "Сначала дешевле", value: "cheap" },
             { label: "Сначала дороже", value: "expensive" },
-            { label: "По рейтингу", value: "rating" },
           ]}
           onChange={(value) => handleSort(value)}
           filter={filter}
@@ -346,15 +345,15 @@ export default function CatalogProducts({
               handlePriceRangeChange={handlePriceRangeChange}
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
+              intialAdditional={initialAdditionalFilter}
               onChange={(value) => handleSort(value)}
               filter={filter}
               catalog={catalog}
-              value={sortOrder || "default"}
+              value={sortOrder || "rating"}
               options={[
-                { label: "По умолчанию", value: "default" },
+                { label: "По рейтингу", value: "rating" },
                 { label: "Сначала дешевле", value: "cheap" },
                 { label: "Сначала дороже", value: "expensive" },
-                { label: "По рейтингу", value: "rating" },
               ]}
             />
 
@@ -390,53 +389,50 @@ export default function CatalogProducts({
           </div>
         </div>
       )}
-      {
-        isLoading ? ( 
-          <div className="cards toptwenty">
-            {Array.from({ length: (count > 0 ? count : 18) }).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </div>
-        ) : items && items.length !== 0 ? (
-          <>
-            <CatalogProductList items={items} isColumnView={isColumnView} />
-            <ReactPaginate
-              previousLabel={"<"}
-              forcePage={selectedFilters.page - 1}
-              nextLabel={">"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={1}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName={"pagination"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item-btn"}
-              previousLinkClassName={"page-link-previous"}
-              nextClassName={"page-item-btn"}
-              nextLinkClassName={"page-link-next"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-link"}
-              activeClassName={"active"}
-            />
-          </>
-        ) : (
-          <div className={styles.containerUndefined}>
-            <Image
-              src="/img/undefinedPage.png"
-              alt="undefinedPage"
-              width={180}
-              height={180}
-            />
-            <p className={styles.containerUndefined__parap}>
-              В этой категории нет товаров
-            </p>
-          </div>
-        )
+      {isLoading ? (
+        <div className="cards toptwenty">
+          {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
+      ) : items && items.length !== 0 ? (
+        <>
+          <CatalogProductList items={items} isColumnView={isColumnView} />
+          <ReactPaginate
+            previousLabel={"<"}
+            forcePage={selectedFilters.page - 1}
+            nextLabel={">"}
+            breakLabel={"..."}
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageChange}
+            containerClassName={"pagination"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item-btn"}
+            previousLinkClassName={"page-link-previous"}
+            nextClassName={"page-item-btn"}
+            nextLinkClassName={"page-link-next"}
+            breakClassName={"page-item"}
+            breakLinkClassName={"page-link"}
+            activeClassName={"active"}
+          />
+        </>
+      ) : (
+        <div className={styles.containerUndefined}>
+          <Image
+            src="/img/undefinedPage.png"
+            alt="undefinedPage"
+            width={180}
+            height={180}
+          />
+          <p className={styles.containerUndefined__parap}>
+            В этой категории нет товаров
+          </p>
+        </div>
+      )}
 
-      }
-     
       <div className={cn(styles.descriptionContainer, "container")}>
         <h3 className={styles.descriptionContainer__categoryTitle}>
           {catalog.category.title}
