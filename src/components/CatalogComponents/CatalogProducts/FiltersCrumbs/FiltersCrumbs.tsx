@@ -12,11 +12,13 @@ type FiltersCrumbsProps = {
     additional_filter: string[];
   };
   clearFilterCrumbs: (filterKey: FilterKey, value: string | number) => void;
+  clearAllCrumbs: () => void;
 };
 
 const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
   selectedFilters,
   clearFilterCrumbs,
+  clearAllCrumbs,
 }) => {
   const { brand, priceMin, priceMax, dost, additional_filter } =
     selectedFilters;
@@ -33,6 +35,13 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
     </div>
   );
 
+  const showClearAllButton =
+    brand.length > 0 ||
+    dost.length > 0 ||
+    additional_filter.length > 0 ||
+    priceMin > 0 ||
+    priceMax > 0;
+
   return (
     <div className={styles.container}>
       {brand.map((value) => renderFilterCrumb("brand", value))}
@@ -44,6 +53,14 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
         renderFilterCrumb("priceMin", `от ${priceMin.toLocaleString()} c`)}
       {priceMax > 0 &&
         renderFilterCrumb("priceMax", `до ${priceMax.toLocaleString()} c`)}
+      {showClearAllButton && (
+        <button
+          className={styles.container__clear_all}
+          onClick={clearAllCrumbs}
+        >
+          Очистить все
+        </button>
+      )}
     </div>
   );
 };
