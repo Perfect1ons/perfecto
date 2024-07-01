@@ -21,7 +21,7 @@ import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
-import { url } from "@/components/temporary/data";
+import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
 import ReactPaginate from "react-paginate";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 
@@ -31,6 +31,7 @@ interface ICatalogProductsProps {
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;
   breadCrumbs: BreadCrumbs[];
+  filtered: IFiltersBrandByAbdulaziz;
 }
 
 export default function CatalogProducts({
@@ -39,6 +40,7 @@ export default function CatalogProducts({
   catalog,
   filter,
   breadCrumbs,
+  filtered,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const initialItems = init.model || [];
@@ -75,7 +77,7 @@ export default function CatalogProducts({
 
   const [sortOrder, setSortOrder] = useState<
     "rating" | "cheap" | "expensive" | null
-  >("rating");
+  >(null);
   const [isColumnView, setIsColumnView] = useState(false);
   const [pageCount, setPageCount] = useState<any>(
     Math.ceil(Math.ceil(init.totalCount / 20))
@@ -207,6 +209,11 @@ export default function CatalogProducts({
     );
   };
 
+  useEffect(() => {
+    handleSort("rating");
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
@@ -322,6 +329,9 @@ export default function CatalogProducts({
       </div>
       {mobileFilter ? (
         <AllFiltersMobile
+          setSelected={(filters) =>
+            setSelectedFilters((prev) => ({ ...prev, ...filters }))
+          }
           value={sortOrder || "rating"}
           options={[
             { label: "По рейтингу", value: "rating" },
@@ -329,7 +339,7 @@ export default function CatalogProducts({
             { label: "Сначала дороже", value: "expensive" },
           ]}
           onChange={(value) => handleSort(value)}
-          filter={filter}
+          filter={filtered}
           isColumnView={isColumnView}
           toggleView={toggleView}
         />

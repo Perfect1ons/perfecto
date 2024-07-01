@@ -14,7 +14,6 @@ import {
   ArrowRightIcon,
 } from "../../../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
-import { IPopularCategory } from "@/types/PopularCategory";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -22,33 +21,16 @@ import CategoryItemSkeleton from "../CategoryItemSkeleton/CategoryItemSkeleton";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
-  const [cachedData, setCachedData] = useState<IPopularCategory[] | null>(null);
-
-  const skeletonArray = new Array(6).fill(null);
+  const skeletonArray12 = new Array(12).fill(null);
 
   useEffect(() => {
-    const cachedCategory = localStorage.getItem("cachedCategory");
-
-    if (cachedCategory) {
-      setCachedData(JSON.parse(cachedCategory));
-      setLoading(false);
-    } else {
-      localStorage.setItem("cachedCategory", JSON.stringify(category));
-      setCachedData(category);
-      setLoading(false);
-    }
-  }, [category]);
-
-  useEffect(() => {
-    if (cachedData !== null) {
-      localStorage.setItem("cachedCategory", JSON.stringify(cachedData));
-    }
-  }, [cachedData]);
+    setLoading(false);
+  }, []);
 
   return (
     <div className={styles.category_swiper}>
       {loading ? (
-        <CategoryItemSkeleton array={skeletonArray} />
+        <CategoryItemSkeleton array={skeletonArray12} />
       ) : (
         <Swiper
           slidesPerView={6}

@@ -25,10 +25,12 @@ table {
   stroke: #7A7A7A;
   transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out, stroke 0.3s ease-in-out;
 
-  &:hover {
+  @media screen and (min-width: 768px) {
+      &:hover {
     fill: var(--red);
     stroke: var(--red);
     transform: scale(1.2); // Увеличить размер до 120%
+  }
   }
 }
 td {
