@@ -6,6 +6,8 @@ import cn from "clsx";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ISelectedFilterProps } from "../CatalogFiltres/CatalogFiltres";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
+import clsx from "clsx";
 
 interface IPropsMobileFilter {
   filter: IFiltersBrandByAbdulaziz;
@@ -47,6 +49,7 @@ const AllFiltersMobile = ({
   const [selectedAdditionalFilters, setSelectedAdditionalFilters] = useState<
     string[]
   >(initialAdditionalFilter);
+  const [showAllBrands, setShowAllBrands] = useState(false);
 
   const toggleFilter = (filterName: string) => {
     setVisibleFilter((prev) => (prev === filterName ? null : filterName));
@@ -67,18 +70,31 @@ const AllFiltersMobile = ({
     window.history.pushState({ path: newUrl }, "", newUrl);
   };
 
+  const applyFilters = () => {
+    setSelected({
+      brand: selectedBrand,
+      dost: selectedDost,
+      priceMin: priceMin !== null ? priceMin : undefined,
+      priceMax: priceMax !== null ? priceMax : undefined,
+      additional_filter: selectedAdditionalFilters,
+    });
+    updateURLWithFilters();
+    toggleFilter("modal");
+  };
 
-const applyFilters = () => {
-  setSelected({
-    brand: selectedBrand,
-    dost: selectedDost,
-    priceMin: priceMin !== null ? priceMin : undefined,
-    priceMax: priceMax !== null ? priceMax : undefined,
-    additional_filter: selectedAdditionalFilters,
-  });
-  updateURLWithFilters();
-  toggleFilter("modal");
-};
+  const clearURLFilters = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    // Удаляем параметры фильтров из URL
+    queryParams.delete("brand");
+    queryParams.delete("priceMin");
+    queryParams.delete("priceMax");
+    queryParams.delete("dost");
+    queryParams.delete("additional_filter");
+
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState({ path: newUrl }, "", newUrl);
+  };
 
   const resetFilters = () => {
     setSelectedBrand([]);
@@ -86,7 +102,7 @@ const applyFilters = () => {
     setPriceMin(null);
     setPriceMax(null);
     setSelectedAdditionalFilters([]);
-    updateURLWithFilters(); // Ensure URL is reset too
+    clearURLFilters();
   };
 
   const filterData = Object.entries(filter.filter).map(([key, value]) => ({
@@ -199,7 +215,16 @@ const applyFilters = () => {
           <div className={styles.filterHeader}>
             <div className={styles.filterHeader__filters}>
               <h3 className={styles.filterHeader__title}>Фильтры</h3>
-              <button className={styles.filterHeader__reset} onClick={resetFilters}>Сбросить все</button>
+              {selectedBrand.length > 0 ||
+              selectedAdditionalFilters.length > 0 ||
+              selectedDost.length > 0 ? (
+                <button
+                  className={styles.filterHeader__reset}
+                  onClick={resetFilters}
+                >
+                  Сбросить все
+                </button>
+              ) : null}
             </div>
             <button
               aria-label="close mobile filters modal"
@@ -210,6 +235,7 @@ const applyFilters = () => {
             </button>
           </div>
           <div className={styles.filterAll}>
+            {/* Мобильная фильтрация цены */}
             <div className={styles.filterPrice}>
               <h4 className={styles.filterPrice__value}>Цена, сом</h4>
               <div className={styles.filterPrice__inputs}>
@@ -233,53 +259,129 @@ const applyFilters = () => {
                 />
               </div>
             </div>
+            {/* Мобильная фильтрация бренды */}
             <div className={styles.filterPrice}>
               <h4 className={styles.filterPrice__value}>Бренды</h4>
               <div className={styles.filterPrice__brands}>
-                {filter.brand.map((item: any) => {
-                  return (
-                    <label htmlFor={item} key={item}>
-                      <input
-                        key={item}
-                        type="checkbox"
-                        name=""
-                        id={item}
-                        checked={selectedBrand.includes(item)}
-                        onChange={() => {
+                {showAllBrands
+                  ? filter.brand.map((item: any) => (
+                      <label
+                        onClick={() =>
                           setSelectedBrand((prev) =>
                             prev.includes(item)
                               ? prev.filter((brand) => brand !== item)
                               : [...prev, item]
-                          );
-                        }}
-                      />
-                      {item}
-                    </label>
-                  );
-                })}
+                          )
+                        }
+                        className={clsx(
+                          styles.filterLabel,
+                          selectedBrand.includes(item) &&
+                            styles.filterLabel__checked
+                        )}
+                        key={item}
+                      >
+                        <span className={styles.filterLabel__icon}>
+                          {selectedBrand.includes(item) ? (
+                            <Image
+                              src="/img/checkIconWhite.svg"
+                              width={15}
+                              height={15}
+                              alt="check"
+                            />
+                          ) : (
+                            <div className={styles.filterLabel__empty}>e</div>
+                          )}
+                        </span>
+                        <span className={styles.filterLabel__title}>
+                          {item}
+                        </span>
+                      </label>
+                    ))
+                  : filter.brand.slice(0, 6).map((item: any) => (
+                      <label
+                        onClick={() =>
+                          setSelectedBrand((prev) =>
+                            prev.includes(item)
+                              ? prev.filter((brand) => brand !== item)
+                              : [...prev, item]
+                          )
+                        }
+                        className={clsx(
+                          styles.filterLabel,
+                          selectedBrand.includes(item) &&
+                            styles.filterLabel__checked
+                        )}
+                        key={item}
+                      >
+                        <span className={styles.filterLabel__icon}>
+                          {selectedBrand.includes(item) ? (
+                            <Image
+                              src="/img/checkIconWhite.svg"
+                              width={15}
+                              height={15}
+                              alt="check"
+                            />
+                          ) : (
+                            <div className={styles.filterLabel__empty}>e</div>
+                          )}
+                        </span>
+                        <span className={styles.filterLabel__title}>
+                          {item}
+                        </span>
+                      </label>
+                    ))}
               </div>
+              {filter.brand.length > 6 && (
+                <div className={styles.showAll}>
+                  <button
+                    className={styles.showAllBrandsButton}
+                    onClick={() => setShowAllBrands(!showAllBrands)}
+                  >
+                    {showAllBrands ? "Скрыть" : "Показать все"}
+                  </button>
+                </div>
+              )}
             </div>
             <div className={styles.filterPrice}>
               <h3 className={styles.filterPrice__value}>Сроки доставки</h3>
               <div className={styles.filterPrice__brands}>
                 {filter.variant_day.map((item: any) => {
                   return (
-                    <label htmlFor={item} key={item}>
-                      <input
-                        key={item}
-                        type="checkbox"
-                        name=""
-                        id={item}
-                        checked={selectedDost.includes(item)}
-                        onChange={() => {
-                          setSelectedDost((prev) =>
-                            prev.includes(item)
-                              ? prev.filter((dost) => dost !== item)
-                              : [...prev, item]
-                          );
-                        }}
-                      />
-                      {item}
+                    <label
+                      onClick={() => {
+                        setSelectedDost((prev) =>
+                          prev.includes(item)
+                            ? prev.filter((dost) => dost !== item)
+                            : [...prev, item]
+                        );
+                      }}
+                      className={clsx(
+                        styles.filterLabel,
+                        selectedDost.includes(item) &&
+                          styles.filterLabel__checked
+                      )}
+                      key={item}
+                    >
+                      <span className={styles.filterLabel__icon}>
+                        {selectedDost.includes(item) ? (
+                          <Image
+                            src="/img/checkIconWhite.svg"
+                            width={15}
+                            height={15}
+                            alt="check"
+                          />
+                        ) : (
+                          <div className={styles.filterLabel__empty}>e</div>
+                        )}
+                      </span>
+                      <span className={styles.filterLabel__title}>
+                        {item}{" "}
+                        {item === 1
+                          ? " Дней"
+                          : item >= 1 && item <= 2
+                          ? " День"
+                          : " Дня"}
+                      </span>
                     </label>
                   );
                 })}
@@ -301,29 +403,39 @@ const applyFilters = () => {
                     {subData.map((sub, subIndex) =>
                       sub.value.name !== "Отсустствует" ? (
                         <label
-                          htmlFor={sub.value.id_filter.toString()}
                           key={subIndex}
-                        >
-                          <input
-                            type="checkbox"
-                            name=""
-                            id={sub.value.id_filter.toString()}
-                            checked={selectedAdditionalFilters.includes(
+                          className={clsx(
+                            styles.filterLabel,
+                            selectedAdditionalFilters.includes(
                               sub.value.id_filter.toString()
+                            ) && styles.filterLabel__checked
+                          )}
+                          onClick={() => {
+                            const id = sub.value.id_filter.toString();
+                            setSelectedAdditionalFilters((prev) =>
+                              prev.includes(id)
+                                ? prev.filter((filter) => filter !== id)
+                                : [...prev, id]
+                            );
+                          }}
+                        >
+                          <span className={styles.filterLabel__icon}>
+                            {selectedAdditionalFilters.includes(
+                              sub.value.id_filter.toString()
+                            ) ? (
+                              <Image
+                                src="/img/checkIconWhite.svg"
+                                width={15}
+                                height={15}
+                                alt="check"
+                              />
+                            ) : (
+                              <div className={styles.filterLabel__empty}>e</div>
                             )}
-                            onChange={() => {
-                              setSelectedAdditionalFilters((prev) =>
-                                prev.includes(sub.value.id_filter.toString())
-                                  ? prev.filter(
-                                      (filter) =>
-                                        filter !==
-                                        sub.value.id_filter.toString()
-                                    )
-                                  : [...prev, sub.value.id_filter.toString()]
-                              );
-                            }}
-                          />
-                          {sub.value.name}
+                          </span>
+                          <span className={styles.filterLabel__title}>
+                            {sub.value.name}
+                          </span>
                         </label>
                       ) : null
                     )}
