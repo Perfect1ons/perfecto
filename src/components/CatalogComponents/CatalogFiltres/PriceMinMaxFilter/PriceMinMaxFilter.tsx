@@ -176,17 +176,19 @@ const PriceMinMaxFilter = ({
               >
                 Применить
               </button>
-              <button
-                onClick={clearFilterPrice}
-                disabled={tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0}
-                className={cn(
-                  "resetButton",
-                  (tempPrice.tempMin > 0 || tempPrice.tempMax > 0) &&
-                    "resetButton__active"
-                )}
-              >
-                Сбросить
-              </button>
+              {tempPrice.tempMin > 0 && (
+                <button
+                  onClick={clearFilterPrice}
+                  disabled={tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0}
+                  className={cn(
+                    "resetButton",
+                    (tempPrice.tempMin > 0 || tempPrice.tempMax > 0) &&
+                      "resetButton__active"
+                  )}
+                >
+                  Сбросить
+                </button>
+              )}
             </div>
           </div>
         </ul>

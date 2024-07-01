@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { IPopularGood } from "@/types/popularGoods";
 import { getPopularGoodsByClient } from "@/api/clientRequest";
 import Card from "@/components/UI/Card/Card";
+import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 
 interface IPopularGoodsProps {
   goods: IPopularGood[];
@@ -18,6 +19,8 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
   const perPage = 12;
   const maxPagesToShowMore = 3;
   const router = useRouter();
+
+  const skeletonCards = new Array(12).fill(null);
 
   const fetchData = async () => {
     try {
@@ -53,13 +56,17 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
       </div>
       <div className="cardContainer">
         <div className="cards">
-          {data.slice(0, page * perPage).map((item, index) => (
-            <Card cardData={item} key={index} />
-            // <Card cardData={item} key={index} loading={loading} />
-          ))}
+          {loading
+            ? skeletonCards.map((_, index) => (
+                <CardSkeleton key={index} loading={loading} />
+              ))
+            : data.slice(0, page * perPage).map((item, index) => (
+                <Card cardData={item} key={index} />
+                // <Card cardData={item} key={index} loading={loading} />
+              ))}
         </div>
 
-        {!showAll && page < maxPagesToShowMore && (
+        {!loading && !showAll && page < maxPagesToShowMore && (
           <div className="showMoreBtn">
             <button
               className="default__buttons_showMore"

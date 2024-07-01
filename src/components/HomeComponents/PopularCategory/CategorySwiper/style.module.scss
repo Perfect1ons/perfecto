@@ -2,8 +2,8 @@
 .category_swiper {
   position: relative;
 
-  &_link{
-    display:flex;
+  &_link {
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -28,7 +28,7 @@
   }
 }
 
-.mySwiper{
+.mySwiper {
   padding: 3px 5px;
 }
 
@@ -52,39 +52,4 @@
   @media screen and (max-width: 768px) {
     top: 30%;
   }
-}
-
-.skeleton__container {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  @media screen and (max-width: 1200px) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-  @media screen and (max-width: 992px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media screen and (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media screen and (max-width: 280px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.skeleton_items {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  // background: var(--gray-white);
-  border: 2px solid var(--gray-white);
-  border-radius: 5px;
-  gap: 10px;
-
-  width: 214px;
-  height: 180px;
-  margin-bottom: 10px;
 }

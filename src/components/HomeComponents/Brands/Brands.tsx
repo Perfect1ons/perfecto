@@ -6,6 +6,9 @@ import cn from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+
 interface IBrandsProps {
   brands: IBrandItem[];
 }

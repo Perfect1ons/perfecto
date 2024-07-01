@@ -4,10 +4,10 @@ import cn from "clsx";
 interface IProps {
   options: {
     label: string;
-    value: "default" | "cheap" | "expensive" | "rating";
+    value: "rating" | "cheap" | "expensive";
   }[];
   value: string;
-  onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onChange: (value: "rating" | "cheap" | "expensive") => void;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
 }
@@ -26,7 +26,7 @@ const DefaultFilter = ({
         onClick={() => toggleFilter("default")}
       >
         {options.find((option) => option.value === value)?.label ||
-          "По умолчанию"}
+          "По рейтингу"}
         <span
           className={cn(
             "filterNavItemArrowIsActive",

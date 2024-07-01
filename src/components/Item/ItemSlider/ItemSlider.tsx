@@ -33,7 +33,6 @@ import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 import useMediaQuery from "@/hooks/useMediaQuery";
 
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 interface IPhotosProps {
@@ -211,7 +210,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
         {/* Основной слайдер */}
         <Swiper
           onSwiper={setMainSwiper}
-          onSlideChange={pauseVideo} // Add this line to pause video on slide change
+          onSlideChange={pauseVideo}
           keyboard={{
             enabled: true,
           }}

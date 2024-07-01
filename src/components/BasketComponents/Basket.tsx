@@ -61,9 +61,6 @@ const Basket = () => {
               </p>
             </div>
           </div>
-          <Link href="/cart/catalog" className={styles.linkToMain}>
-            Перейти в каталог AbdulAziz
-          </Link>
           <Link href="/" className={styles.linkToMain}>
             Перейти на главную
           </Link>

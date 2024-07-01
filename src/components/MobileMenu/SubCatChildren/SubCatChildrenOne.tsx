@@ -61,7 +61,7 @@ export default function SubCatChildrenOne({
                       }
                       width={30}
                       height={30}
-                      alt=""
+                      alt={filteredChildItem.icon}
                       className={styles.subCatItem_image}
                     />
                     <span>{filteredChildItem.name}</span>

@@ -9,12 +9,15 @@ import { ISeasonCategoryItem } from "@/types/seasonCategory";
 import Loader from "@/components/UI/Loader/Loader";
 import Link from "next/link";
 import clsx from "clsx";
+import CategoryItemSkeleton from "../PopularCategory/CategoryItemSkeleton/CategoryItemSkeleton";
 interface ISeasonCategorySwiperProps {
   seasonItems: ISeasonCategoryItem[];
 }
 
 const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
   const [loading, setLoading] = useState(true);
+
+  const skeletonArray = new Array(6).fill(null);
 
   useEffect(() => {
     setLoading(false);
@@ -24,7 +27,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
       <div className="container">
         <h1 className="sections__title">Сезонные категории</h1>
         {loading ? (
-          <Loader />
+          <CategoryItemSkeleton array={skeletonArray} />
         ) : (
           <Swiper
             slidesPerView={5}

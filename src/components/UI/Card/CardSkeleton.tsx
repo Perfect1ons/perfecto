@@ -10,13 +10,13 @@ interface SkeletonCards {
 const CardSkeleton = (loading: SkeletonCards) => {
   return (
     <div className={loading ? styles.skeletonCard_hide : styles.skeletonCard}>
-      <Skeleton height={262} borderRadius={10} />
+      <Skeleton height={200} borderRadius={10} />
       <Skeleton
         height={15}
-        width={`25%`}
+        width={`35%`}
         style={{ marginTop: 10, marginBottom: 10 }}
       />
-      <Skeleton count={2} height={10} width={`100%`} style={{ marginTop: 5 }} />
+      <Skeleton height={10} width={`100%`} style={{ marginTop: 5 }} />
       <Skeleton height={15} width={`40%`} style={{ marginTop: 10 }} />
       <Skeleton height={15} width={`100%`} style={{ marginTop: 10 }} />
       <Skeleton width={`100%`} height={44} style={{ marginTop: 10 }} />

@@ -17,28 +17,20 @@ import { url } from "@/components/temporary/data";
 import Link from "next/link";
 import clsx from "clsx";
 
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
+import CategoryItemSkeleton from "../CategoryItemSkeleton/CategoryItemSkeleton";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
   const skeletonArray12 = new Array(12).fill(null);
 
   useEffect(() => {
-      setLoading(false);
+    setLoading(false);
   }, []);
 
   return (
     <div className={styles.category_swiper}>
       {loading ? (
-        <div className={styles.skeleton__container}>
-          {skeletonArray12.map((_, index) => (
-            <div className={styles.skeleton_items} key={index}>
-              <Skeleton width={90} height={90} />
-              <Skeleton width={150} height={18} />
-            </div>
-          ))}
-        </div>
+        <CategoryItemSkeleton array={skeletonArray12} />
       ) : (
         <Swiper
           slidesPerView={6}
@@ -96,10 +88,7 @@ export default function CategorySwiper({ category }: ICategory) {
                 : `${url}${item.icon}`
               : "/img/noPhoto.svg";
             return (
-              <SwiperSlide
-                key={item.idd}
-                className="swiper__slide"
-              >
+              <SwiperSlide key={item.idd} className="swiper__slide">
                 <Link
                   href={`/catalog/${item.full_slug}`}
                   className={clsx("link", styles.category_swiper_link)}

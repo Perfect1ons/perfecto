@@ -15,10 +15,10 @@ interface IPropsMobileFilter {
   toggleView: (view: boolean) => void;
   options: {
     label: string;
-    value: "default" | "cheap" | "expensive" | "rating";
+    value: "cheap" | "expensive" | "rating";
   }[];
   value: string;
-  onChange: (value: "default" | "cheap" | "expensive" | "rating") => void;
+  onChange: (value: "cheap" | "expensive" | "rating") => void;
   setSelected: (filters: Partial<ISelectedFilterProps>) => void;
 }
 
@@ -215,16 +215,7 @@ const AllFiltersMobile = ({
           <div className={styles.filterHeader}>
             <div className={styles.filterHeader__filters}>
               <h3 className={styles.filterHeader__title}>Фильтры</h3>
-              {selectedBrand.length > 0 ||
-              selectedAdditionalFilters.length > 0 ||
-              selectedDost.length > 0 ? (
-                <button
-                  className={styles.filterHeader__reset}
-                  onClick={resetFilters}
-                >
-                  Сбросить все
-                </button>
-              ) : null}
+              <button className={styles.filterHeader__reset} onClick={resetFilters}>Сбросить все</button>
             </div>
             <button
               aria-label="close mobile filters modal"

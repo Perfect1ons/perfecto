@@ -1,21 +1,26 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
+.card {
+  border-radius: 10px;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  background: var(--white);
 
-
-
-.skeletonCard {
-  margin-top: 15px;
-  max-width: 262px;
-  width: 100%;
-  opacity: 1;
-  @media screen and (max-width: 640px) {
-    margin-top: 10px;
-  }
-  @media screen and (max-width: 480px) {
-    margin-top: 5px;
-  }
-  &_hide {
+  .skeletonCard {
+    margin-top: 15px;
+    max-width: 262px;
+    width: 100%;
     opacity: 1;
+    @media screen and (max-width: 640px) {
+      margin-top: 10px;
+    }
+    @media screen and (max-width: 480px) {
+      margin-top: 5px;
+    }
+    &_hide {
+      opacity: 1;
+    }
   }
 }
-

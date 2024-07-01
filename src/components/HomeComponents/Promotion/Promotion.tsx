@@ -65,19 +65,23 @@ const Promotion = ({ promotion }: IPromoProps) => {
               ))}
         </div>
         <div className="default__buttons">
-          {!showAll ? (
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowMore}
-            >
-              Показать ещё
-            </button>
-          ) : (
-            <Link className="link" href="promotions" passHref>
-              <button className="default__buttons_showMore">
-                Показать все
+          {!loading ? (
+            !showAll ? (
+              <button
+                className="default__buttons_showMore"
+                onClick={handleShowMore}
+              >
+                Показать ещё
               </button>
-            </Link>
+            ) : (
+              <Link className="link" href="promotions" passHref>
+                <button className="default__buttons_showMore">
+                  Показать все
+                </button>
+              </Link>
+            )
+          ) : (
+            ""
           )}
         </div>
       </div>
