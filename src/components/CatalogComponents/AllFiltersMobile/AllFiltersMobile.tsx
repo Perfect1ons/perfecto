@@ -117,6 +117,12 @@ const AllFiltersMobile = ({
               </span>
             </button>
             <div className="positionContainer">
+              {visibleFilter === "default" && (
+                <div
+                  className={styles.backdropDefault}
+                  onClick={() => toggleFilter("default")}
+                ></div>
+              )}
               <button
                 className="catalogFilterButton"
                 onClick={() => toggleFilter("default")}
@@ -132,32 +138,40 @@ const AllFiltersMobile = ({
                   <СhevronDownIcon />
                 </span>
               </button>
-              {visibleFilter === "default" && (
-                <ul className="showCatalogFilterActive">
-                  <div className="showCatalogFilterActiveChild">
+              <ul
+                className={cn(styles.showCatalogFilterActiveMobile, {
+                  [styles.showCatalogFilterActiveMobileVisible]:
+                    visibleFilter === "default",
+                })}
+              >
+                <div className="showCatalogFilterActiveChild">
+                  <div className={styles.containerCrossTitle}>
+                    <h3 className={styles.containerCrossTitle__title}>
+                      Сортировать
+                    </h3>
                     <button
-                      className="closeFilterUl"
+                      className={styles.containerCrossTitle__crossBtn}
                       onClick={() => toggleFilter("default")}
                     >
                       <Cross />
                     </button>
-                    {options.map((option, index) => (
-                      <div
-                        key={index}
-                        className={cn(styles.option, {
-                          [styles.selected]: value === option.value,
-                        })}
-                        onClick={() => {
-                          onChange(option.value);
-                        }}
-                      >
-                        <span className={styles.option__cyrcle}></span>
-                        {option.label}
-                      </div>
-                    ))}
                   </div>
-                </ul>
-              )}
+                  {options.map((option, index) => (
+                    <div
+                      key={index}
+                      className={cn(styles.option, {
+                        [styles.selected]: value === option.value,
+                      })}
+                      onClick={() => {
+                        onChange(option.value);
+                      }}
+                    >
+                      <span className={styles.option__cyrcle}></span>
+                      {option.label}
+                    </div>
+                  ))}
+                </div>
+              </ul>
             </div>
           </div>
           <div className="default__sort_style">
