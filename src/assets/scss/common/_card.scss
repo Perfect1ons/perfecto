@@ -1,4 +1,33 @@
 @use "../common/mixins" as mixin; // Importing mixins from a common SCSS file
+
+.cards {
+  max-width: 1440px;
+  padding: 5px 15px;
+  margin: 0px auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+    @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px 15px;
+    gap: 15px;
+    background: var(--gray-white);
+  }
+  @media screen and (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 5px 12px;
+  }
+}
+
 .card {
   border-radius: 10px;
   height: 100%;
@@ -22,18 +51,21 @@
 
   &__images {
     position: relative;
-    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 220.83px;
+    @media screen and (max-width: 1200px) {
+     height :auto;
+    }
+    @media screen and (max-width: 768px) {
+      max-height: 236px;
+    }
     @media screen and (max-width: 640px) {
-      max-height: 305px;
+      max-height: 280px;
     }
     @media screen and (max-width: 480px) {
-      height: 200px;
-    }
-    @media screen and (max-width: 360px) {
-      height: 170px;
-    }
-    @media screen and (max-width: 320px) {
-      height: 150px;
+      height: auto;
     }
   }
 
@@ -46,12 +78,19 @@
     height: auto;
     // border-radius: 5px 5px 0px 0px; //! Только вверхние части скругленные
     border-radius: 5px; //! все углы скругленные
-        @media screen and (max-width: 1280px) {
-          max-height: none;
+    @media screen and (max-width: 1280px) {
+      max-height: none;
+    }
+    @media screen and (max-width: 768px) {
+      max-width: none;
+      width: 100%;
+      height: 100%;
     }
     @media screen and (max-width: 640px) {
       max-width: 305px;
-      width: 100%;
+      width: 305px;
+      max-height: 260px;
+      object-fit: cover;
     }
     @media screen and (max-width: 480px) {
       width: 100%;

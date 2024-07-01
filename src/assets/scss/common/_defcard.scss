@@ -1,32 +1,8 @@
 @use "../common/mixins" as mixin;
 
-.cards {
-  max-width: 1440px;
-  padding: 5px 15px;
-  margin: 0px auto;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 15px;
 
-  @media screen and (max-width: 1280px) {
-    grid-template-columns: repeat(5, 1fr);
-  }
-    @media screen and (max-width: 992px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-    padding: 5px 10px;
-    gap: 10px;
-    background: var(--gray-white);
-  }
-  @media screen and (max-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 5px 8px;
-  }
-}
+
+
 
 .main__news {
   &_cards {

@@ -105,6 +105,14 @@ module.exports = {
         protocol: "https",
         hostname: "ua.powerwalker.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.emscorp.ru",
+      },
+      {
+        protocol: "https",
+        hostname: "www.emscorp.ru",
+      },
     ],
   },
   async headers() {
