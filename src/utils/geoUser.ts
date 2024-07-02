@@ -5,25 +5,54 @@ interface Coordinates {
   longitude: number;
 }
 
-// Function to save user coordinates in cookies
-export const saveUserCoordinates = (coordinates: Coordinates) => {
-  Cookies.set("userCoordinates", JSON.stringify(coordinates), { expires: 1 }); // Expires in 1 day
+// Function for saving user coordinates with encryption in cookies
+export const saveUserCoordinates = (
+  coordinates: Coordinates,
+  secretKey: string
+) => {
+  const encryptedData = encryptData(coordinates, secretKey);
+  Cookies.set("userCoordinates", encryptedData, { expires: 1 }); // Истекает через 1 день
 };
 
-// Function to get user coordinates from cookies
-export const getUserCoordinates = (): Coordinates | null => {
-  const cookieData = Cookies.get("userCoordinates");
-  if (cookieData) {
+// Function for obtaining user coordinates with decryption from cookies
+export const getUserCoordinates = (secretKey: string): Coordinates | null => {
+  const encryptedData = Cookies.get("userCoordinates");
+  if (encryptedData) {
     try {
-      const coordinates = JSON.parse(cookieData) as Coordinates;
-      return coordinates;
+      const decryptedData = decryptData(encryptedData, secretKey);
+      return decryptedData as Coordinates;
     } catch (error) {
-      console.error("Error parsing user coordinates from cookies:", error);
+      console.error(
+        "Ошибка при дешифровании координат пользователя из cookies:",
+        error
+      );
     }
   }
   return null;
 };
 
-export const saveUserCity = (city: string) => {
-  Cookies.set("userCity", city, { expires: 7 });
-};
+// Function for data encryption
+function encryptData(data: any, secretKey: string): string {
+  const encryptedData = JSON.stringify(data);
+  const encryptedDataEncoded = btoa(encryptedData); // Простой пример шифрования в base64
+  return encryptedDataEncoded;
+}
+
+// Function for decrypting data
+function decryptData(encryptedData: string, secretKey: string): any {
+  const decryptedDataEncoded = atob(encryptedData);
+  const decryptedData = JSON.parse(decryptedDataEncoded);
+  return decryptedData;
+}
+
+// Usage example
+export const secretKey = "cookiemaxkgKey"; // Замените на свой секретный ключ
+
+// saving user coordinates
+const userCoordinates: Coordinates = { latitude: 51.5074, longitude: -0.1278 };
+saveUserCoordinates(userCoordinates, secretKey);
+
+// example of obtaining user coordinates
+
+// const coordinates = getUserCoordinates(secretKey)
+// console.log(coordinates);
