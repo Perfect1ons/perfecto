@@ -12,11 +12,13 @@ export default function HeaderWrap() {
 
   const fetchCatalogs = async () => {
     try {
-      setLoading(true);
       if (!isCatalogFetched) {
+        setLoading(true);
         const catalogs = await getCatalogsMenu();
         setCatalog(catalogs);
         setIsCatalogFetched(true);
+      } else{
+        setLoading(false)
       }
     } catch (error) {
       console.error(error);

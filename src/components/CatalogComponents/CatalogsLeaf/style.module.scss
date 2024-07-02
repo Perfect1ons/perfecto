@@ -17,7 +17,6 @@
   &__cardContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin-top: 20px;
     gap: 10px;
     width: 100%;
     max-width: 1350px;
@@ -96,13 +95,6 @@
   border-radius: 5px;
   height: 100%;
   @include mixin.flex(null, null, column, 15px);
-  // @media screen and (max-width: 1200px) {
-  //   display: none;
-  // }
-  // @media screen and (max-width: 576px) {
-  //   margin-left: 8px;
-  //   padding: 8px;
-  // }
 }
 .buttonsCatalogs {
   @include mixin.flex(center, center, null, 2px);
