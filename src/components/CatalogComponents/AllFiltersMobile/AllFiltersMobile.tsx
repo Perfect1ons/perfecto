@@ -8,6 +8,8 @@ import { ISelectedFilterProps } from "../CatalogFiltres/CatalogFiltres";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import clsx from "clsx";
+import FiltersCrumbs from "../CatalogProducts/FiltersCrumbs/FiltersCrumbs";
+import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPropsMobileFilter {
   filter: IFiltersBrandByAbdulaziz;
@@ -20,6 +22,7 @@ interface IPropsMobileFilter {
   value: string;
   onChange: (value: "cheap" | "expensive" | "rating") => void;
   setSelected: (filters: Partial<ISelectedFilterProps>) => void;
+  filters: IFiltersBrand
 }
 
 const AllFiltersMobile = ({
@@ -30,6 +33,7 @@ const AllFiltersMobile = ({
   options,
   value,
   setSelected,
+  filters
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get("brand")?.split(",") || [];
@@ -109,6 +113,44 @@ const AllFiltersMobile = ({
     key,
     value,
   }));
+
+  const clearFilterCrumb = (
+    filterKey: keyof ISelectedFilterProps,
+    value: string | number
+  ) => {
+    switch (filterKey) {
+      case "brand":
+        setSelectedBrand((prev) => prev.filter((brand) => brand !== value));
+        break;
+      case "dost":
+        setSelectedDost((prev) => prev.filter((dost) => dost !== value));
+        break;
+      case "additional_filter":
+        setSelectedAdditionalFilters((prev) =>
+          prev.filter((filter) => filter !== value)
+        );
+        break;
+      case "priceMin":
+        setPriceMin(null);
+        break;
+      case "priceMax":
+        setPriceMax(null);
+        break;
+      default:
+        break;
+    }
+    updateURLWithFilters();
+  };
+
+  const clearAllCrumbs = () => {
+    setSelectedBrand([]);
+    setSelectedDost([]);
+    setPriceMin(null);
+    setPriceMax(null);
+    setSelectedAdditionalFilters([]);
+    clearURLFilters();
+  };
+
 
   return (
     <>
@@ -209,18 +251,34 @@ const AllFiltersMobile = ({
             )}
           </div>
         </div>
+        <FiltersCrumbs
+          filter={filters}
+          selectedFilters={{
+            brand: selectedBrand,
+            priceMin: priceMin ?? 0,
+            priceMax: priceMax ?? 0,
+            dost: selectedDost,
+            additional_filter: selectedAdditionalFilters,
+          }}
+          clearFilterCrumbs={clearFilterCrumb}
+          clearAllCrumbs={clearAllCrumbs}
+        />
       </div>
       {visibleFilter === "modal" && (
         <div className={styles.containerAllFiltersMobile}>
           <div className={styles.filterHeader}>
             <div className={styles.filterHeader__filters}>
               <h3 className={styles.filterHeader__title}>Фильтры</h3>
-              <button
-                className={styles.filterHeader__reset}
-                onClick={resetFilters}
-              >
-                Сбросить все
-              </button>
+              {selectedBrand.length > 0 ||
+              selectedAdditionalFilters.length > 0 ||
+              selectedDost.length > 0 ? (
+                <button
+                  className={styles.filterHeader__reset}
+                  onClick={resetFilters}
+                >
+                  Сбросить все
+                </button>
+              ) : null}
             </div>
             <button
               aria-label="close mobile filters modal"

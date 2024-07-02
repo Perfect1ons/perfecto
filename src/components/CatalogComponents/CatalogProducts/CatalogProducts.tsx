@@ -439,13 +439,8 @@ const updateURL = (filters: SelectedFilters) => {
             onChange={(value) => handleSort(value)}
             filter={filtered}
             isColumnView={isColumnView}
+            filters={filter}
             toggleView={toggleView}
-          />
-          <FiltersCrumbs
-            filter={filter}
-            selectedFilters={selectedFilters}
-            clearFilterCrumbs={clearFilterCrumbs}
-            clearAllCrumbs={clearAllCrumbs}
           />
         </>
       ) : (
