@@ -35,7 +35,7 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
     </div>
   );
 
-  const showClearAllButton =
+  const show =
     brand.length > 0 ||
     dost.length > 0 ||
     additional_filter.length > 0 ||
@@ -43,25 +43,29 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
     priceMax > 0;
 
   return (
-    <div className={styles.container}>
-      {brand.map((value) => renderFilterCrumb("brand", value))}
-      {dost.map((value) => renderFilterCrumb("dost", value))}
-      {additional_filter.map((value) =>
-        renderFilterCrumb("additional_filter", value)
+    <>
+      {show && (
+        <div className={styles.container}>
+          {brand.map((value) => renderFilterCrumb("brand", value))}
+          {dost.map((value) => renderFilterCrumb("dost", value))}
+          {additional_filter.map((value) =>
+            renderFilterCrumb("additional_filter", value)
+          )}
+          {priceMin > 0 &&
+            renderFilterCrumb("priceMin", `от ${priceMin.toLocaleString()} c`)}
+          {priceMax > 0 &&
+            renderFilterCrumb("priceMax", `до ${priceMax.toLocaleString()} c`)}
+          {show && (
+            <button
+              className={styles.container__clear_all}
+              onClick={clearAllCrumbs}
+            >
+              Сбросить все
+            </button>
+          )}
+        </div>
       )}
-      {priceMin > 0 &&
-        renderFilterCrumb("priceMin", `от ${priceMin.toLocaleString()} c`)}
-      {priceMax > 0 &&
-        renderFilterCrumb("priceMax", `до ${priceMax.toLocaleString()} c`)}
-      {showClearAllButton && (
-        <button
-          className={styles.container__clear_all}
-          onClick={clearAllCrumbs}
-        >
-          Очистить все
-        </button>
-      )}
-    </div>
+    </>
   );
 };
 
