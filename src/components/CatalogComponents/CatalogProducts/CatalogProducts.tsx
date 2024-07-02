@@ -219,17 +219,8 @@ export default function CatalogProducts({
         sortParam === "expensive")
     ) {
       setSortOrder(sortParam as "rating" | "cheap" | "expensive");
-    } else {
-      setSortOrder("rating");
     }
   }, []);
-
-  useEffect(() => {
-    if (sortOrder !== null && sortOrder !== null) {
-      sortItems(sortOrder);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortOrder]);
 
   const sortItems = (order: "rating" | "cheap" | "expensive") => {
     const sortedItems = [...items];
@@ -259,12 +250,13 @@ export default function CatalogProducts({
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-
   useEffect(() => {
-    handleSort("rating");
+    // Убедитесь, что начальная сортировка не применяется автоматически
+    if (sortOrder !== null) {
+      sortItems(sortOrder);
+    }
+  }, [sortOrder]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view

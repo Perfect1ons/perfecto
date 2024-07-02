@@ -65,7 +65,6 @@ const AdditionalFilters = ({
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
-
   return (
     <>
       {Object.values(filter.filter)
@@ -159,14 +158,12 @@ const AdditionalFilters = ({
                     ))}
                   <button
                     onClick={() => resetCategoryFilters(item.filter)}
-                    disabled={selectedFilters.length <= 0}
-                    // onClick={() =>
-                    //   removeSelectedFilters(item.filter, selectedFilters)
-                    // }
                     // disabled={selectedFilters.length <= 0}
+                    disabled={getFilterCount(item.filter, selectedFilters) <= 0}
                     className={cn(
                       "resetButton",
-                      selectedFilters.length > 0 && "resetButton__active"
+                      getFilterCount(item.filter, selectedFilters) > 0 &&
+                        "resetButton__active"
                     )}
                     style={{ marginLeft: "auto" }}
                   >
