@@ -7,7 +7,7 @@ interface Coordinates {
 
 // Function to save user coordinates in cookies
 export const saveUserCoordinates = (coordinates: Coordinates) => {
-  Cookies.set("userCoordinates", JSON.stringify(coordinates), { expires: 7 }); // Expires in 7 days
+  Cookies.set("userCoordinates", JSON.stringify(coordinates), { expires: 1 }); // Expires in 1 day
 };
 
 // Function to get user coordinates from cookies
