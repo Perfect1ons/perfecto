@@ -25,6 +25,7 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
 
   const renderFilterCrumb = (filterKey: FilterKey, value: string) => (
     <div
+      key={value}
       onClick={() => clearFilterCrumbs(filterKey, value)}
       className={styles.container_filter}
     >
