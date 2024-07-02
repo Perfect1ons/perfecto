@@ -21,7 +21,6 @@ const AdditionalFilters = ({
   filter,
   changeSelect,
   selectedFilters,
-  initialAdditional,
   resetCategoryFilters,
 }: IAdditionalFiltersProps) => {
   const [showAll, setShowAll] = useState<{ [key: string]: boolean }>({});
