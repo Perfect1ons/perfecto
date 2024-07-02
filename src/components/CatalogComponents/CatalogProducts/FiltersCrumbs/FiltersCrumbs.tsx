@@ -2,8 +2,10 @@ import React from "react";
 import styles from "./styles.module.scss";
 import { XMark } from "../../../../../public/Icons/Icons";
 import { FilterKey } from "../CatalogProducts";
+import { IFiltersBrand, N11, N43 } from "@/types/filtersBrand";
 
 type FiltersCrumbsProps = {
+  filter: IFiltersBrand;
   selectedFilters: {
     brand: string[];
     priceMin: number;
@@ -19,6 +21,7 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
   selectedFilters,
   clearFilterCrumbs,
   clearAllCrumbs,
+  filter,
 }) => {
   const { brand, priceMin, priceMax, dost, additional_filter } =
     selectedFilters;
@@ -49,9 +52,22 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
         <div className={styles.container}>
           {brand.map((value) => renderFilterCrumb("brand", value))}
           {dost.map((value) => renderFilterCrumb("dost", value))}
-          {additional_filter.map((value) =>
-            renderFilterCrumb("additional_filter", value)
-          )}
+          {additional_filter.map((value) => {
+            const filterItem = Object.values(filter.filter).find((item: N11) =>
+              Object.values(item.filter).some(
+                (data: N43) => data.id_filter === parseInt(value)
+              )
+            );
+            if (filterItem) {
+              const filterData: any = Object.values(filterItem.filter).find(
+                (data: any) => data.id_filter === parseInt(value)
+              );
+              if (filterData) {
+                return renderFilterCrumb("additional_filter", value);
+              }
+            }
+            return null; // Обязательно возвращайте что-то из map, даже если ничего не нужно отображать
+          })}
           {priceMin > 0 &&
             renderFilterCrumb("priceMin", `от ${priceMin.toLocaleString()} c`)}
           {priceMax > 0 &&
