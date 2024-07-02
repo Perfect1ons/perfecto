@@ -24,7 +24,7 @@
     }
   }
 
-  &__count{
+  &__count {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,12 +173,16 @@
   border-color: #868695;
 }
 .resetButton {
+  opacity: 0;
+  display: none;
   @include mixin.font(16px, 400, 22px, #242424);
   margin-left: auto;
   border-bottom: 1px dashed;
   cursor: pointer;
   border-color: #868695;
   &__active {
+    display: block;
+    opacity: 1;
     color: var(--violet);
     border-color: var(--violet);
   }

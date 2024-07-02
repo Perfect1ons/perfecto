@@ -65,7 +65,6 @@ const AdditionalFilters = ({
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
-
   return (
     <>
       {Object.values(filter.filter)
@@ -102,46 +101,49 @@ const AdditionalFilters = ({
                   </button>
                   {Object.values(item.filter)
                     .slice(0, showAll[item.type_name] ? undefined : 7)
-                    .map((data: N43) => (
-                      <ul
-                        onClick={() =>
-                          handleSelectChange(data.id_filter.toString())
-                        }
-                        key={data.id_filter}
-                        className="showFiltersUlContainer"
-                      >
-                        <span
-                          className={cn("showFiltersUlContainer__check", {
-                            ["showFiltersUlContainer__checkActive"]:
-                              selectedFilters.includes(
+                    .map(
+                      (data: N43) =>
+                        data.kol > 0 && (
+                          <ul
+                            onClick={() =>
+                              handleSelectChange(data.id_filter.toString())
+                            }
+                            key={data.id_filter}
+                            className="showFiltersUlContainer"
+                          >
+                            <span
+                              className={cn("showFiltersUlContainer__check", {
+                                ["showFiltersUlContainer__checkActive"]:
+                                  selectedFilters.includes(
+                                    data.id_filter.toString()
+                                  ),
+                              })}
+                            >
+                              {selectedFilters.includes(
                                 data.id_filter.toString()
-                              ),
-                          })}
-                        >
-                          {selectedFilters.includes(
-                            data.id_filter.toString()
-                          ) ? (
-                            <Image
-                              src="/img/checkIconWhite.svg"
-                              width={15}
-                              height={15}
-                              alt="check"
-                            />
-                          ) : (
-                            <Image
-                              src="/img/checkIconWhite.svg"
-                              width={15}
-                              height={15}
-                              alt="check"
-                            />
-                          )}
-                        </span>
-                        <li className="nameAndKol">
-                          {data.name}{" "}
-                          <span className="quantity">({data.kol})</span>
-                        </li>
-                      </ul>
-                    ))}
+                              ) ? (
+                                <Image
+                                  src="/img/checkIconWhite.svg"
+                                  width={15}
+                                  height={15}
+                                  alt="check"
+                                />
+                              ) : (
+                                <Image
+                                  src="/img/checkIconWhite.svg"
+                                  width={15}
+                                  height={15}
+                                  alt="check"
+                                />
+                              )}
+                            </span>
+                            <li className="nameAndKol">
+                              {data.name}{" "}
+                              <span className="quantity">({data.kol})</span>
+                            </li>
+                          </ul>
+                        )
+                    )}
                 </div>
                 <div className="containerButtons">
                   {Object.values(item.filter).length > 7 &&
@@ -159,14 +161,12 @@ const AdditionalFilters = ({
                     ))}
                   <button
                     onClick={() => resetCategoryFilters(item.filter)}
-                    disabled={selectedFilters.length <= 0}
-                    // onClick={() =>
-                    //   removeSelectedFilters(item.filter, selectedFilters)
-                    // }
                     // disabled={selectedFilters.length <= 0}
+                    disabled={getFilterCount(item.filter, selectedFilters) <= 0}
                     className={cn(
                       "resetButton",
-                      selectedFilters.length > 0 && "resetButton__active"
+                      getFilterCount(item.filter, selectedFilters) > 0 &&
+                        "resetButton__active"
                     )}
                     style={{ marginLeft: "auto" }}
                   >

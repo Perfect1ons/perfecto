@@ -5,9 +5,11 @@ import { Tov } from "@/types/Catalog/catalogProducts";
 
 interface ProductListProps {
   items: ICategoryModel[] | Tov[];
-  isColumnView: boolean; // Добавляем пропс для определения вида отображения
+  isColumnView: boolean;
 }
-const CatalogProductsColumn = dynamic(() => import("./CatalogProductsColumn"));
+const CardColumn = dynamic(
+  () => import("@/components/UI/CardColumn/CardColumn")
+);
 
 const CatalogProductList = ({ items, isColumnView }: ProductListProps) => {
   return (
@@ -16,7 +18,7 @@ const CatalogProductList = ({ items, isColumnView }: ProductListProps) => {
     >
       {items.map((item, index) =>
         isColumnView ? (
-          <CatalogProductsColumn key={index} cardData={item} />
+          <CardColumn key={index} cardData={item} />
         ) : (
           <Card key={index} cardData={item} />
         )

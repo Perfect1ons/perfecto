@@ -26,6 +26,9 @@ import ReactPaginate from "react-paginate";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import { useRouter } from "next/navigation";
+import CatalogPagination from "./CatalogPagination/CatalogPagination";
+import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
+import CatalogDesc from "./CatalogDesc/CatalogDesc";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -219,17 +222,8 @@ export default function CatalogProducts({
         sortParam === "expensive")
     ) {
       setSortOrder(sortParam as "rating" | "cheap" | "expensive");
-    } else {
-      setSortOrder("rating");
     }
   }, []);
-
-  useEffect(() => {
-    if (sortOrder !== null && sortOrder !== null) {
-      sortItems(sortOrder);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortOrder]);
 
   const sortItems = (order: "rating" | "cheap" | "expensive") => {
     const sortedItems = [...items];
@@ -259,12 +253,14 @@ export default function CatalogProducts({
       `${window.location.pathname}?${queryParams.toString()}`
     );
   };
-
   useEffect(() => {
-    handleSort("rating");
+    // Убедитесь, что начальная сортировка не применяется автоматически
+    if (sortOrder !== null) {
+      sortItems(sortOrder);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortOrder]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
@@ -524,55 +520,13 @@ export default function CatalogProducts({
         <>
           <CatalogProductList items={items} isColumnView={isColumnView} />
           {pageCount > 1 && (
-            <ReactPaginate
-              previousLabel={"<"}
-              forcePage={selectedFilters.page - 1}
-              nextLabel={">"}
-              breakLabel={"..."}
-              pageCount={pageCount}
-              marginPagesDisplayed={1}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageChange}
-              containerClassName={"pagination"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item-btn"}
-              previousLinkClassName={"page-link-previous"}
-              nextClassName={"page-item-btn"}
-              nextLinkClassName={"page-link-next"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-link"}
-              activeClassName={"active"}
-            />
+            <CatalogPagination forcePage={selectedFilters.page -1} pageCount={pageCount} pageChange={handlePageChange}/>
           )}
         </>
       ) : (
-        <div className={styles.containerUndefined}>
-          <Image
-            src="/img/undefinedPage.png"
-            alt="undefinedPage"
-            width={180}
-            height={180}
-          />
-          <p className={styles.containerUndefined__parap}>
-            В этой категории нет товаров
-          </p>
-        </div>
+        <CatalogUndefined/>
       )}
-
-      <div className={cn(styles.descriptionContainer, "container")}>
-        <h3 className={styles.descriptionContainer__categoryTitle}>
-          {catalog.category.title}
-        </h3>
-        <div className={styles.parapContainer}>
-          <p className={styles.parapContainer__keywords}>
-            {catalog.category.description}
-          </p>
-          <p className={styles.parapContainer__keywords}>
-            {catalog.category.keywords}
-          </p>
-        </div>
-      </div>
+      <CatalogDesc title={catalog.category.title} desc={catalog.category.description} keywords={catalog.category.keywords}/>
     </section>
   );
 }
