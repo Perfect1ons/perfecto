@@ -590,6 +590,10 @@ body {
 
 .customSwiper {
   padding: 0 15px !important;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 !important;
+  }
 }
 
 .swiper-pagination-fraction {
