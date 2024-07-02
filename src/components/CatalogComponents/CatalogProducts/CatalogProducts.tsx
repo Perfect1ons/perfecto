@@ -29,6 +29,7 @@ import { useRouter } from "next/navigation";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
 import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
 import CatalogDesc from "./CatalogDesc/CatalogDesc";
+import CardColumnSkeleton from "@/components/UI/CardColumn/CardColumnSkeleton";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -258,13 +259,13 @@ export default function CatalogProducts({
     if (sortOrder !== null) {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 300, behavior: "auto" });
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
@@ -313,7 +314,7 @@ export default function CatalogProducts({
       page: newPage,
     }));
     updateURLWithFilters({ ...selectedFilters, page: newPage });
-    window.scrollTo({ top: 300, behavior: "smooth" });
+    window.scrollTo({ top: 300, behavior: "auto" });
   };
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
@@ -331,7 +332,7 @@ export default function CatalogProducts({
       queryParams.set("additional_filter", filters.additional_filter.join(","));
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState({ path: newUrl }, "", newUrl);
+    window.history.replaceState({ path: newUrl }, "", newUrl);
   };
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
@@ -511,22 +512,39 @@ export default function CatalogProducts({
         </div>
       )}
       {isLoading ? (
-        <div className="cards toptwenty">
-          {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
-            <CardSkeleton key={index} />
-          ))}
-        </div>
+        isColumnView ? (
+          <div className="main__news_cards_column">
+            {Array.from({ length: 20 }).map((_, index) => (
+              <CardColumnSkeleton key={index} />
+            ))}
+          </div>
+        ) : (
+          <div className="cards toptwenty">
+            {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+              <CardSkeleton key={index} />
+            ))}
+          </div>
+        )
       ) : items && items.length !== 0 ? (
         <>
           <CatalogProductList items={items} isColumnView={isColumnView} />
           {pageCount > 1 && (
-            <CatalogPagination forcePage={selectedFilters.page -1} pageCount={pageCount} pageChange={handlePageChange}/>
+            <CatalogPagination
+              forcePage={selectedFilters.page - 1}
+              pageCount={pageCount}
+              pageChange={handlePageChange}
+            />
           )}
         </>
       ) : (
-        <CatalogUndefined/>
+        <CatalogUndefined />
       )}
-      <CatalogDesc title={catalog.category.title} desc={catalog.category.description} keywords={catalog.category.keywords}/>
+
+      <CatalogDesc
+        title={catalog.category.title}
+        desc={catalog.category.description}
+        keywords={catalog.category.keywords}
+      />
     </section>
   );
 }
