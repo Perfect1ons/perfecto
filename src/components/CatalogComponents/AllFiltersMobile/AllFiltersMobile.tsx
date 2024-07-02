@@ -93,7 +93,7 @@ const AllFiltersMobile = ({
     queryParams.delete("additional_filter");
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState({ path: newUrl }, "", newUrl);
+    window.history.replaceState({ path: newUrl }, "", newUrl);
   };
 
   const resetFilters = () => {
