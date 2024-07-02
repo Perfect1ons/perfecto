@@ -259,7 +259,7 @@ export default function CatalogProducts({
     if (sortOrder !== null) {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const handleViewChange = (isColumn: boolean) => {
@@ -332,7 +332,7 @@ export default function CatalogProducts({
       queryParams.set("additional_filter", filters.additional_filter.join(","));
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState({ path: newUrl }, "", newUrl);
+    window.history.replaceState({ path: newUrl }, "", newUrl);
   };
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
