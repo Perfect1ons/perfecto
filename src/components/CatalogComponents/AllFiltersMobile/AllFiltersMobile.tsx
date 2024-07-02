@@ -149,6 +149,13 @@ const AllFiltersMobile = ({
     setPriceMax(null);
     setSelectedAdditionalFilters([]);
     clearURLFilters();
+    setSelected({
+      brand: [],
+      priceMin: 0,
+      priceMax: 0,
+      dost: [],
+      additional_filter: [],
+    });
   };
 
 
