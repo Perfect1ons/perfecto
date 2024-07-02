@@ -158,10 +158,24 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
       </div>
       <div className="default__card_buttons_column">
         <div className="default__card_buttons_column_price">
-          <span className="default__card_price">
-            {cardData.cenaok.toLocaleString("ru-RU")}
-            <span className="default__card_price_custom"> с</span>
-          </span>
+          <div className="default__card_buttons_column_price_count">
+            <span className="default__card_buttons_column_price_count_current">
+              {cardData.cenaok.toLocaleString("ru-RU")}
+              <span className="default__card_price_custom"> с</span>
+            </span>
+            {cardData.discount_prc > 0 ? (
+              <div className="default__card_percent">
+                {cardData.discount_prc}%
+              </div>
+            ) : null}
+            {cardData.discount_prc > 0 ? (
+              <div className="default__card_oldprice">
+                <span className="default__card_oldprice_price">
+                  {cardData.old_price.toLocaleString("ru-RU")}c
+                </span>
+              </div>
+            ) : null}
+          </div>
           <button
             title="Добавить в избранное"
             className={cn("add__to_fav", {

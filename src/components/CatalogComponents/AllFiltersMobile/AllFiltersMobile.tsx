@@ -67,7 +67,7 @@ const AllFiltersMobile = ({
       queryParams.set("additional_filter", selectedAdditionalFilters.join(","));
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState({ path: newUrl }, "", newUrl);
+    window.history.replaceState({ path: newUrl }, "", newUrl);
   };
 
   const applyFilters = () => {
@@ -215,7 +215,12 @@ const AllFiltersMobile = ({
           <div className={styles.filterHeader}>
             <div className={styles.filterHeader__filters}>
               <h3 className={styles.filterHeader__title}>Фильтры</h3>
-              <button className={styles.filterHeader__reset} onClick={resetFilters}>Сбросить все</button>
+              <button
+                className={styles.filterHeader__reset}
+                onClick={resetFilters}
+              >
+                Сбросить все
+              </button>
             </div>
             <button
               aria-label="close mobile filters modal"
