@@ -444,6 +444,7 @@ export default function CatalogProducts({
             toggleView={toggleView}
           />
           <FiltersCrumbs
+            filter={filter}
             selectedFilters={selectedFilters}
             clearFilterCrumbs={clearFilterCrumbs}
             clearAllCrumbs={clearAllCrumbs}
@@ -504,6 +505,7 @@ export default function CatalogProducts({
           </div>
           {selectedFilters && (
             <FiltersCrumbs
+              filter={filter}
               selectedFilters={selectedFilters}
               clearFilterCrumbs={clearFilterCrumbs}
               clearAllCrumbs={clearAllCrumbs}
