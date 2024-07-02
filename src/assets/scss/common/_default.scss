@@ -240,6 +240,7 @@ body {
 .swiper__slide {
   cursor: pointer;
   height: 180px !important;
+  overflow: hidden;
   text-align: center;
   max-width: 210px !important;
   margin-bottom: 5px;
@@ -276,6 +277,7 @@ body {
 .category__item_title {
   @include mixin.font(14px, 400, 150%, var(--gray-dark));
   text-align: center;
+  max-width: 210px !important;
   transition: 0.1s ease-in-out;
   user-select: none;
   padding: 0 10px;

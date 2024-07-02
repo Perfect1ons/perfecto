@@ -34,7 +34,7 @@ export default function CategorySwiper({ category }: ICategory) {
       ) : (
         <Swiper
           slidesPerView={6}
-          spaceBetween={25}
+          spaceBetween={30}
           slidesPerGroup={6}
           navigation={{
             nextEl: ".team__btn_next",
@@ -54,21 +54,21 @@ export default function CategorySwiper({ category }: ICategory) {
             480: {
               slidesPerView: 3,
               spaceBetween: 15,
-              slidesPerGroup: 10,
+              slidesPerGroup: 3,
             },
             768: {
-              spaceBetween: 15,
+              spaceBetween: 30,
               slidesPerView: 4,
-              slidesPerGroup: 15,
+              slidesPerGroup: 4,
             },
             992: {
-              spaceBetween: 15,
+              spaceBetween: 25,
               slidesPerView: 5,
-              slidesPerGroup: 20,
+              slidesPerGroup: 5,
             },
             1200: {
               slidesPerView: 6,
-              spaceBetween: 25,
+              spaceBetween: 30,
             },
           }}
           modules={[Grid, Pagination, Navigation]}
