@@ -45,8 +45,29 @@
   padding-left: 15px;
   @include mixin.flex(flex-start, space-between, column, 20px);
   &_price {
-    @include mixin.flex(center, space-between);
+    @include mixin.flex(center, space-between, null, null);
     width: 100%;
+
+    &_count {
+      @include mixin.flex(center, flex-start, null, 10px);
+      &_current {
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 100%;
+        color: var(--gray-dark);
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        width: 100%;
+        @media screen and (max-width: 992px) {
+          font-size: 18px;
+        }
+        @media screen and (max-width: 640px) {
+          font-size: 16px;
+        }
+      }
+    }
+
     @media screen and (max-width: 992px) {
       align-items: flex-end;
     }
@@ -131,7 +152,7 @@
     font-size: 18px;
     cursor: pointer;
     color: var(--white);
-    padding: 10px 15px;
+    padding: 10px 8px;
     border-radius: 5px;
     width: 100%;
     @include mixin.flex(center, center, null, 10px);
@@ -199,5 +220,24 @@
 .ocenka {
   @media screen and (max-width: 480px) {
     display: none;
+  }
+}
+.default__card_percent {
+  background: var(--violet);
+  @include mixin.font(14px, bold, 1, var(--white));
+  padding: 3px 5px;
+  border-radius: 3px;
+  @media screen and (max-width: 992px) {
+    font-size: 12px;
+  }
+}
+.default__card_oldprice {
+  @include mixin.flex(center, null, null, 2px);
+  text-decoration: line-through;
+  &_price {
+    @include mixin.font(16px, bold, null, var(--dark));
+    @media screen and (max-width: 992px) {
+      font-size: 14px;
+    }
   }
 }
