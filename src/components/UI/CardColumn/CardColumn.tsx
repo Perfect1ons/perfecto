@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import cn from "clsx";
 import {
@@ -10,43 +10,80 @@ import {
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
-
 import { Tov } from "@/types/Catalog/catalogProducts";
 import React from "react";
+import { ICard } from "@/types/Card/card";
+import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
+
 interface ICardDataProps {
   cardData: Tov;
 }
 
-const CatalogProductsColumn = ({ cardData }: ICardDataProps) => {
-  const imageUrl = useMemo(() => {
-    if (
-      cardData?.photos[0]?.url_part &&
-      cardData?.photos[0].url_part.startsWith("https://")
-    ) {
-      return cardData?.photos[0].url_part + "280.jpg";
-    } else if (cardData?.photos[0]?.url_part) {
-      return `${url}nal/img/${cardData?.id_post}/l_${cardData?.photos[0].url_part}`;
-    } else {
-      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
-    }
-  }, [cardData]);
+const CardColumn = ({ cardData }: ICardDataProps) => {
+  const imageUrl =
+    cardData.photos.length > 0
+      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${cardData.photos[0].url_part}280.jpg`
+        : cardData.photos[0].url_part.startsWith("https://")
+        ? cardData.photos[0].url_part
+        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
+      : "/img/noPhoto.svg";
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isRedirect, setIsRedirect] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   useEffect(() => {
-    setRating(Math.floor(cardData?.ocenka));
-    const favoriteStatus = localStorage.getItem(cardData?.id.toString());
-    setIsFavorite(favoriteStatus === "true");
-  }, [cardData]);
+    setRating(Math.floor(cardData.ocenka));
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(
+      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
+    );
+  }, [cardData.ocenka, cardData.id_tov]);
 
-  const handleFavoriteClick = () => {
-    const newIsFavorite = !isFavorite;
-    setIsFavorite(newIsFavorite);
-    localStorage.setItem(cardData?.id.toString(), newIsFavorite.toString());
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
+
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(cardData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
   };
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+    const handleCardClick = () => {
+      window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
+    };
+
   return (
-    <div className="default__card_column">
+    <div className="default__card_column" onClick={handleCardClick}>
+      <FavoriteModal
+        isVisible={isModalVisible}
+        message={modalMessage}
+        isRedirect={isRedirect}
+        onClose={handleModalClose}
+      />
       <div className="default__card_column_right">
         <div className="default__card_images_column">
           <Image
@@ -125,4 +162,4 @@ const CatalogProductsColumn = ({ cardData }: ICardDataProps) => {
   );
 };
 
-export default CatalogProductsColumn;
+export default CardColumn;
