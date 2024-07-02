@@ -18,7 +18,7 @@
 
     &__value {
       cursor: pointer;
-      @include mixin.font(1rem, 500, null, var(--dark-blue));
+      @include mixin.font(14px, 400, null, var(--dark-blue));
     }
     &__cross {
       margin-top: 3px;
@@ -29,10 +29,10 @@
   }
   &__clear_all {
     background: var(--dark-blue);
-    padding: 4.3px 10px;
+    padding: 5.9px 10px;
     border-radius: 5px;
     outline: 1px solid var(--dark-blue);
-    @include mixin.font(1rem, 500, null, var(--white));
+    @include mixin.font(14px, 400, null, var(--white));
     cursor: pointer;
     @include mixin.flex(center, center, null, null);
     transition: 0.5s all;
