@@ -10,13 +10,18 @@ import {
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
-import { Tov } from "@/types/Catalog/catalogProducts";
 import React from "react";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
+import UserInfoModal from "../UserInfoModal/UserInfoModal";
+import Link from "next/link";
 
 interface ICardDataProps {
-  cardData: Tov;
+  cardData: ICard;
 }
 
 const CardColumn = ({ cardData }: ICardDataProps) => {
@@ -71,13 +76,47 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
   const handleModalClose = () => {
     setModalVisible(false);
   };
+  const [added, setAdded] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
 
-    const handleCardClick = () => {
-      window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
-    };
+  const handleCardClick = () => {
+    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
+  };
+  const dispatch = useDispatch();
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === cardData.id);
+  const addToCart = () => {
+    dispatch(addProductToCart(cardData));
+    setAdded(true);
+    setCartModal(true);
+    setTimeout(() => setCartModal(false), 5000);
+  };
+
+  const handleAddToCart = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    event.stopPropagation();
+    addToCart();
+    setShouldFocusInput(true);
+  };
+  const handleCartEmpty = () => {
+    setAdded(false);
+  };
+  const closeModalCart = () => {
+    setCartModal(false);
+  };
 
   return (
     <div className="default__card_column" onClick={handleCardClick}>
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
       <FavoriteModal
         isVisible={isModalVisible}
         message={modalMessage}
@@ -142,17 +181,30 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
           </h3>
         ) : null}
 
-        <div className="add__to_cart_column">
-          <button
-            title="Добавить в корзину"
-            className="add__to_cart_column_button"
-            onClick={() => console.log("Добавлено в корзину")}
-          >
-            <span className="add__to_cart_icon">
-              <CartIcon />
-            </span>
-            В корзину
-          </button>
+        <div
+          className="add__to_cart_column"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {!product?.quantity && (
+            <button
+              title="Добавить в корзину"
+              className="add__to_cart_column_button"
+              onClick={handleAddToCart}
+            >
+              <span className="add__to_cart_icon">
+                <CartIcon />
+              </span>
+              В корзину
+            </button>
+          )}
+          {product?.quantity && (
+            <CartReducerBtn
+              data={cardData}
+              onCartEmpty={handleCartEmpty}
+              shouldFocusInput={shouldFocusInput}
+              onFocusHandled={() => setShouldFocusInput(false)}
+            />
+          )}
           <button className="add__to_cart_column_button column_buy">
             Купить
           </button>

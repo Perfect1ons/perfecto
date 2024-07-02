@@ -33,6 +33,8 @@ const CartReducerBtn = ({
   const quantity = product?.quantity || data.minQty;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
     const value = e.target.value ? parseInt(e.target.value) : 0;
     if (isNaN(value) || value < 0) return;
 
@@ -46,7 +48,11 @@ const CartReducerBtn = ({
     }
   };
   //add to redux cart storage function
-  const addToCart = () => {
+  const addToCart = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
     if (product) {
       dispatch(addProductQuantity(data.id));
     } else {
@@ -55,7 +61,11 @@ const CartReducerBtn = ({
     }
   };
   //remove from redux cart storage function
-  const removeFromCart = () => {
+  const removeFromCart = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
     if (product) {
       if (product.quantity && product.quantity <= data.minQty) {
         dispatch(removeProductFromCart(data.id));
