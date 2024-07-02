@@ -58,9 +58,8 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
 
   const getDaysRangeLabel = (range: string) => {
     const [start, end] = range.split("-").map(Number);
-    const startLabel = getDayLabel(start);
     const endLabel = getDayLabel(end);
-    return `${start} ${startLabel} - ${end} ${endLabel}`;
+    return `${start} - ${end} ${endLabel}`;
   };
 
   const show =
