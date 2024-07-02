@@ -32,14 +32,14 @@
     scale: 1.5;
     cursor: pointer;
   }
-  &__reset{
+  &__reset {
     cursor: pointer;
     font-size: 14px;
     color: var(--dark-blue);
     border-bottom: 1px dashed var(--dark-blue);
   }
-  &__filters{
-    @include mixin.flex(flex-end,null,null,20px);
+  &__filters {
+    @include mixin.flex(flex-end, null, null, 20px);
   }
 }
 .filterFooter {
@@ -48,6 +48,7 @@
   background: var(--white);
   margin-top: 10px;
   &__apply {
+    cursor: pointer;
     padding: 10px 12px;
     border-radius: 5px;
     width: 100%;
@@ -67,7 +68,6 @@
   @include mixin.flex(center, null, null, 8px);
 }
 
-
 .filterPrice {
   @include mixin.flex(null, flex-start, column, 5px);
   &__value {
@@ -82,7 +82,7 @@
       border-radius: 5px;
       border: 2px solid var(--light);
       transition: all 0.3s ease-in-out 0.3 ease-in-out;
-      &:focus{
+      &:focus {
         border: 2px solid var(--violet);
       }
     }
@@ -103,36 +103,36 @@
   }
 }
 
-.filterLabel{
-  @include mixin.flex(center,null,null,5px);
+.filterLabel {
+  @include mixin.flex(center, null, null, 5px);
   border: 1px solid var(--secondary);
   padding: 3px 5px;
   border-radius: 5px;
   user-select: none;
   cursor: pointer;
-  &__title{
+  &__title {
     font-size: 14px;
   }
 
-  &__empty{
+  &__empty {
     color: var(--white);
     line-height: 1;
   }
 
-  &__icon{
+  &__icon {
     width: 16px;
     height: 16px;
     border: 1px solid var(--secondary);
     border-radius: 3px;
   }
 
-  &__checked{
+  &__checked {
     background: var(--dark-blue);
 
-    .filterLabel__title{
+    .filterLabel__title {
       color: var(--white);
     }
-    .filterLabel__icon{
+    .filterLabel__icon {
       border-color: transparent;
       line-height: 0;
       margin-bottom: 2px;
@@ -140,17 +140,13 @@
   }
 }
 
-.showAllBrandsButton{
+.showAllBrandsButton {
   color: var(--dark-blue);
   font-size: 14px;
   border-bottom: 1px dashed var(--dark-blue);
 }
 
-.showAll{
-  @include mixin.flex(center,center);
+.showAll {
+  @include mixin.flex(center, center);
   width: 100%;
 }
-
-
-
-
