@@ -28,6 +28,10 @@
         color: var(--black);
         font-size: 32px;
         font-weight: bold;
+
+        @media screen and (max-width: 1440px) {
+            right: 14%;
+        }
     }
 }
 

@@ -26,18 +26,6 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
   const { brand, priceMin, priceMax, dost, additional_filter } =
     selectedFilters;
 
-  // const renderFilterCrumb = (filterKey: FilterKey, value: string) => (
-  //   <div
-  //     key={value}
-  //     onClick={() => clearFilterCrumbs(filterKey, value)}
-  //     className={styles.container_filter}
-  //   >
-  //     <span className={styles.container_filter__value}>{value}</span>
-  //     <button className={styles.container_filter__cross}>
-  //       <XMark />
-  //     </button>
-  //   </div>
-  // );
   const renderFilterCrumb = (
     filterKey: FilterKey,
     value: string | number,

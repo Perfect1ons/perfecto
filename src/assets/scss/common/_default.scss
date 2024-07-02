@@ -12,14 +12,6 @@ table {
   text-align: center;
 }
 
-.pagination-active{
-  cursor: pointer;
-  color: var(--white);
-  background: var(--dark-blue);
-  padding: 5px 15px;
-  border-radius: 5px;
-}
-
 .icon-favorites {
   fill: var(--white);
   stroke: #7A7A7A;
@@ -61,8 +53,8 @@ body {
 .container {
   @include container(90rem);
   padding: 0 15px;
-  @media screen and (min-width: 90rem) {
-    @include container(90rem);
+  @media screen and (max-width: 1440px) {
+    @include container(1200px);
   }
   @media screen and (max-width: 40rem) {
     padding: 0 8px;
