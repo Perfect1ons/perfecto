@@ -66,6 +66,12 @@
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     border-bottom: 12px solid #fff;
+    @media screen and (max-width: 480px) {
+      left: 200px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    left: -85px;
   }
 }
 .catalogFilterCheck {

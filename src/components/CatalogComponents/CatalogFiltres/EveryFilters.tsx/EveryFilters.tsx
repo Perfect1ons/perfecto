@@ -310,34 +310,6 @@ const EveryFilters = ({
                 </div>
                 <div className="everyFilterContainerChild">
                   <div
-                    onClick={() => toggleFilters("default")}
-                    className="catalogFilterContainerButtonEvery"
-                  >
-                    <button
-                      className="catalogFilterButtonEvery"
-                      onClick={() => toggleFilter("default")}
-                    >
-                      dfgdg
-                    </button>
-                    <span
-                      className={cn(
-                        "filterNavItemArrowIsActive",
-                        visibleFilters === "default" && "filterNavItemArrow"
-                      )}
-                    >
-                      <СhevronDownIcon />
-                    </span>
-                  </div>
-                  {visibleFilters === "default" && (
-                    <ul className="additionalFilterActiveDropdown">
-                      <div className="showCatalogFilterActiveChild">
-                        sddsffs
-                      </div>
-                    </ul>
-                  )}
-                </div>
-                <div className="everyFilterContainerChild">
-                  <div
                     onClick={() => toggleFilters("delivery")}
                     className="catalogFilterContainerButtonEvery"
                   >

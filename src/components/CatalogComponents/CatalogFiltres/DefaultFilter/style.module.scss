@@ -1,9 +1,7 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 .option {
-  // @include mixin.font(16px, 500, null, var(--black));
   @include mixin.flex(center, center, null, 8px);
   cursor: pointer;
-  // padding: 5px 0;
   text-wrap: nowrap;
 
   &__cyrcle {
@@ -31,6 +29,9 @@
     border-radius: 50%;
     border: 2px solid black;
   }
+  &__name {
+    @include mixin.font(1rem, 400, null, var(--dark));
+  }
 }
 .selected {
   color: var(--black);
@@ -39,5 +40,10 @@
       display: block;
     }
     border: 2px solid var(--dark-blue);
+  }
+}
+.forMobile {
+  @media screen and (max-width: 480px) {
+    max-width: 250px;
   }
 }

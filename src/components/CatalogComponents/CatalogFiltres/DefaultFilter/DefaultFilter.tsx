@@ -6,7 +6,7 @@ import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { useState } from "react";
 
 interface IDefautlFilterProps {
-  filter: IFiltersBrand;
+  filter?: IFiltersBrand;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
   selectedSort: { sortName: string; sortTitle: string };
@@ -57,7 +57,7 @@ const DefaultFilter = ({
         </span>
       </button>
       {visibleFilter === "default" && (
-        <ul className="showCatalogFilterActive">
+        <ul className={cn("showCatalogFilterActive", styles.forMobile)}>
           <div className="showCatalogFilterActiveChild">
             <button
               onClick={() => toggleFilter("default")}
@@ -80,7 +80,7 @@ const DefaultFilter = ({
                 })}
               >
                 <span className={styles.option__cyrcle}></span>
-                {option.sortTitle}
+                <p className={styles.option__name}>{option.sortTitle}</p>
               </ul>
             ))}
           </div>

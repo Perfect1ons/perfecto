@@ -14,6 +14,7 @@ import Image from "next/image";
 import clsx from "clsx";
 import FiltersCrumbs from "../CatalogProducts/FiltersCrumbs/FiltersCrumbs";
 import { IFiltersBrand } from "@/types/filtersBrand";
+import DefaultFilter from "../CatalogFiltres/DefaultFilter/DefaultFilter";
 
 interface IPropsMobileFilter {
   filter: IFiltersBrandByAbdulaziz;
@@ -21,6 +22,10 @@ interface IPropsMobileFilter {
   toggleView: (view: boolean) => void;
   setSelected: (filters: Partial<ISelectedFilterProps>) => void;
   filters: IFiltersBrand;
+  selectedSort: { sortName: string; sortTitle: string };
+  setSelectedSort: React.Dispatch<
+    React.SetStateAction<{ sortName: string; sortTitle: string }>
+  >;
 }
 
 const AllFiltersMobile = ({
@@ -29,6 +34,8 @@ const AllFiltersMobile = ({
   toggleView,
   setSelected,
   filters,
+  selectedSort,
+  setSelectedSort,
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get("brand")?.split(",") || [];
@@ -158,35 +165,6 @@ const AllFiltersMobile = ({
       <div className="container">
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
-            <div className="positionContainer">
-              <button
-                className="catalogFilterButton"
-                onClick={() => toggleFilter("default")}
-              >
-                {"По умолчанию"}
-                <span
-                  className={cn(
-                    "filterNavItemArrowIsActive",
-                    visibleFilter === "default" && "filterNavItemArrow"
-                  )}
-                >
-                  <СhevronDownIcon />
-                </span>
-              </button>
-              {visibleFilter === "default" && (
-                <ul className="showCatalogFilterActive">
-                  <div className="showCatalogFilterActiveChild">
-                    <button
-                      className="closeFilterUl"
-                      onClick={() => toggleFilter("default")}
-                    >
-                      <Cross />
-                    </button>
-                    sadsa
-                  </div>
-                </ul>
-              )}
-            </div>
             <button
               onClick={() => toggleFilter("modal")}
               className="catalogFilterButton"
@@ -202,9 +180,15 @@ const AllFiltersMobile = ({
                 </span>
               ) : null}
               <span className={cn("filterNavItemArrowIsActive")}>
-                <FilterIcon />
+                <СhevronDownIcon />
               </span>
             </button>
+            <DefaultFilter
+              visibleFilter={visibleFilter}
+              toggleFilter={toggleFilter}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+            />
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (
@@ -238,6 +222,7 @@ const AllFiltersMobile = ({
             )}
           </div>
         </div>
+
         <FiltersCrumbs
           filter={filters}
           selectedFilters={{
