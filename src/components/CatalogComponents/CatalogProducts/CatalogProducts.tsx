@@ -27,7 +27,6 @@ import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
 import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
 import CatalogDesc from "./CatalogDesc/CatalogDesc";
-import CardColumnSkeleton from "@/components/UI/CardColumn/CardColumnSkeleton";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -61,7 +60,6 @@ export default function CatalogProducts({
   filtered,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const initialItems = init.model || [];
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
 
