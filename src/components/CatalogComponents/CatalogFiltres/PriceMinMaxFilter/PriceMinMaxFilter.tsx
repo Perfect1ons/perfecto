@@ -4,7 +4,6 @@ import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import Slider from "react-slider";
 import cn from "clsx";
 import { useEffect, useRef } from "react";
-import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
@@ -16,7 +15,6 @@ interface IPriceMinMaxFilterProps {
     tempMin: number;
     tempMax: number;
   };
-  filter: IFiltersBrand;
 }
 
 const PriceMinMaxFilter = ({
@@ -26,7 +24,6 @@ const PriceMinMaxFilter = ({
   clearFilterPrice,
   applyFilterPrice,
   tempPrice,
-  filter,
 }: IPriceMinMaxFilterProps) => {
   //input min price changer
   const handleMinChange = (min: number) => {
@@ -35,6 +32,7 @@ const PriceMinMaxFilter = ({
     }
     handlePriceRangeChange(min, tempPrice.tempMax);
   };
+
   //input max price changer
   const handleMaxChange = (max: number) => {
     if (max < 0) {
@@ -42,10 +40,12 @@ const PriceMinMaxFilter = ({
     }
     handlePriceRangeChange(tempPrice.tempMin, max);
   };
+
   //input add separation
   const addSeparators = (value: string) => {
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
+
   //key down function for input
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (
@@ -60,12 +60,15 @@ const PriceMinMaxFilter = ({
       event.preventDefault();
     }
   };
+
   //hook useRef for min price input
   const minPriceInputRef = useRef<HTMLInputElement>(null);
+
   //focus for input if visible filter === price
   useEffect(() => {
     minPriceInputRef?.current?.focus();
   }, [visibleFilter]);
+
   //hook for enter key down
   useEffect(() => {
     const handleEnterKey = (event: KeyboardEvent) => {
@@ -114,11 +117,13 @@ const PriceMinMaxFilter = ({
                 className={styles.sliderRange}
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
-                value={[tempPrice.tempMin, tempPrice.tempMax]}
+                value={[
+                  tempPrice.tempMin === 0 ? 0 : tempPrice.tempMin,
+                  tempPrice.tempMax === 0 ? 1000000 : tempPrice.tempMax,
+                ]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 min={1}
                 max={1000000}
-                step={1}
                 withTracks={true}
                 renderTrack={(props, state) => (
                   <div
@@ -141,7 +146,7 @@ const PriceMinMaxFilter = ({
                   className={styles.inputPrice}
                   value={
                     tempPrice.tempMin === 0
-                      ? ""
+                      ? "0"
                       : addSeparators(tempPrice.tempMin.toString())
                   }
                   onChange={(e) =>
@@ -155,13 +160,13 @@ const PriceMinMaxFilter = ({
                   className={styles.inputPrice}
                   value={
                     tempPrice.tempMax === 0
-                      ? ""
+                      ? "1000000"
                       : addSeparators(tempPrice.tempMax.toString())
                   }
                   onChange={(e) =>
                     handleMaxChange(Number(e.target.value.replace(/\s/g, "")))
                   }
-                  placeholder={`до 0`}
+                  placeholder={`до 1000000`}
                 />
               </div>
             </div>
