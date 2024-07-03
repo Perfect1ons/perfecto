@@ -12,6 +12,7 @@ import {
   updateProductQuantity,
 } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -32,6 +33,8 @@ const CartReducerBtn = ({
   const product = cart.find((item) => item.id === data.id);
   const quantity = product?.quantity || data.minQty;
 
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -47,7 +50,8 @@ const CartReducerBtn = ({
       }
     }
   };
-  //add to redux cart storage function
+
+  // add to redux cart storage function
   const addToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -60,7 +64,8 @@ const CartReducerBtn = ({
       dispatch(addProductToCart(newProduct));
     }
   };
-  //remove from redux cart storage function
+
+  // remove from redux cart storage function
   const removeFromCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -80,11 +85,11 @@ const CartReducerBtn = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (shouldFocusInput && inputRef.current) {
+    if (shouldFocusInput && inputRef.current && isDesktop) {
       inputRef.current.focus();
       onFocusHandled(); // Reset focus state
     }
-  }, [shouldFocusInput, onFocusHandled]);
+  }, [shouldFocusInput, onFocusHandled, isDesktop]);
 
   return (
     <div className={styles.btn}>

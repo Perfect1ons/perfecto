@@ -6,7 +6,7 @@ import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import { useState } from "react";
 
 interface IDefautlFilterProps {
-  filter: IFiltersBrand;
+  filter?: IFiltersBrand;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
   selectedSort: { sortName: string; sortTitle: string };

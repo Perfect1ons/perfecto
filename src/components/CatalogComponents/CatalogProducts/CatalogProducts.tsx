@@ -398,6 +398,8 @@ export default function CatalogProducts({
             isColumnView={isColumnView}
             filters={filter}
             toggleView={toggleView}
+            selectedSort={defSelectFilter}
+            setSelectedSort={setDefSelectFilter}
           />
         </>
       ) : (
