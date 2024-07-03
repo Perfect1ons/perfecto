@@ -56,7 +56,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
   return (
     <div className={styles.wrap}>
       <div id="otz" className="productReview">
-        <h2 className={styles.wrap_title}>Отзывы о товаре «{data.naim}»</h2>
+        <h2 className={styles.wrap_title}>Отзывы о товаре</h2>
         <div className={styles.wrap_review}>
           <span className={styles.wrap_review_grade_title}>Оцените товар</span>
           <div className={styles.wrap_review_grade_btns}>

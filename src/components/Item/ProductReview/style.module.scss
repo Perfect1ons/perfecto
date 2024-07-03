@@ -2,7 +2,7 @@
 .wrap {
   user-select: none;
   &_title {
-    @include mixin.font(20px, 600, 120%, var(--gray));
+    @include mixin.font(20px, 600, 120%, var(--dark));
     margin-bottom: 10px;
     user-select: none;
   }

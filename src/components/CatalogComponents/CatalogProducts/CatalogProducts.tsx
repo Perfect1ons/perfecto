@@ -60,6 +60,7 @@ export default function CatalogProducts({
   filtered,
 }: ICatalogProductsProps) {
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const isSMobile = useMediaQuery("(max-width: 480px)");
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
 
@@ -107,6 +108,21 @@ export default function CatalogProducts({
     setIsColumnView(view);
     handleViewChange(view);
   };
+
+  const handleShowMore = () => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      page: prevFilters.page + 1,
+    }));
+    updateURLWithFilters({
+      ...selectedFilters,
+      page: selectedFilters.page + 1,
+    });
+    window.scrollTo({ top: 300, behavior: "auto" });
+  };
+
+
+
 
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
@@ -460,13 +476,6 @@ export default function CatalogProducts({
         </div>
       )}
       {isLoading ? (
-        // isColumnView ? (
-        //   <div className="main__news_cards_column">
-        //     {Array.from({ length: 20 }).map((_, index) => (
-        //       <CardColumnSkeleton key={index} />
-        //     ))}
-        //   </div>
-        // )
         <div className="cards toptwenty">
           {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
             <CardSkeleton key={index} />
@@ -474,7 +483,21 @@ export default function CatalogProducts({
         </div>
       ) : items && items.length !== 0 ? (
         <>
-          <CatalogProductList items={items} isColumnView={isColumnView} />
+          <CatalogProductList
+            items={items}
+            isColumnView={isColumnView}
+            isMobile={isSMobile}
+          />
+          <div className={styles.showMore}>
+          {selectedFilters.page !== pageCount ? (
+            <button
+              className="default__buttons_showMore"
+              onClick={handleShowMore}
+            >
+              Показать еще
+            </button>
+          ) : null}
+          </div>
           {pageCount > 1 && (
             <CatalogPagination
               forcePage={selectedFilters.page - 1}
