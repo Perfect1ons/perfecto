@@ -2,7 +2,11 @@
 import styles from "./style.module.scss";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import cn from "clsx";
-import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
+import {
+  ArrowsUpDown,
+  Cross,
+  СhevronDownIcon,
+} from "../../../../../public/Icons/Icons";
 import { useState } from "react";
 
 interface IDefautlFilterProps {
@@ -46,6 +50,7 @@ const DefaultFilter = ({
         onClick={() => toggleFilter("default")}
         className="catalogFilterButton"
       >
+        <ArrowsUpDown />
         {selectedSort.sortTitle}
         <span
           className={cn(

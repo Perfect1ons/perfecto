@@ -1336,3 +1336,23 @@ export const ArrowUpIcon = () => {
     </svg>
   );
 };
+
+export const ArrowsUpDown = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      strokeWidth="1.5"
+      stroke="currentColor"
+      className="size-6"
+      width={20}
+      height={20}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5M20.5 16.5L16.5 21m0 0L12 16.5M16.5 21v-13.5"
+      />
+    </svg>
+  );
+};
