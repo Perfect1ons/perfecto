@@ -5,7 +5,6 @@ import DostFilter from "./DostFilter/DostFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
 import { useState, useEffect, useRef } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
-import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
 
@@ -14,12 +13,6 @@ interface ICatalogFiltresProps {
   clearFilter: (name: string) => void;
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
-  options: {
-    label: string;
-    value: "rating" | "cheap" | "expensive";
-  }[];
-  value: string;
-  onChange: (value: "rating" | "cheap" | "expensive") => void;
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
@@ -45,9 +38,6 @@ export interface ISelectedFilterProps {
 
 const CatalogFiltres = ({
   filter,
-  onChange,
-  options,
-  value,
   selectedFilters,
   handleFilterChange,
   handlePriceRangeChange,
@@ -90,14 +80,6 @@ const CatalogFiltres = ({
 
   return (
     <div ref={containerRef} className="filtresContainer">
-      <DefaultFilter
-        toggleFilter={toggleFilter}
-        visibleFilter={visibleFilter}
-        onChange={onChange}
-        options={options}
-        value={value}
-        filter={filter}
-      />
       <DostFilter
         clearFilter={clearFilter}
         toggleFilter={toggleFilter}
@@ -138,9 +120,6 @@ const CatalogFiltres = ({
         <EveryFilters
           resetCategoryFilters={resetCategoryFilters}
           clearAllCrumbs={clearAllCrumbs}
-          onChange={onChange}
-          options={options}
-          value={value}
           tempPrice={tempPrice}
           clearFilterPrice={clearFilterPrice}
           applyFilterPrice={applyFilterPrice}
