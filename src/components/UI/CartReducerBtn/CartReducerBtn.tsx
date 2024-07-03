@@ -88,7 +88,20 @@ const CartReducerBtn = ({
 
   return (
     <div className={styles.btn}>
-      <button onClick={removeFromCart} className={styles.btn_left}>
+      <button
+        title={
+          product?.quantity && product.quantity <= data.minQty
+            ? "удалить товар из корзины"
+            : "уменьшить количество товара"
+        }
+        aria-label={
+          product?.quantity && product.quantity <= data.minQty
+            ? "removing an item from the cart"
+            : "decreasing items in cart"
+        }
+        onClick={removeFromCart}
+        className={styles.btn_left}
+      >
         {product?.quantity && product.quantity <= data.minQty ? (
           <TrashIcon />
         ) : (
@@ -103,7 +116,12 @@ const CartReducerBtn = ({
         min={0}
         ref={inputRef}
       />
-      <button onClick={addToCart} className={styles.btn_right}>
+      <button
+        aria-label="increasing items in cart"
+        title="увеличить количество товара"
+        onClick={addToCart}
+        className={styles.btn_right}
+      >
         <PlusIcon />
       </button>
     </div>

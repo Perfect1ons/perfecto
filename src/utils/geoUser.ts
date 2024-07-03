@@ -1,3 +1,4 @@
+import { error } from "console";
 import Cookies from "js-cookie";
 
 interface Coordinates {
@@ -10,7 +11,7 @@ export const saveUserCoordinates = (
   coordinates: Coordinates,
   secretKey?: string
 ) => {
-  const encryptedData = encryptData(coordinates, secretKey);
+  const encryptedData = encryptData(coordinates);
   Cookies.set("userCoordinates", encryptedData, { expires: 1 }); // Истекает через 1 день
 };
 
@@ -32,7 +33,7 @@ export const getUserCoordinates = (secretKey: string): Coordinates | null => {
 };
 
 // Function for data encryption
-function encryptData(data: any, secretKey?: string): string {
+function encryptData(data: any): string {
   const encryptedData = JSON.stringify(data);
   const encryptedDataEncoded = btoa(encryptedData); // Простой пример шифрования в base64
   return encryptedDataEncoded;
@@ -40,9 +41,13 @@ function encryptData(data: any, secretKey?: string): string {
 
 // Function for decrypting data
 function decryptData(encryptedData: string, secretKey?: string): any {
-  const decryptedDataEncoded = atob(encryptedData);
-  const decryptedData = JSON.parse(decryptedDataEncoded);
-  return decryptedData;
+  if (secretKey) {
+    const decryptedDataEncoded = atob(encryptedData);
+    const decryptedData = JSON.parse(decryptedDataEncoded);
+    return decryptedData;
+  } else {
+    return console.log("invalid secret key");
+  }
 }
 
 // Usage example
