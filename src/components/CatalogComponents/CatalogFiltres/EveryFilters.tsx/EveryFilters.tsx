@@ -1,4 +1,3 @@
-"use client"
 import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   FilterIcon,
@@ -29,6 +28,7 @@ interface IEveryFilterProps {
   clearAllCrumbs: () => void;
   resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
+
 const EveryFilters = ({
   filter,
   toggleFilter,
@@ -43,13 +43,9 @@ const EveryFilters = ({
   clearAllCrumbs,
   resetCategoryFilters,
 }: IEveryFilterProps) => {
-  const [tempSelectedFilters, setTempSelectedFilters] =
-    useState<ISelectedFilterProps>(selectedFilters);
-
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
-
   function isKeyOfISelectedFilterProps(
     key: any
   ): key is keyof ISelectedFilterProps {
@@ -61,15 +57,12 @@ const EveryFilters = ({
     item: string
   ) => {
     if (isKeyOfISelectedFilterProps(filterType)) {
-      const filters = tempSelectedFilters[filterType];
+      const filters = selectedFilters[filterType];
       const newFilters = filters.includes(item)
         ? filters.filter((f: any) => f !== item)
         : [...filters, item];
 
-      setTempSelectedFilters((prev) => ({
-        ...prev,
-        [filterType]: newFilters,
-      }));
+      changeSelect(filterType, newFilters);
     }
   };
 
@@ -99,15 +92,15 @@ const EveryFilters = ({
     let count = 0;
 
     // Count brand filters
-    if (tempSelectedFilters.brand && Array.isArray(tempSelectedFilters.brand)) {
-      count += tempSelectedFilters.brand.length;
+    if (selectedFilters.brand && Array.isArray(selectedFilters.brand)) {
+      count += selectedFilters.brand.length;
     }
 
     if (
-      tempSelectedFilters.additional_filter &&
-      Array.isArray(tempSelectedFilters.additional_filter)
+      selectedFilters.additional_filter &&
+      Array.isArray(selectedFilters.additional_filter)
     ) {
-      count += tempSelectedFilters.additional_filter.length;
+      count += selectedFilters.additional_filter.length;
     }
 
     // Iterate through the filters and count selected items
@@ -116,7 +109,7 @@ const EveryFilters = ({
       if (isKeyOfISelectedFilterProps(filterType)) {
         count += getFilterCount(
           item.filter,
-          tempSelectedFilters[filterType as keyof ISelectedFilterProps]
+          selectedFilters[filterType as keyof ISelectedFilterProps]
         );
       }
     });
@@ -142,15 +135,6 @@ const EveryFilters = ({
       body.style.top = "";
     }
   }, [visibleFilter]);
-
-  const handleApplyFilters = () => {
-    changeSelect("brand", tempSelectedFilters.brand);
-    changeSelect("additional_filter", tempSelectedFilters.additional_filter);
-    changeSelect("dost", tempSelectedFilters.dost);
-    applyFilterPrice();
-    toggleFilter("");
-  };
-
   //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
@@ -194,7 +178,7 @@ const EveryFilters = ({
     const handleEnterKey = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         applyFilterPrice();
-        toggleFilters("");
+        toggleFilter("");
       }
     };
 
@@ -318,42 +302,6 @@ const EveryFilters = ({
                               }
                               placeholder={`до 0`}
                             />
-                          </div>
-                          <div className={styles.containerButtons}>
-                            <button
-                              disabled={
-                                tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0
-                              }
-                              onClick={() => {
-                                applyFilterPrice();
-                                toggleFilters("");
-                              }}
-                              className={cn(
-                                "applyBtn",
-                                (tempPrice.tempMin > 0 ||
-                                  tempPrice.tempMax > 0) &&
-                                  "applyBtn__active"
-                              )}
-                            >
-                              Применить
-                            </button>
-                            {tempPrice.tempMin > 0 && (
-                              <button
-                                onClick={clearFilterPrice}
-                                disabled={
-                                  tempPrice.tempMin <= 0 &&
-                                  tempPrice.tempMax <= 0
-                                }
-                                className={cn(
-                                  "resetButton",
-                                  (tempPrice.tempMin > 0 ||
-                                    tempPrice.tempMax > 0) &&
-                                    "resetButton__active"
-                                )}
-                              >
-                                Сбросить
-                              </button>
-                            )}
                           </div>
                         </div>
                       </div>
@@ -488,7 +436,7 @@ const EveryFilters = ({
                     </span>
                     {selectedFilters.brand.length > 0 && (
                       <button
-                        onClick={() => clearFilter("brand")} // Вызываем clearFilter без перезагрузки
+                        onClick={() => clearFilter("brand")}
                         disabled={selectedFilters.brand.length <= 0}
                         className={cn(
                           "resetBtnEvery",
