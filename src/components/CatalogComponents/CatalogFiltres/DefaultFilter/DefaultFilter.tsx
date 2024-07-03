@@ -1,3 +1,4 @@
+import { IFiltersBrand } from "@/types/filtersBrand";
 import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -10,6 +11,7 @@ interface IProps {
   onChange: (value: "rating" | "cheap" | "expensive") => void;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
+  filter: IFiltersBrand;
 }
 
 const DefaultFilter = ({
@@ -18,6 +20,7 @@ const DefaultFilter = ({
   toggleFilter,
   value,
   visibleFilter,
+  filter
 }: IProps) => {
   return (
     <div className="positionContainer">
