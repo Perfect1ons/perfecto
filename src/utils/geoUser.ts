@@ -8,7 +8,7 @@ interface Coordinates {
 // Function for saving user coordinates with encryption in cookies
 export const saveUserCoordinates = (
   coordinates: Coordinates,
-  secretKey: string
+  secretKey?: string
 ) => {
   const encryptedData = encryptData(coordinates, secretKey);
   Cookies.set("userCoordinates", encryptedData, { expires: 1 }); // Истекает через 1 день
@@ -32,14 +32,14 @@ export const getUserCoordinates = (secretKey: string): Coordinates | null => {
 };
 
 // Function for data encryption
-function encryptData(data: any, secretKey: string): string {
+function encryptData(data: any, secretKey?: string): string {
   const encryptedData = JSON.stringify(data);
   const encryptedDataEncoded = btoa(encryptedData); // Простой пример шифрования в base64
   return encryptedDataEncoded;
 }
 
 // Function for decrypting data
-function decryptData(encryptedData: string, secretKey: string): any {
+function decryptData(encryptedData: string, secretKey?: string): any {
   const decryptedDataEncoded = atob(encryptedData);
   const decryptedData = JSON.parse(decryptedDataEncoded);
   return decryptedData;

@@ -6,7 +6,6 @@ import { Grid, Navigation, Pagination } from "swiper/modules";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
 import { ISeasonCategoryItem } from "@/types/seasonCategory";
-import Loader from "@/components/UI/Loader/Loader";
 import Link from "next/link";
 import clsx from "clsx";
 import CategoryItemSkeleton from "../PopularCategory/CategoryItemSkeleton/CategoryItemSkeleton";

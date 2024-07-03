@@ -131,7 +131,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
         </div>
       )}
       {isLoading ? (
-        <ItemMainSkeleton />
+        <ItemMainSkeleton data={data} />
       ) : (
         <div className="container">
           <div className="all__directions">
