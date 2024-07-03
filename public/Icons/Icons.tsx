@@ -1,3 +1,5 @@
+import { current } from "@reduxjs/toolkit";
+
 export const FavoritesIcon = () => {
   return (
     <svg
@@ -1315,6 +1317,22 @@ export const CardFavoritesIcon = () => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+};
+export const ArrowUpIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style={{
+        fill: "currentcolor",
+        borderRadius: "5px",
+      }}
+    >
+      <path d="M11 8.414V18h2V8.414l4.293 4.293 1.414-1.414L12 4.586l-6.707 6.707 1.414 1.414z"></path>
     </svg>
   );
 };
