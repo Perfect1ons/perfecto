@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import {
   ArrowDropdown,
+  CardFavoritesIcon,
   CartIcon,
   HeartIconShare,
   HeartIconShareFill,
@@ -22,6 +23,8 @@ import Link from "next/link";
 import clsx from "clsx";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
+import { ICard } from "@/types/Card/card";
+import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -70,9 +73,42 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   // добавление в избранное
   const [favorite, setFavorite] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isRedirect, setIsRedirect] = useState(false);
+  useEffect(() => {
+    setRating(Math.floor(data.items.ocenka));
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(
+      favorites.some((fav: ICard) => fav.id_tov === data.items.id_tov)
+    );
+  }, [data.items.ocenka, data.items.id_tov]);
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
 
-  const handleFavoriteClick = () => {
-    setFavorite(!favorite);
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== data.items.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(data.items);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
   };
 
   const handleCartEmpty = () => {
@@ -130,6 +166,9 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       }
     };
   }, [sectionRef]);
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
 
   return (
     <>
@@ -375,14 +414,26 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             className={styles.share_btnControl}
             onClick={handleFavoriteClick}
           >
+            <FavoriteModal
+              isVisible={isModalVisible}
+              message={modalMessage}
+              isRedirect={isRedirect}
+              onClose={handleModalClose}
+            />
             <button
               title="Добавить в избранное"
               className={cn(styles.heartIconShare, {
                 [styles.heartIconShareFill]: favorite,
               })}
             >
-              <span className="add__to_fav_icon">
-                {favorite ? <HeartIconShareFill /> : <HeartIconShare />}
+              <span
+                title="Добавить в избранное"
+                className={`add__to_fav_icon ${
+                  isFavorite ? "card__info_addedFavorites" : ""
+                }`}
+                onClick={handleFavoriteClick}
+              >
+                <CardFavoritesIcon />
               </span>
             </button>
             <span
@@ -391,7 +442,6 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                 dropdownActive && styles.share_btnControl_info_active
               )}
             >
-              {/* {favorite ? "Товар в избранном" : "Добавить в избранное"} */}
               Добавить в избранное
             </span>
           </div>

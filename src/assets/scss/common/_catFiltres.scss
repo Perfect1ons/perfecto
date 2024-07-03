@@ -282,7 +282,7 @@
 }
 .additionalFilterActiveDropdown {
   @include mixin.flex(center, null, column, 12px);
-  padding: 10px 0 24px;
+  padding: 10px 14px 24px;
 }
 
 .filterBackdrop {

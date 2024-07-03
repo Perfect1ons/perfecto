@@ -34,7 +34,6 @@ interface IEveryFilterProps {
   clearAllCrumbs: () => void;
   resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
-
 const EveryFilters = ({
   filter,
   toggleFilter,
@@ -187,7 +186,7 @@ const EveryFilters = ({
     const handleEnterKey = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         applyFilterPrice();
-        toggleFilter("");
+        toggleFilters("");
       }
     };
 
@@ -312,6 +311,42 @@ const EveryFilters = ({
                               placeholder={`до 0`}
                             />
                           </div>
+                          <div className={styles.containerButtons}>
+                            <button
+                              disabled={
+                                tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0
+                              }
+                              onClick={() => {
+                                applyFilterPrice();
+                                toggleFilters("");
+                              }}
+                              className={cn(
+                                "applyBtn",
+                                (tempPrice.tempMin > 0 ||
+                                  tempPrice.tempMax > 0) &&
+                                  "applyBtn__active"
+                              )}
+                            >
+                              Применить
+                            </button>
+                            {tempPrice.tempMin > 0 && (
+                              <button
+                                onClick={clearFilterPrice}
+                                disabled={
+                                  tempPrice.tempMin <= 0 &&
+                                  tempPrice.tempMax <= 0
+                                }
+                                className={cn(
+                                  "resetButton",
+                                  (tempPrice.tempMin > 0 ||
+                                    tempPrice.tempMax > 0) &&
+                                    "resetButton__active"
+                                )}
+                              >
+                                Сбросить
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </ul>
@@ -322,10 +357,7 @@ const EveryFilters = ({
                     onClick={() => toggleFilters("default")}
                     className="catalogFilterContainerButtonEvery"
                   >
-                    <button
-                      className="catalogFilterButtonEvery"
-                      onClick={() => toggleFilter("default")}
-                    >
+                    <button className="catalogFilterButtonEvery">
                       {options.find((option) => option.value === value)
                         ?.label || "По рейтингу"}
                     </button>
@@ -459,7 +491,7 @@ const EveryFilters = ({
                     </span>
                     {selectedFilters.brand.length > 0 && (
                       <button
-                        onClick={() => clearFilter("brand")}
+                        onClick={() => clearFilter("brand")} // Вызываем clearFilter без перезагрузки
                         disabled={selectedFilters.brand.length <= 0}
                         className={cn(
                           "resetBtnEvery",

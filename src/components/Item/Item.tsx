@@ -189,9 +189,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     ></span>
                     <div
                       className={styles.product__aboutTheProduct_div}
-                      onClick={() => handleCopyCode(data.items.art.toString())}
+                      onClick={() =>
+                        handleCopyCode(data.items.id_tov.toString())
+                      }
                     >
-                      <span>{data.items.art}</span>
+                      <span>{data.items.id_tov}</span>
                       <span
                         onClick={() =>
                           handleCopyCode(data.items.art.toString())

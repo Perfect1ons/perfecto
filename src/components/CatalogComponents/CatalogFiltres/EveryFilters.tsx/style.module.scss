@@ -196,3 +196,6 @@
     height: 100%;
   }
 }
+.containerButtons {
+  @include mixin.flex(center, space-between, null, null);
+}

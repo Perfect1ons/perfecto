@@ -143,21 +143,31 @@ export default function CatalogProducts({
       additional_filter: [],
     });
   };
-
   const clearFilter = (name: string) => {
-    setSelectedFilters((prevFilters: ISelectedFilterProps) => {
+    setSelectedFilters((prevFilters) => {
+      // Создаем копию предыдущего состояния фильтров
       const updatedFilters: any = { ...prevFilters };
 
+      // Очищаем конкретный фильтр по имени
       if (updatedFilters.hasOwnProperty(name)) {
         updatedFilters[name] = [];
       }
 
-      return {
+      // При необходимости обновляем другие части состояния
+      const updatedState = {
         ...updatedFilters,
-        page: 1, // Reset page when filters change
+        page: 1, // Сбрасываем страницу при изменении фильтров
       };
+
+      // Обновляем URL, если это необходимо
+      updateURLWithFilters(updatedState);
+
+      // Возвращаем обновленное состояние без перезагрузки страницы
+      return updatedState;
     });
-    updateURLWithFilters({ ...selectedFilters, [name]: [], page: 1 });
+
+    // Не вызываем здесь toggleFilter или что-то подобное,
+    // чтобы избежать автоматического закрытия модального окна
   };
 
   const resetCategoryFilters = (categoryFilters: Filter2) => {
