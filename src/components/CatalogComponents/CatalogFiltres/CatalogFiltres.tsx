@@ -39,6 +39,7 @@ export interface ISelectedFilterProps {
   additional_filter: any;
   priceMin: number;
   priceMax: number;
+  sortName: string; // Добавляем свойство sortName
 }
 
 const CatalogFiltres = ({

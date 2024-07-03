@@ -1,7 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Cross, СhevronDownIcon } from "../../../../public/Icons/Icons";
+import {
+  Cross,
+  FilterIcon,
+  СhevronDownIcon,
+} from "../../../../public/Icons/Icons";
 import cn from "clsx";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ISelectedFilterProps } from "../CatalogFiltres/CatalogFiltres";
@@ -154,24 +158,6 @@ const AllFiltersMobile = ({
       <div className="container">
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
-            <button
-              onClick={() => toggleFilter("modal")}
-              className="catalogFilterButton"
-            >
-              Фильтры
-              {selectedBrand.length > 0 ||
-              selectedAdditionalFilters.length > 0 ||
-              selectedDost.length > 0 ? (
-                <span className="catalogFilterButton__count">
-                  {selectedBrand.length +
-                    selectedAdditionalFilters.length +
-                    selectedDost.length}
-                </span>
-              ) : null}
-              <span className={cn("filterNavItemArrowIsActive")}>
-                <СhevronDownIcon />
-              </span>
-            </button>
             <div className="positionContainer">
               <button
                 className="catalogFilterButton"
@@ -201,6 +187,24 @@ const AllFiltersMobile = ({
                 </ul>
               )}
             </div>
+            <button
+              onClick={() => toggleFilter("modal")}
+              className="catalogFilterButton"
+            >
+              Фильтры
+              {selectedBrand.length > 0 ||
+              selectedAdditionalFilters.length > 0 ||
+              selectedDost.length > 0 ? (
+                <span className="catalogFilterButton__count">
+                  {selectedBrand.length +
+                    selectedAdditionalFilters.length +
+                    selectedDost.length}
+                </span>
+              ) : null}
+              <span className={cn("filterNavItemArrowIsActive")}>
+                <FilterIcon />
+              </span>
+            </button>
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (
