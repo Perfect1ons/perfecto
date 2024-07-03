@@ -510,19 +510,18 @@ export default function CatalogProducts({
         </div>
       )}
       {isLoading ? (
-        isColumnView ? (
-          <div className="main__news_cards_column">
-            {Array.from({ length: 20 }).map((_, index) => (
-              <CardColumnSkeleton key={index} />
-            ))}
-          </div>
-        ) : (
-          <div className="cards toptwenty">
-            {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
-              <CardSkeleton key={index} />
-            ))}
-          </div>
-        )
+        // isColumnView ? (
+        //   <div className="main__news_cards_column">
+        //     {Array.from({ length: 20 }).map((_, index) => (
+        //       <CardColumnSkeleton key={index} />
+        //     ))}
+        //   </div>
+        // )
+        <div className="cards toptwenty">
+          {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
       ) : items && items.length !== 0 ? (
         <>
           <CatalogProductList items={items} isColumnView={isColumnView} />

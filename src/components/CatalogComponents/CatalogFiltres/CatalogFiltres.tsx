@@ -96,6 +96,7 @@ const CatalogFiltres = ({
         onChange={onChange}
         options={options}
         value={value}
+        filter={filter}
       />
       <DostFilter
         clearFilter={clearFilter}
@@ -112,6 +113,7 @@ const CatalogFiltres = ({
         handlePriceRangeChange={handlePriceRangeChange}
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
+        filter={filter}
       />
       <BrandFilter
         clearFilter={clearFilter}

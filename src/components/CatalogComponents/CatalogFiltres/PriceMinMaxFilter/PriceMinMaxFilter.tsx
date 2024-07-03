@@ -4,6 +4,7 @@ import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import Slider from "react-slider";
 import cn from "clsx";
 import { useEffect, useRef } from "react";
+import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
@@ -15,6 +16,7 @@ interface IPriceMinMaxFilterProps {
     tempMin: number;
     tempMax: number;
   };
+  filter: IFiltersBrand;
 }
 
 const PriceMinMaxFilter = ({
@@ -24,6 +26,7 @@ const PriceMinMaxFilter = ({
   clearFilterPrice,
   applyFilterPrice,
   tempPrice,
+  filter,
 }: IPriceMinMaxFilterProps) => {
   //input min price changer
   const handleMinChange = (min: number) => {
