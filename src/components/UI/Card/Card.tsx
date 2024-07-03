@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
+import ScrollToTopButton from "../ScrollToTopButton/ScrollToTopButton";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -265,6 +266,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
           )}
         </div>
       </div>
+      <ScrollToTopButton />
     </>
   );
 };
