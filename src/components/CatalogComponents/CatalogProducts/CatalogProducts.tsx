@@ -43,6 +43,7 @@ type SelectedFilters = {
   priceMax: number;
   dost: string[];
   additional_filter: string[];
+  sortName: string;
 };
 
 export type FilterKey = keyof SelectedFilters;
@@ -74,6 +75,10 @@ export default function CatalogProducts({
 
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
   const [count, setCount] = useState<number>(0);
+  const [defSelectFilter, setDefSelectFilter] = useState({
+    sortName: "id",
+    sortTitle: "По популярности",
+  });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
     id: catalog.category.id,
     page: initialPage,
@@ -82,11 +87,7 @@ export default function CatalogProducts({
     priceMax: initialPriceMax,
     dost: initialDost,
     additional_filter: initialAdditionalFilter,
-  });
-
-  const [defSelectFilter, setDefSelectFilter] = useState({
-    sortName: "id",
-    sortTitle: "По популярности",
+    sortName: defSelectFilter.sortName,
   });
 
   const [tempPrice, setTempPrice] = useState<{
@@ -142,6 +143,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
+      sortName: "id",
     });
 
     setTempPrice({
@@ -157,6 +159,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
+      sortName: "id",
     });
   };
   const clearFilter = (name: string) => {
@@ -181,9 +184,6 @@ export default function CatalogProducts({
       // Возвращаем обновленное состояние без перезагрузки страницы
       return updatedState;
     });
-
-    // Не вызываем здесь toggleFilter или что-то подобное,
-    // чтобы избежать автоматического закрытия модального окна
   };
 
   const resetCategoryFilters = (categoryFilters: Filter2) => {
@@ -297,6 +297,9 @@ export default function CatalogProducts({
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     const queryParams = new URLSearchParams();
+    if (filters.sortName !== defSelectFilter.sortName) {
+      queryParams.set("sort", defSelectFilter.sortName); // Add sort parameter if it has changed
+    }
     if (filters.page > 1) queryParams.set("page", filters.page.toString());
     if (filters.brand.length > 0)
       queryParams.set("brand", filters.brand.join(","));
@@ -338,7 +341,9 @@ export default function CatalogProducts({
   // Function to update URL parameters
   const updateURL = (filters: SelectedFilters) => {
     const params = new URLSearchParams();
-
+    if (filters.sortName !== defSelectFilter.sortName) {
+      params.set("sort", defSelectFilter.sortName);
+    }
     if (filters.brand.length > 0) {
       params.set("brand", filters.brand.join(","));
     }
@@ -354,6 +359,7 @@ export default function CatalogProducts({
     if (filters.additional_filter.length > 0) {
       params.set("additional_filter", filters.additional_filter.join(","));
     }
+
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
 
