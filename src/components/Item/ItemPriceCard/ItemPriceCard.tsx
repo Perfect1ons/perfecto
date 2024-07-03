@@ -247,6 +247,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           <div className={styles.ItemPriceCard__buttons}>
             {!product?.quantity && (
               <button
+                title="Добавить в корзину"
+                aria-label="add to cart"
                 onClick={handleAddToCart}
                 className={styles.ItemPriceCard__buttons_cart}
               >
@@ -265,7 +267,11 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               />
             )}
             {data.items?.cenaok < 1000 ? null : (
-              <button className={styles.ItemPriceCard__buttons_buy}>
+              <button
+                title="Купить товар"
+                aria-label="buy goods"
+                className={styles.ItemPriceCard__buttons_buy}
+              >
                 Купить
               </button>
             )}
@@ -421,13 +427,18 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               onClose={handleModalClose}
             />
             <button
-              title="Добавить в избранное"
+              aria-label="add to favorites"
+              title={
+                isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+              }
               className={cn(styles.heartIconShare, {
                 [styles.heartIconShareFill]: favorite,
               })}
             >
               <span
-                title="Добавить в избранное"
+                title={
+                  isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+                }
                 className={`add__to_fav_icon ${
                   isFavorite ? "card__info_addedFavorites" : ""
                 }`}
@@ -442,7 +453,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                 dropdownActive && styles.share_btnControl_info_active
               )}
             >
-              Добавить в избранное
+              {isFavorite ? "В избранном" : "Добавить в избранное"}
             </span>
           </div>
           <div className={styles.share} title="Копировать ссылку">
@@ -451,6 +462,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
               onClick={() => handleCopyLink(window.location.href)}
             >
               <button
+                aria-label="copy link"
                 className={cn(
                   styles.share_btnControl_shareBtn,
                   dropdownActive && styles.share_btnControl_shareBtn_active
