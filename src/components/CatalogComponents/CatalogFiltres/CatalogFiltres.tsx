@@ -30,6 +30,7 @@ interface ICatalogFiltresProps {
     tempMax: number;
   };
   resetCategoryFilters: (categoryFilters: Filter2) => void;
+  clearAllCrumbs: () => void;
 }
 
 export interface ISelectedFilterProps {
@@ -56,6 +57,7 @@ const CatalogFiltres = ({
   tempPrice,
   intialAdditional,
   resetCategoryFilters,
+  clearAllCrumbs,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -132,13 +134,21 @@ const CatalogFiltres = ({
       />
       {filter.filter[11] && (
         <EveryFilters
+          resetCategoryFilters={resetCategoryFilters}
+          clearAllCrumbs={clearAllCrumbs}
+          onChange={onChange}
+          options={options}
+          value={value}
+          tempPrice={tempPrice}
+          clearFilterPrice={clearFilterPrice}
+          applyFilterPrice={applyFilterPrice}
+          handlePriceRangeChange={handlePriceRangeChange}
           clearFilter={clearFilter}
-          selectedFilters={selectedFilters.additional_filter}
+          selectedFilters={selectedFilters}
+          // selectedFilters={selectedFilters.additional_filter}
           toggleFilter={toggleFilter}
           visibleFilter={visibleFilter}
-          changeSelect={(value: string[]) =>
-            handleFilterChange("additional_filter", value)
-          }
+          changeSelect={handleFilterChange}
           filter={filter}
         />
       )}

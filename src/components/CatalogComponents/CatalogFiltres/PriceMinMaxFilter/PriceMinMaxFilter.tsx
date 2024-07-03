@@ -112,11 +112,12 @@ const PriceMinMaxFilter = ({
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
                 value={[tempPrice.tempMin, tempPrice.tempMax]}
-                onChange={([min, max]) => handlePriceRangeChange(min, max)}
-                min={1}
+                // defaultValue={[0, 1000000]}
                 max={1000000}
+                min={0}
                 step={1}
                 withTracks={true}
+                onChange={([min, max]) => handlePriceRangeChange(min, max)}
                 renderTrack={(props, state) => (
                   <div
                     {...props}
