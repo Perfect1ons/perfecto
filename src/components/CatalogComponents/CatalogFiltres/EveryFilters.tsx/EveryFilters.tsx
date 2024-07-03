@@ -25,12 +25,6 @@ interface IEveryFilterProps {
     tempMin: number;
     tempMax: number;
   };
-  options: {
-    label: string;
-    value: "rating" | "cheap" | "expensive";
-  }[];
-  value: string;
-  onChange: (value: "rating" | "cheap" | "expensive") => void;
   clearAllCrumbs: () => void;
   resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
@@ -46,9 +40,6 @@ const EveryFilters = ({
   clearFilterPrice,
   handlePriceRangeChange,
   tempPrice,
-  onChange,
-  options,
-  value,
   clearAllCrumbs,
   resetCategoryFilters,
 }: IEveryFilterProps) => {
@@ -326,8 +317,7 @@ const EveryFilters = ({
                       className="catalogFilterButtonEvery"
                       onClick={() => toggleFilter("default")}
                     >
-                      {options.find((option) => option.value === value)
-                        ?.label || "По рейтингу"}
+                      dfgdg
                     </button>
                     <span
                       className={cn(
@@ -341,20 +331,7 @@ const EveryFilters = ({
                   {visibleFilters === "default" && (
                     <ul className="additionalFilterActiveDropdown">
                       <div className="showCatalogFilterActiveChild">
-                        {options.map((option, index) => (
-                          <div
-                            key={index}
-                            className={cn(styles.option, {
-                              [styles.selected]: value === option.value,
-                            })}
-                            onClick={() => {
-                              onChange(option.value);
-                            }}
-                          >
-                            <span className={styles.option__cyrcle}></span>
-                            {option.label}
-                          </div>
-                        ))}
+                        sddsffs
                       </div>
                     </ul>
                   )}

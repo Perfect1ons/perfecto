@@ -93,9 +93,6 @@ export default function CatalogProducts({
     tempMax: initialPriceMax,
   });
 
-  const [sortOrder, setSortOrder] = useState<
-    "rating" | "cheap" | "expensive" | null
-  >(null);
   const [isColumnView, setIsColumnView] = useState(false);
   const [pageCount, setPageCount] = useState<any>(
     Math.ceil(Math.ceil(init.totalCount / 20))
@@ -212,55 +209,6 @@ export default function CatalogProducts({
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters]);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const sortParam = queryParams.get("sort");
-    if (
-      sortParam &&
-      (sortParam === "rating" ||
-        sortParam === "cheap" ||
-        sortParam === "expensive")
-    ) {
-      setSortOrder(sortParam as "rating" | "cheap" | "expensive");
-    }
-  }, []);
-
-  const sortItems = (order: "rating" | "cheap" | "expensive") => {
-    const sortedItems = [...items];
-    switch (order) {
-      case "rating":
-        sortedItems.sort((a, b) => b.ocenka - a.ocenka);
-        break;
-      case "cheap":
-        sortedItems.sort((a, b) => a.cenaok - b.cenaok);
-        break;
-      case "expensive":
-        sortedItems.sort((a, b) => b.cenaok - a.cenaok);
-        break;
-      default:
-        break;
-    }
-    setItems(sortedItems);
-  };
-
-  const handleSort = (order: "rating" | "cheap" | "expensive") => {
-    setSortOrder(order);
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("sort", order);
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams.toString()}`
-    );
-  };
-  useEffect(() => {
-    // Убедитесь, что начальная сортировка не применяется автоматически
-    if (sortOrder !== null) {
-      sortItems(sortOrder);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortOrder]);
 
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
@@ -432,13 +380,6 @@ export default function CatalogProducts({
             setSelected={(filters) =>
               setSelectedFilters((prev) => ({ ...prev, ...filters }))
             }
-            value={sortOrder || "rating"}
-            options={[
-              { label: "По рейтингу", value: "rating" },
-              { label: "Сначала дешевле", value: "cheap" },
-              { label: "Сначала дороже", value: "expensive" },
-            ]}
-            onChange={(value) => handleSort(value)}
             filter={filtered}
             isColumnView={isColumnView}
             filters={filter}
@@ -459,15 +400,8 @@ export default function CatalogProducts({
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
               intialAdditional={initialAdditionalFilter}
-              onChange={(value) => handleSort(value)}
               filter={filter}
               catalog={catalog}
-              value={sortOrder || "rating"}
-              options={[
-                { label: "По рейтингу", value: "rating" },
-                { label: "Сначала дешевле", value: "cheap" },
-                { label: "Сначала дороже", value: "expensive" },
-              ]}
             />
             <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button

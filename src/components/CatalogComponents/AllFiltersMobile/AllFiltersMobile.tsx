@@ -15,25 +15,16 @@ interface IPropsMobileFilter {
   filter: IFiltersBrandByAbdulaziz;
   isColumnView: boolean;
   toggleView: (view: boolean) => void;
-  options: {
-    label: string;
-    value: "cheap" | "expensive" | "rating";
-  }[];
-  value: string;
-  onChange: (value: "cheap" | "expensive" | "rating") => void;
   setSelected: (filters: Partial<ISelectedFilterProps>) => void;
-  filters: IFiltersBrand
+  filters: IFiltersBrand;
 }
 
 const AllFiltersMobile = ({
   filter,
   isColumnView,
   toggleView,
-  onChange,
-  options,
-  value,
   setSelected,
-  filters
+  filters,
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get("brand")?.split(",") || [];
@@ -158,7 +149,6 @@ const AllFiltersMobile = ({
     });
   };
 
-
   return (
     <>
       <div className="container">
@@ -187,8 +177,7 @@ const AllFiltersMobile = ({
                 className="catalogFilterButton"
                 onClick={() => toggleFilter("default")}
               >
-                {options.find((option) => option.value === value)?.label ||
-                  "По умолчанию"}
+                {"По умолчанию"}
                 <span
                   className={cn(
                     "filterNavItemArrowIsActive",
@@ -207,20 +196,7 @@ const AllFiltersMobile = ({
                     >
                       <Cross />
                     </button>
-                    {options.map((option, index) => (
-                      <div
-                        key={index}
-                        className={cn(styles.option, {
-                          [styles.selected]: value === option.value,
-                        })}
-                        onClick={() => {
-                          onChange(option.value);
-                        }}
-                      >
-                        <span className={styles.option__cyrcle}></span>
-                        {option.label}
-                      </div>
-                    ))}
+                    sadsa
                   </div>
                 </ul>
               )}
