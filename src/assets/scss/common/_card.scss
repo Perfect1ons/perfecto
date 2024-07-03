@@ -169,8 +169,8 @@
       overflow: hidden;
       &_desc {
         @include mixin.font(14px, 400, 1.1, var(--light-blue));
-        @media screen and (max-width: 380px) {
-          font-size: 13px;
+        @media screen and (max-width: 480px) {
+          font-size: 12px;
         }
       }
       @media screen and (max-width: 380px) {
