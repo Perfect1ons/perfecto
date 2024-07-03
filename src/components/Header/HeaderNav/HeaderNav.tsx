@@ -36,12 +36,9 @@ const navLinks: ILinks[] = [
 const HeaderNav = () => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [links, setLinks] = useState(navLinks);
-
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-
   const pathname = usePathname();
-
   const cart = useSelector((state: RootState) => state.cart.cart);
 
   const updateCounts = () => {
@@ -96,7 +93,7 @@ const HeaderNav = () => {
           >
             <div className={styles.nav__link_items}>
               <div className={styles.nav__link_items_icon}>{link.icon}</div>
-              <h6 className={styles.nav__link_items_title}>{link.title}</h6>
+              <h2 className={styles.nav__link_items_title}>{link.title}</h2>
             </div>
           </div>
         ) : (
@@ -122,7 +119,7 @@ const HeaderNav = () => {
                   </span>
                 )}
               </div>
-              <h6 className={styles.nav__link_items_title}>{link.title}</h6>
+              <h2 className={styles.nav__link_items_title}>{link.title}</h2>
             </div>
           </Link>
         )

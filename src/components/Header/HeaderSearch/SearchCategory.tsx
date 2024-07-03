@@ -2,8 +2,8 @@ import { ISearchCatalog } from "@/types/Search/search";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import Image from "next/image";
-import { ClickIcon, SearchIcon } from "../../../../public/Icons/Icons";
-
+import { SearchIcon } from "../../../../public/Icons/Icons";
+import { url } from "@/components/temporary/data";
 interface ISearchCategoryProps {
   category: ISearchCatalog[];
   closeModal: () => void;
@@ -16,7 +16,7 @@ const SearchCategory = ({ category, closeModal }: ISearchCategoryProps) => {
         .map((categoria, index) => {
           const iconSrc = categoria.icon
             ? !categoria.icon.startsWith("https://")
-              ? `https://max.kg/${categoria.icon}`
+              ? `${url}${categoria.icon}`
               : categoria.icon
             : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
           return (

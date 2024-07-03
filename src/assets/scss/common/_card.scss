@@ -140,6 +140,7 @@
     @include mixin.flex(flex-start, space-between, column, 2px);
     padding: 6px;
     height: 170px;
+    width: 100%;
 
     @media screen and (max-width: 380px) {
       height: 180px;
