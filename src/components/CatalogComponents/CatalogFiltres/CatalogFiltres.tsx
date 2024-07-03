@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
+import DefaultFilter from "./DefaultFilter/DefaultFilter";
 
 interface ICatalogFiltresProps {
   intialAdditional: string[];
@@ -24,6 +25,10 @@ interface ICatalogFiltresProps {
   };
   resetCategoryFilters: (categoryFilters: Filter2) => void;
   clearAllCrumbs: () => void;
+  selectedSort: { sortName: string; sortTitle: string };
+  setSelectedSort: React.Dispatch<
+    React.SetStateAction<{ sortName: string; sortTitle: string }>
+  >;
 }
 
 export interface ISelectedFilterProps {
@@ -48,6 +53,8 @@ const CatalogFiltres = ({
   intialAdditional,
   resetCategoryFilters,
   clearAllCrumbs,
+  selectedSort,
+  setSelectedSort,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -80,6 +87,13 @@ const CatalogFiltres = ({
 
   return (
     <div ref={containerRef} className="filtresContainer">
+      <DefaultFilter
+        filter={filter}
+        visibleFilter={visibleFilter}
+        toggleFilter={toggleFilter}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+      />
       <DostFilter
         clearFilter={clearFilter}
         toggleFilter={toggleFilter}

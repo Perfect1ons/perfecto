@@ -1,0 +1,43 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+.option {
+  // @include mixin.font(16px, 500, null, var(--black));
+  @include mixin.flex(center, center, null, 8px);
+  cursor: pointer;
+  // padding: 5px 0;
+  text-wrap: nowrap;
+
+  &__cyrcle {
+    @include mixin.flex(center, center, null, null);
+    width: 22px;
+    height: 22px;
+    border: 1px solid #d3d4dd;
+    border-radius: 50%;
+    background: #fff;
+    &::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--dark-blue);
+      border-radius: 50%;
+      display: none;
+    }
+  }
+  &__cyrcled {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+}
+.selected {
+  color: var(--black);
+  .option__cyrcle {
+    &::after {
+      display: block;
+    }
+    border: 2px solid var(--dark-blue);
+  }
+}

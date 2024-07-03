@@ -83,6 +83,11 @@ export default function CatalogProducts({
     additional_filter: initialAdditionalFilter,
   });
 
+  const [defSelectFilter, setDefSelectFilter] = useState({
+    sortName: "id",
+    sortTitle: "По новинкам",
+  });
+
   const [tempPrice, setTempPrice] = useState<{
     tempMin: number;
     tempMax: number;
@@ -189,7 +194,8 @@ export default function CatalogProducts({
           selectedFilters.priceMin,
           maxPrice,
           selectedFilters.dost.join(","),
-          selectedFilters.additional_filter.join(",")
+          selectedFilters.additional_filter.join(","),
+          defSelectFilter.sortName
         );
 
         if (response.model) {
@@ -206,7 +212,7 @@ export default function CatalogProducts({
 
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalog.category.id, selectedFilters]);
+  }, [catalog.category.id, selectedFilters, defSelectFilter.sortName]);
 
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
@@ -400,6 +406,8 @@ export default function CatalogProducts({
               intialAdditional={initialAdditionalFilter}
               filter={filter}
               catalog={catalog}
+              selectedSort={defSelectFilter}
+              setSelectedSort={setDefSelectFilter}
             />
             <div className={cn("default__sort_style", "sortBoxShadow")}>
               <button
