@@ -63,6 +63,8 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
             <div className={styles.wrap_review_grade_rating}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
+                  aria-label="rating button"
+                  title={`Оценить товар ${star} из 5`}
                   key={star}
                   type="button"
                   className={cn(
@@ -90,7 +92,12 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           Будет здорово, если вы напишете свои впечатления о товаре. Это поможет
           другим покупателям.
         </p>
-        <button onClick={func} className="default__buttons_showMore">
+        <button
+          aria-label="write a review about a product"
+          title="написать отзыв от товаре"
+          onClick={func}
+          className="default__buttons_showMore"
+        >
           Написать отзыв
         </button>
       </div>
@@ -169,6 +176,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
               </SwiperSlide>
             ))}
           <button
+            aria-label="swiper button prev"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_left,
@@ -179,6 +187,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           </button>
 
           <button
+            aria-label="swiper button next"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_right,
@@ -187,8 +196,6 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           >
             <ArrowRightIcon />
           </button>
-          {/* <div className={styles.team__swiper_buttons}>
-          </div> */}
         </Swiper>
       )}
     </div>

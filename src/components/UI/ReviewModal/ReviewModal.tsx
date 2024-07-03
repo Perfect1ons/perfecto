@@ -224,6 +224,7 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
               <div className={styles.container_ocenka_rating}>
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
+                    aria-label="rating button"
                     key={star}
                     type="button"
                     className={cn(styles.container_ocenka_rating_star, {
