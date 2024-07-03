@@ -32,7 +32,7 @@ const SeekNotFound = ({ goods, search }: IPopularProps) => {
         </h1>
 
         <Link className={styles.goToMain} href={"/"}>
-          <button className={styles.goToMain__button}>
+          <button aria-label="go to main page" className={styles.goToMain__button}>
             Перейти на главную
           </button>
         </Link>

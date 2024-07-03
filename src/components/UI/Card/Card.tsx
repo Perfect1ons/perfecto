@@ -159,7 +159,9 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
             ) : null}
           </Link>
           <span
-            title="Добавить в избранное"
+            title={
+              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+            }
             className={`card__info_addFavorites ${
               isFavorite ? "card__info_addedFavorites" : ""
             }`}
@@ -241,6 +243,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
             >
               <button
                 title="Добавить в корзину"
+                aria-label="add to cart"
                 className="card__info_addproduct"
                 onClick={handleAddToCart}
               >

@@ -25,7 +25,7 @@ const DefaultFilter = ({
   const [defaultFilters, setDefaultFilters] = useState([
     {
       sortName: "id",
-      sortTitle: "По новинкам",
+      sortTitle: "По популярности",
     },
     {
       sortName: "ocenka",
@@ -41,8 +41,11 @@ const DefaultFilter = ({
     },
   ]);
   return (
-    <div className="positionContainer" onClick={() => toggleFilter("default")}>
-      <button className="catalogFilterButton">
+    <div className="positionContainer">
+      <button
+        onClick={() => toggleFilter("default")}
+        className="catalogFilterButton"
+      >
         {selectedSort.sortTitle}
         <span
           className={cn(
@@ -57,8 +60,8 @@ const DefaultFilter = ({
         <ul className="showCatalogFilterActive">
           <div className="showCatalogFilterActiveChild">
             <button
-              className="closeFilterUl"
               onClick={() => toggleFilter("default")}
+              className="closeFilterUl"
             >
               <Cross />
             </button>

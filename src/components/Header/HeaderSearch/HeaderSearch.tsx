@@ -28,7 +28,6 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
   const [inputActive, setInputActive] = useState<boolean>(false);
   const searchWrapperRef = useRef<HTMLDivElement>(null);
   const [fastValue, setFastValue] = useState<ISearch | undefined>(undefined);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const fetchData = async (query: string) => {
     if (!query) {
@@ -36,14 +35,11 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
       return;
     }
     try {
-      setIsFetching(true);
       const response: ISearch = await getFastUserSearch(query);
       setFastValue(response);
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally {
-      setIsFetching(false);
-    }
+    } 
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +112,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
           <button
             type="button"
             className="search__input_close"
+            aria-label="close modal"
             onClick={handleCloseModal}
           >
             <ExitIcon />

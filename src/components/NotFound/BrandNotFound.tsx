@@ -11,7 +11,7 @@ const BrandNotFound = () => {
             width={180}
             height={180}
             alt="undefined"
-            loading="lazy" // Добавлен атрибут loading="lazy" для ленивой загрузки изображения
+            loading="lazy" 
           />
         </div>
         <h1>По вашему бренду ничего не найдено</h1>

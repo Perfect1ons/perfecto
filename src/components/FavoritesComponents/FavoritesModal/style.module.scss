@@ -2,8 +2,9 @@
   position: fixed;
   text-decoration: none;
   z-index: 1000;
-  bottom: 20px;
-  left: 20px;
+  top: 8%;
+  left: 50%;
+  transform: translate(-50.6%, 50%);
   background: var(--dark);
   color: #fff;
   padding: 10px 20px;

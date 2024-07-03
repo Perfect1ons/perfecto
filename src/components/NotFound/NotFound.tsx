@@ -1,24 +1,11 @@
-"use client";
 import Link from "next/link";
 import styles from "./style.module.scss";
-import Image from "next/image";
 import cn from "clsx";
-import { useEffect, useState } from "react";
-import Loader from "../UI/Loader/Loader";
 
 const NotFounded = () => {
-  const [loading, setLoading] = useState(false); // Установим loading в false по умолчанию
-
-  useEffect(() => {
-    setLoading(false); // Установим loading в false после загрузки компонента
-  }, []);
 
   return (
     <section className={styles.not__found}>
-      {/* Отображаем лоадер, пока loading === true */}
-      {loading ? (
-        <Loader />
-      ) : (
         <div className={cn(styles.not__found_container, "container")}>
           <div className={cn("mascot_sprite", "mascot_sprite_not_found")}></div>
 
@@ -28,9 +15,9 @@ const NotFounded = () => {
           </h1>
 
           <div className={styles.not__found_reasons}>
-            <h4 className={styles.error__reason}>
+            <h2 className={styles.error__reason}>
               Ошибка могла произойти по нескольким причинам:
-            </h4>
+            </h2>
             <ul className={styles.reason__list}>
               <li className={styles.reason__name}>
                 • Вы ввели не правильный адрес.
@@ -48,13 +35,12 @@ const NotFounded = () => {
             </ul>
           </div>
 
-          <Link href={"/"}>
-            <button className={styles.goToMain__button}>
+          <Link href={"/"} >
+            <button aria-label="go to main page" className={styles.goToMain__button}>
               Перейти на главную
             </button>
           </Link>
         </div>
-      )}
     </section>
   );
 };

@@ -2,12 +2,11 @@
 import { useEffect, useRef, useState } from "react";
 import HeaderNav from "./HeaderNav/HeaderNav";
 import { SearchIconAbdu, SearchIconWhite } from "../../../public/Icons/Icons";
-import Logo from "../Logo/Logo";
+import Logo from "../UI/Logo/Logo";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
-import MobileSearchHeader from "./MobileSearchHeader/MobileSearchHeader";
 import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
@@ -36,6 +35,10 @@ const Header = ({
   //! Функционал и стейты для быстрого в Header
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [inputEmpty, setInputEmpty] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const handleSearchIconClick = () => {
     if (searchInputRef.current) {
@@ -56,12 +59,6 @@ const Header = ({
   };
   //! Функционал и стейты для быстрого в Header
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [inputEmpty, setInputEmpty] = useState(false);
-
-  const router = useRouter();
-
-  // для поиска
   useEffect(() => {
     const handleUnload = (event: BeforeUnloadEvent) => {
       if (searchTerm.trim() !== "") {
@@ -97,7 +94,6 @@ const Header = ({
   };
 
   // открытие и закрытие
-  const [isOpen, setIsOpen] = useState(false);
 
   const open = () => {
     click();
@@ -107,6 +103,7 @@ const Header = ({
     click();
     setIsOpen(!isOpen);
   };
+
   const onClose = () => {
     setIsOpen(false);
   };
@@ -178,6 +175,7 @@ const Header = ({
           <div className={styles.catalog_modal}>
             <div className={styles.catalog} onClick={open}>
               <button
+                aria-label="open catalog"
                 className={cn("hamburger", "hamburger_3dy", {
                   ["is_active"]: isOpen,
                 })}
@@ -210,7 +208,6 @@ const Header = ({
           </div>
         </div>
 
-        <MobileSearchHeader />
         <div className={styles.search__white} onClick={openMobileModal}>
           <SearchIconWhite />
         </div>

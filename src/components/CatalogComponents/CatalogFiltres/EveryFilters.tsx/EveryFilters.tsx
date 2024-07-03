@@ -1,3 +1,4 @@
+"use client"
 import { Filter2, IFiltersBrand, N11 } from "@/types/filtersBrand";
 import {
   FilterIcon,
@@ -42,9 +43,13 @@ const EveryFilters = ({
   clearAllCrumbs,
   resetCategoryFilters,
 }: IEveryFilterProps) => {
+  const [tempSelectedFilters, setTempSelectedFilters] =
+    useState<ISelectedFilterProps>(selectedFilters);
+
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
+
   function isKeyOfISelectedFilterProps(
     key: any
   ): key is keyof ISelectedFilterProps {
@@ -56,12 +61,15 @@ const EveryFilters = ({
     item: string
   ) => {
     if (isKeyOfISelectedFilterProps(filterType)) {
-      const filters = selectedFilters[filterType];
+      const filters = tempSelectedFilters[filterType];
       const newFilters = filters.includes(item)
         ? filters.filter((f: any) => f !== item)
         : [...filters, item];
 
-      changeSelect(filterType, newFilters);
+      setTempSelectedFilters((prev) => ({
+        ...prev,
+        [filterType]: newFilters,
+      }));
     }
   };
 
@@ -91,15 +99,15 @@ const EveryFilters = ({
     let count = 0;
 
     // Count brand filters
-    if (selectedFilters.brand && Array.isArray(selectedFilters.brand)) {
-      count += selectedFilters.brand.length;
+    if (tempSelectedFilters.brand && Array.isArray(tempSelectedFilters.brand)) {
+      count += tempSelectedFilters.brand.length;
     }
 
     if (
-      selectedFilters.additional_filter &&
-      Array.isArray(selectedFilters.additional_filter)
+      tempSelectedFilters.additional_filter &&
+      Array.isArray(tempSelectedFilters.additional_filter)
     ) {
-      count += selectedFilters.additional_filter.length;
+      count += tempSelectedFilters.additional_filter.length;
     }
 
     // Iterate through the filters and count selected items
@@ -108,7 +116,7 @@ const EveryFilters = ({
       if (isKeyOfISelectedFilterProps(filterType)) {
         count += getFilterCount(
           item.filter,
-          selectedFilters[filterType as keyof ISelectedFilterProps]
+          tempSelectedFilters[filterType as keyof ISelectedFilterProps]
         );
       }
     });
@@ -134,6 +142,15 @@ const EveryFilters = ({
       body.style.top = "";
     }
   }, [visibleFilter]);
+
+  const handleApplyFilters = () => {
+    changeSelect("brand", tempSelectedFilters.brand);
+    changeSelect("additional_filter", tempSelectedFilters.additional_filter);
+    changeSelect("dost", tempSelectedFilters.dost);
+    applyFilterPrice();
+    toggleFilter("");
+  };
+
   //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
