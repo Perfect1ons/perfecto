@@ -24,7 +24,6 @@ import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
-import { useRouter } from "next/navigation";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
 import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
 import CatalogDesc from "./CatalogDesc/CatalogDesc";
@@ -48,6 +47,10 @@ type SelectedFilters = {
 };
 
 export type FilterKey = keyof SelectedFilters;
+
+interface FilterRules {
+  [key: string]: { [key: string]: string[] };
+}
 
 export default function CatalogProducts({
   init,
@@ -89,8 +92,6 @@ export default function CatalogProducts({
     tempMin: initialPriceMin,
     tempMax: initialPriceMax,
   });
-
-  const router = useRouter();
 
   const [sortOrder, setSortOrder] = useState<
     "rating" | "cheap" | "expensive" | null
@@ -258,7 +259,7 @@ export default function CatalogProducts({
     if (sortOrder !== null) {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const handleViewChange = (isColumn: boolean) => {
@@ -316,22 +317,23 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-const updateURLWithFilters = (filters: ISelectedFilterProps) => {
-  const queryParams = new URLSearchParams();
-  if (filters.page > 1) queryParams.set("page", filters.page.toString());
-  if (filters.brand.length > 0)
-    queryParams.set("brand", filters.brand.join(","));
-  if (filters.priceMin > 0)
-    queryParams.set("priceMin", filters.priceMin.toString());
-  if (filters.priceMax > 0)
-    queryParams.set("priceMax", filters.priceMax.toString());
-  if (filters.dost.length > 0) queryParams.set("dost", filters.dost.join(","));
-  if (filters.additional_filter.length > 0)
-    queryParams.set("additional_filter", filters.additional_filter.join(","));
+  const updateURLWithFilters = (filters: ISelectedFilterProps) => {
+    const queryParams = new URLSearchParams();
+    if (filters.page > 1) queryParams.set("page", filters.page.toString());
+    if (filters.brand.length > 0)
+      queryParams.set("brand", filters.brand.join(","));
+    if (filters.priceMin > 0)
+      queryParams.set("priceMin", filters.priceMin.toString());
+    if (filters.priceMax > 0)
+      queryParams.set("priceMax", filters.priceMax.toString());
+    if (filters.dost.length > 0)
+      queryParams.set("dost", filters.dost.join(","));
+    if (filters.additional_filter.length > 0)
+      queryParams.set("additional_filter", filters.additional_filter.join(","));
 
-  const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-  window.history.replaceState({ path: newUrl }, "", newUrl);
-};
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+  };
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
     setSelectedFilters((prevFilters) => {
@@ -356,32 +358,32 @@ const updateURLWithFilters = (filters: ISelectedFilterProps) => {
   };
 
   // Function to update URL parameters
-const updateURL = (filters: SelectedFilters) => {
-  const params = new URLSearchParams();
+  const updateURL = (filters: SelectedFilters) => {
+    const params = new URLSearchParams();
 
-  if (filters.brand.length > 0) {
-    params.set("brand", filters.brand.join(","));
-  }
-  if (filters.priceMin > 0) {
-    params.set("priceMin", filters.priceMin.toString());
-  }
-  if (filters.priceMax > 0) {
-    params.set("priceMax", filters.priceMax.toString());
-  }
-  if (filters.dost.length > 0) {
-    params.set("dost", filters.dost.join(","));
-  }
-  if (filters.additional_filter.length > 0) {
-    params.set("additional_filter", filters.additional_filter.join(","));
-  }
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  window.history.replaceState({ path: newUrl }, "", newUrl);
+    if (filters.brand.length > 0) {
+      params.set("brand", filters.brand.join(","));
+    }
+    if (filters.priceMin > 0) {
+      params.set("priceMin", filters.priceMin.toString());
+    }
+    if (filters.priceMax > 0) {
+      params.set("priceMax", filters.priceMax.toString());
+    }
+    if (filters.dost.length > 0) {
+      params.set("dost", filters.dost.join(","));
+    }
+    if (filters.additional_filter.length > 0) {
+      params.set("additional_filter", filters.additional_filter.join(","));
+    }
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
 
-  setSelectedFilters((prevFilters) => ({
-    ...prevFilters,
-    page: 1,
-  }));
-};
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      page: 1,
+    }));
+  };
 
   return (
     <section>
