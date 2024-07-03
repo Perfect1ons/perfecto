@@ -1,4 +1,5 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
+
 .container {
   position: relative;
   cursor: default;
@@ -10,23 +11,8 @@
   padding: 20px;
   border-radius: 5px;
   display: none;
-  &_cross {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    cursor: pointer;
-    z-index: 10;
-    color: var(--secondary-gray);
-    transition: 0.3s all;
-    &:hover {
-      color: var(--dark);
-    }
-  }
+
   &_btnControl {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
     user-select: none;
     @include mixin.flex(center, center, null, 15px);
     &_apply {
@@ -75,4 +61,138 @@
   left: 50%;
   transform: translate(-50.6%, -50%);
   z-index: 1000; /* Убедитесь, что элемент находится поверх других */
+  // max-height: 600px;
+  overflow-y: auto;
+}
+.containerPriceInputs {
+  @include mixin.flex(center, center, null, 8px);
+}
+.priceContainerRange {
+  @include mixin.flex(null, null, column, 8px);
+}
+.inputPrice {
+  padding: 6px 12px;
+  height: 36px;
+  background-color: #f1f1f5;
+  border-color: #f1f1f5;
+  transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
+  width: 100%;
+  border: 2px solid #d3d4dd;
+  border-radius: 8px;
+  height: auto;
+  font-size: 16px;
+  line-height: 16px;
+  color: #242424;
+  &:hover {
+    background-color: #e8e8f0;
+    border-color: #e8e8f0;
+  }
+  &:focus {
+    border: 2px solid var(--dark-blue);
+  }
+}
+.sliderRange {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 4px;
+  background: #cbcbcb;
+  border-radius: 5px;
+  padding: 0 8px;
+  margin: 15px 0;
+}
+.trackClassName {
+  max-width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.trackOutside {
+  background: #cccccc; /* Серый цвет для участков до и после ползунков */
+}
+
+.trackBetween {
+  background: var(--blue); /* Синий цвет для участка между ползунками */
+}
+.thumbClassName {
+  background: var(--dark-blue);
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  cursor: pointer;
+  border: 2px solid var(--dark-blue);
+  position: absolute;
+}
+/* Левый ползунок */
+.thumbClassName:first-of-type {
+  left: 0; /* положение левого ползунка в начале трека */
+}
+
+/* Правый ползунок */
+.thumbClassName:last-of-type {
+  right: 0; /* положение правого ползунка в конце трека */
+}
+.option {
+  // @include mixin.font(16px, 500, null, var(--black));
+  @include mixin.flex(center, center, null, 8px);
+  cursor: pointer;
+  // padding: 5px 0;
+  text-wrap: nowrap;
+
+  &__cyrcle {
+    @include mixin.flex(center, center, null, null);
+    width: 22px;
+    height: 22px;
+    border: 1px solid #d3d4dd;
+    border-radius: 50%;
+    background: #fff;
+    &::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--dark-blue);
+      border-radius: 50%;
+      display: none;
+    }
+  }
+  &__cyrcled {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid black;
+  }
+}
+.selected {
+  color: var(--black);
+  .option__cyrcle {
+    &::after {
+      display: block;
+    }
+    border: 2px solid var(--dark-blue);
+  }
+}
+.headerTitleCross {
+  @include mixin.flex(center, space-between, null, null);
+  margin-bottom: 15px;
+  &__title {
+    @include mixin.font(18px, 500, null, var(--dark));
+  }
+  &__cross {
+    cursor: pointer;
+    z-index: 10;
+    color: var(--secondary-gray);
+    transition: 0.3s all;
+    &:hover {
+      color: var(--dark);
+    }
+  }
+}
+@media screen and (max-width: 1200px) {
+  .container {
+    height: 100%;
+  }
 }

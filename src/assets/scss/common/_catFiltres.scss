@@ -188,6 +188,21 @@
     border-color: var(--violet);
   }
 }
+.resetBtnEvery {
+  opacity: 0;
+  display: none;
+  @include mixin.font(14px, 400, 22px, #242424);
+  margin-left: auto;
+  border-bottom: 1px dashed;
+  cursor: pointer;
+  border-color: #868695;
+  &__active {
+    display: block;
+    opacity: 1;
+    color: var(--violet);
+    border-color: var(--violet);
+  }
+}
 .nameAndKol {
   @include mixin.flex(center, null, null, 5px);
   @include mixin.font(0.875rem, 400, null, null);
@@ -230,15 +245,18 @@
 }
 .everyFilterContainer {
   user-select: none;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  // display: grid;
+  // grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   gap: 20px;
-  flex-wrap: wrap;
+  // flex-wrap: wrap;
 }
 .catalogFilterContainerButtonEvery {
   cursor: pointer;
   width: 100%;
-  @include mixin.flex(center, space-between, null, null);
+  @include mixin.flex(center, space-between, null, 15px);
   padding: 12px;
   overflow: hidden;
   position: relative;
@@ -249,6 +267,7 @@
   }
 }
 .filterColumn {
+  width: 33%;
   background-color: #f5f7fa;
   border-radius: 5px;
   padding: 12px;
@@ -257,7 +276,7 @@
 }
 .catalogFilterButtonEvery {
   cursor: pointer;
-  @include mixin.flex(center, null, null, null);
+  @include mixin.flex(center, null, null, 8px);
   @include mixin.font(0.875rem, 400, null, var(--dark));
   font-family: var(--font-inter);
 }
@@ -295,4 +314,9 @@
   background: var(--violet);
   border-radius: 50%;
   padding: 0px 7px;
+}
+@media screen and (max-width: 1200px) {
+  .everyFilterContainer {
+    flex-wrap: wrap;
+  }
 }

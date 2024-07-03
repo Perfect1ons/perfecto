@@ -449,6 +449,7 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              clearAllCrumbs={clearAllCrumbs}
               resetCategoryFilters={resetCategoryFilters}
               tempPrice={tempPrice}
               clearFilterPrice={clearFilterPrice}

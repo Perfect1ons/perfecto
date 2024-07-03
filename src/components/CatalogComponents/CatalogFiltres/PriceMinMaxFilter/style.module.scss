@@ -57,4 +57,14 @@
   border-radius: 100%;
   cursor: pointer;
   border: 2px solid var(--dark-blue);
+  position: absolute;
+}
+/* Левый ползунок */
+.thumbClassName:first-of-type {
+  left: 0; /* положение левого ползунка в начале трека */
+}
+
+/* Правый ползунок */
+.thumbClassName:last-of-type {
+  right: 0; /* положение правого ползунка в конце трека */
 }

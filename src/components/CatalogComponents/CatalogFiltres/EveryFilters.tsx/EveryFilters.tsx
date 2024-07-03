@@ -6,15 +6,33 @@ import {
 } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Slider from "react-slider";
+import { ISelectedFilterProps } from "../CatalogFiltres";
+
 interface IEveryFilterProps {
   filter: IFiltersBrand;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
-  selectedFilters: string[];
-  changeSelect: (value: string[]) => void;
+  selectedFilters: ISelectedFilterProps;
+  changeSelect: (name: string, value: any) => void;
   clearFilter: (name: string) => void;
+  handlePriceRangeChange: (min: number, max: number) => void;
+  clearFilterPrice: () => void;
+  applyFilterPrice: () => void;
+  tempPrice: {
+    tempMin: number;
+    tempMax: number;
+  };
+  options: {
+    label: string;
+    value: "rating" | "cheap" | "expensive";
+  }[];
+  value: string;
+  onChange: (value: "rating" | "cheap" | "expensive") => void;
+  clearAllCrumbs: () => void;
+  resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
 
 const EveryFilters = ({
@@ -24,20 +42,36 @@ const EveryFilters = ({
   selectedFilters,
   changeSelect,
   clearFilter,
+  applyFilterPrice,
+  clearFilterPrice,
+  handlePriceRangeChange,
+  tempPrice,
+  onChange,
+  options,
+  value,
+  clearAllCrumbs,
+  resetCategoryFilters,
 }: IEveryFilterProps) => {
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
+  function isKeyOfISelectedFilterProps(
+    key: any
+  ): key is keyof ISelectedFilterProps {
+    return ["dost", "brand", "additional_filter"].includes(key);
+  }
 
-  // Select changer for every filters
-  const handleSelectChange = (item: string) => {
-    const filters = selectedFilters;
-    const newFilters = filters.includes(item)
-      ? filters.filter((f) => f !== item)
-      : [...filters, item];
+  const handleSelectChange = (
+    filterType: keyof ISelectedFilterProps,
+    item: string
+  ) => {
+    if (isKeyOfISelectedFilterProps(filterType)) {
+      const filters = selectedFilters[filterType];
+      const newFilters = filters.includes(item)
+        ? filters.filter((f: any) => f !== item)
+        : [...filters, item];
 
-    if (changeSelect) {
-      changeSelect(newFilters);
+      changeSelect(filterType, newFilters);
     }
   };
 
@@ -49,20 +83,48 @@ const EveryFilters = ({
   };
 
   // Function to get count of selected filters
-  const getFilterCount = (filters: Filter2, selectedFilters: string[]) => {
+  const getFilterCount = (
+    filters: Filter2,
+    selectedFilters: string[] | undefined
+  ) => {
+    if (!selectedFilters || !Array.isArray(selectedFilters)) {
+      return 0; // or handle the case where selectedFilters is not defined or not an array
+    }
+
     return Object.values(filters).filter((filter) =>
       selectedFilters.includes(filter.id_filter.toString())
     ).length;
   };
 
   // Get count of selected filters
-  const getSelectedFiltersCount = () => {
+  function getSelectedFiltersCount(): number {
     let count = 0;
+
+    // Count brand filters
+    if (selectedFilters.brand && Array.isArray(selectedFilters.brand)) {
+      count += selectedFilters.brand.length;
+    }
+
+    if (
+      selectedFilters.additional_filter &&
+      Array.isArray(selectedFilters.additional_filter)
+    ) {
+      count += selectedFilters.additional_filter.length;
+    }
+
+    // Iterate through the filters and count selected items
     Object.values(filter.filter).forEach((item: N11) => {
-      count += getFilterCount(item.filter, selectedFilters);
+      const filterType = item.id_type.toString();
+      if (isKeyOfISelectedFilterProps(filterType)) {
+        count += getFilterCount(
+          item.filter,
+          selectedFilters[filterType as keyof ISelectedFilterProps]
+        );
+      }
     });
+
     return count;
-  };
+  }
 
   // Effect to handle body styles for modal
   useEffect(() => {
@@ -82,6 +144,60 @@ const EveryFilters = ({
       body.style.top = "";
     }
   }, [visibleFilter]);
+  //input min price changer
+  const handleMinChange = (min: number) => {
+    if (min < 0) {
+      min = 0;
+    }
+    handlePriceRangeChange(min, tempPrice.tempMax);
+  };
+  //input max price changer
+  const handleMaxChange = (max: number) => {
+    if (max < 0) {
+      max = 0;
+    }
+    handlePriceRangeChange(tempPrice.tempMin, max);
+  };
+  //input add separation
+  const addSeparators = (value: string) => {
+    return value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+  //key down function for input
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      !/[0-9]/.test(event.key) &&
+      event.key !== "Backspace" &&
+      event.key !== "ArrowLeft" &&
+      event.key !== "ArrowRight" &&
+      event.key !== "ArrowUp" &&
+      event.key !== "ArrowDown" &&
+      event.key !== "Tab"
+    ) {
+      event.preventDefault();
+    }
+  };
+  //hook useRef for min price input
+  const minPriceInputRef = useRef<HTMLInputElement>(null);
+  //focus for input if visible filter === price
+  useEffect(() => {
+    minPriceInputRef?.current?.focus();
+  }, [visibleFilter]);
+  //hook for enter key down
+  useEffect(() => {
+    const handleEnterKey = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        applyFilterPrice();
+        toggleFilter("");
+      }
+    };
+
+    document.addEventListener("keydown", handleEnterKey);
+
+    return () => {
+      document.removeEventListener("keydown", handleEnterKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tempPrice.tempMin, tempPrice.tempMax]);
 
   return (
     <>
@@ -103,10 +219,300 @@ const EveryFilters = ({
             [styles.containerActive]: visibleFilter === "every",
           })}
         >
-          <button onClick={closeEveryFilter} className={styles.container_cross}>
-            <XMark />
-          </button>
+          <div className={styles.headerTitleCross}>
+            <h3 className={styles.headerTitleCross__title}>Все фильтры</h3>
+            <button
+              onClick={closeEveryFilter}
+              className={styles.headerTitleCross__cross}
+            >
+              <XMark />
+            </button>
+          </div>
           <div className="everyFilterContainer">
+            {[...Array(1)].map((_, index) => (
+              <div key={index} className="filterColumn">
+                <div className="everyFilterContainerChild">
+                  <div
+                    onClick={() => toggleFilters("price")}
+                    className="catalogFilterContainerButtonEvery"
+                  >
+                    <button className="catalogFilterButtonEvery">Цена</button>
+                    <span
+                      className={cn(
+                        "filterNavItemArrowIsActive",
+                        visibleFilters === "price" && "filterNavItemArrow"
+                      )}
+                    >
+                      <СhevronDownIcon />
+                    </span>
+                  </div>
+                  {visibleFilters === "price" && (
+                    <ul className="additionalFilterActiveDropdown">
+                      <div className="showCatalogFilterActiveChild">
+                        <div className={styles.priceContainerRange}>
+                          {/* slider input type range library */}
+                          <Slider
+                            className={styles.sliderRange}
+                            thumbClassName={styles.thumbClassName}
+                            trackClassName={cn(styles.trackClassName)}
+                            value={[tempPrice.tempMin, tempPrice.tempMax]}
+                            // defaultValue={[0, 1000000]}
+                            max={1000000}
+                            min={0}
+                            step={1}
+                            withTracks={true}
+                            onChange={([min, max]) =>
+                              handlePriceRangeChange(min, max)
+                            }
+                            renderTrack={(props, state) => (
+                              <div
+                                {...props}
+                                key={state.index}
+                                className={cn(styles.trackClassName, {
+                                  [styles.trackBetween]: state.index === 1,
+                                  [styles.trackOutside]: state.index === 1,
+                                })}
+                              />
+                            )}
+                          />
+                          <div className={styles.containerPriceInputs}>
+                            <input
+                              ref={minPriceInputRef}
+                              onKeyDown={handleKeyDown}
+                              inputMode="numeric"
+                              pattern="[0-9]*"
+                              type="text"
+                              className={styles.inputPrice}
+                              value={
+                                tempPrice.tempMin === 0
+                                  ? ""
+                                  : addSeparators(tempPrice.tempMin.toString())
+                              }
+                              onChange={(e) =>
+                                handleMinChange(
+                                  Number(e.target.value.replace(/\s/g, ""))
+                                )
+                              }
+                              placeholder={`от 0`}
+                            />
+                            <input
+                              onKeyDown={handleKeyDown}
+                              type="text"
+                              className={styles.inputPrice}
+                              value={
+                                tempPrice.tempMax === 0
+                                  ? ""
+                                  : addSeparators(tempPrice.tempMax.toString())
+                              }
+                              onChange={(e) =>
+                                handleMaxChange(
+                                  Number(e.target.value.replace(/\s/g, ""))
+                                )
+                              }
+                              placeholder={`до 0`}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+                  )}
+                </div>
+                <div className="everyFilterContainerChild">
+                  <div
+                    onClick={() => toggleFilters("default")}
+                    className="catalogFilterContainerButtonEvery"
+                  >
+                    <button
+                      className="catalogFilterButtonEvery"
+                      onClick={() => toggleFilter("default")}
+                    >
+                      {options.find((option) => option.value === value)
+                        ?.label || "По рейтингу"}
+                    </button>
+                    <span
+                      className={cn(
+                        "filterNavItemArrowIsActive",
+                        visibleFilters === "default" && "filterNavItemArrow"
+                      )}
+                    >
+                      <СhevronDownIcon />
+                    </span>
+                  </div>
+                  {visibleFilters === "default" && (
+                    <ul className="additionalFilterActiveDropdown">
+                      <div className="showCatalogFilterActiveChild">
+                        {options.map((option, index) => (
+                          <div
+                            key={index}
+                            className={cn(styles.option, {
+                              [styles.selected]: value === option.value,
+                            })}
+                            onClick={() => {
+                              onChange(option.value);
+                            }}
+                          >
+                            <span className={styles.option__cyrcle}></span>
+                            {option.label}
+                          </div>
+                        ))}
+                      </div>
+                    </ul>
+                  )}
+                </div>
+                <div className="everyFilterContainerChild">
+                  <div
+                    onClick={() => toggleFilters("delivery")}
+                    className="catalogFilterContainerButtonEvery"
+                  >
+                    <button className="catalogFilterButtonEvery">
+                      Сроки доставки
+                      {selectedFilters.dost.length > 0 && (
+                        <span>({selectedFilters.dost.length})</span>
+                      )}
+                    </button>
+
+                    <span
+                      className={cn(
+                        "filterNavItemArrowIsActive",
+                        visibleFilters === "delivery" && "filterNavItemArrow"
+                      )}
+                    >
+                      <СhevronDownIcon />
+                    </span>
+                    {selectedFilters.dost.length > 0 && (
+                      <button
+                        onClick={() => clearFilter("dost")}
+                        disabled={selectedFilters.dost.length <= 0}
+                        className={cn(
+                          "resetBtnEvery",
+                          selectedFilters.dost.length > 0 &&
+                            "resetBtnEvery__active"
+                        )}
+                      >
+                        Сбросить
+                      </button>
+                    )}
+                  </div>
+                  {visibleFilters === "delivery" && (
+                    <ul className="additionalFilterActiveDropdown">
+                      <div className="showCatalogFilterActiveChild">
+                        {filter.variant_day.map((data) => {
+                          return (
+                            <ul
+                              onClick={() => handleSelectChange("dost", data)}
+                              key={index}
+                              className="showFiltersUlContainer"
+                            >
+                              <span
+                                className={cn("showFiltersUlContainer__check", {
+                                  ["showFiltersUlContainer__checkActive"]:
+                                    selectedFilters.dost.includes(
+                                      data.toString()
+                                    ),
+                                })}
+                              >
+                                {selectedFilters.dost.includes(
+                                  data.toString()
+                                ) ? (
+                                  <Image
+                                    src="/img/checkIconWhite.svg"
+                                    width={15}
+                                    height={15}
+                                    alt="check"
+                                  />
+                                ) : (
+                                  <Image
+                                    src="/img/checkIconWhite.svg"
+                                    width={15}
+                                    height={15}
+                                    alt="check"
+                                  />
+                                )}
+                              </span>
+                              <li>{data}</li>
+                            </ul>
+                          );
+                        })}
+                      </div>
+                    </ul>
+                  )}
+                </div>
+                <div className="everyFilterContainerChild">
+                  <div
+                    onClick={() => toggleFilters("brand")}
+                    className="catalogFilterContainerButtonEvery"
+                  >
+                    <button className="catalogFilterButtonEvery">
+                      Бренд
+                      {selectedFilters.brand.length > 0 && (
+                        <span>({selectedFilters.brand.length})</span>
+                      )}
+                    </button>
+
+                    <span
+                      className={cn(
+                        "filterNavItemArrowIsActive",
+                        visibleFilters === "brand" && "filterNavItemArrow"
+                      )}
+                    >
+                      <СhevronDownIcon />
+                    </span>
+                    {selectedFilters.brand.length > 0 && (
+                      <button
+                        onClick={() => clearFilter("brand")}
+                        disabled={selectedFilters.brand.length <= 0}
+                        className={cn(
+                          "resetBtnEvery",
+                          selectedFilters.brand.length > 0 &&
+                            "resetBtnEvery__active"
+                        )}
+                      >
+                        Сбросить
+                      </button>
+                    )}
+                  </div>
+                  {visibleFilters === "brand" && (
+                    <ul className="additionalFilterActiveDropdown">
+                      <div className="showCatalogFilterActiveChild">
+                        {filter.brand.map((data) => {
+                          return (
+                            <ul
+                              onClick={() => handleSelectChange("brand", data)}
+                              key={data}
+                              className="showFiltersUlContainer"
+                            >
+                              <span
+                                className={cn("showFiltersUlContainer__check", {
+                                  ["showFiltersUlContainer__checkActive"]:
+                                    selectedFilters.brand.includes(data),
+                                })}
+                              >
+                                {selectedFilters.brand.includes(data) ? (
+                                  <Image
+                                    src="/img/checkIconWhite.svg"
+                                    width={15}
+                                    height={15}
+                                    alt="check"
+                                  />
+                                ) : (
+                                  <Image
+                                    src="/img/checkIconWhite.svg"
+                                    width={15}
+                                    height={15}
+                                    alt="check"
+                                  />
+                                )}
+                              </span>
+                              <li>{data}</li>
+                            </ul>
+                          );
+                        })}
+                      </div>
+                    </ul>
+                  )}
+                </div>
+              </div>
+            ))}
             {[...Array(2)].map((_, index) => (
               <div key={index} className="filterColumn">
                 {Object.values(filter.filter).map((item: N11, idx: number) => {
@@ -122,12 +528,21 @@ const EveryFilters = ({
                         >
                           <button className="catalogFilterButtonEvery">
                             {item.type_name}
+                            {getFilterCount(
+                              item.filter,
+                              selectedFilters.additional_filter
+                            ) > 0 && (
+                              <span>
+                                (
+                                {getFilterCount(
+                                  item.filter,
+                                  selectedFilters.additional_filter
+                                )}
+                                )
+                              </span>
+                            )}
                           </button>
-                          {getFilterCount(item.filter, selectedFilters) > 0 && (
-                            <span className="catalogFilterSelected">
-                              {getFilterCount(item.filter, selectedFilters)}
-                            </span>
-                          )}
+
                           <span
                             className={cn(
                               "filterNavItemArrowIsActive",
@@ -137,6 +552,26 @@ const EveryFilters = ({
                           >
                             <СhevronDownIcon />
                           </span>
+                          <button
+                            onClick={() => resetCategoryFilters(item.filter)}
+                            // disabled={selectedFilters.length <= 0}
+                            disabled={
+                              getFilterCount(
+                                item.filter,
+                                selectedFilters.additional_filter
+                              ) <= 0
+                            }
+                            className={cn(
+                              "resetBtnEvery",
+                              getFilterCount(
+                                item.filter,
+                                selectedFilters.additional_filter
+                              ) > 0 && "resetBtnEvery__active"
+                            )}
+                            style={{ marginLeft: "auto" }}
+                          >
+                            Сбросить
+                          </button>
                         </div>
                         {visibleFilters === item.type_name && (
                           <ul className="additionalFilterActiveDropdown">
@@ -145,6 +580,7 @@ const EveryFilters = ({
                                 <ul
                                   onClick={() =>
                                     handleSelectChange(
+                                      "additional_filter",
                                       data.id_filter.toString()
                                     )
                                   }
@@ -156,13 +592,13 @@ const EveryFilters = ({
                                       "showFiltersUlContainer__check",
                                       {
                                         ["showFiltersUlContainer__checkActive"]:
-                                          selectedFilters.includes(
+                                          selectedFilters.additional_filter.includes(
                                             data.id_filter.toString()
                                           ),
                                       }
                                     )}
                                   >
-                                    {selectedFilters.includes(
+                                    {selectedFilters.additional_filter.includes(
                                       data.id_filter.toString()
                                     ) ? (
                                       <Image
@@ -193,60 +629,16 @@ const EveryFilters = ({
                 })}
               </div>
             ))}
-
-            {/* {Object.values(filter.filter).map((item: N11) => (
-                <div key={item.id_type} className="everyFilterContainerChild">
-                  <button
-                    className="catalogFilterButtonEvery"
-                    onClick={() => toggleFilters(item.type_name)}
-                  >
-                    {item.type_name}
-                    <span
-                      className={cn(
-                        "filterNavItemArrowIsActive",
-                        visibleFilters === item.type_name &&
-                          "filterNavItemArrow"
-                      )}
-                    >
-                      <СhevronDownIcon />
-                    </span>
-                  </button>
-                  {visibleFilters === item.type_name && (
-                    <ul className="additionalFilterActiveDropdown">
-                      <div className="showCatalogFilterActiveChild">
-                        {Object.values(item.filter).map((data: any) => (
-                          <ul
-                            onClick={() => handleSelectChange(data.id_filter)}
-                            key={data.id_filter}
-                            className="showFiltersUlContainer"
-                          >
-                            <span
-                              className={cn("showFiltersUlContainer__check", {
-                                ["showFiltersUlContainer__checkActive"]:
-                                  selectedFilters.includes(data.id_filter),
-                              })}
-                            >
-                              {selectedFilters.includes(data.id_filter) && (
-                                <CheckIcon />
-                              )}
-                            </span>
-                            <li>{data.name}</li>
-                          </ul>
-                          // <div key={item}>{item}</div>
-                        ))}
-                      </div>
-                    </ul>
-                  )}
-                </div>
-              ))} */}
           </div>
           <div className={styles.container_btnControl}>
             <button
-              onClick={() => clearFilter("additional_filter")}
-              disabled={selectedFilters.length <= 0}
+              onClick={clearAllCrumbs}
+              disabled={selectedFilters.additional_filter.length <= 0}
               className={cn(
                 styles.container_btnControl_reset,
-                selectedFilters.length > 0 &&
+                (selectedFilters.brand.length > 0 ||
+                  selectedFilters.additional_filter.length > 0 ||
+                  selectedFilters.dost.length > 0) &&
                   styles.container_btnControl_reset_active
               )}
             >
@@ -254,10 +646,12 @@ const EveryFilters = ({
             </button>
             <button
               onClick={closeEveryFilter}
-              disabled={selectedFilters.length <= 0}
+              disabled={selectedFilters.additional_filter.length <= 0}
               className={cn(
                 styles.container_btnControl_apply,
-                selectedFilters.length > 0 &&
+                (selectedFilters.brand.length > 0 ||
+                  selectedFilters.additional_filter.length > 0 ||
+                  selectedFilters.dost.length > 0) &&
                   styles.container_btnControl_apply_active
               )}
             >
