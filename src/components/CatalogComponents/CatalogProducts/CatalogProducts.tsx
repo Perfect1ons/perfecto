@@ -85,7 +85,7 @@ export default function CatalogProducts({
 
   const [defSelectFilter, setDefSelectFilter] = useState({
     sortName: "id",
-    sortTitle: "По новинкам",
+    sortTitle: "По популярности",
   });
 
   const [tempPrice, setTempPrice] = useState<{
