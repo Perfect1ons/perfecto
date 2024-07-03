@@ -2,7 +2,7 @@
 
 .not__found {
   @include mixin.flex(center, center);
-  min-height: 95vh;
+  min-height: 75vh;
 
   &_container {
     @include mixin.flex(center, center, column);
