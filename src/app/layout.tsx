@@ -13,6 +13,7 @@ const DownloadAppMobile = dynamic(
   () => import("@/components/DownloadAppMobile/DownloadAppMobile")
 );
 const Footer = dynamic(() => import("@/components/Footer/Footer"));
+const ScrollToTopButton = dynamic(() => import("@/components/UI/ScrollToTopButton/ScrollToTopButton"));
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -41,6 +42,7 @@ export default async function RootLayout({
           <DownloadAppMobile />
           <Provider>
             <main id="main">{children}</main>
+            <ScrollToTopButton/>
           </Provider>
           <Application />
           <Footer />
