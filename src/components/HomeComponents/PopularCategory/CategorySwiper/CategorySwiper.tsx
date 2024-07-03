@@ -21,7 +21,7 @@ import CategoryItemSkeleton from "../CategoryItemSkeleton/CategoryItemSkeleton";
 
 export default function CategorySwiper({ category }: ICategory) {
   const [loading, setLoading] = useState(true);
-  const skeletonArray12 = new Array(12).fill(null);
+  // const skeletonArray12 = new Array(12).fill(null);
 
   useEffect(() => {
     setLoading(false);
@@ -30,7 +30,7 @@ export default function CategorySwiper({ category }: ICategory) {
   return (
     <div className={styles.category_swiper}>
       {loading ? (
-        <CategoryItemSkeleton array={skeletonArray12} />
+        <CategoryItemSkeleton />
       ) : (
         <Swiper
           slidesPerView={6}

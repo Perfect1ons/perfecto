@@ -6,20 +6,29 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
+import { useState } from "react";
 
 interface props {
   catalog: ICatalogsProducts;
   path: string | string[];
   breadCrumbs: BreadCrumbs[];
 }
+
 const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
   const router = useRouter();
+  const [imageErrors, setImageErrors] = useState<number[]>([]);
+
+  const handleImageError = (index: number) => {
+    setImageErrors((prevErrors) => [...prevErrors, index]);
+  };
+
   const handleClick = (pathProduct: string) => {
     const fullPath = pathProduct.startsWith(`/catalog/${path}/`)
       ? pathProduct
       : `/catalog/${pathProduct}`;
     router.push(fullPath);
   };
+
   return (
     <div className="container">
       <div className="all__directions">
@@ -61,29 +70,34 @@ const CatalogsLeaf = ({ catalog, path, breadCrumbs }: props) => {
           </ul>
         </div>
         <div className={styles.catalogContainer__cardContainer}>
-          {catalog.category.child.map((catalogItem) => (
-            <div
-              // href={catalogItem.full_slug.slice()}
-              key={catalogItem.id}
-              className={styles.cotainerCart}
-              onClick={() => handleClick(catalogItem.full_slug)}
-            >
-              <Image
-                className={styles.imageChild}
-                src={
-                  catalogItem.icon
-                    ? catalogItem.icon.startsWith("https://")
-                      ? catalogItem.icon
-                      : `https://max.kg/${catalogItem.icon}`
-                    : "/img/noPhoto.svg"
-                }
-                alt={catalogItem.name}
-                width={60}
-                height={60}
-              />
-              <li className={styles.nameCatalog}>{catalogItem.name}</li>
-            </div>
-          ))}
+          {catalog.category.child.map((catalogItem, index) => {
+            const imageUrl = catalogItem.icon;
+            const validImageUrl = imageUrl
+              ? imageUrl.startsWith("https://")
+                ? imageUrl
+                : `https://max.kg/${imageUrl}`
+              : "/img/noPhoto.svg";
+
+            return (
+              <div
+                key={catalogItem.id}
+                className={styles.cotainerCart}
+                onClick={() => handleClick(catalogItem.full_slug)}
+              >
+                {!imageErrors.includes(index) && (
+                  <Image
+                    className={styles.imageChild}
+                    src={validImageUrl}
+                    alt={catalogItem.name}
+                    onError={() => handleImageError(index)}
+                    width={60}
+                    height={60}
+                  />
+                )}
+                <li className={styles.nameCatalog}>{catalogItem.name}</li>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

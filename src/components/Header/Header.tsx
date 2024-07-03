@@ -156,7 +156,7 @@ const Header = ({
   }, [isOpen]);
 
   return (
-    <header className={styles.header}>
+    <div className={styles.header}>
       <div className={cn(styles.header__container, "container")}>
         <Link
           href={"/"}
@@ -215,7 +215,7 @@ const Header = ({
           <SearchIconWhite />
         </div>
       </div>
-    </header>
+    </div>
   );
 };
 

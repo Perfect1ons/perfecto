@@ -31,7 +31,7 @@ export default function HeaderWrap() {
   const [isMobileModalOpen, setMobileModalOpen] = useState(false);
 
   return (
-    <div className="header">
+    <header className="header">
       <Header
         catalogs={catalog}
         click={fetchCatalogs}
@@ -46,6 +46,6 @@ export default function HeaderWrap() {
         isMobileModalOpen={isMobileModalOpen}
         setMobileModalOpen={setMobileModalOpen}
       />
-    </div>
+    </header>
   );
 }

@@ -1,32 +1,49 @@
-import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
+"use client";
 import styles from "./style.module.scss";
+import { IFiltersBrand } from "@/types/filtersBrand";
 import cn from "clsx";
-interface IProps {
-  options: {
-    label: string;
-    value: "rating" | "cheap" | "expensive";
-  }[];
-  value: string;
-  onChange: (value: "rating" | "cheap" | "expensive") => void;
+import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
+import { useState } from "react";
+
+interface IDefautlFilterProps {
+  filter: IFiltersBrand;
   visibleFilter: string | null;
   toggleFilter: (name: string) => void;
+  selectedSort: { sortName: string; sortTitle: string };
+  setSelectedSort: React.Dispatch<
+    React.SetStateAction<{ sortName: string; sortTitle: string }>
+  >;
 }
 
 const DefaultFilter = ({
-  onChange,
-  options,
-  toggleFilter,
-  value,
+  filter,
   visibleFilter,
-}: IProps) => {
+  toggleFilter,
+  selectedSort,
+  setSelectedSort,
+}: IDefautlFilterProps) => {
+  const [defaultFilters, setDefaultFilters] = useState([
+    {
+      sortName: "id",
+      sortTitle: "По новинкам",
+    },
+    {
+      sortName: "ocenka",
+      sortTitle: "По рейтингу",
+    },
+    {
+      sortName: "-cenaok",
+      sortTitle: "По возрастанию цены",
+    },
+    {
+      sortName: "cenaok",
+      sortTitle: "По убыванию цены",
+    },
+  ]);
   return (
-    <div className="positionContainer">
-      <button
-        className="catalogFilterButton"
-        onClick={() => toggleFilter("default")}
-      >
-        {options.find((option) => option.value === value)?.label ||
-          "По рейтингу"}
+    <div className="positionContainer" onClick={() => toggleFilter("default")}>
+      <button className="catalogFilterButton">
+        {selectedSort.sortTitle}
         <span
           className={cn(
             "filterNavItemArrowIsActive",
@@ -45,19 +62,23 @@ const DefaultFilter = ({
             >
               <Cross />
             </button>
-            {options.map((option, index) => (
-              <div
+            {defaultFilters.map((option, index) => (
+              <ul
+                onClick={() =>
+                  setSelectedSort({
+                    sortName: option.sortName,
+                    sortTitle: option.sortTitle,
+                  })
+                }
                 key={index}
                 className={cn(styles.option, {
-                  [styles.selected]: value === option.value,
+                  [styles.selected]:
+                    selectedSort.sortTitle === option.sortTitle,
                 })}
-                onClick={() => {
-                  onChange(option.value);
-                }}
               >
                 <span className={styles.option__cyrcle}></span>
-                {option.label}
-              </div>
+                {option.sortTitle}
+              </ul>
             ))}
           </div>
         </ul>

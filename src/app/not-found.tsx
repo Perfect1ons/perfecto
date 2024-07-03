@@ -25,7 +25,7 @@ const NotFound = async () => {
   return (
     <>
       <NotFounded />
-      {/* <PopularGoods goods={goods} /> */}
+      <PopularGoods goods={goods} />
     </>
   );
 };

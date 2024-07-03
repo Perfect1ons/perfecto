@@ -5,21 +5,15 @@ import DostFilter from "./DostFilter/DostFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
 import { useState, useEffect, useRef } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
-import DefaultFilter from "./DefaultFilter/DefaultFilter";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
+import DefaultFilter from "./DefaultFilter/DefaultFilter";
 
 interface ICatalogFiltresProps {
   intialAdditional: string[];
   clearFilter: (name: string) => void;
   filter: IFiltersBrand;
   catalog: ICatalogsProducts;
-  options: {
-    label: string;
-    value: "rating" | "cheap" | "expensive";
-  }[];
-  value: string;
-  onChange: (value: "rating" | "cheap" | "expensive") => void;
   selectedFilters: ISelectedFilterProps;
   handleFilterChange: (name: string, value: any) => void;
   handlePriceRangeChange: (min: number, max: number) => void;
@@ -31,6 +25,10 @@ interface ICatalogFiltresProps {
   };
   resetCategoryFilters: (categoryFilters: Filter2) => void;
   clearAllCrumbs: () => void;
+  selectedSort: { sortName: string; sortTitle: string };
+  setSelectedSort: React.Dispatch<
+    React.SetStateAction<{ sortName: string; sortTitle: string }>
+  >;
 }
 
 export interface ISelectedFilterProps {
@@ -45,9 +43,6 @@ export interface ISelectedFilterProps {
 
 const CatalogFiltres = ({
   filter,
-  onChange,
-  options,
-  value,
   selectedFilters,
   handleFilterChange,
   handlePriceRangeChange,
@@ -58,6 +53,8 @@ const CatalogFiltres = ({
   intialAdditional,
   resetCategoryFilters,
   clearAllCrumbs,
+  selectedSort,
+  setSelectedSort,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -91,11 +88,11 @@ const CatalogFiltres = ({
   return (
     <div ref={containerRef} className="filtresContainer">
       <DefaultFilter
-        toggleFilter={toggleFilter}
+        filter={filter}
         visibleFilter={visibleFilter}
-        onChange={onChange}
-        options={options}
-        value={value}
+        toggleFilter={toggleFilter}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
       />
       <DostFilter
         clearFilter={clearFilter}
@@ -112,6 +109,7 @@ const CatalogFiltres = ({
         handlePriceRangeChange={handlePriceRangeChange}
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
+        filter={filter}
       />
       <BrandFilter
         clearFilter={clearFilter}
@@ -136,9 +134,6 @@ const CatalogFiltres = ({
         <EveryFilters
           resetCategoryFilters={resetCategoryFilters}
           clearAllCrumbs={clearAllCrumbs}
-          onChange={onChange}
-          options={options}
-          value={value}
           tempPrice={tempPrice}
           clearFilterPrice={clearFilterPrice}
           applyFilterPrice={applyFilterPrice}

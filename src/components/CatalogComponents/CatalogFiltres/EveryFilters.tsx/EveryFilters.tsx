@@ -25,12 +25,6 @@ interface IEveryFilterProps {
     tempMin: number;
     tempMax: number;
   };
-  options: {
-    label: string;
-    value: "rating" | "cheap" | "expensive";
-  }[];
-  value: string;
-  onChange: (value: "rating" | "cheap" | "expensive") => void;
   clearAllCrumbs: () => void;
   resetCategoryFilters: (categoryFilters: Filter2) => void;
 }
@@ -45,9 +39,6 @@ const EveryFilters = ({
   clearFilterPrice,
   handlePriceRangeChange,
   tempPrice,
-  onChange,
-  options,
-  value,
   clearAllCrumbs,
   resetCategoryFilters,
 }: IEveryFilterProps) => {
@@ -357,9 +348,11 @@ const EveryFilters = ({
                     onClick={() => toggleFilters("default")}
                     className="catalogFilterContainerButtonEvery"
                   >
-                    <button className="catalogFilterButtonEvery">
-                      {options.find((option) => option.value === value)
-                        ?.label || "По рейтингу"}
+                    <button
+                      className="catalogFilterButtonEvery"
+                      onClick={() => toggleFilter("default")}
+                    >
+                      dfgdg
                     </button>
                     <span
                       className={cn(
@@ -373,20 +366,7 @@ const EveryFilters = ({
                   {visibleFilters === "default" && (
                     <ul className="additionalFilterActiveDropdown">
                       <div className="showCatalogFilterActiveChild">
-                        {options.map((option, index) => (
-                          <div
-                            key={index}
-                            className={cn(styles.option, {
-                              [styles.selected]: value === option.value,
-                            })}
-                            onClick={() => {
-                              onChange(option.value);
-                            }}
-                          >
-                            <span className={styles.option__cyrcle}></span>
-                            {option.label}
-                          </div>
-                        ))}
+                        sddsffs
                       </div>
                     </ul>
                   )}
