@@ -144,6 +144,8 @@ const CatalogFiltres = ({
           visibleFilter={visibleFilter}
           changeSelect={handleFilterChange}
           filter={filter}
+          selectedSort={selectedSort}
+          setSelectedSort={setSelectedSort}
         />
       )}
     </div>
