@@ -22,7 +22,6 @@ import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
-import ReactPaginate from "react-paginate";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
 import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import { useRouter } from "next/navigation";
@@ -259,7 +258,7 @@ export default function CatalogProducts({
     if (sortOrder !== null) {
       sortItems(sortOrder);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const handleViewChange = (isColumn: boolean) => {
@@ -317,23 +316,22 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-  const updateURLWithFilters = (filters: ISelectedFilterProps) => {
-    const queryParams = new URLSearchParams();
-    if (filters.page > 1) queryParams.set("page", filters.page.toString());
-    if (filters.brand.length > 0)
-      queryParams.set("brand", filters.brand.join(","));
-    if (filters.priceMin > 0)
-      queryParams.set("priceMin", filters.priceMin.toString());
-    if (filters.priceMax > 0)
-      queryParams.set("priceMax", filters.priceMax.toString());
-    if (filters.dost.length > 0)
-      queryParams.set("dost", filters.dost.join(","));
-    if (filters.additional_filter.length > 0)
-      queryParams.set("additional_filter", filters.additional_filter.join(","));
+const updateURLWithFilters = (filters: ISelectedFilterProps) => {
+  const queryParams = new URLSearchParams();
+  if (filters.page > 1) queryParams.set("page", filters.page.toString());
+  if (filters.brand.length > 0)
+    queryParams.set("brand", filters.brand.join(","));
+  if (filters.priceMin > 0)
+    queryParams.set("priceMin", filters.priceMin.toString());
+  if (filters.priceMax > 0)
+    queryParams.set("priceMax", filters.priceMax.toString());
+  if (filters.dost.length > 0) queryParams.set("dost", filters.dost.join(","));
+  if (filters.additional_filter.length > 0)
+    queryParams.set("additional_filter", filters.additional_filter.join(","));
 
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.replaceState({ path: newUrl }, "", newUrl);
-  };
+  const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+  window.history.replaceState({ path: newUrl }, "", newUrl);
+};
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
     setSelectedFilters((prevFilters) => {
@@ -358,32 +356,32 @@ export default function CatalogProducts({
   };
 
   // Function to update URL parameters
-  const updateURL = (filters: SelectedFilters) => {
-    const params = new URLSearchParams();
+const updateURL = (filters: SelectedFilters) => {
+  const params = new URLSearchParams();
 
-    if (filters.brand.length > 0) {
-      params.set("brand", filters.brand.join(","));
-    }
-    if (filters.priceMin > 0) {
-      params.set("priceMin", filters.priceMin.toString());
-    }
-    if (filters.priceMax > 0) {
-      params.set("priceMax", filters.priceMax.toString());
-    }
-    if (filters.dost.length > 0) {
-      params.set("dost", filters.dost.join(","));
-    }
-    if (filters.additional_filter.length > 0) {
-      params.set("additional_filter", filters.additional_filter.join(","));
-    }
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    router.push(newUrl, undefined);
+  if (filters.brand.length > 0) {
+    params.set("brand", filters.brand.join(","));
+  }
+  if (filters.priceMin > 0) {
+    params.set("priceMin", filters.priceMin.toString());
+  }
+  if (filters.priceMax > 0) {
+    params.set("priceMax", filters.priceMax.toString());
+  }
+  if (filters.dost.length > 0) {
+    params.set("dost", filters.dost.join(","));
+  }
+  if (filters.additional_filter.length > 0) {
+    params.set("additional_filter", filters.additional_filter.join(","));
+  }
+  const newUrl = `${window.location.pathname}?${params.toString()}`;
+  window.history.replaceState({ path: newUrl }, "", newUrl);
 
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      page: 1,
-    }));
-  };
+  setSelectedFilters((prevFilters) => ({
+    ...prevFilters,
+    page: 1,
+  }));
+};
 
   return (
     <section>
@@ -441,13 +439,8 @@ export default function CatalogProducts({
             onChange={(value) => handleSort(value)}
             filter={filtered}
             isColumnView={isColumnView}
+            filters={filter}
             toggleView={toggleView}
-          />
-          <FiltersCrumbs
-            filter={filter}
-            selectedFilters={selectedFilters}
-            clearFilterCrumbs={clearFilterCrumbs}
-            clearAllCrumbs={clearAllCrumbs}
           />
         </>
       ) : (

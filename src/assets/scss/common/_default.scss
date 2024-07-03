@@ -12,14 +12,6 @@ table {
   text-align: center;
 }
 
-.pagination-active{
-  cursor: pointer;
-  color: var(--white);
-  background: var(--dark-blue);
-  padding: 5px 15px;
-  border-radius: 5px;
-}
-
 .icon-favorites {
   fill: var(--white);
   stroke: #7A7A7A;
@@ -61,8 +53,8 @@ body {
 .container {
   @include container(90rem);
   padding: 0 15px;
-  @media screen and (min-width: 90rem) {
-    @include container(90rem);
+  @media screen and (max-width: 1440px) {
+    @include container(1200px);
   }
   @media screen and (max-width: 40rem) {
     padding: 0 8px;
@@ -240,6 +232,7 @@ body {
 .swiper__slide {
   cursor: pointer;
   height: 180px !important;
+  overflow: hidden;
   text-align: center;
   max-width: 210px !important;
   margin-bottom: 5px;
@@ -276,6 +269,7 @@ body {
 .category__item_title {
   @include mixin.font(14px, 400, 150%, var(--gray-dark));
   text-align: center;
+  max-width: 210px !important;
   transition: 0.1s ease-in-out;
   user-select: none;
   padding: 0 10px;

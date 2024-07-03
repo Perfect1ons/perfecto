@@ -26,18 +26,6 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
   const { brand, priceMin, priceMax, dost, additional_filter } =
     selectedFilters;
 
-  // const renderFilterCrumb = (filterKey: FilterKey, value: string) => (
-  //   <div
-  //     key={value}
-  //     onClick={() => clearFilterCrumbs(filterKey, value)}
-  //     className={styles.container_filter}
-  //   >
-  //     <span className={styles.container_filter__value}>{value}</span>
-  //     <button className={styles.container_filter__cross}>
-  //       <XMark />
-  //     </button>
-  //   </div>
-  // );
   const renderFilterCrumb = (
     filterKey: FilterKey,
     value: string | number,
@@ -54,6 +42,26 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
       </button>
     </div>
   );
+
+  const getDayLabel = (value: number) => {
+    if (value % 10 === 1 && value % 100 !== 11) {
+      return "день";
+    } else if (
+      [2, 3, 4].includes(value % 10) &&
+      ![12, 13, 14].includes(value % 100)
+    ) {
+      return "дня";
+    } else {
+      return "дней";
+    }
+  };
+
+  const getDaysRangeLabel = (range: string) => {
+    const [start, end] = range.split("-").map(Number);
+    const endLabel = getDayLabel(end);
+    return `${start} - ${end} ${endLabel}`;
+  };
+
   const show =
     brand.length > 0 ||
     dost.length > 0 ||
@@ -66,7 +74,13 @@ const FiltersCrumbs: React.FC<FiltersCrumbsProps> = ({
       {show && (
         <div className={styles.container}>
           {brand.map((value) => renderFilterCrumb("brand", value))}
-          {dost.map((value) => renderFilterCrumb("dost", value))}
+          {dost.map((value) => {
+            const daysLabel =
+              typeof value === "string" && value.includes("-")
+                ? getDaysRangeLabel(value)
+                : `${value} ${getDayLabel(Number(value))}`;
+            return renderFilterCrumb("dost", value, daysLabel);
+          })}
           {additional_filter.map((value) => {
             const filterItem = Object.values(filter.filter).find((item: N11) =>
               Object.values(item.filter).some(

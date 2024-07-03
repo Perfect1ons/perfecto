@@ -6,6 +6,7 @@
   position: relative;
 }
 .catalogFilterButton {
+  user-select: none;
   outline: 2px solid var(--white);
   @include mixin.flex(center, center, null, 2px);
   @include mixin.font(0.875rem, 400, null, var(--dark));
