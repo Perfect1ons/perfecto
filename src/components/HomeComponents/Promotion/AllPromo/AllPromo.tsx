@@ -97,6 +97,7 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
                   <Link className="link" href={`/promotions/${news.id}`}>
                     <h1 className="allNews__content_title">{news.naim}</h1>
                   </Link>
+
                   <div className={styles.allNews__desc}>
                     <div
                       onClick={() => router.push(`/news/${news.id}`)}

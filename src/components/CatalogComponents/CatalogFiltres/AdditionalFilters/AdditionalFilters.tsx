@@ -73,6 +73,13 @@ const AdditionalFilters = ({
             <button
               className="catalogFilterButton"
               onClick={() => toggleFilter(item.type_name)}
+              style={{
+                display:
+                  Object.values(item.filter).filter((data) => data.kol > 0)
+                    .length >= 3
+                    ? "flex"
+                    : "none",
+              }}
             >
               {item.type_name}
               <span
