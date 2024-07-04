@@ -65,19 +65,21 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                 />
               </div>
               <div className={styles.main__news_info}>
-                <h1
-                  onClick={() => router.push(`/promotions/${main.id}`)}
-                  className="allNews__content_title"
-                >
-                  {main.naim}
-                </h1>
-                {main.text && (
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(main.text),
-                    }}
-                  />
-                )}
+                <div className={styles.main__news_info_sidebar}>
+                  <h1
+                    onClick={() => router.push(`/promotions/${main.id}`)}
+                    className="allNews__content_title"
+                  >
+                    {main.naim}
+                  </h1>
+                  {main.text && (
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(main.text),
+                      }}
+                    />
+                  )}
+                </div>
                 <div className={styles.main__news_data}>
                   <span>{formatNewsDate(main.dat1)}</span>
                 </div>
