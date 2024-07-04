@@ -483,9 +483,15 @@ export default function CatalogProducts({
           )}
         </div>
       )}
-      {isLoading ? (
-        <div className="cards toptwenty">
+      {isLoading && isColumnView ? (
+        <div className="cardsGridFive toptwenty">
           {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
+      ) : isLoading ? (
+        <div className="cards toptwenty">
+          {Array.from({ length: 20 }).map((_, index) => (
             <CardSkeleton key={index} />
           ))}
         </div>
@@ -497,14 +503,14 @@ export default function CatalogProducts({
             isMobile={isSMobile}
           />
           <div className={styles.showMore}>
-          {selectedFilters.page !== pageCount ? (
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowMore}
-            >
-              Показать еще
-            </button>
-          ) : null}
+            {selectedFilters.page !== pageCount ? (
+              <button
+                className="default__buttons_showMore"
+                onClick={handleShowMore}
+              >
+                Показать еще
+              </button>
+            ) : null}
           </div>
           {pageCount > 1 && (
             <CatalogPagination
