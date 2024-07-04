@@ -1,6 +1,7 @@
 //! Типизация запросов
 import { IOcenka } from "@/components/Item/ProductReview/ProductReview";
 import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
+import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
@@ -69,6 +70,15 @@ export const getFiltersBrandByClient = (
   idfil?: number
 ): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}&id_filter=${idfil}`).json();
+};
+
+export const getFiltersBrandByAClient = (
+  id: number,
+  idfil: string
+): Promise<IFiltersBrandByAbdulaziz> => {
+  return maxkg
+    .get(`catalog/listfilter?id_cat=${id}}&id_filter=${idfil}`)
+    .json();
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! POST запросы для отзывов

@@ -433,6 +433,7 @@ export default function CatalogProducts({
       {mobileFilter ? (
         <>
           <AllFiltersMobile
+            categoryid={selectedFilters.id}
             setSelected={(filters) =>
               setSelectedFilters((prev) => ({ ...prev, ...filters }))
             }
