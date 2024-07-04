@@ -525,49 +525,52 @@ const EveryFilters = ({
                         {visibleFilters === item.type_name && (
                           <ul className="additionalFilterActiveDropdown">
                             <div className="showCatalogFilterActiveChild">
-                              {Object.values(item.filter).map((data: any) => (
-                                <ul
-                                  onClick={() =>
-                                    handleSelectChange(
-                                      "additional_filter",
-                                      data.id_filter.toString()
-                                    )
-                                  }
-                                  key={data.id_filter}
-                                  className="showFiltersUlContainer"
-                                >
-                                  <span
-                                    className={cn(
-                                      "showFiltersUlContainer__check",
-                                      {
-                                        ["showFiltersUlContainer__checkActive"]:
-                                          selectedFilters.additional_filter.includes(
-                                            data.id_filter.toString()
-                                          ),
+                              {Object.values(item.filter).map(
+                                (data: any) =>
+                                  data.kol > 0 && (
+                                    <ul
+                                      onClick={() =>
+                                        handleSelectChange(
+                                          "additional_filter",
+                                          data.id_filter.toString()
+                                        )
                                       }
-                                    )}
-                                  >
-                                    {selectedFilters.additional_filter.includes(
-                                      data.id_filter.toString()
-                                    ) ? (
-                                      <Image
-                                        src="/img/checkIconWhite.svg"
-                                        width={15}
-                                        height={15}
-                                        alt="check"
-                                      />
-                                    ) : (
-                                      <Image
-                                        src="/img/checkIconWhite.svg"
-                                        width={15}
-                                        height={15}
-                                        alt="check"
-                                      />
-                                    )}
-                                  </span>
-                                  <li>{data.name}</li>
-                                </ul>
-                              ))}
+                                      key={data.id_filter}
+                                      className="showFiltersUlContainer"
+                                    >
+                                      <span
+                                        className={cn(
+                                          "showFiltersUlContainer__check",
+                                          {
+                                            ["showFiltersUlContainer__checkActive"]:
+                                              selectedFilters.additional_filter.includes(
+                                                data.id_filter.toString()
+                                              ),
+                                          }
+                                        )}
+                                      >
+                                        {selectedFilters.additional_filter.includes(
+                                          data.id_filter.toString()
+                                        ) ? (
+                                          <Image
+                                            src="/img/checkIconWhite.svg"
+                                            width={15}
+                                            height={15}
+                                            alt="check"
+                                          />
+                                        ) : (
+                                          <Image
+                                            src="/img/checkIconWhite.svg"
+                                            width={15}
+                                            height={15}
+                                            alt="check"
+                                          />
+                                        )}
+                                      </span>
+                                      <li>{data.name}</li>
+                                    </ul>
+                                  )
+                              )}
                             </div>
                           </ul>
                         )}

@@ -4,6 +4,7 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
+import { IFiltersBrand } from "@/types/filtersBrand";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
 
@@ -57,12 +58,18 @@ export const getCatalogProductsFiltered = (
 ): Promise<ICategoryFilter> => {
   return maxkg
     .get(
-      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&id_filter=${additional}&sort=${sort}`
+      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}&sort=${sort}`
     )
     .json();
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+export const getFiltersBrandByClient = (
+  id: number,
+  idfil?: number
+): Promise<IFiltersBrand> => {
+  return maxkg.get(`catalog/listfilter?id_cat=${id}&id_filter=${idfil}`).json();
+};
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! POST запросы для отзывов
 export const postOtz = (otz: IUser) => {
