@@ -1,7 +1,6 @@
+@use "../../../assets/scss/common/mixins" as mixin;
 .modal {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
+  @include mixin.flex(center, center, null, 5px);
   position: fixed;
   text-decoration: none;
   z-index: 1000;
@@ -21,8 +20,9 @@
     pointer-events: all;
   }
   &_cross {
+    margin-top: 8px;
     cursor: pointer;
-    align-self: center;
+    align-self: baseline;
     scale: 1.5;
   }
 }
