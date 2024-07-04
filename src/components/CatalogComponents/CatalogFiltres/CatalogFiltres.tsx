@@ -29,6 +29,7 @@ interface ICatalogFiltresProps {
   setSelectedSort: React.Dispatch<
     React.SetStateAction<{ sortName: string; sortTitle: string }>
   >;
+  handleSortChange: (option: { sortName: string; sortTitle: string }) => void;
 }
 
 export interface ISelectedFilterProps {
@@ -56,6 +57,7 @@ const CatalogFiltres = ({
   clearAllCrumbs,
   selectedSort,
   setSelectedSort,
+  handleSortChange,
 }: ICatalogFiltresProps) => {
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
 
@@ -89,6 +91,7 @@ const CatalogFiltres = ({
   return (
     <div ref={containerRef} className="filtresContainer">
       <DefaultFilter
+        handleSortChange={handleSortChange}
         filter={filter}
         visibleFilter={visibleFilter}
         toggleFilter={toggleFilter}
@@ -140,13 +143,10 @@ const CatalogFiltres = ({
           handlePriceRangeChange={handlePriceRangeChange}
           clearFilter={clearFilter}
           selectedFilters={selectedFilters}
-          // selectedFilters={selectedFilters.additional_filter}
           toggleFilter={toggleFilter}
           visibleFilter={visibleFilter}
           changeSelect={handleFilterChange}
           filter={filter}
-          selectedSort={selectedSort}
-          setSelectedSort={setSelectedSort}
         />
       )}
     </div>

@@ -76,7 +76,8 @@ export default function CatalogProducts({
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
-    sortName: "id",
+    // sortName: "id",
+    sortName: searchParams.get("sort") || "id",
     sortTitle: "По популярности",
   });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -122,9 +123,6 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-
-
-
   const handleFilterChange = (name: string, value: any) => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -164,24 +162,17 @@ export default function CatalogProducts({
   };
   const clearFilter = (name: string) => {
     setSelectedFilters((prevFilters) => {
-      // Создаем копию предыдущего состояния фильтров
       const updatedFilters: any = { ...prevFilters };
-
-      // Очищаем конкретный фильтр по имени
       if (updatedFilters.hasOwnProperty(name)) {
         updatedFilters[name] = [];
       }
 
-      // При необходимости обновляем другие части состояния
       const updatedState = {
         ...updatedFilters,
         page: 1, // Сбрасываем страницу при изменении фильтров
       };
 
-      // Обновляем URL, если это необходимо
       updateURLWithFilters(updatedState);
-
-      // Возвращаем обновленное состояние без перезагрузки страницы
       return updatedState;
     });
   };
@@ -297,9 +288,7 @@ export default function CatalogProducts({
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     const queryParams = new URLSearchParams();
-    if (filters.sortName !== defSelectFilter.sortName) {
-      queryParams.set("sort", defSelectFilter.sortName); // Add sort parameter if it has changed
-    }
+
     if (filters.page > 1) queryParams.set("page", filters.page.toString());
     if (filters.brand.length > 0)
       queryParams.set("brand", filters.brand.join(","));
@@ -311,7 +300,7 @@ export default function CatalogProducts({
       queryParams.set("dost", filters.dost.join(","));
     if (filters.additional_filter.length > 0)
       queryParams.set("additional_filter", filters.additional_filter.join(","));
-
+    if (filters.sortName !== "id") queryParams.set("sort", filters.sortName); // Здесь изменено условие для sortName
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
   };
@@ -341,9 +330,7 @@ export default function CatalogProducts({
   // Function to update URL parameters
   const updateURL = (filters: SelectedFilters) => {
     const params = new URLSearchParams();
-    if (filters.sortName !== defSelectFilter.sortName) {
-      params.set("sort", defSelectFilter.sortName);
-    }
+
     if (filters.brand.length > 0) {
       params.set("brand", filters.brand.join(","));
     }
@@ -359,6 +346,9 @@ export default function CatalogProducts({
     if (filters.additional_filter.length > 0) {
       params.set("additional_filter", filters.additional_filter.join(","));
     }
+    if (filters.sortName !== defSelectFilter.sortName) {
+      params.set("sort", filters.sortName);
+    }
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
@@ -368,7 +358,22 @@ export default function CatalogProducts({
       page: 1,
     }));
   };
-
+  const handleSortChange = (option: {
+    sortName: string;
+    sortTitle: string;
+  }) => {
+    setDefSelectFilter(option);
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      sortName: option.sortName,
+      page: 1,
+    }));
+    updateURLWithFilters({
+      ...selectedFilters,
+      sortName: option.sortName,
+      page: 1,
+    });
+  };
   return (
     <section>
       <div className="all__directions container">
@@ -428,6 +433,7 @@ export default function CatalogProducts({
         <div className="container">
           <div className="sort__buttons">
             <CatalogFiltres
+              handleSortChange={handleSortChange}
               clearAllCrumbs={clearAllCrumbs}
               resetCategoryFilters={resetCategoryFilters}
               tempPrice={tempPrice}

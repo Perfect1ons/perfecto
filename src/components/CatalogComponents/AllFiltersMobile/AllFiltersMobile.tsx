@@ -165,12 +165,6 @@ const AllFiltersMobile = ({
       <div className="container">
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
-            <DefaultFilter
-              visibleFilter={visibleFilter}
-              toggleFilter={toggleFilter}
-              selectedSort={selectedSort}
-              setSelectedSort={setSelectedSort}
-            />
             <button
               onClick={() => toggleFilter("modal")}
               className="catalogFilterButton"
