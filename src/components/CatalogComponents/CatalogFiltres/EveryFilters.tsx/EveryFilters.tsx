@@ -203,7 +203,7 @@ const EveryFilters = ({
           onClick={() => toggleFilter("every")}
         >
           Все фильтры
-          <span className={cn("filterNavItemArrowIsActive")}>
+          <span className={styles.filterIcon}>
             <FilterIcon />
           </span>
           {getSelectedFiltersCount() > 0 && (
@@ -320,8 +320,8 @@ const EveryFilters = ({
                             }
                             className={cn(
                               "applyBtn",
-                              (tempPrice.tempMin > 0 ||
-                                tempPrice.tempMax > 0) &&
+                              tempPrice.tempMin > 0 &&
+                                tempPrice.tempMax > 0 &&
                                 "applyBtn__active"
                             )}
                           >

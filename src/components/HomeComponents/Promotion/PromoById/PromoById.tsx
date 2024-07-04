@@ -7,6 +7,7 @@ import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import { IPromoProduct } from "@/types/Promo/PromoById";
 import { NewsByPath } from "@/types/News/NewsById";
+import DOMPurify from "isomorphic-dompurify";
 import Card from "@/components/UI/Card/Card";
 
 export interface INewsByIdProps {
@@ -15,7 +16,6 @@ export interface INewsByIdProps {
 }
 
 const PromoById = ({ promo, main }: INewsByIdProps) => {
-    
   const pathname = usePathname();
   const router = useRouter();
   const formatNewsDate = (dateString: string) => {
@@ -46,7 +46,7 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                 "all__directions_linkActive"
             )}
           >
-              {main.naim}
+            {main.naim}
           </Link>
         </div>
 
@@ -64,7 +64,6 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                   alt={main.naim}
                 />
               </div>
-
               <div className={styles.main__news_info}>
                 <h1
                   onClick={() => router.push(`/promotions/${main.id}`)}
@@ -72,15 +71,13 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                 >
                   {main.naim}
                 </h1>
-                <div className={styles.main__news_desc}>
-                  <Link
-                    className={styles.main__news_desc_link}
-                    href={`/news`}
-                    title="Нажмите чтобы получить подробную информацию"
-                  >
-                    Подробнее
-                  </Link>
-                </div>
+                {main.text && (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(main.text),
+                    }}
+                  />
+                )}
                 <div className={styles.main__news_data}>
                   <span>{formatNewsDate(main.dat1)}</span>
                 </div>
