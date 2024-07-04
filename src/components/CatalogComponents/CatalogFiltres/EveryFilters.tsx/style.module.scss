@@ -63,6 +63,21 @@
   z-index: 1000; /* Убедитесь, что элемент находится поверх других */
   // max-height: 600px;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #888;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 .containerPriceInputs {
   @include mixin.flex(center, center, null, 8px);
@@ -198,4 +213,9 @@
 }
 .containerButtons {
   @include mixin.flex(center, space-between, null, null);
+}
+.filterIcon {
+  @include mixin.flex(center, center, null, null);
+  color: var(--dark);
+  margin-left: 2px;
 }

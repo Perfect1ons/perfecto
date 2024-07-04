@@ -159,6 +159,12 @@ const AllFiltersMobile = ({
       additional_filter: [],
     });
   };
+  const handleSortChange = (option: {
+    sortName: string;
+    sortTitle: string;
+  }) => {
+    console.log("asas");
+  };
 
   return (
     <>
@@ -184,6 +190,7 @@ const AllFiltersMobile = ({
               </span>
             </button>
             <DefaultFilter
+              handleSortChange={handleSortChange}
               visibleFilter={visibleFilter}
               toggleFilter={toggleFilter}
               selectedSort={selectedSort}

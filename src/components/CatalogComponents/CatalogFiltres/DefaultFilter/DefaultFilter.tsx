@@ -17,6 +17,7 @@ interface IDefautlFilterProps {
   setSelectedSort: React.Dispatch<
     React.SetStateAction<{ sortName: string; sortTitle: string }>
   >;
+  handleSortChange: (option: { sortName: string; sortTitle: string }) => void;
 }
 
 const DefaultFilter = ({
@@ -25,6 +26,7 @@ const DefaultFilter = ({
   toggleFilter,
   selectedSort,
   setSelectedSort,
+  handleSortChange,
 }: IDefautlFilterProps) => {
   const [defaultFilters, setDefaultFilters] = useState([
     {
@@ -44,6 +46,7 @@ const DefaultFilter = ({
       sortTitle: "По убыванию цены",
     },
   ]);
+
   return (
     <div className="positionContainer">
       <button
@@ -72,12 +75,13 @@ const DefaultFilter = ({
             </button>
             {defaultFilters.map((option, index) => (
               <ul
-                onClick={() =>
-                  setSelectedSort({
-                    sortName: option.sortName,
-                    sortTitle: option.sortTitle,
-                  })
-                }
+                // onClick={() =>
+                //   setSelectedSort({
+                //     sortName: option.sortName,
+                //     sortTitle: option.sortTitle,
+                //   })
+                // }
+                onClick={() => handleSortChange(option)}
                 key={index}
                 className={cn(styles.option, {
                   [styles.selected]:
