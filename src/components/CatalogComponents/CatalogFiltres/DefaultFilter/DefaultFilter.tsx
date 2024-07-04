@@ -27,24 +27,6 @@ const DefaultFilter = ({
   setSelectedSort,
   handleSortChange,
 }: IDefautlFilterProps) => {
-  // const [defaultFilters, setDefaultFilters] = useState([
-  //   {
-  //     sortName: "id",
-  //     sortTitle: "По популярности",
-  //   },
-  //   {
-  //     sortName: "ocenka",
-  //     sortTitle: "По рейтингу",
-  //   },
-  //   {
-  //     sortName: "-cenaok",
-  //     sortTitle: "По возрастанию цены",
-  //   },
-  //   {
-  //     sortName: "cenaok",
-  //     sortTitle: "По убыванию цены",
-  //   },
-  // ]);
   const [defaultFilters] = useState([
     { sortName: "id", sortTitle: "По популярности" },
     { sortName: "ocenka", sortTitle: "По рейтингу" },

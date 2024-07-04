@@ -83,6 +83,7 @@ const CatalogFiltres = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     // Обновление состояния или вызов других функций при изменении selectedFilters
     // Например, вызов функции, которая обновляет фильтры или другие данные

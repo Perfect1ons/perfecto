@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -450,7 +450,7 @@ export default function CatalogProducts({
           />
         </>
       ) : (
-        <div className="container">
+        <div className={cn("container", styles.filterSticky)}>
           <div className="sort__buttons">
             <CatalogFiltres
               handleSortChange={handleSortChange}
