@@ -53,11 +53,11 @@ export const getCatalogProductsFiltered = (
   cenamax?: number,
   ddos?: string,
   additional?: any,
-  sort?:string,
+  sort?: string
 ): Promise<ICategoryFilter> => {
   return maxkg
     .get(
-      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}&sort=${sort}`
+      `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&id_filter=${additional}&sort=${sort}`
     )
     .json();
 };

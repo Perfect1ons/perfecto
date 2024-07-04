@@ -582,12 +582,20 @@ const EveryFilters = ({
           <div className={styles.container_btnControl}>
             <button
               onClick={clearAllCrumbs}
-              disabled={selectedFilters.additional_filter.length <= 0}
+              disabled={
+                selectedFilters.brand.length <= 0 ||
+                selectedFilters.additional_filter.length <= 0 ||
+                selectedFilters.dost.length <= 0 ||
+                tempPrice.tempMin <= 0 ||
+                tempPrice.tempMax <= 0
+              }
               className={cn(
                 styles.container_btnControl_reset,
                 (selectedFilters.brand.length > 0 ||
                   selectedFilters.additional_filter.length > 0 ||
-                  selectedFilters.dost.length > 0) &&
+                  selectedFilters.dost.length > 0 ||
+                  tempPrice.tempMin > 0 ||
+                  tempPrice.tempMax > 0) &&
                   styles.container_btnControl_reset_active
               )}
             >
@@ -595,12 +603,20 @@ const EveryFilters = ({
             </button>
             <button
               onClick={closeEveryFilter}
-              disabled={selectedFilters.additional_filter.length <= 0}
+              disabled={
+                selectedFilters.brand.length <= 0 ||
+                selectedFilters.additional_filter.length <= 0 ||
+                selectedFilters.dost.length <= 0 ||
+                tempPrice.tempMin <= 0 ||
+                tempPrice.tempMax <= 0
+              }
               className={cn(
                 styles.container_btnControl_apply,
                 (selectedFilters.brand.length > 0 ||
                   selectedFilters.additional_filter.length > 0 ||
-                  selectedFilters.dost.length > 0) &&
+                  selectedFilters.dost.length > 0 ||
+                  tempPrice.tempMin > 0 ||
+                  tempPrice.tempMax > 0) &&
                   styles.container_btnControl_apply_active
               )}
             >
