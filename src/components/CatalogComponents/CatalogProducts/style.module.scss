@@ -28,7 +28,7 @@
   color: #212529;
 }
 
-.showMore{
+.showMore {
   display: flex;
   justify-content: center;
 }
@@ -136,4 +136,11 @@
     height: 100%;
     width: 100%;
   }
+}
+.filterSticky {
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1010; /* Подстройте под ваши нужды */
+  background-color: white; /* Цвет фона для sticky области */
 }
