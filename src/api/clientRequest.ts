@@ -5,6 +5,7 @@ import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
+import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
@@ -63,6 +64,26 @@ export const getCatalogProductsFiltered = (
     )
     .json();
 };
+
+export const getCatalogProductsFilters = (
+  id: number,
+  page: number,
+  start: number,
+  limit: number,
+  brands?: string,
+  cenamin?: number,
+  cenamax?: number,
+  ddos?: string,
+  additional?: any,
+  sort?: string
+): Promise<IScrolledCatalog> => {
+  return maxkg
+    .get(
+      `catalog/cat-product/${id}?page=${page}&start=${start}&limit=${limit}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}&sort=${sort}`
+    )
+    .json();
+};
+// max.kg/api/catalog/cat-product/28631?page=1&start=1&limit=20&VNaltovaroksearch[brand]=Lenovo&sort=-cenaok
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 export const getFiltersBrandByClient = (
