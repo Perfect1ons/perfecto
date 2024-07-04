@@ -5,18 +5,19 @@ interface ICatalogPaginationProps {
   forcePage: number;
   pageCount: number;
   pageChange: (selectedItem: { selected: number }) => void; 
+  isMobile: boolean;
 }
 
-const CatalogPagination = ({forcePage,pageCount, pageChange}: ICatalogPaginationProps) => {
+const CatalogPagination = ({forcePage,pageCount, pageChange,isMobile}: ICatalogPaginationProps) => {
   return (
     <ReactPaginate
       previousLabel={"<"}
       forcePage={forcePage}
       nextLabel={">"}
-      breakLabel={"..."}
+      breakLabel={isMobile ? ".." : "..."}
       pageCount={pageCount}
       marginPagesDisplayed={1}
-      pageRangeDisplayed={3}
+      pageRangeDisplayed={isMobile ? 2 : 3}
       onPageChange={pageChange}
       containerClassName={"pagination"}
       pageClassName={"page-item"}

@@ -14,11 +14,10 @@ const CardColumn = dynamic(
 
 const CatalogProductList = ({ items, isColumnView, isMobile }: ProductListProps) => {
   return (
-    //"main__news_cards_column"
-    <div className={isMobile && isColumnView ? "main__news_cards_column" : isColumnView ? "cardsGridFive" : "cards"}>
+    <div className={isColumnView && isMobile ? "main__news_cards_column" : isColumnView ? "cardsGridFive" : "cards"}>
       {items.map(
         (item, index) => (
-          isColumnView ? (
+          isColumnView && isMobile ? (
             <CardColumn key={index} cardData={item} />
           ) : (
           <Card key={index} cardData={item} />
