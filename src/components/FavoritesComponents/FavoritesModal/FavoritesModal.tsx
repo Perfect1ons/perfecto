@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
 import { Cross } from "../../../../public/Icons/Icons";
+import { useRouter } from "next/navigation";
 
 interface FavoriteModalProps {
   isVisible: boolean;
@@ -27,26 +28,40 @@ const FavoriteModal = ({
     }
   }, [isVisible, message, onClose]);
 
+  const router = useRouter();
+
   if (isRedirect) {
     return (
-      <Link
-        href="/favorites"
+      <div
+        onClick={() => {
+          router.push("/favorites");
+        }}
         className={cn(styles.modal, { [styles.visible]: isVisible })}
       >
         {message}
-        <span onClick={() => onClose()} className={styles.modal_cross}>
-          {" "}
+        <span
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className={styles.modal_cross}
+        >
           <Cross />
         </span>
-      </Link>
+      </div>
     );
   }
 
   return (
     <div className={cn(styles.modal, { [styles.visible]: isVisible })}>
       {message}
-      <span onClick={() => onClose()} className={styles.modal_cross}>
-        {" "}
+      <span
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        className={styles.modal_cross}
+      >
         <Cross />
       </span>
     </div>

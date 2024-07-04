@@ -130,13 +130,13 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
           Перейти в корзину
         </Link>
       </UserInfoModal>
+      <FavoriteModal
+        isVisible={isModalVisible}
+        message={modalMessage}
+        isRedirect={isRedirect}
+        onClose={handleModalClose}
+      />
       <div className="card" onClick={handleCardClick}>
-        <FavoriteModal
-          isVisible={isModalVisible}
-          message={modalMessage}
-          isRedirect={isRedirect}
-          onClose={handleModalClose}
-        />
         <div className="card__images">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}

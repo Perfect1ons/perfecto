@@ -21,7 +21,8 @@
     pointer-events: all;
   }
   &_cross {
+    cursor: pointer;
     align-self: center;
-    scale: 1.4;
+    scale: 1.5;
   }
 }
