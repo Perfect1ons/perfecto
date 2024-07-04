@@ -8,7 +8,6 @@ import {
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
 import { useState } from "react";
-
 interface IDefautlFilterProps {
   filter?: IFiltersBrand;
   visibleFilter: string | null;
@@ -75,12 +74,7 @@ const DefaultFilter = ({
             </button>
             {defaultFilters.map((option, index) => (
               <ul
-                // onClick={() =>
-                //   setSelectedSort({
-                //     sortName: option.sortName,
-                //     sortTitle: option.sortTitle,
-                //   })
-                // }
+                // onClick={() => handleSortChange(option)}
                 onClick={() => handleSortChange(option)}
                 key={index}
                 className={cn(styles.option, {

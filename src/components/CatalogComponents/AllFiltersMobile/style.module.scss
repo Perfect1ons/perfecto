@@ -43,10 +43,10 @@
   }
 }
 .filterFooter {
+  padding: 10px 0;
   position: sticky;
   bottom: 0;
   background: var(--white);
-  margin-top: 10px;
   &__apply {
     cursor: pointer;
     padding: 10px 12px;

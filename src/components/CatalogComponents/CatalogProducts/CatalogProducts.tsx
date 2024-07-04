@@ -300,7 +300,12 @@ export default function CatalogProducts({
       queryParams.set("dost", filters.dost.join(","));
     if (filters.additional_filter.length > 0)
       queryParams.set("additional_filter", filters.additional_filter.join(","));
-    if (filters.sortName !== "id") queryParams.set("sort", filters.sortName); // Здесь изменено условие для sortName
+    // if (filters.sortName !== defSelectFilter.sortName) {
+    //   queryParams.set("sort", filters.sortName);
+    // }
+    if (filters.sortName) {
+      queryParams.set("sort", filters.sortName);
+    }
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
   };

@@ -165,7 +165,26 @@ const AllFiltersMobile = ({
   }) => {
     console.log("asas");
   };
+  // Эффект для управления стилями тела страницы
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
 
+    if (visibleFilter === "modal") {
+      // Устанавливаем стили, чтобы скрыть прокрутку и фиксировать позицию
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`; // Запоминаем текущую позицию скролла
+    } else {
+      // Восстанавливаем нормальные стили для прокрутки
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1); // Возвращаемся на прежнюю позицию скролла
+      body.style.top = "";
+    }
+  }, [visibleFilter]);
   return (
     <>
       <div className="container">
