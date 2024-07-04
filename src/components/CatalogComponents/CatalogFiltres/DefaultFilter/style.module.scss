@@ -42,3 +42,6 @@
     border: 2px solid var(--dark-blue);
   }
 }
+.gap {
+  @include mixin.flex(center, center, null, 5px);
+}
