@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
+import { Cross } from "../../../../public/Icons/Icons";
 
 interface FavoriteModalProps {
   isVisible: boolean;
@@ -33,6 +34,10 @@ const FavoriteModal = ({
         className={cn(styles.modal, { [styles.visible]: isVisible })}
       >
         {message}
+        <span onClick={() => onClose()} className={styles.modal_cross}>
+          {" "}
+          <Cross />
+        </span>
       </Link>
     );
   }
@@ -40,6 +45,10 @@ const FavoriteModal = ({
   return (
     <div className={cn(styles.modal, { [styles.visible]: isVisible })}>
       {message}
+      <span onClick={() => onClose()} className={styles.modal_cross}>
+        {" "}
+        <Cross />
+      </span>
     </div>
   );
 };

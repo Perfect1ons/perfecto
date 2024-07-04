@@ -1,4 +1,7 @@
 .modal {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
   position: fixed;
   text-decoration: none;
   z-index: 1000;
@@ -16,5 +19,9 @@
   &.visible {
     opacity: 1;
     pointer-events: all;
+  }
+  &_cross {
+    align-self: center;
+    scale: 1.4;
   }
 }
