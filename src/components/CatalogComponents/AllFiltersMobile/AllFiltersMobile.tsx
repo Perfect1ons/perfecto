@@ -1,7 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import styles from "./style.module.scss";
-import { Cross, СhevronDownIcon } from "../../../../public/Icons/Icons";
+import {
+  Cross,
+  FilterIcon,
+  СhevronDownIcon,
+} from "../../../../public/Icons/Icons";
 import cn from "clsx";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ISelectedFilterProps } from "../CatalogFiltres/CatalogFiltres";
@@ -161,6 +165,12 @@ const AllFiltersMobile = ({
       <div className="container">
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
+            <DefaultFilter
+              visibleFilter={visibleFilter}
+              toggleFilter={toggleFilter}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+            />
             <button
               onClick={() => toggleFilter("modal")}
               className="catalogFilterButton"
@@ -179,12 +189,6 @@ const AllFiltersMobile = ({
                 <СhevronDownIcon />
               </span>
             </button>
-            <DefaultFilter
-              visibleFilter={visibleFilter}
-              toggleFilter={toggleFilter}
-              selectedSort={selectedSort}
-              setSelectedSort={setSelectedSort}
-            />
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (
