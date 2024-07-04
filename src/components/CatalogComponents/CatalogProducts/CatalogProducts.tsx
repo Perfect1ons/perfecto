@@ -5,7 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import { BackArrow } from "../../../../public/Icons/Icons";
-import { getCatalogProductsFiltered } from "@/api/clientRequest";
+import {
+  getCatalogProductsFiltered,
+  getFiltersBrandByClient,
+} from "@/api/clientRequest";
 import CatalogProductList from "./CatalogProductList";
 import CatalogFiltres, {
   ISelectedFilterProps,
@@ -105,7 +108,7 @@ export default function CatalogProducts({
   );
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const mobileFilter = useMediaQuery("(max-width: 992px)");
-
+  const [clientFilter, setClientFilter] = useState(filter);
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
     handleViewChange(view);
@@ -214,11 +217,18 @@ export default function CatalogProducts({
           selectedFilters.additional_filter.join(","),
           defSelectFilter.sortName
         );
+        const clientFilter = await getFiltersBrandByClient(
+          selectedFilters.id,
+          selectedFilters.additional_filter.join(",")
+        );
 
         if (response.model) {
           setCount(response.model.length);
           setPageCount(Math.ceil(response.totalCount / 20));
           setItems(response.model);
+        }
+        if (clientFilter) {
+          setClientFilter(clientFilter);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -450,7 +460,7 @@ export default function CatalogProducts({
               handleFilterChange={handleFilterChange}
               selectedFilters={selectedFilters}
               intialAdditional={initialAdditionalFilter}
-              filter={filter}
+              filter={clientFilter}
               catalog={catalog}
               selectedSort={defSelectFilter}
               setSelectedSort={setDefSelectFilter}

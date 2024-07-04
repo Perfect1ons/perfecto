@@ -16,8 +16,6 @@ interface ISeasonCategorySwiperProps {
 const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
   const [loading, setLoading] = useState(true);
 
-  const skeletonArray = new Array(6).fill(null);
-
   useEffect(() => {
     setLoading(false);
   }, []);
@@ -26,7 +24,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
       <div className="container">
         <h1 className="sections__title">Сезонные категории</h1>
         {loading ? (
-          <CategoryItemSkeleton array={skeletonArray} />
+          <CategoryItemSkeleton />
         ) : (
           <Swiper
             slidesPerView={5}

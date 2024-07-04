@@ -4,6 +4,7 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
+import { IFiltersBrand } from "@/types/filtersBrand";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
 
@@ -53,7 +54,7 @@ export const getCatalogProductsFiltered = (
   cenamax?: number,
   ddos?: string,
   additional?: any,
-  sort?:string,
+  sort?: string
 ): Promise<ICategoryFilter> => {
   return maxkg
     .get(
@@ -63,6 +64,12 @@ export const getCatalogProductsFiltered = (
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+export const getFiltersBrandByClient = (
+  id: number,
+  idfil?: number
+): Promise<IFiltersBrand> => {
+  return maxkg.get(`catalog/listfilter?id_cat=${id}&id_filter=${idfil}`).json();
+};
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! POST запросы для отзывов
 export const postOtz = (otz: IUser) => {
