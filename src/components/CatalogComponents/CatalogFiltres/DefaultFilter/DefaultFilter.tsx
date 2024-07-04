@@ -7,7 +7,7 @@ import {
   Cross,
   СhevronDownIcon,
 } from "../../../../../public/Icons/Icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 interface IDefautlFilterProps {
   filter?: IFiltersBrand;
   visibleFilter: string | null;
@@ -27,24 +27,41 @@ const DefaultFilter = ({
   setSelectedSort,
   handleSortChange,
 }: IDefautlFilterProps) => {
-  const [defaultFilters, setDefaultFilters] = useState([
-    {
-      sortName: "id",
-      sortTitle: "По популярности",
-    },
-    {
-      sortName: "ocenka",
-      sortTitle: "По рейтингу",
-    },
-    {
-      sortName: "-cenaok",
-      sortTitle: "По возрастанию цены",
-    },
-    {
-      sortName: "cenaok",
-      sortTitle: "По убыванию цены",
-    },
+  // const [defaultFilters, setDefaultFilters] = useState([
+  //   {
+  //     sortName: "id",
+  //     sortTitle: "По популярности",
+  //   },
+  //   {
+  //     sortName: "ocenka",
+  //     sortTitle: "По рейтингу",
+  //   },
+  //   {
+  //     sortName: "-cenaok",
+  //     sortTitle: "По возрастанию цены",
+  //   },
+  //   {
+  //     sortName: "cenaok",
+  //     sortTitle: "По убыванию цены",
+  //   },
+  // ]);
+  const [defaultFilters] = useState([
+    { sortName: "id", sortTitle: "По популярности" },
+    { sortName: "ocenka", sortTitle: "По рейтингу" },
+    { sortName: "-cenaok", sortTitle: "По возрастанию цены" },
+    { sortName: "cenaok", sortTitle: "По убыванию цены" },
   ]);
+  useEffect(() => {
+    const sortParam = new URLSearchParams(window.location.search).get("sort");
+    if (sortParam) {
+      setSelectedSort({
+        sortName: sortParam,
+        sortTitle:
+          defaultFilters.find((filter) => filter.sortName === sortParam)
+            ?.sortTitle || "",
+      });
+    }
+  }, [defaultFilters, setSelectedSort]);
 
   return (
     <div className="positionContainer">
