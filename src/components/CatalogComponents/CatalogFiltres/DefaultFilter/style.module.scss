@@ -42,8 +42,3 @@
     border: 2px solid var(--dark-blue);
   }
 }
-.forMobile {
-  @media screen and (max-width: 480px) {
-    max-width: 250px;
-  }
-}
