@@ -26,6 +26,7 @@ interface IPropsMobileFilter {
   setSelectedSort: React.Dispatch<
     React.SetStateAction<{ sortName: string; sortTitle: string }>
   >;
+  handleSortChange: (option: { sortName: string; sortTitle: string }) => void;
 }
 
 const AllFiltersMobile = ({
@@ -36,6 +37,7 @@ const AllFiltersMobile = ({
   filters,
   selectedSort,
   setSelectedSort,
+  handleSortChange,
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get("brand")?.split(",") || [];
@@ -183,6 +185,13 @@ const AllFiltersMobile = ({
                 <СhevronDownIcon />
               </span>
             </button>
+            <DefaultFilter
+              visibleFilter={visibleFilter}
+              toggleFilter={toggleFilter}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+              handleSortChange={handleSortChange}
+            />
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (

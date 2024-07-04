@@ -427,6 +427,7 @@ export default function CatalogProducts({
             toggleView={toggleView}
             selectedSort={defSelectFilter}
             setSelectedSort={setDefSelectFilter}
+            handleSortChange={handleSortChange}
           />
         </>
       ) : (
