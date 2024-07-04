@@ -27,14 +27,18 @@ const AuthForm = ({ setView, close }: FormProps) => {
         отслеживать заказы, получать персональные скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-            <input
-              className={styles.modal__input}
-              type="text"
-              name="phone"
-              placeholder="Телефон"
-            />
+        <input
+          className={styles.modal__input}
+          type="text"
+          name="phone"
+          placeholder="Телефон"
+        />
 
-        <button type="submit" className={cn(styles.modal__button, "button")}>
+        <button
+          aria-label="go to enter "
+          type="submit"
+          className={cn(styles.modal__button, "button")}
+        >
           Войти
         </button>
       </form>
@@ -57,12 +61,14 @@ const AuthForm = ({ setView, close }: FormProps) => {
         <button
           className={cn(styles.modal__more_button, "button")}
           onClick={() => setView("registration")}
+          aria-label="go to registration"
         >
           Регистрация
         </button>
         <button
           className={cn(styles.modal__more_button, "button")}
           onClick={() => setView("recovery")}
+          aria-label="remind me of the password"
         >
           Напомнить пароль
         </button>
