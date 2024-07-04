@@ -198,7 +198,7 @@ const EveryFilters = ({
           onClick={() => toggleFilter("every")}
         >
           Все фильтры
-          <span className={styles.filterIcon}>
+          <span className={cn("filterNavItemArrowIsActive")}>
             <FilterIcon />
           </span>
           {getSelectedFiltersCount() > 0 && (

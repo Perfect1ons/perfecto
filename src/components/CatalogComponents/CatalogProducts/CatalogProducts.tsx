@@ -432,6 +432,7 @@ export default function CatalogProducts({
             toggleView={toggleView}
             selectedSort={defSelectFilter}
             setSelectedSort={setDefSelectFilter}
+            handleSortChange={handleSortChange}
           />
         </>
       ) : (
@@ -494,9 +495,15 @@ export default function CatalogProducts({
           )}
         </div>
       )}
-      {isLoading ? (
-        <div className="cards toptwenty">
+      {isLoading && isColumnView ? (
+        <div className="cardsGridFive toptwenty">
           {Array.from({ length: count > 0 ? count : 18 }).map((_, index) => (
+            <CardSkeleton key={index} />
+          ))}
+        </div>
+      ) : isLoading ? (
+        <div className="cards toptwenty">
+          {Array.from({ length: 20 }).map((_, index) => (
             <CardSkeleton key={index} />
           ))}
         </div>

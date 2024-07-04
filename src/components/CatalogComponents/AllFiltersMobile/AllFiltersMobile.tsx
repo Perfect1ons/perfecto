@@ -26,6 +26,7 @@ interface IPropsMobileFilter {
   setSelectedSort: React.Dispatch<
     React.SetStateAction<{ sortName: string; sortTitle: string }>
   >;
+  handleSortChange: (option: { sortName: string; sortTitle: string }) => void;
 }
 
 const AllFiltersMobile = ({
@@ -36,6 +37,7 @@ const AllFiltersMobile = ({
   filters,
   selectedSort,
   setSelectedSort,
+  handleSortChange,
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
   const initialBrand = searchParams.get("brand")?.split(",") || [];
@@ -159,12 +161,6 @@ const AllFiltersMobile = ({
       additional_filter: [],
     });
   };
-  const handleSortChange = (option: {
-    sortName: string;
-    sortTitle: string;
-  }) => {
-    console.log("asas");
-  };
   // Эффект для управления стилями тела страницы
   useEffect(() => {
     const body = document.body;
@@ -190,13 +186,6 @@ const AllFiltersMobile = ({
       <div className="container">
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
-            <DefaultFilter
-              handleSortChange={handleSortChange}
-              visibleFilter={visibleFilter}
-              toggleFilter={toggleFilter}
-              selectedSort={selectedSort}
-              setSelectedSort={setSelectedSort}
-            />
             <button
               onClick={() => toggleFilter("modal")}
               className="catalogFilterButton"
@@ -215,6 +204,13 @@ const AllFiltersMobile = ({
                 <СhevronDownIcon />
               </span>
             </button>
+            <DefaultFilter
+              visibleFilter={visibleFilter}
+              toggleFilter={toggleFilter}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+              handleSortChange={handleSortChange}
+            />
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (
