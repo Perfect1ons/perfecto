@@ -51,7 +51,7 @@ const DefaultFilter = ({
     <div className="positionContainer">
       <button
         onClick={() => toggleFilter("default")}
-        className="catalogFilterButton"
+        className={cn("catalogFilterButton", styles.gap)}
       >
         <ArrowsUpDown />
         {selectedSort.sortTitle}

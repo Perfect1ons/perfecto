@@ -517,6 +517,7 @@ export default function CatalogProducts({
               forcePage={selectedFilters.page - 1}
               pageCount={pageCount}
               pageChange={handlePageChange}
+              isMobile={isSMobile}
             />
           )}
         </>

@@ -1,12 +1,14 @@
+@use "../common/mixins" as mixin;
+
 .pagination {
-  display: flex;
   list-style: none;
   padding: 0;
-  justify-content: center;
+  @include mixin.flex(center, center, null, 10px);
+  margin-bottom: 25px;
+  margin-top: 30px;
 
-    @media screen and (max-width: 480px) {
-    overflow-x: auto;
-    height: 40px;
+  @media screen and (max-width: 480px) {
+    gap: 5px;
   }
 }
 
@@ -22,6 +24,9 @@
 
   @media screen and (max-width: 640px) {
     padding: 6px 12px;
+  }
+    @media screen and (max-width: 480px) {
+    padding: 4px 10px;
   }
 }
 
