@@ -213,6 +213,7 @@
 }
 .containerButtons {
   @include mixin.flex(center, space-between, null, null);
+  width: 100%;
 }
 .filterIcon {
   @include mixin.flex(center, center, null, null);

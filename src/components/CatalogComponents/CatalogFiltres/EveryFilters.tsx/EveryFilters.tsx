@@ -46,6 +46,11 @@ const EveryFilters = ({
   const closeEveryFilter = () => {
     toggleFilter("every");
   };
+  const apllyEveryFilter = () => {
+    toggleFilter("every");
+    applyFilterPrice();
+    toggleFilter("");
+  };
   function isKeyOfISelectedFilterProps(
     key: any
   ): key is keyof ISelectedFilterProps {
@@ -303,6 +308,41 @@ const EveryFilters = ({
                               placeholder={`до 0`}
                             />
                           </div>
+                        </div>
+                        <div className={styles.containerButtons}>
+                          <button
+                            onClick={() => {
+                              applyFilterPrice();
+                              toggleFilter("");
+                            }}
+                            disabled={
+                              tempPrice.tempMin === 0 || tempPrice.tempMax === 0
+                            }
+                            className={cn(
+                              "applyBtn",
+                              (tempPrice.tempMin > 0 ||
+                                tempPrice.tempMax > 0) &&
+                                "applyBtn__active"
+                            )}
+                          >
+                            Применить
+                          </button>
+                          {tempPrice.tempMin > 0 && (
+                            <button
+                              onClick={clearFilterPrice}
+                              disabled={
+                                tempPrice.tempMin <= 0 && tempPrice.tempMax <= 0
+                              }
+                              className={cn(
+                                "resetButton",
+                                (tempPrice.tempMin > 0 ||
+                                  tempPrice.tempMax > 0) &&
+                                  "resetButton__active"
+                              )}
+                            >
+                              Сбросить
+                            </button>
+                          )}
                         </div>
                       </div>
                     </ul>
@@ -585,13 +625,6 @@ const EveryFilters = ({
           <div className={styles.container_btnControl}>
             <button
               onClick={clearAllCrumbs}
-              disabled={
-                selectedFilters.brand.length <= 0 ||
-                selectedFilters.additional_filter.length <= 0 ||
-                selectedFilters.dost.length <= 0 ||
-                tempPrice.tempMin <= 0 ||
-                tempPrice.tempMax <= 0
-              }
               className={cn(
                 styles.container_btnControl_reset,
                 (selectedFilters.brand.length > 0 ||
@@ -605,14 +638,7 @@ const EveryFilters = ({
               Сбросить
             </button>
             <button
-              onClick={closeEveryFilter}
-              disabled={
-                selectedFilters.brand.length <= 0 ||
-                selectedFilters.additional_filter.length <= 0 ||
-                selectedFilters.dost.length <= 0 ||
-                tempPrice.tempMin <= 0 ||
-                tempPrice.tempMax <= 0
-              }
+              onClick={apllyEveryFilter}
               className={cn(
                 styles.container_btnControl_apply,
                 (selectedFilters.brand.length > 0 ||
