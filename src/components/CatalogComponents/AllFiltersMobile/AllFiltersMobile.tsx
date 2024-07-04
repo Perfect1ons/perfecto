@@ -183,9 +183,16 @@ const AllFiltersMobile = ({
   }, [visibleFilter]);
   return (
     <>
-      <div className="container">
+      <div className={cn("container", styles.filterSticky)}>
         <div className="sort__buttons">
           <div className={styles.buttonModalContainer}>
+            <DefaultFilter
+              visibleFilter={visibleFilter}
+              toggleFilter={toggleFilter}
+              selectedSort={selectedSort}
+              setSelectedSort={setSelectedSort}
+              handleSortChange={handleSortChange}
+            />
             <button
               onClick={() => toggleFilter("modal")}
               className="catalogFilterButton"
@@ -204,13 +211,6 @@ const AllFiltersMobile = ({
                 <СhevronDownIcon />
               </span>
             </button>
-            <DefaultFilter
-              visibleFilter={visibleFilter}
-              toggleFilter={toggleFilter}
-              selectedSort={selectedSort}
-              setSelectedSort={setSelectedSort}
-              handleSortChange={handleSortChange}
-            />
           </div>
           <div className="default__sort_style">
             {!isColumnView ? (
