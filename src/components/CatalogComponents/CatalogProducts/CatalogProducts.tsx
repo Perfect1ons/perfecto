@@ -139,6 +139,7 @@ export default function CatalogProducts({
       [name]: value,
       page: 1, // Reset page when filters change
     }));
+    window.scrollTo({ top: 300, behavior: "smooth" });
     updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
   };
 
@@ -204,6 +205,7 @@ export default function CatalogProducts({
       return updatedFilters; // Обновляем состояние с обновленными фильтрами
     });
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
   };
 
@@ -312,10 +314,12 @@ export default function CatalogProducts({
       tempMax: max,
     }));
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
   };
 
   const applyFilterPrice = () => {
+    window.scrollTo({ top: 300, behavior: "smooth" });
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
@@ -347,6 +351,7 @@ export default function CatalogProducts({
       page: 1,
     });
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
   };
 
@@ -363,6 +368,7 @@ export default function CatalogProducts({
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     const queryParams = new URLSearchParams();
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
     if (filters.page > 1) queryParams.set("page", filters.page.toString());
     if (filters.brand.length > 0)
@@ -408,6 +414,7 @@ export default function CatalogProducts({
       return updatedFilters;
     });
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
   };
 
@@ -442,6 +449,7 @@ export default function CatalogProducts({
       page: 1,
     }));
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
   };
   const handleSortChange = (option: {
@@ -473,8 +481,13 @@ export default function CatalogProducts({
 const handleObserver = useCallback(
   (entries: IntersectionObserverEntry[]) => {
     const target = entries[0];
-    if (target.isIntersecting && items.length <= 80 && !isLoadingScroll) {
-      handleShowMor(); // Only fetch if not already loading
+    if (
+      target.isIntersecting &&
+      items.length % 20 === 0 &&
+      items.length <= 80 &&
+      !isLoadingScroll
+    ) {
+      handleShowMor(); // Only fetch if not already loading and items are multiples of 20
     }
   },
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -645,9 +658,6 @@ const handleObserver = useCallback(
               </div>
             )}
           </div>
-          <h1 className="container section__title">{items.length} - count</h1>
-          <h1 className="container section__title">{start} - start</h1>
-          <h1 className="container section__title">{limit} - limit</h1>
           <div className={styles.showMore}>
             {selectedFilters.page !== pageCount ? (
               <button
