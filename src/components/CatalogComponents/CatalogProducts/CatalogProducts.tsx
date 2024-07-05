@@ -31,6 +31,7 @@ import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
 import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
 import CatalogDesc from "./CatalogDesc/CatalogDesc";
+import { useRouter } from "next/navigation";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -504,27 +505,31 @@ export default function CatalogProducts({
     };
   }, [handleShowMor, isLoadingScroll, items.length]);
 
+  const router = useRouter();
+
   return (
     <section>
       <div className="all__directions container">
-        {breadCrumbs.slice(-2, -1).map((crumbs) => (
-          <Link
-            className="all__directions_link"
-            href={`/catalog/${crumbs.full_slug}`}
-            key={crumbs.id}
-          >
-            <BackArrow /> Назад
-          </Link>
-        ))}
+        {breadCrumbs &&
+          breadCrumbs.slice(-2, -1).map((crumbs) => (
+            <span
+              className="all__directions_link"
+              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
+              key={crumbs.id}
+            >
+              <BackArrow /> Назад
+            </span>
+          ))}
         {breadCrumbs.map((crumbs) => {
           return (
-            <Link
+            <span
               className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
+              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
+              // href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
               {crumbs.name}
-            </Link>
+            </span>
           );
         })}
       </div>
