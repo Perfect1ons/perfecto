@@ -181,7 +181,7 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
   const getImageUrl = (photo: any) => {
     if (!photo || !photo.url_part) {
       // Если photo или url_part не определены, возвращаем URL placeholder
-      return "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
+      return "/img/noPhoto.svg";
     }
 
     if (photo.url_part.startsWith("https://goods-photos")) {
