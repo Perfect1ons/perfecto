@@ -22,7 +22,6 @@ export default async function item({ params: { path } }: Params) {
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
       <ItemPage
-        // banner={banner}
         data={data}
         similar={similarData}
         breadCrumbs={breadCrumbs}
@@ -69,7 +68,6 @@ export async function generateMetadata({
     };
   } catch (error) {
     console.error("Error occurred while generating metadata:", error);
-    // If an error occurs, return default metadata or handle it accordingly
     return {
       title: "Default Title",
       description: "",
