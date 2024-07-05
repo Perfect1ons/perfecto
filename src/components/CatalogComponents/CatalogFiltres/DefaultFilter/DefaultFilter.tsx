@@ -36,15 +36,15 @@ const DefaultFilter = ({
   useEffect(() => {
     const sortParam = new URLSearchParams(window.location.search).get("sort");
     if (sortParam) {
+      const foundFilter = defaultFilters.find(
+        (filter) => filter.sortName === sortParam
+      );
       setSelectedSort({
         sortName: sortParam,
-        sortTitle:
-          defaultFilters.find((filter) => filter.sortName === sortParam)
-            ?.sortTitle || "",
+        sortTitle: foundFilter ? foundFilter.sortTitle : "",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSort, setSelectedSort]);
+  }, [defaultFilters]); // Убраны selectedSort и setSelectedSort из зависимостей
 
   return (
     <div className="positionContainer">
