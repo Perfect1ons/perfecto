@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -105,8 +105,11 @@ export default function CatalogProducts({
 
   const [isColumnView, setIsColumnView] = useState(false);
   const [pageCount, setPageCount] = useState<any>();
-  const [start, setStart] = useState<number>(1);
+  const [start, setStart] = useState<number>(0);
   const [limit, setLimit] = useState<number>(20);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingScroll, setIsLoadingScroll] = useState(false); // State for loading indicator
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const mobileFilter = useMediaQuery("(max-width: 992px)");
   const [clientFilter, setClientFilter] = useState(filter);
@@ -120,6 +123,7 @@ export default function CatalogProducts({
       ...prevFilters,
       page: prevFilters.page + 1,
     }));
+    setStart(1);
     updateURLWithFilters({
       ...selectedFilters,
       page: selectedFilters.page + 1,
@@ -212,7 +216,7 @@ export default function CatalogProducts({
           selectedFilters.id,
           selectedFilters.page,
           start,
-          100,
+          limit,
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
           maxPrice,
@@ -233,6 +237,7 @@ export default function CatalogProducts({
         if (clientFilter) {
           setClientFilter(clientFilter);
         }
+        setStart(0)
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -243,6 +248,48 @@ export default function CatalogProducts({
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters, defSelectFilter.sortName]);
+
+  const fetchByScroll = async (startValue: number) => {
+    setIsLoadingScroll(true); // Set loading to true when fetching data
+    let maxPrice = 0;
+    if (selectedFilters.priceMax > 0) {
+      maxPrice = selectedFilters.priceMax;
+    } else if (selectedFilters.priceMin > 0) {
+      maxPrice = 9999999; // Or any large number, like 999999
+    }
+
+    try {
+      const response = await getCatalogProductsFilters(
+        selectedFilters.id,
+        selectedFilters.page,
+        startValue,
+        20,
+        selectedFilters.brand.join(","),
+        selectedFilters.priceMin,
+        maxPrice,
+        selectedFilters.dost.join(","),
+        selectedFilters.additional_filter.join(","),
+        defSelectFilter.sortName
+      );
+      const clientFilter = await getFiltersBrandByClient(
+        selectedFilters.id,
+        selectedFilters.additional_filter.join(",")
+      );
+
+      if (response.category.tov) {
+        setCount((prevCount) => prevCount + response.category.tov.length);
+        setPageCount(response.kol_page);
+        setItems((prevItems) => [...prevItems, ...response.category.tov]);
+      }
+      if (clientFilter) {
+        setClientFilter(clientFilter);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoadingScroll(false); // Set loading to false when data fetching is complete
+    }
+  };
 
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
@@ -290,6 +337,7 @@ export default function CatalogProducts({
   };
 
   const handlePageChange = ({ selected }: { selected: number }) => {
+    setStart(0);
     const newPage = selected + 1;
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -392,6 +440,45 @@ export default function CatalogProducts({
       page: 1,
     });
   };
+
+  const handleShowMor = () => {
+    const newStart = start + 20;
+    setStart(newStart);
+    if (start < 81) {
+      fetchByScroll(newStart);
+    }
+  };
+
+const handleObserver = useCallback(
+  (entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    if (target.isIntersecting && items.length <= 80 && !isLoadingScroll) {
+      handleShowMor(); // Only fetch if not already loading
+    }
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [start, items.length, isLoadingScroll]
+);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "100px",
+      threshold: 0.1,
+    });
+
+    if (loaderRef.current) {
+      observerRef.current.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (observerRef.current && loaderRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observerRef.current.unobserve(loaderRef.current);
+      }
+    };
+  }, [handleObserver]);
+
   return (
     <section>
       <div className="all__directions container">
@@ -528,6 +615,20 @@ export default function CatalogProducts({
             isColumnView={isColumnView}
             isMobile={isSMobile}
           />
+          <div ref={loaderRef}>
+            {isLoadingScroll && (
+              <div className="cards">
+                {Array.from({ length: 20 }).map((_, index) => (
+                  <CardSkeleton key={index} />
+                ))}
+              </div>
+            )}
+          </div>
+          <h1 className="container section__title">
+            {items.length} - count
+          </h1>
+          <h1 className="container section__title">{start} - start</h1>
+          <h1 className="container section__title">{limit} - limit</h1>
           <div className={styles.showMore}>
             {selectedFilters.page !== pageCount ? (
               <button
