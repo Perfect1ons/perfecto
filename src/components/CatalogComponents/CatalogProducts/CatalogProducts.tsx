@@ -82,7 +82,7 @@ export default function CatalogProducts({
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
     // sortName: "id",
-    sortName: searchParams.get("sort") || "id",
+    sortName: "id",
     sortTitle: "По популярности",
   });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -175,7 +175,6 @@ export default function CatalogProducts({
       additional_filter: [],
       sortName: "id",
     });
-
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
   const clearFilter = (name: string) => {
@@ -375,7 +374,8 @@ export default function CatalogProducts({
       queryParams.set("dost", filters.dost.join(","));
     if (filters.additional_filter.length > 0)
       queryParams.set("additional_filter", filters.additional_filter.join(","));
-    if (filters.sortName) queryParams.set("sort", filters.sortName);
+    if (filters.sortName !== defSelectFilter.sortName)
+      queryParams.set("sort", filters.sortName);
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
@@ -451,7 +451,12 @@ export default function CatalogProducts({
 
     setSelectedFilters(updatedFilters); // Обновление состояния фильтров
     updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
-    setDefSelectFilter(option); // Установка нового значения defSelectFilter
+    // Установка нового значения defSelectFilter
+    setDefSelectFilter((prev) => ({
+      ...prev,
+      sortName: option.sortName,
+      sortTitle: option.sortTitle,
+    }));
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
