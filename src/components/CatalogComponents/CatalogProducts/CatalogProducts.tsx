@@ -206,7 +206,6 @@ export default function CatalogProducts({
     });
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   useEffect(() => {
@@ -245,7 +244,7 @@ export default function CatalogProducts({
         if (clientFilter) {
           setClientFilter(clientFilter);
         }
-        setStart(0)
+        setStart(0);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -304,7 +303,6 @@ export default function CatalogProducts({
     // Scroll to the top of the page when changing view
     window.scrollTo({ top: 300, behavior: "auto" });
     setStart(0);
-
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
@@ -315,7 +313,6 @@ export default function CatalogProducts({
     }));
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   const applyFilterPrice = () => {
@@ -333,7 +330,6 @@ export default function CatalogProducts({
       page: 1,
     });
     setStart(0);
-
   };
 
   const clearFilterPrice = () => {
@@ -352,7 +348,6 @@ export default function CatalogProducts({
     });
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   const handlePageChange = ({ selected }: { selected: number }) => {
@@ -415,7 +410,6 @@ export default function CatalogProducts({
     });
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   // Function to update URL parameters
@@ -450,14 +444,13 @@ export default function CatalogProducts({
     }));
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
   const handleSortChange = (option: {
     sortName: string;
     sortTitle: string;
   }) => {
     setDefSelectFilter(option);
-    setStart(0)
+    setStart(0);
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       sortName: option.sortName,
@@ -470,6 +463,7 @@ export default function CatalogProducts({
     });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleShowMor = () => {
     const newStart = start + 20;
     setStart(newStart);
@@ -478,30 +472,27 @@ export default function CatalogProducts({
     }
   };
 
-const handleObserver = useCallback(
-  (entries: IntersectionObserverEntry[]) => {
-    const target = entries[0];
-    if (
-      target.isIntersecting &&
-      items.length % 20 === 0 &&
-      items.length <= 80 &&
-      !isLoadingScroll
-    ) {
-      handleShowMor(); // Only fetch if not already loading and items are multiples of 20
-    }
-  },
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [start, items.length, isLoadingScroll]
-);
-
   useEffect(() => {
+    const handleObserver = (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (
+        target.isIntersecting &&
+        items.length % 20 === 0 &&
+        items.length <= 80 &&
+        !isLoadingScroll
+      ) {
+        handleShowMor(); // Only fetch if not already loading and items are multiples of 20
+      }
+    };
+
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: "700px",
       threshold: 0,
     });
 
-    if (loaderRef.current) {
+    if (loaderRef.current && observerRef.current) {
+      // Ensure both loaderRef and observerRef are defined
       observerRef.current.observe(loaderRef.current);
     }
 
@@ -511,7 +502,7 @@ const handleObserver = useCallback(
         observerRef.current.unobserve(loaderRef.current);
       }
     };
-  }, [handleObserver]);
+  }, [handleShowMor, isLoadingScroll, items.length]);
 
   return (
     <section>
