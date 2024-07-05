@@ -82,7 +82,7 @@ export default function CatalogProducts({
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
     // sortName: "id",
-    sortName: "id",
+    sortName: searchParams.get("sort") || "id",
     sortTitle: "По популярности",
   });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -149,7 +149,6 @@ export default function CatalogProducts({
   const clearAllCrumbs = () => {
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
     setSelectedFilters({
       id: selectedFilters.id, // Preserve catalog.category.id
       page: 1,
@@ -158,7 +157,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
-      sortName: "id",
+      sortName: selectedFilters.sortName,
     });
 
     setTempPrice({
@@ -174,7 +173,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
-      sortName: "id",
+      sortName: selectedFilters.sortName,
     });
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
@@ -375,7 +374,7 @@ export default function CatalogProducts({
       queryParams.set("dost", filters.dost.join(","));
     if (filters.additional_filter.length > 0)
       queryParams.set("additional_filter", filters.additional_filter.join(","));
-    if (filters.sortName !== defSelectFilter.sortName)
+    if (filters.sortName)
       queryParams.set("sort", filters.sortName);
 
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
@@ -425,7 +424,7 @@ export default function CatalogProducts({
     if (filters.additional_filter.length > 0) {
       params.set("additional_filter", filters.additional_filter.join(","));
     }
-    if (filters.sortName !== defSelectFilter.sortName) {
+    if (filters.sortName) {
       params.set("sort", filters.sortName);
     }
 
