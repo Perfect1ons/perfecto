@@ -159,7 +159,6 @@ body {
 
 //! пагинация страниц показать больше
 .pagination {
-
   &__button {
     @include mixin.font(16px, 600, 143%, var(--dark-blue));
     @include mixin.flex(center, center);
@@ -362,8 +361,7 @@ body {
 
 .sort__buttons {
   position: relative;
-  margin-top: 10px;
-  margin-bottom: 15px;
+  margin: 5px 0;
   border-radius: 5px;
   @include mixin.flex(center, space-between, null, 10px);
 
