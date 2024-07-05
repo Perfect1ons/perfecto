@@ -175,7 +175,6 @@ export default function CatalogProducts({
       additional_filter: [],
       sortName: "id",
     });
-
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
   const clearFilter = (name: string) => {
