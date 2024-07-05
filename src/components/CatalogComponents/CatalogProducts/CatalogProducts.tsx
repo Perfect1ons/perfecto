@@ -176,6 +176,7 @@ export default function CatalogProducts({
       additional_filter: [],
       sortName: "id",
     });
+    window.scrollTo({ top: 300, behavior: "smooth" });
   };
   const clearFilter = (name: string) => {
     const updatedFilters = {
@@ -500,31 +501,28 @@ export default function CatalogProducts({
     };
   }, [handleShowMor, isLoadingScroll, items.length]);
 
-  const router = useRouter();
-
   return (
     <section>
       <div className="all__directions container">
         {breadCrumbs &&
           breadCrumbs.slice(-2, -1).map((crumbs) => (
-            <span
+            <Link
               className="all__directions_link"
-              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
+              href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
               <BackArrow /> Назад
-            </span>
+            </Link>
           ))}
         {breadCrumbs.map((crumbs) => {
           return (
-            <span
+            <Link
               className="all__directions_link"
-              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
-              // href={`/catalog/${crumbs.full_slug}`}
+              href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
               {crumbs.name}
-            </span>
+            </Link>
           );
         })}
       </div>
