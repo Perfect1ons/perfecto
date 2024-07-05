@@ -44,6 +44,7 @@ const DefaultFilter = ({
         sortTitle: foundFilter ? foundFilter.sortTitle : "",
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultFilters]); // Убраны selectedSort и setSelectedSort из зависимостей
 
   return (
