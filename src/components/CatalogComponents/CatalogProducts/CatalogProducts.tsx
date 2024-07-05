@@ -147,6 +147,7 @@ const handleFilterChange = (name: string, value: any) => {
 
   const clearAllCrumbs = () => {
     setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
     setSelectedFilters({
       id: selectedFilters.id, // Preserve catalog.category.id
