@@ -82,7 +82,7 @@ export default function CatalogProducts({
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
     // sortName: "id",
-    sortName: searchParams.get("sort") || "id",
+    sortName: "id",
     sortTitle: "По популярности",
   });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -133,18 +133,18 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-const handleFilterChange = (name: string, value: any) => {
-  setStart(0);
-  const updatedFilters = {
-    ...selectedFilters,
-    [name]: value,
-    page: 1, // Сброс страницы при изменении фильтров
-  };
+  const handleFilterChange = (name: string, value: any) => {
+    setStart(0);
+    const updatedFilters = {
+      ...selectedFilters,
+      [name]: value,
+      page: 1, // Сброс страницы при изменении фильтров
+    };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
-  window.scrollTo({ top: 300, behavior: "smooth" });
-};
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  };
 
   const clearAllCrumbs = () => {
     setStart(0);
@@ -176,16 +176,16 @@ const handleFilterChange = (name: string, value: any) => {
       sortName: "id",
     });
   };
-const clearFilter = (name: string) => {
-  const updatedFilters = {
-    ...selectedFilters,
-    [name]: [],
-    page: 1, // Сброс страницы при изменении фильтров
-  };
+  const clearFilter = (name: string) => {
+    const updatedFilters = {
+      ...selectedFilters,
+      [name]: [],
+      page: 1, // Сброс страницы при изменении фильтров
+    };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
-};
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+  };
 
   const resetCategoryFilters = (categoryFilters: Filter2) => {
     setSelectedFilters((prevSelectedFilters) => {
@@ -347,37 +347,38 @@ const clearFilter = (name: string) => {
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-const handlePageChange = ({ selected }: { selected: number }) => {
-  const newPage = selected + 1;
-  const updatedFilters = {
-    ...selectedFilters,
-    page: newPage,
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    const newPage = selected + 1;
+    const updatedFilters = {
+      ...selectedFilters,
+      page: newPage,
+    };
+
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
+    window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
-  window.scrollTo({ top: 300, behavior: "auto" });
-};
+  const updateURLWithFilters = (filters: ISelectedFilterProps) => {
+    const queryParams = new URLSearchParams();
 
-const updateURLWithFilters = (filters: ISelectedFilterProps) => {
-  const queryParams = new URLSearchParams();
+    if (filters.page > 1) queryParams.set("page", filters.page.toString());
+    if (filters.brand.length > 0)
+      queryParams.set("brand", filters.brand.join(","));
+    if (filters.priceMin > 0)
+      queryParams.set("priceMin", filters.priceMin.toString());
+    if (filters.priceMax > 0)
+      queryParams.set("priceMax", filters.priceMax.toString());
+    if (filters.dost.length > 0)
+      queryParams.set("dost", filters.dost.join(","));
+    if (filters.additional_filter.length > 0)
+      queryParams.set("additional_filter", filters.additional_filter.join(","));
+    if (filters.sortName !== defSelectFilter.sortName)
+      queryParams.set("sort", filters.sortName);
 
-  if (filters.page > 1) queryParams.set("page", filters.page.toString());
-  if (filters.brand.length > 0)
-    queryParams.set("brand", filters.brand.join(","));
-  if (filters.priceMin > 0)
-    queryParams.set("priceMin", filters.priceMin.toString());
-  if (filters.priceMax > 0)
-    queryParams.set("priceMax", filters.priceMax.toString());
-  if (filters.dost.length > 0) queryParams.set("dost", filters.dost.join(","));
-  if (filters.additional_filter.length > 0)
-    queryParams.set("additional_filter", filters.additional_filter.join(","));
-  if (filters.sortName) queryParams.set("sort", filters.sortName);
-
-  const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-  window.history.replaceState({ path: newUrl }, "", newUrl);
-};
-
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+  };
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
     setSelectedFilters((prevFilters) => {
@@ -437,18 +438,25 @@ const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-const handleSortChange = (option: { sortName: string; sortTitle: string }) => {
-  const updatedFilters = {
-    ...selectedFilters,
-    sortName: option.sortName,
-    page: 1, // Сброс страницы при изменении сортировки
+  const handleSortChange = (option: {
+    sortName: string;
+    sortTitle: string;
+  }) => {
+    const updatedFilters = {
+      ...selectedFilters,
+      sortName: option.sortName,
+      page: 1, // Сброс страницы при изменении сортировки
+    };
+
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
+    // Установка нового значения defSelectFilter
+    setDefSelectFilter((prev) => ({
+      ...prev,
+      sortName: option.sortName,
+      sortTitle: option.sortTitle,
+    }));
   };
-
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
-  setDefSelectFilter(option); // Установка нового значения defSelectFilter
-};
-
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleShowMor = () => {
