@@ -115,6 +115,7 @@ export default function CatalogProducts({
   const [clientFilter, setClientFilter] = useState(filter);
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
+    setStart(0);
     handleViewChange(view);
   };
 
@@ -123,7 +124,7 @@ export default function CatalogProducts({
       ...prevFilters,
       page: prevFilters.page + 1,
     }));
-    setStart(1);
+    setStart(0);
     updateURLWithFilters({
       ...selectedFilters,
       page: selectedFilters.page + 1,
@@ -132,6 +133,7 @@ export default function CatalogProducts({
   };
 
   const handleFilterChange = (name: string, value: any) => {
+    setStart(0);
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
@@ -141,6 +143,8 @@ export default function CatalogProducts({
   };
 
   const clearAllCrumbs = () => {
+    setStart(0);
+
     setSelectedFilters({
       id: selectedFilters.id, // Preserve catalog.category.id
       page: 1,
@@ -199,6 +203,8 @@ export default function CatalogProducts({
       updateURLWithFilters(updatedFilters); // Переместили вызов сюда
       return updatedFilters; // Обновляем состояние с обновленными фильтрами
     });
+    setStart(0);
+
   };
 
   useEffect(() => {
@@ -295,6 +301,8 @@ export default function CatalogProducts({
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
     window.scrollTo({ top: 300, behavior: "auto" });
+    setStart(0);
+
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
@@ -303,6 +311,8 @@ export default function CatalogProducts({
       tempMin: min,
       tempMax: max,
     }));
+    setStart(0);
+
   };
 
   const applyFilterPrice = () => {
@@ -318,6 +328,8 @@ export default function CatalogProducts({
       priceMax: tempPrice.tempMax,
       page: 1,
     });
+    setStart(0);
+
   };
 
   const clearFilterPrice = () => {
@@ -334,6 +346,8 @@ export default function CatalogProducts({
       priceMax: 0,
       page: 1,
     });
+    setStart(0);
+
   };
 
   const handlePageChange = ({ selected }: { selected: number }) => {
@@ -364,6 +378,8 @@ export default function CatalogProducts({
     // if (filters.sortName !== defSelectFilter.sortName) {
     //   queryParams.set("sort", filters.sortName);
     // }
+    setStart(0);
+
     if (filters.sortName) {
       queryParams.set("sort", filters.sortName);
     }
@@ -391,6 +407,8 @@ export default function CatalogProducts({
 
       return updatedFilters;
     });
+    setStart(0);
+
   };
 
   // Function to update URL parameters
@@ -423,12 +441,15 @@ export default function CatalogProducts({
       ...prevFilters,
       page: 1,
     }));
+    setStart(0);
+
   };
   const handleSortChange = (option: {
     sortName: string;
     sortTitle: string;
   }) => {
     setDefSelectFilter(option);
+    setStart(0)
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       sortName: option.sortName,
@@ -463,8 +484,8 @@ const handleObserver = useCallback(
   useEffect(() => {
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "100px",
-      threshold: 0.1,
+      rootMargin: "700px",
+      threshold: 0,
     });
 
     if (loaderRef.current) {
@@ -624,9 +645,7 @@ const handleObserver = useCallback(
               </div>
             )}
           </div>
-          <h1 className="container section__title">
-            {items.length} - count
-          </h1>
+          <h1 className="container section__title">{items.length} - count</h1>
           <h1 className="container section__title">{start} - start</h1>
           <h1 className="container section__title">{limit} - limit</h1>
           <div className={styles.showMore}>
