@@ -132,16 +132,18 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-  const handleFilterChange = (name: string, value: any) => {
-    setStart(0);
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-      page: 1, // Reset page when filters change
-    }));
-    window.scrollTo({ top: 300, behavior: "smooth" });
-    updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
+const handleFilterChange = (name: string, value: any) => {
+  setStart(0);
+  const updatedFilters = {
+    ...selectedFilters,
+    [name]: value,
+    page: 1, // Сброс страницы при изменении фильтров
   };
+
+  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+  window.scrollTo({ top: 300, behavior: "smooth" });
+};
 
   const clearAllCrumbs = () => {
     setStart(0);
@@ -173,22 +175,16 @@ export default function CatalogProducts({
       sortName: "id",
     });
   };
-  const clearFilter = (name: string) => {
-    setSelectedFilters((prevFilters) => {
-      const updatedFilters: any = { ...prevFilters };
-      if (updatedFilters.hasOwnProperty(name)) {
-        updatedFilters[name] = [];
-      }
-
-      const updatedState = {
-        ...updatedFilters,
-        page: 1, // Сбрасываем страницу при изменении фильтров
-      };
-
-      updateURLWithFilters(updatedState);
-      return updatedState;
-    });
+const clearFilter = (name: string) => {
+  const updatedFilters = {
+    ...selectedFilters,
+    [name]: [],
+    page: 1, // Сброс страницы при изменении фильтров
   };
+
+  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+};
 
   const resetCategoryFilters = (categoryFilters: Filter2) => {
     setSelectedFilters((prevSelectedFilters) => {
@@ -350,16 +346,17 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-  const handlePageChange = ({ selected }: { selected: number }) => {
-    setStart(0);
-    const newPage = selected + 1;
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      page: newPage,
-    }));
-    updateURLWithFilters({ ...selectedFilters, page: newPage });
-    window.scrollTo({ top: 300, behavior: "auto" });
+const handlePageChange = ({ selected }: { selected: number }) => {
+  const newPage = selected + 1;
+  const updatedFilters = {
+    ...selectedFilters,
+    page: newPage,
   };
+
+  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+  updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
+  window.scrollTo({ top: 300, behavior: "auto" });
+};
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     const queryParams = new URLSearchParams();
@@ -445,23 +442,16 @@ export default function CatalogProducts({
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
-  const handleSortChange = (option: {
-    sortName: string;
-    sortTitle: string;
-  }) => {
-    setDefSelectFilter(option);
-    setStart(0);
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      sortName: option.sortName,
-      page: 1,
-    }));
-    updateURLWithFilters({
-      ...selectedFilters,
-      sortName: option.sortName,
-      page: 1,
-    });
+const handleSortChange = (option: { sortName: string; sortTitle: string }) => {
+  const updatedFilters = {
+    ...selectedFilters,
+    sortName: option.sortName,
+    page: 1, // Сброс страницы при изменении сортировки
   };
+
+  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+  updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
+};
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleShowMor = () => {
