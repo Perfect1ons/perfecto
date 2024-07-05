@@ -133,18 +133,18 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-const handleFilterChange = (name: string, value: any) => {
-  setStart(0);
-  const updatedFilters = {
-    ...selectedFilters,
-    [name]: value,
-    page: 1, // Сброс страницы при изменении фильтров
-  };
+  const handleFilterChange = (name: string, value: any) => {
+    setStart(0);
+    const updatedFilters = {
+      ...selectedFilters,
+      [name]: value,
+      page: 1, // Сброс страницы при изменении фильтров
+    };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
-  window.scrollTo({ top: 300, behavior: "smooth" });
-};
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  };
 
   const clearAllCrumbs = () => {
     setStart(0);
@@ -175,17 +175,19 @@ const handleFilterChange = (name: string, value: any) => {
       additional_filter: [],
       sortName: "id",
     });
-  };
-const clearFilter = (name: string) => {
-  const updatedFilters = {
-    ...selectedFilters,
-    [name]: [],
-    page: 1, // Сброс страницы при изменении фильтров
-  };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
-};
+    window.scrollTo({ top: 300, behavior: "smooth" });
+  };
+  const clearFilter = (name: string) => {
+    const updatedFilters = {
+      ...selectedFilters,
+      [name]: [],
+      page: 1, // Сброс страницы при изменении фильтров
+    };
+
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новыми фильтрами
+  };
 
   const resetCategoryFilters = (categoryFilters: Filter2) => {
     setSelectedFilters((prevSelectedFilters) => {
@@ -347,37 +349,37 @@ const clearFilter = (name: string) => {
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-const handlePageChange = ({ selected }: { selected: number }) => {
-  const newPage = selected + 1;
-  const updatedFilters = {
-    ...selectedFilters,
-    page: newPage,
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    const newPage = selected + 1;
+    const updatedFilters = {
+      ...selectedFilters,
+      page: newPage,
+    };
+
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
+    window.scrollTo({ top: 300, behavior: "auto" });
   };
 
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
-  window.scrollTo({ top: 300, behavior: "auto" });
-};
+  const updateURLWithFilters = (filters: ISelectedFilterProps) => {
+    const queryParams = new URLSearchParams();
 
-const updateURLWithFilters = (filters: ISelectedFilterProps) => {
-  const queryParams = new URLSearchParams();
+    if (filters.page > 1) queryParams.set("page", filters.page.toString());
+    if (filters.brand.length > 0)
+      queryParams.set("brand", filters.brand.join(","));
+    if (filters.priceMin > 0)
+      queryParams.set("priceMin", filters.priceMin.toString());
+    if (filters.priceMax > 0)
+      queryParams.set("priceMax", filters.priceMax.toString());
+    if (filters.dost.length > 0)
+      queryParams.set("dost", filters.dost.join(","));
+    if (filters.additional_filter.length > 0)
+      queryParams.set("additional_filter", filters.additional_filter.join(","));
+    if (filters.sortName) queryParams.set("sort", filters.sortName);
 
-  if (filters.page > 1) queryParams.set("page", filters.page.toString());
-  if (filters.brand.length > 0)
-    queryParams.set("brand", filters.brand.join(","));
-  if (filters.priceMin > 0)
-    queryParams.set("priceMin", filters.priceMin.toString());
-  if (filters.priceMax > 0)
-    queryParams.set("priceMax", filters.priceMax.toString());
-  if (filters.dost.length > 0) queryParams.set("dost", filters.dost.join(","));
-  if (filters.additional_filter.length > 0)
-    queryParams.set("additional_filter", filters.additional_filter.join(","));
-  if (filters.sortName) queryParams.set("sort", filters.sortName);
-
-  const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-  window.history.replaceState({ path: newUrl }, "", newUrl);
-};
-
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+  };
 
   const clearFilterCrumbs = (filterKey: FilterKey, value: string | number) => {
     setSelectedFilters((prevFilters) => {
@@ -437,18 +439,20 @@ const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-const handleSortChange = (option: { sortName: string; sortTitle: string }) => {
-  const updatedFilters = {
-    ...selectedFilters,
-    sortName: option.sortName,
-    page: 1, // Сброс страницы при изменении сортировки
+  const handleSortChange = (option: {
+    sortName: string;
+    sortTitle: string;
+  }) => {
+    const updatedFilters = {
+      ...selectedFilters,
+      sortName: option.sortName,
+      page: 1, // Сброс страницы при изменении сортировки
+    };
+
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
+    setDefSelectFilter(option); // Установка нового значения defSelectFilter
   };
-
-  setSelectedFilters(updatedFilters); // Обновление состояния фильтров
-  updateURLWithFilters(updatedFilters); // Обновление URL с новой сортировкой
-  setDefSelectFilter(option); // Установка нового значения defSelectFilter
-};
-
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleShowMor = () => {
@@ -491,31 +495,28 @@ const handleSortChange = (option: { sortName: string; sortTitle: string }) => {
     };
   }, [handleShowMor, isLoadingScroll, items.length]);
 
-  const router = useRouter();
-
   return (
     <section>
       <div className="all__directions container">
         {breadCrumbs &&
           breadCrumbs.slice(-2, -1).map((crumbs) => (
-            <span
+            <Link
               className="all__directions_link"
-              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
+              href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
               <BackArrow /> Назад
-            </span>
+            </Link>
           ))}
         {breadCrumbs.map((crumbs) => {
           return (
-            <span
+            <Link
               className="all__directions_link"
-              onClick={() => router.push(`/catalog/${crumbs.full_slug}`)}
-              // href={`/catalog/${crumbs.full_slug}`}
+              href={`/catalog/${crumbs.full_slug}`}
               key={crumbs.id}
             >
               {crumbs.name}
-            </span>
+            </Link>
           );
         })}
       </div>
