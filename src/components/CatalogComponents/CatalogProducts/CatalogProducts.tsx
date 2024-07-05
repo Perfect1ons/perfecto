@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -105,13 +105,17 @@ export default function CatalogProducts({
 
   const [isColumnView, setIsColumnView] = useState(false);
   const [pageCount, setPageCount] = useState<any>();
-  const [start, setStart] = useState<number>(1);
+  const [start, setStart] = useState<number>(0);
   const [limit, setLimit] = useState<number>(20);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingScroll, setIsLoadingScroll] = useState(false); // State for loading indicator
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const mobileFilter = useMediaQuery("(max-width: 992px)");
   const [clientFilter, setClientFilter] = useState(filter);
   const toggleView = (view: boolean) => {
     setIsColumnView(view);
+    setStart(0);
     handleViewChange(view);
   };
 
@@ -120,6 +124,7 @@ export default function CatalogProducts({
       ...prevFilters,
       page: prevFilters.page + 1,
     }));
+    setStart(0);
     updateURLWithFilters({
       ...selectedFilters,
       page: selectedFilters.page + 1,
@@ -128,15 +133,19 @@ export default function CatalogProducts({
   };
 
   const handleFilterChange = (name: string, value: any) => {
+    setStart(0);
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
       page: 1, // Reset page when filters change
     }));
+    window.scrollTo({ top: 300, behavior: "smooth" });
     updateURLWithFilters({ ...selectedFilters, [name]: value, page: 1 });
   };
 
   const clearAllCrumbs = () => {
+    setStart(0);
+
     setSelectedFilters({
       id: selectedFilters.id, // Preserve catalog.category.id
       page: 1,
@@ -195,6 +204,9 @@ export default function CatalogProducts({
       updateURLWithFilters(updatedFilters); // Переместили вызов сюда
       return updatedFilters; // Обновляем состояние с обновленными фильтрами
     });
+    setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
   useEffect(() => {
@@ -212,7 +224,7 @@ export default function CatalogProducts({
           selectedFilters.id,
           selectedFilters.page,
           start,
-          100,
+          limit,
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
           maxPrice,
@@ -233,6 +245,7 @@ export default function CatalogProducts({
         if (clientFilter) {
           setClientFilter(clientFilter);
         }
+        setStart(0)
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -244,10 +257,54 @@ export default function CatalogProducts({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters, defSelectFilter.sortName]);
 
+  const fetchByScroll = async (startValue: number) => {
+    setIsLoadingScroll(true); // Set loading to true when fetching data
+    let maxPrice = 0;
+    if (selectedFilters.priceMax > 0) {
+      maxPrice = selectedFilters.priceMax;
+    } else if (selectedFilters.priceMin > 0) {
+      maxPrice = 9999999; // Or any large number, like 999999
+    }
+
+    try {
+      const response = await getCatalogProductsFilters(
+        selectedFilters.id,
+        selectedFilters.page,
+        startValue,
+        20,
+        selectedFilters.brand.join(","),
+        selectedFilters.priceMin,
+        maxPrice,
+        selectedFilters.dost.join(","),
+        selectedFilters.additional_filter.join(","),
+        defSelectFilter.sortName
+      );
+      const clientFilter = await getFiltersBrandByClient(
+        selectedFilters.id,
+        selectedFilters.additional_filter.join(",")
+      );
+
+      if (response.category.tov) {
+        setCount((prevCount) => prevCount + response.category.tov.length);
+        setPageCount(response.kol_page);
+        setItems((prevItems) => [...prevItems, ...response.category.tov]);
+      }
+      if (clientFilter) {
+        setClientFilter(clientFilter);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoadingScroll(false); // Set loading to false when data fetching is complete
+    }
+  };
+
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
     // Scroll to the top of the page when changing view
     window.scrollTo({ top: 300, behavior: "auto" });
+    setStart(0);
+
   };
 
   const handlePriceRangeChange = (min: number, max: number) => {
@@ -256,9 +313,13 @@ export default function CatalogProducts({
       tempMin: min,
       tempMax: max,
     }));
+    setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
   const applyFilterPrice = () => {
+    window.scrollTo({ top: 300, behavior: "smooth" });
     setSelectedFilters({
       ...selectedFilters,
       priceMin: tempPrice.tempMin,
@@ -271,6 +332,8 @@ export default function CatalogProducts({
       priceMax: tempPrice.tempMax,
       page: 1,
     });
+    setStart(0);
+
   };
 
   const clearFilterPrice = () => {
@@ -287,9 +350,13 @@ export default function CatalogProducts({
       priceMax: 0,
       page: 1,
     });
+    setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
   const handlePageChange = ({ selected }: { selected: number }) => {
+    setStart(0);
     const newPage = selected + 1;
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -301,6 +368,7 @@ export default function CatalogProducts({
 
   const updateURLWithFilters = (filters: ISelectedFilterProps) => {
     const queryParams = new URLSearchParams();
+    window.scrollTo({ top: 300, behavior: "smooth" });
 
     if (filters.page > 1) queryParams.set("page", filters.page.toString());
     if (filters.brand.length > 0)
@@ -316,6 +384,8 @@ export default function CatalogProducts({
     // if (filters.sortName !== defSelectFilter.sortName) {
     //   queryParams.set("sort", filters.sortName);
     // }
+    setStart(0);
+
     if (filters.sortName) {
       queryParams.set("sort", filters.sortName);
     }
@@ -343,6 +413,9 @@ export default function CatalogProducts({
 
       return updatedFilters;
     });
+    setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
   // Function to update URL parameters
@@ -375,12 +448,16 @@ export default function CatalogProducts({
       ...prevFilters,
       page: 1,
     }));
+    setStart(0);
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
   const handleSortChange = (option: {
     sortName: string;
     sortTitle: string;
   }) => {
     setDefSelectFilter(option);
+    setStart(0)
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
       sortName: option.sortName,
@@ -392,9 +469,50 @@ export default function CatalogProducts({
       page: 1,
     });
   };
-  const cyy = () => {
-    alert("sdsds");
+
+  const handleShowMor = () => {
+    const newStart = start + 20;
+    setStart(newStart);
+    if (start < 81) {
+      fetchByScroll(newStart);
+    }
   };
+
+const handleObserver = useCallback(
+  (entries: IntersectionObserverEntry[]) => {
+    const target = entries[0];
+    if (
+      target.isIntersecting &&
+      items.length % 20 === 0 &&
+      items.length <= 80 &&
+      !isLoadingScroll
+    ) {
+      handleShowMor(); // Only fetch if not already loading and items are multiples of 20
+    }
+  },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [start, items.length, isLoadingScroll]
+);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: "700px",
+      threshold: 0,
+    });
+
+    if (loaderRef.current) {
+      observerRef.current.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (observerRef.current && loaderRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observerRef.current.unobserve(loaderRef.current);
+      }
+    };
+  }, [handleObserver]);
+
   return (
     <section>
       <div className="all__directions container">
@@ -531,6 +649,15 @@ export default function CatalogProducts({
             isColumnView={isColumnView}
             isMobile={isSMobile}
           />
+          <div ref={loaderRef}>
+            {isLoadingScroll && (
+              <div className="cards">
+                {Array.from({ length: 20 }).map((_, index) => (
+                  <CardSkeleton key={index} />
+                ))}
+              </div>
+            )}
+          </div>
           <div className={styles.showMore}>
             {selectedFilters.page !== pageCount ? (
               <button
