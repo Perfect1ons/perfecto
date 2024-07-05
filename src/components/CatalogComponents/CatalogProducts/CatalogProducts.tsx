@@ -7,6 +7,7 @@ import styles from "./style.module.scss";
 import { BackArrow } from "../../../../public/Icons/Icons";
 import {
   getCatalogProductsFiltered,
+  getCatalogProductsFilters,
   getFiltersBrandByClient,
 } from "@/api/clientRequest";
 import CatalogProductList from "./CatalogProductList";
@@ -103,9 +104,9 @@ export default function CatalogProducts({
   });
 
   const [isColumnView, setIsColumnView] = useState(false);
-  const [pageCount, setPageCount] = useState<any>(
-    Math.ceil(Math.ceil(init.totalCount / 20))
-  );
+  const [pageCount, setPageCount] = useState<any>();
+  const [start, setStart] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(20);
   const [isLoading, setIsLoading] = useState(true); // State for loading indicator
   const mobileFilter = useMediaQuery("(max-width: 992px)");
   const [clientFilter, setClientFilter] = useState(filter);
@@ -207,9 +208,11 @@ export default function CatalogProducts({
       }
 
       try {
-        const response = await getCatalogProductsFiltered(
+        const response = await getCatalogProductsFilters(
           selectedFilters.id,
           selectedFilters.page,
+          start,
+          100,
           selectedFilters.brand.join(","),
           selectedFilters.priceMin,
           maxPrice,
@@ -222,10 +225,10 @@ export default function CatalogProducts({
           selectedFilters.additional_filter.join(",")
         );
 
-        if (response.model) {
-          setCount(response.model.length);
-          setPageCount(Math.ceil(response.totalCount / 20));
-          setItems(response.model);
+        if (response.category.tov) {
+          setCount(response.category.tov.length);
+          setPageCount(response.kol_page);
+          setItems(response.category.tov);
         }
         if (clientFilter) {
           setClientFilter(clientFilter);
@@ -433,6 +436,7 @@ export default function CatalogProducts({
       {mobileFilter ? (
         <>
           <AllFiltersMobile
+            categoryid={selectedFilters.id}
             setSelected={(filters) =>
               setSelectedFilters((prev) => ({ ...prev, ...filters }))
             }

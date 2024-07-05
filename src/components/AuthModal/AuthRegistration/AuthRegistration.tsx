@@ -22,15 +22,13 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
         не нужно. Код может прийти на почту или в СМС
       </p>
       <form className={styles.modal__form}>
-
             <input
               className={styles.modal__input}
               type="text"
               name="phone"
               placeholder="Телефон"
             />
-
-        <button className={cn(styles.modal__button, "button")} type="submit">
+        <button className={cn(styles.modal__button, "button")} aria-label="go to registration" type="submit">
           Регистрация
         </button>
       </form>
