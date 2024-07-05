@@ -54,24 +54,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
   };
 
   const [cleanHTML, setCleanHTML] = useState<string>("");
-  const images = [
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp4004" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp404" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp400" },
-    { img: "https://max.kg/images.webp404" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-    { img: "https://max.kg/images.webp" },
-  ];
   useEffect(() => {
     if (photos.items.video) {
       const sanitizedHTML = DOMPurify.sanitize(photos.items.video, {
@@ -124,7 +106,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
     return (
       <div className={styles.product__swipers}>
         <Image
-          src="https://max.kg/images/xempty-photo.png.pagespeed.ic.VU5saRrMht.webp"
+          src="/img/noPhoto.svg"
           width={500}
           height={500}
           alt="No image available"

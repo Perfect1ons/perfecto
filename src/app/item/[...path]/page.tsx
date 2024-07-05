@@ -51,6 +51,7 @@ export async function generateMetadata({
       title: title,
       description: description,
       keywords: keywords,
+      robots: "index, follow",
       openGraph: {
         title: ogtitle || title, // Fallback to title if og_title is not defined
         description: ogdescription || description, // Fallback to description if og_description is not defined
@@ -73,6 +74,7 @@ export async function generateMetadata({
       title: "Default Title",
       description: "",
       keywords: "",
+      robots: "index, follow",
       openGraph: {
         title: "Default Title",
         description: "",

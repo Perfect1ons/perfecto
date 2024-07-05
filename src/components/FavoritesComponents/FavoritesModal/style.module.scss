@@ -1,5 +1,6 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .modal {
+  user-select: none;
   @include mixin.flex(center, center, null, 5px);
   position: fixed;
   text-decoration: none;
@@ -9,7 +10,7 @@
   transform: translate(-50.6%, 50%);
   background: var(--dark);
   color: #fff;
-  padding: 10px 20px;
+  padding: 5px 20px;
   border-radius: 5px;
   opacity: 0;
   transition: opacity 0.5s;
