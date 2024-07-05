@@ -59,21 +59,23 @@ const CatalogFiltres = ({
   setSelectedSort,
   handleSortChange,
 }: ICatalogFiltresProps) => {
-  const [visibleFilter, setVisibleFilter] = useState<string | null>(null); // State to manage which filter is visible
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [visibleFilter, setVisibleFilter] = useState<string | null>("asda");
 
   const toggleFilter = (filterName: string) => {
     setVisibleFilter((prev) => (prev === filterName ? null : filterName));
   };
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  // hook on the outside to close the active filter modal
+  // // hook on the outside to close the active filter modal
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setVisibleFilter(null);
+        if (visibleFilter !== null) {
+          setVisibleFilter(null);
+        }
       }
     };
 
@@ -82,7 +84,7 @@ const CatalogFiltres = ({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, []);
+  }, [visibleFilter]);
 
   useEffect(() => {
     // Обновление состояния или вызов других функций при изменении selectedFilters

@@ -43,7 +43,7 @@ const DefaultFilter = ({
             ?.sortTitle || "",
       });
     }
-  }, [defaultFilters, setSelectedSort]);
+  }, [selectedSort, setSelectedSort]);
 
   return (
     <div className="positionContainer">

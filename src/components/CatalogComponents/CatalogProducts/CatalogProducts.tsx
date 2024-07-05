@@ -392,6 +392,9 @@ export default function CatalogProducts({
       page: 1,
     });
   };
+  const cyy = () => {
+    alert("sdsds");
+  };
   return (
     <section>
       <div className="all__directions container">

@@ -42,7 +42,6 @@ const DostFilter = ({
       changeSelect(newFilters);
     }
   };
-
   return (
     <>
       {filter.variant_day.length > 0 && (
