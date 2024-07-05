@@ -30,8 +30,8 @@ const DefaultFilter = ({
   const [defaultFilters] = useState([
     { sortName: "id", sortTitle: "По популярности" },
     { sortName: "ocenka", sortTitle: "По рейтингу" },
-    { sortName: "-cenaok", sortTitle: "По возрастанию цены" },
-    { sortName: "cenaok", sortTitle: "По убыванию цены" },
+    { sortName: "-cenaok", sortTitle: "По убыванию цены" },
+    { sortName: "cenaok", sortTitle: "По возрастанию цены" },
   ]);
   useEffect(() => {
     const sortParam = new URLSearchParams(window.location.search).get("sort");
@@ -43,6 +43,7 @@ const DefaultFilter = ({
             ?.sortTitle || "",
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedSort, setSelectedSort]);
 
   return (
