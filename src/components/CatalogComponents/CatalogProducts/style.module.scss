@@ -138,9 +138,10 @@
   }
 }
 .filterSticky {
-  padding: 10px 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
   position: sticky;
   top: 0;
-  z-index: 1010; /* Подстройте под ваши нужды */
+  z-index: 1; /* Подстройте под ваши нужды */
   background-color: white; /* Цвет фона для sticky области */
 }
