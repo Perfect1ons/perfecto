@@ -4,6 +4,7 @@ import { Cross, СhevronDownIcon } from "../../../../../public/Icons/Icons";
 import Slider from "react-slider";
 import cn from "clsx";
 import { useEffect, useRef } from "react";
+import { IFiltersBrand } from "@/types/filtersBrand";
 
 interface IPriceMinMaxFilterProps {
   toggleFilter: (filterName: string) => void;
@@ -15,6 +16,7 @@ interface IPriceMinMaxFilterProps {
     tempMin: number;
     tempMax: number;
   };
+  filter: IFiltersBrand;
 }
 
 const PriceMinMaxFilter = ({
@@ -24,6 +26,7 @@ const PriceMinMaxFilter = ({
   clearFilterPrice,
   applyFilterPrice,
   tempPrice,
+  filter,
 }: IPriceMinMaxFilterProps) => {
   //input min price changer
   const handleMinChange = (min: number) => {
@@ -118,12 +121,16 @@ const PriceMinMaxFilter = ({
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
                 value={[
-                  tempPrice.tempMin === 0 ? 0 : tempPrice.tempMin,
-                  tempPrice.tempMax === 0 ? 1000000 : tempPrice.tempMax,
+                  tempPrice.tempMin === 0
+                    ? filter.price.price_min
+                    : tempPrice.tempMin,
+                  tempPrice.tempMax === 0
+                    ? filter.price.price_max
+                    : tempPrice.tempMax,
                 ]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
-                min={1}
-                max={1000000}
+                min={filter.price.price_min}
+                max={filter.price.price_max}
                 withTracks={true}
                 renderTrack={(props, state) => (
                   <div
@@ -146,13 +153,13 @@ const PriceMinMaxFilter = ({
                   className={styles.inputPrice}
                   value={
                     tempPrice.tempMin === 0
-                      ? "0"
+                      ? `${filter.price.price_min}`
                       : addSeparators(tempPrice.tempMin.toString())
                   }
                   onChange={(e) =>
                     handleMinChange(Number(e.target.value.replace(/\s/g, "")))
                   }
-                  placeholder={`от 0`}
+                  placeholder={`от ${filter.price.price_min}`}
                 />
                 <input
                   onKeyDown={handleKeyDown}
@@ -160,13 +167,13 @@ const PriceMinMaxFilter = ({
                   className={styles.inputPrice}
                   value={
                     tempPrice.tempMax === 0
-                      ? "1000000"
+                      ? `${filter.price.price_max}`
                       : addSeparators(tempPrice.tempMax.toString())
                   }
                   onChange={(e) =>
                     handleMaxChange(Number(e.target.value.replace(/\s/g, "")))
                   }
-                  placeholder={`до 1000000`}
+                  placeholder={`до ${filter.price.price_max}`}
                 />
               </div>
             </div>
