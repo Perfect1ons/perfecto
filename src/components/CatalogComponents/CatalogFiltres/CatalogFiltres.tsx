@@ -3,7 +3,7 @@ import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { Filter2, IFiltersBrand } from "@/types/filtersBrand";
 import DostFilter from "./DostFilter/DostFilter";
 import BrandFilter from "./BrandFilter/BrandFilter";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import AdditionalFilters from "./AdditionalFilters/AdditionalFilters";
 import EveryFilters from "./EveryFilters.tsx/EveryFilters";
 import PriceMinMaxFilter from "./PriceMinMaxFilter/PriceMinMaxFilter";
@@ -60,13 +60,41 @@ const CatalogFiltres = ({
   handleSortChange,
 }: ICatalogFiltresProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [visibleFilter, setVisibleFilter] = useState<string | null>("asda");
+  const [visibleFilter, setVisibleFilter] = useState<string | null>(null);
 
   const toggleFilter = (filterName: string) => {
     setVisibleFilter((prev) => (prev === filterName ? null : filterName));
   };
+  useLayoutEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+    const originalStyles = {
+      paddingRight: body.style.paddingRight,
+      overflow: body.style.overflow,
+      position: body.style.position,
+    };
 
-  // // hook on the outside to close the active filter modal
+    if (visibleFilter === "every") {
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.width = "100%"; // Добавляем ширину для предотвращения смещения
+    } else {
+      body.style.paddingRight = originalStyles.paddingRight;
+      body.style.overflow = originalStyles.overflow;
+      body.style.position = originalStyles.position;
+      body.style.width = ""; // Сбрасываем ширину
+    }
+
+    // Cleanup функция для возврата оригинальных значений стилей
+    return () => {
+      body.style.paddingRight = originalStyles.paddingRight;
+      body.style.overflow = originalStyles.overflow;
+      body.style.position = originalStyles.position;
+      body.style.width = ""; // Сбрасываем ширину
+    };
+  }, [visibleFilter]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -136,7 +164,7 @@ const CatalogFiltres = ({
         visibleFilter={visibleFilter}
         filter={filter}
       />
-      {filter.filter[11] && (
+      {Object.keys(filter.filter).length > 0 && (
         <EveryFilters
           resetCategoryFilters={resetCategoryFilters}
           clearAllCrumbs={clearAllCrumbs}

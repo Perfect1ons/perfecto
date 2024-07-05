@@ -127,24 +127,6 @@ const EveryFilters = ({
     return count;
   }
 
-  // Effect to handle body styles for modal
-  useEffect(() => {
-    const body = document.body;
-    const scrollBarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-
-    if (visibleFilter === "every") {
-      body.style.paddingRight = `${scrollBarWidth}px`;
-      body.style.overflow = "hidden";
-      body.style.top = `-${window.scrollY}px`;
-    } else {
-      const scrollY = body.style.top;
-      body.style.paddingRight = "";
-      body.style.overflow = "auto";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      body.style.top = "";
-    }
-  }, [visibleFilter]);
   //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
