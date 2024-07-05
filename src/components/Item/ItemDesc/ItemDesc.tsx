@@ -26,7 +26,7 @@ const ItemDesc = ({ data, openItemModalDescription }: IDescProps) => {
     <div className={styles.product__description}>
       <div className={styles.wrap_modal}></div>
       <div className={styles.product__descriptionContainer}>
-        <p className={styles.product__descriptionContainer_desc}>Описание</p>
+        <h2 className={styles.product__descriptionContainer_desc}>Описание</h2>
         <div
           onClick={openItemModalDescription}
           className={styles.product__descriptionContainer_text}
