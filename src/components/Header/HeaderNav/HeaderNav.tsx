@@ -93,7 +93,7 @@ const HeaderNav = () => {
           >
             <div className={styles.nav__link_items}>
               <div className={styles.nav__link_items_icon}>{link.icon}</div>
-              <h2 className={styles.nav__link_items_title}>{link.title}</h2>
+              <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </div>
         ) : (
@@ -119,7 +119,7 @@ const HeaderNav = () => {
                   </span>
                 )}
               </div>
-              <h2 className={styles.nav__link_items_title}>{link.title}</h2>
+              <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </Link>
         )
