@@ -54,14 +54,13 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
 
       <div className={cn(styles.modal, isVisible && styles.show)}>
         <div className={styles.modal__intro}>
-          <h1 className={styles.modal__title}>{title}</h1>
+          <p className={styles.modal__title}>{title}</p>
           <button className={styles.modal__exit} onClick={close}>
             <XMark />
           </button>
         </div>
         {content}
       </div>
-      
     </>
   );
 };

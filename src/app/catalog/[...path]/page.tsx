@@ -23,7 +23,9 @@ export default async function page({ params: { path } }: Params) {
     try {
       const catalogs = await getCatalogsProducts(fullPath);
       const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
-      const init = await getCatalogProductsFilteredByAbdulaziz(catalogs.category.id);
+      const init = await getCatalogProductsFilteredByAbdulaziz(
+        catalogs.category.id
+      );
       const banner = await getCatalogBanner();
       return (
         <Catalogs
@@ -62,6 +64,7 @@ export async function generateMetadata({ params: { path } }: Params) {
     const description = data.meta.description;
     const ogdescription = data.meta.og_description;
     const keywords = data.meta.keywords || "";
+    const canonical = `/catalog/${path[0]}/${path[1]}`;
     const url = `https://max.kg/item/${path[0]}`;
     const image =
       data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
