@@ -205,7 +205,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <h1 className="card__info_title">{truncatedTitle}</h1>
+            <p className="card__info_title">{truncatedTitle}</p>
           </Link>
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
