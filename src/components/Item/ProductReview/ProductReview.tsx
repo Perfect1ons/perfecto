@@ -58,7 +58,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
       <div id="otz" className="productReview">
         <h2 className={styles.wrap_title}>Отзывы о товаре</h2>
         <div className={styles.wrap_review}>
-          <span className={styles.wrap_review_grade_title}>Оцените товар</span>
+          <h2 className={styles.wrap_review_grade_title}>Оцените товар</h2>
           <div className={styles.wrap_review_grade_btns}>
             <div className={styles.wrap_review_grade_rating}>
               {[1, 2, 3, 4, 5].map((star) => (
@@ -88,10 +88,10 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
             </div>
           </div>
         </div>
-        <p className={styles.wrap_review_grade_short_desc}>
+        <h2 className={styles.wrap_review_grade_short_desc}>
           Будет здорово, если вы напишете свои впечатления о товаре. Это поможет
           другим покупателям.
-        </p>
+        </h2>
         <button
           aria-label="write a review about a product"
           title="написать отзыв от товаре"

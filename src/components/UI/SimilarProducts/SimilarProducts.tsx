@@ -8,7 +8,7 @@ interface ISimilarProps {
 const SimilarProducts = ({ similar }: ISimilarProps) => {
   return (
     <div className="similarProducts">
-      <h2 className="sections__title container">Похожие товары</h2>
+      <h5 className="sections__title container">Похожие товары</h5>
       <div className="cards">
         {similar.map((cards, index) => {
           return <Card cardData={cards} key={index} />;
