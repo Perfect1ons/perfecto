@@ -77,12 +77,12 @@ export default function CatalogProducts({
   const initialDost = searchParams.get("dost")?.split(",") || [];
   const initialAdditionalFilter =
     searchParams.get("additional_filter")?.split(",") || [];
-
+  const initialSortName = searchParams.get("sort") || "id";
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
     // sortName: "id",
-    sortName: "id",
+    sortName: initialSortName,
     sortTitle: "По популярности",
   });
   const [selectedFilters, setSelectedFilters] = useState<ISelectedFilterProps>({
@@ -158,7 +158,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
-      sortName: "id",
+      sortName: selectedFilters.sortName,
     });
 
     setTempPrice({
@@ -174,7 +174,7 @@ export default function CatalogProducts({
       priceMax: 0,
       dost: [],
       additional_filter: [],
-      sortName: "id",
+      sortName: selectedFilters.sortName,
     });
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
@@ -356,7 +356,7 @@ export default function CatalogProducts({
       page: newPage,
     };
 
-    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    // setSelectedFilters(updatedFilters); // Обновление состояния фильтров
     updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
     window.scrollTo({ top: 300, behavior: "auto" });
   };
@@ -375,9 +375,10 @@ export default function CatalogProducts({
       queryParams.set("dost", filters.dost.join(","));
     if (filters.additional_filter.length > 0)
       queryParams.set("additional_filter", filters.additional_filter.join(","));
-    if (filters.sortName !== defSelectFilter.sortName)
-      queryParams.set("sort", filters.sortName);
-
+    if (filters.sortName) queryParams.set("sort", filters.sortName);
+    //
+    // if (filters.sortName !== defSelectFilter.sortName)
+    //   queryParams.set("sort", filters.sortName);
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
   };

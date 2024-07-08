@@ -37,7 +37,7 @@
   &_info {
     max-width: 100%;
     width: 100%;
-    @include mixin.flex(center, space-between, column, 10px);
+    @include mixin.flex(flex-start, space-between, column, 10px);
     height: auto;
 
     @media screen and (max-width: 992px) {
