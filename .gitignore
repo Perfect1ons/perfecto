@@ -35,5 +35,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignore specific file in public folder
-/public/sw.js.map
