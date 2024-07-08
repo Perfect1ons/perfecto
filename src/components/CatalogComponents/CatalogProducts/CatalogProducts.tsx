@@ -1,12 +1,8 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
 import styles from "./style.module.scss";
-import { BackArrow } from "../../../../public/Icons/Icons";
 import {
-  getCatalogProductsFiltered,
   getCatalogProductsFilters,
   getFiltersBrandByClient,
 } from "@/api/clientRequest";
@@ -27,10 +23,16 @@ import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { IFiltersBrandByAbdulaziz, url } from "@/components/temporary/data";
 import CardSkeleton from "@/components/UI/Card/CardSkeleton";
-import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
-import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
-import CatalogDesc from "./CatalogDesc/CatalogDesc";
+import dynamic from "next/dynamic";
+import CatalogCrumbs from "./CatalogCrumbs/CatalogCrumbs";
+import CatalogBanner from "./CatalogBanner/CatalogBanner";
+
+const FiltersCrumbs = dynamic(() => import("./FiltersCrumbs/FiltersCrumbs"));
+const CatalogDesc = dynamic(() => import("./CatalogDesc/CatalogDesc"));
+const CatalogUndefined = dynamic(
+  () => import("./CatalogUndefined/CatalogUndefined")
+);
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -52,12 +54,7 @@ type SelectedFilters = {
 
 export type FilterKey = keyof SelectedFilters;
 
-interface FilterRules {
-  [key: string]: { [key: string]: string[] };
-}
-
 export default function CatalogProducts({
-  init,
   banner,
   catalog,
   filter,
@@ -68,8 +65,6 @@ export default function CatalogProducts({
   const isSMobile = useMediaQuery("(max-width: 480px)");
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
-
-  // Parse initial filter values from URL
   const initialBrand = searchParams.get("brand")?.split(",") || [];
   const initialPriceMin = parseInt(searchParams.get("priceMin") || "0", 10);
   const initialPriceMax = parseInt(searchParams.get("priceMax") || "0", 10);
@@ -80,7 +75,6 @@ export default function CatalogProducts({
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({
-    // sortName: "id",
     sortName: initialSortName,
     sortTitle: "По популярности",
   });
@@ -297,7 +291,6 @@ export default function CatalogProducts({
 
   const handleViewChange = (isColumn: boolean) => {
     setIsColumnView(isColumn);
-    // Scroll to the top of the page when changing view
     window.scrollTo({ top: 300, behavior: "auto" });
     setStart(0);
   };
@@ -353,7 +346,7 @@ export default function CatalogProducts({
       ...selectedFilters,
       page: newPage,
     };
-
+    setStart(0);
     setSelectedFilters(updatedFilters); // Обновление состояния фильтров
     updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
     window.scrollTo({ top: 300, behavior: "auto" });
@@ -405,7 +398,6 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-  // Function to update URL parameters
   const updateURL = (filters: SelectedFilters) => {
     const params = new URLSearchParams();
 
@@ -438,6 +430,7 @@ export default function CatalogProducts({
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
+
   useEffect(() => {
     if (isNaN(initialPage) || initialPage < 1 || initialPage > pageCount) {
       router.replace("/not-found");
@@ -462,6 +455,8 @@ export default function CatalogProducts({
       sortName: option.sortName,
       sortTitle: option.sortTitle,
     }));
+    window.scrollTo({ top: 300, behavior: "smooth" });
+
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -507,46 +502,12 @@ export default function CatalogProducts({
 
   return (
     <section>
-      <div className="all__directions container">
-        {breadCrumbs &&
-          breadCrumbs.slice(-2, -1).map((crumbs) => (
-            <Link
-              className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
-              key={crumbs.id}
-            >
-              <BackArrow /> Назад
-            </Link>
-          ))}
-        {breadCrumbs.map((crumbs) => {
-          return (
-            <Link
-              className="all__directions_link"
-              href={`/catalog/${crumbs.full_slug}`}
-              key={crumbs.id}
-            >
-              {crumbs.name}
-            </Link>
-          );
-        })}
-      </div>
+      <CatalogCrumbs breadCrumbs={breadCrumbs} />
+      <CatalogBanner isMobile={isMobile} banner={banner} />
       <div className="container">
-        <Link href={"/page/partneram/prodavcam"}>
-          <Image
-            src={
-              isMobile
-                ? `${url}bimages/baner/mobile/baner_${banner.baner[0].id}.jpg`
-                : `${url}bimages/baner/baner_${banner.baner[0].id}.jpg`
-            }
-            width={1440}
-            height={300}
-            priority={true}
-            alt={banner.baner[0].naim}
-            className={styles.category__image}
-          />
-        </Link>
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
       </div>
+
       {mobileFilter ? (
         <>
           <AllFiltersMobile
@@ -635,7 +596,7 @@ export default function CatalogProducts({
             <CardSkeleton key={index} />
           ))}
         </div>
-      ) : items && items.length !== 0 ? (
+      ) : items.length !== 0 ? (
         <>
           <CatalogProductList
             items={items}
