@@ -21,7 +21,7 @@ const maxkg = ky.create({
 
 //! GET запрос для получения каталог меню
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkg.get("catalog/cat-list-menu?_format=json").json();
+  return maxkg.get("catalog/cat-list-menu").json();
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//

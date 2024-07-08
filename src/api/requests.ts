@@ -162,16 +162,8 @@ export const getDiscountsById = (id: number): Promise<IDiscountsById> => {
   return maxkg.get(`discount/${id}`).json();
 };
 
-export const getSearchItem = (slug: string): Promise<ISeek> => {
-  return maxkg.get(`naltovarok/seek?${slug}&cat=-1&page=1`).json();
-};
-
-export const getSearchItemTwo = (slug: string): Promise<ISeek> => {
-  return maxkg.get(`naltovarok/seek?${slug}&cat=-1&page=2`).json();
-};
-
-export const getSearchItemThree = (slug: string): Promise<ISeek> => {
-  return maxkg.get(`naltovarok/seek?${slug}&cat=-1&page=3`).json();
+export const getSearchItem = (slug: string, id: number): Promise<ISeek> => {
+  return maxkg.get(`naltovarok/seek?search=${slug}&page=${id}`).json();
 };
 
 export const getMobileData = (): Promise<IIntroBanner> => {
