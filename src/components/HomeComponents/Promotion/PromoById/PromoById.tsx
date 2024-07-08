@@ -73,7 +73,7 @@ const PromoById = ({ promo, main }: INewsByIdProps) => {
                     {main.naim}
                   </h1>
                   {main.text && (
-                    <p
+                    <div
                       dangerouslySetInnerHTML={{
                         __html: DOMPurify.sanitize(main.text),
                       }}
