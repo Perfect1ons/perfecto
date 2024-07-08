@@ -203,7 +203,7 @@ const EveryFilters = ({
           })}
         >
           <div className={styles.headerTitleCross}>
-            <h3 className={styles.headerTitleCross__title}>Все фильтры</h3>
+            <p className={styles.headerTitleCross__title}>Все фильтры</p>
             <button
               onClick={closeEveryFilter}
               className={styles.headerTitleCross__cross}

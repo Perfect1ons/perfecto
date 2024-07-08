@@ -21,12 +21,7 @@ export default async function item({ params: { path } }: Params) {
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-      <ItemPage
-        // banner={banner}
-        data={data}
-        similar={similarData}
-        breadCrumbs={breadCrumbs}
-      />
+      <ItemPage data={data} similar={similarData} breadCrumbs={breadCrumbs} />
     </>
   );
 }
@@ -43,6 +38,7 @@ export async function generateMetadata({
     const description = data.meta.description;
     const ogdescription = data.meta.og_description;
     const keywords = data.meta.keywords || "";
+    const canonical = `/item/${data.items.id_tov}/${data.items.url}`;
     const url = `https://max.kg/item/${path[0]}`;
     const image =
       data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
@@ -69,7 +65,6 @@ export async function generateMetadata({
     };
   } catch (error) {
     console.error("Error occurred while generating metadata:", error);
-    // If an error occurs, return default metadata or handle it accordingly
     return {
       title: "Default Title",
       description: "",

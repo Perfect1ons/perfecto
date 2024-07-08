@@ -144,6 +144,7 @@ const CatalogFiltres = ({
         handlePriceRangeChange={handlePriceRangeChange}
         toggleFilter={toggleFilter}
         visibleFilter={visibleFilter}
+        filter={filter}
       />
       <BrandFilter
         clearFilter={clearFilter}

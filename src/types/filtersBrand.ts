@@ -3,6 +3,12 @@ export interface IFiltersBrand {
   variant_day: string[];
   filter: Filter;
   nalsklad: number;
+  price: Price;
+}
+
+export interface Price {
+  price_min: number;
+  price_max: number;
 }
 
 export interface Filter {

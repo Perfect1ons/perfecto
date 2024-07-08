@@ -56,7 +56,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <p
+        <h4
           className={
             activeIndex === 0
               ? styles.accordionContentActive
@@ -66,7 +66,7 @@ const ItemAccordion = () => {
           Согласовать с менеджером, Бесплатная доставка, Курьером по г. Бишкек
           от 200 сом, Самовывоз, По Кыргызстану – от 300 сом, Габаритный груз от
           600 сом.
-        </p>
+        </h4>
       </div>
       <div className={styles.accordionItem}>
         <div
@@ -95,7 +95,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <p
+        <h4
           className={
             activeIndex === 1
               ? styles.accordionContentActive
@@ -105,7 +105,7 @@ const ItemAccordion = () => {
           MBank Online, Наличными в офисе, На электронный кошелек Элсом, Онлайн
           картой Visa, MasterCard, Elcart, Через терминал, Банковский перевод,
           Оплата Balance.kg, Согласовать с менеджером.
-        </p>
+        </h4>
       </div>
       <div className={styles.accordionItem}>
         <div
@@ -134,7 +134,7 @@ const ItemAccordion = () => {
             ></span>
           )}
         </div>
-        <p
+        <h4
           className={
             activeIndex === 2
               ? styles.accordionContentActive
@@ -142,7 +142,7 @@ const ItemAccordion = () => {
           }
         >
           Гарантии покупателя.
-        </p>
+        </h4>
       </div>
     </div>
   );

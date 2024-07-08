@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import cn from "clsx";
 import {
+  CardFavoritesIcon,
   CartIcon,
   GrayFavoritesIcon,
   GrayStar,
@@ -157,7 +158,10 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
         </div>
       </div>
       <div className="default__card_buttons_column">
-        <div className="default__card_buttons_column_price">
+        <div
+          style={{ position: "relative" }}
+          className="default__card_buttons_column_price"
+        >
           <div className="default__card_buttons_column_price_count">
             <span className="default__card_buttons_column_price_count_current">
               {cardData.cenaok.toLocaleString("ru-RU")}
@@ -176,17 +180,18 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
               </div>
             ) : null}
           </div>
-          <button
-            title="Добавить в избранное"
-            className={cn("add__to_fav", {
-              ["add__to_fav_active"]: isFavorite,
-            })}
+          <span
+            style={{ top: "0" }}
+            title={
+              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+            }
+            className={`card__info_addFavorites ${
+              isFavorite ? "card__info_addedFavorites" : ""
+            }`}
             onClick={handleFavoriteClick}
           >
-            <span className="add__to_fav_icon">
-              {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
-            </span>
-          </button>
+            <CardFavoritesIcon />
+          </span>
         </div>
 
         {cardData.minQty > 1 ? (

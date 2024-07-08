@@ -149,7 +149,6 @@ export default function CatalogProducts({
   const clearAllCrumbs = () => {
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
-
     setSelectedFilters({
       id: selectedFilters.id, // Preserve catalog.category.id
       page: 1,
@@ -176,7 +175,6 @@ export default function CatalogProducts({
       additional_filter: [],
       sortName: selectedFilters.sortName,
     });
-    window.scrollTo({ top: 300, behavior: "smooth" });
   };
   const clearFilter = (name: string) => {
     const updatedFilters = {
@@ -426,7 +424,7 @@ export default function CatalogProducts({
     if (filters.additional_filter.length > 0) {
       params.set("additional_filter", filters.additional_filter.join(","));
     }
-    if (filters.sortName !== defSelectFilter.sortName) {
+    if (filters.sortName) {
       params.set("sort", filters.sortName);
     }
 

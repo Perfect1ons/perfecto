@@ -1,16 +1,16 @@
-import clsx from 'clsx';
-import styles from './style.module.scss'
-import Link from 'next/link';
-import Image from 'next/image';
+import clsx from "clsx";
+import styles from "./style.module.scss";
+import Link from "next/link";
+import Image from "next/image";
 
 const Application = () => {
   return (
     <section className={clsx(styles.application, "application")}>
       <div className={clsx(styles.application__container, "container")}>
         <div className={styles.application__content}>
-          <h1 className={styles.application__content_title}>
+          <p className={styles.application__content_title}>
             Загрузите приложение max.kg
-          </h1>
+          </p>
           <div className={styles.application__content_link}>
             <Link
               href={
@@ -52,6 +52,6 @@ const Application = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Application
+export default Application;

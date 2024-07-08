@@ -23,7 +23,9 @@ export default async function page({ params: { path } }: Params) {
     try {
       const catalogs = await getCatalogsProducts(fullPath);
       const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
-      const init = await getCatalogProductsFilteredByAbdulaziz(catalogs.category.id);
+      const init = await getCatalogProductsFilteredByAbdulaziz(
+        catalogs.category.id
+      );
       const banner = await getCatalogBanner();
       return (
         <Catalogs
@@ -55,13 +57,58 @@ export async function generateMetadata({ params: { path } }: Params) {
   } else {
     fullPath = path;
   }
-  const data = await getCatalogsProducts(fullPath);
-  const title = data.category.name;
-  return {
-    title: title,
-    description:
-      "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
-    keywords:
-      "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-  };
+  try {
+    const data = await getCatalogsProducts(fullPath);
+    const title = data.meta.title;
+    const ogtitle = data.meta.og_title;
+    const description = data.meta.description;
+    const ogdescription = data.meta.og_description;
+    const keywords = data.meta.keywords || "";
+    const canonical = `/catalog/${path[0]}/${path[1]}`;
+    const url = `https://max.kg/item/${path[0]}`;
+    const image =
+      data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
+    return {
+      title: title,
+      description: description,
+      keywords: keywords,
+      robots: "index, follow",
+      openGraph: {
+        title: ogtitle || title, // Fallback to title if og_title is not defined
+        description: ogdescription || description, // Fallback to description if og_description is not defined
+        url: url,
+        images: [
+          {
+            url: image,
+            width: 800,
+            height: 600,
+            alt: title,
+          },
+        ],
+        type: "article",
+      },
+    };
+  } catch (error) {
+    console.error("Error occurred while generating metadata:", error);
+    return {
+      title: "Default Title",
+      description: "",
+      keywords: "",
+      robots: "index, follow",
+      openGraph: {
+        title: "Default Title",
+        description: "",
+        url: "",
+        images: [
+          {
+            url: "https://max.kg/images/mobile-logo-colorized.svg",
+            width: 800,
+            height: 600,
+            alt: "Default Title",
+          },
+        ],
+        type: "article",
+      },
+    };
+  }
 }
