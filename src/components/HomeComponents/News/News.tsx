@@ -17,19 +17,11 @@ const News = ({ news }: INewProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
       setLoading(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const handleShowMore = () => {
     setShownCount((prevCount) => prevCount + 6);
-  };
-
-  const handleShowAll = () => {
-    setShowAllButton(true);
   };
 
   return (
@@ -55,6 +47,7 @@ const News = ({ news }: INewProps) => {
                       width={400}
                       height={250}
                       alt={item.naim}
+                      loading="lazy"
                     />
                   </Link>
                 </div>
@@ -65,13 +58,17 @@ const News = ({ news }: INewProps) => {
             <button
               className="default__buttons_showMore"
               onClick={handleShowMore}
+              aria-label="click to show more"
             >
               Показать еще
             </button>
           )}
           {shownCount >= 18 && !showAllButton && (
             <Link className="link" href="/news">
-              <button className="default__buttons_showMore">
+              <button
+                aria-label="click to show all"
+                className="default__buttons_showMore"
+              >
                 Показать все
               </button>
             </Link>

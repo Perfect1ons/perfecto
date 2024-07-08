@@ -216,19 +216,8 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                       openItemModalDescription={openItemModalDescription}
                     />
                   ) : null}
-                  {/* {data.items.trademark ? (
-                    <Link
-                      className={styles.brand__link}
-                      href={`/brands/${data.items.trademark}-${data.items.trademark_id}`}
-                    >
-                      Бренд:{" "}
-                      <span className={styles.brand__link_custom}>
-                        {data.items.trademark}
-                      </span>
-                    </Link>
-                  ) : null} */}
                   <p className={styles.all__goods}>
-                    Все товары категории:{" "}
+                    Все товары категории:
                     {matchingBreadCrumb ? (
                       <Link
                         className={styles.all__goods_link}
