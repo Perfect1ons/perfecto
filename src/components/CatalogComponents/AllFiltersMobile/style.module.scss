@@ -81,6 +81,9 @@
 }
 .buttonModalContainer {
   @include mixin.flex(center, null, null, 8px);
+  @media screen and (max-width: 480px) {
+    gap: 20px;
+  }
 }
 
 .filterPrice {
