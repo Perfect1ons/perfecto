@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./style.module.scss";
@@ -31,7 +31,6 @@ import FiltersCrumbs from "./FiltersCrumbs/FiltersCrumbs";
 import CatalogPagination from "./CatalogPagination/CatalogPagination";
 import CatalogUndefined from "./CatalogUndefined/CatalogUndefined";
 import CatalogDesc from "./CatalogDesc/CatalogDesc";
-import { useRouter } from "next/navigation";
 
 interface ICatalogProductsProps {
   init: ICategoryFilter;
@@ -253,11 +252,6 @@ export default function CatalogProducts({
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters, defSelectFilter.sortName]);
-  useEffect(() => {
-    if (isNaN(initialPage) || initialPage < 1 || initialPage > pageCount) {
-      router.replace("/not-found");
-    }
-  }, [initialPage, pageCount, router]);
 
   const fetchByScroll = async (startValue: number) => {
     setIsLoadingScroll(true); // Set loading to true when fetching data
@@ -360,7 +354,7 @@ export default function CatalogProducts({
       page: newPage,
     };
 
-    // setSelectedFilters(updatedFilters); // Обновление состояния фильтров
+    setSelectedFilters(updatedFilters); // Обновление состояния фильтров
     updateURLWithFilters(updatedFilters); // Обновление URL с новой страницей
     window.scrollTo({ top: 300, behavior: "auto" });
   };
@@ -444,6 +438,11 @@ export default function CatalogProducts({
     setStart(0);
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
+  useEffect(() => {
+    if (isNaN(initialPage) || initialPage < 1 || initialPage > pageCount) {
+      router.replace("/not-found");
+    }
+  }, [initialPage, pageCount, router]);
 
   const handleSortChange = (option: {
     sortName: string;
