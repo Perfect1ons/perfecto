@@ -187,6 +187,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             </SwiperSlide>
           ))}
           <button
+            aria-label="prev swiper slide"
             className={clsx(
               styles.sliderArrow,
               styles.sliderArrow_top,
@@ -196,6 +197,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
             <SwiperPrevArrow />
           </button>
           <button
+            aria-label="next swiper slide"
             className={clsx(
               styles.sliderArrow,
               styles.sliderArrow_bottom,

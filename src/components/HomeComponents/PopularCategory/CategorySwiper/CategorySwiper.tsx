@@ -107,6 +107,7 @@ export default function CategorySwiper({ category }: ICategory) {
             );
           })}
           <button
+            aria-label="prev swiper slide"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_left,
@@ -116,6 +117,7 @@ export default function CategorySwiper({ category }: ICategory) {
             <ArrowLeftIcon />
           </button>
           <button
+            aria-label="next swiper slide"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_right,
