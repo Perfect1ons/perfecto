@@ -118,17 +118,10 @@ export const getBoughts = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
 
-export const getDiscounts = (): Promise<IDiscounts[]> => {
-  return maxkg.get("discount").json();
+export const getDiscounts = (id: number): Promise<IDiscounts[]> => {
+  return maxkg.get(`discount?pageSize=20&page=${id}`).json();
 };
 
-export const getDiscountsPageOne = (): Promise<IDiscounts[]> => {
-  return maxkg.get(`discount?pageSize=20&page=1`).json();
-};
-
-export const getDiscountsPageTwo = (): Promise<IDiscounts[]> => {
-  return maxkg.get(`discount?pageSize=20&page=2`).json();
-};
 
 const getFilterPrice = (id: number, cena_min: number, cena_max: number) => {
   return maxkg

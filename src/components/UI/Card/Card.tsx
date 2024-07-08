@@ -148,7 +148,7 @@ const Card = ({ cardData, loading }: IcardDataProps) => {
               width={300}
               height={250}
               alt={cardData.naim}
-              priority
+              loading="lazy"
             />
             {cardData.discount_prc > 0 ? (
               <div className="card__info_skidkapercent">

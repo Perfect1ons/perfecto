@@ -76,7 +76,7 @@ export default async function Home() {
       getMobileData(),
       getDekstopData(),
       getNewsByLimit(),
-      getDiscounts(),
+      getDiscounts(1),
       getSecondBanner(),
       getPromotion(),
       getSeasonCategory(),

@@ -1,5 +1,6 @@
 "use client";
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
+import dynamic from "next/dynamic";
 import styles from "./style.module.scss";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import Link from "next/link";
@@ -9,17 +10,28 @@ import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
 import { useState, useEffect } from "react";
 import ReviewModal from "../UI/ReviewModal/ReviewModal";
-import ItemSpec from "./ItemSpec/ItemSpec";
-import SimilarProducts from "../UI/SimilarProducts/SimilarProducts";
 import { BackArrow, CopyIcon } from "../../../public/Icons/Icons";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
-import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
-import ItemAccordion from "./ItemAccordion/ItemAccordion";
-import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
-import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
-import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
-
 import ItemMainSkeleton from "./ItemMainSkeleton/ItemMainSkeleton";
+import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
+import ItemSpec from "./ItemSpec/ItemSpec";
+
+
+const ItemDescriptionModal = dynamic(
+  () => import("./ItemDescriptionModal/ItemDescriptionModal")
+);
+const ItemPriceCardWrap = dynamic(
+  () => import("./ItemPriceCardWrap/ItemPriceCardWrap")
+);
+const ItemAccordion = dynamic(() => import("./ItemAccordion/ItemAccordion"));
+const UserInfoModal = dynamic(
+  () => import("../UI/UserInfoModal/UserInfoModal")
+);
+const SimilarProducts = dynamic(
+  () => import("../UI/SimilarProducts/SimilarProducts")
+);
+
+
 
 interface IItemPageProps {
   data: ICardProductItems;

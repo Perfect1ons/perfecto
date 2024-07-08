@@ -68,7 +68,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
                 width={1410}
                 height={410}
                 alt={slide.naim}
-                priority
+                loading="lazy"
               />
             )}
           </Link>
