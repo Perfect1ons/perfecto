@@ -77,6 +77,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
       {isLoop && (
         <>
           <button
+            aria-label="prev swiper slide"
             className={clsx(
               styles.sliderArrow,
               styles.sliderArrow_left,
@@ -86,6 +87,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
             <SwiperPrevArrow />
           </button>
           <button
+            aria-label="next swiper slide"
             className={clsx(
               styles.sliderArrow,
               styles.sliderArrow_right,

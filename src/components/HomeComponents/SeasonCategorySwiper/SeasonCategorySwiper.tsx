@@ -92,6 +92,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
               );
             })}
             <button
+              aria-label="prev swiper slide"
               className={clsx(
                 styles.team__swiper_btn,
                 styles.team__swiper_btn_left,
@@ -101,6 +102,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
               <ArrowLeftIcon />
             </button>
             <button
+              aria-label="next swiper slide"
               className={clsx(
                 styles.team__swiper_btn,
                 styles.team__swiper_btn_right,

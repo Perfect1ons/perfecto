@@ -42,7 +42,12 @@ const ScrollToTopButton = () => {
   return (
     <>
       {showButton && (
-        <button className={styles.scrollToTopButton} onClick={scrollToTop}>
+        <button
+          title="Пролистать вверх"
+          aria-label="scroll to top"
+          className={styles.scrollToTopButton}
+          onClick={scrollToTop}
+        >
           <ArrowUpIcon />
         </button>
       )}

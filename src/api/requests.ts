@@ -67,7 +67,9 @@ export const getFiltersBrand = (id: number): Promise<IFiltersBrand> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}`).json();
 };
 
-export const getFiltersBrandByAbdulaziz = (id: number): Promise<IFiltersBrandByAbdulaziz> => {
+export const getFiltersBrandByAbdulaziz = (
+  id: number
+): Promise<IFiltersBrandByAbdulaziz> => {
   return maxkg.get(`catalog/listfilter?id_cat=${id}`).json();
 };
 export const getProductsSortsBrand = (
@@ -86,7 +88,7 @@ export const getBannerData = (): Promise<IBanner> => {
 export const getPromotion = (): Promise<IPromotion[]> => {
   return maxkg.get(`ak`).json();
 };
-export const getPromotionPagination = (id : number): Promise<IPromotion[]> => {
+export const getPromotionPagination = (id: number): Promise<IPromotion[]> => {
   return maxkg.get(`ak?pageSize=10&page=${id}`).json();
 };
 
@@ -98,7 +100,7 @@ export const getNews = (): Promise<INews[]> => {
   return maxkg.get("news?pageSize=40").json();
 };
 
-export const getNewsPagination = (id : number): Promise<INews[]> => {
+export const getNewsPagination = (id: number): Promise<INews[]> => {
   return maxkg.get(`news?pageSize=10&page=${id}`).json();
 };
 
@@ -122,14 +124,6 @@ export const getDiscounts = (id: number): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=${id}`).json();
 };
 
-
-const getFilterPrice = (id: number, cena_min: number, cena_max: number) => {
-  return maxkg
-    .get(
-      `${id}?page=1&VNaltovaroksearch[${cena_min}]=0&VNaltovaroksearch[${cena_max}]=500`
-    )
-    .json();
-};
 
 export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
@@ -206,7 +200,6 @@ export const getSimilarProduct = (art: string): Promise<ISimilarProduct> => {
   return maxkg.get(`naltovarok/similar?id_tov=${art}`).json();
 };
 
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! GET запросы для получения Meta тего на страницах
 export const getMetaMainPage = (): Promise<IMetaData> => {
@@ -240,17 +233,9 @@ export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-
-
 //! TEST REQUESTS BY ABDULAZIZ
 export const getCatalogProductsFilteredByAbdulaziz = (
-  id: number,
- 
+  id: number
 ): Promise<ICategoryFilter> => {
-  return maxkg
-    .get(
-      `catalog/${id}?page=1`
-    )
-    .json();
+  return maxkg.get(`catalog/${id}?page=1`).json();
 };
-

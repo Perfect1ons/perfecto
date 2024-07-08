@@ -56,6 +56,7 @@ const MobileBuyBtn = ({
       {data.items?.cenaok < 1000 ? (
         !product?.quantity ? (
           <button
+            aria-label="add to cart"
             onClick={handleAddToCart}
             className={clsx(styles.btn, styles.btn_cart)}
           >
@@ -75,7 +76,10 @@ const MobileBuyBtn = ({
           />
         )
       ) : (
-        <button className={clsx(styles.btn, styles.btn_buy)}>
+        <button
+          aria-label="buy button"
+          className={clsx(styles.btn, styles.btn_buy)}
+        >
           Купить за {data.items.cenaok.toLocaleString("ru-Ru")}{" "}
           <span className={styles.btn_simbol}>с</span>
         </button>
