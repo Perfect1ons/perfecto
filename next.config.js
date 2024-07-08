@@ -1,4 +1,8 @@
-const withPWA = require("next-pwa");
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+});
 
 const MAXKG = process.env.NEXT_PUBLIC_API;
 
@@ -115,12 +119,6 @@ module.exports = withPWA({
         hostname: "www.emscorp.ru",
       },
     ],
-  },
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-    disable: process.env.NODE_ENV === "development",
   },
   async headers() {
     return [
