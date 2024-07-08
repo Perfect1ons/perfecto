@@ -81,7 +81,9 @@
 }
 .buttonModalContainer {
   @include mixin.flex(center, null, null, 8px);
-  @media screen and (max-width: 480px) {
+  padding-left: 15px;
+  padding-right: 15px;
+  @media screen and (max-width: 992px) {
     gap: 20px;
   }
 }
