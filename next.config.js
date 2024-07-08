@@ -1,5 +1,7 @@
 const withPWA = require("next-pwa")({
   dest: "public",
+  register: true,
+  skipWaiting: true,
 });
 
 const MAXKG = process.env.NEXT_PUBLIC_API;

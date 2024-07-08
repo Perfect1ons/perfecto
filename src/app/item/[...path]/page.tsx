@@ -5,7 +5,13 @@ import {
 } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
 import DynamicJsonLd from "@/utils/jsonld";
-import { Metadata } from "next";
+
+import { Metadata as NextMetadata } from "next";
+
+interface Metadata extends NextMetadata {
+  canonical?: string;
+}
+
 interface Params {
   params: { path: string };
 }
@@ -38,7 +44,7 @@ export async function generateMetadata({
     const description = data.meta.description;
     const ogdescription = data.meta.og_description;
     const keywords = data.meta.keywords || "";
-    const canonical = `/item/${data.items.id_tov}/${data.items.url}`;
+    const canonical = `/item/${data.items.id_tov}/${data.items.url}`; // Canonical URL
     const url = `https://max.kg/item/${path[0]}`;
     const image =
       data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
@@ -62,6 +68,7 @@ export async function generateMetadata({
         ],
         type: "article",
       },
+      canonical: canonical, // Include canonical URL here
     };
   } catch (error) {
     console.error("Error occurred while generating metadata:", error);
@@ -84,6 +91,7 @@ export async function generateMetadata({
         ],
         type: "article",
       },
+      canonical: "", // Default canonical URL if not available
     };
   }
 }
