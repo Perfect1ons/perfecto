@@ -72,7 +72,7 @@ const NewsById = ({ news, main }: INewsByIdProps) => {
                     {main.naim}
                   </h1>
                   {main.text && (
-                    <p
+                    <div
                       className={styles.newsParap}
                       dangerouslySetInnerHTML={{
                         __html: DOMPurify.sanitize(main.text),
