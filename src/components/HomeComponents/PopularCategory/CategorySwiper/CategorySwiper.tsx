@@ -101,7 +101,7 @@ export default function CategorySwiper({ category }: ICategory) {
                     alt={item.name}
                     loading="lazy"
                   />
-                  <h1 className="category__item_title">{item.name}</h1>
+                  <h2 className="category__item_title">{item.name}</h2>
                 </Link>
               </SwiperSlide>
             );
