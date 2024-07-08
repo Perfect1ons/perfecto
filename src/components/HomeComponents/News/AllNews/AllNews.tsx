@@ -1,5 +1,4 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
@@ -14,30 +13,8 @@ interface IAllNewsProps {
 }
 
 const AllNews: React.FC<IAllNewsProps> = ({ allnews }) => {
-const [currentPage, setCurrentPage] = useState(() => {
-  if (typeof window !== "undefined") {
-    const urlParams = new URLSearchParams(window.location.search);
-    return parseInt(urlParams.get("page") || "1", 10);
-  }
-  return 1; // По умолчанию
-});
-
-  const itemsPerPage = 10;
-  const maxPage = Math.ceil(allnews.length / itemsPerPage);
   const router = useRouter();
-  const topRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "auto" });
-    }
-  }, [currentPage]);
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    queryParams.set("page", String(currentPage));
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState({}, "", newUrl);
-  }, [currentPage]);
 
   const formatNewsDate = (dateString: string) => {
     const dateObject = new Date(dateString);
@@ -50,7 +27,7 @@ const [currentPage, setCurrentPage] = useState(() => {
   };
 
   return (
-    <section className="all__news" ref={topRef}>
+    <section className="all__news" >
       <div className="container">
         <div className="all__directions">
           <Link href={"/"} className="all__directions_link">
@@ -69,12 +46,7 @@ const [currentPage, setCurrentPage] = useState(() => {
         <div className={styles.all__news_container}>
           <h1 className="default__showMore_title">Новости</h1>
           <div className={styles.allNews__container_content}>
-            {allnews
-              .slice(
-                (currentPage - 1) * itemsPerPage,
-                currentPage * itemsPerPage
-              )
-              .map((news, index) => (
+            {allnews.map((news, index) => (
                 <div key={news.id} className={styles.allNews__content}>
                   <div className={styles.allNews__content_images}>
                     <Link href={`/news/${news.id}`}>
@@ -85,6 +57,7 @@ const [currentPage, setCurrentPage] = useState(() => {
                         height={280}
                         title={news.naim}
                         alt={news.naim}
+                        loading="lazy"
                       />
                     </Link>
                   </div>
@@ -120,60 +93,6 @@ const [currentPage, setCurrentPage] = useState(() => {
                 </div>
               ))}
           </div>
-        </div>
-        <div className="pagination">
-          <button
-            className={clsx(
-              "pagination__button_custom",
-              currentPage === 1 && "pagination__button_disactive"
-            )}
-            onClick={() => setCurrentPage(1)}
-            disabled={currentPage === 1}
-          >
-            {"<<"}
-          </button>
-          <button
-            className={clsx(
-              "pagination__button",
-              currentPage === 1 && "pagination__button_disactive"
-            )}
-            onClick={() => setCurrentPage((prevPage) => prevPage - 1)}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </button>
-          {Array.from({ length: maxPage }, (_, index) => (
-            <button
-              className={clsx(
-                "pagination__button",
-                currentPage === index + 1 && "pagination__button_active"
-              )}
-              key={index}
-              onClick={() => setCurrentPage(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            className={clsx(
-              "pagination__button",
-              currentPage === maxPage && "pagination__button_disactive"
-            )}
-            onClick={() => setCurrentPage((prevPage) => prevPage + 1)}
-            disabled={currentPage === maxPage}
-          >
-            {">"}
-          </button>
-          <button
-            className={clsx(
-              "pagination__button_custom",
-              currentPage === maxPage && "pagination__button_disactive"
-            )}
-            onClick={() => setCurrentPage(maxPage)}
-            disabled={currentPage === maxPage}
-          >
-            {">>"}
-          </button>
         </div>
       </div>
     </section>

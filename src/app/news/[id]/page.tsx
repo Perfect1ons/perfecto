@@ -6,7 +6,6 @@ import {
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
 
 export default async function IDPage({ params: { id } }: any) {
-  // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
     getNewsByIdOne(id),
     getNewsByIdTwo(id),

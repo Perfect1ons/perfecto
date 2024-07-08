@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Montserrat, Rubik } from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.scss";
 import dynamic from "next/dynamic";
 import Provider from "@/context/Provider";
@@ -20,11 +20,6 @@ const ScrollToTopButton = dynamic(
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {

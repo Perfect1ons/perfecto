@@ -1,8 +1,13 @@
 import { getBoughts } from "@/api/requests";
-import AllTodayBoughts from "@/components/HomeComponents/TodayBoughts/AllTodayBoughts/AllTodayBoughts";
 import { Metadata } from "next";
-import ErrorPage from "@/components/ErrorPage/ErrorPage"; // Импортируем компонент ErrorPage
-
+import dynamic from "next/dynamic";
+const ErrorPage = dynamic(() => import("@/components/ErrorPage/ErrorPage"));
+const AllTodayBoughts = dynamic(
+  () =>
+    import(
+      "@/components/HomeComponents/TodayBoughts/AllTodayBoughts/AllTodayBoughts"
+    )
+);
 export const metadata: Metadata = {
   title: "Сегодня купили",
   description:
@@ -18,7 +23,6 @@ export default async function page() {
     boughts = await getBoughts(1);
   } catch (error) {
     console.error("Error fetching boughts data:", error);
-    // Handle error, for example show ErrorPage or return different content
     return <ErrorPage />;
   }
 
