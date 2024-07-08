@@ -1,7 +1,10 @@
+const withPWA = require("next-pwa")({
+  dest: "public",
+});
 
 const MAXKG = process.env.NEXT_PUBLIC_API;
 
-module.exports = {
+module.exports = withPWA({
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -142,4 +145,4 @@ module.exports = {
       // },
     ];
   },
-};
+});

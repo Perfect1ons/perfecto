@@ -13,7 +13,9 @@ const DownloadAppMobile = dynamic(
   () => import("@/components/DownloadAppMobile/DownloadAppMobile")
 );
 const Footer = dynamic(() => import("@/components/Footer/Footer"));
-const ScrollToTopButton = dynamic(() => import("@/components/UI/ScrollToTopButton/ScrollToTopButton"));
+const ScrollToTopButton = dynamic(
+  () => import("@/components/UI/ScrollToTopButton/ScrollToTopButton")
+);
 
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
@@ -27,6 +29,7 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   icons: "/img/favicon.ico",
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({
@@ -42,7 +45,7 @@ export default async function RootLayout({
           <DownloadAppMobile />
           <Provider>
             <main id="main">{children}</main>
-            <ScrollToTopButton/>
+            <ScrollToTopButton />
           </Provider>
           <Application />
           <Footer />
