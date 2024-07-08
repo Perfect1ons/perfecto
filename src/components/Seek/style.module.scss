@@ -2,7 +2,6 @@
 
 .sliderArrow {
   cursor: pointer;
-  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
   background: var(--white);
   padding: 12.5px 14px 10px 15px;
   border-radius: 10px;
@@ -34,9 +33,11 @@
   }
 
   &_card {
+    margin: 5px;
     display: flex !important;
     @include mixin.flex(center, center, column);
     box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
+
     border-radius: 5px;
     cursor: pointer;
     min-height: 150px;
