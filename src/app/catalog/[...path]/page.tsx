@@ -6,6 +6,13 @@ import {
   getCatalogsProducts,
 } from "@/api/requests";
 import Catalogs from "@/components/Catalog/Catalog";
+
+import { Metadata as NextMetadata } from "next";
+
+interface Metadata extends NextMetadata {
+  canonical?: string;
+}
+
 interface Params {
   params: { path: string | string[] };
 }
@@ -50,7 +57,9 @@ export default async function page({ params: { path } }: Params) {
   }
 }
 
-export async function generateMetadata({ params: { path } }: Params) {
+export async function generateMetadata({
+  params: { path },
+}: Params): Promise<Metadata> {
   let fullPath: string;
   if (Array.isArray(path)) {
     fullPath = path.join("/");
@@ -87,6 +96,7 @@ export async function generateMetadata({ params: { path } }: Params) {
         ],
         type: "article",
       },
+      canonical: canonical,
     };
   } catch (error) {
     console.error("Error occurred while generating metadata:", error);
@@ -109,6 +119,7 @@ export async function generateMetadata({ params: { path } }: Params) {
         ],
         type: "article",
       },
+      canonical: "",
     };
   }
 }
