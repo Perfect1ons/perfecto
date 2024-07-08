@@ -23,6 +23,7 @@ const Application = () => {
                 width={200}
                 height={60}
                 alt="google-play"
+                loading="lazy"
               />
             </Link>
             <Link
@@ -36,10 +37,12 @@ const Application = () => {
                 width={200}
                 height={60}
                 alt="apple-store"
+                loading="lazy"
               />
             </Link>
           </div>
         </div>
+
         <div className={styles.application__content}>
           <Image
             className={styles.application__phone_img}
@@ -47,6 +50,7 @@ const Application = () => {
             width={513}
             height={300}
             alt="phones"
+            loading="lazy"
           />
         </div>
       </div>

@@ -1,12 +1,12 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
 .application {
   background: var(--gray-white);
   margin-top: 20px;
 
   &__container {
     max-height: 300px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    @include mixin.flex(center,space-around);
     overflow: hidden;
     @media screen and (max-width: 768px) {
       flex-direction: column;
@@ -14,9 +14,7 @@
   }
 
   &__img {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include mixin.flex(center,center);
     width: auto;
     height: auto;
     user-select: none;
@@ -40,17 +38,9 @@
   }
 
   &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-
+    @include mixin.flex(center,null,column,50px);
     &_title {
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 150%;
-      color: var(--dark);
-
+      @include mixin.font(24px,700,150%,var(--dark));
       @media screen and (max-width: 640px) {
         font-size: 20px;
       }
@@ -60,10 +50,7 @@
     }
 
     &_link {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
+     @include mixin.flex(center,center,null,30px);
     }
   }
 

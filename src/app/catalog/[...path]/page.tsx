@@ -1,4 +1,3 @@
-import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import {
   getBreadCrumbs,
   getCatalogBanner,

@@ -86,6 +86,9 @@ export const getBannerData = (): Promise<IBanner> => {
 export const getPromotion = (): Promise<IPromotion[]> => {
   return maxkg.get(`ak`).json();
 };
+export const getPromotionPagination = (id : number): Promise<IPromotion[]> => {
+  return maxkg.get(`ak?pageSize=10&page=${id}`).json();
+};
 
 export const getNewsByLimit = (): Promise<INews[]> => {
   return maxkg.get("news?pageSize=18").json();
@@ -94,6 +97,11 @@ export const getNewsByLimit = (): Promise<INews[]> => {
 export const getNews = (): Promise<INews[]> => {
   return maxkg.get("news?pageSize=40").json();
 };
+
+export const getNewsPagination = (id : number): Promise<INews[]> => {
+  return maxkg.get(`news?pageSize=10&page=${id}`).json();
+};
+
 export const getSeasonCategory = (): Promise<ISeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };

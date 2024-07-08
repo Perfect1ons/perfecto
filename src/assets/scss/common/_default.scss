@@ -26,17 +26,9 @@ table {
     }
   }
 }
+
 td {
   border: 1px solid var(--light-gray);
-}
-
-@media (min-width: 1440px) {
-  p {
-    line-height: 1.4; /* Оставляем такое же значение */
-  }
-  td {
-    line-height: 1.4;
-  }
 }
 
 ::selection {
@@ -45,9 +37,6 @@ td {
 }
 
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow: auto;
 }
 

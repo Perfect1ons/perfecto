@@ -1,8 +1,7 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import clsx from "clsx";
 import styles from "./style.module.scss";
 import { INews } from "@/types/news";
@@ -16,32 +15,6 @@ interface IAllNewsProps {
 const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
-  const maxPage = Math.ceil(allpromo.length / itemsPerPage);
-  const topRef = useRef<HTMLDivElement>(null);
-  const searchParams = useSearchParams();
-
-  // Получение параметра "page" из URL и установка текущей страницы
-  useEffect(() => {
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    setCurrentPage(page);
-  }, [searchParams]);
-
-  const handlePageChange = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= maxPage) {
-      setCurrentPage(pageNumber);
-      const newUrl = `/promotions?page=${pageNumber}`;
-      router.push(newUrl);
-      scrollToTop();
-    }
-  };
-
-  const scrollToTop = () => {
-    if (topRef.current) {
-      topRef.current.scrollIntoView({ behavior: "auto" });
-    }
-  };
 
   const formatNewsDate = (dateString: string) => {
     const dateObject = new Date(dateString);
@@ -53,14 +26,9 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
     }${month}.${year}`;
   };
 
-  // Рассчитать индексы первого и последнего элементов для текущей страницы
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = allpromo.slice(indexOfFirstItem, indexOfLastItem);
-
   return (
     <section className="all__news">
-      <div ref={topRef} className="container">
+      <div  className="container">
         <div className="all__directions">
           <Link href={"/"} className="all__directions_link">
             Главная
@@ -78,7 +46,7 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
         <div className={styles.all__news_container}>
           <h1 className="default__showMore_title">Акции</h1>
           <div className={styles.allNews__container_content}>
-            {currentItems.map((news) => (
+            {allpromo.map((news) => (
               <div key={news.id} className={styles.allNews__content}>
                 <div className={styles.allNews__content_images}>
                   <Link className="link" href={`/promotions/${news.id}`}>
@@ -122,60 +90,6 @@ const AllPromo: React.FC<IAllNewsProps> = ({ allpromo }) => {
               </div>
             ))}
           </div>
-        </div>
-        <div className="pagination">
-          <button
-            className={clsx(
-              "pagination__button_custom",
-              currentPage === 1 && "pagination__button_disactive"
-            )}
-            onClick={() => handlePageChange(1)}
-            disabled={currentPage === 1}
-          >
-            {"<<"}
-          </button>
-          <button
-            className={clsx(
-              "pagination__button",
-              currentPage === 1 && "pagination__button_disactive"
-            )}
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </button>
-          {Array.from({ length: maxPage }, (_, index) => (
-            <button
-              className={clsx(
-                "pagination__button",
-                currentPage === index + 1 && "pagination__button_active"
-              )}
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-          <button
-            className={clsx(
-              "pagination__button",
-              currentPage === maxPage && "pagination__button_disactive"
-            )}
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === maxPage}
-          >
-            {">"}
-          </button>
-          <button
-            className={clsx(
-              "pagination__button_custom",
-              currentPage === maxPage && "pagination__button_disactive"
-            )}
-            onClick={() => handlePageChange(maxPage)}
-            disabled={currentPage === maxPage}
-          >
-            {">>"}
-          </button>
         </div>
       </div>
     </section>

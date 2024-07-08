@@ -1,4 +1,3 @@
-import { error } from "console";
 import Cookies from "js-cookie";
 
 interface Coordinates {

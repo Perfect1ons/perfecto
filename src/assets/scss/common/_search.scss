@@ -1,16 +1,13 @@
 @use "./mixins" as mixin;
 
 .search__input {
+    @include mixin.font(16px,700,null,var(--black));
     position: relative;
     background: var(--white);
-    color: var(--black);
-    font-size: 18px;
-    font-weight: 700;
     width: 100%;
     padding: 11px 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 16px;
     opacity: 0.4;
     transition: all 0.3s ease;
     &:hover{
