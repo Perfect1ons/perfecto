@@ -119,6 +119,7 @@ export default function CatalogProducts({
     setStart(0);
     handleViewChange(view);
   };
+  const router = useRouter();
 
   const handleShowMore = () => {
     setSelectedFilters((prevFilters) => ({
@@ -252,6 +253,11 @@ export default function CatalogProducts({
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [catalog.category.id, selectedFilters, defSelectFilter.sortName]);
+  useEffect(() => {
+    if (isNaN(initialPage) || initialPage < 1 || initialPage > pageCount) {
+      router.replace("/not-found");
+    }
+  }, [initialPage, pageCount, router]);
 
   const fetchByScroll = async (startValue: number) => {
     setIsLoadingScroll(true); // Set loading to true when fetching data
