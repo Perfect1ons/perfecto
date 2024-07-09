@@ -40,7 +40,6 @@ export default async function page({
       fullPath = path;
     }
   const currentPage = parseInt(searchParams.page || "1", 10);
-
     const catalogs = await getCatalogsProducts(fullPath);
     const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
     const banner = await getCatalogBanner();
@@ -49,8 +48,6 @@ export default async function page({
     if (conditionals.category.tov.length > 0) {
       return (
         <>
-          <h1>{fullPath} path</h1>
-          <h1>{searchParams.page} page</h1>
           <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
           <Catalogs
             banner={banner}
@@ -64,8 +61,6 @@ export default async function page({
         if (conditionals.totalCount == 0) {
           return (
             <>
-              <h1>{fullPath} path</h1>
-              <h1>{searchParams.page} page</h1>
               <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
               <Catalogs
                 banner={banner}

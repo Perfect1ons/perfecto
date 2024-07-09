@@ -13,6 +13,7 @@ import Link from "next/link";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
 
 export interface ICatalogProps {
+  history: string[];
   catalogs: ICatalogMenu | undefined;
   click: () => void;
   loading: boolean;
@@ -26,6 +27,7 @@ export interface UserCoordinates {
 }
 
 const Header = ({
+  history,
   catalogs,
   click,
   loading,
@@ -36,7 +38,6 @@ const Header = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [inputEmpty, setInputEmpty] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
@@ -73,19 +74,6 @@ const Header = ({
     };
   }, [searchTerm]);
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-    setInputEmpty(false);
-  };
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (searchTerm.trim() === "") {
-      setInputEmpty(true);
-    } else {
-      router.push(`/seek/search=${searchTerm}`);
-    }
-  };
 
   // перекидывание на главную
   const handleGoToMainPage = () => {
@@ -191,6 +179,7 @@ const Header = ({
 
           <div className={styles.search} onClick={onClose}>
             <HeaderSearch
+              history={history}
               searchInputRef={searchInputRef}
               onInputChange={handleChange}
               searchValue={searchValue}

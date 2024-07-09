@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Provider from "@/context/Provider";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import ReactProvider from "@/ReactProvider";
+import { cookies } from "next/headers";
 
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
@@ -32,11 +33,15 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const cookieStore = cookies();
+    const searchHistory: string[] = JSON.parse(
+      cookieStore.get("searchHistory")?.value || "[]"
+    );
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <ReactProvider>
-          <HeaderWrap />
+          <HeaderWrap searchHistory={searchHistory}/>
           <DownloadAppMobile />
           <Provider>
             <main id="main">{children}</main>

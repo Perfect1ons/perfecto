@@ -15,18 +15,12 @@ import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import ItemMainSkeleton from "./ItemMainSkeleton/ItemMainSkeleton";
 import ItemPriceCard from "./ItemPriceCard/ItemPriceCard";
 import ItemSpec from "./ItemSpec/ItemSpec";
+import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
+import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
+import ItemAccordion from "./ItemAccordion/ItemAccordion";
+import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 
 
-const ItemDescriptionModal = dynamic(
-  () => import("./ItemDescriptionModal/ItemDescriptionModal")
-);
-const ItemPriceCardWrap = dynamic(
-  () => import("./ItemPriceCardWrap/ItemPriceCardWrap")
-);
-const ItemAccordion = dynamic(() => import("./ItemAccordion/ItemAccordion"));
-const UserInfoModal = dynamic(
-  () => import("../UI/UserInfoModal/UserInfoModal")
-);
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts")
 );
@@ -47,6 +41,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [isClient, setIsClient] = useState(false);
+
+
+    useEffect(() => {
+      setIsLoading(false);
+    }, []);
+
 
   useEffect(() => {
     setIsClient(true);
@@ -130,9 +130,6 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     scrollLockBlock();
   };
 
-  useEffect(() => {
-    setIsLoading(false);
-  }, []);
 
   return (
     <section className={styles.wrap}>
