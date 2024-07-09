@@ -431,12 +431,6 @@ export default function CatalogProducts({
     window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
-  useEffect(() => {
-    if (isNaN(initialPage) || initialPage < 1 || initialPage > pageCount) {
-      router.replace("/not-found");
-    }
-  }, [initialPage, pageCount, router]);
-
   const handleSortChange = (option: {
     sortName: string;
     sortTitle: string;
@@ -456,7 +450,6 @@ export default function CatalogProducts({
       sortTitle: option.sortTitle,
     }));
     window.scrollTo({ top: 300, behavior: "smooth" });
-
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
