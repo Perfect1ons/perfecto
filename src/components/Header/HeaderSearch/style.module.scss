@@ -1,91 +1,89 @@
-@use '../../../assets/scss/common/mixins' as mixin;
-// //! Search fast info styles 
+@use "../../../assets/scss/common/mixins" as mixin;
+// //! Search fast info styles
 
 .searchWrapper {
   position: relative;
   width: 100%;
 }
-  
+
 .search {
-    width: 100%;
-    &__category{
-        margin-bottom: 15px;
-        @include mixin.flex(flex-start,null,column,3px);
-        &_link{
-            @include mixin.flex(center,null,null,10px);
-            text-decoration: none;
-            color: var(--black);
-            line-height: 1.4;
-            width: 100%;
-            padding: 5px;
-            border-radius: 10px;
-            &:hover{
-                background: var(--gray-white);
-                .search__category_icon{
-                    opacity: 1;
-                }
-            }
-            }
-            &_name{
-                width: 100%;
-                border-radius: 5px;
-                font-size: 14px;
+  width: 100%;
+  &__category {
+    margin-bottom: 15px;
+    @include mixin.flex(flex-start, null, column, 3px);
+    &_link {
+      @include mixin.flex(center, null, null, 10px);
+      text-decoration: none;
+      color: var(--black);
+      line-height: 1.4;
+      width: 100%;
+      padding: 5px;
+      border-radius: 10px;
+      &:hover {
+        background: var(--gray-white);
+        .search__category_icon {
+          opacity: 1;
         }
-        &_img{
-            min-width: 45px;
-            border-radius: 5px;
-        }
-        &_icon{
-            @include mixin.flex(center);
-            margin-right: 10px;
-            opacity: 0;
-        }
+      }
+    }
+    &_name {
+      width: 100%;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    &_img {
+      min-width: 45px;
+      border-radius: 5px;
+    }
+    &_icon {
+      @include mixin.flex(center);
+      margin-right: 10px;
+      opacity: 0;
+    }
+  }
+
+  &__items {
+    @include mixin.flex(flex-start, null, column, 3px);
+
+    &_link {
+      width: 100%;
+      @include mixin.flex(center, space-between, null, 10px);
+      text-decoration: none;
+      padding: 5px;
+      border-radius: 10px;
+      &:hover {
+        background: var(--gray-white);
+      }
     }
 
-    &__items{
-        @include mixin.flex(flex-start,null,column,3px);
-        
-        &_link{
-            width: 100%;
-            @include mixin.flex(center,space-between,null,10px);
-            text-decoration: none;
-            padding: 5px;
-            border-radius: 10px;
-            &:hover{
-                background: var(--gray-white);
-            }
-        }
-        
-        &_name{
-            width: 100%;
-            border-radius: 5px;
-            line-height: 1.2;
-            font-size: 14px;
-            color: var(--black);
-        }
-
-        &_img{
-            min-width: 45px;
-            border-radius: 5px;
-        }
-
-        &_cenaok{
-            width: 80px;
-            text-align: center;
-            color: var(--black);
-            font-size: 18px;
-            font-weight: 600;
-            @include mixin.flex(center,flex-end,null,3px);
-
-            &_currency{
-                color: var(--black);
-                text-decoration: 3px underline;
-            }
-        }
+    &_name {
+      width: 100%;
+      border-radius: 5px;
+      line-height: 1.2;
+      font-size: 14px;
+      color: var(--black);
     }
+
+    &_img {
+      min-width: 45px;
+      border-radius: 5px;
+    }
+
+    &_cenaok {
+      width: 80px;
+      text-align: center;
+      color: var(--black);
+      font-size: 18px;
+      font-weight: 600;
+      @include mixin.flex(center, flex-end, null, 3px);
+
+      &_currency {
+        color: var(--black);
+        text-decoration: 3px underline;
+      }
+    }
+  }
 }
-      
-
 
 .searchResults {
   position: absolute;
@@ -117,7 +115,7 @@
     background: #888;
   }
 
-  &__title{
+  &__title {
     width: 100%;
     font-family: var(--font-montserrat);
     font-size: 16px;
@@ -125,5 +123,31 @@
     color: var(--black);
     padding-bottom: 3px;
     margin-bottom: 5px;
+  }
+  &__deleteAll {
+    cursor: pointer;
+    background: var(--violet);
+    border-radius: 5px;
+    color: var(--white);
+    padding: 2px 4px;
+  }
+  &__list {
+    margin-top: 5px;
+    @include mixin.flex(flex-start, center, column, 5px);
+    &_item {
+      background: var(--secondary-white);
+      border-radius: 5px;
+      padding: 5px;
+      width: 100%;
+      @include mixin.flex(center, space-between, row, null);
+      &_value {
+        @include mixin.font(16px, 500, null, var(--dark));
+      }
+      &_delete {
+        cursor: pointer;
+        color: var(--dark);
+        margin-top: 8px;
+      }
+    }
   }
 }

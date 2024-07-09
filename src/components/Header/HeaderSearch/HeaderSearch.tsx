@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
-import { ExitIcon } from "../../../../public/Icons/Icons";
+import { ExitIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
@@ -178,21 +178,32 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
               <div>
                 <h4 className={styles.searchResults__title}>История поиска</h4>
                 {searchHistory.length > 0 && (
-                  <button onClick={handleDeleteAll}>Удалить все</button>
+                  <button
+                    className={styles.searchResults__deleteAll}
+                    onClick={handleDeleteAll}
+                  >
+                    Удалить все
+                  </button>
                 )}
-                <ul>
+                <ul className={styles.searchResults__list}>
                   {searchHistory.map((search: string, index: number) => (
-                    <>
+                    <div
+                      className={styles.searchResults__list_item}
+                      key={index}
+                    >
                       <li
-                        key={index}
+                        className={styles.searchResults__list_item_value}
                         onClick={() => handleHistoryItemClick(search)}
                       >
-                        id: {index} - value: {search}
+                        {search}
                       </li>
-                      <button onClick={() => handleDelete(search)}>
-                        Удалить
+                      <button
+                        className={styles.searchResults__list_item_delete}
+                        onClick={() => handleDelete(search)}
+                      >
+                        <TrashIcon />
                       </button>
-                    </>
+                    </div>
                   ))}
                 </ul>
               </div>
