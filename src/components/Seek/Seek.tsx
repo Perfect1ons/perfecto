@@ -14,7 +14,9 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
         <h1 className="seek__catalog_title">Найдено в категориях</h1>
         <SeekCatalog catalog={catalog}/>
       </div>
-      <ProductList items={product}  />
+      <div className="toptwenty">
+        <ProductList items={product}  />
+      </div>
     </section>
   );
 };
