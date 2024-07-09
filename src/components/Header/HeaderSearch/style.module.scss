@@ -86,6 +86,7 @@
 }
 
 .searchResults {
+  cursor: default;
   position: absolute;
   top: 120%; /* Разместить блок результатов сразу под инпутом */
   left: 0;
@@ -138,9 +139,11 @@
       background: var(--secondary-white);
       border-radius: 5px;
       padding: 5px;
+      cursor: pointer;
       width: 100%;
       @include mixin.flex(center, space-between, row, null);
       &_value {
+        width: 100%;
         @include mixin.font(16px, 500, null, var(--dark));
       }
       &_delete {
