@@ -14,12 +14,14 @@
 
 .default__sort_style {
   @include mixin.flex(center, null, null, 7px);
+  padding-right: 15px;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
   @media screen and (max-width: 480px) {
     display: block;
+    padding-right: 8px;
   }
 }
 
