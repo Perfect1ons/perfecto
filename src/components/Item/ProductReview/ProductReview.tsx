@@ -88,10 +88,10 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
             </div>
           </div>
         </div>
-        <h2 className={styles.wrap_review_grade_short_desc}>
+        <p className={styles.wrap_review_grade_short_desc}>
           Будет здорово, если вы напишете свои впечатления о товаре. Это поможет
           другим покупателям.
-        </h2>
+        </p>
         <button
           aria-label="write a review about a product"
           title="написать отзыв от товаре"
