@@ -5,7 +5,6 @@ import {
 } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
 import DynamicJsonLd from "@/utils/jsonld";
-
 import { Metadata as NextMetadata } from "next";
 
 interface Metadata extends NextMetadata {
@@ -37,8 +36,6 @@ export async function generateMetadata({
 }: Params): Promise<Metadata> {
   try {
     const data = await getCardProduct(path[0]);
-
-    // Check if data.meta.title exists and fallback to a default value if it doesn't
     const title = data.meta.title;
     const ogtitle = data.meta.og_title;
     const description = data.meta.description;

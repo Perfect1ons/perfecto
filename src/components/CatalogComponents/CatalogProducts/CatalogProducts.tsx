@@ -35,7 +35,6 @@ const CatalogUndefined = dynamic(
 );
 
 interface ICatalogProductsProps {
-  init: ICategoryFilter;
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
   filter: IFiltersBrand;

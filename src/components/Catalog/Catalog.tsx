@@ -8,7 +8,6 @@ import { IIntroBannerDekstop } from "@/types/Home/banner";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 
 interface IProps {
-  init: ICategoryFilter;
   banner: IIntroBannerDekstop;
   catalog: ICatalogsProducts;
   path: string;
@@ -16,7 +15,6 @@ interface IProps {
 }
 
 const Catalogs = async ({
-  init,
   banner,
   catalog,
   path,
@@ -28,7 +26,6 @@ const Catalogs = async ({
     if (catalog.category.is_leaf === 1) {
       return (
         <CatalogProducts
-          init={init}
           banner={banner}
           catalog={catalog}
           filter={filterProduct}

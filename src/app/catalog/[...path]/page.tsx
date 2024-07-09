@@ -1,9 +1,10 @@
 import {
   getBreadCrumbs,
   getCatalogBanner,
-  getCatalogProductsFilteredByAbdulaziz,
+  getCatalogProductsFiltersServer,
   getCatalogsProducts,
 } from "@/api/requests";
+import NotFound from "@/app/not-found";
 import Catalogs from "@/components/Catalog/Catalog";
 import CatalogDynamicJsonLd from "@/utils/JsonLd/CatalogPageJsonLd/CatalogPageJsonLd";
 
@@ -17,7 +18,18 @@ interface Params {
   params: { path: string | string[] };
 }
 
-export default async function page({ params: { path } }: Params) {
+interface NewsProps {
+  searchParams: {
+    page?: string;
+    path?: string;
+  };
+  params: { path: string | string[] };
+}
+
+export default async function page({
+  searchParams,
+  params: { path },
+}: NewsProps) {
   try {
     let fullPath: string;
     if (Array.isArray(path)) {
@@ -27,19 +39,20 @@ export default async function page({ params: { path } }: Params) {
       // Если path уже является строкой, используем его как есть
       fullPath = path;
     }
-    try {
-      const catalogs = await getCatalogsProducts(fullPath);
-      const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
-      const init = await getCatalogProductsFilteredByAbdulaziz(
-        catalogs.category.id
-      );
-      const banner = await getCatalogBanner();
+  const currentPage = parseInt(searchParams.page || "1", 10);
+
+    const catalogs = await getCatalogsProducts(fullPath);
+    const breadCrumbs = await getBreadCrumbs(catalogs.category.id);
+    const banner = await getCatalogBanner();
+    const conditionals = await getCatalogProductsFiltersServer(fullPath, currentPage)
+    
+    if (conditionals.category.tov.length > 0) {
       return (
         <>
-          <h1>{fullPath}</h1>
+          <h1>{fullPath} path</h1>
+          <h1>{searchParams.page} page</h1>
           <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
           <Catalogs
-            init={init}
             banner={banner}
             catalog={catalogs}
             path={fullPath}
@@ -47,17 +60,31 @@ export default async function page({ params: { path } }: Params) {
           />
         </>
       );
-    } catch (error) {
-      console.error("Ошибка:", error);
-      return (
-        <div>
-          Ошибка при выборе каталогов. Пожалуйста, повторите попытку позже.
-        </div>
-      );
     }
+        if (conditionals.totalCount == 0) {
+          return (
+            <>
+              <h1>{fullPath} path</h1>
+              <h1>{searchParams.page} page</h1>
+              <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
+              <Catalogs
+                banner={banner}
+                catalog={catalogs}
+                path={fullPath}
+                breadCrumbs={breadCrumbs}
+              />
+            </>
+          );
+        }
+    
+    return <NotFound/>
   } catch (error) {
-    console.error("Ошибка:", error);
-    return <div>Произошла ошибка. Пожалуйста, попробуйте еще раз позже.</div>;
+    console.error("Ошибка при загрузке данных каталога:", error);
+    return (
+      <div>
+        Ошибка при выборе каталогов. Пожалуйста, повторите попытку позже.
+      </div>
+    );
   }
 }
 
@@ -103,7 +130,7 @@ export async function generateMetadata({
       canonical: canonical,
     };
   } catch (error) {
-    console.error("Error occurred while generating metadata:", error);
+    console.error("Ошибка при генерации метаданных:", error);
     return {
       title: "Default Title",
       description: "",

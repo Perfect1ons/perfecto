@@ -37,3 +37,5 @@ export default async function Page({ searchParams }: NewsProps) {
 export async function generateMetadata() {
   return generatePageMetadata(getMetaNewsPage);
 }
+
+
