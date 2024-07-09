@@ -527,6 +527,11 @@ const AllFiltersMobile = ({
                               </span>
                               <span className={styles.filterLabel__title}>
                                 {sub.value.name}
+                                <span
+                                  className={styles.filterLabel__title__kol}
+                                >
+                                  {sub.value.kol}
+                                </span>
                               </span>
                             </label>
                           ) : null
