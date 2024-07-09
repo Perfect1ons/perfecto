@@ -80,6 +80,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     setInputActive(false);
   };
 
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchValue.trim() !== "") {

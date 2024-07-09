@@ -36,6 +36,7 @@ export default async function page({ params: { path } }: Params) {
       const banner = await getCatalogBanner();
       return (
         <>
+          <h1>{fullPath}</h1>
           <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
           <Catalogs
             init={init}

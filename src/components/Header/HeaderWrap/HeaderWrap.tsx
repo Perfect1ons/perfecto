@@ -10,22 +10,21 @@ export default function HeaderWrap() {
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const fetchCatalogs = async () => {
-    try {
-      if (!isCatalogFetched) {
-        setLoading(true);
-        const catalogs = await getCatalogsMenu();
-        setCatalog(catalogs);
-        setIsCatalogFetched(true);
-      } else{
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
+const fetchCatalogs = async () => {
+  try {
+    setLoading(true);
+    if (!isCatalogFetched) {
+      const catalogs = await getCatalogsMenu();
+      setCatalog(catalogs);
+      setIsCatalogFetched(true);
       setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // задается state для открытия и закрытия
   const [isMobileModalOpen, setMobileModalOpen] = useState(false);

@@ -3,30 +3,30 @@
 import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 
-interface NewsPaginationProps {
+interface SeekPaginationProps {
+  path: string;
   pageCount: number;
   currentPage: number;
-  path: string;
 }
 
-const NewsPagination: React.FC<NewsPaginationProps> = ({
+const SeekPagination: React.FC<SeekPaginationProps> = ({
+  path,
   pageCount,
   currentPage,
-  path
 }) => {
   const router = useRouter();
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     const selectedPage = selectedItem.selected + 1; // Pagination starts from 0, so add 1
-    router.push(`seek?search=${path}&page=${selectedPage}`);
+    router.push(`/seek?search=${path}&page=${selectedPage}`);
   };
 
   return (
     <ReactPaginate
       initialPage={currentPage - 1} // ReactPaginate pages start from 0
       pageCount={pageCount}
-      pageRangeDisplayed={5}
-      marginPagesDisplayed={2}
+      pageRangeDisplayed={3}
+      marginPagesDisplayed={1}
       onPageChange={handlePageClick}
       containerClassName={"pagination"}
       activeClassName={"active"}
@@ -45,4 +45,4 @@ const NewsPagination: React.FC<NewsPaginationProps> = ({
   );
 };
 
-export default NewsPagination;
+export default SeekPagination;
