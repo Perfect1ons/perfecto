@@ -193,7 +193,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                     className={styles.searchResults__deleteAll}
                     onClick={handleDeleteAll}
                   >
-                    Удалить все
+                    Очистить все
                   </button>
                 )}
                 <ul className={styles.searchResults__list}>
