@@ -1,14 +1,19 @@
-import React from 'react'
-import ReactPaginate from 'react-paginate';
+import React from "react";
+import ReactPaginate from "react-paginate";
 
 interface ICatalogPaginationProps {
   forcePage: number;
   pageCount: number;
-  pageChange: (selectedItem: { selected: number }) => void; 
+  pageChange: (selectedItem: { selected: number }) => void;
   isMobile: boolean;
 }
 
-const CatalogPagination = ({forcePage,pageCount, pageChange,isMobile}: ICatalogPaginationProps) => {
+const CatalogPagination = ({
+  forcePage,
+  pageCount,
+  pageChange,
+  isMobile,
+}: ICatalogPaginationProps) => {
   return (
     <ReactPaginate
       previousLabel={"<"}
@@ -31,6 +36,6 @@ const CatalogPagination = ({forcePage,pageCount, pageChange,isMobile}: ICatalogP
       activeClassName={"active"}
     />
   );
-}
+};
 
-export default CatalogPagination
+export default CatalogPagination;
