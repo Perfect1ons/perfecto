@@ -131,7 +131,11 @@
   user-select: none;
   cursor: pointer;
   &__title {
+    @include mixin.flex(center, center, null, 5px);
     font-size: 14px;
+    &__kol {
+      color: var(--light-gray);
+    }
   }
 
   &__empty {
