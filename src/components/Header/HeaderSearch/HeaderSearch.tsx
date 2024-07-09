@@ -1,4 +1,3 @@
-"use client";
 import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { DebounceInput } from "react-debounce-input";
 import styles from "./style.module.scss";
@@ -79,18 +78,18 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     setInputActive(false);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = async (query: string) => {
     const response = await fetch("/api/search-history", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ searchQuery }), // Передаем только текущий запрос
+      body: JSON.stringify({ searchQuery: query }),
     });
 
     const result = await response.json();
     if (result.success) {
-      setSearchHistory((prevHistory) => [...prevHistory, searchValue]);
+      setSearchHistory((prevHistory) => [...prevHistory, query]);
       console.log("История поиска обновлена");
     } else {
       console.error("Не удалось обновить историю поиска");
@@ -100,7 +99,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchValue.trim() !== "") {
-      await handleSearch();
+      await handleSearch(searchValue);
       window.location.href = `/seek?search=${encodeURIComponent(
         searchValue
       )}&page=1`;
@@ -113,7 +112,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ searchQuery: queryToDelete }), // Передаем запрос для удаления
+      body: JSON.stringify({ searchQuery: queryToDelete }),
     });
 
     const result = await response.json();
@@ -131,7 +130,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}), // Пустой объект для удаления всех запросов
+      body: JSON.stringify({}),
     });
 
     const result = await response.json();
@@ -141,6 +140,11 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     } else {
       console.error("Не удалось удалить все запросы из истории поиска");
     }
+  };
+
+  const handleHistoryItemClick = async (query: string) => {
+    await handleSearch(query);
+    window.location.href = `/seek?search=${encodeURIComponent(query)}&page=1`;
   };
 
   const shouldShowModal = inputActive && (history.length > 0 || fastValue);
@@ -178,12 +182,17 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                 )}
                 <ul>
                   {searchHistory.map((search: string, index: number) => (
-                    <li key={index}>
-                      id: {index} - value: {search}
+                    <>
+                      <li
+                        key={index}
+                        onClick={() => handleHistoryItemClick(search)}
+                      >
+                        id: {index} - value: {search}
+                      </li>
                       <button onClick={() => handleDelete(search)}>
                         Удалить
                       </button>
-                    </li>
+                    </>
                   ))}
                 </ul>
               </div>
