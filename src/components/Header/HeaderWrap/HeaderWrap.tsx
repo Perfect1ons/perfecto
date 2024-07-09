@@ -5,27 +5,30 @@ import { getCatalogsMenu } from "@/api/clientRequest";
 import Header from "../Header";
 import MobileNav from "@/components/MobileMenu/MobileNav/MobileNav";
 
-export default function HeaderWrap() {
+interface IHeaderProps{
+  searchHistory: string[];
+}
+
+export default function HeaderWrap({searchHistory}: IHeaderProps) {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const fetchCatalogs = async () => {
-    try {
-      if (!isCatalogFetched) {
-        setLoading(true);
-        const catalogs = await getCatalogsMenu();
-        setCatalog(catalogs);
-        setIsCatalogFetched(true);
-      } else{
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
+const fetchCatalogs = async () => {
+  try {
+    setLoading(true);
+    if (!isCatalogFetched) {
+      const catalogs = await getCatalogsMenu();
+      setCatalog(catalogs);
       setLoading(false);
+      setIsCatalogFetched(true);
     }
-  };
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // задается state для открытия и закрытия
   const [isMobileModalOpen, setMobileModalOpen] = useState(false);
@@ -33,6 +36,7 @@ export default function HeaderWrap() {
   return (
     <header className="header">
       <Header
+        history={searchHistory}
         catalogs={catalog}
         click={fetchCatalogs}
         loading={loading}

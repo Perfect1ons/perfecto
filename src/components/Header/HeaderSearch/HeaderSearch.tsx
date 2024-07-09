@@ -4,7 +4,6 @@ import React, {
   ChangeEvent,
   useRef,
   useEffect,
-  useMemo,
 } from "react";
 import { DebounceInput } from "react-debounce-input";
 import styles from "./style.module.scss";
@@ -15,12 +14,14 @@ import { ExitIcon } from "../../../../public/Icons/Icons";
 import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
+  history: string[];
   searchInputRef: React.RefObject<HTMLInputElement>;
   onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   searchValue: string;
 }
 
 const HeaderSearch: React.FC<HeaderSearchProps> = ({
+  history,
   searchInputRef,
   onInputChange,
   searchValue,
@@ -28,6 +29,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
   const [inputActive, setInputActive] = useState<boolean>(false);
   const searchWrapperRef = useRef<HTMLDivElement>(null);
   const [fastValue, setFastValue] = useState<ISearch | undefined>(undefined);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchHistory, setSearchHistory] = useState(history);
 
   const fetchData = async (query: string) => {
     if (!query) {
@@ -39,12 +42,13 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
       setFastValue(response);
     } catch (error) {
       console.error("Error fetching data:", error);
-    } 
+    }
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onInputChange(event);
     const newValue = event.target.value;
+    setSearchQuery(newValue);
     if (newValue.length < 2) {
       setFastValue(undefined);
       return;
@@ -80,20 +84,71 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     setInputActive(false);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (searchValue.trim() !== "") {
-      window.location.href = `/seek?search=${searchValue}&page=1`;
+  const handleSearch = async () => {
+    const response = await fetch("/api/search-history", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ searchQuery }), // Передаем только текущий запрос
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      setSearchHistory((prevHistory) => [...prevHistory, searchValue])
+      console.log("История поиска обновлена");
+    } else {
+      console.error("Не удалось обновить историю поиска");
     }
+    
   };
 
-  const hasResults = useMemo(
-    () =>
-      fastValue &&
-      ((fastValue.catalog && fastValue.catalog.length > 0) ||
-        (fastValue.model && fastValue.model._meta.totalCount > 0)),
-    [fastValue]
-  );
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      if (searchValue.trim() !== "") {
+        window.location.href = `/seek?search=${searchValue}&page=1`;
+        handleSearch();
+      }
+    };
+
+
+    const handleDelete = async (queryToDelete: string) => {
+      const response = await fetch("/api/search-history", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ searchQuery: queryToDelete }), // Передаем запрос для удаления
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        console.log("Запрос удален из истории поиска");
+        setSearchHistory(history.filter((query) => query !== queryToDelete));
+      } else {
+        console.error("Не удалось удалить запрос из истории поиска");
+      }
+    };
+
+    const handleDeleteAll = async () => {
+      const response = await fetch("/api/search-history", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}), // Пустой объект для удаления всех запросов
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        console.log("Все запросы удалены из истории поиска");
+        setSearchHistory([]);
+      } else {
+        console.error("Не удалось удалить все запросы из истории поиска");
+      }
+    };
+
+  const shouldShowModal = inputActive && (history.length > 0 || fastValue);
 
   return (
     <div className={styles.searchWrapper} ref={searchWrapperRef}>
@@ -108,7 +163,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
           value={searchValue}
           placeholder="Искать товары и категории"
         />
-        {inputActive ? (
+        {inputActive && (
           <button
             type="button"
             className="search__input_close"
@@ -117,14 +172,30 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
           >
             <ExitIcon />
           </button>
-        ) : null}
-        {inputActive && hasResults && (
+        )}
+        {shouldShowModal && (
           <div className={styles.searchResults}>
+            {searchHistory.length > 0 && (
+              <div>
+                <h4 className={styles.searchResults__title}>История поиска</h4>
+                {searchHistory.length > 0 && (
+                  <button onClick={handleDeleteAll}>Удалить все</button>
+                )}
+                {searchHistory.map((search: string, index: number) => (
+                  <li key={index}>
+                    id: {index} - value: {search}
+                    <button onClick={() => handleDelete(search)}>
+                      Удалить
+                    </button>
+                  </li>
+                ))}
+              </div>
+            )}
             {fastValue?.catalog && fastValue.catalog.length > 0 && (
               <>
-                <h1 className={styles.searchResults__title}>
+                <h4 className={styles.searchResults__title}>
                   Найдено в категориях
-                </h1>
+                </h4>
                 <SearchCategory
                   category={fastValue.catalog}
                   closeModal={handleCloseModal}
@@ -133,7 +204,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             )}
             {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
               <>
-                <h2 className={styles.searchResults__title}>Товары</h2>
+                <h4 className={styles.searchResults__title}>Товары</h4>
                 <SearchItems
                   items={fastValue.model.items}
                   closeModal={handleCloseModal}

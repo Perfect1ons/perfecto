@@ -2,6 +2,7 @@ import { getPopularGoods, getSearchItem } from "@/api/requests";
 import Seek from "@/components/Seek/Seek";
 import SeekPagination from "@/components/Seek/SeekPagination/SeekPagination";
 import dynamic from "next/dynamic";
+import NotFound from "../not-found";
 
 const SeekNotFound = dynamic(
   () => import("@/components/NotFound/SeekNotFound")
@@ -14,42 +15,43 @@ interface NewsProps {
   };
 }
 
-export default async function Page({ searchParams }: NewsProps) {
-  const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
-    getPopularGoods(1),
-    getPopularGoods(2),
-    getPopularGoods(3),
-  ]);
-  const goods = [goodsOne, goodsTwo, goodsThree].flat();
-
+export default async function page({ searchParams }: NewsProps) {
+  const currentPage = parseInt(searchParams.page || "1", 10);
   const searchQuery = searchParams.search || "";
   const decodedSearch = decodeURIComponent(searchQuery);
-  const currentPage = parseInt(searchParams.page || "1", 10);
-
   const data = await getSearchItem(decodedSearch, currentPage);
   const dataInit = await getSearchItem(decodedSearch, 1);
   const pageCount = Math.ceil(data.model._meta.totalCount / 20);
+
+    const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
+      getPopularGoods(1),
+      getPopularGoods(2),
+      getPopularGoods(3),
+    ]);
+    const goods = [goodsOne, goodsTwo, goodsThree].flat();
+
+  if (currentPage > pageCount) {
+    return <NotFound />;
+  }
 
   if (!data.model.items.length || (!data.catalog && !data.model)) {
     return <SeekNotFound goods={goods} search={decodedSearch} />;
   }
 
-  return (
-    <>
-      <Seek
-        searchQuery={searchQuery}
-        currentPage={currentPage}
-        catalog={dataInit.catalog}
-        product={data.model.items}
-      />
-      <SeekPagination
-        path={decodedSearch}
-        pageCount={pageCount}
-        currentPage={currentPage}
-      />
-    </>
-  );
+  if (currentPage <= pageCount) {
+      return (
+        <>
+          <Seek catalog={dataInit.catalog} product={data.model.items} />
+          <SeekPagination
+            path={decodedSearch}
+            pageCount={pageCount}
+            currentPage={currentPage}
+          />
+        </>
+      );
+  }
 }
+
 
 export async function generateMetadata({ searchParams }: NewsProps) {
   const currentPage = parseInt(searchParams.page || "1", 10);

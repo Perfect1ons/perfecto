@@ -126,3 +126,4 @@ export const getFastUserSearch = (slug: string): Promise<ISearch> => {
   return maxkg.get(`naltovarok/seek?search=${slug}`).json();
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+

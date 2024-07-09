@@ -26,10 +26,16 @@ import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { BrandsAll } from "@/types/bannerAll";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
+import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 5 },
+});
+
+const maxkgcatalog = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  next: { revalidate: 3600 },
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
@@ -42,7 +48,7 @@ export const getBrandsByName = (id: number): Promise<IBrandByName> => {
 
 // запрос на главный каталог
 export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
-  return maxkg.get("catalog/cat-list-menu").json();
+  return maxkgcatalog.get("catalog/cat-list-menu").json();
 };
 
 // подкаталоги от getCatalogs
@@ -225,9 +231,13 @@ export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-//! TEST REQUESTS BY ABDULAZIZ
-export const getCatalogProductsFilteredByAbdulaziz = (
-  id: number
-): Promise<ICategoryFilter> => {
-  return maxkg.get(`catalog/${id}?page=1`).json();
+export const getCatalogProductsFiltersServer = (
+  path: string,
+  page: number,
+): Promise<IScrolledCatalog> => {
+  return maxkg
+    .get(
+      `catalog/cat-product/${path}?page=${page}`
+    )
+    .json();
 };
