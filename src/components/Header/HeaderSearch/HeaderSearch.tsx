@@ -1,10 +1,5 @@
 "use client";
-import React, {
-  useState,
-  ChangeEvent,
-  useRef,
-  useEffect,
-} from "react";
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import { DebounceInput } from "react-debounce-input";
 import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
@@ -95,58 +90,58 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
 
     const result = await response.json();
     if (result.success) {
-      setSearchHistory((prevHistory) => [...prevHistory, searchValue])
+      setSearchHistory((prevHistory) => [...prevHistory, searchValue]);
       console.log("История поиска обновлена");
     } else {
       console.error("Не удалось обновить историю поиска");
     }
-    
   };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (searchValue.trim() !== "") {
-        window.location.href = `/seek?search=${searchValue}&page=1`;
-        handleSearch();
-      }
-    };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (searchValue.trim() !== "") {
+      await handleSearch();
+      window.location.href = `/seek?search=${encodeURIComponent(
+        searchValue
+      )}&page=1`;
+    }
+  };
 
+  const handleDelete = async (queryToDelete: string) => {
+    const response = await fetch("/api/search-history", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ searchQuery: queryToDelete }), // Передаем запрос для удаления
+    });
 
-    const handleDelete = async (queryToDelete: string) => {
-      const response = await fetch("/api/search-history", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ searchQuery: queryToDelete }), // Передаем запрос для удаления
-      });
+    const result = await response.json();
+    if (result.success) {
+      console.log("Запрос удален из истории поиска");
+      setSearchHistory(history.filter((query) => query !== queryToDelete));
+    } else {
+      console.error("Не удалось удалить запрос из истории поиска");
+    }
+  };
 
-      const result = await response.json();
-      if (result.success) {
-        console.log("Запрос удален из истории поиска");
-        setSearchHistory(history.filter((query) => query !== queryToDelete));
-      } else {
-        console.error("Не удалось удалить запрос из истории поиска");
-      }
-    };
+  const handleDeleteAll = async () => {
+    const response = await fetch("/api/search-history", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}), // Пустой объект для удаления всех запросов
+    });
 
-    const handleDeleteAll = async () => {
-      const response = await fetch("/api/search-history", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}), // Пустой объект для удаления всех запросов
-      });
-
-      const result = await response.json();
-      if (result.success) {
-        console.log("Все запросы удалены из истории поиска");
-        setSearchHistory([]);
-      } else {
-        console.error("Не удалось удалить все запросы из истории поиска");
-      }
-    };
+    const result = await response.json();
+    if (result.success) {
+      console.log("Все запросы удалены из истории поиска");
+      setSearchHistory([]);
+    } else {
+      console.error("Не удалось удалить все запросы из истории поиска");
+    }
+  };
 
   const shouldShowModal = inputActive && (history.length > 0 || fastValue);
 
@@ -181,14 +176,16 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                 {searchHistory.length > 0 && (
                   <button onClick={handleDeleteAll}>Удалить все</button>
                 )}
-                {searchHistory.map((search: string, index: number) => (
-                  <li key={index}>
-                    id: {index} - value: {search}
-                    <button onClick={() => handleDelete(search)}>
-                      Удалить
-                    </button>
-                  </li>
-                ))}
+                <ul>
+                  {searchHistory.map((search: string, index: number) => (
+                    <li key={index}>
+                      id: {index} - value: {search}
+                      <button onClick={() => handleDelete(search)}>
+                        Удалить
+                      </button>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
             {fastValue?.catalog && fastValue.catalog.length > 0 && (
