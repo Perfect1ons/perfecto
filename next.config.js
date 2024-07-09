@@ -121,6 +121,8 @@ module.exports = withPWA({
         protocol: "https",
         hostname: "www.emscorp.ru",
       },
+      { protocol: "https", hostname: "cdn2.top-shop.ru" },
+      { protocol: "https", hostname: "cdn2.top-shop.ru" },
     ],
   },
   async headers() {
