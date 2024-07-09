@@ -14,9 +14,6 @@ interface NewsProps {
   };
 }
 
-
-
-
 export default async function Page({ searchParams }: NewsProps) {
   const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
     getPopularGoods(1),
@@ -39,7 +36,12 @@ export default async function Page({ searchParams }: NewsProps) {
 
   return (
     <>
-      <Seek catalog={dataInit.catalog} product={data.model.items} />
+      <Seek
+        searchQuery={searchQuery}
+        currentPage={currentPage}
+        catalog={dataInit.catalog}
+        product={data.model.items}
+      />
       <SeekPagination
         path={decodedSearch}
         pageCount={pageCount}
