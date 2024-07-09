@@ -12,6 +12,10 @@ table {
   text-align: center;
 }
 
+.notallowed{
+  cursor: not-allowed !important;
+}
+
 .icon-favorites {
   fill: var(--white);
   stroke: #7a7a7a;

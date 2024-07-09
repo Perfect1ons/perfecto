@@ -73,7 +73,7 @@ export default function FavoriteMain() {
                   className={styles.clearFavoritesButton}
                   onClick={clearFavorites}
                 >
-                  <TrashIcon/>
+                  <TrashIcon />
                   Очистить избранное
                 </button>
               </div>

@@ -2,7 +2,7 @@
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import Card from "../Card/Card";
 interface ISimilarProps {
-  similar: ISimilarItem[];
+  similar?: ISimilarItem[];
 }
 
 const SimilarProducts = ({ similar }: ISimilarProps) => {
@@ -10,7 +10,7 @@ const SimilarProducts = ({ similar }: ISimilarProps) => {
     <div className="similarProducts">
       <h5 className="sections__title container">Похожие товары</h5>
       <div className="cards">
-        {similar.map((cards, index) => {
+        {similar?.map((cards, index) => {
           return <Card cardData={cards} key={index} />;
         })}
       </div>

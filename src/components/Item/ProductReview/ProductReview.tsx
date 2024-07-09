@@ -64,6 +64,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   aria-label="rating button"
+                  disabled={data.status !== 6}
                   title={`Оценить товар ${star} из 5`}
                   key={star}
                   type="button"
@@ -72,7 +73,8 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
                     {
                       [styles.wrap_review_grade_rating_ocenka_rating_starActive]:
                         hoverRating >= star || otz.oc >= star,
-                    }
+                    },
+                    data.status !== 6 && "notallowed"
                   )}
                   onClick={() => handleRatingClick(star)}
                   onMouseEnter={() => handleRatingMouseEnter(star)}
@@ -95,8 +97,9 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
         <button
           aria-label="write a review about a product"
           title="написать отзыв от товаре"
+          disabled={data.status !== 6}
           onClick={func}
-          className="default__buttons_showMore"
+          className={cn("default__buttons_showMore", data.status !== 6 && "notallowed")}
         >
           Написать отзыв
         </button>

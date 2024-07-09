@@ -17,16 +17,29 @@ interface Params {
 
 export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
-
-  const [breadCrumbs, similarData] = await Promise.all([
-    getBreadCrumbs(data.items.id_cat),
-    getSimilarProduct(path[0]),
-  ]);
-
+  try {
+    const [breadCrumbs, similarData] = await Promise.all([
+      getBreadCrumbs(data.items.id_cat),
+      getSimilarProduct(path[0]),
+    ]);
+      return (
+        <>
+          <DynamicJsonLd meta={data.meta} data={data.items} />
+          <ItemPage
+            data={data}
+            similar={similarData}
+            breadCrumbs={breadCrumbs}
+          />
+        </>
+      );
+  } catch (error) {
+    console.log(error);
+    
+  }
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-      <ItemPage data={data} similar={similarData} breadCrumbs={breadCrumbs} />
+      <ItemPage data={data} />
     </>
   );
 }

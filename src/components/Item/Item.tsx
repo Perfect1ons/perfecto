@@ -20,17 +20,13 @@ import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 
-
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts")
 );
-
-
-
 interface IItemPageProps {
   data: ICardProductItems;
-  similar: ISimilarItem[];
-  breadCrumbs: BreadCrumbs[];
+  similar?: ISimilarItem[];
+  breadCrumbs?: BreadCrumbs[];
 }
 
 const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
@@ -122,7 +118,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setCopiedCode(false);
   };
 
-  const matchingBreadCrumb = breadCrumbs.find(
+  const matchingBreadCrumb = breadCrumbs?.find(
     (crumb) => crumb.id === data.items.id_cat
   );
   const openItemModalDescription = () => {
@@ -144,7 +140,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
       ) : (
         <div className="container">
           <div className="all__directions">
-            {breadCrumbs.slice(-1).map((crumbs) => (
+            {breadCrumbs?.slice(-1).map((crumbs) => (
               <Link
                 className="all__directions_link"
                 href={`/catalog/${crumbs.full_slug}`}
@@ -155,7 +151,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               </Link>
             ))}
 
-            {breadCrumbs.map((crumbs) => (
+            {breadCrumbs?.map((crumbs) => (
               <Link
                 className="all__directions_link"
                 href={`/catalog/${crumbs.full_slug}`}
@@ -167,12 +163,27 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           </div>
           <div className={styles.item__preview}>
             <div className={styles.item__preview_slider}>
+              {data.items.status !== 6 && (
+                <div className={styles.item__preview_slider_disabled}>
+                  <span className={styles.item__preview_slider_disabled_title}>
+                    СНЯТ С ПРОДАЖИ
+                  </span>
+                </div>
+              )}
+
               <ItemSlider
                 photos={data}
                 toggleScrollLock={() => setIsOpen(true)}
               />
             </div>
             <div className={styles.item__preview_info}>
+              {data.items.status !== 6 && (
+                <div className={styles.item__preview_slider_disabled}>
+                  <span className={styles.item__preview_slider_disabled_title}>
+                    СНЯТ С ПРОДАЖИ
+                  </span>
+                </div>
+              )}
               <div className={styles.priceCard_mobile}>
                 <ItemPriceCard data={data} />
               </div>
@@ -254,7 +265,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
           visible={itemModalDescription}
         />
       )}
-      <SimilarProducts similar={similar} />
+      {similar && <SimilarProducts similar={similar} />}
     </section>
   );
 };
