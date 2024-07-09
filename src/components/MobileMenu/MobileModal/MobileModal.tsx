@@ -1,6 +1,7 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { useEffect } from "react";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface MobModalProps {
   isVisible: boolean;
@@ -8,6 +9,8 @@ interface MobModalProps {
 }
 
 export default function MobileModal({ isVisible, children }: MobModalProps) {
+  const isMobile = useMediaQuery("(max-width: 992px)");
+
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -27,8 +30,12 @@ export default function MobileModal({ isVisible, children }: MobModalProps) {
   }, [isVisible]);
 
   return (
-    <div className={cn(styles.modal, isVisible && styles.modal_active)}>
-      {children}
-    </div>
+    <>
+      {isMobile && (
+        <div className={cn(styles.modal, isVisible && styles.modal_active)}>
+          {children}
+        </div>
+      )}
+    </>
   );
 }
