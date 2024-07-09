@@ -1,8 +1,8 @@
 import { getPopularGoods, getSearchItem } from "@/api/requests";
+import Seek from "@/components/Seek/Seek";
 import SeekPagination from "@/components/Seek/SeekPagination/SeekPagination";
 import dynamic from "next/dynamic";
 
-const Seek = dynamic(() => import("@/components/Seek/Seek"));
 const SeekNotFound = dynamic(
   () => import("@/components/NotFound/SeekNotFound")
 );
@@ -14,22 +14,10 @@ interface NewsProps {
   };
 }
 
-export async function generateMetadata({ searchParams }: NewsProps) {
-  const currentPage = parseInt(searchParams.page || "1", 10);
-  const searchQuery = searchParams.search || "";
-
-  const title = `${searchQuery} - стр. ${currentPage}`;
-  return {
-    title: title,
-    description:
-      "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
-    keywords:
-      "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
-  };
-}
 
 
-export default async function PathPage({ searchParams }: NewsProps) {
+
+export default async function Page({ searchParams }: NewsProps) {
   const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
     getPopularGoods(1),
     getPopularGoods(2),
@@ -59,4 +47,18 @@ export default async function PathPage({ searchParams }: NewsProps) {
       />
     </>
   );
+}
+
+export async function generateMetadata({ searchParams }: NewsProps) {
+  const currentPage = parseInt(searchParams.page || "1", 10);
+  const searchQuery = searchParams.search || "";
+
+  const title = `${searchQuery} - стр. ${currentPage}`;
+  return {
+    title: title,
+    description:
+      "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
+    keywords:
+      "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
+  };
 }
