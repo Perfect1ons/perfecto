@@ -237,8 +237,11 @@ const AllFiltersMobile = ({
                     selectedDost.length}
                 </span>
               ) : null}
-              <span className={cn("filterNavItemArrowIsActive")}>
-                <СhevronDownIcon />
+              <span
+                style={{ color: "#212529" }}
+                className={cn("filterNavItemArrowIsActive")}
+              >
+                <FilterIcon />
               </span>
             </button>
           </div>
