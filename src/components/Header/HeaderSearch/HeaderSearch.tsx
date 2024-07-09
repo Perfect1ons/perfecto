@@ -89,7 +89,16 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
 
     const result = await response.json();
     if (result.success) {
-      setSearchHistory((prevHistory) => [...prevHistory, query]);
+      setSearchHistory((prevHistory) => {
+        // Проверяем, есть ли уже такой элемент в истории поиска
+        if (prevHistory.includes(query)) {
+          return prevHistory; // Не обновляем историю, если значение уже есть
+        }
+
+        // Ограничиваем количество элементов до 10
+        const updatedHistory = [...prevHistory, query].slice(-10);
+        return updatedHistory;
+      });
       console.log("История поиска обновлена");
     } else {
       console.error("Не удалось обновить историю поиска");
@@ -118,7 +127,9 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     const result = await response.json();
     if (result.success) {
       console.log("Запрос удален из истории поиска");
-      setSearchHistory(history.filter((query) => query !== queryToDelete));
+      setSearchHistory((prevHistory) =>
+        prevHistory.filter((query) => query !== queryToDelete)
+      );
     } else {
       console.error("Не удалось удалить запрос из истории поиска");
     }
@@ -172,7 +183,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             <ExitIcon />
           </button>
         )}
-        {shouldShowModal && (
+        {shouldShowModal && searchHistory.length > 0 && (
           <div className={styles.searchResults}>
             {searchHistory.length > 0 && (
               <div>
