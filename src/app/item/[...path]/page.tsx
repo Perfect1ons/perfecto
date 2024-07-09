@@ -44,7 +44,7 @@ export async function generateMetadata({
     const description = data.meta.description;
     const ogdescription = data.meta.og_description;
     const keywords = data.meta.keywords || "";
-    const canonical = `/item/${data.items.id_tov}/${data.items.url}`; // Canonical URL
+    const canonical = `https://max.kg/item/${data.items.id_tov}/${data.items.url}`; // Canonical URL
     const url = `https://max.kg/item/${path[0]}`;
     const image =
       data.meta.og_img || "https://max.kg/images/mobile-logo-colorized.svg";
@@ -54,6 +54,7 @@ export async function generateMetadata({
       description: description,
       keywords: keywords,
       robots: "index, follow",
+      canonical: canonical, // Include canonical URL here
       openGraph: {
         title: ogtitle || title, // Fallback to title if og_title is not defined
         description: ogdescription || description, // Fallback to description if og_description is not defined
@@ -68,7 +69,6 @@ export async function generateMetadata({
         ],
         type: "article",
       },
-      canonical: canonical, // Include canonical URL here
     };
   } catch (error) {
     console.error("Error occurred while generating metadata:", error);
