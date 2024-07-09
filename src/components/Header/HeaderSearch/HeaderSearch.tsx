@@ -83,7 +83,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (searchValue.trim() !== "") {
-      window.location.href = `/seek/search=${searchValue}`;
+      window.location.href = `/seek?search=${searchValue}&page=1`;
     }
   };
 

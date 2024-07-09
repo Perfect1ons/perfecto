@@ -12,6 +12,7 @@ export async function generatePageMetadata(getMetaData: () => Promise<Metadata>)
     title: title,
     description: description,
     keywords: keywords,
+    robots: "index, follow",
     openGraph: {
       title: title,
       description: description,

@@ -16,6 +16,7 @@ import {
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import MainPageJsonLd from "@/utils/JsonLd/MainPageJsonLd/MainPageJsonLd";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
 
@@ -75,7 +76,7 @@ export default async function Home() {
       getMobileData(),
       getDekstopData(),
       getNewsByLimit(),
-      getDiscounts(),
+      getDiscounts(1),
       getSecondBanner(),
       getPromotion(),
       getSeasonCategory(),
@@ -89,6 +90,7 @@ export default async function Home() {
 
     return (
       <>
+        <MainPageJsonLd/>
         <Banner mobileData={mobileData} deskstopData={desktopData} />
         <PopularCategory category={popularCategoryData} />
         <LazyPopularGoods goods={goodsData} />

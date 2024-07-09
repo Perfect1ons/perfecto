@@ -176,7 +176,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
               </SwiperSlide>
             ))}
           <button
-            aria-label="swiper button prev"
+            aria-label="prev swiper slide"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_left,
@@ -187,7 +187,7 @@ const ProductReview = ({ data, func }: IProductReviewProps) => {
           </button>
 
           <button
-            aria-label="swiper button next"
+            aria-label="next swiper slide"
             className={clsx(
               styles.team__swiper_btn,
               styles.team__swiper_btn_right,

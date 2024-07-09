@@ -20,7 +20,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   &__title {
-    @include mixin.font(18px, 500, null, var(--white));
+    @include mixin.font(18px, 400, null, var(--white));
     line-height: 1.2;
     width: 100%;
   }
@@ -53,7 +53,7 @@
 @media screen and (max-width: 768px) {
   .modal.open {
     top: 40px;
-    z-index: 3;
+    z-index: 2000;
   }
   .modal {
     padding: 0.75rem 0.875rem;

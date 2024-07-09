@@ -91,6 +91,7 @@
     width: 100%;
     max-height: 220.83px;
     max-width: 270px;
+    height: 100%;
     @media screen and (max-width: 1200px) {
       height: auto;
       max-width: none;
@@ -105,7 +106,8 @@
       max-height: 280px;
     }
     @media screen and (max-width: 480px) {
-      height: auto;
+      max-width: 250px;
+      height: 100%;
     }
   }
 

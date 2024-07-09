@@ -86,12 +86,13 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
                       loading="lazy"
                       blurDataURL={imageUrl}
                     />
-                    <h1 className="category__item_title">{item.name}</h1>
+                    <h2 className="category__item_title">{item.name}</h2>
                   </Link>
                 </SwiperSlide>
               );
             })}
             <button
+              aria-label="prev swiper slide"
               className={clsx(
                 styles.team__swiper_btn,
                 styles.team__swiper_btn_left,
@@ -101,6 +102,7 @@ const SeasonCategorySwiper = ({ seasonItems }: ISeasonCategorySwiperProps) => {
               <ArrowLeftIcon />
             </button>
             <button
+              aria-label="next swiper slide"
               className={clsx(
                 styles.team__swiper_btn,
                 styles.team__swiper_btn_right,

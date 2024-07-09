@@ -1,6 +1,7 @@
 export interface INewsByPath {
   result: NewsResult[];
   news: NewsByPath;
+  meta: Meta;
 }
 
 export interface NewsResult {
@@ -109,4 +110,14 @@ export interface NewsByPath {
   id_post: number;
   comment: any;
   moderator: any;
+}
+
+export interface Meta {
+  title: string;
+  description: string;
+  keywords: string;
+  og_title: string;
+  og_description: string;
+  og_url: string;
+  og_img: string;
 }

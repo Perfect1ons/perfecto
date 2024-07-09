@@ -1,23 +1,31 @@
-import { getMetaPromoPage, getPromotion } from "@/api/requests";
+import { getMetaPromoPage, getPromotion, getPromotionPagination } from "@/api/requests";
 import AllPromo from "@/components/HomeComponents/Promotion/AllPromo/AllPromo";
 import { generatePageMetadata } from "@/utils/metadata";
-import ErrorPage from "@/components/ErrorPage/ErrorPage"; // импортируем компонент для отображения ошибок
-import { Suspense } from "react";
+import NotFound from "../not-found";
+import PromoPagination from "@/components/HomeComponents/Promotion/PromoPagination/PromoPagination";
 
-export default async function Promotions() {
-  try {
-    const promotionData = await getPromotion();
-    const metadata = await generatePageMetadata(getMetaPromoPage);
+interface PromotionsProps {
+  searchParams: {
+    page?: string;
+  };
+}
 
-    return (
-      <Suspense>
-        <AllPromo allpromo={promotionData} />
-      </Suspense>
-    );
-  } catch (error) {
-    console.error("Error fetching promotion data:", error);
-    return <ErrorPage />;
+export default async function Page({ searchParams }: PromotionsProps) {
+  const currentPage = parseInt(searchParams.page || "1", 10);
+  const promotionData = await getPromotion();
+  const promoData = await getPromotionPagination(currentPage);
+  const pageCount = Math.ceil(promotionData.length / 10);
+  
+
+  if (currentPage > pageCount) {
+    return <NotFound />;
   }
+  return (
+    <>
+      <AllPromo allpromo={promoData} />
+      <PromoPagination pageCount={pageCount} currentPage={currentPage} />
+    </>
+  );
 }
 
 export async function generateMetadata() {

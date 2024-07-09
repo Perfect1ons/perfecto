@@ -1,4 +1,3 @@
-import { getCatalogProductsFiltered } from "@/api/clientRequest";
 import {
   getBreadCrumbs,
   getCatalogBanner,
@@ -6,6 +5,7 @@ import {
   getCatalogsProducts,
 } from "@/api/requests";
 import Catalogs from "@/components/Catalog/Catalog";
+import CatalogDynamicJsonLd from "@/utils/JsonLd/CatalogPageJsonLd/CatalogPageJsonLd";
 
 import { Metadata as NextMetadata } from "next";
 
@@ -35,13 +35,16 @@ export default async function page({ params: { path } }: Params) {
       );
       const banner = await getCatalogBanner();
       return (
-        <Catalogs
-          init={init}
-          banner={banner}
-          catalog={catalogs}
-          path={fullPath}
-          breadCrumbs={breadCrumbs}
-        />
+        <>
+          <CatalogDynamicJsonLd meta={catalogs.meta} data={catalogs} />
+          <Catalogs
+            init={init}
+            banner={banner}
+            catalog={catalogs}
+            path={fullPath}
+            breadCrumbs={breadCrumbs}
+          />
+        </>
       );
     } catch (error) {
       console.error("Ошибка:", error);
