@@ -5,6 +5,7 @@ import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
+import { ISeek } from "@/types/Search/seek";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IBoughts } from "@/types/lastBoughts";
@@ -63,6 +64,9 @@ export const getCatalogProductsFiltered = (
       `catalog/${id}?page=${page}&VNaltovaroksearch[brand]=${brands}&VNaltovaroksearch[cena_min]=${cenamin}&VNaltovaroksearch[cena_max]=${cenamax}&VNaltovaroksearch[dost]=${ddos}&VNaltovaroksearch[additional_filter]=${additional}&sort=${sort}`
     )
     .json();
+};
+export const getSearchItem = (slug: string, id: number): Promise<ISeek> => {
+  return maxkg.get(`naltovarok/seek?search=${slug}&page=${id}`).json();
 };
 
 export const getCatalogProductsFilters = (

@@ -4,17 +4,36 @@ import { ISeekCatalog, ISeekItem } from "@/types/Search/seek";
 import ProductList from "./ProductList";
 import CustomSelect from "./CustomSelect";
 import SeekCatalog from "./SeekCatalog";
+import { getSearchItem } from "@/api/clientRequest";
+
 interface SeekProps {
   catalog: ISeekCatalog[];
   product: ISeekItem[];
+  currentPage: number;
+  searchQuery: string;
 }
 
-const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
+const Seek: React.FC<SeekProps> = ({
+  catalog,
+  product,
+  currentPage,
+  searchQuery,
+}) => {
+  const decodedSearch = decodeURIComponent(searchQuery);
+
   const [items, setItems] = useState<ISeekItem[]>(product);
   const [sortOrder, setSortOrder] = useState<
     "default" | "cheap" | "expensive" | "rating" | null
   >(null);
   const [isColumnView, setIsColumnView] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getSearchItem(decodedSearch, currentPage);
+      setItems(data.model.items);
+    };
+
+    fetchData();
+  }, [currentPage]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -35,7 +54,7 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
     if (sortOrder !== null && sortOrder !== "default") {
       sortItems(sortOrder);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortOrder]);
 
   const sortItems = (order: "cheap" | "expensive" | "rating") => {
@@ -86,8 +105,8 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
   return (
     <section className="seek">
       <div className="container">
-          <h1 className="seek__catalog_title">Найдено в категориях</h1>
-          <SeekCatalog catalog={catalog}/>
+        <h1 className="seek__catalog_title">Найдено в категориях</h1>
+        <SeekCatalog catalog={catalog} />
         <div className="sort__buttons">
           <CustomSelect
             value={sortOrder || "default"}
@@ -136,4 +155,3 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
 };
 
 export default Seek;
-
