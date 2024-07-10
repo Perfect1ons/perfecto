@@ -225,7 +225,7 @@ const AllFiltersMobile = ({
             />
             <button
               onClick={() => toggleFilter("modal")}
-              className="catalogFilterButton"
+              className={cn("catalogFilterButton", styles.gap)}
             >
               Фильтры
               {selectedBrand.length > 0 ||
