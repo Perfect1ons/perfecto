@@ -24,16 +24,41 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData }: IcardDataProps) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [lastMouseX, setLastMouseX] = useState<number | null>(null);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (lastMouseX !== null) {
+      const direction = e.clientX > lastMouseX ? "right" : "left";
+      setCurrentImageIndex((prevIndex) => {
+        if (direction === "right") {
+          return (prevIndex + 1) % cardData.photos.length;
+        } else {
+          return (
+            (prevIndex - 1 + cardData.photos.length) % cardData.photos.length
+          );
+        }
+      });
+    }
+    setLastMouseX(e.clientX);
+  };
+
+  const handleMouseLeave = () => {
+    setLastMouseX(null);
+    setCurrentImageIndex(0); // Вернуть к первому изображению при уходе курсора
+  };
+
   const imageUrl =
     cardData.photos.length > 0
-      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
-        ? `${cardData.photos[0].url_part}280.jpg`
-        : cardData.photos[0].url_part.startsWith("https://")
-        ? cardData.photos[0].url_part
-        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
+      ? cardData.photos[currentImageIndex].url_part.startsWith(
+          "https://goods-photos"
+        )
+        ? `${cardData.photos[currentImageIndex].url_part}280.jpg`
+        : cardData.photos[currentImageIndex].url_part.startsWith("https://")
+        ? cardData.photos[currentImageIndex].url_part
+        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[currentImageIndex].url_part}`
       : "/img/noPhoto.svg";
 
-  
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -48,46 +73,45 @@ const Card = ({ cardData }: IcardDataProps) => {
     );
   }, [cardData.ocenka, cardData.id_tov]);
 
-const handleFavoriteClick = (e: React.MouseEvent) => {
-  e.stopPropagation();
-  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  let message = "";
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
 
-  const favoriteData = {
-    id_tov: cardData.id_tov,
-    id_post: cardData.id_post,
-    old_price: cardData.old_price,
-    discount_prc: cardData.discount_prc,
-    naim: cardData.naim,
-    ddos: cardData.ddos,
-    cenaok: cardData.cenaok,
-    url: cardData.url,
-    photos: cardData.photos,
-    ocenka: cardData.ocenka,
-    status: cardData.status,
+    const favoriteData = {
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+    };
+
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(favoriteData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
   };
-
-  if (isFavorite) {
-    favorites = favorites.filter(
-      (fav: ICard) => fav.id_tov !== cardData.id_tov
-    );
-    message = "Товар удален из избранного.";
-    setIsRedirect(false);
-  } else {
-    favorites.push(favoriteData);
-    message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-    setIsRedirect(true);
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  setIsFavorite(!isFavorite);
-  window.dispatchEvent(new Event("favoritesUpdated"));
-
-  // Показываем модалку с соответствующим сообщением
-  setModalMessage(message);
-  setModalVisible(true);
-};
-
 
   const handleAddToCartClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -152,8 +176,12 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      <div className="card" onClick={handleCardClick}>
-
+      <div
+        className="card"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        onClick={handleCardClick}
+      >
         {cardData.status !== 6 ? (
           <h1>снят {cardData.status} на==</h1>
         ) : (
@@ -297,5 +325,3 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
 };
 
 export default Card;
-
-
