@@ -42,11 +42,13 @@ export default async function page({ searchParams }: NewsProps) {
       return (
         <>
           <Seek catalog={dataInit.catalog} product={data.model.items} />
+          {pageCount > 1 &&
           <SeekPagination
             path={decodedSearch}
             pageCount={pageCount}
             currentPage={currentPage}
           />
+          }
         </>
       );
   }

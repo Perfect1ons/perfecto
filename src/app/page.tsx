@@ -16,6 +16,7 @@ import {
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import Sliker from "@/components/UI/Card/ImageSlider/ImageSlider";
 import MainPageJsonLd from "@/utils/JsonLd/MainPageJsonLd/MainPageJsonLd";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
@@ -90,7 +91,7 @@ export default async function Home() {
 
     return (
       <>
-        <MainPageJsonLd/>
+        <MainPageJsonLd />
         <Banner mobileData={mobileData} deskstopData={desktopData} />
         <PopularCategory category={popularCategoryData} />
         <LazyPopularGoods goods={goodsData} />
