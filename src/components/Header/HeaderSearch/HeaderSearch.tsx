@@ -96,7 +96,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     if (result.success) {
       setSearchHistory((prevHistory) => {
         // Проверяем, есть ли уже такой элемент в истории поиска
-        if (prevHistory.includes(query)) {
+        if (prevHistory.some((item) => item === query)) {
           return prevHistory; // Не обновляем историю, если значение уже есть
         }
 
@@ -188,7 +188,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             <ExitIcon />
           </button>
         )}
-        {shouldShowModal && searchHistory.length > 0 && (
+        {shouldShowModal && (
           <div className={styles.searchResults}>
             {searchHistory.length > 0 && (
               <div className={styles.searchResults__head}>
