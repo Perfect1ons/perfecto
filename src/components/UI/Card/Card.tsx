@@ -74,6 +74,7 @@ const Card = ({ cardData }: IcardDataProps) => {
       photos: cardData.photos,
       ocenka: cardData.ocenka,
       status: cardData.status,
+      minQty: cardData.minQty
     };
 
     if (isFavorite) {
