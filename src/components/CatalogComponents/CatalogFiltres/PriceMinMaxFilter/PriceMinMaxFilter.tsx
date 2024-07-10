@@ -28,6 +28,11 @@ const PriceMinMaxFilter = ({
   tempPrice,
   filter,
 }: IPriceMinMaxFilterProps) => {
+  const defaultPriceMin = 1;
+  const defaultPriceMax = 1000000;
+
+  const price_min = filter.price?.price_min || defaultPriceMin;
+  const price_max = filter.price?.price_max || defaultPriceMax;
   //input min price changer
   const handleMinChange = (min: number) => {
     if (min < 0) {
@@ -121,16 +126,12 @@ const PriceMinMaxFilter = ({
                 thumbClassName={styles.thumbClassName}
                 trackClassName={cn(styles.trackClassName)}
                 value={[
-                  tempPrice.tempMin === 0
-                    ? filter.price.price_min
-                    : tempPrice.tempMin,
-                  tempPrice.tempMax === 0
-                    ? filter.price.price_max
-                    : tempPrice.tempMax,
+                  tempPrice.tempMin === 0 ? price_min : tempPrice.tempMin,
+                  tempPrice.tempMax === 0 ? price_max : tempPrice.tempMax,
                 ]}
                 onChange={([min, max]) => handlePriceRangeChange(min, max)}
-                min={filter.price.price_min}
-                max={filter.price.price_max}
+                min={price_min}
+                max={price_max}
                 withTracks={true}
                 renderTrack={(props, state) => (
                   <div
