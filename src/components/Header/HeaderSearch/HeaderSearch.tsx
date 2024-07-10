@@ -158,8 +158,9 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     window.location.href = `/seek?search=${encodeURIComponent(query)}&page=1`;
   };
 
-  const shouldShowModal = inputActive && (history.length > 0 || fastValue);
-
+  // const shouldShowModal = inputActive && (history.length > 0 || fastValue);
+  const shouldShowModal =
+    inputActive && (searchHistory.length > 0 || fastValue);
   return (
     <div className={styles.searchWrapper} ref={searchWrapperRef}>
       <form className={styles.search} onSubmit={handleSubmit}>
