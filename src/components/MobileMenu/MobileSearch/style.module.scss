@@ -1,0 +1,91 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+}
+.searchResults {
+  cursor: default;
+  position: absolute;
+  top: 120%; /* Разместить блок результатов сразу под инпутом */
+  left: 0;
+  right: 0;
+  max-height: 500px;
+  overflow-y: auto; /* Скролл для блока результатов */
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 10;
+  width: 100%;
+  padding: 10px;
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #b1b1b1;
+    border-radius: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #888;
+  }
+
+  &__head {
+    &__between {
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 3px;
+      margin-bottom: 5px;
+      &__title {
+        font-family: var(--font-montserrat);
+        font-size: 1rem;
+        color: var(--black);
+      }
+      &__deleteAll {
+        @include mixin.font(0.875rem, 400, null, var(--white));
+        text-wrap: nowrap;
+        cursor: pointer;
+        background: var(--violet);
+        border-radius: 5px;
+        padding: 2px 4px;
+      }
+    }
+    &__list {
+      margin-top: 5px;
+      @include mixin.flex(flex-start, center, column, 5px);
+      &_item {
+        border-radius: 5px;
+        padding: 0px 5px;
+        cursor: pointer;
+        width: 100%;
+        &:hover {
+          background: var(--secondary-white);
+        }
+        @include mixin.flex(center, space-between, null, 4px);
+        &_value {
+          @include mixin.flex(center, flex-start, null, 5px);
+          width: 100%;
+          @include mixin.font(1rem, 500, null, var(--dark));
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          > span {
+            padding-top: 6px;
+            align-self: center;
+            color: var(--gray);
+          }
+        }
+        &_delete {
+          padding-top: 6px;
+          scale: 1.6;
+          cursor: pointer;
+          color: var(--gray);
+        }
+      }
+    }
+  }
+}
