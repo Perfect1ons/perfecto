@@ -4,12 +4,7 @@ import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
-import {
-  Clock,
-  Cross,
-  ExitIcon,
-  TrashIcon,
-} from "../../../../public/Icons/Icons";
+import { Clock, Cross, ExitIcon } from "../../../../public/Icons/Icons";
 import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
