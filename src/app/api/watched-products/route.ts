@@ -31,8 +31,6 @@ export async function POST(req: NextRequest) {
 
     const updatedWatched = [item, ...filteredWatched];
 
-    console.log("Updated Watched Items:", updatedWatched); // Debugging line
-
     cookieStore.set("youWatched", JSON.stringify(updatedWatched), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
