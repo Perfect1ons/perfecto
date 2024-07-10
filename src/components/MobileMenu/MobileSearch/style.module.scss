@@ -67,7 +67,7 @@
         &_value {
           @include mixin.flex(center, flex-start, null, 5px);
           width: 100%;
-          @include mixin.font(1rem, 500, null, var(--dark));
+          @include mixin.font(1rem, 400, null, var(--dark));
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
