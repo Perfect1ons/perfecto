@@ -163,9 +163,12 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
     window.location.href = `/seek?search=${encodeURIComponent(query)}&page=1`;
   };
 
-  // const shouldShowModal = inputActive && (history.length > 0 || fastValue);
-  const shouldShowModal =
-    inputActive && (searchHistory.length > 0 || fastValue);
+  const shouldShowHistory =
+    inputActive && searchHistory.length > 0 && !fastValue;
+  const shouldShowFastValue =
+    inputActive &&
+    fastValue &&
+    (fastValue.catalog.length > 0 || fastValue.model._meta.totalCount > 0);
   return (
     <div className={styles.searchWrapper} ref={searchWrapperRef}>
       <form className={styles.search} onSubmit={handleSubmit}>
@@ -189,22 +192,20 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             <ExitIcon />
           </button>
         )}
-        {shouldShowModal && (
+        {(shouldShowHistory || shouldShowFastValue) && (
           <div className={styles.searchResults}>
-            {searchHistory.length > 0 && (
+            {shouldShowHistory && (
               <div className={styles.searchResults__head}>
                 <div className={styles.searchResults__head__between}>
                   <h4 className={styles.searchResults__head__between__title}>
                     История поиска
                   </h4>
-                  {searchHistory.length > 0 && (
-                    <button
-                      className={styles.searchResults__head__between__deleteAll}
-                      onClick={handleDeleteAll}
-                    >
-                      Очистить все
-                    </button>
-                  )}
+                  <button
+                    className={styles.searchResults__head__between__deleteAll}
+                    onClick={handleDeleteAll}
+                  >
+                    Очистить все
+                  </button>
                 </div>
                 <ul className={styles.searchResults__head__list}>
                   {searchHistory.map((search: string, index: number) => (
@@ -232,24 +233,28 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                 </ul>
               </div>
             )}
-            {fastValue?.catalog && fastValue.catalog.length > 0 && (
+            {shouldShowFastValue && (
               <>
-                <h4 className={styles.searchResults__title}>
-                  Найдено в категориях
-                </h4>
-                <SearchCategory
-                  category={fastValue.catalog}
-                  closeModal={handleCloseModal}
-                />
-              </>
-            )}
-            {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
-              <>
-                <h4 className={styles.searchResults__title}>Товары</h4>
-                <SearchItems
-                  items={fastValue.model.items}
-                  closeModal={handleCloseModal}
-                />
+                {fastValue?.catalog && fastValue.catalog.length > 0 && (
+                  <>
+                    <h4 className={styles.searchResults__title}>
+                      Найдено в категориях
+                    </h4>
+                    <SearchCategory
+                      category={fastValue.catalog}
+                      closeModal={handleCloseModal}
+                    />
+                  </>
+                )}
+                {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
+                  <>
+                    <h4 className={styles.searchResults__title}>Товары</h4>
+                    <SearchItems
+                      items={fastValue.model.items}
+                      closeModal={handleCloseModal}
+                    />
+                  </>
+                )}
               </>
             )}
           </div>
