@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 
     const cookieStore = cookies(); // Получение кук с помощью next/headers
     const existingFavorites = JSON.parse(
-      cookieStore.get("favoriteItems")?.value || "[]"
+      cookieStore.get("favorites")?.value || "[]"
     );
 
     // Проверяем, есть ли уже такой товар в избранном
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     // Добавляем новый товар в список избранных
     const updatedFavorites = [...existingFavorites, favoriteData];
 
-    cookieStore.set("favoriteItems", JSON.stringify(updatedFavorites), {
+    cookieStore.set("favorites", JSON.stringify(updatedFavorites), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       maxAge: 60 * 60 * 24 * 365, // 1 год
@@ -70,7 +70,7 @@ export async function DELETE(req: NextRequest) {
 
     const cookieStore = cookies(); // Получение кук с помощью next/headers
     const existingFavorites = JSON.parse(
-      cookieStore.get("favoriteItems")?.value || "[]"
+      cookieStore.get("favorites")?.value || "[]"
     );
 
     // Фильтруем избранные товары, исключая указанный id
@@ -78,7 +78,7 @@ export async function DELETE(req: NextRequest) {
       (item: FavoriteData) => item.id !== id
     );
 
-    cookieStore.set("favoriteItems", JSON.stringify(updatedFavorites), {
+    cookieStore.set("favorites", JSON.stringify(updatedFavorites), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       maxAge: 60 * 60 * 24 * 365, // 1 год
@@ -108,7 +108,7 @@ export async function PUT(req: NextRequest) {
       await req.json(); // Получение данных из тела запроса
 
     const cookieStore = cookies(); // Получение кук с помощью next/headers
-    cookieStore.set("favoriteItems", JSON.stringify(favoriteItems), {
+    cookieStore.set("favorites", JSON.stringify(favoriteItems), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       maxAge: 60 * 60 * 24 * 365, // 1 год
