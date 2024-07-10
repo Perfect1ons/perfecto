@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 // импорты стилей и иконок
@@ -31,6 +31,7 @@ export interface ICatalogProps {
   loading: boolean;
   isMobileModalOpen: boolean;
   setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  history: string[];
 }
 
 export default function MobileNav({
@@ -39,6 +40,7 @@ export default function MobileNav({
   loading,
   isMobileModalOpen,
   setMobileModalOpen,
+  history,
 }: ICatalogProps) {
   // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
   const openMobileModal = () => {
@@ -52,6 +54,15 @@ export default function MobileNav({
   // для отображения при пролистывании
   const [isScrolled, setIsScrolled] = useState(false);
   const [isScrollingDown, setIsScrollingDown] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
+  const handleSubmit = () => {
+    window.location.href = `/seek/search=${searchValue}`;
+  };
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
 
   useEffect(() => {
     let prevScrollY = window.scrollY;
@@ -74,6 +85,10 @@ export default function MobileNav({
       <MobileModal isVisible={isMobileModalOpen}>
         <div className={styles.catalog_wrap}>
           <MobSearch
+            history={history}
+            searchInputRef={searchInputRef}
+            onInputChange={handleChange}
+            searchValue={searchValue}
             isOpen={isMobileModalOpen}
             setIsOpen={setMobileModalOpen}
           />

@@ -165,11 +165,14 @@
         &:hover {
           background: var(--secondary-white);
         }
-        @include mixin.flex(center, space-between, null, null);
+        @include mixin.flex(center, space-between, null, 4px);
         &_value {
           @include mixin.flex(center, flex-start, null, 10px);
           width: 100%;
           @include mixin.font(1rem, 500, null, var(--dark));
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           > span {
             padding-top: 6px;
             align-self: center;
