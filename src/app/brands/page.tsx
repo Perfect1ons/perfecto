@@ -1,14 +1,31 @@
-import { getBrandsData, getMetaBrandPage } from "@/api/requests";
+import { getBrandsData, getBrandsPaginations, getMetaBrandPage } from "@/api/requests";
 import BrandsList from "@/components/Brands/BrandList";
 import { generatePageMetadata } from "@/utils/metadata";
+import NotFound from "../not-found";
+import BrandsPagination from "@/components/Brands/BrandsPaginations/BrandsPaginations";
 
-export default async function page() {
-    const brands = await getBrandsData();
-  return (
-    <>
-        <BrandsList brands={brands}/>
-    </>
-  )
+interface BrandProps {
+  searchParams: {
+    page?: string;
+  };
+}
+
+export default async function page({ searchParams }: BrandProps) {
+    const brandsData = await getBrandsData();
+    const currentPage = parseInt(searchParams.page || "1", 10);
+    const brands = await getBrandsPaginations(currentPage);
+    const pageCount = Math.ceil(brandsData.length / 20);
+
+    if (currentPage > pageCount) {
+      return <NotFound />;
+    }
+
+    return (
+      <>
+        <BrandsList brands={brands} />
+        <BrandsPagination pageCount={pageCount} currentPage={currentPage} />
+      </>
+    );
 }
 
 export async function generateMetadata() {

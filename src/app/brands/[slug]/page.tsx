@@ -1,4 +1,4 @@
-import { getBrandsByName } from "@/api/requests";
+import { getBrandsByName, getPopularGoods } from "@/api/requests";
 import BrandByName from "@/components/Brands/BrandByName";
 
 interface Params {
@@ -11,8 +11,17 @@ export default async function page({ params: { slug } }: Params) {
   const decodedName = decodeURIComponent(name);
 
   const brandByNameData = await getBrandsByName(id);
+
+      
+  const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
+    getPopularGoods(1),
+    getPopularGoods(2),
+    getPopularGoods(3),
+  ]);
+  const goods = [goodsOne, goodsTwo, goodsThree].flat();
   return (
     <BrandByName
+      goods={goods}
       path={decodedName}
       id={id}
       brand={brandByNameData}
@@ -22,9 +31,10 @@ export default async function page({ params: { slug } }: Params) {
 }
 
 export async function generateMetadata({ params: { slug } }: Params) {
-  const id = parseInt(slug.split("-").pop() || "", 10);
   const name = slug.split("-").slice(0, -1).join(" ");
-  const title = name;
+  const decodedName = decodeURIComponent(name);
+
+  const title = decodedName;
   return {
     title: `Бренд ${title}`,
     description:

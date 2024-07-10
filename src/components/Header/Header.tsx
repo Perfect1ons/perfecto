@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
-import React, { Suspense, lazy } from "react";
+import React, { lazy } from "react";
 const CatalogMenu = lazy(
   () => import("../CatalogComponents/CatalogMenu/CatalogMenu")
 );

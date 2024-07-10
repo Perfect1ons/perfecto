@@ -40,16 +40,18 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
-        <ReactProvider>
-          <HeaderWrap searchHistory={searchHistory}/>
-          <DownloadAppMobile />
-          <Provider>
-            <main id="main">{children}</main>
-            <ScrollToTopButton />
-          </Provider>
-          <Application />
-          <Footer />
-        </ReactProvider>
+        <div id="__next">
+          <ReactProvider>
+            <HeaderWrap searchHistory={searchHistory}/>
+            <DownloadAppMobile />
+            <Provider>
+              <main id="main">{children}</main>
+              <ScrollToTopButton />
+            </Provider>
+            <Application />
+            <Footer />
+          </ReactProvider>
+        </div>
       </body>
     </html>
   );

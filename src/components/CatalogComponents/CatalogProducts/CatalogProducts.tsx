@@ -111,8 +111,6 @@ export default function CatalogProducts({
     setStart(0);
     handleViewChange(view);
   };
-  const router = useRouter();
-
   const handleShowMore = () => {
     setSelectedFilters((prevFilters) => ({
       ...prevFilters,
@@ -301,7 +299,6 @@ export default function CatalogProducts({
       tempMax: max,
     }));
     setStart(0);
-    window.scrollTo({ top: 300, behavior: "smooth" });
   };
 
   const applyFilterPrice = () => {

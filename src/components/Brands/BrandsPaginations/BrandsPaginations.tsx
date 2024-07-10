@@ -8,7 +8,7 @@ interface NewsPaginationProps {
   currentPage: number;
 }
 
-const DiscountPagination: React.FC<NewsPaginationProps> = ({
+const BrandsPagination: React.FC<NewsPaginationProps> = ({
   pageCount,
   currentPage,
 }) => {
@@ -16,7 +16,7 @@ const DiscountPagination: React.FC<NewsPaginationProps> = ({
 
   const handlePageClick = (selectedItem: { selected: number }) => {
     const selectedPage = selectedItem.selected + 1; // Pagination starts from 0, so add 1
-    router.push(`/discount?page=${selectedPage}`);
+    router.push(`/brands?page=${selectedPage}`);
   };
 
   return (
@@ -43,4 +43,4 @@ const DiscountPagination: React.FC<NewsPaginationProps> = ({
   );
 };
 
-export default DiscountPagination;
+export default BrandsPagination;
