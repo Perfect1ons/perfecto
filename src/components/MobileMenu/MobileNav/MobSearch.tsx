@@ -3,6 +3,7 @@ import { ChangeEvent } from "react";
 import styles from "./style.module.scss";
 import { SearchIcon, XMark } from "../../../../public/Icons/Icons";
 import { DebounceInput } from "react-debounce-input";
+import cn from "clsx";
 
 interface MobSearchProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +33,7 @@ export default function MobSearch({
         <form onSubmit={handleSubmit} className={styles.search_form}>
           <DebounceInput
             inputRef={searchInputRef}
-            className="search__input"
+            className={cn("search__input", styles.textSearch)}
             minLength={2}
             debounceTimeout={300}
             onChange={handleChange}
