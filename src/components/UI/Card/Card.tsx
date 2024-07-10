@@ -194,6 +194,7 @@ const Card = ({ cardData }: IcardDataProps) => {
         onClose={handleModalClose}
       />
       <div className="card" onClick={handleCardClick}>
+        <h1>{cardData.status}</h1>
         {cardData.status !== 6 && (
           <div className="card__notAvailable">
             <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>

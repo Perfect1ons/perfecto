@@ -3,18 +3,19 @@ import clsx from 'clsx';
 import { IBrandByName } from '@/types/Brands/brandByName';
 import Cards from '../UI/Card/Card';
 import BrandNotFound from '../NotFound/BrandNotFound';
+import { IPopularGood } from '@/types/popularGoods';
 
 interface IBrandByNameProps {
+  goods: IPopularGood[]
   path: string;
   brand: IBrandByName;
   id: number;
   name: string
 }
 
-const BrandByName = ({ path, brand, id, name }: IBrandByNameProps) => {
+const BrandByName = ({ goods, path, brand, id, name }: IBrandByNameProps) => {
   return (
     <section className="brand__byName">
-      <h1>{name}</h1>
       <div className="container">
         <div className="all__directions">
           <Link href="/" className="all__directions_link">
@@ -33,10 +34,10 @@ const BrandByName = ({ path, brand, id, name }: IBrandByNameProps) => {
               {path}
           </Link>
         </div>
-        <h1 className='sections__title top'>{path}</h1>
+        <h1 className='sections__title'>{path}</h1>
       </div>
       {brand.count === 0 ? (
-        <BrandNotFound />
+        <BrandNotFound goods={goods} />
       ) : (
         <div className="cards">
           {brand.items.map((item, index) => (

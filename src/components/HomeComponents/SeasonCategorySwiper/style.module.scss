@@ -1,4 +1,9 @@
 @use "../../../assets/scss/common/mixins" as mixin;
+
+.mySwiper{
+  padding: 5px 3px !important;
+}
+
 .category_swiper {
   margin-top: 20px;
   position: relative;
