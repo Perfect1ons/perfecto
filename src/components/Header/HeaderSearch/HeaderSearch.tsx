@@ -217,7 +217,10 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                         className={styles.searchResults__head__list_item_value}
                         onClick={() => handleHistoryItemClick(search)}
                       >
-                        <Clock /> {search}
+                        <span>
+                          <Clock />
+                        </span>{" "}
+                        {search}
                       </li>
                       <button
                         className={styles.searchResults__head__list_item_delete}
