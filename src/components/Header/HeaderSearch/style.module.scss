@@ -165,7 +165,7 @@
         &:hover {
           background: var(--secondary-white);
         }
-        @include mixin.flex(center, space-between, null, null);
+        @include mixin.flex(center, space-between, null, 4px);
         &_value {
           @include mixin.flex(center, flex-start, null, 10px);
           width: 100%;
