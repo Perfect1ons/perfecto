@@ -49,18 +49,20 @@ const Card = ({ cardData }: IcardDataProps) => {
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorite(
-      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const fetchFavorites = async () => {
+      const res = await fetch("/api/favorites", {
+        method: "GET",
+      });
+      const favorites = await res.json();
+      setIsFavorite(
+        favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
+      );
+    };
+    fetchFavorites();
   }, [cardData.ocenka, cardData.id_tov]);
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
-
     const favoriteData = {
       id: cardData.id,
       id_tov: cardData.id_tov,
@@ -76,23 +78,30 @@ const Card = ({ cardData }: IcardDataProps) => {
       status: cardData.status,
     };
 
+    let message = "";
     if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
+      await fetch("/api/favorites", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: cardData.id }),
+      });
       message = "Товар удален из избранного.";
       setIsRedirect(false);
     } else {
-      favorites.push(favoriteData);
+      await fetch("/api/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(favoriteData),
+      });
       message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
       setIsRedirect(true);
     }
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    // Показываем модалку с соответствующим сообщением
     setModalMessage(message);
     setModalVisible(true);
   };
