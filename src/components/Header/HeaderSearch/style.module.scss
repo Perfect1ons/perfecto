@@ -150,7 +150,7 @@
         }
         @include mixin.flex(center, space-between, null, null);
         &_value {
-          @include mixin.flex(center, flex-start, null, 5px);
+          @include mixin.flex(center, flex-start, null, 10px);
           width: 100%;
           @include mixin.font(1rem, 500, null, var(--dark));
           > span {

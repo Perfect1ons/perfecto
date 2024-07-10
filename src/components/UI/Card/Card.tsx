@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
+import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -24,16 +25,22 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData }: IcardDataProps) => {
-  const imageUrl =
-    cardData.photos.length > 0
-      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
-        ? `${cardData.photos[0].url_part}280.jpg`
-        : cardData.photos[0].url_part.startsWith("https://")
-        ? cardData.photos[0].url_part
-        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
-      : "/img/noPhoto.svg";
+  const [images, setImages] = useState<string[]>(() => {
+    const newImages = cardData.photos.map((photo) =>
+      photo.url_part.startsWith("https://goods-photos")
+        ? `${photo.url_part}280.jpg`
+        : photo.url_part.startsWith("https://")
+        ? photo.url_part
+        : `${url}nal/img/${cardData.id_post}/l_${photo.url_part}`
+    );
 
-  
+    if (newImages.length === 0) {
+      newImages.push("/img/noPhoto.svg");
+    }
+
+    return newImages;
+  });
+
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -46,47 +53,49 @@ const Card = ({ cardData }: IcardDataProps) => {
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
 
-const handleFavoriteClick = (e: React.MouseEvent) => {
-  e.stopPropagation();
-  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  let message = "";
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
 
-  const favoriteData = {
-    id_tov: cardData.id_tov,
-    id_post: cardData.id_post,
-    old_price: cardData.old_price,
-    discount_prc: cardData.discount_prc,
-    naim: cardData.naim,
-    ddos: cardData.ddos,
-    cenaok: cardData.cenaok,
-    url: cardData.url,
-    photos: cardData.photos,
-    ocenka: cardData.ocenka,
-    status: cardData.status,
+    const favoriteData = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+    };
+
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(favoriteData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
   };
-
-  if (isFavorite) {
-    favorites = favorites.filter(
-      (fav: ICard) => fav.id_tov !== cardData.id_tov
-    );
-    message = "Товар удален из избранного.";
-    setIsRedirect(false);
-  } else {
-    favorites.push(favoriteData);
-    message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-    setIsRedirect(true);
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  setIsFavorite(!isFavorite);
-  window.dispatchEvent(new Event("favoritesUpdated"));
-
-  // Показываем модалку с соответствующим сообщением
-  setModalMessage(message);
-  setModalVisible(true);
-};
 
   const handleModalClose = () => {
     setModalVisible(false);
@@ -157,14 +166,7 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <Image
-              className="card__image"
-              src={imageUrl}
-              width={300}
-              height={250}
-              alt={cardData.naim}
-              loading="lazy"
-            />
+            <ImageSlider images={images} name={cardData.naim} />
             {cardData.discount_prc > 0 ? (
               <div className="card__info_skidkapercent">
                 {cardData.discount_prc}%
@@ -288,5 +290,3 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
 };
 
 export default Card;
-
-
