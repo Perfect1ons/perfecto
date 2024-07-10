@@ -13,9 +13,9 @@ export default async function Page() {
 
   return (
     <>
-      <SearchComponent />
-      <h1>Your Search History</h1>
-      <ClientSearchHistory searchHistory={searchHistory} />
+      {/* <SearchComponent /> */}
+      {/* <h1>Your Search History</h1> */}
+      {/* <ClientSearchHistory searchHistory={searchHistory} /> */}
       <Basket />
     </>
   );
