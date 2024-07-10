@@ -5,14 +5,7 @@
   margin: 0 auto;
   overflow: hidden;
 }
-.activeSlide {
-  max-width: 370px;
-  background: #000;
-  user-select: none;
-  max-width: 370px;
-  max-height: 370px;
-  position: relative;
-}
+
 
 .product {
   margin: 30px 0 60px;
@@ -26,243 +19,8 @@
     flex-direction: column;
     align-items: center;
   }
-  &_cards {
-    @include mixin.flex(null, null, column !important, 5px);
-    margin: 0 !important;
-    min-width: 60px !important;
-    user-select: none;
-    @media screen and (max-width: 992px) {
-      display: none !important;
-    }
-  }
 
-  &_preview {
-    width: 100% !important;
-    height: 100% !important;
-    border-radius: 0.3125rem;
-    cursor: pointer;
-  }
-  &_image {
-    width: 470px;
-    display: flex;
-    align-items: center;
-  }
-  &_img {
-    object-fit: cover;
-    image-rendering: optimizeQuality;
-    width: fit-content;
-    height: auto;
-    border-radius: 10px;
-  }
-  &_info {
-    @include mixin.flex(null, null, column, 10px);
-  }
-  &_info__title {
-    @include mixin.font(1.125rem, 500, null, var(--gray-dark));
-  }
-  &_info__articul {
-    text-wrap: nowrap;
-    max-width: 100px;
-    @include mixin.font(0.875rem, 400, null, var(--dark-blue));
-    background-color: var(--secondary-white);
-    padding: 1px 10px;
-    border-radius: 0.25rem !important;
-  }
-  &_info__ocenka {
-    user-select: none;
-    cursor: pointer;
-    @include mixin.flex(null, null, null, 5px);
-  }
-  &_info_ocenka__count {
-    @include mixin.font(1rem, 500, null, var(--secondary-gray));
-  }
-  &_info_ocenka__otzivy {
-    @include mixin.link(1rem, 500, var(--secondary-gray));
-    &:hover {
-      color: var(--violet);
-    }
-  }
-  &_info__brand {
-    @include mixin.font(1rem, 400, null, var(--secondary-gray));
-    padding-bottom: 15px;
-    width: 100%;
-    border-bottom: 2px solid var(--secondary-white);
-  }
-  &_info__price {
-    @include mixin.flex(center, null, null, 20px);
-    background: var(--gray-white);
-    padding: 5px;
-    border-radius: 5px;
-    width: 100%;
-  }
-  &_info_price__current_price {
-    @include mixin.font(1.25rem, 700, null, var(--dark));
-    &_with__discount {
-      color: var(--violet);
-    }
-  }
-  &_info_price__old_price {
-    position: relative;
-    @include mixin.font(1.25rem, 500, null, var(--secondary-gray));
-    &::after {
-      border-radius: 10px;
-      rotate: 10deg;
-      left: -5px;
-      top: 50%;
-      position: absolute;
-      content: "";
-      height: 3px;
-      background: var(--gray);
-      width: 100%;
-    }
-  }
-  &_info__ddos {
-    border-radius: 0.25rem !important;
-    padding: 25px;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    max-width: 80%;
-    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-    margin-top: 10px;
-    @include mixin.flex(center, null, null, 5px);
-    @include mixin.font(14px, 400, null, var(--light-blue));
 
-    @media screen and (max-width: 360px) {
-      max-height: 30px;
-      overflow: hidden;
-    }
-  }
-  &_info__delivery {
-    @include mixin.flex(center, flex-start, null, 10px);
-    &_info {
-      @include mixin.flex(center, center, null, null);
-    }
-  }
-  &_info__ddos_icon {
-    width: 20px;
-    height: 20px;
-  }
-  &_info__ddos_text {
-    max-height: 28px;
-
-    @include mixin.font(14px, 700, null, var(--success));
-    @media screen and (max-width: 640px) {
-    }
-  }
-  &_info__add_to {
-    @include mixin.flex(null, space-between, null, 10px);
-    max-width: 600px;
-    width: 100%;
-  }
-  &_info__add_to__cart {
-    background: var(--dark-blue);
-    cursor: pointer;
-    color: var(--white);
-    padding: 10px 15px;
-    border-radius: 5px;
-    width: 100%;
-    @include mixin.flex(center, center, null, 10px);
-    transition: 0.3s all ease;
-    &:hover {
-      background: var(--violet);
-    }
-    @media screen and (max-width: 480px) {
-      @include mixin.font(14px, 400, 100%, var(--white));
-    }
-    &_icon {
-      @media screen and (max-width: 480px) {
-        display: none;
-      }
-    }
-  }
-  &_info__buy_btn {
-    cursor: pointer;
-    @include mixin.flex(center, center, null, null);
-    @include mixin.font(1rem, 600, null, var(--violet));
-    width: 100%;
-    border: 2px solid var(--violet);
-    border-radius: 5px;
-    transition: 0.5s all;
-    &:hover {
-      border: 2px solid var(--dark-blue);
-      background: var(--dark-blue);
-      color: var(--white);
-    }
-  }
-  &_info__share {
-    position: relative;
-  }
-  &_info__share_btn {
-    @include mixin.flex(center, center, null, null);
-    background: var(--gray-white);
-    border: 2px solid var(--gray-white);
-    position: relative;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    &:hover {
-      border: 2px solid var(--violet);
-    }
-    &__active {
-      border: 2px solid var(--info);
-    }
-  }
-  &_info__share_dropdown {
-    display: none;
-
-    &__active {
-      top: 130%;
-      right: 0;
-      padding: 15px;
-      position: absolute;
-      background: var(--white);
-      border-radius: 5px;
-      @include mixin.flex(flex-start, null, column, 10px);
-      box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 10%);
-    }
-  }
-  &_info_share__tg,
-  &_info_share__wh,
-  &_info_share__copy {
-    @include mixin.flex(center, center, null, 5px);
-    cursor: pointer;
-    // color: #929292;
-  }
-
-  &_info_share_telegram__btn,
-  &_info_share_whatsapp__btn,
-  &_info_share_copy_link__btn {
-    @include mixin.font(0.8125rem, 500, null, var(--dark));
-    text-wrap: nowrap;
-    cursor: pointer;
-
-    &:hover {
-      color: var(--violet);
-    }
-  }
-  &_desc {
-    p {
-      margin-bottom: 1rem;
-    }
-  }
-
-  &__descriptionContainer {
-    @include mixin.flex(flex-start, flex-start, column, 5px);
-    &_h2 {
-      @include mixin.font(14px, 500, null, var(--black));
-    }
-    &_p {
-      @include mixin.font(14px, 400, null, var(--gray-dark));
-    }
-    &_button {
-      @include mixin.font(14px, 500, null, var(--light-blue));
-      cursor: pointer;
-      transition: 0.3;
-      &:hover {
-        color: var(--violet);
-      }
-    }
-  }
   &__aboutTheProduct {
     @include mixin.flex(center, space-between, null, 5px);
     @include mixin.font(14px, 400, 1.4, var(--dark));
@@ -289,37 +47,10 @@
         }
       }
     }
-    &_copied {
-      background: var(--dark);
-      @include mixin.font(16px, 500, null, var(--white));
-      padding: 10px 15px;
-      border-radius: 5px;
-      position: fixed;
-      left: 10px;
-      bottom: 10px;
-    }
-
-    &_button {
-      @include mixin.font(14px, 500, null, var(--light-blue));
-      cursor: pointer;
-      transition: 0.3;
-      &:hover {
-        color: var(--violet);
-      }
-    }
   }
 }
 
-.productPageDesc {
-  @include mixin.flex(flex-start, flex-start, column, 15px);
-}
 
-.showMoreSwiper {
-  display: none;
-  @media screen and (max-width: 992px) {
-    display: block;
-  }
-}
 
 .item__preview {
   margin: 25px 0 0 0;
@@ -327,7 +58,7 @@
 
   &_info {
     width: 100%;
-  position: relative;
+    position: relative;
     @media screen and (max-width: 672px) {
       margin-top: -40px;
     }
@@ -389,31 +120,6 @@
   }
 }
 
-.brand__link {
-  user-select: none;
-  margin-top: 30px;
-  text-decoration: none;
-  color: var(--dark);
-  &_custom {
-    cursor: pointer;
-
-    &:hover {
-      color: var(--violet);
-    }
-  }
-}
-
-.brand__link {
-  margin-top: 30px;
-  text-decoration: none;
-  color: var(--dark);
-  font-size: 14px;
-  &_custom {
-    cursor: pointer;
-    color: var(--violet);
-  }
-}
-
 .all__goods {
   user-select: none;
   @include mixin.flex(center, flex-start, null, 3px);
@@ -434,30 +140,4 @@
   }
 }
 
-.pricedCard_img {
-  height: 143px;
-  width: 344px;
-  margin: 25px 0;
-  box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-  border-radius: 10px;
-  overflow: hidden;
-  img {
-    height: 100%;
-    width: 100%;
-  }
-}
 
-.banner {
-  display: none;
-  @media screen and (max-width: 1024px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 15px;
-    // overflow: hidden;
-    img {
-      max-width: 500px;
-    }
-  }
-}
