@@ -16,10 +16,13 @@ import {
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import YouWatched from "@/components/HomeComponents/YouWatched/YouWatched";
+import Card from "@/components/UI/Card/Card";
 import Sliker from "@/components/UI/Card/ImageSlider/ImageSlider";
 import MainPageJsonLd from "@/utils/JsonLd/MainPageJsonLd/MainPageJsonLd";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 
 const LazySecondBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/SecondBanner")
@@ -51,6 +54,10 @@ const LazyBrands = dynamic(
 );
 
 export default async function Home() {
+ const cookieStore = cookies();
+ const existingWatched = JSON.parse(
+   cookieStore.get("youWatched")?.value || "[]"
+ );
   let popularCategoryData, goodsData;
 
   try {
@@ -93,6 +100,11 @@ export default async function Home() {
       <>
         <MainPageJsonLd />
         <Banner mobileData={mobileData} deskstopData={desktopData} />
+        {existingWatched.length > 0 ? (
+          <YouWatched data={existingWatched} />
+        ) : (
+          null
+        )}
         <PopularCategory category={popularCategoryData} />
         <LazyPopularGoods goods={goodsData} />
         <LazyNews news={newsData} />
