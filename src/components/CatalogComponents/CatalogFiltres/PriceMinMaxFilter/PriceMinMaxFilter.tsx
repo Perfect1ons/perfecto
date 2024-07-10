@@ -153,28 +153,28 @@ const PriceMinMaxFilter = ({
                   type="text"
                   className={styles.inputPrice}
                   value={
-                    tempPrice.tempMin === 0 && filter.price.price_min
-                      ? filter.price.price_min
+                    tempPrice.tempMin === 0 && price_min
+                      ? price_min
                       : addSeparators(tempPrice.tempMin.toString())
                   }
                   onChange={(e) =>
                     handleMinChange(Number(e.target.value.replace(/\s/g, "")))
                   }
-                  placeholder={`от ${filter.price.price_min}`}
+                  placeholder={`до ${price_min}`}
                 />
                 <input
                   onKeyDown={handleKeyDown}
                   type="text"
                   className={styles.inputPrice}
                   value={
-                    tempPrice.tempMax === 0 && filter.price.price_max
-                      ? filter.price.price_max
+                    tempPrice.tempMax === 0 && price_max
+                      ? price_max
                       : addSeparators(tempPrice.tempMax.toString())
                   }
                   onChange={(e) =>
                     handleMaxChange(Number(e.target.value.replace(/\s/g, "")))
                   }
-                  placeholder={`до ${filter.price.price_max}`}
+                  placeholder={`до ${price_max}`}
                 />
               </div>
             </div>
