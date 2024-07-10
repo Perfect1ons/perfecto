@@ -15,6 +15,7 @@ import { url } from "../temporary/data";
 import Link from "next/link";
 import CartReducerBtn from "../UI/CartReducerBtn/CartReducerBtn";
 import { clearCart } from "@/store/reducers/cart.reducer";
+import BasketOrder from "./BasketOrder/BasketOrder";
 
 const Basket = () => {
   const [rating, setRating] = useState(0);
@@ -186,6 +187,7 @@ const Basket = () => {
           </button>
         </div>
       )}
+      <BasketOrder />
     </div>
   );
 };
