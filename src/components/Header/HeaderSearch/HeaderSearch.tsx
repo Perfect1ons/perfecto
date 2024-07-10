@@ -183,7 +183,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
             <ExitIcon />
           </button>
         )}
-        {shouldShowModal && searchHistory.length > 0 && (
+        {shouldShowModal && (
           <div className={styles.searchResults}>
             {searchHistory.length > 0 && (
               <div>
