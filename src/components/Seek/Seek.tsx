@@ -12,11 +12,12 @@ const Seek: React.FC<SeekProps> = ({ catalog, product }) => {
     <section className="seek">
       <div className="container">
         <h1 className="seek__catalog_title">Найдено в категориях</h1>
-        <SeekCatalog catalog={catalog}/>
+        <SeekCatalog catalog={catalog} />
       </div>
-      <div className="toptwenty">
-        <ProductList items={product}  />
+      <div className="toptwenty container">
+        <h1 className="seek__catalog_title">По вашему запросу найдено</h1>
       </div>
+      <ProductList items={product} />
     </section>
   );
 };

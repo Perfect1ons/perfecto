@@ -12,16 +12,7 @@ interface NewsProps {
 }
 
 export default async function Page({ searchParams }: NewsProps) {
-  const currentPage = parseInt(searchParams.page || "1", 10);
-  const newsData = await getNewsPagination(currentPage);
-  const news = await getNews();
-  const pageCount = Math.ceil(news.length / 10);
-
-  if (currentPage > pageCount) {
-    return (
-       <NotFound/>
-    );
-  }
+BrandProps;
 
   return (
   <>

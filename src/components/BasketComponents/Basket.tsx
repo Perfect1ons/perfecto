@@ -5,6 +5,7 @@ import cn from "clsx";
 import BasketProducts from "./BasketProducts/BasketProducts";
 import { RootState } from "@/store";
 import Link from "next/link";
+import BasketOrder from "./BasketOrder/BasketOrder";
 
 const Basket = () => {
   const data = useSelector((store: RootState) => store.cart);
@@ -36,6 +37,7 @@ const Basket = () => {
       ) : (
         <BasketProducts />
       )}
+      <BasketOrder />
     </div>
   );
 };

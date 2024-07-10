@@ -23,8 +23,8 @@ const PromoPagination: React.FC<NewsPaginationProps> = ({
     <ReactPaginate
       initialPage={currentPage - 1} // ReactPaginate pages start from 0
       pageCount={pageCount}
-      pageRangeDisplayed={5}
-      marginPagesDisplayed={2}
+      pageRangeDisplayed={3}
+      marginPagesDisplayed={1}
       onPageChange={handlePageClick}
       containerClassName={"pagination"}
       activeClassName={"active"}

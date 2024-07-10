@@ -1,0 +1,57 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.wrap {
+  @include mixin.flex(center, center, column, 15px);
+  background: #f6f6f6;
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 360px;
+  &_button {
+    @include mixin.flex(center, space-between, null, 10px);
+    width: 100%;
+    padding: 7px 5px;
+    border: 2px solid var(--violet);
+    background: var(--white);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s all;
+    &_title {
+      @include mixin.font(1rem, 400, null, var(--dark));
+      text-wrap: nowrap;
+    }
+    &_expoint {
+      color: var(--violet);
+      padding-top: 5px;
+    }
+  }
+  &_phone {
+    @include mixin.flex(center, center, null, null);
+    width: 100%;
+    &_input {
+      @include mixin.font(16px, 400, null, var(--dark));
+      width: 100%;
+      background: var(--white);
+      padding: 10px 5px;
+      border-radius: 5px;
+      border: 1px solid var(--white);
+      &:focus {
+        border: 1px solid var(--dark-blue);
+      }
+    }
+  }
+  &_surname {
+    @include mixin.flex(center, center, null, null);
+    width: 100%;
+    &_input {
+      @include mixin.font(16px, 400, null, var(--dark));
+      width: 100%;
+      background: var(--white);
+      padding: 10px 5px;
+      border-radius: 5px;
+      border: 1px solid var(--white);
+      &:focus {
+        border: 1px solid var(--dark-blue);
+      }
+    }
+  }
+}

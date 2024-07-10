@@ -74,6 +74,7 @@ const Card = ({ cardData }: IcardDataProps) => {
       photos: cardData.photos,
       ocenka: cardData.ocenka,
       status: cardData.status,
+      minQty: cardData.minQty
     };
 
     if (isFavorite) {
@@ -101,7 +102,44 @@ const Card = ({ cardData }: IcardDataProps) => {
     setModalVisible(false);
   };
 
-  const handleCardClick = () => {
+  const sendWatchedItemToAPI = async (item: any) => {
+    try {
+      const response = await fetch("/api/watched-products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        console.error("Failed to add item to watched history");
+      }
+    } catch (error) {
+      console.error("Error sending watched item to API:", error);
+    }
+  };
+
+  const handleCardClick = async () => {
+     const item = {
+       id: cardData.id,
+       id_tov: cardData.id_tov,
+       id_post: cardData.id_post,
+       old_price: cardData.old_price,
+       discount_prc: cardData.discount_prc,
+       naim: cardData.naim,
+       ddos: cardData.ddos,
+       cenaok: cardData.cenaok,
+       url: cardData.url,
+       photos: cardData.photos,
+       ocenka: cardData.ocenka,
+       status: cardData.status,
+       minQty: cardData.minQty,
+     };
+
+     await sendWatchedItemToAPI(item);
+
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
 
@@ -156,6 +194,7 @@ const Card = ({ cardData }: IcardDataProps) => {
         onClose={handleModalClose}
       />
       <div className="card" onClick={handleCardClick}>
+        <h1>{cardData.status}</h1>
         {cardData.status !== 6 && (
           <div className="card__notAvailable">
             <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>

@@ -80,3 +80,12 @@
 .popGoods {
   margin: 20px 0;
 }
+
+.brands__notFound_container{
+  @include mixin.flex(center,center);
+  height: 50vh;
+
+  &_title{
+    @include mixin.font(20px,600,100%,var(--dark));
+  }
+}
