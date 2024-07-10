@@ -170,9 +170,6 @@
           @include mixin.flex(center, flex-start, null, 10px);
           width: 100%;
           @include mixin.font(1rem, 500, null, var(--dark));
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           > span {
             padding-top: 6px;
             align-self: center;
