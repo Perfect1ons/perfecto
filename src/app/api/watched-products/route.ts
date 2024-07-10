@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     cookieStore.set("youWatched", JSON.stringify(updatedWatched), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60 * 24,
+      maxAge: 60 ,
       sameSite: "strict",
       path: "/",
     });
