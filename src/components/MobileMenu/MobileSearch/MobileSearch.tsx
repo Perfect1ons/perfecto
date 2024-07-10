@@ -1,4 +1,5 @@
 "use client";
+import { ISearch } from "@/types/Search/search";
 import { Clock, Cross } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import SearchCategory from "@/components/Header/HeaderSearch/SearchCategory";
@@ -10,8 +11,8 @@ interface IMobileSearchProps {
   handleHistoryItemClick: (query: string) => void;
   handleDeleteAll: () => void;
   handleDelete: (queryToDelete: string) => void;
-  fastValue: any;
-  searchHistory: any;
+  fastValue: ISearch | undefined;
+  searchHistory: string[];
   handleCloseModal: () => void;
 }
 const MobileSearch = ({

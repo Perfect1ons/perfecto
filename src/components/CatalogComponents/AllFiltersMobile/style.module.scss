@@ -141,7 +141,9 @@
     @include mixin.flex(center, center, null, 5px);
     font-size: 14px;
     &__kol {
-      color: var(--light-gray);
+      background: var(--super-light-white);
+      padding: 1px 5px;
+      border-radius: 5px;
     }
   }
 
@@ -187,4 +189,7 @@
   top: 0;
   z-index: 1010; /* Подстройте под ваши нужды */
   background-color: white; /* Цвет фона для sticky области */
+}
+.gap {
+  @include mixin.flex(center, center, null, 5px);
 }
