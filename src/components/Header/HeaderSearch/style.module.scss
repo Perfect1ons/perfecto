@@ -129,11 +129,11 @@
         color: var(--black);
       }
       &__deleteAll {
+        @include mixin.font(0.875rem, 400, null, var(--white));
         text-wrap: nowrap;
         cursor: pointer;
         background: var(--violet);
         border-radius: 5px;
-        color: var(--white);
         padding: 2px 4px;
       }
     }
@@ -153,12 +153,17 @@
           @include mixin.flex(center, flex-start, null, 5px);
           width: 100%;
           @include mixin.font(1rem, 500, null, var(--dark));
+          > span {
+            padding-top: 6px;
+            align-self: center;
+            color: var(--gray);
+          }
         }
         &_delete {
           padding-top: 6px;
           scale: 1.6;
           cursor: pointer;
-          color: var(--dark);
+          color: var(--gray);
         }
       }
     }

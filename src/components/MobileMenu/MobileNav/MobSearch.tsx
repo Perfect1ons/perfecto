@@ -21,7 +21,7 @@ export default function MobSearch({ isOpen, setIsOpen }: MobSearchProps) {
 
   const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    router.push(`/seek/search=${searchTerm}`); // Переход на страницу поиска с параметрами
+    router.push(`/seek?search=${searchTerm}&page=1`); // Переход на страницу поиска с параметрами
     setIsOpen(false); // Закрыть модальное окно при отправке формы
   };
 
