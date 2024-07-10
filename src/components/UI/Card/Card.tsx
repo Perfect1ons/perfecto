@@ -64,7 +64,7 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
     url: cardData.url,
     photos: cardData.photos,
     ocenka: cardData.ocenka,
-    status: 6,
+    status: cardData.status,
   };
 
   if (isFavorite) {
@@ -87,12 +87,6 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
   setModalMessage(message);
   setModalVisible(true);
 };
-
-
-  const handleAddToCartClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // Ваша логика добавления в корзину
-  };
 
   const handleModalClose = () => {
     setModalVisible(false);
