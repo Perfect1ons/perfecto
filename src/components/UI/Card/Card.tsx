@@ -74,7 +74,7 @@ const Card = ({ cardData }: IcardDataProps) => {
       photos: cardData.photos,
       ocenka: cardData.ocenka,
       status: cardData.status,
-      minQty: cardData.minQty
+      minQty: cardData.minQty,
     };
 
     if (isFavorite) {
@@ -122,23 +122,23 @@ const Card = ({ cardData }: IcardDataProps) => {
   };
 
   const handleCardClick = async () => {
-     const item = {
-       id: cardData.id,
-       id_tov: cardData.id_tov,
-       id_post: cardData.id_post,
-       old_price: cardData.old_price,
-       discount_prc: cardData.discount_prc,
-       naim: cardData.naim,
-       ddos: cardData.ddos,
-       cenaok: cardData.cenaok,
-       url: cardData.url,
-       photos: cardData.photos,
-       ocenka: cardData.ocenka,
-       status: cardData.status,
-       minQty: cardData.minQty,
-     };
+    const item = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+      minQty: cardData.minQty,
+    };
 
-     await sendWatchedItemToAPI(item);
+    await sendWatchedItemToAPI(item);
 
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
@@ -194,7 +194,6 @@ const Card = ({ cardData }: IcardDataProps) => {
         onClose={handleModalClose}
       />
       <div className="card" onClick={handleCardClick}>
-        <h1>{cardData.status}</h1>
         {cardData.status !== 6 && (
           <div className="card__notAvailable">
             <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>
