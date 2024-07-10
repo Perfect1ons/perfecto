@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     cookieStore.set("favoriteItems", JSON.stringify(updatedFavorites), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60 * 24 * 90, // 3 месяца
+      maxAge: 60 * 60 * 24 * 365, // 1 год
       sameSite: "strict",
       path: "/",
     });
@@ -81,7 +81,7 @@ export async function DELETE(req: NextRequest) {
     cookieStore.set("favoriteItems", JSON.stringify(updatedFavorites), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60 * 24 * 90, // 3 месяца
+      maxAge: 60 * 60 * 24 * 365, // 1 год
       sameSite: "strict",
       path: "/",
     });
@@ -111,7 +111,7 @@ export async function PUT(req: NextRequest) {
     cookieStore.set("favoriteItems", JSON.stringify(favoriteItems), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60 * 24 * 90, // 3 месяца
+      maxAge: 60 * 60 * 24 * 365, // 1 год
       sameSite: "strict",
       path: "/",
     });
