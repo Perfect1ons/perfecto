@@ -29,7 +29,7 @@
     &_name {
       width: 100%;
       border-radius: 5px;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
     &_img {
       min-width: 45px;
@@ -60,7 +60,7 @@
       width: 100%;
       border-radius: 5px;
       line-height: 1.2;
-      font-size: 14px;
+      font-size: 0.875rem;
       color: var(--black);
     }
 
@@ -73,7 +73,7 @@
       width: 80px;
       text-align: center;
       color: var(--black);
-      font-size: 18px;
+      font-size: 1.125rem;
       font-weight: 600;
       @include mixin.flex(center, flex-end, null, 3px);
 
@@ -116,40 +116,50 @@
     background: #888;
   }
 
-  &__title {
-    width: 100%;
-    font-family: var(--font-montserrat);
-    font-size: 16px;
-    border-bottom: 1px solid var(--black);
-    color: var(--black);
-    padding-bottom: 3px;
-    margin-bottom: 5px;
-  }
-  &__deleteAll {
-    cursor: pointer;
-    background: var(--violet);
-    border-radius: 5px;
-    color: var(--white);
-    padding: 2px 4px;
-  }
-  &__list {
-    margin-top: 5px;
-    @include mixin.flex(flex-start, center, column, 5px);
-    &_item {
-      background: var(--secondary-white);
-      border-radius: 5px;
-      padding: 5px;
-      cursor: pointer;
+  &__head {
+    &__between {
+      @include mixin.flex(center, space-between, null, null);
       width: 100%;
-      @include mixin.flex(center, space-between, row, null);
-      &_value {
-        width: 100%;
-        @include mixin.font(16px, 500, null, var(--dark));
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 3px;
+      margin-bottom: 5px;
+      &__title {
+        font-family: var(--font-montserrat);
+        font-size: 1rem;
+        color: var(--black);
       }
-      &_delete {
+      &__deleteAll {
+        text-wrap: nowrap;
         cursor: pointer;
-        color: var(--dark);
-        margin-top: 8px;
+        background: var(--violet);
+        border-radius: 5px;
+        color: var(--white);
+        padding: 2px 4px;
+      }
+    }
+    &__list {
+      margin-top: 5px;
+      @include mixin.flex(flex-start, center, column, 5px);
+      &_item {
+        border-radius: 5px;
+        padding: 0px 5px;
+        cursor: pointer;
+        width: 100%;
+        &:hover {
+          background: var(--secondary-white);
+        }
+        @include mixin.flex(center, space-between, null, null);
+        &_value {
+          @include mixin.flex(center, flex-start, null, 5px);
+          width: 100%;
+          @include mixin.font(1rem, 500, null, var(--dark));
+        }
+        &_delete {
+          padding-top: 6px;
+          scale: 1.6;
+          cursor: pointer;
+          color: var(--dark);
+        }
       }
     }
   }

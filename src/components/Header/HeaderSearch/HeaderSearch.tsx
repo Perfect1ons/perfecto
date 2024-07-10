@@ -4,7 +4,12 @@ import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
-import { ExitIcon, TrashIcon } from "../../../../public/Icons/Icons";
+import {
+  Clock,
+  Cross,
+  ExitIcon,
+  TrashIcon,
+} from "../../../../public/Icons/Icons";
 import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
@@ -186,33 +191,37 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
         {shouldShowModal && searchHistory.length > 0 && (
           <div className={styles.searchResults}>
             {searchHistory.length > 0 && (
-              <div>
-                <h4 className={styles.searchResults__title}>История поиска</h4>
-                {searchHistory.length > 0 && (
-                  <button
-                    className={styles.searchResults__deleteAll}
-                    onClick={handleDeleteAll}
-                  >
-                    Очистить все
-                  </button>
-                )}
-                <ul className={styles.searchResults__list}>
+              <div className={styles.searchResults__head}>
+                <div className={styles.searchResults__head__between}>
+                  <h4 className={styles.searchResults__head__between__title}>
+                    История поиска
+                  </h4>
+                  {searchHistory.length > 0 && (
+                    <button
+                      className={styles.searchResults__head__between__deleteAll}
+                      onClick={handleDeleteAll}
+                    >
+                      Очистить все
+                    </button>
+                  )}
+                </div>
+                <ul className={styles.searchResults__head__list}>
                   {searchHistory.map((search: string, index: number) => (
                     <div
-                      className={styles.searchResults__list_item}
+                      className={styles.searchResults__head__list_item}
                       key={index}
                     >
                       <li
-                        className={styles.searchResults__list_item_value}
+                        className={styles.searchResults__head__list_item_value}
                         onClick={() => handleHistoryItemClick(search)}
                       >
-                        {search}
+                        <Clock /> {search}
                       </li>
                       <button
-                        className={styles.searchResults__list_item_delete}
+                        className={styles.searchResults__head__list_item_delete}
                         onClick={() => handleDelete(search)}
                       >
-                        <TrashIcon />
+                        <Cross />
                       </button>
                     </div>
                   ))}
