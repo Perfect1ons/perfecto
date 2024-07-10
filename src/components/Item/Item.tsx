@@ -250,7 +250,9 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     )}
                   </p>
                 </div>
-                <ItemPriceCardWrap data={data} />
+                {data.items.status == 6 &&
+                  <ItemPriceCardWrap data={data} />
+                }
               </div>
             </div>
           </div>

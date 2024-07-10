@@ -115,6 +115,23 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #888;
   }
+  &__section {
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    &__title {
+      font-family: var(--font-montserrat);
+      font-size: 1rem;
+      color: var(--black);
+    }
+    &__viewAll {
+      @include mixin.font(0.875rem, 400, null, var(--gray));
+      text-align: start;
+      cursor: pointer;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
 
   &__head {
     &__between {
@@ -150,17 +167,17 @@
         }
         @include mixin.flex(center, space-between, null, 4px);
         &_value {
-          @include mixin.flex(center, flex-start, null, 5px);
+          @include mixin.flex(center, flex-start, null, 10px);
           width: 100%;
           @include mixin.font(1rem, 500, null, var(--dark));
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           > span {
             padding-top: 6px;
             align-self: center;
             color: var(--gray);
           }
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         &_delete {
           padding-top: 6px;

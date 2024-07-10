@@ -4,12 +4,7 @@ import styles from "./style.module.scss";
 import { ISearch } from "@/types/Search/search";
 import SearchCategory from "./SearchCategory";
 import SearchItems from "./SearchItems";
-import {
-  Clock,
-  Cross,
-  ExitIcon,
-  TrashIcon,
-} from "../../../../public/Icons/Icons";
+import { Clock, Cross, ExitIcon } from "../../../../public/Icons/Icons";
 import { getFastUserSearch } from "@/api/clientRequest";
 
 interface HeaderSearchProps {
@@ -237,9 +232,17 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
               <>
                 {fastValue?.catalog && fastValue.catalog.length > 0 && (
                   <>
-                    <h4 className={styles.searchResults__title}>
-                      Найдено в категориях
-                    </h4>
+                    <div className={styles.searchResults__section}>
+                      <h4 className={styles.searchResults__section__title}>
+                        Найдено в категориях
+                      </h4>
+                      <button
+                        onClick={() => handleSubmit}
+                        className={styles.searchResults__section__viewAll}
+                      >
+                        Посмотреть все результаты
+                      </button>
+                    </div>
                     <SearchCategory
                       category={fastValue.catalog}
                       closeModal={handleCloseModal}
@@ -248,7 +251,17 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                 )}
                 {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
                   <>
-                    <h4 className={styles.searchResults__title}>Товары</h4>
+                    <div className={styles.searchResults__section}>
+                      <h4 className={styles.searchResults__section__title}>
+                        Товары
+                      </h4>
+                      <button
+                        className={styles.searchResults__section__viewAll}
+                        onClick={() => handleSubmit}
+                      >
+                        Посмотреть все результаты
+                      </button>
+                    </div>
                     <SearchItems
                       items={fastValue.model.items}
                       closeModal={handleCloseModal}

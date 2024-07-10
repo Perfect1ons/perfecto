@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
+import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -24,16 +25,22 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData }: IcardDataProps) => {
-  const imageUrl =
-    cardData.photos.length > 0
-      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
-        ? `${cardData.photos[0].url_part}280.jpg`
-        : cardData.photos[0].url_part.startsWith("https://")
-        ? cardData.photos[0].url_part
-        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
-      : "/img/noPhoto.svg";
+  const [images, setImages] = useState<string[]>(() => {
+    const newImages = cardData.photos.map((photo) =>
+      photo.url_part.startsWith("https://goods-photos")
+        ? `${photo.url_part}280.jpg`
+        : photo.url_part.startsWith("https://")
+        ? photo.url_part
+        : `${url}nal/img/${cardData.id_post}/l_${photo.url_part}`
+    );
 
-  
+    if (newImages.length === 0) {
+      newImages.push("/img/noPhoto.svg");
+    }
+
+    return newImages;
+  });
+
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -46,52 +53,48 @@ const Card = ({ cardData }: IcardDataProps) => {
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
 
-const handleFavoriteClick = (e: React.MouseEvent) => {
-  e.stopPropagation();
-  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  let message = "";
-
-  const favoriteData = {
-    id_tov: cardData.id_tov,
-    id_post: cardData.id_post,
-    old_price: cardData.old_price,
-    discount_prc: cardData.discount_prc,
-    naim: cardData.naim,
-    ddos: cardData.ddos,
-    cenaok: cardData.cenaok,
-    url: cardData.url,
-    photos: cardData.photos,
-    ocenka: cardData.ocenka,
-    status: cardData.status,
-  };
-
-  if (isFavorite) {
-    favorites = favorites.filter(
-      (fav: ICard) => fav.id_tov !== cardData.id_tov
-    );
-    message = "Товар удален из избранного.";
-    setIsRedirect(false);
-  } else {
-    favorites.push(favoriteData);
-    message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-    setIsRedirect(true);
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  setIsFavorite(!isFavorite);
-  window.dispatchEvent(new Event("favoritesUpdated"));
-
-  // Показываем модалку с соответствующим сообщением
-  setModalMessage(message);
-  setModalVisible(true);
-};
-
-
-  const handleAddToCartClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Ваша логика добавления в корзину
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
+
+    const favoriteData = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+    };
+
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+    } else {
+      favorites.push(favoriteData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
+    setModalMessage(message);
+    setModalVisible(true);
   };
 
   const handleModalClose = () => {
@@ -153,149 +156,137 @@ const handleFavoriteClick = (e: React.MouseEvent) => {
         onClose={handleModalClose}
       />
       <div className="card" onClick={handleCardClick}>
-
-        {cardData.status !== 6 ? (
-          <h1>снят {cardData.status} на==</h1>
-        ) : (
-          <>
-            <div className="card__images">
-              <Link
-                href={`/item/${cardData.id_tov}/${cardData.url}`}
-                className="link"
-              >
-                <Image
-                  className="card__image"
-                  src={imageUrl}
-                  width={300}
-                  height={250}
-                  alt={cardData.naim}
-                  loading="lazy"
-                />
-                {cardData.discount_prc > 0 ? (
-                  <div className="card__info_skidkapercent">
-                    {cardData.discount_prc}%
-                  </div>
-                ) : null}
-              </Link>
-              <span
-                title={
-                  isFavorite ? "Удалить из избранного" : "Добавить в избранное"
-                }
-                className={`card__info_addFavorites ${
-                  isFavorite ? "card__info_addedFavorites" : ""
-                }`}
-                onClick={handleFavoriteClick}
-              >
-                <CardFavoritesIcon />
-              </span>
-            </div>
-            <div className="card__info">
-              <Link
-                href={`/item/${cardData.id_tov}/${cardData.url}`}
-                className="link"
-              >
-                {cardData.discount_prc > 0 ? (
-                  <div className="card__info_price">
-                    <div className="card__info_skidkaprice">
-                      <span className="card__info_skidkaprice_price">
-                        {cardData.cenaok?.toLocaleString("ru-RU")}
-                      </span>
-                      <span className="card__info_skidkaprice_price_custom">
-                        с
-                      </span>
-                    </div>
-
-                    <div className="card__info_oldprice">
-                      <span className="card__info_oldprice_price">
-                        {cardData.old_price.toLocaleString("ru-RU")}c
-                      </span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="card__info_price">
-                    <div className="card__info_currentprice">
-                      <span className="card__info_currentprice_price">
-                        {cardData.cenaok.toLocaleString("ru-RU")}
-                      </span>
-                      <span className="card__info_currentprice_price_custom">
-                        с
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </Link>
-              <Link
-                href={`/item/${cardData.id_tov}/${cardData.url}`}
-                className="link"
-              >
-                <p className="card__info_title">{truncatedTitle}</p>
-              </Link>
-              <Link
-                href={`/item/${cardData.id_tov}/${cardData.url}`}
-                className="link"
-              >
-                <div className="card__info_rating">
-                  {[...Array(5)].map((_, index) => (
-                    <span className="card__info_rating_span" key={index}>
-                      {index < rating ? <YellowStar /> : <GrayStar />}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-              <Link
-                href={`/item/${cardData.id_tov}/${cardData.url}`}
-                className="link"
-              >
-                <div className="card__info_ddos">
-                  <Image
-                    className="card__info_ddos_icon"
-                    src={`/img/deliveryIconLightBlue.svg`}
-                    width={20}
-                    height={20}
-                    alt="delivery_icon"
-                  />
-                  <p className="card__info_ddos_desc">{truncatedDdos}</p>
-                </div>
-              </Link>
-              {!product?.quantity && (
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="card__info_button"
-                >
-                  <button
-                    title="Добавить в корзину"
-                    aria-label="add to cart"
-                    className="card__info_addproduct"
-                    onClick={handleAddToCart}
-                  >
-                    <span className="card__info_addproduct_icon">
-                      <CartIcon />
-                    </span>
-                    В корзину
-                  </button>
-                </div>
-              )}
-              {product?.quantity && (
-                <div
-                  onClick={(e) => e.stopPropagation()}
-                  className="card__info_button_active"
-                >
-                  <CartReducerBtn
-                    data={cardData}
-                    onCartEmpty={handleCartEmpty}
-                    shouldFocusInput={shouldFocusInput}
-                    onFocusHandled={() => setShouldFocusInput(false)}
-                  />
-                </div>
-              )}
-            </div>
-          </>
+        {cardData.status !== 6 && (
+          <div className="card__notAvailable">
+            <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>
+          </div>
         )}
+        <div className="card__images">
+          <Link
+            href={`/item/${cardData.id_tov}/${cardData.url}`}
+            className="link"
+          >
+            <ImageSlider images={images} name={cardData.naim} />
+            {cardData.discount_prc > 0 ? (
+              <div className="card__info_skidkapercent">
+                {cardData.discount_prc}%
+              </div>
+            ) : null}
+          </Link>
+          <span
+            title={
+              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+            }
+            className={`card__info_addFavorites ${
+              isFavorite ? "card__info_addedFavorites" : ""
+            }`}
+            onClick={handleFavoriteClick}
+          >
+            <CardFavoritesIcon />
+          </span>
+        </div>
+        <div className="card__info">
+          <Link
+            href={`/item/${cardData.id_tov}/${cardData.url}`}
+            className="link"
+          >
+            {cardData.discount_prc > 0 ? (
+              <div className="card__info_price">
+                <div className="card__info_skidkaprice">
+                  <span className="card__info_skidkaprice_price">
+                    {cardData.cenaok?.toLocaleString("ru-RU")}
+                  </span>
+                  <span className="card__info_skidkaprice_price_custom">с</span>
+                </div>
+
+                <div className="card__info_oldprice">
+                  <span className="card__info_oldprice_price">
+                    {cardData.old_price.toLocaleString("ru-RU")}c
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="card__info_price">
+                <div className="card__info_currentprice">
+                  <span className="card__info_currentprice_price">
+                    {cardData.cenaok.toLocaleString("ru-RU")}
+                  </span>
+                  <span className="card__info_currentprice_price_custom">
+                    с
+                  </span>
+                </div>
+              </div>
+            )}
+          </Link>
+          <Link
+            href={`/item/${cardData.id_tov}/${cardData.url}`}
+            className="link"
+          >
+            <p className="card__info_title">{truncatedTitle}</p>
+          </Link>
+          <Link
+            href={`/item/${cardData.id_tov}/${cardData.url}`}
+            className="link"
+          >
+            <div className="card__info_rating">
+              {[...Array(5)].map((_, index) => (
+                <span className="card__info_rating_span" key={index}>
+                  {index < rating ? <YellowStar /> : <GrayStar />}
+                </span>
+              ))}
+            </div>
+          </Link>
+          <Link
+            href={`/item/${cardData.id_tov}/${cardData.url}`}
+            className="link"
+          >
+            <div className="card__info_ddos">
+              <Image
+                className="card__info_ddos_icon"
+                src={`/img/deliveryIconLightBlue.svg`}
+                width={20}
+                height={20}
+                alt="delivery_icon"
+              />
+              <p className="card__info_ddos_desc">{truncatedDdos}</p>
+            </div>
+          </Link>
+          {!product?.quantity && (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="card__info_button"
+            >
+              <button
+                disabled={cardData.status !== 6}
+                title="Добавить в корзину"
+                aria-label="add to cart"
+                className="card__info_addproduct"
+                onClick={handleAddToCart}
+              >
+                <span className="card__info_addproduct_icon">
+                  <CartIcon />
+                </span>
+                В корзину
+              </button>
+            </div>
+          )}
+          {product?.quantity && (
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="card__info_button_active"
+            >
+              <CartReducerBtn
+                data={cardData}
+                onCartEmpty={handleCartEmpty}
+                shouldFocusInput={shouldFocusInput}
+                onFocusHandled={() => setShouldFocusInput(false)}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
 };
 
 export default Card;
-
-

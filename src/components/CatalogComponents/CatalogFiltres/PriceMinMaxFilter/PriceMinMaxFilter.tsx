@@ -152,8 +152,8 @@ const PriceMinMaxFilter = ({
                   type="text"
                   className={styles.inputPrice}
                   value={
-                    tempPrice.tempMin === 0
-                      ? `${filter.price.price_min}`
+                    tempPrice.tempMin === 0 && filter.price.price_min
+                      ? filter.price.price_min
                       : addSeparators(tempPrice.tempMin.toString())
                   }
                   onChange={(e) =>
@@ -166,8 +166,8 @@ const PriceMinMaxFilter = ({
                   type="text"
                   className={styles.inputPrice}
                   value={
-                    tempPrice.tempMax === 0
-                      ? `${filter.price.price_max}`
+                    tempPrice.tempMax === 0 && filter.price.price_max
+                      ? filter.price.price_max
                       : addSeparators(tempPrice.tempMax.toString())
                   }
                   onChange={(e) =>

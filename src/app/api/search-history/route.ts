@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     cookieStore.set("searchHistory", JSON.stringify(updatedHistory), {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
-      maxAge: 60 * 60 * 24 * 7, // 1 неделя
+      maxAge: 60 * 60 * 24 * 90, // 3 месяца
       sameSite: "strict",
       path: "/",
     });
@@ -93,7 +93,6 @@ export async function DELETE(req: NextRequest) {
 interface SearchHistoryRequest {
   history: string[];
 }
-
 
 let searchHistory: string[] = [];
 
