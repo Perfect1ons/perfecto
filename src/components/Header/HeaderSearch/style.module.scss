@@ -115,6 +115,23 @@
   &::-webkit-scrollbar-thumb:hover {
     background: #888;
   }
+  &__section {
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    &__title {
+      font-family: var(--font-montserrat);
+      font-size: 1rem;
+      color: var(--black);
+    }
+    &__viewAll {
+      @include mixin.font(0.875rem, 400, null, var(--gray));
+      text-align: start;
+      cursor: pointer;
+      &:hover {
+        color: var(--violet);
+      }
+    }
+  }
 
   &__head {
     &__between {
