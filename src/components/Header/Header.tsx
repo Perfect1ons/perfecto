@@ -7,10 +7,14 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
-import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
+// import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
+import React, { Suspense, lazy } from "react";
+const CatalogMenu = lazy(
+  () => import("../CatalogComponents/CatalogMenu/CatalogMenu")
+);
 
 export interface ICatalogProps {
   history: string[];
@@ -73,7 +77,6 @@ const Header = ({
       window.removeEventListener("beforeunload", handleUnload);
     };
   }, [searchTerm]);
-
 
   // перекидывание на главную
   const handleGoToMainPage = () => {

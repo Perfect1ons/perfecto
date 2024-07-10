@@ -1,7 +1,7 @@
 "use client";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import styles from "./style.module.scss";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import cn from "clsx";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,6 +11,7 @@ import {
   chevronUpIcon,
 } from "../../../../public/Icons/Icons";
 import Link from "next/link";
+import MemoizedCatalogItem from "./MemoizedCatalogItem"; // Импортируем компонент MemoizedCatalogItem
 
 interface IProps {
   catalog: ICatalogMenu | undefined;
@@ -28,27 +29,27 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
   }>({});
 
   // Функция для обработки отображения дополнительных категорий
-  const handleShowMore = (categoryId: number) => {
+  const handleShowMore = useCallback((categoryId: number) => {
     setShowMoreCategories((prevCategories) => ({
       ...prevCategories,
       [categoryId]: true,
     }));
-  };
+  }, []);
 
   // Функция для обработки сворачивания категорий
-  const handleCollapse = (categoryId: number) => {
+  const handleCollapse = useCallback((categoryId: number) => {
     setShowMoreCategories((prevCategories) => ({
       ...prevCategories,
       [categoryId]: false,
     }));
-  };
+  }, []);
 
   // Функция для обработки наведения мыши на категорию
-  const handleMouseEnter = (id: number) => {
+  const handleMouseEnter = useCallback((id: number) => {
     setActiveCategoryId(id);
-  };
+  }, []);
 
-  // для роутинга
+  // Для роутинга
   const router = useRouter();
   const handleClick = (path: string) => {
     const fullPath = path.startsWith("/catalog/") ? path : `/catalog/${path}`;
@@ -102,31 +103,15 @@ const CatalogMenu = ({ catalog, close, loading }: IProps) => {
         <div className={styles.catalogs}>
           <div className={styles.catalogs__left}>
             {catalog &&
-              catalog.map((item) => {
-                return (
-                  <div
-                    key={item.name}
-                    className={cn(
-                      styles.catalogLinkContainer,
-                      item.id === activeCategoryId && styles.catalogActive
-                    )}
-                  >
-                    <span className={styles.triangle}></span>
-                    <Link
-                      href={`/catalog/${item.full_slug}`}
-                      className={styles.catalogs__h2}
-                      onMouseEnter={() => handleMouseEnter(item.id)}
-                      onClick={() => handleClick(item.full_slug)}
-                      key={item.name}
-                    >
-                      {item.name}
-                      <span className={styles.chevronRightIconCatalog}>
-                        {ChevronRightIconCatalog()}
-                      </span>
-                    </Link>
-                  </div>
-                );
-              })}
+              catalog.map((item) => (
+                <MemoizedCatalogItem
+                  key={item.name}
+                  item={item}
+                  isActive={item.id === activeCategoryId}
+                  onMouseEnter={handleMouseEnter}
+                  onClick={() => handleClick(item.full_slug)}
+                />
+              ))}
           </div>
           <div className={styles.catalogs__right}>
             {catalog &&
