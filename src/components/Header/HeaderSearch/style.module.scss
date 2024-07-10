@@ -158,6 +158,9 @@
             align-self: center;
             color: var(--gray);
           }
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         &_delete {
           padding-top: 6px;
