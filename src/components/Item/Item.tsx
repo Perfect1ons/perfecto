@@ -23,6 +23,7 @@ import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts")
 );
+
 interface IItemPageProps {
   data: ICardProductItems;
   similar?: ISimilarItem[];
@@ -35,72 +36,48 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
   const [isClient, setIsClient] = useState(false);
 
-
-    useEffect(() => {
-      setIsLoading(false);
-    }, []);
-
-
   useEffect(() => {
+    setIsLoading(false);
     setIsClient(true);
   }, []);
 
-  // блокировка скролла
-  const scrollLockBlock = () => {
+  // Общий блок для блокировки скролла
+  const scrollLockBlock = (open: boolean) => {
     const body = document.body;
     if (body) {
       const scrollBarWidth =
         window.innerWidth - document.documentElement.clientWidth;
-      if (body.style.overflow === "hidden") {
-        body.style.paddingRight = "";
-        body.style.overflow = "auto";
-        window.scrollTo(0, parseInt(body.style.top || "0", 10) * -1);
-        body.style.top = "";
-      } else {
+      if (open) {
         body.style.paddingRight = `${scrollBarWidth}px`;
         body.style.overflow = "hidden";
         body.style.top = `-${window.scrollY}px`;
+      } else {
+        const scrollY = body.style.top;
+        body.style.paddingRight = "";
+        body.style.overflow = "auto";
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        body.style.top = "";
       }
     }
   };
-  // для Review modal
-  useEffect(() => {
-    const body = document.body;
-    const scrollBarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
 
+  // Эффект для Review modal
+  useEffect(() => {
     if (isOpenReview) {
-      body.style.paddingRight = `${scrollBarWidth}px`;
-      body.style.overflow = "hidden";
-      body.style.top = `-${window.scrollY}px`;
+      scrollLockBlock(true);
     } else {
-      const scrollY = body.style.top;
-      body.style.paddingRight = "";
-      body.style.overflow = "auto";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      body.style.top = "";
+      scrollLockBlock(false);
     }
   }, [isOpenReview]);
 
-  // для SliderModal
+  // Эффект для SliderModal
   useEffect(() => {
-    const body = document.body;
-    const scrollBarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-
     if (isOpen) {
-      body.style.paddingRight = `${scrollBarWidth}px`;
-      body.style.overflow = "hidden";
-      body.style.top = `-${window.scrollY}px`;
+      scrollLockBlock(true);
     } else {
-      const scrollY = body.style.top;
-      body.style.paddingRight = "";
-      body.style.overflow = "auto";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
-      body.style.top = "";
+      scrollLockBlock(false);
     }
   }, [isOpen]);
 
@@ -121,11 +98,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const matchingBreadCrumb = breadCrumbs?.find(
     (crumb) => crumb.id === data.items.id_cat
   );
+
   const openItemModalDescription = () => {
     setItemModalDescription(!itemModalDescription);
-    scrollLockBlock();
+    scrollLockBlock(!itemModalDescription);
   };
-
 
   return (
     <section className={styles.wrap}>
@@ -250,9 +227,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
                     )}
                   </p>
                 </div>
-                {data.items.status == 6 &&
-                  <ItemPriceCardWrap data={data} />
-                }
+                {data.items.status == 6 && <ItemPriceCardWrap data={data} />}
               </div>
             </div>
           </div>

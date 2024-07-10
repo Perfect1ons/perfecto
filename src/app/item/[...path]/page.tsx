@@ -4,12 +4,10 @@ import {
   getSimilarProduct,
 } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
-import DynamicJsonLd from "@/utils/jsonld";
-import { Metadata as NextMetadata } from "next";
+import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
-interface Metadata extends NextMetadata {
-  canonical?: string;
-}
+const DynamicJsonLd = dynamic(() => import("@/utils/jsonld"));
 
 interface Params {
   params: { path: string };
@@ -18,23 +16,16 @@ interface Params {
 export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
   try {
-    const [breadCrumbs, similarData] = await Promise.all([
-      getBreadCrumbs(data.items.id_cat),
-      getSimilarProduct(path[0]),
-    ]);
-      return (
-        <>
-          <DynamicJsonLd meta={data.meta} data={data.items} />
-          <ItemPage
-            data={data}
-            similar={similarData}
-            breadCrumbs={breadCrumbs}
-          />
-        </>
-      );
+    const breadCrumbs = await getBreadCrumbs(data.items.id_cat);
+    const similarData = await getSimilarProduct(path[0]);
+    return (
+      <>
+        <DynamicJsonLd meta={data.meta} data={data.items} />
+        <ItemPage data={data} similar={similarData} breadCrumbs={breadCrumbs} />
+      </>
+    );
   } catch (error) {
     console.log(error);
-    
   }
   return (
     <>
@@ -64,7 +55,9 @@ export async function generateMetadata({
       description: description,
       keywords: keywords,
       robots: "index, follow",
-      canonical: canonical, // Include canonical URL here
+      alternates: {
+        canonical : canonical
+      },
       openGraph: {
         title: ogtitle || title, // Fallback to title if og_title is not defined
         description: ogdescription || description, // Fallback to description if og_description is not defined
@@ -101,7 +94,6 @@ export async function generateMetadata({
         ],
         type: "article",
       },
-      canonical: "", // Default canonical URL if not available
     };
   }
 }
