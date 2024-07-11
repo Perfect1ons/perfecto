@@ -6,7 +6,7 @@ import {
   ExPoint,
 } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, useCallback, useMemo } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
 
@@ -22,31 +22,17 @@ interface Country {
   name: string;
 }
 
-const codesCountry = {
-  kg: {
-    code: 996,
-    img: "/img/kgFlag.svg",
-    name: "Кыргызстан",
-  },
-  ru: {
-    code: 7,
-    img: "/img/ruFlag.svg",
-    name: "Россия",
-  },
-  kz: {
-    code: 7,
-    img: "/img/kzFlag.svg",
-    name: "Казахстан",
-  },
+const codesCountry: Record<string, Country> = {
+  kg: { code: 996, img: "/img/kgFlag.svg", name: "Кыргызстан" },
+  ru: { code: 7, img: "/img/ruFlag.svg", name: "Россия" },
+  kz: { code: 7, img: "/img/kzFlag.svg", name: "Казахстан" },
 };
 
 type CountryKey = keyof typeof codesCountry;
 
 const BasketOrder = () => {
-  const [visible, setVisible] = useState("");
-
-  const [nds, setNds] = useState(false);
-
+  const [visible, setVisible] = useState<string>("");
+  const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
     phone: `+${codesCountry.kg.code}`,
     surname: "",
@@ -56,39 +42,6 @@ const BasketOrder = () => {
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
   );
-
-  const [mask, setMask] = useState("\\+\\9\\96 (999) 99-99-99");
-
-  const visibleHandler = (current: string) => {
-    if (visible !== current) {
-      setVisible(current);
-    } else {
-      setVisible("");
-    }
-  };
-
-  const ndsHandler = () => {
-    setNds(!nds);
-  };
-
-  const handleBuyerChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setBuyer((prevBuyer) => ({
-      ...prevBuyer,
-      [name]: value,
-    }));
-  };
-
-  const codeCountyHandler = (country: CountryKey) => {
-    const selectedCountry = codesCountry[country];
-    setCurrentCodeCountry(selectedCountry);
-    setBuyer((prevBuyer) => ({
-      ...prevBuyer,
-      phone: `+${selectedCountry.code}`,
-    }));
-    setMask(getMaskForCountry(selectedCountry.code));
-    setVisible("");
-  };
 
   const getMaskForCountry = (code: number) => {
     switch (code) {
@@ -101,7 +54,60 @@ const BasketOrder = () => {
     }
   };
 
-  const orderHandler = () => {};
+  const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
+
+  const visibleHandler = useCallback((current: string) => {
+    setVisible((prevVisible) => (prevVisible !== current ? current : ""));
+  }, []);
+
+  const ndsHandler = useCallback(() => {
+    setNds((prevNds) => !prevNds);
+  }, []);
+
+  const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
+      [name]: value,
+    }));
+  }, []);
+
+  const codeCountryHandler = useCallback((country: CountryKey) => {
+    const selectedCountry = codesCountry[country];
+    setCurrentCodeCountry(selectedCountry);
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
+      phone: `+${selectedCountry.code}`,
+    }));
+    setMask(getMaskForCountry(selectedCountry.code));
+    setVisible("");
+  }, []);
+
+  const orderHandler = useCallback(() => {
+    // Order processing logic here
+  }, []);
+
+  const countryOptions = useMemo(() => {
+    return Object.entries(codesCountry).map(([key, country]) => (
+      <button
+        key={key}
+        onClick={() => codeCountryHandler(key as CountryKey)}
+        className={styles.wrap_phone_dropdown_button}
+      >
+        <Image
+          className={styles.wrap_phone_dropdown_button_img}
+          src={country.img}
+          width={30}
+          height={30}
+          alt={country.name}
+        />
+        {country.name}
+        <span className={styles.wrap_phone_dropdown_button_code}>
+          +{country.code}
+        </span>
+      </button>
+    ));
+  }, [codeCountryHandler]);
 
   return (
     <section className={styles.wrap}>
@@ -113,12 +119,7 @@ const BasketOrder = () => {
         </span>
       </button>
       <button className={styles.wrap_button}>
-        <Image
-          src="/img/pay_icon.svg"
-          width={20}
-          height={20}
-          alt="pay icon"
-        ></Image>
+        <Image src="/img/pay_icon.svg" width={20} height={20} alt="pay icon" />
         <p className={styles.wrap_button_title}>Выберите способ оплаты</p>
         <span className={styles.wrap_button_expoint}>
           <ExPoint />
@@ -153,7 +154,7 @@ const BasketOrder = () => {
             onChange={handleBuyerChange}
             className={styles.wrap_phone_control_input}
           >
-            {(inputProps: any) => (
+            {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
               <input
                 {...inputProps}
                 name="phone"
@@ -164,27 +165,7 @@ const BasketOrder = () => {
           </InputMask>
         </div>
         {visible === "country" && (
-          <div className={styles.wrap_phone_dropdown}>
-            {Object.entries(codesCountry).map(([key, country]) => (
-              <button
-                key={key}
-                onClick={() => codeCountyHandler(key as CountryKey)}
-                className={styles.wrap_phone_dropdown_button}
-              >
-                <Image
-                  className={styles.wrap_phone_dropdown_button_img}
-                  src={country.img}
-                  width={30}
-                  height={30}
-                  alt={country.name}
-                />
-                {country.name}
-                <span className={styles.wrap_phone_dropdown_button_code}>
-                  +{country.code}
-                </span>
-              </button>
-            ))}
-          </div>
+          <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
         )}
       </div>
       <div className={styles.wrap_surname}>
@@ -223,35 +204,33 @@ const BasketOrder = () => {
           </span>
           Оформить на организацию
         </button>
-        <div
-          className={cn(
-            visible === "organization"
-              ? styles.wrap_organization_dropdown__active
-              : styles.wrap_organization_dropdown
-          )}
-        >
-          <input
-            placeholder="Название организации:"
-            className={styles.wrap_organization_dropdown__name}
-            type="text"
-          />
-          <input
-            placeholder="ИНН:"
-            className={styles.wrap_organization_dropdown__inn}
-            type="text"
-          />
-          <div className={styles.wrap_organization_dropdown_nds}>
-            <label className={styles.wrap_organization_dropdown_nds_switch}>
-              <input onClick={ndsHandler} type="checkbox" />
-              <span
-                className={styles.wrap_organization_dropdown_nds_switch__slider}
-              ></span>
-            </label>
-            <p className={styles.wrap_organization_dropdown_nds_title}>
-              Включить НДС
-            </p>
+        {visible === "organization" && (
+          <div className={styles.wrap_organization_dropdown__active}>
+            <input
+              placeholder="Название организации:"
+              className={styles.wrap_organization_dropdown__name}
+              type="text"
+            />
+            <input
+              placeholder="ИНН:"
+              className={styles.wrap_organization_dropdown__inn}
+              type="text"
+            />
+            <div className={styles.wrap_organization_dropdown_nds}>
+              <label className={styles.wrap_organization_dropdown_nds_switch}>
+                <input onClick={ndsHandler} type="checkbox" />
+                <span
+                  className={
+                    styles.wrap_organization_dropdown_nds_switch__slider
+                  }
+                ></span>
+              </label>
+              <p className={styles.wrap_organization_dropdown_nds_title}>
+                Включить НДС
+              </p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className={styles.wrap_price}>
         <div className={styles.wrap_price_good}>

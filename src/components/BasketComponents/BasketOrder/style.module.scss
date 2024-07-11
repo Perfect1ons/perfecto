@@ -48,10 +48,6 @@
           }
         }
       }
-      // &_inputWrapper {
-      //   @include mixin.flex(center, center, null, null);
-      //   background: var(--white);
-      // }
       &_input {
         @include mixin.font(16px, 400, null, var(--dark));
         width: 100%;
