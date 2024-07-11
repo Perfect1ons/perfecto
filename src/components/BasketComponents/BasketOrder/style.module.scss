@@ -54,4 +54,191 @@
       }
     }
   }
+  &_organization {
+    @include mixin.flex(flex-start, center, column, null);
+    width: 100%;
+    &_dropdownToggler {
+      cursor: pointer;
+      @include mixin.font(0.875rem, 700, null, var(--dark));
+      @include mixin.flex(center, flex-start, null, null);
+      width: 100%;
+      &_arrow {
+        padding-top: 4px;
+        transform: rotate(-90deg);
+        transition: 0.2s all;
+        &__active {
+          padding-top: 4px;
+          transition: 0.2s all;
+          transform: rotate(0deg);
+        }
+      }
+    }
+    &_dropdown {
+      height: 0;
+      overflow-y: hidden;
+      transition: 0.2s all;
+      &__active {
+        height: 150px;
+        transition: 0.2s all;
+      }
+      &__name {
+        @include mixin.font(16px, 400, null, var(--dark));
+        width: 100%;
+        background: var(--white);
+        padding: 10px 5px;
+        border-radius: 5px;
+        border: 1px solid var(--white);
+        &:focus {
+          border: 1px solid var(--dark-blue);
+        }
+      }
+      &__inn {
+        margin-top: 10px;
+        @include mixin.font(16px, 400, null, var(--dark));
+        width: 100%;
+        background: var(--white);
+        padding: 10px 5px;
+        border-radius: 5px;
+        border: 1px solid var(--white);
+        &:focus {
+          border: 1px solid var(--dark-blue);
+        }
+      }
+      &_nds {
+        margin-top: 20px;
+        @include mixin.flex(baseline, flex-start, null, 5px);
+
+        &_switch {
+          font-size: 17px;
+          position: relative;
+          display: inline-block;
+          width: 52px;
+          height: 22px;
+
+          > input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          &__slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            border: 1px solid #adb5bd;
+            transition: 0.2s;
+            border-radius: 30px;
+
+            &::before {
+              position: absolute;
+              content: "";
+              height: 16px;
+              width: 24px;
+              border-radius: 20px;
+              left: 2px;
+              bottom: 2px;
+              background-color: #adb5bd;
+              transition: 0.2s;
+            }
+          }
+
+          input:checked + &__slider {
+            background-color: var(--dark-blue);
+            border: 1px solid var(--dark-blue);
+          }
+
+          input:focus + &__slider {
+            box-shadow: 0 0 1px var(--dark-blue);
+          }
+
+          input:checked + &__slider::before {
+            transform: translateX(23px);
+            background-color: #fff;
+          }
+        }
+      }
+    }
+  }
+  &_price {
+    width: 100%;
+    @include mixin.flex(center, flex-start, column, null);
+    &_good {
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_count {
+        @include mixin.font(1rem, 400, null, var(--dark));
+        position: relative;
+        width: 50%;
+        text-wrap: nowrap;
+        &::after {
+          content: "";
+          position: absolute;
+          margin-left: 0.3em;
+          bottom: 0.35em;
+          width: 100%;
+          border-bottom: 0.1em dotted;
+        }
+      }
+      &_finalPrice {
+        @include mixin.font(1rem, 400, null, var(--dark));
+      }
+    }
+    &_nds {
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_text {
+        @include mixin.font(1rem, 400, null, var(--dark));
+        position: relative;
+        width: 54%;
+        text-wrap: nowrap;
+        &::after {
+          content: "";
+          position: absolute;
+          margin-left: 0.3em;
+          bottom: 0.35em;
+          width: 100%;
+          border-bottom: 0.1em dotted;
+        }
+      }
+      &_price {
+        @include mixin.font(1rem, 400, null, var(--dark));
+      }
+    }
+    &_priceTotal {
+      margin-top: 20px;
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_totalTitle {
+        @include mixin.font(1.125rem, 700, null, var(--dark));
+        position: relative;
+        width: 59%;
+        text-wrap: nowrap;
+        &::after {
+          content: "";
+          position: absolute;
+          margin-left: 0.3em;
+          bottom: 0.35em;
+          width: 100%;
+          border-bottom: 0.1em dotted;
+        }
+      }
+      &_price {
+        @include mixin.font(1.125rem, 700, null, var(--dark));
+      }
+    }
+  }
+  &_orderRequest {
+    @include mixin.flex(center, center, null, null);
+    @include mixin.font(1rem, 400, null, var(--white));
+    background: var(--dark-blue);
+    cursor: pointer;
+    width: 100%;
+    padding: 10px 0px;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
 }
