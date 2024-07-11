@@ -267,15 +267,6 @@ const BasketProducts = () => {
           </div>
         );
       })}
-      <button
-        className={cn(styles.clearButton, {
-          [styles.clearButtonDisabled]: !allItemsSelected,
-        })}
-        disabled={!allItemsSelected}
-        onClick={handleClearCart}
-      >
-        Очистить корзину
-      </button>
     </div>
   );
 };
