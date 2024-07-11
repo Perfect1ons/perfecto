@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import InputMask from "react-input-mask";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { CheckIcon } from "../../../../public/Icons/Icons";
@@ -24,7 +23,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
     <div className={styles.modal}>
       <p className={styles.modal__text}>
         Войдите в свой аккаунт или зарегистрируйтесь, чтобы делать покупки,
-        отслеживать заказы, получать персональные скидки.
+        отслеживать заказы, добавлять в избранное и получать персональные скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <input

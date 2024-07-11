@@ -18,13 +18,15 @@ import { addProductToCart } from "@/store/reducers/cart.reducer";
 import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 interface IcardDataProps {
   cardData: ICard;
   loading?: boolean;
+  removeFromFavorites?: (id_tov: number) => void;
 }
 
-const Card = ({ cardData }: IcardDataProps) => {
+const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -42,11 +44,14 @@ const Card = ({ cardData }: IcardDataProps) => {
   });
 
   const [rating, setRating] = useState(0);
+  const [isAuthVisible, setAuthVisible] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
-
+  const openAuthModal = () => setAuthVisible(true);
+  const closeAuthModal = () => setAuthVisible(false);
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -56,47 +61,57 @@ const Card = ({ cardData }: IcardDataProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
 
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
+const handleFavoriteClick = (e: React.MouseEvent) => {
+  e.stopPropagation();
 
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
+  if (!isAuthed) {
+    openAuthModal()
+    return;
+  }
 
-    if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
-      message = "Товар удален из избранного.";
-      setIsRedirect(false);
-    } else {
-      favorites.push(favoriteData);
-      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-      setIsRedirect(true);
-    }
+  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  let message = "";
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    // Показываем модалку с соответствующим сообщением
-    setModalMessage(message);
-    setModalVisible(true);
+  const favoriteData = {
+    id: cardData.id,
+    id_tov: cardData.id_tov,
+    id_post: cardData.id_post,
+    old_price: cardData.old_price,
+    discount_prc: cardData.discount_prc,
+    naim: cardData.naim,
+    ddos: cardData.ddos,
+    cenaok: cardData.cenaok,
+    url: cardData.url,
+    photos: cardData.photos,
+    ocenka: cardData.ocenka,
+    status: cardData.status,
+    minQty: cardData.minQty,
   };
+
+  if (isFavorite) {
+    favorites = favorites.filter(
+      (fav: ICard) => fav.id_tov !== cardData.id_tov
+    );
+    message = "Товар удален из избранного.";
+    setIsRedirect(false);
+    if (removeFromFavorites) {
+      removeFromFavorites(cardData.id_tov);
+    }
+  } else {
+    favorites.push(favoriteData);
+    message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+    setIsRedirect(true);
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+  setIsFavorite(!isFavorite);
+  window.dispatchEvent(new Event("favoritesUpdated"));
+
+  // Show modal with corresponding message
+  setModalMessage(message);
+  setModalVisible(true);
+};
+
 
   const handleModalClose = () => {
     setModalVisible(false);
@@ -180,6 +195,7 @@ const Card = ({ cardData }: IcardDataProps) => {
 
   return (
     <>
+      <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <UserInfoModal visible={cartModal} onClose={closeModalCart}>
         Ваш товар добавлен в корзину. <br />
         Перейдите в корзину чтобы оформить заказ!{" "}
