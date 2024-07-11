@@ -27,6 +27,8 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { ISearch } from "@/types/Search/search";
 import { getFastUserSearch } from "@/api/clientRequest";
 import MobileSearch from "../MobileSearch/MobileSearch";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -62,6 +64,39 @@ export default function MobileNav({
   // const handleSubmit = () => {
   //   window.location.href = `/seek/search=${searchValue}`;
   // };
+
+  const [favoritesCount, setFavoritesCount] = useState<number>(0);
+  const [cartItemCount, setCartItemCount] = useState<number>(0);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
+  const updateFavoritesCount = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setFavoritesCount(favorites.length);
+  };
+
+  const updateCartItemCount = () => {
+    let totalItemsInCart = 0;
+    cart.forEach((item) => {
+      if (item.quantity !== undefined) {
+        totalItemsInCart += item.quantity;
+      }
+    });
+    setCartItemCount(totalItemsInCart);
+  };
+
+  useEffect(() => {
+    updateFavoritesCount();
+    updateCartItemCount();
+
+    window.addEventListener("favoritesUpdated", updateFavoritesCount);
+    window.addEventListener("cartUpdated", updateCartItemCount);
+
+    return () => {
+      window.removeEventListener("favoritesUpdated", updateFavoritesCount);
+      window.removeEventListener("cartUpdated", updateCartItemCount);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -316,8 +351,11 @@ export default function MobileNav({
                   : styles.option
               }
             >
-              Избранные
+              Избранные{" "}
             </span>
+            {favoritesCount > 0 && (
+              <span className={styles.option_count}>{favoritesCount}</span>
+            )}
           </Link>
 
           <Link
@@ -333,8 +371,11 @@ export default function MobileNav({
                   : styles.option
               }
             >
-              Корзина
+              Корзина{" "}
             </span>
+            {cartItemCount > 0 && (
+              <span className={styles.option_count}>{cartItemCount}</span>
+            )}
           </Link>
 
           <Link
