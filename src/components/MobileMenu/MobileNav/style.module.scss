@@ -40,10 +40,9 @@
 .option {
   @include mixin.flex(center, space-between, column, null);
   min-height: 18px;
-
+  position: relative;
   user-select: none;
   -webkit-tap-highlight-color: var(--tap-select);
-
   text-decoration: none;
   color: var(--black);
 }
@@ -61,6 +60,20 @@
 
 .optionSpan_active {
   color: #991a4e;
+}
+.option_count {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--white);
+  position: absolute;
+  top: -5px;
+  right: 0;
+  background: var(--red);
+  width: 20px;
+  text-align: center;
+  height: 20px;
+  border-radius: 50%;
+  z-index: 2;
 }
 
 .search_bar {
