@@ -12,8 +12,6 @@ import styles from "./style.module.scss";
 import {
   clearCart,
   clearSelectedProducts,
-  deselectAllProducts,
-  selectAllProducts,
   toggleSelectAllProducts,
 } from "@/store/reducers/cart.reducer";
 const Basket = () => {
