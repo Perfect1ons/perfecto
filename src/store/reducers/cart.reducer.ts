@@ -4,10 +4,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface CartState {
   cart: Items[];
+  selected?: boolean;
 }
 
 const initialState: CartState = {
   cart: [],
+  selected: false,
 };
 
 const cartSlice = createSlice({
@@ -47,6 +49,12 @@ const cartSlice = createSlice({
         }
       }
     },
+    clearCart: (state) => {
+      state.cart = [];
+    },
+    clearSelectedProducts: (state) => {
+      state.cart = state.cart.filter((product) => !product.selected);
+    },
     updateProductQuantity: (
       state,
       action: PayloadAction<{ id: number; quantity: number }>
@@ -57,18 +65,31 @@ const cartSlice = createSlice({
         product.quantity = quantity;
       }
     },
-    clearCart: (state) => {
-      state.cart = [];
+    toggleProductSelection: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const product = state.cart.find((p) => p.id === id);
+      if (product) {
+        product.selected = !product.selected; // Toggle selected state
+      }
+    },
+    toggleSelectAllProducts: (state) => {
+      const allSelected = state.cart.every((product) => product.selected);
+      state.cart.forEach((product) => {
+        product.selected = !allSelected;
+      });
     },
   },
 });
 
 export const {
+  toggleSelectAllProducts,
+  toggleProductSelection,
   addProductToCart,
   clearCart,
   removeProductFromCart,
   addProductQuantity,
   deleteProductQuantity,
   updateProductQuantity,
+  clearSelectedProducts,
 } = cartSlice.actions;
 export default cartSlice.reducer;
