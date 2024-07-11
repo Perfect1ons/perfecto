@@ -6,7 +6,7 @@ import { CheckIcon } from "../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
 
 interface FormProps {
-  setAuthStatus: (isAuthed: boolean) => void;
+  setAuthStatus?: (isAuthed: boolean) => void;
   setView: (view: "login" | "recovery" | "registration") => void;
   close: () => void;
 }
@@ -34,7 +34,9 @@ const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
 
       if (data.success) {
         router.push("/profile");
-        setAuthStatus(true);
+        if (setAuthStatus) {
+          setAuthStatus(true);
+        }
         close();
       }
     } catch (error) {

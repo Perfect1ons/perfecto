@@ -5,7 +5,7 @@
   @include mixin.flex(null, null, column, 15px);
 }
 .cardsContainer {
-  @include mixin.flex(flex-start, space-between, null, 4px);
+  @include mixin.flex(flex-start, space-between, null, 15px);
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 0 5px #d7d7d7;
@@ -16,6 +16,7 @@
   }
 }
 .leftPart {
+  width: 100%;
   @include mixin.flex(flex-start, null, null, 10px);
   &__imageContainer {
     position: relative;
@@ -61,4 +62,30 @@
   position: absolute;
   top: 0;
   left: 0;
+  cursor: pointer;
+}
+@media screen and (max-width: 1200px) {
+  .rigthPart {
+    width: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .cardsContainer {
+    flex-direction: column;
+  }
+  .rigthPart {
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    max-width: 100%;
+    width: 100%;
+    &__priceContainer {
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+    }
+  }
 }

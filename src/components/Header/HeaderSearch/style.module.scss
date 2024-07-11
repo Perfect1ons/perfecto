@@ -149,9 +149,8 @@
         @include mixin.font(0.875rem, 400, null, var(--white));
         text-wrap: nowrap;
         cursor: pointer;
-        background: var(--violet);
-        border-radius: 5px;
-        padding: 2px 4px;
+        color: var(--violet);
+        border-bottom: 1px dashed var(--violet);
       }
     }
     &__list {

@@ -5,7 +5,7 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -41,42 +41,50 @@ const navLinks: ILinks[] = [
 const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
 
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
 
+  const updateCounts = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+    let totalItemsInCart = 0;
+    cart.forEach((item) => {
+      if (item.quantity !== undefined) {
+        totalItemsInCart += item.quantity;
+      }
+    });
+
+    setLinks((prevLinks) =>
+      prevLinks.map((link) => {
+        if (link.href === "/favorites") {
+          return { ...link, count: authStatus ? favorites.length : 0 };
+        } else if (link.href === "/cart") {
+          return { ...link, count: totalItemsInCart };
+        }
+        return link;
+      })
+    );
+  };
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedFavorites = JSON.parse(
-        localStorage.getItem("favorites") || "[]"
-      );
-      setFavorites(storedFavorites);
-    }
-  }, []);
+    updateCounts();
 
+    const favoritesListener = () => updateCounts();
+    const cartListener = () => updateCounts();
 
-  useEffect(() => {
-    const handleFavoritesUpdated = () => {
-      const storedFavorites = JSON.parse(
-        localStorage.getItem("favorites") || "[]"
-      );
-      setFavorites(storedFavorites);
-    };
-
-    const handleCartUpdated = () => {
-      // Handle cart update logic here if needed
-    };
-    window.addEventListener("favoritesUpdated", handleFavoritesUpdated);
-    window.addEventListener("cartUpdated", handleCartUpdated);
+    window.addEventListener("favoritesUpdated", favoritesListener);
+    window.addEventListener("cartUpdated", cartListener);
 
     return () => {
-      window.removeEventListener("favoritesUpdated", handleFavoritesUpdated);
-      window.removeEventListener("cartUpdated", handleCartUpdated);
+      window.removeEventListener("favoritesUpdated", favoritesListener);
+      window.removeEventListener("cartUpdated", cartListener);
     };
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart]);
 
   return (
     <nav className={styles.nav}>
@@ -86,7 +94,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
         close={closeModals}
       />
 
-      {navLinks.map((link) =>
+      {links.map((link) =>
         link.href === "/auth" && !authStatus ? (
           <div
             key={link.id}
@@ -119,7 +127,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
             <div className={styles.nav__link_items}>
               <div className={styles.nav__link_items_icon}>
                 {link.icon}
-                {link.count !== undefined && link.count > 0 && (
+                {authStatus && link.count !== undefined && link.count > 0 && (
                   <span
                     className={cn(
                       styles.nav__link_items_count,

@@ -43,6 +43,8 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     return newImages;
   });
 
+  
+
   const [rating, setRating] = useState(0);
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
@@ -52,17 +54,38 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const [isRedirect, setIsRedirect] = useState(false);
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
+
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/jlogin", {
+          method: "GET",
+        });
+
+        const data = await response.json();
+
+        if (data.isAuthenticated) {
+          setIsAuthed(true);
+        } else {
+          setIsAuthed(false);
+        }
+      } catch (error) {
+        console.log(error);
+        ;
+      }
+    };
+
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
+    checkAuthStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.ocenka, cardData.id_tov]);
+  }, [cardData.ocenka, cardData.id_tov, isAuthed]);
 
-const handleFavoriteClick = (e: React.MouseEvent) => {
-  e.stopPropagation();
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
 
   if (!isAuthed) {
     openAuthModal()

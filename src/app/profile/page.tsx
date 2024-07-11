@@ -1,12 +1,17 @@
-import AuthComponent from '@/components/temporary/CatalogFiltersByAbdulaziz/keek'
-import React from 'react'
+import AuthComponent from "@/components/temporary/CatalogFiltersByAbdulaziz/keek";
+import { cookies } from "next/headers";
+import React from "react";
+import NotFound from "../not-found";
 
 const page = () => {
-  return (
-    <div>profile
-        <AuthComponent/>
-    </div>
-  )
-}
+  const cookieStore = cookies();
+  const isAuthed = cookieStore.get("isAuthenticated")?.value;
 
-export default page
+  if (isAuthed) {
+    return <AuthComponent />;
+  }
+
+  return <NotFound />;
+};
+
+export default page;

@@ -11,7 +11,7 @@ import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 interface ModalProps {
   isVisible: boolean;
   close: () => void;
-  setAuthStatus: (isAuthed: boolean) => void;
+  setAuthStatus?: (isAuthed: boolean) => void;
 }
 
 const AuthModal = ({setAuthStatus, isVisible, close }: ModalProps) => {
