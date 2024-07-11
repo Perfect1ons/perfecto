@@ -10,7 +10,6 @@ import { TrashIcon } from "../../../../public/Icons/Icons";
 
 export default function FavoriteMain() {
   const [favorites, setFavorites] = useState<ICard[]>([]);
-  const [filteredFavorites, setFilteredFavorites] = useState<ICard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,14 +17,12 @@ export default function FavoriteMain() {
       localStorage.getItem("favorites") || "[]"
     );
     setFavorites(savedFavorites);
-    setFilteredFavorites(savedFavorites);
     setIsLoading(false);
   }, []);
 
   const clearFavorites = () => {
     localStorage.removeItem("favorites");
     setFavorites([]);
-    setFilteredFavorites([]);
     window.dispatchEvent(new Event("favoritesUpdated"));
   };
 
@@ -78,7 +75,7 @@ export default function FavoriteMain() {
                 </button>
               </div>
               <div className="cards">
-                {filteredFavorites.map((item, index) => (
+                {favorites.map((item, index) => (
                   <Card cardData={item} key={index} />
                 ))}
               </div>

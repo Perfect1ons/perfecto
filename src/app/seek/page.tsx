@@ -21,39 +21,40 @@ export default async function page({ searchParams }: NewsProps) {
   const decodedSearch = decodeURIComponent(searchQuery);
   const data = await getSearchItem(decodedSearch, currentPage);
   const dataInit = await getSearchItem(decodedSearch, 1);
-  const pageCount = Math.ceil(data.model._meta.totalCount / 20);
 
-    const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
-      getPopularGoods(1),
-      getPopularGoods(2),
-      getPopularGoods(3),
-    ]);
-    const goods = [goodsOne, goodsTwo, goodsThree].flat();
+  let pageCount = 1;
+  if (data.model._meta.totalCount > 0) {
+    pageCount = Math.ceil(data.model._meta.totalCount / 20);
+  }
+
+  const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
+    getPopularGoods(1),
+    getPopularGoods(2),
+    getPopularGoods(3),
+  ]);
+  const goods = [goodsOne, goodsTwo, goodsThree].flat();
 
   if (currentPage > pageCount) {
     return <NotFound />;
   }
 
-  if (!data.model.items.length || (!data.catalog && !data.model)) {
+  if (!data.model.items.length) {
     return <SeekNotFound goods={goods} search={decodedSearch} />;
   }
 
-  if (currentPage <= pageCount) {
-      return (
-        <>
-          <Seek catalog={dataInit.catalog} product={data.model.items} />
-          {pageCount > 1 &&
-          <SeekPagination
-            path={decodedSearch}
-            pageCount={pageCount}
-            currentPage={currentPage}
-          />
-          }
-        </>
-      );
-  }
+  return (
+    <>
+      <Seek catalog={dataInit.catalog} product={data.model.items} />
+      {pageCount > 1 && (
+        <SeekPagination
+          path={decodedSearch}
+          pageCount={pageCount}
+          currentPage={currentPage}
+        />
+      )}
+    </>
+  );
 }
-
 
 export async function generateMetadata({ searchParams }: NewsProps) {
   const currentPage = parseInt(searchParams.page || "1", 10);
@@ -65,6 +66,6 @@ export async function generateMetadata({ searchParams }: NewsProps) {
     description:
       "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
     keywords:
-      "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
+      "Оптом Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
   };
 }
