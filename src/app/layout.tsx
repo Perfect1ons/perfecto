@@ -37,12 +37,14 @@ export default async function RootLayout({
     const searchHistory: string[] = JSON.parse(
       cookieStore.get("searchHistory")?.value || "[]"
     );
+    const isAuthed = cookieStore.get("isAuthenticated")?.value;
+
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
           <ReactProvider>
-            <HeaderWrap searchHistory={searchHistory}/>
+            <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory}/>
             <DownloadAppMobile />
             <Provider>
               <main id="main">{children}</main>

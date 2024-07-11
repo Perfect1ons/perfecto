@@ -3,36 +3,66 @@ import React, { useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { CheckIcon } from "../../../../public/Icons/Icons";
+import { useRouter } from "next/navigation";
 
 interface FormProps {
+  setAuthStatus: (isAuthed: boolean) => void;
   setView: (view: "login" | "recovery" | "registration") => void;
   close: () => void;
 }
 
-const AuthForm = ({ setView, close }: FormProps) => {
+const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
   const [isAnonim, setIsAnonim] = useState(false);
-  const handleSubmit = (event: any) => {
-    event.preventDefault();
-  };
+  const router = useRouter();
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const AnonimHandler = () => {
     setIsAnonim(!isAnonim);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch("/api/jlogin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phoneNumber }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        router.push("/profile");
+        setAuthStatus(true);
+        close();
+      }
+    } catch (error) {
+      console.log("An error occurred");
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    handleLogin();
   };
 
   return (
     <div className={styles.modal}>
       <p className={styles.modal__text}>
         Войдите в свой аккаунт или зарегистрируйтесь, чтобы делать покупки,
-        отслеживать заказы, добавлять в избранное и получать персональные скидки.
+        отслеживать заказы, добавлять в избранное и получать персональные
+        скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <input
           className={styles.modal__input}
           type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
           name="phone"
           placeholder="Телефон"
         />
-
         <button
           aria-label="go to enter "
           type="submit"

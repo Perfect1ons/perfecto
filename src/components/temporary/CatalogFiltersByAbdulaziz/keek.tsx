@@ -1,9 +1,11 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function AuthComponent() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [authStatus, setAuthStatus] = useState<string | null>(null);
+  const router = useRouter(); // Использование роутера Next.js
 
   const handleLogin = async () => {
     try {
@@ -19,6 +21,7 @@ export default function AuthComponent() {
 
       if (data.success) {
         setAuthStatus("Authenticated");
+        router.push("/profile"); // Перенаправление на страницу /profile
       } else {
         setAuthStatus("Failed to authenticate");
       }
@@ -52,29 +55,25 @@ export default function AuthComponent() {
       });
 
       const data = await response.json();
-
+      router.push('/')
       if (data.success) {
-        setAuthStatus("Not authenticated");
+        console.log("Not authenticated");
       } else {
-        setAuthStatus("Failed to logout");
+        console.log("Failed to logout");
       }
     } catch (error) {
-      setAuthStatus("An error occurred");
+      console.log("An error occurred");
     }
   };
 
   return (
     <div>
-      <h1>Authentication</h1>
-      <input
-        type="text"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        placeholder="Enter your phone number"
-      />
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={checkAuthStatus}>Check Auth Status</button>
-      <button onClick={handleLogout}>Logout</button>
+      <button className="default__buttons_showMore" onClick={handleLogout}>
+        Выйти из аккаунта
+      </button>
+      <button className="default__buttons_showMore" onClick={checkAuthStatus}>
+        Статус
+      </button>
       {authStatus && <p>{authStatus}</p>}
     </div>
   );

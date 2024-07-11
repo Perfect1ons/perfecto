@@ -5,7 +5,7 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -21,6 +21,10 @@ interface ILinks {
   count?: number;
 }
 
+interface IHeaderNavProps {
+  isAuthed: boolean;
+}
+
 const navLinks: ILinks[] = [
   {
     href: "/favorites",
@@ -34,9 +38,9 @@ const navLinks: ILinks[] = [
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
-const HeaderNav = () => {
+const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
-  const [isAuthed, setAuthed] = useState(false);
+  const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [favorites, setFavorites] = useState<string[]>([]);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -53,46 +57,37 @@ const HeaderNav = () => {
     }
   }, []);
 
-  const totalItemsInCart = useMemo(() => {
-    return cart.reduce((acc, item) => acc + (item.quantity || 0), 0);
-  }, [cart]);
-
-  const links = useMemo(() => {
-    return navLinks.map((link) => {
-      if (link.href === "/favorites") {
-        return { ...link, count: favorites.length };
-      } else if (link.href === "/cart") {
-        return { ...link, count: totalItemsInCart };
-      }
-      return link;
-    });
-  }, [favorites.length, totalItemsInCart]);
-
-  const updateAuthStatus = useCallback(() => {
-    if (typeof window !== "undefined") {
-      const authStatus = localStorage.getItem("isAuthed") === "true";
-      setAuthed(authStatus);
-    }
-  }, []);
 
   useEffect(() => {
-    updateAuthStatus();
+    const handleFavoritesUpdated = () => {
+      const storedFavorites = JSON.parse(
+        localStorage.getItem("favorites") || "[]"
+      );
+      setFavorites(storedFavorites);
+    };
 
-    window.addEventListener("favoritesUpdated", updateAuthStatus);
-    window.addEventListener("cartUpdated", updateAuthStatus);
+    const handleCartUpdated = () => {
+      // Handle cart update logic here if needed
+    };
+    window.addEventListener("favoritesUpdated", handleFavoritesUpdated);
+    window.addEventListener("cartUpdated", handleCartUpdated);
 
     return () => {
-      window.removeEventListener("favoritesUpdated", updateAuthStatus);
-      window.removeEventListener("cartUpdated", updateAuthStatus);
+      window.removeEventListener("favoritesUpdated", handleFavoritesUpdated);
+      window.removeEventListener("cartUpdated", handleCartUpdated);
     };
-  }, [updateAuthStatus]);
+  }, []);
 
   return (
     <nav className={styles.nav}>
-      <AuthModal isVisible={isAuthVisible} close={closeModals} />
+      <AuthModal
+        setAuthStatus={setAuthStatus}
+        isVisible={isAuthVisible}
+        close={closeModals}
+      />
 
-      {links.map((link) =>
-        link.href === "/auth" && !isAuthed ? (
+      {navLinks.map((link) =>
+        link.href === "/auth" && !authStatus ? (
           <div
             key={link.id}
             className={cn(
@@ -114,7 +109,7 @@ const HeaderNav = () => {
               pathname === link.href && styles.active
             )}
             onClick={() => {
-              if (!isAuthed) {
+              if (!authStatus) {
                 setAuthVisible(true);
               } else {
                 window.location.href = link.href;
@@ -138,7 +133,7 @@ const HeaderNav = () => {
               <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </div>
-        ) : link.href === "/profile" && isAuthed ? (
+        ) : link.href === "/profile" && authStatus ? (
           <Link
             href={link.href}
             className={cn(
