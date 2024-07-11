@@ -1,6 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .wrap {
+  user-select: none;
   @include mixin.flex(center, center, column, 15px);
   background: #f6f6f6;
   padding: 15px;
@@ -25,17 +26,71 @@
     }
   }
   &_phone {
-    @include mixin.flex(center, center, null, null);
+    position: relative;
+    @include mixin.flex(center, center, column, null);
     width: 100%;
-    &_input {
-      @include mixin.font(16px, 400, null, var(--dark));
+    &_control {
       width: 100%;
-      background: var(--white);
-      padding: 10px 5px;
+      @include mixin.flex(center, center, null, null);
+      &_selectCountry {
+        border-right: 1px solid #f6f6f6;
+        background: var(--white);
+        border-radius: 5px 0px 0px 5px;
+        padding: 7px 5px;
+        cursor: pointer;
+        @include mixin.flex(center, center, null, null);
+        &_img {
+          border-radius: 8px;
+        }
+        &_arrow {
+          &__active {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+      // &_inputWrapper {
+      //   @include mixin.flex(center, center, null, null);
+      //   background: var(--white);
+      // }
+      &_input {
+        @include mixin.font(16px, 400, null, var(--dark));
+        width: 100%;
+        background: var(--white);
+        padding: 10px 5px;
+        border-radius: 0px 5px 5px 0px;
+        border: 1px solid var(--white);
+        &:focus {
+          border: 1px solid var(--dark-blue);
+        }
+      }
+    }
+    &_dropdown {
       border-radius: 5px;
-      border: 1px solid var(--white);
-      &:focus {
-        border: 1px solid var(--dark-blue);
+      padding: 5px;
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      @include mixin.flex(flex-start, center, column, 5px);
+      position: absolute;
+      z-index: 10;
+      left: 0;
+      bottom: -165px;
+
+      &_button {
+        @include mixin.flex(center, flex-start, null, 0.875rem);
+        cursor: pointer;
+        width: 100%;
+        border-radius: 10px;
+        padding: 8px 8px;
+
+        &_img {
+          border-radius: 10px;
+        }
+        &_code {
+          @include mixin.font(14px, 400, null, var(--secondary));
+        }
+        &:hover {
+          background: #f6f6f6;
+        }
       }
     }
   }
@@ -139,7 +194,7 @@
               height: 16px;
               width: 24px;
               border-radius: 20px;
-              left: 2px;
+              left: 3px;
               bottom: 2px;
               background-color: #adb5bd;
               transition: 0.2s;
@@ -172,7 +227,7 @@
       &_count {
         @include mixin.font(1rem, 400, null, var(--dark));
         position: relative;
-        width: 50%;
+        width: 45%;
         text-wrap: nowrap;
         &::after {
           content: "";
@@ -193,7 +248,7 @@
       &_text {
         @include mixin.font(1rem, 400, null, var(--dark));
         position: relative;
-        width: 54%;
+        width: 50%;
         text-wrap: nowrap;
         &::after {
           content: "";
@@ -215,7 +270,7 @@
       &_totalTitle {
         @include mixin.font(1.125rem, 700, null, var(--dark));
         position: relative;
-        width: 59%;
+        width: 55%;
         text-wrap: nowrap;
         &::after {
           content: "";
