@@ -1,28 +1,19 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 // for empty
-.controlContainer {
-  @include mixin.flex(center, null, null, 10px);
-  margin: 20px 0;
-}
-.checkBoxContainer {
-  @include mixin.flex(center, null, null, 4px);
-  @include mixin.font(14px, 500, null, null);
-  background: var(--super-light-white);
-  padding: 8px 12px;
-  border-radius: 5px;
-}
-.trashButton {
-  @include mixin.flex(center, center, null, null);
-  color: var(--light-gray);
-  background: var(--super-light-white);
-  border-radius: 5px;
-  padding: 7px 7px;
+.cardsAllContainer {
+  width: 100%;
+  @include mixin.flex(null, null, column, 15px);
 }
 .cardsContainer {
-  @include mixin.flex(center, space-between, null, 4px);
+  @include mixin.flex(flex-start, space-between, null, 4px);
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 0 5px #d7d7d7;
+  max-width: 1057px;
+  &:hover .rigthPart__priceContainer__buttons {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 .leftPart {
   @include mixin.flex(flex-start, null, null, 10px);
@@ -40,10 +31,28 @@
   &__informationContainer {
     @include mixin.flex(flex-start, null, column, 10px);
     &__title {
+      max-width: 380px;
       @include mixin.font(14px, 400, null, #112b66);
     }
     &__articul {
       @include mixin.font(14px, 400, null, #ccc);
+    }
+    &__delivery {
+      @include mixin.flex(center, null, null, 5px);
+      @include mixin.font(14px, 400, null, #0c54a1);
+    }
+  }
+}
+.rigthPart {
+  max-width: 404px;
+  width: 100%;
+  @include mixin.flex(center, space-between, null, 5px);
+  &__priceContainer {
+    @include mixin.flex(null, null, column, 5px);
+    &__buttons {
+      // opacity: 0;
+      // visibility: hidden;
+      @include mixin.flex(center, null, null, 5px);
     }
   }
 }

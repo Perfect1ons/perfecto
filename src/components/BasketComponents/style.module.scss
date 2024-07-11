@@ -84,13 +84,6 @@
   }
 }
 
-//for ne empty
-
-.basketTilte {
-  @include mixin.font(1.25rem, 700, null, var(--dark));
-  margin-top: 20px;
-}
-
 .default__card_column {
   @include mixin.flex(center, space-between, null, 15px);
   max-width: 100%;
@@ -142,4 +135,32 @@
   @media screen and (max-width: 992px) {
     display: none;
   }
+}
+.controlContainer {
+  @include mixin.flex(center, null, null, 10px);
+  margin: 20px 0;
+}
+.checkBoxContainer {
+  @include mixin.flex(center, null, null, 4px);
+  @include mixin.font(14px, 500, null, null);
+  background: var(--super-light-white);
+  padding: 8px 12px;
+  border-radius: 5px;
+}
+.trashButton {
+  @include mixin.flex(center, center, null, null);
+  color: var(--light-gray);
+  background: var(--super-light-white);
+  border-radius: 5px;
+  padding: 7px 7px;
+}
+.basketTilte {
+  @include mixin.font(18px, 600, null, var(--dark));
+}
+.basketAllContainer {
+  @include mixin.flex(flex-start, null, column, 15px);
+}
+.cardContainer {
+  width: 100%;
+  @include mixin.flex(center, space-between, null, 20px);
 }
