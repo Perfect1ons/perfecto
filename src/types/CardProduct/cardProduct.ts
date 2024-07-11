@@ -106,6 +106,7 @@ export interface Items {
   service_info?: any[];
   banners_discount?: any[];
   quantity?: number;
+  selected?: boolean;
 }
 
 export interface Seller {

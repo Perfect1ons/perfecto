@@ -6,22 +6,83 @@ import { RootState } from "@/store";
 import Link from "next/link";
 import BasketOrder from "./BasketOrder/BasketOrder";
 import Image from "next/image";
-import { useState } from "react";
-import { TrashIcon } from "../../../public/Icons/Icons";
+import { useEffect, useState } from "react";
+import { TrashIcon, XMark } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
+import {
+  clearCart,
+  clearSelectedProducts,
+  deselectAllProducts,
+  selectAllProducts,
+  toggleSelectAllProducts,
+} from "@/store/reducers/cart.reducer";
 const Basket = () => {
+  const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
-
-  const [added, setAdded] = useState(false);
-  const [allItemsSelected, setAllItemsSelected] = useState(false);
-
-  const handleToggleAllItems = () => {
-    setAllItemsSelected(!allItemsSelected);
+  const [selectAll, setSelectAll] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const openModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+  useEffect(() => {
+    // Синхронизируем состояние selectAll с выбором всех товаров
+    setSelectAll(data.cart.every((product) => product.selected));
+  }, [data.cart]);
+  const handleSelectAllToggle = () => {
+    dispatch(toggleSelectAllProducts());
+    setSelectAll(!selectAll);
   };
 
-  const dispatch = useDispatch();
+  const handleClearCart = () => {
+    dispatch(clearSelectedProducts());
+    setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
+    openModal();
+  };
+  useEffect(() => {
+    const body = document.body;
+    const scrollBarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
+
+    if (isModalVisible) {
+      // Устанавливаем стили, чтобы скрыть прокрутку и фиксировать позицию
+      body.style.paddingRight = `${scrollBarWidth}px`;
+      body.style.overflow = "hidden";
+      body.style.top = `-${window.scrollY}px`; // Запоминаем текущую позицию скролла
+    } else {
+      // Восстанавливаем нормальные стили для прокрутки
+      const scrollY = body.style.top;
+      body.style.paddingRight = "";
+      body.style.overflow = "auto";
+      window.scrollTo(0, parseInt(scrollY || "0") * -1); // Возвращаемся на прежнюю позицию скролла
+      body.style.top = "";
+    }
+  }, [isModalVisible]);
+
   return (
     <div className="container">
+      <div
+        className={cn(styles.modalOpen, {
+          [styles.modalOpen__active]: isModalVisible,
+        })}
+      >
+        <div className={styles.modalOpen__xmark}>
+          <h1>Удалить товары</h1>
+          <button className={styles.modalOpen__xmark__btn} onClick={openModal}>
+            <XMark />
+          </button>
+        </div>
+        <p className={styles.modalOpen__parap}>
+          Вы точно хотите удалить выбранные товары? Отменить данное действие
+          будет невозможно.
+        </p>
+        <button className={styles.modalOpen__button} onClick={handleClearCart}>
+          Удалить
+        </button>
+      </div>
+      {isModalVisible && (
+        <div onClick={openModal} className={styles.modalBackdrop}></div>
+      )}
+
       {data.cart.length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
@@ -49,14 +110,14 @@ const Basket = () => {
             <h1 className={styles.basketTilte}>Корзина - #160989</h1>
             <div
               className={styles.checkBoxContainer}
-              onChange={handleToggleAllItems}
+              onClick={handleSelectAllToggle}
             >
               <span
                 className={cn("showFiltersUlContainer__check", {
-                  ["showFiltersUlContainer__checkActive"]: added,
+                  ["showFiltersUlContainer__checkActive"]: selectAll,
                 })}
               >
-                {added ? (
+                {selectAll ? (
                   <Image
                     src="/img/checkIconWhite.svg"
                     width={15}
@@ -74,7 +135,11 @@ const Basket = () => {
               </span>
               Выбрать все товары
             </div>
-            <button className={styles.trashButton}>
+            <button
+              onClick={openModal}
+              disabled={!data.cart.some((product) => product.selected)}
+              className={styles.trashButton}
+            >
               <TrashIcon />
             </button>
           </div>
