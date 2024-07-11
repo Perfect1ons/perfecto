@@ -139,6 +139,7 @@
 .controlContainer {
   @include mixin.flex(center, null, null, 10px);
   margin: 20px 0;
+  flex-wrap: wrap;
 }
 .checkBoxContainer {
   @include mixin.flex(center, null, null, 4px);
@@ -218,4 +219,9 @@
   height: 100%;
   background: var(--dark);
   opacity: 0.5;
+}
+@media screen and (max-width: 992px) {
+  .cardContainer {
+    flex-direction: column;
+  }
 }

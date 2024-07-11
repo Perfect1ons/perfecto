@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { TrashIcon, XMark } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import {
-  clearCart,
   clearSelectedProducts,
   toggleSelectAllProducts,
 } from "@/store/reducers/cart.reducer";

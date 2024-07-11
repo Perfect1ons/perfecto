@@ -9,7 +9,6 @@ import {
   removeProductFromCart,
   toggleProductSelection,
 } from "@/store/reducers/cart.reducer";
-import Link from "next/link";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import {
   GrayFavoritesIcon,
@@ -24,8 +23,6 @@ import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 const BasketProducts = () => {
   const [rating, setRating] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
@@ -57,7 +54,6 @@ const BasketProducts = () => {
   const handleToggleAllItems = () => {
     setAllItemsSelected(!allItemsSelected);
   };
-  // const product = data.cart.find((item) => item.id === data.id);
 
   const handleFavoriteClick = (e: React.MouseEvent, cardData: ICard) => {
     e.stopPropagation();
@@ -105,10 +101,6 @@ const BasketProducts = () => {
     setAdded(false);
   };
 
-  const handleClearCart = () => {
-    dispatch(clearCart());
-    setAllItemsSelected(false);
-  };
   const handleModalClose = () => {
     setModalVisible(false);
   };
@@ -217,7 +209,7 @@ const BasketProducts = () => {
               <div className={styles.rigthPart__priceContainer}>
                 <span className={styles.default__card_price}>
                   {totalPrice.toLocaleString("ru-RU")}
-                  <span className={styles.default__card_price_custom}> с</span>
+                  <span className={styles.default__card_price_custom}> с.</span>
                 </span>
                 <div className={styles.rigthPart__priceContainer__buttons}>
                   <button
