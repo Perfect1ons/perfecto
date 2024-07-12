@@ -3,6 +3,7 @@
 .cardsAllContainer {
   width: 100%;
   @include mixin.flex(null, null, column, 15px);
+  user-select: none;
 }
 .cardsContainer {
   @include mixin.flex(flex-start, space-between, null, 15px);
