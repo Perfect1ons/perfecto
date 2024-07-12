@@ -1,10 +1,16 @@
-import cn from 'clsx';
-import { GrayFavoritesIcon, GrayStar, TrashIcon, VioletFavoritesIcon, YellowStar } from '../../../../../public/Icons/Icons';
-import styles from '../style.module.scss'
-import Image from 'next/image';
-import { url } from '@/components/temporary/data';
-import CartReducerBtn from '@/components/UI/CartReducerBtn/CartReducerBtn';
-import Link from 'next/link';
+import cn from "clsx";
+import {
+  GrayFavoritesIcon,
+  GrayStar,
+  TrashIcon,
+  VioletFavoritesIcon,
+  YellowStar,
+} from "../../../../../public/Icons/Icons";
+import styles from "../style.module.scss";
+import Image from "next/image";
+import { url } from "@/components/temporary/data";
+import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
+import Link from "next/link";
 
 interface IBasketCardProps {
   item: any;
@@ -16,7 +22,7 @@ interface IBasketCardProps {
   removeFromCart: (e: any) => void;
   handleCartEmpty: () => void;
   shouldFocusInput: boolean;
-setShouldFocusInput:() => void;
+  setShouldFocusInput: () => void;
 }
 
 const BasketCard = ({
@@ -31,6 +37,7 @@ const BasketCard = ({
   shouldFocusInput,
   setShouldFocusInput,
 }: IBasketCardProps) => {
+  const totalPrice = item.cenaok * item.quantity;
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
@@ -70,10 +77,7 @@ const BasketCard = ({
           </div>
         </div>
         <div className={styles.leftPart__informationContainer}>
-          <Link
-            className="link"
-            href={`/item/${item.id_tov}/${item.url}`}
-          >
+          <Link className="link" href={`/item/${item.id_tov}/${item.url}`}>
             <h2 className={styles.leftPart__informationContainer__title}>
               {item.naim}
             </h2>
@@ -155,6 +159,15 @@ const BasketCard = ({
               </span>
             </button>
           </div>
+          <div className={styles.quantityContainer}>
+            <span className={styles.priceCustomContainer}>
+              кол-во: {item.quantity} шт =
+            </span>
+            <span className={styles.priceCustomContainer}>
+              {totalPrice.toLocaleString("ru-RU")}
+              <span className={styles.priceCustom}>с</span>
+            </span>
+          </div>
         </div>
         {item.minQty > 1 ? (
           <h3 className={styles.minimal__items}>
@@ -174,4 +187,4 @@ const BasketCard = ({
   );
 };
 
-export default BasketCard
+export default BasketCard;
