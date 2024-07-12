@@ -8,6 +8,25 @@ import UserNotification from './UserNotification/UserNotification';
 
 
 const Profile = () => {
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("/api/jlogin", {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        window.location.reload();
+        console.log("Not authenticated");
+      } else {
+        console.log("Failed to logout");
+      }
+    } catch (error) {
+      console.log("An error occurred");
+    }
+  };
+
   return (
     <section className={styles.profile}>
       <div className="container">
@@ -39,7 +58,12 @@ const Profile = () => {
             </div>
 
             <div className={styles.profile__userInfo_footer}>
-              <button className={styles.profile__exit}>Выйти</button>
+              <button
+                onClick={handleLogout}
+                className={styles.profile__exit}
+              >
+                Выйти
+              </button>
               <Link
                 className={clsx("link", styles.profile__settings)}
                 href={"/profile/pd"}
@@ -163,11 +187,13 @@ const Profile = () => {
             </div>
             <div className={styles.profile__userInfo_footer}>
               <span></span>
-              <button className={styles.profile__exit}>Перейти в каталог</button>
+              <button className={styles.profile__exit}>
+                Перейти в каталог
+              </button>
             </div>
           </div>
         </div>
-        <UserNotification/>
+        <UserNotification />
       </div>
     </section>
   );
