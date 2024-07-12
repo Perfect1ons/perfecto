@@ -1,7 +1,7 @@
 import AuthComponent from "@/components/temporary/CatalogFiltersByAbdulaziz/keek";
 import { cookies } from "next/headers";
 import React from "react";
-import NotFound from "../not-found";
+import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/FavoriteAuth";
 
 const page = () => {
   const cookieStore = cookies();
@@ -11,7 +11,7 @@ const page = () => {
     return <AuthComponent />;
   }
 
-  return <NotFound />;
+  return <FavoriteAuth />;
 };
 
 export default page;
