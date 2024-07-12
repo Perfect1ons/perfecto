@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { CheckIcon } from "../../../../public/Icons/Icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { setAuthStatus } from "@/store/reducers/login.reducer";
@@ -16,6 +16,7 @@ interface FormProps {
 const AuthForm = ({ setView, close }: FormProps) => {
   const [isAnonim, setIsAnonim] = useState(false);
   const router = useRouter();
+  const pathname = usePathname()
   const [phoneNumber, setPhoneNumber] = useState("");
   const authStatus = useSelector(
     (state: RootState) => state.auth.isAuthenticated

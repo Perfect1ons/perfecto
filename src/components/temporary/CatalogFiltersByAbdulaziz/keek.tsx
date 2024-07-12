@@ -55,8 +55,8 @@ export default function AuthComponent() {
       });
 
       const data = await response.json();
-      router.push('/')
       if (data.success) {
+        window.location.reload()
         console.log("Not authenticated");
       } else {
         console.log("Failed to logout");
