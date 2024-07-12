@@ -1,0 +1,36 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.profile__tabs{
+    @include mixin.flex(center,null,null,10px);
+    padding: 10px;
+    background: var(--white);
+    border-radius: 5px;
+    
+    &_container{
+        padding-top: 25px;
+        background: var(--secondlight)
+    }
+}
+
+.profile__link{
+    @include mixin.font(16px,400,null,var(--dark));
+    padding: 5px 8px;
+    border-radius: 5px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    &:hover{
+        @include mixin.font(16px,400,null,var(--white));
+        background: var(--violet)
+    }
+}
+
+.profile__link_active{
+    @include mixin.font(16px,400,null,var(--white));
+    padding: 5px 8px;
+    background: var(--violet);
+    border-radius: 5px;
+    &:hover{
+        @include mixin.font(16px,400,null,var(--white));
+        background: var(--violet)
+    }
+}
