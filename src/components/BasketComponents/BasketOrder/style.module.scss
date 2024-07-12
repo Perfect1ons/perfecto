@@ -219,7 +219,7 @@
           }
 
           input:checked + &__slider::before {
-            transform: translateX(23px);
+            transform: translateX(21px);
             background-color: #fff;
           }
         }
