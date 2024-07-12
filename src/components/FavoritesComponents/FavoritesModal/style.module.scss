@@ -7,7 +7,8 @@
   z-index: 1000;
   top: 8%;
   left: 50%;
-  transform: translate(-50.6%, 50%);
+  transform: translateX(-50%);
+  // transform: translate(-50.6%, 50%);
   background: var(--dark);
   color: #fff;
   padding: 5px 20px;
@@ -15,15 +16,20 @@
   opacity: 0;
   transition: opacity 0.5s;
   pointer-events: none;
+  @media screen and (max-width: 600px) {
+    white-space: normal;
+    width: 90%;
+  }
 
   &.visible {
     opacity: 1;
     pointer-events: all;
   }
   &_cross {
-    margin-top: 8px;
+    @include mixin.flex(center, center, null, null);
+    // margin-top: 8px;
     cursor: pointer;
-    align-self: baseline;
+    // align-self: baseline;
     scale: 1.5;
   }
 }
