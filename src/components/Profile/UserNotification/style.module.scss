@@ -1,0 +1,39 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+
+.UserNotification{
+    background: var(--white);
+    border-radius: 5px;
+    width: 100%;
+    padding: 15px;
+  &__header{
+    @include mixin.flex(flex-start,space-between);
+  }
+}
+
+.date{
+    @include mixin.font(14px,500,null,var(--dark))
+}
+
+.notification__content{
+    margin-top: 5px;
+    color: rgba(73, 73, 73, 1);
+}
+
+.notification__button{
+    cursor: pointer;
+    margin-top: 15px;
+    padding: 10px 15px;
+    border: 2px solid var(--dark-blue);
+    @include mixin.font(16px, 600, null, var(--dark-blue));
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    &:hover{
+        color: var(--white);
+        background: var(--dark-blue);
+    }
+}
+
+.close__notification{
+    cursor: pointer;
+}

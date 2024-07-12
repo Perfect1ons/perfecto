@@ -7,7 +7,7 @@ export interface IProfileLinks {
 export const profileLinks: IProfileLinks[] = [
   {
     href: "/profile",
-    title: "Главная",
+    title: "Профиль",
     id: 1,
   },
   {

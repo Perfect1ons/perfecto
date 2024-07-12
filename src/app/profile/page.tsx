@@ -19,7 +19,7 @@ const page = () => {
       <>
         <ProfileTabs/>
         <Profile  />
-        <AuthComponent />
+        {/* <AuthComponent /> */}
       </>
     );
   }
