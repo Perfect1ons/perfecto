@@ -4,17 +4,23 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import { CheckIcon } from "../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { setAuthStatus } from "@/store/reducers/login.reducer";
 
 interface FormProps {
-  setAuthStatus?: (isAuthed: boolean) => void;
   setView: (view: "login" | "recovery" | "registration") => void;
   close: () => void;
 }
 
-const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
+const AuthForm = ({ setView, close }: FormProps) => {
   const [isAnonim, setIsAnonim] = useState(false);
   const router = useRouter();
   const [phoneNumber, setPhoneNumber] = useState("");
+  const authStatus = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+  const dispatch = useDispatch();
 
   const AnonimHandler = () => {
     setIsAnonim(!isAnonim);
@@ -34,8 +40,8 @@ const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
 
       if (data.success) {
         router.push("/profile");
-        if (setAuthStatus) {
-          setAuthStatus(true);
+        if (authStatus) {
+          dispatch(setAuthStatus(true));
         }
         close();
       }

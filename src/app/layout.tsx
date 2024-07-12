@@ -33,18 +33,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const cookieStore = cookies();
-    const searchHistory: string[] = JSON.parse(
-      cookieStore.get("searchHistory")?.value || "[]"
-    );
-    const isAuthed = cookieStore.get("isAuthenticated")?.value;
+  const cookieStore = cookies();
+  const searchHistory: string[] = JSON.parse(
+    cookieStore.get("searchHistory")?.value || "[]"
+  );
+  const isAuthed = cookieStore.get("isAuthenticated")?.value || false;
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
           <ReactProvider>
-            <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory}/>
+            <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
             <DownloadAppMobile />
             <Provider>
               <main id="main">{children}</main>

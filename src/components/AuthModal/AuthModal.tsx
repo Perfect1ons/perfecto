@@ -11,14 +11,12 @@ import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 interface ModalProps {
   isVisible: boolean;
   close: () => void;
-  setAuthStatus?: (isAuthed: boolean) => void;
 }
 
-const AuthModal = ({setAuthStatus, isVisible, close }: ModalProps) => {
+const AuthModal = ({ isVisible, close }: ModalProps) => {
   const [view, setView] = useState<"login" | "recovery" | "registration">(
     "login"
   );
-
 
   useEffect(() => {
     if (!isVisible) {
@@ -31,13 +29,7 @@ const AuthModal = ({setAuthStatus, isVisible, close }: ModalProps) => {
       case "login":
         return {
           title: "Войти",
-          content: (
-            <AuthForm
-              setAuthStatus={setAuthStatus}
-              setView={setView}
-              close={close}
-            />
-          ),
+          content: <AuthForm setView={setView} close={close} />,
         };
       case "recovery":
         return {
