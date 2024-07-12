@@ -9,6 +9,8 @@ import styles from "./style.module.scss";
 import { useState, ChangeEvent, useCallback, useMemo } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
 
 interface Buyer {
   phone: string;
@@ -39,6 +41,20 @@ const BasketOrder = () => {
     name: "",
   });
 
+  const cart = useSelector((state: RootState) => state.cart.cart);
+
+  const { totalQuantity, totalPrice } = useMemo(() => {
+    return cart.reduce(
+      (acc, item) => {
+        const quantity = item.quantity || 0;
+        const price = item.price || 0;
+        acc.totalQuantity += quantity;
+        acc.totalPrice += quantity * price;
+        return acc;
+      },
+      { totalQuantity: 0, totalPrice: 0 }
+    );
+  }, [cart]);
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
   );
@@ -111,17 +127,17 @@ const BasketOrder = () => {
 
   return (
     <section className={styles.wrap}>
-      <button className={styles.wrap_button}>
+      <button className={styles.wrap_delivery}>
         <DeliveryIcon />
-        <p className={styles.wrap_button_title}>Выберите способ доставки</p>
-        <span className={styles.wrap_button_expoint}>
+        <p className={styles.wrap_delivery_title}>Выберите способ доставки</p>
+        <span className={styles.wrap_delivery_expoint}>
           <ExPoint />
         </span>
       </button>
-      <button className={styles.wrap_button}>
+      <button className={styles.wrap_payment}>
         <Image src="/img/pay_icon.svg" width={20} height={20} alt="pay icon" />
-        <p className={styles.wrap_button_title}>Выберите способ оплаты</p>
-        <span className={styles.wrap_button_expoint}>
+        <p className={styles.wrap_payment_title}>Выберите способ оплаты</p>
+        <span className={styles.wrap_payment_expoint}>
           <ExPoint />
         </span>
       </button>
@@ -234,8 +250,12 @@ const BasketOrder = () => {
       </div>
       <div className={styles.wrap_price}>
         <div className={styles.wrap_price_good}>
-          <p className={styles.wrap_price_good_count}>Товары, 1 шт.</p>
-          <p className={styles.wrap_price_good_finalPrice}>3000 c.</p>
+          <p className={styles.wrap_price_good_count}>
+            Товары, {totalQuantity} шт.
+          </p>
+          <p className={styles.wrap_price_good_finalPrice}>
+            {totalPrice.toLocaleString("ru-Ru")} c.
+          </p>
         </div>
         {visible === "organization" && nds && (
           <div className={styles.wrap_price_nds}>
@@ -245,7 +265,9 @@ const BasketOrder = () => {
         )}
         <div className={styles.wrap_price_priceTotal}>
           <p className={styles.wrap_price_priceTotal_totalTitle}>Итого: </p>
-          <p className={styles.wrap_price_priceTotal_price}>3000 c.</p>
+          <p className={styles.wrap_price_priceTotal_price}>
+            {totalPrice.toLocaleString("ru-Ru")} c.
+          </p>
         </div>
       </div>
       <button

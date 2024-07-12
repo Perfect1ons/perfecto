@@ -6,13 +6,13 @@
   background: #f6f6f6;
   padding: 15px;
   border-radius: 10px;
-  max-width: 360px;
+  max-width: 400px;
   position: sticky;
   top: 0;
-  &_button {
-    @include mixin.flex(center, space-between, null, 10px);
+  &_delivery {
+    @include mixin.flex(center, space-between, null, 20px);
+    padding: 5px 10px;
     width: 100%;
-    padding: 7px 5px;
     border: 2px solid var(--violet);
     background: var(--white);
     cursor: pointer;
@@ -21,6 +21,23 @@
     &_title {
       @include mixin.font(1rem, 400, null, var(--dark));
       text-wrap: nowrap;
+    }
+    &_expoint {
+      color: var(--violet);
+      padding-top: 5px;
+    }
+  }
+  &_payment {
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    padding: 5px 10px;
+    border: 2px solid var(--violet);
+    background: var(--white);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s all;
+    &_title {
+      @include mixin.font(1rem, 400, null, var(--dark));
     }
     &_expoint {
       color: var(--violet);
@@ -44,7 +61,7 @@
         cursor: pointer;
         @include mixin.flex(center, center, null, null);
         &_img {
-          border-radius: 8px;
+          border-radius: 5px;
         }
         &_arrow {
           position: absolute;
@@ -55,7 +72,7 @@
             @include mixin.flex(center, center, null, null);
             position: absolute;
             right: -2px;
-            top: 10%;
+            top: 15%;
             transform: rotate(-180deg);
           }
         }
@@ -87,13 +104,14 @@
         @include mixin.flex(center, flex-start, null, 0.875rem);
         cursor: pointer;
         width: 100%;
-        border-radius: 10px;
+        border-radius: 5px;
         padding: 8px 8px;
 
         &_img {
-          border-radius: 10px;
+          border-radius: 5px;
         }
         &_code {
+          padding-top: 2px;
           @include mixin.font(14px, 400, null, var(--secondary));
         }
         &:hover {
@@ -121,16 +139,31 @@
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
     &_dropdownToggler {
+      padding: 0px 20px;
       cursor: pointer;
+      position: relative;
       @include mixin.font(0.875rem, 700, null, var(--dark));
       @include mixin.flex(center, flex-start, null, null);
       width: 100%;
+      transition: 0.2s all;
+      &:hover {
+        color: var(--violet);
+        > span {
+          color: var(--violet);
+        }
+      }
       &_arrow {
-        padding-top: 4px;
+        color: var(--dark);
+        left: 0;
+        top: -5px;
+        position: absolute;
         transform: rotate(-90deg);
         transition: 0.2s all;
         &__active {
-          padding-top: 4px;
+          color: var(--dark);
+          left: 0;
+          top: -2px;
+          position: absolute;
           transition: 0.2s all;
           transform: rotate(0deg);
         }
@@ -141,6 +174,7 @@
       overflow-y: hidden;
       transition: 0.2s all;
       &__active {
+        margin-top: 15px;
         height: 150px;
         transition: 0.2s all;
       }
@@ -156,7 +190,7 @@
         }
       }
       &__inn {
-        margin-top: 10px;
+        margin-top: 15px;
         @include mixin.font(16px, 400, null, var(--dark));
         width: 100%;
         background: var(--white);
@@ -168,7 +202,7 @@
         }
       }
       &_nds {
-        margin-top: 20px;
+        margin-top: 15px;
         @include mixin.flex(baseline, flex-start, null, 5px);
 
         &_switch {
@@ -219,7 +253,7 @@
           }
 
           input:checked + &__slider::before {
-            transform: translateX(23px);
+            transform: translateX(21px);
             background-color: #fff;
           }
         }
@@ -237,14 +271,14 @@
         position: relative;
         width: 45%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_finalPrice {
         @include mixin.font(1rem, 400, null, var(--dark));
@@ -258,21 +292,20 @@
         position: relative;
         width: 50%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_price {
         @include mixin.font(1rem, 400, null, var(--dark));
       }
     }
     &_priceTotal {
-      margin-top: 20px;
       @include mixin.flex(center, space-between, null, null);
       width: 100%;
       &_totalTitle {
@@ -280,14 +313,14 @@
         position: relative;
         width: 55%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_price {
         @include mixin.font(1.125rem, 700, null, var(--dark));
