@@ -51,6 +51,9 @@
       color: var(--violet);
     }
   }
+  @media screen and (max-width: 480px) {
+    height: 150px;
+  }
 }
 .nameCatalog {
   font-family: var(--font-family);
