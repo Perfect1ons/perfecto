@@ -14,6 +14,9 @@
     opacity: 1;
     visibility: visible;
   }
+  @media screen and (max-width: 768px) {
+    line-height: 1.2;
+  }
 }
 .leftPart {
   width: 100%;
@@ -86,6 +89,80 @@
       justify-content: space-between;
       align-items: center;
       flex-direction: row;
+      gap: 5px;
     }
+  }
+  .leftPart {
+    &__informationContainer {
+      gap: 5px;
+      &__title {
+        line-height: 1.2;
+      }
+      &__delivery {
+        &__parap {
+          line-height: 1.2;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 420px) {
+  .rigthPart {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .leftPart {
+    &__informationContainer {
+      gap: 2px;
+      &__title {
+        line-height: 1;
+      }
+      &__delivery {
+        &__parap {
+          line-height: 1;
+        }
+      }
+    }
+  }
+}
+.ItemPriceCard {
+  &__minQty {
+    @include mixin.font(14px, 400, 100%, var(--dark));
+    margin-top: 10px;
+  }
+  &__cost {
+    @include mixin.flex(flex-end, null, null, 10px);
+    @media screen and (max-width: 576px) {
+      flex-wrap: wrap;
+      gap: 0;
+    }
+  }
+  &__price {
+    @include mixin.flex(center, null, null, 3px);
+    @include mixin.font(18px, bold, 100%, var(--dark));
+
+    &_custom {
+      @include mixin.font(18px, bold, 100%, var(--dark));
+      border-bottom: 3px solid var(--dark);
+    }
+    &_discount {
+      @include mixin.font(14px, 500, 100%, var(--dark));
+      background: var(--violet);
+      color: var(--white);
+      border-radius: 5px;
+      padding: 3px;
+    }
+    &_new {
+      @include mixin.font(18px, bold, 100%, var(--violet));
+      @include mixin.flex(center, null, null, 3px);
+      &_custom {
+        @include mixin.font(18px, bold, 100%, var(--violet));
+        border-bottom: 3px solid var(--violet);
+      }
+    }
+  }
+  &__old_price {
+    @include mixin.font(16px, 500, 100%, var(--gray-dark));
+    text-decoration: line-through;
   }
 }

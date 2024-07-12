@@ -201,16 +201,46 @@ const BasketProducts = () => {
                     height={20}
                     alt="delivery_icon"
                   />
-                  <p>{item.ddos}</p>
+                  <p
+                    className={
+                      styles.leftPart__informationContainer__delivery__parap
+                    }
+                  >
+                    {item.ddos}
+                  </p>
                 </div>
               </div>
             </div>
             <div className={styles.rigthPart}>
               <div className={styles.rigthPart__priceContainer}>
-                <span className={styles.default__card_price}>
-                  {totalPrice.toLocaleString("ru-RU")}
-                  <span className={styles.default__card_price_custom}> с.</span>
-                </span>
+                {item?.discount_prc > 0 ? (
+                  <div className={styles.ItemPriceCard__cost}>
+                    <span className={styles.ItemPriceCard__price_new}>
+                      {item.cenaok.toLocaleString("ru-RU")}
+                      <span className={styles.ItemPriceCard__price_new_custom}>
+                        с
+                      </span>
+                    </span>
+                    <span className={styles.ItemPriceCard__price_discount}>
+                      -{item.discount_prc}%
+                    </span>
+                    <span className={styles.ItemPriceCard__old_price}>
+                      {item.old_price.toLocaleString("ru-RU")}
+                      <span className={styles.ItemPriceCard__old_price_custom}>
+                        с
+                      </span>
+                    </span>
+                  </div>
+                ) : (
+                  <div className={styles.ItemPriceCard__cost}>
+                    <span className={styles.ItemPriceCard__price}>
+                      {item?.cenaok.toLocaleString("ru-RU")}
+                      <span className={styles.ItemPriceCard__price_custom}>
+                        с
+                      </span>
+                    </span>
+                  </div>
+                )}
                 <div className={styles.rigthPart__priceContainer__buttons}>
                   <button
                     onClick={(e) => handleFavoriteClick(e, item)}
