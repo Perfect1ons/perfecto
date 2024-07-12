@@ -9,6 +9,10 @@
   max-width: 400px;
   position: sticky;
   top: 0;
+  @media screen and (max-width: 992px) {
+    width: 100%;
+    align-self: center;
+  }
   &_delivery {
     @include mixin.flex(center, space-between, null, 20px);
     padding: 5px 10px;
