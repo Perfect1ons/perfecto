@@ -21,10 +21,6 @@ interface ILinks {
   count?: number;
 }
 
-interface IHeaderNavProps {
-  isAuthed: boolean;
-}
-
 const navLinks: ILinks[] = [
   {
     href: "/favorites",
@@ -38,9 +34,13 @@ const navLinks: ILinks[] = [
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
-const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
+const HeaderNav = () => {
+  const authStatus = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   const [isAuthVisible, setAuthVisible] = useState(false);
-  const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
+  // const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -88,11 +88,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNavProps) => {
 
   return (
     <nav className={styles.nav}>
-      <AuthModal
-        setAuthStatus={setAuthStatus}
-        isVisible={isAuthVisible}
-        close={closeModals}
-      />
+      <AuthModal isVisible={isAuthVisible} close={closeModals} />
 
       {links.map((link) =>
         link.href === "/auth" && !authStatus ? (
