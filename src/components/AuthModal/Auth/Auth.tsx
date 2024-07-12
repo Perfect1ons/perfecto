@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { CheckIcon } from "../../../../public/Icons/Icons";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 interface FormProps {
   setAuthStatus?: (isAuthed: boolean) => void;
@@ -14,6 +14,7 @@ interface FormProps {
 const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
   const [isAnonim, setIsAnonim] = useState(false);
   const router = useRouter();
+  const pathname = usePathname()
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const AnonimHandler = () => {
@@ -33,7 +34,11 @@ const AuthForm = ({ setAuthStatus, setView, close }: FormProps) => {
       const data = await response.json();
 
       if (data.success) {
-        router.push("/profile");
+        if (pathname === "/profile") {
+          window.location.reload()
+        } else {
+          router.push("/profile");
+        }
         if (setAuthStatus) {
           setAuthStatus(true);
         }
