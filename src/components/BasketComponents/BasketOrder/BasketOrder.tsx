@@ -10,7 +10,7 @@ import { useState, ChangeEvent, useCallback, useMemo } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
 import { RootState } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 interface Buyer {
   phone: string;
@@ -55,6 +55,7 @@ const BasketOrder = () => {
       { totalQuantity: 0, totalPrice: 0 }
     );
   }, [cart]);
+
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
   );
