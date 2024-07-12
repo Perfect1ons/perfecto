@@ -2,14 +2,13 @@
 import { useEffect } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import Link from "next/link";
 import { Cross } from "../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
 
 interface FavoriteModalProps {
   isVisible: boolean;
   message: string;
-  isRedirect: boolean;
+  isRedirect?: boolean;
   onClose: () => void;
 }
 

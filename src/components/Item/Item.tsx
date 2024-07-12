@@ -37,12 +37,7 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
   const [copiedCode, setCopiedCode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(false);
-    setIsClient(true);
-  }, []);
-
+  
   // Общий блок для блокировки скролла
   const scrollLockBlock = (open: boolean) => {
     const body = document.body;
@@ -103,7 +98,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setItemModalDescription(!itemModalDescription);
     scrollLockBlock(!itemModalDescription);
   };
-
+  
+    useEffect(() => {
+      setIsLoading(false);
+      setIsClient(true);
+    }, []);
+  
   return (
     <section className={styles.wrap}>
       {isOpenReview && (
