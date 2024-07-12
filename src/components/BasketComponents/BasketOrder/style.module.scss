@@ -145,13 +145,22 @@
       @include mixin.font(0.875rem, 700, null, var(--dark));
       @include mixin.flex(center, flex-start, null, null);
       width: 100%;
+      transition: 0.2s all;
+      &:hover {
+        color: var(--violet);
+        > span {
+          color: var(--violet);
+        }
+      }
       &_arrow {
+        color: var(--dark);
         left: 0;
         top: -5px;
         position: absolute;
         transform: rotate(-90deg);
         transition: 0.2s all;
         &__active {
+          color: var(--dark);
           left: 0;
           top: -2px;
           position: absolute;
