@@ -271,14 +271,14 @@
         position: relative;
         width: 45%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_finalPrice {
         @include mixin.font(1rem, 400, null, var(--dark));
@@ -292,14 +292,14 @@
         position: relative;
         width: 50%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_price {
         @include mixin.font(1rem, 400, null, var(--dark));
@@ -313,14 +313,14 @@
         position: relative;
         width: 55%;
         text-wrap: nowrap;
-        &::after {
-          content: "";
-          position: absolute;
-          margin-left: 0.3em;
-          bottom: 0.35em;
-          width: 100%;
-          border-bottom: 0.1em dotted;
-        }
+        // &::after {
+        //   content: "";
+        //   position: absolute;
+        //   margin-left: 0.3em;
+        //   bottom: 0.35em;
+        //   width: 100%;
+        //   border-bottom: 0.1em dotted;
+        // }
       }
       &_price {
         @include mixin.font(1.125rem, 700, null, var(--dark));
