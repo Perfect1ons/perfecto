@@ -111,17 +111,17 @@ const BasketOrder = () => {
 
   return (
     <section className={styles.wrap}>
-      <button className={styles.wrap_button}>
+      <button className={styles.wrap_delivery}>
         <DeliveryIcon />
-        <p className={styles.wrap_button_title}>Выберите способ доставки</p>
-        <span className={styles.wrap_button_expoint}>
+        <p className={styles.wrap_delivery_title}>Выберите способ доставки</p>
+        <span className={styles.wrap_delivery_expoint}>
           <ExPoint />
         </span>
       </button>
-      <button className={styles.wrap_button}>
+      <button className={styles.wrap_payment}>
         <Image src="/img/pay_icon.svg" width={20} height={20} alt="pay icon" />
-        <p className={styles.wrap_button_title}>Выберите способ оплаты</p>
-        <span className={styles.wrap_button_expoint}>
+        <p className={styles.wrap_payment_title}>Выберите способ оплаты</p>
+        <span className={styles.wrap_payment_expoint}>
           <ExPoint />
         </span>
       </button>
