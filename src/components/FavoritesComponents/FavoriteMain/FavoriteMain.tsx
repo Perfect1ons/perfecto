@@ -8,12 +8,21 @@ import Card from "@/components/UI/Card/Card";
 import MainLoader from "@/components/UI/Loader/MainLoader";
 import { TrashIcon } from "../../../../public/Icons/Icons";
 import FavoriteModal from "../FavoritesModal/FavoritesModal";
+import ReactPaginate from "react-paginate";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 export default function FavoriteMain() {
   const [favorites, setFavorites] = useState<ICard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 100; // Показывать по 100 товаров на странице
+
+  const isMobile = useMediaQuery("(max-width: 480px)");
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = favorites.slice(offset, offset + itemsPerPage);
 
   useEffect(() => {
     const savedFavorites = JSON.parse(
@@ -21,6 +30,11 @@ export default function FavoriteMain() {
     );
     setFavorites(savedFavorites);
     setIsLoading(false);
+
+    // Read the page number from the URL when the component mounts
+    const queryParams = new URLSearchParams(window.location.search);
+    const page = parseInt(queryParams.get("page") || "1", 10);
+    setCurrentPage(page - 1); // Set the current page (subtract 1 because pages are zero-indexed)
   }, []);
 
   const removeFromFavorites = (id_tov: number) => {
@@ -44,6 +58,20 @@ export default function FavoriteMain() {
     setModalVisible(false);
   };
 
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+    const newPage = selected + 1;
+    const queryParams = new URLSearchParams();
+
+    if (newPage > 0) queryParams.set("page", newPage.toString());
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  // Calculate total pages based on favorites length and itemsPerPage
+  const pageCount = Math.ceil(favorites.length / itemsPerPage);
+
   return (
     <section>
       <FavoriteModal
@@ -57,6 +85,7 @@ export default function FavoriteMain() {
         <>
           {favorites.length === 0 ? (
             <div className={cn("container", styles.favorites__container)}>
+              {/* Render empty state */}
               <div className={styles.section__isEmpty}>
                 <div className={styles.content}>
                   <div
@@ -66,9 +95,7 @@ export default function FavoriteMain() {
                     <h2 className={styles.content_text_h3}>
                       Товаров в Избранном нет.
                     </h2>
-                    <p>
-                      Добавляйте понравившиеся товары в избранное
-                    </p>
+                    <p>Добавляйте понравившиеся товары в избранное</p>
                   </div>
                 </div>
                 <Link href="/" className={styles.linkToMain}>
@@ -78,6 +105,7 @@ export default function FavoriteMain() {
             </div>
           ) : (
             <div className={styles.favorites__card}>
+              {/* Render favorites list */}
               <div className={cn(styles.favorites__card_header, "container")}>
                 <h2 className={styles.favorites__card_title}>
                   В избранном{" "}
@@ -95,7 +123,6 @@ export default function FavoriteMain() {
                     ? "товара"
                     : "товаров"}
                 </h2>
-
                 <button
                   title="Удалить все товары в избранном"
                   className={styles.clearFavoritesButton}
@@ -106,14 +133,36 @@ export default function FavoriteMain() {
                 </button>
               </div>
               <div className="cards">
-                {favorites.map((item) => (
+                {currentItems.map((item) => (
                   <Card
-                    key={item.id_tov} // Ensure key is unique
+                    key={item.id_tov}
                     cardData={item}
                     removeFromFavorites={removeFromFavorites}
                   />
                 ))}
               </div>
+              {pageCount > 1 && (
+                <ReactPaginate
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  forcePage={currentPage}
+                  breakLabel={isMobile ? ".." : "..."}
+                  pageCount={pageCount}
+                  marginPagesDisplayed={1}
+                  pageRangeDisplayed={isMobile ? 2 : 3}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item-btn"}
+                  previousLinkClassName={"page-link-previous"}
+                  nextClassName={"page-item-btn"}
+                  nextLinkClassName={"page-link-next"}
+                  breakClassName={"page-item"}
+                  breakLinkClassName={"page-link"}
+                  activeClassName={"active"}
+                />
+              )}
             </div>
           )}
         </>
@@ -121,4 +170,3 @@ export default function FavoriteMain() {
     </section>
   );
 }
-
