@@ -50,7 +50,6 @@ const HeaderNav = () => {
 
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
     let totalItemsInCart = 0;
     cart.forEach((item) => {
       if (item.quantity !== undefined) {
@@ -105,7 +104,7 @@ const HeaderNav = () => {
               <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </div>
-        ) : link.href === "/favorites" ? (
+        ) : link.href === "/favorites" ?? authStatus ? (
           <div
             key={link.id}
             className={cn(
@@ -113,7 +112,7 @@ const HeaderNav = () => {
               pathname === link.href && styles.active
             )}
             onClick={() => {
-              if (!authStatus) {
+              if (authStatus) {
                 setAuthVisible(true);
               } else {
                 window.location.href = link.href;
