@@ -104,7 +104,7 @@ const HeaderNav = () => {
               <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </div>
-        ) : link.href === "/favorites" ?? authStatus ? (
+        ) : link.href === "/favorites" ? (
           <div
             key={link.id}
             className={cn(
@@ -112,7 +112,7 @@ const HeaderNav = () => {
               pathname === link.href && styles.active
             )}
             onClick={() => {
-              if (authStatus) {
+              if (!authStatus) {
                 setAuthVisible(true);
               } else {
                 window.location.href = link.href;
