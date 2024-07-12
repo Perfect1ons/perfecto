@@ -196,6 +196,7 @@
     @include mixin.flex(center, space-between, null, null);
     @include mixin.font(18px, 500, null, var(--black));
     &__btn {
+      @include mixin.flex(center, center, null, null);
       cursor: pointer;
     }
   }

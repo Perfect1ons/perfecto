@@ -63,7 +63,7 @@ const Basket = () => {
         })}
       >
         <div className={styles.modalOpen__xmark}>
-          <h1>Удалить товары</h1>
+          <h2>Удалить товары</h2>
           <button className={styles.modalOpen__xmark__btn} onClick={openModal}>
             <XMark />
           </button>
