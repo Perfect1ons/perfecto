@@ -13,11 +13,22 @@ import {
   clearSelectedProducts,
   toggleSelectAllProducts,
 } from "@/store/reducers/cart.reducer";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import ReactPaginate from "react-paginate";
 const Basket = () => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 20; // Показывать по 0 товаров на странице
+
+  const isMobile = useMediaQuery("(max-width: 480px)");
+
+  const offset = currentPage * itemsPerPage;
+  const currentItems = data.cart.slice(offset, offset + itemsPerPage);
+
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -54,6 +65,20 @@ const Basket = () => {
       body.style.top = "";
     }
   }, [isModalVisible]);
+
+  const handlePageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+    const newPage = selected + 1;
+    const queryParams = new URLSearchParams();
+
+    if (newPage > 0) queryParams.set("page", newPage.toString());
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+    window.scrollTo({ top: 0, behavior: "auto" });
+  };
+
+  // Calculate total pages based on favorites length and itemsPerPage
+  const pageCount = Math.ceil(data.cart.length / itemsPerPage);
 
   return (
     <div className="container">
@@ -141,10 +166,32 @@ const Basket = () => {
             </button>
           </div>
           <div className={styles.cardContainer}>
-            <BasketProducts />
+            <BasketProducts currentItems={currentItems} />
             <BasketOrder />
           </div>
         </div>
+      )}
+      {pageCount > 1 && (
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          forcePage={currentPage}
+          breakLabel={isMobile ? ".." : "..."}
+          pageCount={pageCount}
+          marginPagesDisplayed={1}
+          pageRangeDisplayed={isMobile ? 2 : 3}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item-btn"}
+          previousLinkClassName={"page-link-previous"}
+          nextClassName={"page-item-btn"}
+          nextLinkClassName={"page-link-next"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
       )}
     </div>
   );

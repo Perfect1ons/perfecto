@@ -11,11 +11,15 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
-const BasketProducts = () => {
+
+interface IBasketProductsProps {
+  currentItems: ICard[];
+}
+
+const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
-  const data = useSelector((store: RootState) => store.cart);
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
   }>({});
@@ -41,6 +45,7 @@ const BasketProducts = () => {
   const [added, setAdded] = useState(false);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
   const [allItemsSelected, setAllItemsSelected] = useState(false); // State to track if all items are selecte
+
   const handleToggleAllItems = () => {
     setAllItemsSelected(!allItemsSelected);
   };
@@ -119,7 +124,7 @@ const BasketProducts = () => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {data.cart.map((item) => {
+      {currentItems.map((item) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")

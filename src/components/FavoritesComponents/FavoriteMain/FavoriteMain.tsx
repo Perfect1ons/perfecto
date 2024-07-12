@@ -10,7 +10,6 @@ import { TrashIcon } from "../../../../public/Icons/Icons";
 import FavoriteModal from "../FavoritesModal/FavoritesModal";
 import ReactPaginate from "react-paginate";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { useRouter } from "next/navigation";
 
 export default function FavoriteMain() {
   const [favorites, setFavorites] = useState<ICard[]>([]);
@@ -21,7 +20,6 @@ export default function FavoriteMain() {
   const itemsPerPage = 100; // Показывать по 100 товаров на странице
 
   const isMobile = useMediaQuery("(max-width: 480px)");
-  const router = useRouter();
 
   const offset = currentPage * itemsPerPage;
   const currentItems = favorites.slice(offset, offset + itemsPerPage);
