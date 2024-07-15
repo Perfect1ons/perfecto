@@ -21,6 +21,7 @@ const ProfileTabs = () => {
                 key={link.id}
                 href={link.href}
               >
+                {link.count && <span className={styles.profile__link_count}>{link.count}</span> }
               {link.title}
               </Link>
             );

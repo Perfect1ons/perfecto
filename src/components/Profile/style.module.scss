@@ -8,6 +8,20 @@
     display: grid;
     grid-template-columns: repeat(3, 2fr);
     gap: 30px;
+    @media screen and (max-width: 1440px) {
+      gap: 20px;
+      padding: 20px 0;
+    }
+    @media screen and (max-width: 992px) {
+      grid-template-columns: repeat(2, 2fr);
+    }
+    @media screen and (max-width: 768px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+    @media screen and (max-width: 480px) {
+      gap: 10px;
+      padding:  10px 0;
+    }
   }
 
   &__userInfo {
@@ -17,6 +31,9 @@
     @include mixin.flex(flex-start,space-between,column,null);
     max-height: 204.75px;
     height: 204.75px;
+    transition: all 0.3s ease;
+    min-width: 100%;
+    overflow: hidden;
     &_header {
       @include mixin.flex(flex-start, null, null, 20px);
     }
@@ -44,6 +61,11 @@
         font-size: 12px;
         font-weight: bold;
       }
+    }
+
+    &:hover{
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
     }
   }
 
@@ -86,7 +108,6 @@
 
 .orders {
   color: rgba(73, 73, 73, 1);
-  padding-top: 15px;
  
   &__count {
     @include mixin.font(16px, bold, null, var(--dark));
@@ -94,6 +115,10 @@
 
   &__images {
     @include mixin.flex(center, null, null, 10px);
+    max-width: 100%;
+    @media screen and (max-width: 1440px) {
+      overflow: auto;
+    }
   }
 
   &__img {
@@ -103,11 +128,20 @@
     border-radius: 5px;
     background: var(--secondlight);
     @include mixin.flex(center, center);
+    @media screen and (max-width: 1440px) {
+      min-width: 60px;
+      max-width: 60px;
+      height: 60px;
+    }
     span {
       transform: rotate(-45deg);
       text-transform: uppercase;
       font-size: 14px;
       font-weight: bold;
+      @media screen and (max-width: 1440px) {
+        font-size: 12px;
+        font-weight: 600;
+    }
     }
   }
 }

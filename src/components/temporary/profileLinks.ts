@@ -2,6 +2,7 @@ export interface IProfileLinks {
   href: string;
   title: string;
   id: number;
+  count?: number;
 }
 
 export const profileLinks: IProfileLinks[] = [
@@ -19,6 +20,7 @@ export const profileLinks: IProfileLinks[] = [
     href: "/profile/orders",
     title: "Текущие заказы",
     id: 3,
+    count: 3,
   },
   {
     href: "/profile/orders/history",
@@ -29,11 +31,13 @@ export const profileLinks: IProfileLinks[] = [
     href: "/profile/notification",
     title: "Уведомления",
     id: 5,
+    count: 1,
   },
   {
     href: "/cart",
     title: "Корзина",
     id: 6,
+    count: 2,
   },
   {
     href: "/favorites",
