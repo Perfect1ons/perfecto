@@ -34,6 +34,7 @@ type CountryKey = keyof typeof codesCountry;
 
 const BasketOrder = () => {
   const [visible, setVisible] = useState<string>("");
+
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
     phone: `+${codesCountry.kg.code}`,
@@ -76,7 +77,6 @@ const BasketOrder = () => {
   const visibleHandler = useCallback((current: string) => {
     setVisible((prevVisible) => (prevVisible !== current ? current : ""));
   }, []);
-
   const ndsHandler = useCallback(() => {
     setNds((prevNds) => !prevNds);
   }, []);

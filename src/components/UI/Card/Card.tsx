@@ -43,8 +43,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     return newImages;
   });
 
-  
-
   const [rating, setRating] = useState(0);
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isAuthed, setIsAuthed] = useState(false);
@@ -55,27 +53,27 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
 
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch("/api/jlogin", {
-          method: "GET",
-        });
+  const checkAuthStatus = async () => {
+    try {
+      const response = await fetch("/api/jlogin", {
+        method: "GET",
+      });
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (data.isAuthenticated) {
-          setIsAuthed(true);
-        } else {
-          setIsAuthed(false);
-        }
-      } catch (error) {
-        console.log(error);
-        ;
+      if (data.isAuthenticated) {
+        setIsAuthed(true);
+      } else {
+        setIsAuthed(false);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
+    const basket = JSON.parse(localStorage.getItem("basket") || "[]");
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
@@ -87,54 +85,53 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-  if (!isAuthed) {
-    openAuthModal()
-    return;
-  }
-
-  let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  let message = "";
-
-  const favoriteData = {
-    id: cardData.id,
-    id_tov: cardData.id_tov,
-    id_post: cardData.id_post,
-    old_price: cardData.old_price,
-    discount_prc: cardData.discount_prc,
-    naim: cardData.naim,
-    ddos: cardData.ddos,
-    cenaok: cardData.cenaok,
-    url: cardData.url,
-    photos: cardData.photos,
-    ocenka: cardData.ocenka,
-    status: cardData.status,
-    minQty: cardData.minQty,
-  };
-
-  if (isFavorite) {
-    favorites = favorites.filter(
-      (fav: ICard) => fav.id_tov !== cardData.id_tov
-    );
-    message = "Товар удален из избранного.";
-    setIsRedirect(false);
-    if (removeFromFavorites) {
-      removeFromFavorites(cardData.id_tov);
+    if (!isAuthed) {
+      openAuthModal();
+      return;
     }
-  } else {
-    favorites.push(favoriteData);
-    message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-    setIsRedirect(true);
-  }
 
-  localStorage.setItem("favorites", JSON.stringify(favorites));
-  setIsFavorite(!isFavorite);
-  window.dispatchEvent(new Event("favoritesUpdated"));
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message = "";
 
-  // Show modal with corresponding message
-  setModalMessage(message);
-  setModalVisible(true);
-};
+    const favoriteData = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+      minQty: cardData.minQty,
+    };
 
+    if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
+      setIsRedirect(false);
+      if (removeFromFavorites) {
+        removeFromFavorites(cardData.id_tov);
+      }
+    } else {
+      favorites.push(favoriteData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
+    }
+
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Show modal with corresponding message
+    setModalMessage(message);
+    setModalVisible(true);
+  };
 
   const handleModalClose = () => {
     setModalVisible(false);
