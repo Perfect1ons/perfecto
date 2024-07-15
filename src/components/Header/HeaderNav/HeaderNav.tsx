@@ -83,7 +83,7 @@ const HeaderNav = () => {
       window.removeEventListener("cartUpdated", cartListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
+  }, []);
 
   return (
     <nav className={styles.nav}>
