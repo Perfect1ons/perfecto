@@ -129,8 +129,159 @@ const BasketOrder = () => {
   }, [codeCountryHandler]);
 
   return (
-    <section>
-      <h1>Переделывайте тут все</h1>
+    <section className={styles.wrap}>
+      <button className={styles.wrap_delivery}>
+        <DeliveryIcon />
+        <p className={styles.wrap_delivery_title}>Выберите способ доставки</p>
+        <span className={styles.wrap_delivery_expoint}>
+          <ExPoint />
+        </span>
+      </button>
+      <button className={styles.wrap_payment}>
+        <Image src="/img/pay_icon.svg" width={20} height={20} alt="pay icon" />
+        <p className={styles.wrap_payment_title}>Выберите способ оплаты</p>
+        <span className={styles.wrap_payment_expoint}>
+          <ExPoint />
+        </span>
+      </button>
+      <div className={styles.wrap_phone}>
+        <div className={styles.wrap_phone_control}>
+          <button
+            onClick={() => visibleHandler("country")}
+            className={styles.wrap_phone_control_selectCountry}
+          >
+            <Image
+              className={styles.wrap_phone_control_selectCountry_img}
+              src={currentCodeCountry.img}
+              width={30}
+              height={30}
+              alt={currentCodeCountry.name}
+            />
+            <span
+              className={cn(
+                visible["country"]
+                  ? styles.wrap_phone_control_selectCountry_arrow__active
+                  : styles.wrap_phone_control_selectCountry_arrow
+              )}
+            >
+              <ArrowDropdown />
+            </span>
+          </button>
+          <InputMask
+            mask={mask}
+            value={buyer.phone}
+            onChange={handleBuyerChange}
+            className={styles.wrap_phone_control_input}
+          >
+            {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+              <input
+                {...inputProps}
+                name="phone"
+                type="text"
+                placeholder="Телефон"
+              />
+            )}
+          </InputMask>
+        </div>
+        {visible["country"] && (
+          <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
+        )}
+      </div>
+      <div className={styles.wrap_surname}>
+        <input
+          name="surname"
+          placeholder="Фамилия"
+          type="text"
+          value={buyer.surname}
+          onChange={handleBuyerChange}
+          className={styles.wrap_surname_input}
+        />
+      </div>
+      <div className={styles.wrap_surname}>
+        <input
+          name="name"
+          placeholder="Имя"
+          type="text"
+          value={buyer.name}
+          onChange={handleBuyerChange}
+          className={styles.wrap_surname_input}
+        />
+      </div>
+      <div className={styles.wrap_organization}>
+        <button
+          onClick={() => visibleHandler("organization")}
+          className={styles.wrap_organization_dropdownToggler}
+        >
+          <span
+            className={cn(
+              visible["organization"]
+                ? styles.wrap_organization_dropdownToggler_arrow__active
+                : styles.wrap_organization_dropdownToggler_arrow
+            )}
+          >
+            <ArrowDropdown />
+          </span>
+          Оформить на организацию
+        </button>
+        <div
+          className={cn(
+            visible === "organization"
+              ? styles.wrap_organization_dropdown__active
+              : styles.wrap_organization_dropdown
+          )}
+        >
+          <input
+            placeholder="Название организации:"
+            className={styles.wrap_organization_dropdown__name}
+            type="text"
+          />
+          <input
+            placeholder="ИНН:"
+            className={styles.wrap_organization_dropdown__inn}
+            type="text"
+          />
+          <div className={styles.wrap_organization_dropdown_nds}>
+            <label className={styles.wrap_organization_dropdown_nds_switch}>
+              <input onClick={ndsHandler} type="checkbox" />
+              <span
+                className={styles.wrap_organization_dropdown_nds_switch__slider}
+              ></span>
+            </label>
+            <p className={styles.wrap_organization_dropdown_nds_title}>
+              Включить НДС
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.wrap_price}>
+        <div className={styles.wrap_price_good}>
+          <p className={styles.wrap_price_good_count}>
+            Товары, {totalQuantity} шт.
+          </p>
+          <p className={styles.wrap_price_good_finalPrice}>
+            {totalPrice.toLocaleString("ru-Ru")} c.
+          </p>
+        </div>
+        {visible["organization"] && nds && (
+          <div className={styles.wrap_price_nds}>
+            <p className={styles.wrap_price_nds_text}>В т.ч НДС:</p>
+            <p className={styles.wrap_price_nds_price}>329.20 c.</p>
+          </div>
+        )}
+        <div className={styles.wrap_price_priceTotal}>
+          <p className={styles.wrap_price_priceTotal_totalTitle}>Итого: </p>
+          <p className={styles.wrap_price_priceTotal_price}>
+            {totalPrice.toLocaleString("ru-Ru")} c.
+          </p>
+        </div>
+      </div>
+      <button
+        onClick={orderHandler}
+        aria-label="order request"
+        className={styles.wrap_orderRequest}
+      >
+        оформить заказ
+      </button>
     </section>
   );
 };
