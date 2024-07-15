@@ -5,6 +5,7 @@ import { ArrowDropdown } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { postLoginCode } from "@/api/clientRequest";
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
@@ -56,10 +57,28 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    if (phoneNumber === "") {
-    } else {
-      setView("confirm");
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
     }
+
+    if (cleanedPhoneNumber.length !== expectedLength) {
+      console.log("Phone number length is incorrect for the selected country.");
+      return;
+    }
+
+    postLoginCode(cleanedPhoneNumber);
+    setView("confirm");
   };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {
@@ -145,6 +164,7 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
           )}
         </div>
         <button
+          onClick={handleSubmit}
           className={cn(styles.modal__button, "button")}
           aria-label="go to registration"
           type="submit"

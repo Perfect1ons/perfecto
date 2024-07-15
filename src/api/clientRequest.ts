@@ -128,9 +128,26 @@ export const getFastUserSearch = (slug: string): Promise<ISearch> => {
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 export const postLoginCode = (tel: string) => {
-  return maxkg.post("site/logincode", { json: tel });
+  const params = new URLSearchParams();
+  params.append("tel", tel);
+
+  return maxkg.post("site/logincode", {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
 
-export const postConfirmCode = (confirm: { tel: string; code: string }) => {
-  return maxkg.post("site/confirmcode", { json: confirm });
+export const postConfirmCode = (tel: string, code: string) => {
+  const params = new URLSearchParams();
+  params.append("tel", tel);
+  params.append("code", code);
+
+  return maxkg.post("site/confirmcode", {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
