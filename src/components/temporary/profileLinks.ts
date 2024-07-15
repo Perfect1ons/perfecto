@@ -12,7 +12,7 @@ export const profileLinks: IProfileLinks[] = [
     id: 1,
   },
   {
-    href: "/profile/pd",
+    href: "/profile/lk",
     title: "Личные данные",
     id: 2,
   },
