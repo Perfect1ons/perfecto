@@ -86,8 +86,8 @@
       }
     }
   }
-  &__notAvailable{
-    @include mixin.flex(center,center);
+  &__notAvailable {
+    @include mixin.flex(center, center);
     background: rgba(255, 255, 255, 0.754);
     border-radius: 10px;
     position: absolute;
@@ -95,9 +95,9 @@
     width: 100%;
     height: 100%;
 
-    &_title{
+    &_title {
       margin-bottom: 50px;
-      @include mixin.font(16px,bold,1.5,var(--violet));
+      @include mixin.font(16px, bold, 1.5, var(--violet));
       border-radius: 7px;
       border: 2px solid var(--violet);
       padding: 10px 15px;
@@ -363,7 +363,5 @@
 
 .linkCart {
   text-decoration: underline;
-  color: var(--white);
+  color: var(--violet);
 }
-
-
