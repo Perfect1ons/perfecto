@@ -166,6 +166,7 @@
 .cardContainer {
   width: 100%;
   @include mixin.flex(flex-start, space-between, null, 20px);
+  margin-bottom: 15px;
 }
 .modalOpen {
   position: fixed;
