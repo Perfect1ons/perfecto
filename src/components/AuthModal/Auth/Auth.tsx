@@ -35,7 +35,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
   const pathname = usePathname();
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  const [visible, setVisible] = useState<string>("");
+  const [visible, setVisible] = useState("");
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
@@ -55,7 +55,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
   const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
 
   const visibleHandler = useCallback((current: string) => {
-    setVisible((prevVisible) => (prevVisible !== current ? current : ""));
+    setVisible((prevVisible) => (prevVisible === current ? "" : current));
   }, []);
 
   const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +142,11 @@ const AuthForm = ({ setView, close }: FormProps) => {
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
             <button
-              onClick={() => visibleHandler("country")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                visibleHandler("country");
+              }}
               className={styles.modal__form_phone_control_selectCountry}
             >
               <Image
