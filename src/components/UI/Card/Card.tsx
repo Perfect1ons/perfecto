@@ -249,10 +249,12 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
           </Link>
           <span
             title={
-              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+              isAuthed && isFavorite
+                ? "Удалить из избранного"
+                : "Добавить в избранное"
             }
             className={`card__info_addFavorites ${
-              isFavorite ? "card__info_addedFavorites" : ""
+              isAuthed && isFavorite ? "card__info_addedFavorites" : ""
             }`}
             onClick={handleFavoriteClick}
           >
