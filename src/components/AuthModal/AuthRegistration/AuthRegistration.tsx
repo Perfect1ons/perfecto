@@ -56,7 +56,10 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    setView("confirm");
+    if (phoneNumber === "") {
+    } else {
+      setView("confirm");
+    }
   };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {
