@@ -29,7 +29,7 @@
 }
 
 .ul {
-  @include mixin.flex(null, space-around, row, null);
+  @include mixin.flex(center, space-around, row, null);
 
   user-select: none;
 

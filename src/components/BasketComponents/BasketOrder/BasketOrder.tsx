@@ -223,33 +223,35 @@ const BasketOrder = () => {
           </span>
           Оформить на организацию
         </button>
-        {visible["organization"] && (
-          <div className={styles.wrap_organization_dropdown__active}>
-            <input
-              placeholder="Название организации:"
-              className={styles.wrap_organization_dropdown__name}
-              type="text"
-            />
-            <input
-              placeholder="ИНН:"
-              className={styles.wrap_organization_dropdown__inn}
-              type="text"
-            />
-            <div className={styles.wrap_organization_dropdown_nds}>
-              <label className={styles.wrap_organization_dropdown_nds_switch}>
-                <input onClick={ndsHandler} type="checkbox" />
-                <span
-                  className={
-                    styles.wrap_organization_dropdown_nds_switch__slider
-                  }
-                ></span>
-              </label>
-              <p className={styles.wrap_organization_dropdown_nds_title}>
-                Включить НДС
-              </p>
-            </div>
+        <div
+          className={cn(
+            visible["organization"]
+              ? styles.wrap_organization_dropdown__active
+              : styles.wrap_organization_dropdown
+          )}
+        >
+          <input
+            placeholder="Название организации:"
+            className={styles.wrap_organization_dropdown__name}
+            type="text"
+          />
+          <input
+            placeholder="ИНН:"
+            className={styles.wrap_organization_dropdown__inn}
+            type="text"
+          />
+          <div className={styles.wrap_organization_dropdown_nds}>
+            <label className={styles.wrap_organization_dropdown_nds_switch}>
+              <input onClick={ndsHandler} type="checkbox" />
+              <span
+                className={styles.wrap_organization_dropdown_nds_switch__slider}
+              ></span>
+            </label>
+            <p className={styles.wrap_organization_dropdown_nds_title}>
+              Включить НДС
+            </p>
           </div>
-        )}
+        </div>
       </div>
       <div className={styles.wrap_price}>
         <div className={styles.wrap_price_good}>

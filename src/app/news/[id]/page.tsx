@@ -6,23 +6,23 @@ import {
 } from "@/api/requests";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
 
-export const dynamicParams = true;
+// export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  const newsData = await getNews();
+// export async function generateStaticParams() {
+//   const newsData = await getNews();
 
-  return newsData.map((product: any) => ({
-    id: product.id.toString(),
-    revalidate: 60,
-  }));
-}
+//   return newsData.map((product: any) => ({
+//     id: product.id.toString(),
+//     revalidate: 60,
+//   }));
+// }
 
-export default async function IDPage({ params }: any) {
+export default async function IDPage({ params: { id } }: any) {
   // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
-    getNewsByIdOne(params.id),
-    getNewsByIdTwo(params.id),
-    getNewsByIdThree(params.id),
+    getNewsByIdOne(id),
+    getNewsByIdTwo(id),
+    getNewsByIdThree(id),
   ]);
 
   const result = [dataOne.result, dataTwo.result, dataThree.result].flat();

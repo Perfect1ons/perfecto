@@ -1,0 +1,137 @@
+@use "../../assets/scss/common/mixins" as mixin;
+
+.profile {
+  background: var(--secondlight);
+  padding-bottom: 50px;
+  &__cards {
+    padding: 30px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 2fr);
+    gap: 30px;
+  }
+
+  &__userInfo {
+    padding: 15px;
+    background: var(--white);
+    border-radius: 5px;
+    @include mixin.flex(flex-start,space-between,column,null);
+    max-height: 204.75px;
+    height: 204.75px;
+    &_header {
+      @include mixin.flex(flex-start, null, null, 20px);
+    }
+
+    &_footer {
+      @include mixin.flex(center, space-between, null);
+      padding-top: 20px;
+      width: 100%;
+    }
+
+    &_name {
+      @include mixin.font(18px, 600, null, var(--dark));
+      padding-top: 10px;
+    }
+
+    &_icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 5px;
+      background: var(--secondlight);
+      @include mixin.flex(center, center);
+      span {
+        transform: rotate(-45deg);
+        text-transform: uppercase;
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__exit {
+    cursor: pointer;
+    padding: 5px 20px;
+    color: rgba(0, 0, 0, 0.45);
+    border: 2px solid rgba(0, 0, 0, 0.45);
+    border-radius: 5px;
+    font-weight: 600;
+
+    transition: 0.3s ease;
+    &:hover {
+      color: var(--dark);
+      border: 2px solid var(--dark);
+    }
+  }
+
+  &__settings {
+    @include mixin.flex(center, null, null, 7px);
+    @include mixin.font(16px, 400);
+    color: rgba(73, 73, 73, 1);
+
+    svg {
+      path {
+        stroke: rgba(73, 73, 73, 1);
+      }
+    }
+
+    &:hover {
+      color: var(--violet);
+      svg {
+        path {
+          stroke: var(--violet);
+        }
+      }
+    }
+  }
+}
+
+.orders {
+  color: rgba(73, 73, 73, 1);
+  padding-top: 15px;
+ 
+  &__count {
+    @include mixin.font(16px, bold, null, var(--dark));
+  }
+
+  &__images {
+    @include mixin.flex(center, null, null, 10px);
+  }
+
+  &__img {
+    cursor: pointer;
+    width: 75px;
+    height: 75px;
+    border-radius: 5px;
+    background: var(--secondlight);
+    @include mixin.flex(center, center);
+    span {
+      transform: rotate(-45deg);
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+}
+
+.phone {
+  padding-top: 15px;
+  @include mixin.flex(center, null, null, 5px);
+  @include mixin.font(16px, 400, null);
+  color: rgba(73, 73, 73, 1);
+
+  &__number {
+    @include mixin.font(16px, 600, null);
+    color: rgba(73, 73, 73, 1);
+  }
+}
+
+.city {
+  padding-top: 1px;
+  @include mixin.flex(flex-start, null, null, 5px);
+  @include mixin.font(16px, 400, null);
+  color: rgba(73, 73, 73, 1);
+  &__name {
+    @include mixin.font(16px, 400, null);
+    color: rgba(73, 73, 73, 1);
+    max-width: 220px;
+  }
+}
