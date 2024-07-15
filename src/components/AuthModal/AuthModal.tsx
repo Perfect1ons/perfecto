@@ -110,7 +110,19 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
       case "recovery":
         return {
           title: "Восстановление",
-          content: <AuthRecovery setView={setView} close={close} />,
+          content: (
+            <AuthRecovery
+              visibleHandler={visibleHandler}
+              countryOptions={countryOptions}
+              currentCodeCountry={currentCodeCountry}
+              visible={visible}
+              handleBuyerChange={handleBuyerChange}
+              mask={mask}
+              phoneNumber={phoneNumber}
+              setView={setView}
+              close={close}
+            />
+          ),
         };
       case "registration":
         return {

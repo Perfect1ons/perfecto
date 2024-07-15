@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { ArrowDropdown } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { postLoginCode } from "@/api/clientRequest";
 export interface Country {
   code: number;
@@ -34,6 +34,11 @@ const AuthRegistration = ({
   countryOptions,
   visibleHandler,
 }: FormProps) => {
+  const [warning, setWarning] = useState("");
+  const isValidPhoneNumber = (phoneNumber: string, mask: string): boolean => {
+    const phoneRegex = new RegExp(`^${mask}$`);
+    return phoneRegex.test(phoneNumber);
+  };
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -53,9 +58,11 @@ const AuthRegistration = ({
 
     if (cleanedPhoneNumber.length !== expectedLength) {
       console.log("Phone number length is incorrect for the selected country.");
+      setWarning("Пожалуйста, заполните все поля кода.");
+
       return;
     }
-
+    setWarning("");
     postLoginCode(cleanedPhoneNumber);
     setView("confirm");
   };
@@ -120,6 +127,7 @@ const AuthRegistration = ({
         >
           Регистрация
         </button>
+        {warning && <p style={{ color: "red" }}>{warning}</p>}
       </form>
       <div className={styles.modal__more_buttons}>
         <button
