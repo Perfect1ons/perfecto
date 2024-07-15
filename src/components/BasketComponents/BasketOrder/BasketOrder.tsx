@@ -33,7 +33,8 @@ const codesCountry: Record<string, Country> = {
 type CountryKey = keyof typeof codesCountry;
 
 const BasketOrder = () => {
-  const [visible, setVisible] = useState<{ [key: string]: boolean }>({});
+  const [visible, setVisible] = useState<string>("");
+
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
     phone: `+${codesCountry.kg.code}`,
@@ -73,11 +74,8 @@ const BasketOrder = () => {
 
   const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
 
-  const visibleHandler = useCallback((key: string) => {
-    setVisible((prevVisible) => ({
-      ...prevVisible,
-      [key]: !prevVisible[key],
-    }));
+  const visibleHandler = useCallback((current: string) => {
+    setVisible((prevVisible) => (prevVisible !== current ? current : ""));
   }, []);
   const ndsHandler = useCallback(() => {
     setNds((prevNds) => !prevNds);
@@ -99,7 +97,7 @@ const BasketOrder = () => {
       phone: `+${selectedCountry.code}`,
     }));
     setMask(getMaskForCountry(selectedCountry.code));
-    setVisible({});
+    setVisible("");
   }, []);
 
   const orderHandler = useCallback(() => {
@@ -159,7 +157,7 @@ const BasketOrder = () => {
             />
             <span
               className={cn(
-                visible["country"]
+                visible === "country"
                   ? styles.wrap_phone_control_selectCountry_arrow__active
                   : styles.wrap_phone_control_selectCountry_arrow
               )}
@@ -183,7 +181,7 @@ const BasketOrder = () => {
             )}
           </InputMask>
         </div>
-        {visible["country"] && (
+        {visible === "country" && (
           <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
         )}
       </div>
@@ -214,7 +212,7 @@ const BasketOrder = () => {
         >
           <span
             className={cn(
-              visible["organization"]
+              visible === "organization"
                 ? styles.wrap_organization_dropdownToggler_arrow__active
                 : styles.wrap_organization_dropdownToggler_arrow
             )}
@@ -262,7 +260,7 @@ const BasketOrder = () => {
             {totalPrice.toLocaleString("ru-Ru")} c.
           </p>
         </div>
-        {visible["organization"] && nds && (
+        {visible === "organization" && nds && (
           <div className={styles.wrap_price_nds}>
             <p className={styles.wrap_price_nds_text}>В т.ч НДС:</p>
             <p className={styles.wrap_price_nds_price}>329.20 c.</p>
