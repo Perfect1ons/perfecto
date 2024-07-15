@@ -223,7 +223,35 @@ const BasketOrder = () => {
           </span>
           Оформить на организацию
         </button>
-<<<<<<< HEAD
+<<<<<<<<< Temporary merge branch 1
+        <div
+          className={cn(
+            visible["organization"]
+              ? styles.wrap_organization_dropdown__active
+              : styles.wrap_organization_dropdown
+          )}
+        >
+          <input
+            placeholder="Название организации:"
+            className={styles.wrap_organization_dropdown__name}
+            type="text"
+          />
+          <input
+            placeholder="ИНН:"
+            className={styles.wrap_organization_dropdown__inn}
+            type="text"
+          />
+          <div className={styles.wrap_organization_dropdown_nds}>
+            <label className={styles.wrap_organization_dropdown_nds_switch}>
+              <input onClick={ndsHandler} type="checkbox" />
+              <span
+                className={styles.wrap_organization_dropdown_nds_switch__slider}
+              ></span>
+            </label>
+            <p className={styles.wrap_organization_dropdown_nds_title}>
+              Включить НДС
+            </p>
+=========
         {visible["organization"] && (
           <div className={styles.wrap_organization_dropdown__active}>
             <input
@@ -249,35 +277,7 @@ const BasketOrder = () => {
                 Включить НДС
               </p>
             </div>
-=======
-        <div
-          className={cn(
-            visible === "organization"
-              ? styles.wrap_organization_dropdown__active
-              : styles.wrap_organization_dropdown
-          )}
-        >
-          <input
-            placeholder="Название организации:"
-            className={styles.wrap_organization_dropdown__name}
-            type="text"
-          />
-          <input
-            placeholder="ИНН:"
-            className={styles.wrap_organization_dropdown__inn}
-            type="text"
-          />
-          <div className={styles.wrap_organization_dropdown_nds}>
-            <label className={styles.wrap_organization_dropdown_nds_switch}>
-              <input onClick={ndsHandler} type="checkbox" />
-              <span
-                className={styles.wrap_organization_dropdown_nds_switch__slider}
-              ></span>
-            </label>
-            <p className={styles.wrap_organization_dropdown_nds_title}>
-              Включить НДС
-            </p>
->>>>>>> 7ca77db26782da06510d024c80a83568379c836d
+>>>>>>>>> Temporary merge branch 2
           </div>
         </div>
       </div>
