@@ -7,6 +7,7 @@ import AuthForm from "./Auth/Auth";
 import AuthRecovery from "./AuthRecovery/AuthRecovery";
 import AuthRegistration from "./AuthRegistration/AuthRegistration";
 import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
+import AuthConfirmCode from "./AuthConfirmCode/AuthConfirmCode";
 
 interface ModalProps {
   isVisible: boolean;
@@ -14,9 +15,9 @@ interface ModalProps {
 }
 
 const AuthModal = ({ isVisible, close }: ModalProps) => {
-  const [view, setView] = useState<"login" | "recovery" | "registration">(
-    "login"
-  );
+  const [view, setView] = useState<
+    "login" | "recovery" | "registration" | "confirm"
+  >("login");
 
   useEffect(() => {
     if (!isVisible) {
@@ -40,6 +41,11 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
         return {
           title: "Регистрация",
           content: <AuthRegistration setView={setView} close={close} />,
+        };
+      case "confirm":
+        return {
+          title: "Код подтверждения",
+          content: <AuthConfirmCode setView={setView} close={close} />,
         };
       default:
         return { title: "", content: null };
