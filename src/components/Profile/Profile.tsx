@@ -5,6 +5,7 @@ import styles from './style.module.scss'
 import clsx from 'clsx';
 import { SettingsIcons } from '../../../public/Icons/Icons';
 import UserNotification from './UserNotification/UserNotification';
+import Image from 'next/image';
 
 
 const Profile = () => {
@@ -34,7 +35,14 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  className={styles.profile__img}
+                  src={"/img/userPhoto.png"}
+                  width={60}
+                  height={60}
+                  alt="clipboard"
+                  quality={100}
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>
@@ -58,10 +66,7 @@ const Profile = () => {
             </div>
 
             <div className={styles.profile__userInfo_footer}>
-              <button
-                onClick={handleLogout}
-                className={styles.profile__exit}
-              >
+              <button onClick={handleLogout} className={styles.profile__exit}>
                 Выйти
               </button>
               <Link
@@ -77,7 +82,12 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/orderclipboard.svg"}
+                  width={45}
+                  height={45}
+                  alt="clipboard"
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Текущие заказы</p>
@@ -101,7 +111,12 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/orderhistory.svg"}
+                  width={45}
+                  height={45}
+                  alt="clipboard"
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>История заказов</p>
@@ -127,7 +142,12 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/ordernotif.svg"}
+                  width={45}
+                  height={45}
+                  alt="clipboard"
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Уведомления</p>
@@ -152,7 +172,12 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/orderbag.svg"}
+                  width={45}
+                  height={45}
+                  alt="clipboard"
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Корзина</p>
@@ -174,7 +199,12 @@ const Profile = () => {
           <div className={styles.profile__userInfo}>
             <div className={styles.profile__userInfo_header}>
               <div className={styles.profile__userInfo_icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/orderfav.svg"}
+                  width={40}
+                  height={40}
+                  alt="clipboard"
+                />
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Избранное</p>

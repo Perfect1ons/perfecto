@@ -1,6 +1,6 @@
-import ProfileTabs from '@/components/Profile/ProfileTabs/ProfileTabs'
-import { Metadata } from 'next';
-import React from 'react'
+import Orders from "@/components/Profile/Orders/Orders";
+import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Текущие заказы",
@@ -8,8 +8,11 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <div><ProfileTabs/></div>
-  )
-}
+    <div>
+      <ProfileTabs />
+      <Orders />
+    </div>
+  );
+};
 
-export default page
+export default page;

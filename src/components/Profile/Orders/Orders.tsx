@@ -1,27 +1,20 @@
-import { historyData } from "@/components/temporary/historyOrders";
-import OrderHistoryCard from "./OrderHistoryCard";
-import styles from "./style.module.scss";
-import Image from "next/image";
+"use client"
+import Image from 'next/image';
+import styles from './style.module.scss'
 
-const OrdersHistory = () => {
+
+const Orders = () => {
   return (
-    <section className={styles.OrdersHistory}>
+    <section className={styles.orders}>
       <div className="container">
         <div>
-          {historyData.length > 0 ? (
-            historyData.map((order) => {
-              return <OrderHistoryCard order={order} key={order.orderNumber} />;
-            })
+          {1 > 2 ? (
+            <h1>Текущие заказы</h1>
           ) : (
             <div className={styles.isEmpty}>
               <div className={styles.isEmpty__content}>
                 <div className={styles.icon}>
-                  <Image
-                    src={"/img/orderclipboard.svg"}
-                    width={60}
-                    height={60}
-                    alt="clipboard"
-                  />
+                  <Image src={'/img/orderclipboard.svg'} width={70} height={70} alt='clipboard'/>
                 </div>
 
                 <div className={styles.isEmpty__desc}>
@@ -45,6 +38,6 @@ const OrdersHistory = () => {
       </div>
     </section>
   );
-};
+}
 
-export default OrdersHistory;
+export default Orders
