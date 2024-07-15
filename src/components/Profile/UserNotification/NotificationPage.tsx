@@ -33,7 +33,7 @@ const NotificationPage = () => {
             </div>
 
             <button
-              aria-label="go to catalog"
+              aria-label="go to settings"
               className={styles.isEmpty__button}
             >
               Настроить
