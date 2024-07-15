@@ -2,17 +2,22 @@
 
 .containerConfirm {
   @include mixin.flex(center, center, null, 10px);
-  margin: 15px 0;
+  margin: 20px 0;
 }
 .inputConfirm {
   border-radius: 5px;
-  border: 1px solid var(--gray);
-  padding: 15px;
-  max-width: 40px;
+  border: 2px solid var(--gray);
+  padding: 10px 20px;
+  max-width: 56px;
+  @include mixin.font(24px, 700, null, var(--dark));
+
+  &:focus {
+    border: 2px solid var(--dark-blue);
+  }
 }
 .modalButtons {
   @include mixin.flex(center, space-between);
-  margin-top: 10px;
+  margin-top: 20px;
 }
 .modalButton {
   background: var(--dark-blue);
@@ -20,7 +25,6 @@
   border-radius: 5px;
   width: 100%;
   padding: 15px 0;
-  margin-top: 20px;
   font-size: 17px;
   cursor: pointer;
   transition: all 0.4s ease-in;
