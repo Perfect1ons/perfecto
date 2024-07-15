@@ -1,4 +1,5 @@
 import ProfileTabs from '@/components/Profile/ProfileTabs/ProfileTabs'
+import NotificationPage from '@/components/Profile/UserNotification/NotificationPage';
 import { Metadata } from 'next';
 import React from 'react'
 
@@ -8,7 +9,10 @@ export const metadata: Metadata = {
 
 const notification = () => {
   return (
-    <div><ProfileTabs/></div>
+    <div>
+      <ProfileTabs/>
+      <NotificationPage/>
+    </div>
   )
 }
 

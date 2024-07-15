@@ -31,7 +31,7 @@ export const profileLinks: IProfileLinks[] = [
     href: "/profile/notification",
     title: "Уведомления",
     id: 5,
-    count: 1,
+    count: 3,
   },
   {
     href: "/cart",
