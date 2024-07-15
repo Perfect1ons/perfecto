@@ -1,14 +1,20 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
-.OrdersHistory{
+.OrdersHistory,
+.orders{
     background: var(--secondlight);
     padding: 20px 0;
-    min-height: 40vh
+    min-height: 40vh;
+    user-select: none;
 }
+
+
+
 .icon {
+  @include mixin.flex(center,center);
   min-width: 75px;
   height: 75px;
-  background: var(--dark-blue);
+  background: transparent;
   border-radius: 5px;
 
   span {
@@ -27,7 +33,7 @@
   padding: 15px;
 
   &__content {
-    @include mixin.flex(center, null, null, 20px);
+    @include mixin.flex(center, null, null, 10px);
   }
 
   &__desc {
