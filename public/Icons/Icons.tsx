@@ -22,8 +22,8 @@ export const FavoritesIcon = () => {
 export const FavoritesIconDark = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -41,8 +41,8 @@ export const FavoritesIconDark = () => {
 export const FavoritesIconActive = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -78,8 +78,8 @@ export const AuthIcon = () => {
 export const AuthIconDark = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -97,8 +97,8 @@ export const AuthIconDark = () => {
 export const AuthIconActive = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -806,8 +806,8 @@ export const ChevronRightIcon_Mobile = () => {
 export const CartIconDark = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -825,8 +825,8 @@ export const CartIconDark = () => {
 export const CartIconActive = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="22"
+      height="22"
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1403,7 +1403,6 @@ export const ExPoint = () => {
   );
 };
 
-
 export const SettingsIcons = () => {
   return (
     <svg
@@ -1421,4 +1420,4 @@ export const SettingsIcons = () => {
       />
     </svg>
   );
-}
+};

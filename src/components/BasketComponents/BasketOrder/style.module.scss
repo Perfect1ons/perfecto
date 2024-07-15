@@ -176,11 +176,11 @@
     &_dropdown {
       height: 0;
       overflow-y: hidden;
-      transition: 0.2s all;
+      transition: 0.3s all;
       &__active {
         margin-top: 15px;
         height: 150px;
-        transition: 0.2s all;
+        transition: 0.3s all;
       }
       &__name {
         @include mixin.font(16px, 400, null, var(--dark));
