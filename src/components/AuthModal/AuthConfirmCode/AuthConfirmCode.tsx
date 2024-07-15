@@ -62,7 +62,7 @@ const AuthConfirmCode = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (code.some((field) => field === "")) {
@@ -71,7 +71,39 @@ const AuthConfirmCode = ({
       setWarning("");
       const confirmationCode = code.join("");
       const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
-      postConfirmCode(cleanedPhoneNumber, confirmationCode);
+      // const token = postConfirmCode(cleanedPhoneNumber, confirmationCode);
+      // console.log(token);
+      try {
+        const response = await postConfirmCode(
+          cleanedPhoneNumber,
+          confirmationCode
+        );
+
+        // Check if the response is OK and if it's JSON
+        if (
+          response.ok &&
+          response.headers.get("Content-Type")?.includes("application/json")
+        ) {
+          const data: any = await response.json(); // Parse response body as JSON
+          if (data.access_token) {
+            const accessToken = data.access_token;
+            console.log(accessToken);
+            // Use accessToken or update state as needed
+          } else {
+            console.error(
+              "Invalid response format - missing access_token:",
+              data
+            );
+            // Handle missing access_token
+          }
+        } else {
+          console.error("Invalid response format:", response);
+          // Handle unexpected response format
+        }
+      } catch (error) {
+        console.error("Error confirming code:", error);
+        // Handle error, show message, etc.
+      }
     }
   };
 
