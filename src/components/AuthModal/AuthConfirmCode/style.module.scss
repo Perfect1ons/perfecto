@@ -1,0 +1,31 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.containerConfirm {
+  @include mixin.flex(center, center, null, 10px);
+  margin: 15px 0;
+}
+.inputConfirm {
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  padding: 15px;
+  max-width: 40px;
+}
+.modalButtons {
+  @include mixin.flex(center, space-between);
+  margin-top: 10px;
+}
+.modalButton {
+  background: var(--dark-blue);
+  color: var(--white);
+  border-radius: 5px;
+  width: 100%;
+  padding: 15px 0;
+  margin-top: 20px;
+  font-size: 17px;
+  cursor: pointer;
+  transition: all 0.4s ease-in;
+
+  &:hover {
+    background: var(--violet);
+  }
+}

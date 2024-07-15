@@ -11,7 +11,7 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 
 interface FormProps {
-  setView: (view: "login" | "recovery" | "registration") => void;
+  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
 }
 

@@ -7,6 +7,11 @@ interface CartState {
   selected?: boolean;
 }
 const loadCartFromLocalStorage = (): Items[] => {
+  // Проверяем наличие localStorage перед его использованием
+  if (typeof window === "undefined") {
+    return []; // Возвращаем пустой массив в случае SSR
+  }
+
   const savedCart = localStorage.getItem("basket");
   return savedCart ? JSON.parse(savedCart) : [];
 };
