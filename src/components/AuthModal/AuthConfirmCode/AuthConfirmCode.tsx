@@ -104,7 +104,7 @@ const AuthConfirmCode = ({
   return (
     <>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <p>Введите код, который мы отправили вам по SMS:</p>
+        <p>Введите код, который мы отправили вам в SMS:</p>
         <div className={styles.containerConfirm}>
           {code.map((digit, index) => (
             <input

@@ -96,7 +96,7 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
 
   useEffect(() => {
     if (!isVisible) {
-      setView("login");
+      setView("confirm");
     }
   }, [isVisible]);
 
