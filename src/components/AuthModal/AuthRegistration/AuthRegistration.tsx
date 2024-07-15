@@ -7,7 +7,7 @@ import InputMask from "react-input-mask";
 import { ChangeEvent, useCallback, useMemo, useState } from "react";
 import { postLoginCode } from "@/api/clientRequest";
 interface FormProps {
-  setView: (view: "login" | "recovery" | "registration") => void;
+  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
 }
 
@@ -78,6 +78,7 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
     }
 
     postLoginCode(cleanedPhoneNumber);
+    setView("confirm");
   };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {
@@ -116,7 +117,7 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
         Введите номер телефона, мы отправим код или позвоним. Отвечать на звонок
         не нужно. Код может прийти на почту или в СМС
       </p>
-      <form className={styles.modal__form}>
+      <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
             <button

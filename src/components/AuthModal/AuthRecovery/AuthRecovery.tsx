@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ArrowDropdown } from "../../../../public/Icons/Icons";
 
 interface FormProps {
-  setView: (view: "login" | "recovery" | "registration") => void;
+  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
 }
 
