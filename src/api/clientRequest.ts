@@ -127,3 +127,10 @@ export const getFastUserSearch = (slug: string): Promise<ISearch> => {
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
+export const postLoginCode = (tel: string) => {
+  return maxkg.post("site/logincode", { json: tel });
+};
+
+export const postConfirmCode = (confirm: { tel: string; code: string }) => {
+  return maxkg.post("site/confirmcode", { json: confirm });
+};
