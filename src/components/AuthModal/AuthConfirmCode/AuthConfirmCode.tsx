@@ -2,12 +2,21 @@
 import styles from "./style.module.scss";
 import React, { useRef, useState } from "react";
 import cn from "clsx";
+import { postConfirmCode } from "@/api/clientRequest";
+import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
+  phoneNumber: string;
+  currentCodeCountry: Country;
 }
 
-const AuthConfirmCode = ({ close, setView }: FormProps) => {
+const AuthConfirmCode = ({
+  close,
+  setView,
+  phoneNumber,
+  currentCodeCountry,
+}: FormProps) => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
@@ -53,7 +62,7 @@ const AuthConfirmCode = ({ close, setView }: FormProps) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (code.some((field) => field === "")) {
@@ -61,13 +70,42 @@ const AuthConfirmCode = ({ close, setView }: FormProps) => {
     } else {
       setWarning("");
       const confirmationCode = code.join("");
+      const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+      // const token = postConfirmCode(cleanedPhoneNumber, confirmationCode);
+      // console.log(token);
+      try {
+        const response = await postConfirmCode(
+          cleanedPhoneNumber,
+          confirmationCode
+        );
+        if (
+          response.ok &&
+          response.headers.get("Content-Type")?.includes("application/json")
+        ) {
+          const data: any = await response.json(); // Parse response body as JSON
+          if (data.access_token) {
+            const accessToken = data.access_token;
+            close();
+          } else {
+            console.error(
+              "Invalid response format - missing access_token:",
+              data
+            );
+          }
+        } else {
+          console.error("Invalid response format:", response);
+        }
+      } catch (error) {
+        console.error("Error confirming code:", error);
+        // Handle error, show message, etc.
+      }
     }
   };
 
   return (
     <>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <p>Введите код, который мы отправили вам по SMS:</p>
+        <p>Введите код, который мы отправили вам в SMS:</p>
         <div className={styles.containerConfirm}>
           {code.map((digit, index) => (
             <input

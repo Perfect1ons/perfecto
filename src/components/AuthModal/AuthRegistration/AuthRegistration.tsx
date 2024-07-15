@@ -4,57 +4,41 @@ import styles from "./style.module.scss";
 import { ArrowDropdown } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
-import { ChangeEvent, useCallback, useMemo, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { postLoginCode } from "@/api/clientRequest";
-interface FormProps {
-  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
-  close: () => void;
-}
-
-interface Country {
+export interface Country {
   code: number;
   img: string;
   name: string;
 }
 
-const codesCountry: Record<string, Country> = {
-  kg: { code: 996, img: "/img/kgFlag.svg", name: "Кыргызстан" },
-  ru: { code: 7, img: "/img/ruFlag.svg", name: "Россия" },
-  kz: { code: 7, img: "/img/kzFlag.svg", name: "Казахстан" },
-};
+interface FormProps {
+  phoneNumber: string;
+  handleBuyerChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  countryOptions: any;
+  mask: any;
+  currentCodeCountry: Country;
+  visible: string;
+  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
+  close: () => void;
+  visibleHandler: (current: string) => void;
+}
 
-type CountryKey = keyof typeof codesCountry;
-
-const AuthRegistration = ({ setView, close }: FormProps) => {
-  const [visible, setVisible] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-
-  const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
-    codesCountry.kg
-  );
-
-  const getMaskForCountry = (code: number) => {
-    switch (code) {
-      case 996:
-        return "\\+\\9\\96 (999) 99-99-99";
-      case 7:
-        return "\\+\\7 (999) 999-99-99";
-      default:
-        return "\\+\\9\\96 (999) 99-99-99";
-    }
+const AuthRegistration = ({
+  setView,
+  phoneNumber,
+  handleBuyerChange,
+  currentCodeCountry,
+  mask,
+  visible,
+  countryOptions,
+  visibleHandler,
+}: FormProps) => {
+  const [warning, setWarning] = useState("");
+  const isValidPhoneNumber = (phoneNumber: string, mask: string): boolean => {
+    const phoneRegex = new RegExp(`^${mask}$`);
+    return phoneRegex.test(phoneNumber);
   };
-
-  const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
-
-  const visibleHandler = useCallback((current: string) => {
-    setVisible((prevVisible) => (prevVisible !== current ? current : ""));
-  }, []);
-
-  const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setPhoneNumber(value);
-  }, []);
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -74,42 +58,14 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
 
     if (cleanedPhoneNumber.length !== expectedLength) {
       console.log("Phone number length is incorrect for the selected country.");
+      setWarning("Пожалуйста, заполните все поля кода.");
+
       return;
     }
-
+    setWarning("");
     postLoginCode(cleanedPhoneNumber);
     setView("confirm");
   };
-
-  const codeCountryHandler = useCallback((country: CountryKey) => {
-    const selectedCountry = codesCountry[country];
-    setCurrentCodeCountry(selectedCountry);
-    setPhoneNumber(`+${selectedCountry.code}`);
-    setMask(getMaskForCountry(selectedCountry.code));
-    setVisible("");
-  }, []);
-
-  const countryOptions = useMemo(() => {
-    return Object.entries(codesCountry).map(([key, country]) => (
-      <button
-        key={key}
-        onClick={() => codeCountryHandler(key as CountryKey)}
-        className={styles.modal__form_phone_dropdown_button}
-      >
-        <Image
-          className={styles.modal__form_phone_dropdown_button_img}
-          src={country.img}
-          width={30}
-          height={30}
-          alt={country.name}
-        />
-        {country.name}
-        <span className={styles.modal__form_phone_dropdown_button_code}>
-          +{country.code}
-        </span>
-      </button>
-    ));
-  }, [codeCountryHandler]);
 
   return (
     <>
@@ -171,6 +127,7 @@ const AuthRegistration = ({ setView, close }: FormProps) => {
         >
           Регистрация
         </button>
+        {warning && <p style={{ color: "red" }}>{warning}</p>}
       </form>
       <div className={styles.modal__more_buttons}>
         <button
