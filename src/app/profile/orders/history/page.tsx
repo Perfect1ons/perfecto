@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   title: "История заказов",
 };
 
-const page = () => {
-  return (
-    <div><ProfileTabs/>
-      <OrdersHistory/>
-    </div>
-  )
-}
+export default async function page () {
 
-export default page
+  return (
+    <div>
+      <ProfileTabs />
+      <OrdersHistory />
+    </div>
+  );
+};

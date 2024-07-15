@@ -1,0 +1,108 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+
+.rating {
+  @include mixin.flex(center, space-between, null, 25px);
+    width: 100%;
+  &__selected {
+    width: 60px;
+
+    &_info{
+        @include mixin.flex(center,center,column,2px);
+    }
+  }
+
+  &__name{
+    @include mixin.font(15px,400,100%,var(--gray));
+  }
+
+  &__button {
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    user-select: none;
+    @include mixin.flex(center, center);
+    @include mixin.button(
+      10px 25px,
+      null,
+      2px solid var(--dark-blue),
+      5px,
+      var(--white),
+      18px,
+      600,
+      var(--dark-blue)
+    );
+    transition: 0.2s ease-out;
+    &:hover {
+      background: var(--dark-blue);
+      color: var(--white);
+    }
+  }
+}
+
+.choice__rating {
+  @include mixin.flex(center, null, null, 15px);
+}
+
+.active {
+  opacity: 0.4;
+}
+
+.chosing {
+    @include mixin.flex(center,center,column,5px);
+  cursor: pointer;
+    transition: all 0.3 ease;
+  &:hover{
+
+    .chosing__img{
+        opacity: 0.4;
+    }
+
+    .rating__name{
+        color: var(--violet);
+    }
+  }
+}
+
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modalButtons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modalButtonConfirm {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modalButtonCancel {
+  background: var(--red);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
