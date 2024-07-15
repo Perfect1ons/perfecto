@@ -144,7 +144,14 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
       case "confirm":
         return {
           title: "Код подтверждения",
-          content: <AuthConfirmCode setView={setView} close={close} />,
+          content: (
+            <AuthConfirmCode
+              currentCodeCountry={currentCodeCountry}
+              phoneNumber={phoneNumber}
+              setView={setView}
+              close={close}
+            />
+          ),
         };
       default:
         return { title: "", content: null };

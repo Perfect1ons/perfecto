@@ -2,12 +2,21 @@
 import styles from "./style.module.scss";
 import React, { useRef, useState } from "react";
 import cn from "clsx";
+import { postConfirmCode } from "@/api/clientRequest";
+import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
   close: () => void;
+  phoneNumber: string;
+  currentCodeCountry: Country;
 }
 
-const AuthConfirmCode = ({ close, setView }: FormProps) => {
+const AuthConfirmCode = ({
+  close,
+  setView,
+  phoneNumber,
+  currentCodeCountry,
+}: FormProps) => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
@@ -61,6 +70,8 @@ const AuthConfirmCode = ({ close, setView }: FormProps) => {
     } else {
       setWarning("");
       const confirmationCode = code.join("");
+      const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+      postConfirmCode(cleanedPhoneNumber, confirmationCode);
     }
   };
 

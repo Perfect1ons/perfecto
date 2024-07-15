@@ -6,7 +6,7 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 import { ChangeEvent, useState } from "react";
 import { postLoginCode } from "@/api/clientRequest";
-interface Country {
+export interface Country {
   code: number;
   img: string;
   name: string;
