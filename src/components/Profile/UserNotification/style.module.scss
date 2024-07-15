@@ -1,39 +1,101 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
+.NotificationPage {
+  background: var(--secondlight);
+  padding: 20px 0;
+  min-height: 40vh
+}
 
-.UserNotification{
-    background: var(--white);
-    border-radius: 5px;
-    width: 100%;
-    padding: 15px;
-  &__header{
-    @include mixin.flex(flex-start,space-between);
+.isEmpty {
+  @include mixin.flex(center, space-between, null, 20px);
+  background: var(--white);
+  border-radius: 5px;
+  padding: 15px;
+
+  &__content {
+    @include mixin.flex(center, null, null, 20px);
+  }
+
+  &__desc {
+    max-width: 750px;
+  }
+
+  &__button {
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    user-select: none;
+    @include mixin.flex(center, center);
+    @include mixin.button(
+      10px 25px,
+      null,
+      2px solid var(--dark-blue),
+      5px,
+      var(--white),
+      18px,
+      600,
+      var(--dark-blue)
+    );
+    transition: 0.2s ease-out;
+    &:hover {
+      background: var(--dark-blue);
+      color: var(--white);
+    }
   }
 }
 
-.date{
-    @include mixin.font(14px,500,null,var(--dark))
+.icon {
+  width: 75px;
+  height: 75px;
+  background: var(--dark-blue);
+  border-radius: 5px;
+
+  span {
+    height: 100%;
+    @include mixin.font(16px, bold, null, var(--white));
+    @include mixin.flex(center, center);
+    text-transform: uppercase;
+  }
 }
 
-.notification__content{
-    margin-top: 5px;
-    color: rgba(73, 73, 73, 1);
+.UserNotification {
+  background: var(--white);
+  border-radius: 5px;
+  width: 100%;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  padding: 15px;
+  &__header {
+    @include mixin.flex(flex-start, space-between);
+  }
+
+  &:hover {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
 }
 
-.notification__button{
-    cursor: pointer;
-    margin-top: 15px;
-    padding: 10px 15px;
-    border: 2px solid var(--dark-blue);
-    @include mixin.font(16px, 600, null, var(--dark-blue));
-    border-radius: 5px;
-    transition: all 0.3s ease;
-    &:hover{
-        color: var(--white);
-        background: var(--dark-blue);
-    }
+.date {
+  @include mixin.font(14px, 500, null, var(--dark));
 }
 
-.close__notification{
-    cursor: pointer;
+.notification__content {
+  margin-top: 5px;
+  color: rgba(73, 73, 73, 1);
+}
+
+.notification__button {
+  cursor: pointer;
+  margin-top: 15px;
+  padding: 10px 15px;
+  border: 2px solid var(--dark-blue);
+  @include mixin.font(16px, 600, null, var(--dark-blue));
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  &:hover {
+    color: var(--white);
+    background: var(--dark-blue);
+  }
+}
+
+.close__notification {
+  cursor: pointer;
 }

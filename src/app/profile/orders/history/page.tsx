@@ -1,3 +1,4 @@
+import OrdersHistory from '@/components/Profile/Orders/OrdersHistory';
 import ProfileTabs from '@/components/Profile/ProfileTabs/ProfileTabs'
 import { Metadata } from 'next';
 import React from 'react'
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <div><ProfileTabs/></div>
+    <div><ProfileTabs/>
+      <OrdersHistory/>
+    </div>
   )
 }
 
