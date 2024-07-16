@@ -19,6 +19,9 @@ const AuthConfirmCode = ({
 }: FormProps) => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
+  const [attemptCount, setAttemptCount] = useState(0);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [invalidCodeMessage, setInvalidCodeMessage] = useState("");
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
     null,
     null,
@@ -102,12 +105,27 @@ const AuthConfirmCode = ({
           }
         } else {
           console.error("Invalid response format:", response);
+          handleInvalidCodeAttempt();
         }
       } catch (error) {
         console.error("Error confirming code:", error);
+        handleInvalidCodeAttempt();
         // Handle error, show message, etc.
       }
     }
+  };
+  const handleInvalidCodeAttempt = () => {
+    setAttemptCount((prevCount) => prevCount + 1);
+
+    if (attemptCount >= 2) {
+      setIsButtonDisabled(true);
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+        setAttemptCount(0);
+      }, 300000); // 5 minutes in milliseconds
+    }
+
+    setInvalidCodeMessage("Неправильный код. Попробуйте снова.");
   };
 
   return (
@@ -135,12 +153,16 @@ const AuthConfirmCode = ({
           <button
             className={cn(styles.modalButton, "button")}
             aria-label="confirm the confirmation code"
+            disabled={isButtonDisabled}
             // type="submit"
           >
             Подвердить
           </button>
         </div>
         {warning && <p style={{ color: "red" }}>{warning}</p>}
+        {invalidCodeMessage && (
+          <p style={{ color: "red" }}>{invalidCodeMessage}</p>
+        )}
       </form>
     </>
   );
