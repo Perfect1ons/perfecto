@@ -7,6 +7,7 @@ import { SettingsIcons } from "../../../public/Icons/Icons";
 import UserNotification from "./UserNotification/UserNotification";
 import Image from "next/image";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { useEffect, useState } from "react";
 
 interface IProfileProps {
   data: UserPersonalDataType;
@@ -25,6 +26,19 @@ const Profile = ({ data }: IProfileProps) => {
       console.log("An error occurred");
     }
   };
+
+  const [cartCount, setCartCount] = useState(0);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+
+  useEffect(() => {
+    const savedCart = localStorage.getItem("basket");
+    const cart = savedCart ? JSON.parse(savedCart) : [];
+    setCartCount(cart.length);
+
+    const savedFavorites = localStorage.getItem("favorites");
+    const favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
+    setFavoritesCount(favorites.length);
+  }, []);
 
   return (
     <section className={styles.profile}>
@@ -175,10 +189,21 @@ const Profile = ({ data }: IProfileProps) => {
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Корзина</p>
-                <p className={styles.orders}>
-                  В корзине <span className={styles.orders__count}></span>{" "}
-                  товара
-                </p>
+                {cartCount <= 0 ? (
+                  <p className={styles.orders}>Товаров в корзине нет</p>
+                ) : (
+                  <p className={styles.orders}>
+                    В корзине{" "}
+                    <span className={styles.orders__count}>{cartCount}</span>{" "}
+                    {cartCount % 10 === 1 && cartCount % 100 !== 11
+                      ? "товар"
+                      : cartCount % 10 >= 2 &&
+                        cartCount % 10 <= 4 &&
+                        !(cartCount % 100 >= 12 && cartCount % 100 <= 14)
+                      ? "товара"
+                      : "товаров"}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.orders__images}>
@@ -202,11 +227,30 @@ const Profile = ({ data }: IProfileProps) => {
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>Избранное</p>
-                <p className={styles.orders}>
-                  Товаров в избранном нет
-                  <br />
-                  Добавляйте товары в избранное, <br /> чтобы долго не искать
-                </p>
+                {favoritesCount <= 0 ? (
+                  <p className={styles.orders}>
+                    Товаров в избранном нет
+                    <br />
+                    Добавляйте товары в избранное, <br /> чтобы долго не искать
+                  </p>
+                ) : (
+                  <p className={styles.orders}>
+                    В избранном{" "}
+                    <span className={styles.orders__count}>
+                      {favoritesCount}
+                    </span>{" "}
+                    {favoritesCount % 10 === 1 && favoritesCount % 100 !== 11
+                      ? "товар"
+                      : favoritesCount % 10 >= 2 &&
+                        favoritesCount % 10 <= 4 &&
+                        !(
+                          favoritesCount % 100 >= 12 &&
+                          favoritesCount % 100 <= 14
+                        )
+                      ? "товара"
+                      : "товаров"}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.profile__userInfo_footer}>

@@ -234,6 +234,7 @@ const UserPersonalData = () => {
           className={styles.inputField}
           type="text"
           required
+          value={data?.position}
           name="position"
           onChange={handleChange}
         />
