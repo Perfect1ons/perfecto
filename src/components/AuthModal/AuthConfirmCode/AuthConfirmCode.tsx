@@ -74,8 +74,6 @@ const AuthConfirmCode = ({
       setWarning("");
       const confirmationCode = code.join("");
       const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
-      // const token = postConfirmCode(cleanedPhoneNumber, confirmationCode);
-      // console.log(token);
       try {
         const response = await postConfirmCode(
           cleanedPhoneNumber,
@@ -102,6 +100,7 @@ const AuthConfirmCode = ({
               "Invalid response format - missing access_token:",
               data
             );
+            handleInvalidCodeAttempt();
           }
         } else {
           console.error("Invalid response format:", response);
@@ -117,7 +116,7 @@ const AuthConfirmCode = ({
   const handleInvalidCodeAttempt = () => {
     setAttemptCount((prevCount) => prevCount + 1);
 
-    if (attemptCount >= 2) {
+    if (attemptCount === 3) {
       setIsButtonDisabled(true);
       setTimeout(() => {
         setIsButtonDisabled(false);
@@ -127,6 +126,11 @@ const AuthConfirmCode = ({
 
     setInvalidCodeMessage("Неправильный код. Попробуйте снова.");
   };
+  if (invalidCodeMessage) {
+    setTimeout(() => {
+      setInvalidCodeMessage("");
+    }, 5000);
+  }
 
   return (
     <>
@@ -159,6 +163,12 @@ const AuthConfirmCode = ({
             Подвердить
           </button>
         </div>
+        {isButtonDisabled && (
+          <p style={{ color: "red" }}>
+            Вы превысили лимит попыток. Попробуйте снова через 5 минут.
+          </p>
+        )}
+
         {warning && <p style={{ color: "red" }}>{warning}</p>}
         {invalidCodeMessage && (
           <p style={{ color: "red" }}>{invalidCodeMessage}</p>

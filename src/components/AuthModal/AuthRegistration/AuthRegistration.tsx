@@ -58,7 +58,7 @@ const AuthRegistration = ({
 
     if (cleanedPhoneNumber.length !== expectedLength) {
       console.log("Phone number length is incorrect for the selected country.");
-      setWarning("Пожалуйста, заполните все поля кода.");
+      setWarning("Пожалуйста, заполните поле.");
 
       return;
     }
@@ -113,6 +113,8 @@ const AuthRegistration = ({
               )}
             </InputMask>
           </div>
+          {warning && <p style={{ color: "red" }}>{warning}</p>}
+
           {visible === "country" && (
             <div className={styles.modal__form_phone_dropdown}>
               {countryOptions}
@@ -127,7 +129,6 @@ const AuthRegistration = ({
         >
           Регистрация
         </button>
-        {warning && <p style={{ color: "red" }}>{warning}</p>}
       </form>
       <div className={styles.modal__more_buttons}>
         <button
