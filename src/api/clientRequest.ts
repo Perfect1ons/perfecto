@@ -165,3 +165,59 @@ export const getPersonalDataProfile = (
     })
     .json();
 };
+
+export const postPesonalDataProfileFio = (
+  token: string,
+  fio?: string,
+  name?: string,
+  birthday?: string,
+  male?: string,
+  position?: string
+) => {
+  const params = new URLSearchParams();
+
+  if (fio !== undefined) params.append("fio", fio);
+  if (name !== undefined) params.append("name", name);
+  if (birthday !== undefined) params.append("birthday", birthday);
+  if (male !== undefined) params.append("male", male);
+  if (position !== undefined) params.append("position", position);
+
+  return maxkg.post("prof/update-fio", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
+};
+
+export const postPesonalDataProfileOrg = (
+  token: string,
+  ind_pred?: string,
+  org?: string,
+  inn?: string,
+  adres?: string,
+  email?: string,
+  bank?: string,
+  schet?: string,
+  bik?: string
+) => {
+  const params = new URLSearchParams();
+
+  if (ind_pred !== undefined) params.append("ind_pred", ind_pred);
+  if (org !== undefined) params.append("org", org);
+  if (inn !== undefined) params.append("inn", inn);
+  if (adres !== undefined) params.append("adres", adres);
+  if (email !== undefined) params.append("email", email);
+  if (bank !== undefined) params.append("bank", bank);
+  if (schet !== undefined) params.append("schet", schet);
+  if (bik !== undefined) params.append("bik", bik);
+
+  return maxkg.post("prof/set-user-org", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
+};
