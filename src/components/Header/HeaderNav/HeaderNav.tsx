@@ -35,7 +35,6 @@ const navLinks: ILinks[] = [
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
-
 const HeaderNav = () => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [links, setLinks] = useState(navLinks);
@@ -47,19 +46,14 @@ const HeaderNav = () => {
 
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let totalItemsInCart = 0;
-    cart.forEach((item) => {
-      if (item.quantity !== undefined) {
-        totalItemsInCart += item.quantity;
-      }
-    });
+    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
           return { ...link, count: !isAuthed ? favorites.length : 0 };
         } else if (link.href === "/cart") {
-          return { ...link, count: totalItemsInCart };
+          return { ...link, count: baskets.length };
         }
         return link;
       })
@@ -80,7 +74,7 @@ const HeaderNav = () => {
       window.removeEventListener("cartUpdated", cartListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [cart]);
 
   return (
     <nav className={styles.nav}>
