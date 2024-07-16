@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import cn from "clsx";
-import { getPersonalDataProfile } from "@/api/clientRequest";
+import {
+  getPersonalDataProfile,
+  postPesonalDataProfileFio,
+  postPesonalDataProfileOrg,
+} from "@/api/clientRequest";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { СhevronDownIcon } from "../../../../../public/Icons/Icons";
 const UserPersonalData = () => {
@@ -21,6 +25,7 @@ const UserPersonalData = () => {
   ];
 
   const [data, setData] = useState<UserPersonalDataType>();
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
 
@@ -74,6 +79,41 @@ const UserPersonalData = () => {
         .catch((error) => setError(error.message));
     }
   }, [accessToken]);
+
+  const postUserData = () => {
+    if (
+      data?.fio ||
+      data?.name ||
+      data?.birthday ||
+      data?.male ||
+      data?.position
+    ) {
+      postPesonalDataProfileFio(accessToken, data.fio, data.name);
+    }
+    if (
+      data?.ind_pred ||
+      data?.org ||
+      data?.inn ||
+      data?.adres ||
+      data?.email ||
+      data?.bank ||
+      data?.schet ||
+      data?.bik
+    ) {
+      postPesonalDataProfileOrg(
+        accessToken,
+        data.ind_pred,
+        data.org,
+        data.inn,
+        data.adres,
+        data.email,
+        data.bank,
+        data.schet,
+        data.bik
+      );
+    }
+  };
+
   return (
     <div className={styles.containerPersonalData}>
       <div className={styles.inputContainer}>
@@ -249,7 +289,11 @@ const UserPersonalData = () => {
         <label>Мне больше 18</label>
       </div>
       <p>* - поля, обязательные для заполнения.</p>
-      <button type="submit" className={styles.buttonSave}>
+      <button
+        onClick={postUserData}
+        type="submit"
+        className={styles.buttonSave}
+      >
         Сохранить
       </button>
     </div>
