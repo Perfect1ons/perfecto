@@ -3,9 +3,15 @@
   @include mixin.flex(flex-start, center, column, null);
   padding: 15px;
   border: 2px solid var(--secondary);
-  max-width: 600px;
+  // max-width: 600px;
   border-radius: 5px;
   background: var(--white);
+
+  @media screen and (max-width: 992px) {
+    margin-top: 15px;
+    max-width: 710px;
+    width: 100%;
+  }
 
   &__title {
     @include mixin.font(1.5rem, 500, null, var(--dark));
@@ -18,8 +24,16 @@
     &_inputWrapNew {
       position: relative;
       @include mixin.flex(center, flex-start, null, 30px);
+
+      @media screen and (max-width: 576px) {
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
+
       &__text {
-        padding-right: 6px;
+        padding-right: 7px;
         text-wrap: nowrap;
         @include mixin.font(14px, 400, null, var(--gray));
       }
@@ -32,6 +46,12 @@
         padding: 5px 10px;
         border-radius: 5px;
         background: var(--white);
+
+        @media screen and (max-width: 576px) {
+          max-width: 300px;
+          width: 100%;
+        }
+
         &:focus {
           border: 2px solid var(--dark-blue);
         }
@@ -61,6 +81,13 @@
     &_inputWrapRep {
       position: relative;
       @include mixin.flex(center, flex-start, null, 30px);
+
+      @media screen and (max-width: 576px) {
+        gap: 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
       &__text {
         text-wrap: nowrap;
         @include mixin.font(14px, 400, null, var(--gray));
@@ -74,6 +101,12 @@
         padding: 5px 10px;
         border-radius: 5px;
         background: var(--white);
+
+        @media screen and (max-width: 576px) {
+          max-width: 300px;
+          width: 100%;
+        }
+
         &:focus {
           border: 2px solid var(--dark-blue);
         }
