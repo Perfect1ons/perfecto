@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { url } from "@/components/temporary/data";
 import {
   CardFavoritesIcon,
@@ -19,6 +19,7 @@ import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
+import { AuthContext } from "@/context/AuthContext";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -27,6 +28,7 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
+  const { isAuthed } = useContext(AuthContext);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -45,37 +47,12 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
 
   const [rating, setRating] = useState(0);
   const [isAuthVisible, setAuthVisible] = useState(false);
-  const [isAuthed, setIsAuthed] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
-
-  const checkAuthStatus = async () => {
-    try {
-      const response = await fetch("/api/auth", {
-        method: "GET",
-      });
-
-      const data = await response.json();
-      console.log(data);
-      
-      if (data) {
-        setIsAuthed(true);
-      } else {
-        setIsAuthed(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-    useEffect(() => {
-      checkAuthStatus();
-    }, []);
-
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));

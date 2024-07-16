@@ -5,13 +5,14 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { AuthContext } from "@/context/AuthContext";
 
 interface ILinks {
   href: string;
@@ -34,17 +35,13 @@ const navLinks: ILinks[] = [
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
-interface IHeaderNav{
-  isAuthed: boolean;
-}
 
-const HeaderNav = ({isAuthed}: IHeaderNav) => {
+const HeaderNav = () => {
   const [isAuthVisible, setAuthVisible] = useState(false);
-  const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
-
+  const { isAuthed } = useContext(AuthContext);
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
 
@@ -60,7 +57,7 @@ const HeaderNav = ({isAuthed}: IHeaderNav) => {
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
+          return { ...link, count: isAuthed ? favorites.length : 0 };
         } else if (link.href === "/cart") {
           return { ...link, count: totalItemsInCart };
         }
@@ -90,7 +87,7 @@ const HeaderNav = ({isAuthed}: IHeaderNav) => {
       <AuthModal isVisible={isAuthVisible} close={closeModals} />
 
       {links.map((link) =>
-        link.href === "/auth" && !authStatus ? (
+        link.href === "/auth" && !isAuthed ? (
           <div
             key={link.id}
             className={cn(
@@ -112,7 +109,7 @@ const HeaderNav = ({isAuthed}: IHeaderNav) => {
               pathname === link.href && styles.active
             )}
             onClick={() => {
-              if (!authStatus) {
+              if (!isAuthed) {
                 setAuthVisible(true);
               } else {
                 window.location.href = link.href;
@@ -122,7 +119,7 @@ const HeaderNav = ({isAuthed}: IHeaderNav) => {
             <div className={styles.nav__link_items}>
               <div className={styles.nav__link_items_icon}>
                 {link.icon}
-                {authStatus && link.count !== undefined && link.count > 0 && (
+                {isAuthed && link.count !== undefined && link.count > 0 && (
                   <span
                     className={cn(
                       styles.nav__link_items_count,
@@ -136,7 +133,7 @@ const HeaderNav = ({isAuthed}: IHeaderNav) => {
               <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </div>
-        ) : link.href === "/profile" && authStatus ? (
+        ) : link.href === "/profile" && isAuthed ? (
           <Link
             href={link.href}
             className={cn(

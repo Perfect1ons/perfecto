@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Rubik } from "next/font/google";
-import "./globals.scss";
 import dynamic from "next/dynamic";
 import Provider from "@/context/Provider";
 import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import ReactProvider from "@/ReactProvider";
-import { cookies } from "next/headers";
+import { Metadata } from "next";
+import AuthProvider from "@/context/AuthContext";
+import './globals.scss'
 
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application")
@@ -37,22 +38,23 @@ export default async function RootLayout({
   const searchHistory: string[] = JSON.parse(
     cookieStore.get("searchHistory")?.value || "[]"
   );
-  const isAuthed = cookieStore.get("identify")?.value || false;
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
-          <ReactProvider>
-            <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
-            <DownloadAppMobile />
-            <Provider>
-              <main id="main">{children}</main>
-              <ScrollToTopButton />
-            </Provider>
-            <Application />
-            <Footer />
-          </ReactProvider>
+          <AuthProvider>
+            <ReactProvider>
+              <HeaderWrap  searchHistory={searchHistory} />
+              <DownloadAppMobile />
+              <Provider>
+                <main id="main">{children}</main>
+                <ScrollToTopButton />
+              </Provider>
+              <Application />
+              <Footer />
+            </ReactProvider>
+          </AuthProvider>
         </div>
       </body>
     </html>
