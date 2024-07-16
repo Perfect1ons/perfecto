@@ -1,4 +1,3 @@
-import AuthComponent from "@/components/temporary/CatalogFiltersByAbdulaziz/keek";
 import { cookies } from "next/headers";
 import React from "react";
 import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/FavoriteAuth";
@@ -12,14 +11,13 @@ export const metadata: Metadata = {
 
 const page = () => {
   const cookieStore = cookies();
-  const isAuthed = cookieStore.get("isAuthenticated")?.value;
+  const isAuthed = cookieStore.get("identify")?.value;
 
   if (isAuthed) {
     return (
       <>
         <ProfileTabs/>
         <Profile  />
-        {/* <AuthComponent /> */}
       </>
     );
   }

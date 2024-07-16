@@ -37,7 +37,7 @@ export default async function RootLayout({
   const searchHistory: string[] = JSON.parse(
     cookieStore.get("searchHistory")?.value || "[]"
   );
-  const isAuthed = cookieStore.get("isAuthenticated")?.value || false;
+  const isAuthed = cookieStore.get("identify")?.value || false;
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
