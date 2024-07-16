@@ -1,0 +1,109 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+.containerPersonalData {
+  @include mixin.flex(null, null, column, 10px);
+  max-width: 710px;
+  background: var(--white);
+  border: 2px solid var(--secondary);
+  border-radius: 5px;
+  padding: 15px;
+  width: 100%;
+}
+.inputContainer {
+  position: relative;
+  max-width: 100%;
+}
+.inputField {
+  width: 100%;
+  padding: 10px 5px 10px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: transparent; // Убираем цвет фона инпута
+}
+
+.inputLabel {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 5px;
+  transition: all 0.3s ease;
+  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+}
+
+.inputField:focus,
+.inputField:valid {
+  border: 1px solid var(--dark-blue);
+}
+.inputField:focus + .inputLabel,
+.inputField:valid + .inputLabel {
+  background-color: var(--white);
+  color: var(--dark-blue);
+  left: 5px;
+  top: 0;
+  scale: (0.88);
+}
+
+.inputField:placeholder-shown + .inputLabel {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa; // Цвет текста по умолчанию
+}
+.dropdownContainer {
+  @include mixin.flex(null, null, column, 4px);
+  padding: 15px;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  margin: 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  visibility: hidden;
+  z-index: 1;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: 0.3s;
+}
+.dropdownContainer.active {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.3s;
+}
+.cityContainer {
+  @include mixin.flex(center, space-between, null, null);
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.buttonSave {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(14px, 400, null, var(--white));
+  background: var(--dark-blue);
+  cursor: pointer;
+  max-width: 200px;
+  width: 100%;
+  align-self: flex-end;
+  padding: 10px 0px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  transition: 0.3s all;
+
+  &:hover {
+    background: var(--violet);
+  }
+}
+.checkBoxContainer {
+  @include mixin.flex(center, null, null, 10px);
+  &__check {
+    width: 20px;
+    height: 20px;
+  }
+}
