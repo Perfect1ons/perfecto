@@ -9,6 +9,7 @@ import {
   postPesonalDataProfileOrg,
 } from "@/api/clientRequest";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { СhevronDownIcon } from "../../../../../public/Icons/Icons";
 const UserPersonalData = () => {
   const cities = [
     { id: 1, name: "Бишкек" },
@@ -152,9 +153,17 @@ const UserPersonalData = () => {
         className={styles.inputContainer}
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <span className={styles.cityContainer}>
+        <button className={styles.cityContainer}>
           {selectedCity || "Область/Город" || data?.id_city}
-        </span>
+          <span
+            className={cn(
+              "filterNavItemArrowIsActive",
+              dropdownOpen && "filterNavItemArrow"
+            )}
+          >
+            <СhevronDownIcon />
+          </span>
+        </button>
         <div
           className={cn(styles.dropdownContainer, {
             [styles.dropdownContainerActive]: dropdownOpen,
