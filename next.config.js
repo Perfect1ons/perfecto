@@ -1,3 +1,5 @@
+
+
 const MAXKG = process.env.NEXT_PUBLIC_API;
 
 module.exports = {
@@ -111,7 +113,6 @@ module.exports = {
         protocol: "https",
         hostname: "www.emscorp.ru",
       },
-      { protocol: "https", hostname: "cdn2.top-shop.ru" },
       { protocol: "https", hostname: "cdn2.top-shop.ru" },
     ],
   },
