@@ -1,28 +1,21 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import styles from './style.module.scss'
-import clsx from 'clsx';
-import { SettingsIcons } from '../../../public/Icons/Icons';
-import UserNotification from './UserNotification/UserNotification';
-import Image from 'next/image';
-
+import Link from "next/link";
+import styles from "./style.module.scss";
+import clsx from "clsx";
+import { SettingsIcons } from "../../../public/Icons/Icons";
+import UserNotification from "./UserNotification/UserNotification";
+import Image from "next/image";
 
 const Profile = () => {
-
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/jlogin", {
+      const response = await fetch("/api/auth", {
         method: "DELETE",
       });
-
-      const data = await response.json();
-      if (data.success) {
+      if (response.ok) {
         window.location.reload();
-        console.log("Not authenticated");
-      } else {
-        console.log("Failed to logout");
-      }
+      } 
     } catch (error) {
       console.log("An error occurred");
     }
@@ -227,6 +220,6 @@ const Profile = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Profile
+export default Profile;

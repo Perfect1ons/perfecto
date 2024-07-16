@@ -88,7 +88,15 @@ const AuthConfirmCode = ({
           const data: any = await response.json(); // Parse response body as JSON
           if (data.access_token) {
             const accessToken = data.access_token;
+            await fetch("/api/auth", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ accessToken: accessToken }), // Отправляем токен как accessToken
+            });
             close();
+            window.location.reload();
           } else {
             console.error(
               "Invalid response format - missing access_token:",

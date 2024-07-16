@@ -1,22 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
 import Header from "../Header";
 import MobileNav from "@/components/MobileMenu/MobileNav/MobileNav";
-import { setAuthStatus } from "@/store/reducers/login.reducer";
-import { useDispatch } from "react-redux";
 
 interface IHeaderProps {
-  isAuthed: any;
   searchHistory: string[];
 }
 
-export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setAuthStatus(isAuthed));
-  }, [isAuthed, dispatch]);
+export default function HeaderWrap({  searchHistory }: IHeaderProps) {
+
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);

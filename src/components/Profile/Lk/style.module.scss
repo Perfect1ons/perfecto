@@ -8,5 +8,5 @@
 }
 .informationContainer {
   width: 100%;
-  @include mixin.flex(flex-start, flex-start, null, 20px);
+  @include mixin.flex(flex-start, space-between, null, null);
 }

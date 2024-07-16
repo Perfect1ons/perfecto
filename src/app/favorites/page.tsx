@@ -1,12 +1,9 @@
-import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/FavoriteAuth";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { cookies } from "next/headers";
 
 const FavoriteMain = dynamic(
   () => import("@/components/FavoritesComponents/FavoriteMain/FavoriteMain"),
 );
-
 
 export const metadata: Metadata = {
   title: "Избранное",
@@ -17,16 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Favorites() {
-    const cookieStore = cookies();
-    const isAuthed = cookieStore.get("isAuthenticated")?.value;
+
   
-  if (isAuthed) {
-    return (
-        <FavoriteMain />
-    );
-  }
   return (
-      <FavoriteAuth />
+    <FavoriteMain />
   );
 }
 

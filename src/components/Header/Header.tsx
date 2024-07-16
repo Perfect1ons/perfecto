@@ -196,7 +196,7 @@ const Header = ({
           </div>
 
           <div className={styles.header__nav} onClick={onClose}>
-            <HeaderNav />
+            <HeaderNav  />
           </div>
         </div>
 
