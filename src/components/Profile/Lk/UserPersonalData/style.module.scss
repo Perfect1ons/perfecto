@@ -1,10 +1,15 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 .containerPersonalData {
   @include mixin.flex(null, null, column, 10px);
+  max-width: 710px;
+  background: var(--white);
+  border: 2px solid var(--secondary);
+  border-radius: 5px;
+  padding: 15px;
 }
 .inputContainer {
   position: relative;
-  max-width: 500px;
+  max-width: 100%;
 }
 .inputField {
   width: 100%;
@@ -32,7 +37,7 @@
 }
 .inputField:focus + .inputLabel,
 .inputField:valid + .inputLabel {
-  background-color: var(--secondlight);
+  background-color: var(--white);
   left: 5px;
   top: 0;
   scale: (0.88);
@@ -75,4 +80,21 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+}
+.buttonSave {
+  @include mixin.flex(center, center, null, null);
+  @include mixin.font(14px, 400, null, var(--white));
+  background: var(--dark-blue);
+  cursor: pointer;
+  max-width: 200px;
+  width: 100%;
+  align-self: flex-end;
+  padding: 10px 0px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  transition: 0.3s all;
+
+  &:hover {
+    background: var(--violet);
+  }
 }

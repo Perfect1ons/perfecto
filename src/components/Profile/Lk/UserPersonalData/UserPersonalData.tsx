@@ -58,7 +58,9 @@ const UserPersonalData = () => {
         <label className={styles.inputLabel}>Мне больше 18</label>
       </div>
       <p>* - поля, обязательные для заполнения.</p>
-      <button>Сохранить</button>
+      <button type="submit" className={styles.buttonSave}>
+        Сохранить
+      </button>
     </div>
   );
 };
