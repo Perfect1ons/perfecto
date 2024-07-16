@@ -57,7 +57,7 @@ const HeaderNav = () => {
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
-          return { ...link, count: isAuthed ? favorites.length : 0 };
+          return { ...link, count: !isAuthed ? favorites.length : 0 };
         } else if (link.href === "/cart") {
           return { ...link, count: totalItemsInCart };
         }

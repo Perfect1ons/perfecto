@@ -22,9 +22,10 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const response = await fetch("/api/auth", {
           method: "GET",
         });
-        const data = await response.json();
-
-        if (data.success) {
+        // const data = await response.json();
+        // console.log(data);
+        
+        if (response.ok) {
           setIsAuthed(true);
         } else {
           setIsAuthed(false);
