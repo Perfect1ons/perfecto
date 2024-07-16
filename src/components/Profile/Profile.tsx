@@ -6,8 +6,13 @@ import clsx from "clsx";
 import { SettingsIcons } from "../../../public/Icons/Icons";
 import UserNotification from "./UserNotification/UserNotification";
 import Image from "next/image";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 
-const Profile = () => {
+interface IProfileProps {
+  data: UserPersonalDataType;
+}
+
+const Profile = ({ data }: IProfileProps) => {
   const handleLogout = async () => {
     try {
       const response = await fetch("/api/auth", {
@@ -15,7 +20,7 @@ const Profile = () => {
       });
       if (response.ok) {
         window.location.reload();
-      } 
+      }
     } catch (error) {
       console.log("An error occurred");
     }
@@ -39,20 +44,16 @@ const Profile = () => {
               </div>
               <div>
                 <p className={styles.profile__userInfo_name}>
-                  Нурдин Улуу Нурболот
+                  {data.fio} {data.name}
                 </p>
                 <p className={styles.phone}>
                   <span>т.</span>
-                  <span className={styles.phone__number}>
-                    +996 221 33 40 05
-                  </span>
+                  <span className={styles.phone__number}>{`+${data.tel}`}</span>
                 </p>
                 <p className={styles.city}>
                   <span>г.</span>
                   <span className={styles.city__name}>
-                    Бишкек, ул. Матыева{" "}
-                    <span className={styles.city__name_address}>148</span> ОсОО
-                    Смарткей
+                    {data.id_city}, {data.adres} {data.org}
                   </span>
                 </p>
               </div>
@@ -64,7 +65,7 @@ const Profile = () => {
               </button>
               <Link
                 className={clsx("link", styles.profile__settings)}
-                href={"/profile/pd"}
+                href={"/profile/lk"}
               >
                 <SettingsIcons />
                 <span>Личные данные</span>

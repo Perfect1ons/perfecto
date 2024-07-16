@@ -165,3 +165,30 @@ export const getPersonalDataProfile = (
     })
     .json();
 };
+
+export const postPesonalDataProfileFio = (
+  fio?: string,
+  name?: string,
+  birthday?: string,
+  male?: string,
+  position?: string
+) => {
+  const params = new URLSearchParams();
+
+  if (fio !== undefined) params.append("fio", fio);
+  if (name !== undefined) params.append("name", name);
+  if (birthday !== undefined) params.append("birthday", birthday);
+  if (male !== undefined) params.append("male", male);
+  if (position !== undefined) params.append("position", position);
+
+  return maxkg.post("prof/update-fio", {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
+};
+
+export const postPesonalDataProfileOrg = (data: string) => {
+  maxkg.post("prof");
+};

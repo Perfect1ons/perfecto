@@ -27,6 +27,7 @@ import { BrandsAll } from "@/types/bannerAll";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -122,7 +123,6 @@ export const getBrandsData = (): Promise<IBrands> => {
   return maxkg.get("brand?pageSize=all").json();
 };
 
-
 export const getBrandsPaginations = (id: number): Promise<IBrands> => {
   return maxkg.get(`brand?pageSize=36&page=${id}`).json();
 };
@@ -134,7 +134,6 @@ export const getBoughts = (page: number): Promise<IBoughts> => {
 export const getDiscounts = (id: number): Promise<IDiscounts[]> => {
   return maxkg.get(`discount?pageSize=20&page=${id}`).json();
 };
-
 
 export const getFooter = (): Promise<IFooter> => {
   return maxkg.get("site/footer-menu").json();
@@ -238,11 +237,20 @@ export const getBreadCrumbs = (id: number): Promise<IBreadCrumbs> => {
 
 export const getCatalogProductsFiltersServer = (
   path: string,
-  page: number,
+  page: number
 ): Promise<IScrolledCatalog> => {
+  return maxkg.get(`catalog/cat-product/${path}?page=${page}`).json();
+};
+
+export const getPersonalDataProfileServer = (
+  token: string
+): Promise<UserPersonalDataType> => {
   return maxkg
-    .get(
-      `catalog/cat-product/${path}?page=${page}`
-    )
+    .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
     .json();
 };

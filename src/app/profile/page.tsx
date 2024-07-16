@@ -4,20 +4,22 @@ import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/Favorite
 import Profile from "@/components/Profile/Profile";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
+import { getPersonalDataProfileServer } from "@/api/requests";
 
 export const metadata: Metadata = {
   title: "Личный кабинет",
 };
 
-const page = () => {
+const page = async () => {
   const cookieStore = cookies();
   const isAuthed = cookieStore.get("identify")?.value;
 
   if (isAuthed) {
+    const profileData = await getPersonalDataProfileServer(isAuthed);
     return (
       <>
-        <ProfileTabs/>
-        <Profile  />
+        <ProfileTabs />
+        <Profile data={profileData} />
       </>
     );
   }
