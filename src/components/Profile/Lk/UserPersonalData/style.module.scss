@@ -123,6 +123,9 @@
     background: var(--violet);
   }
 }
+.buttonSaveDisabled {
+  background: var(--light-gray);
+}
 .checkBoxContainer {
   @include mixin.flex(center, null, null, 10px);
 }

@@ -79,8 +79,24 @@ const UserPersonalData = () => {
         .catch((error) => setError(error.message));
     }
   }, [accessToken]);
+  const isFormChanged = () => {
+    if (!data) {
+      return false; // Если data не определено, считаем форму не измененной
+    }
 
+    return Object.keys(data).some(
+      (key) => data[key as keyof UserPersonalDataType] !== ""
+    );
+  };
+
+  const isFormValid = () => {
+    // Проверка на валидность формы перед отправкой
+    return data?.fio !== "" && data?.name !== "" && data?.adres !== "";
+  };
   const postUserData = () => {
+    if (!isFormChanged() || !isFormValid()) {
+      return; // Ничего не делаем, если форма не изменена или не валидна
+    }
     if (
       data?.fio ||
       data?.name ||
@@ -180,25 +196,6 @@ const UserPersonalData = () => {
             </span>
           ))}
         </div>
-
-        {/* <select
-          defaultValue=""
-          className={styles.cityContainer}
-          name="id_city"
-          onChange={handleChange}
-          value={data?.id_city}
-        >
-          <option value="1">Бишкек</option>
-          <option value="2">Ош</option>
-          <option value="3">Чуйская область</option>
-          <option value="4">Ошская область</option>
-          <option value="5">Жалал-Абадская область</option>
-          <option value="6">Баткенская область</option>
-          <option value="7">Иссык-Кульская область</option>
-          <option value="8">Нарынская область</option>
-          <option value="9">Таласская область</option>
-          <option value="10">Другое</option>
-        </select> */}
       </div>
       <div className={styles.inputContainer}>
         <input
@@ -292,7 +289,10 @@ const UserPersonalData = () => {
       <button
         onClick={postUserData}
         type="submit"
-        className={styles.buttonSave}
+        className={cn(styles.buttonSave, {
+          [styles.buttonSaveDisabled]: !isFormChanged() || !isFormValid(),
+        })}
+        disabled={!isFormChanged() || !isFormValid()}
       >
         Сохранить
       </button>
