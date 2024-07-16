@@ -16,7 +16,7 @@
 .inputField {
   width: 100%;
   padding: 10px 5px 10px 5px;
-  border: 2px solid var(--secondary);
+  border: 1px solid var(--secondary);
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
@@ -84,16 +84,20 @@
   transition: 0.3s;
 }
 .cityContainer {
+  cursor: pointer;
   @include mixin.flex(center, space-between, null, null);
   width: 100%;
   padding: 10px;
-  border: 2px solid var(--secondary);
+  border: 1px solid var(--secondary);
   border-radius: 4px;
   text-wrap: nowrap;
   font-size: 16px;
   font-weight: 400;
   color: var(--gray);
   overflow: hidden;
+  &:hover {
+    border: 1px solid var(--dark-blue);
+  }
 }
 .dropdownItem {
   color: var(--dark);
