@@ -1,14 +1,58 @@
+"use client";
+import { useEffect, useState } from "react";
 import styles from "./style.module.scss";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { getPersonalDataProfile } from "@/api/clientRequest";
 
 const UserPersonalData = () => {
+  const [accessToken, setAccessToken] = useState("");
+  const [error, setError] = useState("");
+  const [data, setData] = useState<UserPersonalDataType>();
+
+  const getToken = async () => {
+    try {
+      const response = await fetch("/api/auth");
+      const data = await response.json();
+      if (response.ok) {
+        setAccessToken(data.accessToken.value);
+      } else {
+        setError(data.error);
+      }
+    } catch (error) {
+      setError("Failed to fetch access token");
+    }
+  };
+
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  useEffect(() => {
+    if (accessToken) {
+      getPersonalDataProfile(accessToken)
+        .then((data) => setData(data))
+        .catch((error) => setError(error.message));
+    }
+  }, [accessToken]);
+
   return (
     <div className={styles.containerPersonalData}>
       <div className={styles.inputContainer}>
-        <input className={styles.inputField} type="text" required />
+        <input
+          value={data?.fio}
+          className={styles.inputField}
+          type="text"
+          required
+        />
         <label className={styles.inputLabel}>Фамилия</label>
       </div>
       <div className={styles.inputContainer}>
-        <input className={styles.inputField} type="text" required />
+        <input
+          value={data?.name}
+          className={styles.inputField}
+          type="text"
+          required
+        />
         <label className={styles.inputLabel}>Имя</label>
       </div>
       <div className={styles.inputContainer}>
@@ -34,7 +78,12 @@ const UserPersonalData = () => {
         <label className={styles.inputLabel}>Адрес доставки</label>
       </div>
       <div className={styles.inputContainer}>
-        <input className={styles.inputField} type="text" required />
+        <input
+          value={data?.tel}
+          className={styles.inputField}
+          type="text"
+          required
+        />
         <label className={styles.inputLabel}>Мобильный номер</label>
       </div>
       <div className={styles.inputContainer}>
