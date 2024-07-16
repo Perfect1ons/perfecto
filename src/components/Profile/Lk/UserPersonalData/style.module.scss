@@ -6,6 +6,7 @@
   border: 2px solid var(--secondary);
   border-radius: 5px;
   padding: 15px;
+  width: 100%;
 }
 .inputContainer {
   position: relative;
@@ -38,6 +39,7 @@
 .inputField:focus + .inputLabel,
 .inputField:valid + .inputLabel {
   background-color: var(--white);
+  color: var(--dark-blue);
   left: 5px;
   top: 0;
   scale: (0.88);
@@ -96,5 +98,12 @@
 
   &:hover {
     background: var(--violet);
+  }
+}
+.checkBoxContainer {
+  @include mixin.flex(center, null, null, 10px);
+  &__check {
+    width: 20px;
+    height: 20px;
   }
 }

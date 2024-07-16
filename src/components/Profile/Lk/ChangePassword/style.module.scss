@@ -1,6 +1,5 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 .wrap {
-  margin-top: 10px;
   @include mixin.flex(flex-start, center, column, null);
   padding: 15px;
   border: 2px solid var(--secondary);

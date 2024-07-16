@@ -1,24 +1,12 @@
-@use '../../../assets/scss/common/mixins' as mixin;
+@use "../../../assets/scss/common/mixins" as mixin;
 
-
-.lk{
-    background: var(--secondlight);
-    padding: 20px 0;
-    min-height: 40vh;
-    user-select: none;
-
-    &__input{
-        width: 100%;
-        padding: 10px 15px;
-        border: 1px solid var(--dark);
-        background: var(--white);
-        border-radius: 5px;
-        ::placeholder{
-            @include mixin.font(16px,500,100%,var(--dark))
-        }
-    }
-
-    &__form{
-        @include mixin.flex(center,flex-start,column, 20px)
-    }
+.lk {
+  background: var(--secondlight);
+  padding: 20px 0;
+  min-height: 40vh;
+  user-select: none;
+}
+.informationContainer {
+  width: 100%;
+  @include mixin.flex(flex-start, flex-start, null, 20px);
 }

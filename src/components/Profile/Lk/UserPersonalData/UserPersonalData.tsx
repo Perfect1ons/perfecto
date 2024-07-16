@@ -53,9 +53,9 @@ const UserPersonalData = () => {
         <input className={styles.inputField} type="text" required />
         <label className={styles.inputLabel}>Коментарии</label>
       </div>
-      <div className={styles.inputContainer}>
-        <input type="checkbox" required />
-        <label className={styles.inputLabel}>Мне больше 18</label>
+      <div className={styles.checkBoxContainer}>
+        <input type="checkbox" className={styles.checkBoxContainer__check} />
+        <label>Мне больше 18</label>
       </div>
       <p>* - поля, обязательные для заполнения.</p>
       <button type="submit" className={styles.buttonSave}>
