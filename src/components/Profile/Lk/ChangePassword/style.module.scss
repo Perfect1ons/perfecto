@@ -1,0 +1,123 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+.wrap {
+  margin-top: 10px;
+  @include mixin.flex(flex-start, center, column, null);
+  padding: 15px;
+  border: 2px solid var(--secondary);
+  max-width: 600px;
+  border-radius: 5px;
+  background: var(--white);
+
+  &__title {
+    @include mixin.font(1.5rem, 500, null, var(--dark));
+  }
+
+  &_form {
+    margin-top: 15px;
+    @include mixin.flex(flex-start, center, column, 20px);
+    width: 100%;
+    &_inputWrapNew {
+      position: relative;
+      @include mixin.flex(center, flex-start, null, 30px);
+      &__text {
+        padding-right: 6px;
+        text-wrap: nowrap;
+        @include mixin.font(14px, 400, null, var(--gray));
+      }
+      &__input {
+        width: 300px;
+        align-self: flex-start;
+        appearance: none;
+        outline: none;
+        border: 2px solid var(--secondary);
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: var(--white);
+        &:focus {
+          border: 2px solid var(--dark-blue);
+        }
+
+        &__warning {
+          border: 2px solid var(--red);
+          width: 300px;
+          align-self: flex-start;
+          appearance: none;
+          outline: none;
+          padding: 5px 10px;
+          border-radius: 5px;
+          background: var(--white);
+          &:focus {
+            border: 2px solid var(--dark-blue);
+          }
+        }
+      }
+      &__warning {
+        position: absolute;
+        left: 155px;
+        top: 35px;
+        text-wrap: nowrap;
+        @include mixin.font(0.875rem, 400, null, var(--red));
+      }
+    }
+    &_inputWrapRep {
+      position: relative;
+      @include mixin.flex(center, flex-start, null, 30px);
+      &__text {
+        text-wrap: nowrap;
+        @include mixin.font(14px, 400, null, var(--gray));
+      }
+      &__input {
+        width: 300px;
+        align-self: flex-start;
+        appearance: none;
+        outline: none;
+        border: 2px solid var(--secondary);
+        padding: 5px 10px;
+        border-radius: 5px;
+        background: var(--white);
+        &:focus {
+          border: 2px solid var(--dark-blue);
+        }
+
+        &__warning {
+          width: 300px;
+          align-self: flex-start;
+          appearance: none;
+          outline: none;
+          border: 2px solid var(--red);
+          padding: 5px 10px;
+          border-radius: 5px;
+          background: var(--white);
+          &:focus {
+            border: 2px solid var(--dark-blue);
+          }
+        }
+      }
+      &__warning {
+        position: absolute;
+        left: 155px;
+        top: 35px;
+        text-wrap: nowrap;
+        @include mixin.font(14px, 400, null, var(--red));
+      }
+    }
+    &__submit {
+      margin-top: 15px;
+      @include mixin.flex(center, center, null, null);
+      @include mixin.font(14px, 400, null, var(--white));
+      background: var(--dark-blue);
+      cursor: pointer;
+      max-width: 200px;
+      width: 100%;
+      align-self: flex-end;
+      padding: 10px 0px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      transition: 0.3s all;
+
+      &:hover {
+        background: var(--violet);
+      }
+    }
+  }
+}
