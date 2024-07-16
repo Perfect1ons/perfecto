@@ -55,7 +55,7 @@
         left: 155px;
         top: 35px;
         text-wrap: nowrap;
-        @include mixin.font(0.875rem, 400, null, var(--red));
+        @include mixin.font(12px, 400, null, var(--red));
       }
     }
     &_inputWrapRep {
@@ -97,7 +97,7 @@
         left: 155px;
         top: 35px;
         text-wrap: nowrap;
-        @include mixin.font(14px, 400, null, var(--red));
+        @include mixin.font(0.75rem, 400, null, var(--red));
       }
     }
     &__submit {
