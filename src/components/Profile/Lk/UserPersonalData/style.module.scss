@@ -110,8 +110,4 @@
 }
 .checkBoxContainer {
   @include mixin.flex(center, null, null, 10px);
-  &__check {
-    width: 20px;
-    height: 20px;
-  }
 }
