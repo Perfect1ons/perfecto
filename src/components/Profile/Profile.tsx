@@ -21,27 +21,8 @@ const Profile = () => {
     }
   };
 
-  const addToFavorite = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    // ваш код для добавления в избранное
-    console.log("Добавлено в избранное");
-  };
-
   return (
     <section className={styles.profile}>
-      <Link href="/item">
-        <div>
-          <div>Image</div>
-          <div>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam
-            voluptatem facere quibusdam tempora expedita libero veniam, ab
-            exercitationem, fugit dolorum iusto molestias reiciendis doloreque,
-            cumque voluptatibus explicabo nobis suscipit et!
-          </div>
-          <button className="default__buttons_showMore" onClick={addToFavorite}>Добавить в избранное</button>
-        </div>
-      </Link>
-
       <div className="container">
         <div className={styles.profile__cards}>
           <div className={styles.profile__userInfo}>
