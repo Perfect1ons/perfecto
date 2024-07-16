@@ -34,13 +34,13 @@ const navLinks: ILinks[] = [
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
-const HeaderNav = () => {
-  const authStatus = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
+interface IHeaderNav{
+  isAuthed: boolean;
+}
 
+const HeaderNav = ({isAuthed}: IHeaderNav) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
-  // const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
+  const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -83,7 +83,7 @@ const HeaderNav = () => {
       window.removeEventListener("cartUpdated", cartListener);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authStatus]);
+  }, []);
 
   return (
     <nav className={styles.nav}>

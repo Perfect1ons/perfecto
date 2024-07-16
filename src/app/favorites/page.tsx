@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function Favorites() {
     const cookieStore = cookies();
-    const isAuthed = cookieStore.get("isAuthenticated")?.value;
+    const isAuthed = cookieStore.get("identify")?.value;
   
   if (isAuthed) {
     return (

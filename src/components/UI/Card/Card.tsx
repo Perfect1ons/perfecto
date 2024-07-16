@@ -55,13 +55,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch("/api/jlogin", {
+      const response = await fetch("/api/auth", {
         method: "GET",
       });
 
       const data = await response.json();
-
-      if (data.isAuthenticated) {
+      console.log(data);
+      
+      if (data) {
         setIsAuthed(true);
       } else {
         setIsAuthed(false);
@@ -71,16 +72,19 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     }
   };
 
+    useEffect(() => {
+      checkAuthStatus();
+    }, []);
+
+
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    const basket = JSON.parse(localStorage.getItem("basket") || "[]");
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
-    checkAuthStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.ocenka, cardData.id_tov, isAuthed]);
+  }, [cardData.ocenka, cardData.id_tov]);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
