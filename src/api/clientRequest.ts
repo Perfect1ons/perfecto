@@ -4,6 +4,7 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { ISearch } from "@/types/Search/search";
 import { ISeek } from "@/types/Search/seek";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
@@ -150,4 +151,17 @@ export const postConfirmCode = (tel: string, code: string) => {
     },
     body: params.toString(),
   });
+};
+
+export const getPersonalDataProfile = (
+  token: string
+): Promise<UserPersonalDataType> => {
+  return maxkg
+    .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
