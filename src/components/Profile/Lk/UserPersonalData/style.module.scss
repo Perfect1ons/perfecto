@@ -56,6 +56,9 @@
   font-size: 16px;
   color: #aaa; // Цвет текста по умолчанию
 }
+.dropdown {
+  position: relative;
+}
 .dropdownContainer {
   @include mixin.flex(null, null, column, 4px);
   padding: 15px;
@@ -69,12 +72,12 @@
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
   visibility: hidden;
-  z-index: 1;
+  z-index: 1000;
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
   transition: 0.3s;
 }
-.dropdownContainer.active {
+.dropdownContainerActive {
   display: flex;
   visibility: visible;
   opacity: 1;
@@ -90,6 +93,14 @@
   font-size: 16px;
   font-weight: 400;
   color: var(--gray);
+  overflow: hidden;
+}
+.dropdownItem {
+  color: var(--dark);
+  cursor: pointer;
+  &:hover {
+    color: var(--violet);
+  }
 }
 .buttonSave {
   @include mixin.flex(center, center, null, null);
@@ -110,8 +121,4 @@
 }
 .checkBoxContainer {
   @include mixin.flex(center, null, null, 10px);
-  &__check {
-    width: 20px;
-    height: 20px;
-  }
 }
