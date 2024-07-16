@@ -1,6 +1,6 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 .containerPersonalData {
-  @include mixin.flex(null, null, column, 10px);
+  @include mixin.flex(null, null, column, 20px);
   max-width: 710px;
   background: var(--white);
   border: 2px solid var(--secondary);
@@ -11,11 +11,12 @@
 .inputContainer {
   position: relative;
   max-width: 100%;
+  max-height: 44px;
 }
 .inputField {
   width: 100%;
   padding: 10px 5px 10px 5px;
-  border: 1px solid #ccc;
+  border: 2px solid var(--secondary);
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
@@ -30,6 +31,10 @@
   padding: 0 5px;
   transition: all 0.3s ease;
   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray);
 }
 
 .inputField:focus,
@@ -79,9 +84,12 @@
   @include mixin.flex(center, space-between, null, null);
   width: 100%;
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 2px solid var(--secondary);
   border-radius: 4px;
+  text-wrap: nowrap;
   font-size: 16px;
+  font-weight: 400;
+  color: var(--gray);
 }
 .buttonSave {
   @include mixin.flex(center, center, null, null);
