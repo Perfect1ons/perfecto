@@ -176,7 +176,7 @@ const Profile = ({ data }: IProfileProps) => {
               <div>
                 <p className={styles.profile__userInfo_name}>Корзина</p>
                 <p className={styles.orders}>
-                  В корзине <span className={styles.orders__count}>2</span>{" "}
+                  В корзине <span className={styles.orders__count}></span>{" "}
                   товара
                 </p>
               </div>

@@ -37,7 +37,7 @@ export const profileLinks: IProfileLinks[] = [
     href: "/cart",
     title: "Корзина",
     id: 6,
-    count: 2,
+    count: 0,
   },
   {
     href: "/favorites",
