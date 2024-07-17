@@ -1,10 +1,142 @@
-@use '../../../../assets/scss/common/mixins' as mixin;
+@use "../../../../assets/scss/common/mixins" as mixin;
 
-.settings{
+.settings {
   background: var(--secondlight);
-    
+  padding: 20px 0;
+}
+.settingsNotification {
+  @include mixin.flex(null, null, column, 40px);
+  padding: 10px;
+  background: var(--white);
+  border-radius: 5px;
+}
+.settingsHeader {
+  @include mixin.flex(center, null, null, 20px);
+  flex-wrap: wrap;
+  &__ndsMain {
+    @include mixin.flex(center, null, null, 10px);
 
-  &__container{
-    background: var(--white);
+    &__slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #fff;
+      border: 1px solid #adb5bd;
+      transition: 0.2s;
+      border-radius: 30px;
+
+      &::before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 24px;
+        border-radius: 20px;
+        left: 3px;
+        bottom: 2px;
+        background-color: #adb5bd;
+        transition: 0.2s;
+      }
+    }
+
+    input:checked + &__slider {
+      background-color: var(--dark-blue);
+      border: 1px solid var(--dark-blue);
+    }
+
+    input:focus + &__slider {
+      box-shadow: 0 0 1px var(--dark-blue);
+    }
+
+    input:checked + &__slider::before {
+      transform: translateX(21px);
+      background-color: #fff;
+    }
+    &__nds {
+      @include mixin.flex(baseline, flex-start, null, 5px);
+      font-size: 17px;
+      position: relative;
+      display: inline-block;
+      width: 52px;
+      height: 22px;
+
+      > input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+    }
+  }
+}
+.settingsFooter {
+  @include mixin.flex(null, null, column, 20px);
+  &__title {
+    font-size: 16px;
+    font-weight: 500;
+    max-width: 704px;
+    color: var(--dark);
+  }
+}
+.childContainer {
+  // @include mixin.flex(null, space-between, null, 20px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  // flex-wrap: wrap;
+  &__interest {
+    @include mixin.flex(flex-start, null, column, 5px);
+    &__title {
+      font-weight: 600;
+      font-size: 1.5em;
+      color: var(--dark-blue);
+    }
+    &__ulContainer {
+      @include mixin.flex(null, null, column, 10px);
+      padding: 0 5px;
+      overflow-y: auto;
+      max-height: 250px;
+      &::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        transition: 0.5s;
+        background: #888;
+        border-radius: 5px;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      &__title {
+        cursor: pointer;
+        @include mixin.flex(center, null, null, 10px);
+      }
+    }
+  }
+}
+@media screen and (max-width: 992px) {
+  .childContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 768px) {
+  .childContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (max-width: 576px) {
+  .childContainer {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .settingsNotification {
+    gap: 20px;
+  }
+  .settingsHeader {
+    gap: 10px;
   }
 }
