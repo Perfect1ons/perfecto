@@ -27,19 +27,14 @@ export default async function page({ searchParams }: NotificationProps) {
   const settingsPage = searchParams?.type;
   const isAuthed = cookieAuth.get("identify")?.value;
 
-  let notification: Notifications = [];
 
   if (isAuthed) {
     try {
       const userInfo = await getPersonalDataProfileServer(isAuthed);
       const userId = userInfo.id;
-      notification = await getNotification(userId);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+      const notification = await getNotification(userId);
 
-  if (!settingsPage) {
+        if (!settingsPage) {
     return (
       <div>
         <ProfileTabs />
@@ -47,6 +42,11 @@ export default async function page({ searchParams }: NotificationProps) {
       </div>
     );
   }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   if (settingsPage !== "notification") {
     return <NotFound />;
