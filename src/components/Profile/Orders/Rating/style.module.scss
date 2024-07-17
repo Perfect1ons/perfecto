@@ -2,23 +2,34 @@
 
 .rating {
   @include mixin.flex(center, space-between, null, 25px);
-    width: 100%;
+  width: 100%;
+  @media screen and (max-width: 1440px) {
+    font-size: 12px;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   &__selected {
     width: 60px;
 
-    &_info{
-        @include mixin.flex(center,center,column,2px);
+    &_info {
+      @include mixin.flex(center, center, column, 2px);
     }
   }
 
-  &__name{
-    @include mixin.font(15px,400,100%,var(--gray));
+  &__name {
+    @include mixin.font(15px, 400, 100%, var(--gray));
+    @media screen and (max-width: 1440px) {
+      font-size: 12px;
+    }
   }
 
   &__button {
     -webkit-tap-highlight-color: transparent;
     text-decoration: none;
     user-select: none;
+    text-wrap: nowrap;
     @include mixin.flex(center, center);
     @include mixin.button(
       10px 25px,
@@ -31,6 +42,9 @@
       var(--dark-blue)
     );
     transition: 0.2s ease-out;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
     &:hover {
       background: var(--dark-blue);
       color: var(--white);
@@ -47,21 +61,19 @@
 }
 
 .chosing {
-    @include mixin.flex(center,center,column,5px);
+  @include mixin.flex(center, center, column, 5px);
   cursor: pointer;
-    transition: all 0.3 ease;
-  &:hover{
-
-    .chosing__img{
-        opacity: 0.4;
+  transition: all 0.3 ease;
+  &:hover {
+    .chosing__img {
+      opacity: 0.4;
     }
 
-    .rating__name{
-        color: var(--violet);
+    .rating__name {
+      color: var(--violet);
     }
   }
 }
-
 
 .modalOverlay {
   position: fixed;

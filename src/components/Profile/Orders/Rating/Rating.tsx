@@ -98,11 +98,9 @@ const Rating = () => {
         </div>
       )}
       {!submitted && (
-        <div>
-          <button onClick={handleOpenModal} className={styles.rating__button}>
-            Оставить оценку
-          </button>
-        </div>
+        <button onClick={handleOpenModal} className={styles.rating__button}>
+          Оставить оценку
+        </button>
       )}
       <ConfirmModal
         show={isModalOpen}
