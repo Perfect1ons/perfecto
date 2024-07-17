@@ -1,25 +1,28 @@
-"use client";
-import { profileLinks } from "@/components/temporary/profileLinks";
+import Link from "next/link";
 import styles from "./style.module.scss";
 import UserNotification from "./UserNotification";
-import { useRouter } from "next/navigation";
+import { Notifications } from "@/types/Profile/Notifications/notifications";
 
-const NotificationPage = () => {
-  const notificationLink = profileLinks.find((link) => link.id === 5);
-  const router = useRouter();
+interface INotifications {
+  notifications: Notifications;
+}
 
-  const hasNotifications = (notificationLink?.count ?? 0) > 0;
-  const handleSettingCLick = () => {
-    router.push("/profile/notification?type=notification");
-  };
+const NotificationPage = ({ notifications }: INotifications) => {
+  const hasNotifications = notifications.length > 0;
+
   return (
     <section className={styles.NotificationPage}>
       <div className="container">
         {hasNotifications ? (
           <div>
-            <UserNotification />
-            <UserNotification />
-            <UserNotification />
+            {notifications.map((notification) => {
+              return (
+                <UserNotification
+                  notification={notification}
+                  key={notification.id}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className={styles.isEmpty}>
@@ -37,13 +40,17 @@ const NotificationPage = () => {
               </div>
             </div>
 
-            <button
-              aria-label="go to settings"
-              className={styles.isEmpty__button}
-              onClick={handleSettingCLick}
+            <Link
+              href={"/profile/notification?type=notification"}
+              className="link"
             >
-              Настроить
-            </button>
+              <button
+                aria-label="go to settings"
+                className={styles.isEmpty__button}
+              >
+                Настроить
+              </button>
+            </Link>
           </div>
         )}
       </div>
@@ -51,5 +58,4 @@ const NotificationPage = () => {
   );
 };
 
-// Export the NotificationPage component
 export default NotificationPage;

@@ -1,37 +1,67 @@
-import Link from "next/link";
+"use client"; // Add this line
+import { deleteNotification } from "@/api/clientRequest";
 import { XMark } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
+import { Notification } from "@/types/Profile/Notifications/notifications";
 
-const UserNotification = () => {
+const UserNotification = ({ notification }: { notification: Notification }) => {
+  // Проверяем, есть ли date
+  const date = notification.date ? new Date(notification.date * 1000) : null;
+
+  // Функция для форматирования даты
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    };
+    const formattedDate = date.toLocaleDateString("ru-RU", options);
+
+    // Приводим первую букву месяца к заглавной
+    return (
+      formattedDate.charAt(0) +
+      formattedDate
+        .slice(1)
+        .replace(
+          /(\s)([а-я])/i,
+          (_, space, char) => `${space}${char.toUpperCase()}`
+        )
+    );
+  };
+
+  const closeNotif = (id: number) => {
+    try {
+      deleteNotification(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Link
-      href={"tg://resolve?domain=xldropss"}
-      target="_blank"
-      className="link"
-    >
-      <div className={styles.UserNotification}>
-        <div className={styles.UserNotification__header}>
-          <div>
-            <span className={styles.date}>12 Июля 2024 г.</span>
-              <p
-                className={styles.notification__content}
-              >
-                Акция на бесплатные задания для сайта Next.Max.KG, <br />
-                Нажмите на уведомление чтобы написать Абдульазизу для получение
-                данной акции
-              </p>
-          </div>
-          <div className={styles.close__notification}>
-            <XMark />
-          </div>
-        </div>
+    <div className={styles.UserNotification}>
+      <div className={styles.UserNotification__header}>
         <div>
-          <button className={styles.notification__button}>
-            Хорошо, Спасибо!
-          </button>
+          <span className={styles.date}>
+            {date ? formatDate(date) : "Дата недоступна"}
+          </span>
+          <p className={styles.notification__content}>{notification.text}</p>
+        </div>
+        <div
+          onClick={() => closeNotif(notification.id)}
+          className={styles.close__notification}
+        >
+          <XMark />
         </div>
       </div>
-    </Link>
+      <div>
+        <button
+          onClick={() => closeNotif(notification.id)}
+          className={styles.notification__button}
+        >
+          Хорошо, Спасибо!
+        </button>
+      </div>
+    </div>
   );
 };
 

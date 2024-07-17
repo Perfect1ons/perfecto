@@ -4,6 +4,7 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
 import { settingsNotificationUpdateType } from "@/types/Profile/settingsNotificationUpdaet";
@@ -21,6 +22,11 @@ import ky from "ky";
 //  Как им пользоваться вам расскажет ютуб :)
 const maxkg = ky.create({
   prefixUrl: "/api/",
+});
+
+const maxkgnotif = ky.create({
+  prefixUrl: "/api/",
+  cache: "no-cache",
 });
 
 //! GET запрос для получения каталог меню
@@ -265,4 +271,29 @@ export const postPesonalDataProfileOrg = (
     },
     body: params.toString(),
   });
+};
+
+
+
+export const getNotificationCount = (id: number): Promise<Notifications> => {
+  return maxkg.get(`site/notification?idUser=${id}`).json();
+};
+
+
+export const deleteNotification = (id: number) => {
+  return maxkgnotif.get(`site/closenotif?id=${id}`);
+};
+
+
+export const getPersonalDataProfileClient = (
+  token: string
+): Promise<UserPersonalDataType> => {
+  return maxkg
+    .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
