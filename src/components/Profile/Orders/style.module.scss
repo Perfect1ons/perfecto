@@ -83,15 +83,19 @@
     max-width: 550px;
     width: 100%;
 
+    &_title {
+      cursor: pointer;
+      @include mixin.font(1.125rem, 500, 100%, var(--dark));
+      max-width: 400px;
+      transition: 0.2s all;
+      &:hover {
+        color: var(--violet);
+      }
+    }
     @media screen and (max-width: 1200px) {
       flex-direction: column;
       align-items: flex-start;
       justify-content: center;
-    }
-
-    &_title {
-      @include mixin.font(16px, 400, 100%, var(--dark));
-      max-width: 400px;
     }
   }
 }

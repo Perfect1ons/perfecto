@@ -1,0 +1,187 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.wrapper {
+  background: var(--secondlight);
+}
+
+.header {
+  margin-top: 15px;
+  @include mixin.flex(center, space-between, null, 15px);
+
+  &_order {
+    @include mixin.flex(flex-start, space-between, null, null);
+    padding: 20px;
+    max-width: 750px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    &_title {
+      max-width: 250px;
+      @include mixin.font(16px, 500, null, color(--dark));
+    }
+    &_progress {
+      max-width: 300px;
+      width: 100%;
+      @include mixin.flex(flex-start, center, column, null);
+      &_status {
+        @include mixin.font(1.125rem, 500, 1.2, #51b54a);
+        width: 100%;
+        border-bottom: 2px dashed #51b54a;
+        &_fail {
+          @include mixin.font(1.125rem, 500, 1.2, var(--red));
+          width: 100%;
+          border-bottom: 2px dashed var(--red);
+        }
+        &_delivery {
+          @include mixin.font(1.125rem, 500, 1.2, var(--warning));
+          width: 100%;
+          border-bottom: 2px dashed var(--warning);
+        }
+      }
+      &_date {
+        margin-top: 15px;
+        @include mixin.font(0.875rem, 400, null, #424242);
+      }
+      &_bar {
+        margin-top: 15px;
+        @include mixin.flex(center, center, null, 4px);
+        &_start {
+          background: var(--dark-blue);
+          width: 12px;
+          height: 12px;
+          border-radius: 8px;
+        }
+        &_line {
+          border: 2px solid #d9d9d9;
+          width: 45px;
+          height: 1px;
+          border-radius: 5px;
+          background-color: #d9d9d9;
+        }
+        &_middle {
+          background: #d9d9d9;
+          width: 12px;
+          height: 12px;
+          border-radius: 8px;
+        }
+        &_end {
+          border: 3px solid #0c54a1;
+          width: 20px;
+          height: 20px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+
+  &_manager {
+    @include mixin.flex(flex-start, flex-start, null, 20px);
+    padding: 20px;
+    max-width: 560px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+    &_img {
+      width: 94px;
+      height: 94px;
+      background: var(--gray);
+      border-radius: 5px;
+    }
+    &_info {
+      @include mixin.flex(flex-start, flex-start, column, null);
+      &_name {
+        @include mixin.font(16px, 500, 1.4, var(--dark));
+      }
+      &_contact {
+        @include mixin.font(0.9375rem, 400, 1.4, var(--dark));
+      }
+      &_workTime {
+        @include mixin.font(0.9375rem, 400, 1.4, var(--dark));
+      }
+    }
+  }
+}
+.main {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  &_buyer {
+    &_title {
+      @include mixin.font(1rem, 600, null, var(--dark));
+    }
+    &_info {
+      margin-top: 10px;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px;
+      min-height: 185px;
+
+      &_name {
+        @include mixin.font(1rem, 600, null, var(--dark));
+      }
+      &_phone {
+        margin-top: 5px;
+        @include mixin.font(14px, 400, null, var(--dark));
+      }
+      &_city {
+        @include mixin.font(14px, 400, null, var(--dark));
+      }
+    }
+  }
+  &_delivery {
+    &_title {
+      @include mixin.font(1rem, 600, null, var(--dark));
+    }
+    &_info {
+      margin-top: 10px;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px;
+      min-height: 185px;
+
+      &_del {
+        @include mixin.flex(center, flex-start, null, 8px);
+        &_text {
+          @include mixin.font(0.875rem, 400, null, var(--dark));
+        }
+      }
+      &_date {
+        margin-top: 15px;
+        @include mixin.flex(center, flex-start, null, 8px);
+        &_text {
+          padding-left: 1px;
+          @include mixin.font(0.875rem, 400, null, var(--dark));
+        }
+      }
+      &_pay {
+        margin-top: 15px;
+        @include mixin.flex(center, flex-start, null, 8px);
+
+        &_text {
+          padding-left: 1px;
+          @include mixin.font(0.875rem, 400, null, var(--dark));
+        }
+      }
+    }
+  }
+  &_documents {
+    &_title {
+      @include mixin.font(1rem, 600, null, var(--dark));
+    }
+    &_info {
+      margin-top: 10px;
+      background: var(--white);
+      border-radius: 10px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px;
+      min-height: 185px;
+    }
+  }
+}

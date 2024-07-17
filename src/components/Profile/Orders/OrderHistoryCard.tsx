@@ -1,39 +1,47 @@
+"use client";
 import clsx from "clsx";
 import styles from "./style.module.scss";
 import Rating from "./Rating/Rating";
-import { IHistory } from "@/components/temporary/historyOrders";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
+import { useRouter } from "next/navigation";
 
 interface IOrder {
   order: Item;
 }
 
 const OrderHistoryCard = ({ order }: IOrder) => {
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string, key?: string) => {
     const date = new Date(dateString);
 
     const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Месяцы начинаются с 0
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
 
     const hours = String(date.getHours()).padStart(2, "0");
     const minutes = String(date.getMinutes()).padStart(2, "0");
     const seconds = String(date.getSeconds()).padStart(2, "0");
 
-    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+    if (key === "seconds") {
+      return `${day}.${month}.${year} ${hours}:${minutes}`;
+    } else {
+      return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+    }
   };
 
+  const router = useRouter();
+
   const formattedDate1 = formatDate(order.dat1);
-  const formattedDateVid = formatDate(order.dat_vid);
+  const formattedDateVid = formatDate(order.dat_vid, "seconds");
 
   return (
     <div className={styles.card}>
       <div className={styles.card__info}>
-        <div>
-          <p>
-            Заказ №: {order.id} от {formattedDate1}
-          </p>
-        </div>
+        <p
+          className={styles.card__info_title}
+          onClick={() => router.push(`/profile/orders/history/${order.id}`)}
+        >
+          Заказ №: {order.id} от {formattedDate1}
+        </p>
 
         <div className={styles.status__info}>
           <p
