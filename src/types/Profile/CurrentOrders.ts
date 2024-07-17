@@ -1,0 +1,89 @@
+export interface CurrentOrdersType {
+  items: Item[];
+  pages: Pages;
+}
+
+export interface Item {
+  id: number;
+  id_user: number;
+  fio: string;
+  name: string;
+  second_name: string;
+  tel: string;
+  adres: string;
+  email: string;
+  org: string;
+  org_inn: string;
+  prim: string;
+  dat1: string;
+  status: number;
+  idses: string;
+  dat_dos: string;
+  inbox: number;
+  opl: string;
+  opl2: string;
+  rashod: string;
+  id_city: number;
+  naim_city: string;
+  id_vopl: number;
+  id_manager: any;
+  id_manager2: any;
+  id_sms: any;
+  sms: any;
+  sum_dost: any;
+  vid_dost: number;
+  shop_point: number;
+  sum_skid: any;
+  skid_proc: any;
+  dat_dos2: string;
+  supply_period: number;
+  endperiod: any;
+  id_city2: any;
+  naim_city2: string;
+  summa_zakaza: string;
+  summa_ref: any;
+  ref: any;
+  summa_refskid: any;
+  summa_visa: any;
+  status_visa: any;
+  status_balance: any;
+  summa_balance: any;
+  summa_bonus: string;
+  summa_men: string;
+  credit: any;
+  dat_vid: any;
+  id_bank: any;
+  id_elsom: any;
+  skidka_tov: any;
+  fiz_ur: any;
+  nds: number;
+  nsp: any;
+  type: number;
+  comment_cancel: any;
+  service_info: string;
+  send_logist: any;
+  valute: string;
+  order_comment: any;
+  dost_time: any;
+  del_type: number;
+  temp_itogo: number;
+  temp_kol: number;
+  temp_skid: number;
+  temp_opl: number;
+  temp_ost: number;
+  img: string[];
+  o_id: number;
+}
+
+export interface Pages {
+  pageParam: string;
+  pageSizeParam: boolean;
+  forcePageParam: boolean;
+  route: any;
+  params: any;
+  urlManager: any;
+  validatePage: boolean;
+  totalCount: number;
+  defaultPageSize: number;
+  pageSizeLimit: number[];
+}

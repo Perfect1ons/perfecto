@@ -1,20 +1,29 @@
-"use client"
-import Image from 'next/image';
-import styles from './style.module.scss'
+"use client";
+import Image from "next/image";
+import styles from "./style.module.scss";
+import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 
+interface ICurrentOrdersProps {
+  currentOrders: CurrentOrdersType;
+}
 
-const Orders = () => {
+const Orders = ({ currentOrders }: ICurrentOrdersProps) => {
   return (
     <section className={styles.orders}>
       <div className="container">
         <div>
-          {1 > 2 ? (
+          {currentOrders.items.length > 0 ? (
             <h1>Текущие заказы</h1>
           ) : (
             <div className={styles.isEmpty}>
               <div className={styles.isEmpty__content}>
                 <div className={styles.icon}>
-                  <Image src={'/img/orderclipboard.svg'} width={70} height={70} alt='clipboard'/>
+                  <Image
+                    src={"/img/orderclipboard.svg"}
+                    width={70}
+                    height={70}
+                    alt="clipboard"
+                  />
                 </div>
 
                 <div className={styles.isEmpty__desc}>
@@ -38,6 +47,6 @@ const Orders = () => {
       </div>
     </section>
   );
-}
+};
 
-export default Orders
+export default Orders;
