@@ -12,7 +12,7 @@ const NotificationPage = ({notifications}: INotifications) => {
   return (
     <section className={styles.NotificationPage}>
       <div className="container">
-        {hasNotifications === false ? (
+        {hasNotifications ? (
           <div>
             {notifications.map((notification) => {
               return <UserNotification notification={notification} key={notification.id}/>;

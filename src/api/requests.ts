@@ -27,8 +27,8 @@ import { BrandsAll } from "@/types/bannerAll";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
-import { IDeleteNotif } from "@/types/Profile/Notifications/deletenotif";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
+import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -261,3 +261,13 @@ export const getNotification = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
 
+export const getOrdersHistory = (token: string): Promise<IOrderHistory> => {
+  return maxkg
+    .get("zakaz/history", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
