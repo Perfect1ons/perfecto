@@ -10,7 +10,7 @@ const NotificationPage = () => {
   return (
     <section className={styles.NotificationPage}>
       <div className="container">
-        {hasNotifications ? (
+        {hasNotifications === false ? (
           <div>
             <UserNotification />
             <UserNotification />
@@ -26,8 +26,8 @@ const NotificationPage = () => {
               <div className={styles.isEmpty__desc}>
                 <p>
                   У вас нет уведомлений. <br />
-                   Настройте уведомления чтобы получать
-                  информацию о скидках и <br /> акциях и выгодных предложениях.
+                  Настройте уведомления чтобы получать информацию о скидках и{" "}
+                  <br /> акциях и выгодных предложениях.
                 </p>
               </div>
             </div>

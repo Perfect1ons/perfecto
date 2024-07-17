@@ -5,6 +5,7 @@ import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { settingsNotificationType } from "@/types/Profile/settingsNotification";
 import { ISearch } from "@/types/Search/search";
 import { ISeek } from "@/types/Search/seek";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
@@ -158,6 +159,18 @@ export const getPersonalDataProfile = (
 ): Promise<UserPersonalDataType> => {
   return maxkg
     .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+export const getSettingsNotification = (
+  token: string
+): Promise<settingsNotificationType> => {
+  return maxkg
+    .get("prof/notiflist", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
