@@ -28,6 +28,7 @@ import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -247,6 +248,17 @@ export const getPersonalDataProfileServer = (
 ): Promise<UserPersonalDataType> => {
   return maxkg
     .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+export const getOrdersHistory = (token: string): Promise<IOrderHistory> => {
+  return maxkg
+    .get("zakaz/history", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

@@ -2,15 +2,20 @@ import { historyData } from "@/components/temporary/historyOrders";
 import OrderHistoryCard from "./OrderHistoryCard";
 import styles from "./style.module.scss";
 import Image from "next/image";
+import { Item } from "@/types/OrdersHistory/OrdersHistory";
 
-const OrdersHistory = () => {
+interface IOrdersHistoryProps {
+  orders: Item[];
+}
+
+const OrdersHistory = ({ orders }: IOrdersHistoryProps) => {
   return (
     <section className={styles.OrdersHistory}>
       <div className="container">
         <div>
-          {historyData.length > 0 ? (
-            historyData.map((order) => {
-              return <OrderHistoryCard order={order} key={order.orderNumber} />;
+          {orders.length > 0 ? (
+            orders.map((order) => {
+              return <OrderHistoryCard order={order} key={order.id} />;
             })
           ) : (
             <div className={styles.isEmpty}>
