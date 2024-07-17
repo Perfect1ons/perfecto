@@ -1,0 +1,10 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+.settings{
+  background: var(--secondlight);
+    
+
+  &__container{
+    background: var(--white);
+  }
+}
