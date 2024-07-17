@@ -26,7 +26,6 @@ const rubik = Rubik({
 
 export const metadata: Metadata = {
   icons: "/img/favicon.ico",
-  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({
@@ -61,4 +60,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
