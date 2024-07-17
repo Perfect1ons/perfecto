@@ -99,7 +99,7 @@ const Rating = () => {
       )}
       {!submitted && (
         <button onClick={handleOpenModal} className={styles.rating__button}>
-          Оставить оценку
+          Оставить отзыв
         </button>
       )}
       <ConfirmModal
