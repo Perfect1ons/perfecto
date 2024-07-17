@@ -4,7 +4,6 @@ import Link from "next/link";
 import styles from "./style.module.scss";
 import clsx from "clsx";
 import { SettingsIcons } from "../../../public/Icons/Icons";
-import UserNotification from "./UserNotification/UserNotification";
 import Image from "next/image";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { useEffect, useState } from "react";
@@ -350,7 +349,6 @@ const Profile = ({ data }: IProfileProps) => {
             </div>
           </div>
         </div>
-        <UserNotification />
       </div>
     </section>
   );

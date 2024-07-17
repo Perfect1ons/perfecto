@@ -24,10 +24,11 @@ import { IBrandByName } from "@/types/Brands/brandByName";
 import { IMetaData } from "@/types/MetaData/MetaData";
 import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { BrandsAll } from "@/types/bannerAll";
-import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IDeleteNotif } from "@/types/Profile/Notifications/deletenotif";
+import { Notifications } from "@/types/Profile/Notifications/notifications";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -254,3 +255,9 @@ export const getPersonalDataProfileServer = (
     })
     .json();
 };
+
+
+export const getNotification = (id: number): Promise<Notifications> => {
+  return maxkg.get(`site/notification?idUser=${id}`).json();
+};
+

@@ -1,20 +1,22 @@
-import { profileLinks } from "@/components/temporary/profileLinks";
 import styles from "./style.module.scss";
 import UserNotification from "./UserNotification";
+import { Notifications } from "@/types/Profile/Notifications/notifications";
 
-const NotificationPage = () => {
-  const notificationLink = profileLinks.find((link) => link.id === 5);
+interface INotifications {
+  notifications: Notifications;
+}
 
-  const hasNotifications = (notificationLink?.count ?? 0) > 0;
+const NotificationPage = ({notifications}: INotifications) => {
+  const hasNotifications = notifications.length  > 0;
 
   return (
     <section className={styles.NotificationPage}>
       <div className="container">
         {hasNotifications ? (
           <div>
-            <UserNotification />
-            <UserNotification />
-            <UserNotification />
+            {notifications.map((notification) => {
+              return <UserNotification notification={notification} key={notification.id}/>;
+            })}
           </div>
         ) : (
           <div className={styles.isEmpty}>
@@ -45,5 +47,4 @@ const NotificationPage = () => {
   );
 };
 
-// Export the NotificationPage component
 export default NotificationPage;
