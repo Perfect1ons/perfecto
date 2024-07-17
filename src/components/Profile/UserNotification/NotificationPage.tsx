@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./style.module.scss";
 import UserNotification from "./UserNotification";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
@@ -6,8 +7,8 @@ interface INotifications {
   notifications: Notifications;
 }
 
-const NotificationPage = ({notifications}: INotifications) => {
-  const hasNotifications = notifications.length  > 0;
+const NotificationPage = ({ notifications }: INotifications) => {
+  const hasNotifications = notifications.length > 0;
 
   return (
     <section className={styles.NotificationPage}>
@@ -15,7 +16,12 @@ const NotificationPage = ({notifications}: INotifications) => {
         {hasNotifications ? (
           <div>
             {notifications.map((notification) => {
-              return <UserNotification notification={notification} key={notification.id}/>;
+              return (
+                <UserNotification
+                  notification={notification}
+                  key={notification.id}
+                />
+              );
             })}
           </div>
         ) : (
@@ -34,12 +40,17 @@ const NotificationPage = ({notifications}: INotifications) => {
               </div>
             </div>
 
-            <button
-              aria-label="go to settings"
-              className={styles.isEmpty__button}
+            <Link
+              href={"/profile/notification?type=notification"}
+              className="link"
             >
-              Настроить
-            </button>
+              <button
+                aria-label="go to settings"
+                className={styles.isEmpty__button}
+              >
+                Настроить
+              </button>
+            </Link>
           </div>
         )}
       </div>

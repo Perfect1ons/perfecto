@@ -7,6 +7,7 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
+import { settingsNotificationUpdateType } from "@/types/Profile/settingsNotificationUpdaet";
 import { ISearch } from "@/types/Search/search";
 import { ISeek } from "@/types/Search/seek";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
@@ -183,6 +184,37 @@ export const getSettingsNotification = (
       },
     })
     .json();
+};
+export const getSettingsNotificationUpdate = (
+  token: string
+): Promise<settingsNotificationUpdateType> => {
+  return maxkg
+    .get("prof/my-notiflist", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+export const postNotificationSettings = (
+  token: string,
+  name: string,
+  key: string,
+  check: number
+) => {
+  const params = new URLSearchParams();
+
+  params.append("name", name);
+  params.append("key", key);
+  params.append("chek", check.toString());
+  return maxkg.post(`prof/set-notif?name=${name}&key=${key}&chek=${check}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
 
 export const postPesonalDataProfileFio = (
