@@ -178,7 +178,7 @@ const Profile = ({ data }: IProfileProps) => {
               <span></span>
               <Link
                 className={clsx("link", styles.profile__settings)}
-                href={"/profile/notification"}
+                href={"/profile/notification?type=notification"}
               >
                 <SettingsIcons />
                 <span>Настроить уведомления</span>
