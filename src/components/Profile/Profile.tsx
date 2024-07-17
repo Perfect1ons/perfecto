@@ -8,6 +8,8 @@ import UserNotification from "./UserNotification/UserNotification";
 import Image from "next/image";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { useEffect, useState } from "react";
+import { ICard } from "@/types/Card/card";
+import { url } from "../temporary/data";
 
 interface IProfileProps {
   data: UserPersonalDataType;
@@ -29,17 +31,24 @@ const Profile = ({ data }: IProfileProps) => {
 
   const [cartCount, setCartCount] = useState(0);
   const [favoritesCount, setFavoritesCount] = useState(0);
+  const [cart, setCart] = useState<ICard[]>();
+  const [favorites, setFavorites] = useState<ICard[]>();
+
+  const [images, setImages] = useState<string[]>();
 
   useEffect(() => {
     const savedCart = localStorage.getItem("basket");
-    const cart = savedCart ? JSON.parse(savedCart) : [];
-    setCartCount(cart.length);
+    const cartItems: ICard[] = savedCart ? JSON.parse(savedCart) : [];
+    setCart(cartItems);
+    setCartCount(cartItems.length);
 
     const savedFavorites = localStorage.getItem("favorites");
-    const favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
-    setFavoritesCount(favorites.length);
+    const favoriteItems: ICard[] = savedFavorites
+      ? JSON.parse(savedFavorites)
+      : [];
+    setFavorites(favoriteItems);
+    setFavoritesCount(favoriteItems.length);
   }, []);
-
   return (
     <section className={styles.profile}>
       <div className="container">
@@ -207,11 +216,47 @@ const Profile = ({ data }: IProfileProps) => {
               </div>
             </div>
             <div className={styles.orders__images}>
-              {Array.from({ length: 2 }).map((_, index) => (
-                <div key={index} className={styles.orders__img}>
-                  <span>order</span>
+              {cart && cart?.length > 0 ? (
+                <>
+                  {cart &&
+                    cart.slice(0, 3).map((data) => {
+                      const imageUrl =
+                        data.photos.length > 0
+                          ? data.photos[0]?.url_part.startsWith("https://goods")
+                            ? `${data.photos[0]?.url_part}280.jpg`
+                            : data.photos[0]?.url_part.startsWith("https://")
+                            ? data.photos[0]?.url_part
+                            : `${url}nal/img/${data.id_post}/l_${data.photos[0]?.url_part}`
+                          : "/img/noPhoto.svg";
+                      return (
+                        <Link
+                          href={`/item/${data.id_tov}/${data.url}`}
+                          key={data.id}
+                          className={styles.orders__imageContainer}
+                        >
+                          <Image
+                            className={styles.orders__imageContainer__image}
+                            width={100}
+                            height={100}
+                            alt=""
+                            src={imageUrl}
+                          />
+                        </Link>
+                      );
+                    })}
+                  {cart && cart.length > 3 && (
+                    <Link href="/cart" className={styles.profile__showMore}>
+                      Ещё {cart.length - 3}
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <div className={styles.orders__images__toCatalog}>
+                  <button className={styles.profile__exit}>
+                    Перейти в каталог
+                  </button>
                 </div>
-              ))}
+              )}
             </div>
           </div>
 
@@ -254,10 +299,54 @@ const Profile = ({ data }: IProfileProps) => {
               </div>
             </div>
             <div className={styles.profile__userInfo_footer}>
-              <span></span>
-              <button className={styles.profile__exit}>
-                Перейти в каталог
-              </button>
+              <div className={styles.orders__images}>
+                {favorites && favorites?.length > 0 ? (
+                  <>
+                    {favorites &&
+                      favorites.slice(0, 3).map((data) => {
+                        const imageUrl =
+                          data.photos.length > 0
+                            ? data.photos[0]?.url_part.startsWith(
+                                "https://goods"
+                              )
+                              ? `${data.photos[0]?.url_part}280.jpg`
+                              : data.photos[0]?.url_part.startsWith("https://")
+                              ? data.photos[0]?.url_part
+                              : `${url}nal/img/${data.id_post}/l_${data.photos[0]?.url_part}`
+                            : "/img/noPhoto.svg";
+                        return (
+                          <Link
+                            href={`/item/${data.id_tov}/${data.url}`}
+                            key={data.id}
+                            className={styles.orders__imageContainer}
+                          >
+                            <Image
+                              className={styles.orders__imageContainer__image}
+                              width={100}
+                              height={100}
+                              alt=""
+                              src={imageUrl}
+                            />
+                          </Link>
+                        );
+                      })}
+                    {favorites && favorites.length > 3 && (
+                      <Link
+                        href="/favorites"
+                        className={styles.profile__showMore}
+                      >
+                        Ещё {favorites.length - 3}
+                      </Link>
+                    )}
+                  </>
+                ) : (
+                  <div className={styles.orders__images__toCatalog}>
+                    <button className={styles.profile__exit}>
+                      Перейти в каталог
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

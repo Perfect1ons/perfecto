@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import cn from "clsx";
@@ -25,7 +25,8 @@ const UserPersonalData = () => {
   ];
 
   const [data, setData] = useState<UserPersonalDataType>();
-
+  const [initialData, setInitialData] = useState<UserPersonalDataType>();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
 
@@ -75,17 +76,23 @@ const UserPersonalData = () => {
   useEffect(() => {
     if (accessToken) {
       getPersonalDataProfile(accessToken)
-        .then((data) => setData(data))
+        .then((data) => {
+          setData(data);
+          setInitialData(data); // Сохраняем начальные данные
+        })
         .catch((error) => setError(error.message));
     }
   }, [accessToken]);
   const isFormChanged = () => {
-    if (!data) {
-      return false; // Если data не определено, считаем форму не измененной
+    if (!data || !initialData) {
+      return false; // Если данные не загружены, считаем форму не измененной
     }
 
+    // Проверяем, изменились ли данные относительно начальных значений
     return Object.keys(data).some(
-      (key) => data[key as keyof UserPersonalDataType] !== ""
+      (key) =>
+        data[key as keyof UserPersonalDataType] !==
+        initialData[key as keyof UserPersonalDataType]
     );
   };
 
@@ -129,7 +136,24 @@ const UserPersonalData = () => {
       );
     }
   };
-
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setDropdownOpen(false);
+    }
+  };
+  useEffect(() => {
+    if (dropdownOpen) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropdownOpen]);
   return (
     <div className={styles.containerPersonalData}>
       <div className={styles.inputContainer}>
@@ -167,6 +191,7 @@ const UserPersonalData = () => {
       </div>
       <div
         className={styles.inputContainer}
+        ref={dropdownRef}
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
         <button className={styles.cityContainer}>

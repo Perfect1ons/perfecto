@@ -45,7 +45,7 @@ const ProfileTabs = () => {
                 key={link.id}
                 href={link.href}
               >
-                {link.count && (
+                {link.count !== undefined && link.count > 0 && (
                   <span className={styles.profile__link_count}>
                     {link.count}
                   </span>
