@@ -122,7 +122,7 @@
   text-transform: uppercase;
   transition: 0.3s all;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: var(--violet);
   }
 }

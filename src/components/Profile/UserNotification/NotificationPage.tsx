@@ -15,7 +15,7 @@ const NotificationPage = () => {
   return (
     <section className={styles.NotificationPage}>
       <div className="container">
-        {hasNotifications === false ? (
+        {hasNotifications ? (
           <div>
             <UserNotification />
             <UserNotification />
