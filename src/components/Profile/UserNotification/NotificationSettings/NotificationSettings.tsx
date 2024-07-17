@@ -76,91 +76,86 @@ const NotificationSettings = () => {
         return false;
     }
   };
-  const handleItemClick = (key: string, value: string) => {
-    if (!dataSetting) return;
+  const handleItemClick = useCallback(
+    (key: string, value: string) => {
+      if (!dataSetting) return;
 
-    setDataSettings((prevSettings: any) => {
-      const newSettings = { ...prevSettings };
-      let isCheck = 0;
+      setDataSettings((prevSettings: any) => {
+        const newSettings = { ...prevSettings };
+        let isCheck = 0;
 
-      switch (key) {
-        case "avto":
-          if (newSettings.avto?.includes(value)) {
-            newSettings.avto = newSettings.avto.filter(
-              (item: any) => item !== value
-            );
-            isCheck = 0;
-          } else {
-            if (newSettings.avto) {
-              newSettings.avto = [...newSettings.avto, value];
+        switch (key) {
+          case "avto":
+            if (newSettings.avto?.includes(value)) {
+              newSettings.avto = newSettings.avto.filter(
+                (item: any) => item !== value
+              );
+              isCheck = 0;
             } else {
-              newSettings.avto = [value];
+              newSettings.avto = [...(newSettings.avto || []), value];
+              isCheck = 1;
             }
-            isCheck = 1;
-          }
-          break;
-        case "interest":
-          if (newSettings.interest?.hasOwnProperty(value)) {
-            const { [value]: _, ...rest } = newSettings.interest;
-            newSettings.interest = rest;
-            isCheck = 0;
-          } else {
-            newSettings.interest = {
-              ...newSettings.interest,
-              [value]: value,
-            };
-            isCheck = 1;
-          }
-          break;
-        case "langs":
-          if (newSettings.langs?.includes(value)) {
-            newSettings.langs = newSettings.langs.filter(
-              (item: any) => item !== value
-            );
-            isCheck = 0;
-          } else {
-            if (newSettings.langs) {
-              newSettings.langs = [...newSettings.langs, value];
+            break;
+          case "interest":
+            if (newSettings.interest?.hasOwnProperty(value)) {
+              const { [value]: _, ...rest } = newSettings.interest;
+              newSettings.interest = rest;
+              isCheck = 0;
             } else {
-              newSettings.langs = [value];
+              newSettings.interest = {
+                ...newSettings.interest,
+                [value]: value,
+              };
+              isCheck = 1;
             }
-            isCheck = 1;
-          }
-          break;
-        case "animals":
-          if (newSettings.animals?.hasOwnProperty(value)) {
-            const { [value]: _, ...rest } = newSettings.animals;
-            newSettings.animals = rest;
-            isCheck = 0;
-          } else {
-            newSettings.animals = {
-              ...newSettings.animals,
-              [value]: value,
-            };
-            isCheck = 1;
-          }
-          break;
-        default:
-          break;
-      }
+            break;
+          case "langs":
+            if (newSettings.langs?.includes(value)) {
+              newSettings.langs = newSettings.langs.filter(
+                (item: any) => item !== value
+              );
+              isCheck = 0;
+            } else {
+              newSettings.langs = [...(newSettings.langs || []), value];
+              isCheck = 1;
+            }
+            break;
+          case "animals":
+            if (newSettings.animals?.hasOwnProperty(value)) {
+              const { [value]: _, ...rest } = newSettings.animals;
+              newSettings.animals = rest;
+              isCheck = 0;
+            } else {
+              newSettings.animals = {
+                ...newSettings.animals,
+                [value]: value,
+              };
+              isCheck = 1;
+            }
+            break;
+          default:
+            break;
+        }
 
-      postNotificationSettings(accessToken, key, value, isCheck).catch(
-        (error) => setError(error.message)
-      );
+        postNotificationSettings(accessToken, key, value, isCheck).catch(
+          (error) => setError(error.message)
+        );
 
-      return newSettings;
-    });
-  };
+        return newSettings;
+      });
+    },
+    [accessToken, dataSetting]
+  );
   const [showAllStates, setShowAllStates] = useState<{
     [key: string]: boolean;
   }>({});
 
-  const handleShowAll = (key: string) => {
+  const handleShowAll = useCallback((key: string) => {
     setShowAllStates((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
-  };
+  }, []);
   return (
     <section className={styles.settings}>
       <div className="container">
