@@ -2,22 +2,31 @@ import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 export async function POST(request: NextRequest) {
-  const { accessToken } = await request.json();
+  const { accessToken, userId } = await request.json();
 
-  if (!accessToken) {
+  if (!accessToken || !userId) {
     return NextResponse.json(
-      { error: "Access token is required" },
+      { error: "Access token and userId are required" },
       { status: 400 }
     );
   }
 
-  // Установка cookie с токеном
-  const response = NextResponse.json({ message: "Token saved successfully" });
+  // Установка cookie с токеном и userId
+  const response = NextResponse.json({
+    message: "Token and userId saved successfully",
+  });
   response.cookies.set("identify", accessToken, {
-    httpOnly: true, // чтобы cookie не было доступно через JavaScript
-    secure: process.env.NODE_ENV === "production", // чтобы использовать только HTTPS в продакшене
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 30, // срок жизни cookie 1 неделя
+    maxAge: 60 * 60 * 24 * 30,
+    path: "/",
+  });
+  response.cookies.set("userId", userId, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 30,
     path: "/",
   });
 
@@ -27,23 +36,32 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   const cookieStore = cookies();
   const accessToken = cookieStore.get("identify");
+  const userId = cookieStore.get("userId");
 
-  if (!accessToken) {
+  if (!accessToken || !userId) {
     return NextResponse.json(
-      { error: "No access token found" },
+      { error: "No access token or userId found" },
       { status: 404 }
     );
   }
 
-  return NextResponse.json({ accessToken });
+  return NextResponse.json({ accessToken, userId });
 }
 
 export async function DELETE() {
-  const response = NextResponse.json({ message: "Token deleted successfully" });
+  const response = NextResponse.json({
+    message: "Token and userId deleted successfully",
+  });
   response.cookies.set("identify", "", {
-    httpOnly: true, // чтобы cookie не было доступно через JavaScript
-    secure: process.env.NODE_ENV === "production", // чтобы использовать только HTTPS в продакшене
-    maxAge: -1, // установить срок жизни cookie в прошлое, чтобы удалить его
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: -1,
+    path: "/",
+  });
+  response.cookies.set("userId", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: -1,
     path: "/",
   });
 

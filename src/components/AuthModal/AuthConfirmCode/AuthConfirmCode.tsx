@@ -2,7 +2,7 @@
 import styles from "./style.module.scss";
 import React, { useRef, useState } from "react";
 import cn from "clsx";
-import { postConfirmCode } from "@/api/clientRequest";
+import { getPersonalDataProfileClient, postConfirmCode } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
   setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
@@ -27,7 +27,7 @@ const AuthConfirmCode = ({
     null,
     null,
     null,
-  ]); // Ref для хранения ссылок на инпуты
+  ]); 
 
   const handleChange = (index: number, value: string) => {
     if (value.length > 1 || !/^\d$/.test(value)) return; // Не даем ввести больше одной цифры в инпут и только цифры
@@ -65,54 +65,51 @@ const AuthConfirmCode = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    if (code.some((field) => field === "")) {
-      setWarning("Пожалуйста, заполните все поля кода.");
-    } else {
-      setWarning("");
-      const confirmationCode = code.join("");
-      const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
-      try {
-        const response = await postConfirmCode(
-          cleanedPhoneNumber,
-          confirmationCode
-        );
-        if (
-          response.ok &&
-          response.headers.get("Content-Type")?.includes("application/json")
-        ) {
-          const data: any = await response.json(); // Parse response body as JSON
-          if (data.access_token) {
-            const accessToken = data.access_token;
-            await fetch("/api/auth", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ accessToken: accessToken }), // Отправляем токен как accessToken
-            });
-            close();
-            window.location.reload();
-          } else {
-            console.error(
-              "Invalid response format - missing access_token:",
-              data
-            );
-            handleInvalidCodeAttempt();
-          }
+  if (code.some((field) => field === "")) {
+    setWarning("Пожалуйста, заполните все поля кода.");
+  } else {
+    setWarning("");
+    const confirmationCode = code.join("");
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+    try {
+      const response = await postConfirmCode(
+        cleanedPhoneNumber,
+        confirmationCode
+      );
+      if (
+        response.ok &&
+        response.headers.get("Content-Type")?.includes("application/json")
+      ) {
+        const data: any = await response.json();
+        const userInfo = await getPersonalDataProfileClient(data.access_token);
+
+        if (data.access_token && userInfo.id) {
+          const accessToken = data.access_token;
+          const userId = userInfo.id; // Get userId from response
+          await fetch("/api/auth", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ accessToken, userId }), // Send both accessToken and userId
+          });
+          close();
+          window.location.reload();
         } else {
-          console.error("Invalid response format:", response);
           handleInvalidCodeAttempt();
         }
-      } catch (error) {
-        console.error("Error confirming code:", error);
+      } else {
         handleInvalidCodeAttempt();
-        // Handle error, show message, etc.
       }
+    } catch (error) {
+      handleInvalidCodeAttempt();
     }
-  };
+  }
+};
+
   const handleInvalidCodeAttempt = () => {
     setAttemptCount((prevCount) => prevCount + 1);
 
