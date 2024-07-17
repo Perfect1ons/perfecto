@@ -100,10 +100,13 @@
   }
 }
 .dropdownItem {
+  border-radius: 5px;
+  padding: 5px;
   color: var(--dark);
   cursor: pointer;
   &:hover {
-    color: var(--violet);
+    background: var(--gray-white);
+    // color: var(--violet);
   }
 }
 .buttonSave {

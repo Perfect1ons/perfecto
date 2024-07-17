@@ -3,8 +3,12 @@
 .profile {
   background: var(--secondlight);
   padding-bottom: 50px;
-
-  &__img{
+  &__showMore {
+    text-decoration: none;
+    text-decoration: underline;
+    color: var(--dark);
+  }
+  &__img {
     border-radius: 50px;
   }
   &__cards {
@@ -24,7 +28,7 @@
     }
     @media screen and (max-width: 480px) {
       gap: 10px;
-      padding:  10px 0;
+      padding: 10px 0;
     }
   }
 
@@ -32,7 +36,7 @@
     padding: 15px;
     background: var(--white);
     border-radius: 5px;
-    @include mixin.flex(flex-start,space-between,column,null);
+    @include mixin.flex(null, space-between, column, null);
     max-height: 204.75px;
     height: 204.75px;
     transition: all 0.3s ease;
@@ -60,9 +64,8 @@
       @include mixin.flex(center, center);
     }
 
-    &:hover{
+    &:hover {
       box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-
     }
   }
 
@@ -105,19 +108,39 @@
 
 .orders {
   color: rgba(73, 73, 73, 1);
- 
+
   &__count {
     @include mixin.font(16px, bold, null, var(--dark));
   }
 
   &__images {
-    @include mixin.flex(center, null, null, 10px);
+    @include mixin.flex(flex-end, null, null, 10px);
     max-width: 100%;
     @media screen and (max-width: 1440px) {
       overflow: auto;
     }
+    &__toCatalog {
+      width: 100%;
+      @include mixin.flex(flex-end, center, column, 5px);
+    }
   }
-
+  &__imageContainer {
+    @include mixin.flex(center, center, null, null);
+    max-width: 75px;
+    max-height: 75px;
+    overflow: hidden;
+    border-radius: 5px;
+    @media screen and (max-width: 1440px) {
+      min-width: 60px;
+      max-width: 60px;
+      height: 60px;
+    }
+    &__image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
   &__img {
     cursor: pointer;
     width: 75px;
@@ -138,7 +161,7 @@
       @media screen and (max-width: 1440px) {
         font-size: 12px;
         font-weight: 600;
-    }
+      }
     }
   }
 }
