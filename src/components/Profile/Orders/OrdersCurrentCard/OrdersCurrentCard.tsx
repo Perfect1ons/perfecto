@@ -13,6 +13,15 @@ interface ICurrentOrdersProps {
   currentOrders: CurrentOrdersType;
 }
 const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
+  const statusList = [
+    { text: "Не согласован, ожидайте звонка менеджера.", isCompleted: true },
+    { text: "Свяжитесь с менеджером.", isCompleted: false },
+    { text: "Заказ принят. Ожидает оплаты.", isCompleted: false },
+    { text: "Оплачен. В пути.", isCompleted: false },
+    { text: "В процессе отгрузки", isCompleted: false },
+    { text: "В пути", isCompleted: false },
+    { text: "Прибыл в пункт выдачи.", isCompleted: false },
+  ];
   const [isVisible, setIsVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -150,14 +159,35 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
                       <XMark />
                     </span>
                   </div>
-                  <ul>
-                    <li>Не согласован, ожидайте звонка менеджера.</li>
-                    <li>Свяжитесь с менеджером.</li>
-                    <li>Заказ принят. Ожидает оплаты.</li>
-                    <li>Оплачен. В пути.</li>
-                    <li>В процессе отгрузки</li>
-                    <li>В пути</li>
-                    <li>Прибыл в пункт выдачи.</li>
+                  <ul className={styles.ulDetailsContainer}>
+                    {statusList.map((item, index) => (
+                      <li
+                        className={styles.ulDetailsContainer__text}
+                        key={index}
+                      >
+                        <div className={styles.containerIsCompleted}>
+                          <span
+                            className={`${
+                              styles.ulDetailsContainer__text__circle
+                            } ${
+                              item.isCompleted
+                                ? styles.ulDetailsContainer__text__circleActive
+                                : ""
+                            }`}
+                          ></span>
+                          <span
+                            className={`${
+                              styles.ulDetailsContainer__text__stick
+                            } ${
+                              item.isCompleted
+                                ? styles.ulDetailsContainer__text__stickActive
+                                : ""
+                            }`}
+                          ></span>
+                        </div>
+                        {item.text}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
