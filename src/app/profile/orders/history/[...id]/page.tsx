@@ -2,13 +2,11 @@ import { getOrdersHistory } from "@/api/requests";
 import DetailedHistoryItem from "@/components/OrderHistoryComponents/DetailedHistoryItem";
 import { cookies } from "next/headers";
 
-interface Params {
-  id: string;
-}
+// interface Params {
+//   id: number;
+// }
 
-export default async function page({ id }: Params) {
-  const data = 1;
-
+export default async function page() {
   const cookieStore = cookies();
   const isAuthed = cookieStore.get("identify")?.value;
 
