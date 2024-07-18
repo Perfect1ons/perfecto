@@ -111,7 +111,7 @@ const OrdersCurrentCard = ({
         const formattedDeliveryDate = formatDeliveryDate(item.dat_dos2);
 
         return (
-          <div className={styles.myOrders}>
+          <div key={item.id} className={styles.myOrders}>
             <div className={styles.myOrdersHeader}>
               <div className={styles.myNumberOder}>
                 <h3
@@ -240,9 +240,9 @@ const OrdersCurrentCard = ({
               </div>
             </div>
             <div className={styles.myOrdersFooter}>
-              {item.img.map((image) => {
+              {item.img.map((image, index) => {
                 return (
-                  <div className={styles.imageContainer}>
+                  <div key={index} className={styles.imageContainer}>
                     <Image
                       className={styles.imageContainer__image}
                       width={90}
