@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
 
-interface IRating {
+export interface IRating {
   img: string;
   rate: number;
   name: string;
@@ -38,8 +38,19 @@ const ratings: IRating[] = [
   },
 ];
 
-const Rating = () => {
-  const [rating, setRating] = useState(0);
+interface IRatingProps {
+  rating: number;
+  ratingChange: (rate: number) => void;
+  commChange: (comm: string) => void;
+  postReview: () => void;
+}
+
+const Rating = ({
+  ratingChange,
+  commChange,
+  rating,
+  postReview,
+}: IRatingProps) => {
   const [submitted, setSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -82,7 +93,7 @@ const Rating = () => {
           {ratings.map((r) => (
             <button
               key={r.rate}
-              onClick={() => setRating(r.rate)}
+              onClick={() => ratingChange(r.rate)}
               className={rating === r.rate ? styles.active : styles.chosing}
             >
               <Image
@@ -103,9 +114,14 @@ const Rating = () => {
         </button>
       )}
       <ConfirmModal
+        ratingChange={ratingChange}
+        commChange={commChange}
         show={isModalOpen}
         onClose={handleCloseModal}
         onConfirm={handleConfirm}
+        postReview={postReview}
+        rating={rating}
+        ratings={ratings}
       />
     </div>
   );

@@ -2,10 +2,10 @@
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import styles from "../style.module.scss";
 import cn from "clsx";
+import { useEffect, useState } from "react";
 
 interface IDetailedHistoryHeader {
   order: Item;
-  key?: string;
 }
 
 const DetailedHistoryHeader = ({ order }: IDetailedHistoryHeader) => {

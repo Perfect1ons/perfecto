@@ -12,6 +12,8 @@ export default async function page() {
 
   if (isAuthed) {
     const ordersHistory = await getOrdersHistory(isAuthed);
-    return <DetailedHistoryItem orders={ordersHistory.items} />;
+    ordersHistory.items.map((item) => {
+      return <DetailedHistoryItem key={item.id} orders={item} />;
+    });
   }
 }

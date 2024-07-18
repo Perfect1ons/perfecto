@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import Rating from "./Rating/Rating";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface IOrder {
   order: Item;
@@ -32,6 +33,23 @@ const OrderHistoryCard = ({ order }: IOrder) => {
 
   const formattedDate1 = formatDate(order.dat1);
   const formattedDateVid = formatDate(order.dat_vid, "seconds");
+
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+
+  const ratingChanger = (rate: number) => {
+    if (rate) {
+      setRating(rate);
+    }
+  };
+
+  const commentChanger = (comm: string) => {
+    if (comm && comm.length <= 15) {
+      setComment(comm);
+    }
+  };
+
+  const postReview = () => {};
 
   return (
     <div className={styles.card}>
@@ -62,7 +80,12 @@ const OrderHistoryCard = ({ order }: IOrder) => {
       </div>
 
       <div className={styles.rating}>
-        <Rating />
+        <Rating
+          rating={rating}
+          ratingChange={ratingChanger}
+          commChange={commentChanger}
+          postReview={postReview}
+        />
       </div>
     </div>
   );

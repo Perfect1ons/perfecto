@@ -77,7 +77,7 @@
 
 .modalOverlay {
   position: fixed;
-  top: 0;
+  top: -80px;
   left: 0;
   right: 0;
   bottom: 0;
@@ -86,13 +86,64 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 576px) {
+    padding: 0 8px;
+  }
 }
 
 .modal {
+  position: relative;
   background: white;
   padding: 20px;
   border-radius: 8px;
-  text-align: center;
+  @include mixin.flex(center, null, column, null);
+  height: 550px;
+  max-width: 500px;
+
+  &_cross {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    scale: 1.6;
+    cursor: pointer;
+  }
+
+  &_title {
+    margin-top: 30px;
+    @include mixin.font(0.875rem, 400, 1.5, var(--dark));
+  }
+  &_text {
+    @include mixin.font(1rem, 600, null, var(--dark));
+    margin-top: 15px;
+    margin-bottom: 15px;
+    @media screen and (max-width: 576px) {
+      font-size: 0.875rem;
+    }
+  }
+
+  &_comm {
+    margin-top: 30px;
+    width: 100%;
+    @include mixin.flex(center, flex-start, null, null);
+    &_input {
+      width: 100%;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--dark);
+      @include mixin.font(0.875rem, 400, null, var(--dark));
+    }
+  }
+
+  &_criterias {
+    margin-top: 15px;
+    @include mixin.flex(flex-start, center, column, 15px);
+    align-self: flex-start;
+    &_check {
+      @include mixin.flex(center, center, null, 8px);
+      @include mixin.font(0.875rem, 600, null, var(--gray));
+      cursor: pointer;
+    }
+  }
 }
 
 .modalButtons {
@@ -102,19 +153,17 @@
 }
 
 .modalButtonConfirm {
-  background: var(--green);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+  width: 100%;
+  margin-top: 15px;
+  background: var(--dark-blue);
+  @include mixin.font(1rem, 500, null, var(--white));
+  border: 2px solid var(--dark-blue);
+  padding: 10px 0;
+  border-radius: 5px;
   cursor: pointer;
-}
-
-.modalButtonCancel {
-  background: var(--red);
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
+  transition: 0.2s all;
+  &:hover {
+    color: var(--dark-blue);
+    background: none;
+  }
 }

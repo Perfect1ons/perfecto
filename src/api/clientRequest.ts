@@ -295,7 +295,6 @@ export const getPersonalDataProfileClient = (
 };
 export const postСancellationOrder = (token: string, id: number) => {
   const params = new URLSearchParams();
-  // params.append("id_zakaz", id);
   return maxkg.post(`zakaz/otmena?id_zakaz=${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
