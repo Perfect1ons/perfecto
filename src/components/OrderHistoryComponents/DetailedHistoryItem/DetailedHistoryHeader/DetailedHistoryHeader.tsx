@@ -5,7 +5,6 @@ import cn from "clsx";
 
 interface IDetailedHistoryHeader {
   order: Item;
-  key?: string;
 }
 
 const DetailedHistoryHeader = ({ order }: IDetailedHistoryHeader) => {

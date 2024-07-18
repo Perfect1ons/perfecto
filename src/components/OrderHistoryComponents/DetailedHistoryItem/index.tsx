@@ -6,22 +6,18 @@ import styles from "./style.module.scss";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import DetailedHistoryOver from "./DetailedHistoryOver/DetailedHistoryOver";
 interface IDetailedHistoryItemProps {
-  orders: Item[];
+  orders: Item;
 }
 
 const DetailedHistoryItem = ({ orders }: IDetailedHistoryItemProps) => {
   return (
     <>
-      {orders &&
-        orders.map((order) => {
-          return (
-            <div key={order.id} className={styles.wrapper}>
-              <DetailedHistoryHeader order={order} />
-              <DetailedHistoryMain order={order} />
-              <DetailedHistoryOver order={order} />
-            </div>
-          );
-        })}
+      <div className={styles.wrapper}>
+        <ProfileTabs />
+        <DetailedHistoryHeader order={orders} />
+        <DetailedHistoryMain order={orders} />
+        <DetailedHistoryOver order={orders} />
+      </div>
     </>
   );
 };

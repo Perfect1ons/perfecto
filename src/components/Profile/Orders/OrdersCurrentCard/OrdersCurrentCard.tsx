@@ -104,12 +104,12 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
         const formattedDeliveryDate = formatDeliveryDate(item.dat_dos2);
 
         return (
-          <div className={styles.myOrders}>
+          <div key={item.id} className={styles.myOrders}>
             <div className={styles.myOrdersHeader}>
               <div className={styles.myNumberOder}>
                 <h3
                   onClick={() =>
-                    router.push(`/profile/orders/history/${item.id}`)
+                    router.push(`/profile/orders/${item.id}`)
                   }
                   className={styles.myNumberOder__title}
                 >
@@ -217,9 +217,9 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
               </div>
             </div>
             <div className={styles.myOrdersFooter}>
-              {item.img.map((image) => {
+              {item.img.map((image,index) => {
                 return (
-                  <div className={styles.imageContainer}>
+                  <div key={index} className={styles.imageContainer}>
                     <Image
                       className={styles.imageContainer__image}
                       width={90}

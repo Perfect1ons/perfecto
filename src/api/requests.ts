@@ -30,6 +30,7 @@ import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { IOrderById } from "@/types/OrderById/orderbyid";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -275,6 +276,18 @@ export const getOrdersHistory = (token: string): Promise<IOrderHistory> => {
 export const getCurrentOrders = (token: string): Promise<CurrentOrdersType> => {
   return maxkg
     .get("zakaz", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+
+export const getCurrentOrder = (token: string, id: number): Promise<IOrderById> => {
+  return maxkg
+    .get(`box/zakazok?id_zakaz=${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

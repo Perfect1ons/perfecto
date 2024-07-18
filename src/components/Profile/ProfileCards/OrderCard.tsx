@@ -36,7 +36,7 @@ const OrderCard = ({orders}: IOrderCardProps) => {
             {orders.items.slice(0, 4).map((item, index) => (
               <Link
                 title={`Перейти на заказ №${item.id}`}
-                href={`/profile/history/${item.id}`}
+                href={`/profile/orders/${item.id}`}
                 key={item.id}
                 className={styles.orders__img}
               >
