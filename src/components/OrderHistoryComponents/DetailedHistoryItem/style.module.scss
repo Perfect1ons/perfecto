@@ -350,6 +350,7 @@
 .over {
   margin-top: 20px;
   @include mixin.flex(null, center, column, null);
+
   &_tab {
     background: var(--white);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -431,7 +432,7 @@
       text-align: center;
     }
   }
-  &_goods {
+  &_good {
     @include mixin.flex(center, flex-start, null, null);
     margin-top: 20px;
     min-height: 40px;
@@ -515,6 +516,9 @@
     border-radius: 8px;
     align-self: flex-end;
     margin-bottom: 20px;
+    @media screen and (max-width: 992px) {
+      max-width: 100%;
+    }
 
     &_priceDiscount {
       @include mixin.font(1rem, 400, null, var(--dark));
