@@ -308,6 +308,11 @@ export const getPersonalDataProfileClient = (
     })
     .json();
 };
+
+export const postOrderReview = (rev: { id_zakaz: number; ocenka: number }) => {
+  return maxkg.post("otz/zakaz-otz", { json: rev });
+};
+
 export const postСancellationOrder = (token: string, id: number) => {
   const params = new URLSearchParams();
   return maxkg.post(`zakaz/otmena?id_zakaz=${id}`, {
