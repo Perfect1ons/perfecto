@@ -50,7 +50,7 @@
   }
 }
 .rigthPart {
-  max-width: 404px;
+  max-width: 444px;
   width: 100%;
   @include mixin.flex(center, space-between, null, 5px);
   &__priceContainer {

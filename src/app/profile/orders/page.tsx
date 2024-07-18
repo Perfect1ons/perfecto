@@ -1,4 +1,4 @@
-import { getCurrentOrders } from "@/api/requests";
+import { getCurrentOrders, getStatusDetails } from "@/api/requests";
 import Orders from "@/components/Profile/Orders/Orders";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
@@ -13,10 +13,15 @@ const page = async () => {
   const isAuthed = cookieStore.get("identify")?.value;
   if (isAuthed) {
     const currentOrders = await getCurrentOrders(isAuthed);
+    const details = await getStatusDetails(isAuthed);
     return (
       <div>
         <ProfileTabs />
-        <Orders currentOrders={currentOrders} />
+        <Orders
+          isAuthed={isAuthed}
+          details={details}
+          currentOrders={currentOrders}
+        />
       </div>
     );
   }

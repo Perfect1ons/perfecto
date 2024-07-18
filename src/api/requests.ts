@@ -30,6 +30,7 @@ import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -257,7 +258,6 @@ export const getPersonalDataProfileServer = (
     .json();
 };
 
-
 export const getNotification = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
@@ -275,6 +275,16 @@ export const getOrdersHistory = (token: string): Promise<IOrderHistory> => {
 export const getCurrentOrders = (token: string): Promise<CurrentOrdersType> => {
   return maxkg
     .get("zakaz", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
+  return maxkg
+    .get("zakaz/statusdetal", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

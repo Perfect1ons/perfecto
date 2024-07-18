@@ -8,11 +8,19 @@ import { DollarIcon, XMark } from "../../../../../public/Icons/Icons";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import cn from "clsx";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
+import { postСancellationOrder } from "@/api/clientRequest";
 
 interface ICurrentOrdersProps {
   currentOrders: CurrentOrdersType;
+  details: StatusDetailsType;
+  isAuthed: string;
 }
-const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
+const OrdersCurrentCard = ({
+  currentOrders,
+  details,
+  isAuthed,
+}: ICurrentOrdersProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,19 +61,24 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
     const month = months[date.getMonth()];
     return `Доставка ожидается ${day} ${month}`;
   };
-  const getCurrentDateTime = () => {
-    const date = new Date();
+  const [currentDateTime, setCurrentDateTime] = useState("");
 
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const date = new Date();
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const seconds = String(date.getSeconds()).padStart(2, "0");
 
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
+      return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+    };
 
-    return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
-  };
+    setCurrentDateTime(getCurrentDateTime());
+  }, []);
+
   const router = useRouter();
   const visibleDetails = () => {
     setIsVisible(!isVisible);
@@ -88,6 +101,9 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isVisible]);
+  const sortedOrders = [...currentOrders.items].sort(
+    (a, b) => a.status - b.status
+  );
   return (
     <div className={styles.myOrdersContainer}>
       {currentOrders.items.map((item) => {
@@ -124,9 +140,11 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
               </div>
               <div className={styles.myDostOder}>
                 <h4 className={styles.myDostOder__title}>
-                  Не согласован, ожидайте звонка менеджера.
+                  {details.find((detail) => detail.id === item.status)
+                    ?.sinonim || "Неизвестный статус"}
                 </h4>
-                <p className={styles.status__date}>{getCurrentDateTime()}</p>
+
+                <p className={styles.status__date}>{currentDateTime}</p>
                 <span
                   onClick={visibleDetails}
                   className={styles.myDostOder__link}
@@ -150,14 +168,43 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
                       <XMark />
                     </span>
                   </div>
-                  <ul>
-                    <li>Не согласован, ожидайте звонка менеджера.</li>
-                    <li>Свяжитесь с менеджером.</li>
-                    <li>Заказ принят. Ожидает оплаты.</li>
-                    <li>Оплачен. В пути.</li>
-                    <li>В процессе отгрузки</li>
-                    <li>В пути</li>
-                    <li>Прибыл в пункт выдачи.</li>
+                  <ul className={styles.ulDetailsContainer}>
+                    {details.map((data, index) => (
+                      <li
+                        className={styles.ulDetailsContainer__text}
+                        key={index}
+                      >
+                        {data.naim === "К отгрузке." ? (
+                          <span
+                            className={cn(
+                              styles.ulDetailsContainer__text__ring
+                            )}
+                          ></span>
+                        ) : (
+                          <div className={styles.containerIsCompleted}>
+                            <span
+                              className={cn(
+                                styles.ulDetailsContainer__text__circle,
+                                {
+                                  [styles.ulDetailsContainer__text__circleActive]:
+                                    item.status > index,
+                                }
+                              )}
+                            ></span>
+                            <span
+                              className={cn(
+                                styles.ulDetailsContainer__text__stick,
+                                {
+                                  [styles.ulDetailsContainer__text__stickActive]:
+                                    item.status > index,
+                                }
+                              )}
+                            ></span>
+                          </div>
+                        )}
+                        {data.sinonim}
+                      </li>
+                    ))}
                   </ul>
                 </div>
               </div>
@@ -167,13 +214,16 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
                 </span>
                 <div className={styles.mySummaOder__itogo}>
                   <p className={styles.mySummaOder__itogo__summa}>
-                    К оплате: {item.temp_itogo}
+                    К оплате: {item.temp_itogo.toLocaleString("ru-RU")}
+                    <span className={styles.priceCustom}> с</span>
                   </p>
                   <p className={styles.mySummaOder__itogo__summa}>
-                    Оплачено: {item.temp_opl}
+                    Оплачено: {item.temp_opl.toLocaleString("ru-RU")}
+                    <span className={styles.priceCustom}> с</span>
                   </p>
                   <p className={styles.mySummaOder__itogo__summa}>
-                    Остаток: {item.temp_ost}
+                    Остаток: {item.temp_ost.toLocaleString("ru-RU")}
+                    <span className={styles.priceCustom}> с</span>
                   </p>
                 </div>
               </div>
@@ -181,7 +231,10 @@ const OrdersCurrentCard = ({ currentOrders }: ICurrentOrdersProps) => {
                 <p className={styles.myActionOder__way}>
                   Способ оплаты: Наличными в офисе
                 </p>
-                <button className={styles.myActionOder__button}>
+                <button
+                  onClick={() => postСancellationOrder(isAuthed, item.id)}
+                  className={styles.myActionOder__button}
+                >
                   Отменить
                 </button>
               </div>

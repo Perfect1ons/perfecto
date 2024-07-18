@@ -59,6 +59,43 @@
     }
   }
 }
+.ulDetailsContainer {
+  @include mixin.flex(flex-start, null, column, 5px);
+  &__text {
+    @include mixin.flex(center, null, null, 5px);
+    line-height: 1.2;
+    &__ring {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid var(--light-blue);
+    }
+    &__circle {
+      @include mixin.flex(center, center, null, null);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--secondary); /* Default grey for incomplete */
+    }
+    &__circleActive {
+      background: var(--light-blue);
+    }
+    &__stick {
+      @include mixin.flex(center, center, null, null);
+      width: 4px;
+      height: 25px;
+      border-radius: 3px;
+      background: var(--secondary); /* Default grey for incomplete */
+    }
+    &__stickActive {
+      background: var(--light-blue);
+    }
+  }
+}
+.containerIsCompleted {
+  @include mixin.flex(center, center, column, 5px);
+}
+
 .containerDetailsVisible {
   transform: scaleY(1); // Изменяем scale на scaleY
   opacity: 1;
@@ -79,6 +116,7 @@
   &__itogo {
     @include mixin.flex(null, null, column, 5px);
     &__summa {
+      @include mixin.flex(center, null, null, 2px);
       @include mixin.font(18px, 600, null, var(--gray-dark));
       line-height: 1;
     }
@@ -152,4 +190,9 @@
     height: 100%;
     object-fit: cover;
   }
+}
+.priceCustom {
+  line-height: 100%;
+  color: var(--dark);
+  border-bottom: 1px solid var(--dark);
 }
