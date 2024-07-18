@@ -38,7 +38,7 @@ const OrderHistoryCard = ({ order }: IOrder) => {
       <div className={styles.card__info}>
         <p
           className={styles.card__info_title}
-          onClick={() => router.push(`/profile/orders/history/${order.id}`)}
+          onClick={() => router.push(`/profile/orders/${order.id}`)}
         >
           Заказ №: {order.id} от {formattedDate1}
         </p>
