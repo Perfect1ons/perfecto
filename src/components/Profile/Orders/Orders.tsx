@@ -2,6 +2,7 @@
 import Image from "next/image";
 import styles from "./style.module.scss";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import OrdersCurrentCard from "./OrdersCurrentCard/OrdersCurrentCard";
 
 interface ICurrentOrdersProps {
   currentOrders: CurrentOrdersType;
@@ -11,9 +12,9 @@ const Orders = ({ currentOrders }: ICurrentOrdersProps) => {
   return (
     <section className={styles.orders}>
       <div className="container">
-        <div>
+        <div className={styles.isEmpty}>
           {currentOrders.items.length > 0 ? (
-            <h1>Текущие заказы</h1>
+            <OrdersCurrentCard currentOrders={currentOrders} />
           ) : (
             <div className={styles.isEmpty}>
               <div className={styles.isEmpty__content}>
