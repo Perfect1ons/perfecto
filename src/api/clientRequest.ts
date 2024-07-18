@@ -4,6 +4,7 @@ import { IUser } from "@/components/UI/ReviewModal/ReviewModal";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
+import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
@@ -278,6 +279,19 @@ export const postPesonalDataProfileOrg = (
 export const getNotificationCount = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
+
+
+export const getCurrentOrdersClient = (token: string): Promise<CurrentOrdersType> => {
+  return maxkg
+    .get("zakaz", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
 
 
 export const deleteNotification = (id: number) => {

@@ -1,8 +1,9 @@
 "use client";
-import { getNotificationCount } from "@/api/clientRequest";
+import { getCurrentOrdersClient, getNotificationCount } from "@/api/clientRequest";
 import React, { createContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
+  orders: number;
   notif: number;
   token: string;
   userId: number;
@@ -11,6 +12,7 @@ interface AuthContextProps {
 }
 
 export const AuthContext = createContext<AuthContextProps>({
+  orders: 0,
   notif: 0,
   token: "",
   userId: 0,
@@ -25,6 +27,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [userId, setUserId] = useState(0);
   const [token, setToken] = useState("");
   const [notif, setNotif] = useState(0)
+  const [orders, setOrders] = useState(0);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -35,10 +38,15 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         
         const data = await response.json()
         const notif = await getNotificationCount(data.userId.value);
+        const ordersCount = await getCurrentOrdersClient(
+          data.accessToken.value
+        );
+
         if (response.ok) {
           setNotif(notif.length)
           setUserId(data.userId.value);
           setToken(data.accessToken.value);
+          setOrders(ordersCount.items.length)
           setIsAuthed(true);
         } else {
           setIsAuthed(false);
@@ -53,7 +61,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ isAuthed, setIsAuthed, userId, token, notif }}
+      value={{ isAuthed, setIsAuthed, userId, token, notif, orders }}
     >
       {children}
     </AuthContext.Provider>

@@ -13,7 +13,7 @@ const ProfileTabs = () => {
   const [cartCount, setCartCount] = useState(0);
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [notificationCount, setNotificationCount] = useState(0);
-  const { userId } = useContext(AuthContext);
+  const { userId, orders } = useContext(AuthContext);
 
   useEffect(() => {
     const notification = async () => {
@@ -38,6 +38,9 @@ const ProfileTabs = () => {
     if (link.href === "/profile/notification") {
       return { ...link, count: notificationCount };
     }
+        if (link.href === "/profile/orders") {
+          return { ...link, count: orders };
+        }
     if (link.href === "/cart") {
       return { ...link, count: cartCount };
     }
