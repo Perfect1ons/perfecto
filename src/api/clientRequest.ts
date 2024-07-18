@@ -273,17 +273,13 @@ export const postPesonalDataProfileOrg = (
   });
 };
 
-
-
 export const getNotificationCount = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
 
-
 export const deleteNotification = (id: number) => {
   return maxkgnotif.get(`site/closenotif?id=${id}`);
 };
-
 
 export const getPersonalDataProfileClient = (
   token: string
