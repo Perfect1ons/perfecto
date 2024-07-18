@@ -3,18 +3,25 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import OrdersCurrentCard from "./OrdersCurrentCard/OrdersCurrentCard";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
 interface ICurrentOrdersProps {
   currentOrders: CurrentOrdersType;
+  details: StatusDetailsType;
+  isAuthed: string;
 }
 
-const Orders = ({ currentOrders }: ICurrentOrdersProps) => {
+const Orders = ({ currentOrders, details, isAuthed }: ICurrentOrdersProps) => {
   return (
     <section className={styles.orders}>
       <div className="container">
         <div className={styles.isEmpty}>
           {currentOrders.items.length > 0 ? (
-            <OrdersCurrentCard currentOrders={currentOrders} />
+            <OrdersCurrentCard
+              isAuthed={isAuthed}
+              details={details}
+              currentOrders={currentOrders}
+            />
           ) : (
             <div className={styles.isEmpty}>
               <div className={styles.isEmpty__content}>

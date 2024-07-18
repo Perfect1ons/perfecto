@@ -64,10 +64,16 @@
   &__text {
     @include mixin.flex(center, null, null, 5px);
     line-height: 1.2;
+    &__ring {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 3px solid var(--light-blue);
+    }
     &__circle {
       @include mixin.flex(center, center, null, null);
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: var(--secondary); /* Default grey for incomplete */
     }
@@ -110,6 +116,7 @@
   &__itogo {
     @include mixin.flex(null, null, column, 5px);
     &__summa {
+      @include mixin.flex(center, null, null, 2px);
       @include mixin.font(18px, 600, null, var(--gray-dark));
       line-height: 1;
     }
@@ -183,4 +190,9 @@
     height: 100%;
     object-fit: cover;
   }
+}
+.priceCustom {
+  line-height: 100%;
+  color: var(--dark);
+  border-bottom: 1px solid var(--dark);
 }

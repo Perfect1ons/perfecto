@@ -37,7 +37,19 @@ const BasketCard = ({
   shouldFocusInput,
   setShouldFocusInput,
 }: IBasketCardProps) => {
+  const formatNumber = (number: number) => {
+    if (number >= 1e9) {
+      return (number / 1e9).toFixed(2) + " млрд";
+    } else if (number >= 1e6) {
+      return (number / 1e6).toFixed(2) + " млн";
+    } else {
+      return number.toLocaleString("ru-RU");
+    }
+  };
+
   const totalPrice = item.cenaok * item.quantity;
+  const formattedPrice = formatNumber(totalPrice);
+  const formattedQuantity = formatNumber(item.quantity);
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
@@ -161,11 +173,11 @@ const BasketCard = ({
           </div>
           <div className={styles.quantityContainer}>
             <span className={styles.priceCustomContainer}>
-              кол-во: {item.quantity} шт =
+              кол-во: {formattedQuantity} шт =
             </span>
             <span className={styles.priceCustomContainer}>
-              {totalPrice.toLocaleString("ru-RU")}
-              <span className={styles.priceCustom}>с</span>
+              {formattedPrice}
+              <span className={styles.priceCustom}> с</span>
             </span>
           </div>
         </div>

@@ -1,5 +1,4 @@
-import { getCurrentOrder, getOrdersHistory } from "@/api/requests";
-import DetailedHistoryItem from "@/components/OrderHistoryComponents/DetailedHistoryItem";
+import { getCurrentOrder } from "@/api/requests";
 import OrderById from "@/components/Profile/Orders/OrderById/OrderById";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { cookies } from "next/headers";

@@ -1,3 +1,4 @@
+import ky from "ky";
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
@@ -5,7 +6,6 @@ import { IPromotion } from "@/types/promotion";
 import { IBrands } from "@/types/brands";
 import { IBoughts } from "@/types/lastBoughts";
 import { ISeasonCategory } from "@/types/seasonCategory";
-import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
@@ -30,6 +30,7 @@ import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { IOrderById } from "@/types/OrderById/orderbyid";
 
 const maxkg = ky.create({
@@ -258,7 +259,6 @@ export const getPersonalDataProfileServer = (
     .json();
 };
 
-
 export const getNotification = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
@@ -283,9 +283,21 @@ export const getCurrentOrders = (token: string): Promise<CurrentOrdersType> => {
     })
     .json();
 };
+export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
+  return maxkg
+    .get("zakaz/statusdetal", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
 
-
-export const getCurrentOrder = (token: string, id: number): Promise<IOrderById> => {
+export const getCurrentOrder = (
+  token: string,
+  id: number
+): Promise<IOrderById> => {
   return maxkg
     .get(`box/zakazok?id_zakaz=${id}`, {
       headers: {

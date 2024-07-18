@@ -308,3 +308,13 @@ export const getPersonalDataProfileClient = (
     })
     .json();
 };
+export const postСancellationOrder = (token: string, id: number) => {
+  const params = new URLSearchParams();
+  return maxkg.post(`zakaz/otmena?id_zakaz=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
+};
