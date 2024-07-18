@@ -293,3 +293,7 @@ export const getPersonalDataProfileClient = (
     })
     .json();
 };
+
+export const postOrderReview = (rev: { id_zakaz: number; ocenka: number }) => {
+  return maxkg.post("otz/zakaz-otz", { json: rev });
+};

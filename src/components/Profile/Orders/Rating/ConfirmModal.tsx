@@ -88,7 +88,9 @@ const ConfirmModal: React.FC<ModalProps> = ({
             className={styles.modal_comm_input}
           />
         </div>
-        <button className={styles.modalButtonConfirm}>Отправить</button>
+        <button onClick={postReview} className={styles.modalButtonConfirm}>
+          Отправить
+        </button>
       </div>
     </div>
   );
