@@ -5,6 +5,7 @@ import Rating from "./Rating/Rating";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { postOrderReview } from "@/api/clientRequest";
 
 interface IOrder {
   order: Item;
@@ -49,7 +50,15 @@ const OrderHistoryCard = ({ order }: IOrder) => {
     }
   };
 
-  const postReview = () => {};
+  const postReview = () => {
+    if (rating > 0) {
+      const otz = {
+        id_zakaz: order.id,
+        ocenka: rating,
+      };
+      postOrderReview(otz);
+    }
+  };
 
   return (
     <div className={styles.card}>
