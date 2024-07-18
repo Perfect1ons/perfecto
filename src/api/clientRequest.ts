@@ -273,17 +273,13 @@ export const postPesonalDataProfileOrg = (
   });
 };
 
-
-
 export const getNotificationCount = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
 
-
 export const deleteNotification = (id: number) => {
   return maxkgnotif.get(`site/closenotif?id=${id}`);
 };
-
 
 export const getPersonalDataProfileClient = (
   token: string
@@ -296,4 +292,15 @@ export const getPersonalDataProfileClient = (
       },
     })
     .json();
+};
+export const postСancellationOrder = (token: string, id: number) => {
+  const params = new URLSearchParams();
+  // params.append("id_zakaz", id);
+  return maxkg.post(`zakaz/otmena?id_zakaz=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
