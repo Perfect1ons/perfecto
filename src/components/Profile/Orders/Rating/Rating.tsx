@@ -44,6 +44,12 @@ interface IRatingProps {
   commChange: (comm: string) => void;
   postReview: () => void;
 }
+export interface IReviewType {
+  managersService: boolean;
+  courierService: boolean;
+  convenienceSite: boolean;
+  willBuyMore: boolean;
+}
 
 const Rating = ({
   ratingChange,
@@ -53,6 +59,18 @@ const Rating = ({
 }: IRatingProps) => {
   const [submitted, setSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [reviews, setReviews] = useState<IReviewType>({
+    managersService: true,
+    courierService: true,
+    convenienceSite: false,
+    willBuyMore: true,
+  });
+  const updateReview = (key: keyof IReviewType, value: boolean) => {
+    setReviews((prevReviews) => ({
+      ...prevReviews,
+      [key]: value,
+    }));
+  };
 
   const selectedRating = ratings.find((r) => r.rate === rating);
 
@@ -114,6 +132,8 @@ const Rating = ({
         </button>
       )}
       <ConfirmModal
+        reviews={reviews}
+        updateReview={updateReview}
         ratingChange={ratingChange}
         commChange={commChange}
         show={isModalOpen}
