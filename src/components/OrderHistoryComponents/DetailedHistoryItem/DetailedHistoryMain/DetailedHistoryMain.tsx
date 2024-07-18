@@ -1,3 +1,4 @@
+"use client";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import styles from "../style.module.scss";
 import cn from "clsx";
