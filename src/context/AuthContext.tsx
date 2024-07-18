@@ -2,12 +2,14 @@
 import React, { createContext, useEffect, useState } from "react";
 
 interface AuthContextProps {
+  token: string;
   userId: number;
   isAuthed: boolean;
   setIsAuthed: (authStatus: boolean) => void;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
+  token: "",
   userId: 0,
   isAuthed: false,
   setIsAuthed: () => {},
@@ -18,6 +20,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isAuthed, setIsAuthed] = useState(false);
   const [userId, setUserId] = useState(0);
+  const [token, setToken] = useState("");
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -28,6 +31,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const data = await response.json()
         if (response.ok) {
           setUserId(data.userId.value);
+          setToken(data.accessToken.value);
           setIsAuthed(true);
         } else {
           setIsAuthed(false);
@@ -41,7 +45,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthed, setIsAuthed, userId }}>
+    <AuthContext.Provider value={{ isAuthed, setIsAuthed, userId, token }}>
       {children}
     </AuthContext.Provider>
   );
