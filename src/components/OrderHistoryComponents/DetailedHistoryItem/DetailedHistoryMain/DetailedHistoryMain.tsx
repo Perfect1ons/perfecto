@@ -11,8 +11,8 @@ const DetailedHistoryMain = ({ order }: IDetailedHistoryMainProps) => {
   return (
     <div className={cn(styles.main, "container")}>
       <div className={styles.main_buyer}>
-        <h3 className={styles.main_buyer_title}>Покупатель</h3>
         <div className={styles.main_buyer_info}>
+          <h3 className={styles.main_buyer_info_title}>Покупатель:</h3>
           <p className={styles.main_buyer_info_name}>
             {order.fio} {order.name}
           </p>
@@ -21,8 +21,10 @@ const DetailedHistoryMain = ({ order }: IDetailedHistoryMainProps) => {
         </div>
       </div>
       <div className={styles.main_delivery}>
-        <h3 className={styles.main_delivery_title}>Доставка и оплата</h3>
         <div className={styles.main_delivery_info}>
+          <h3 className={styles.main_delivery_info_title}>
+            Доставка и оплата:
+          </h3>
           <div className={styles.main_delivery_info_del}>
             <Image
               src="/img/delivery_icon.svg"
@@ -44,7 +46,7 @@ const DetailedHistoryMain = ({ order }: IDetailedHistoryMainProps) => {
               className={styles.main_delivery_info_date_icon}
             ></Image>
             <p className={styles.main_delivery_info_date_text}>
-            Дата доставки: 8 мая
+              Дата доставки: 8 мая
             </p>
           </div>
           <div className={styles.main_delivery_info_pay}>
@@ -62,8 +64,23 @@ const DetailedHistoryMain = ({ order }: IDetailedHistoryMainProps) => {
         </div>
       </div>
       <div className={styles.main_documents}>
-        <h3 className={styles.main_documents_title}>Документы</h3>
-        <div className={styles.main_documents_info}></div>
+        <div className={styles.main_documents_info}>
+          <h3 className={styles.main_documents_info_title}>Документы:</h3>
+          <ul className={styles.main_documents_info_list}>
+            <li className={styles.main_documents_info_list_item}>
+              Распечатать заказ
+            </li>
+            <li className={styles.main_documents_info_list_item}>
+              Распечатать чек
+            </li>
+            <li className={styles.main_documents_info_list_item}>
+              Счет на оплату
+            </li>
+            <li className={styles.main_documents_info_list_item}>
+              Коммерческое предложение
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
