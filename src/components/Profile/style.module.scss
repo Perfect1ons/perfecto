@@ -70,6 +70,7 @@
   }
 
   &__userInfo {
+    user-select: none;
     padding: 15px;
     background: var(--white);
     border-radius: 5px;

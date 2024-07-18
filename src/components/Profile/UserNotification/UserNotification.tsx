@@ -5,7 +5,6 @@ import styles from "./style.module.scss";
 import { Notification } from "@/types/Profile/Notifications/notifications";
 
 const UserNotification = ({ notification }: { notification: Notification }) => {
-  // Проверяем, есть ли date
   const date = notification.date ? new Date(notification.date * 1000) : null;
 
   // Функция для форматирования даты

@@ -11,7 +11,6 @@ interface IBasketCardProps {
 
 const BasketCard = ({ cartCount, cart }: IBasketCardProps) => {
   return (
-    <div>
       <Link className="link" href={"/cart"}>
         <div className={styles.profile__userInfo}>
           <div className={styles.profile__userInfo_header}>
@@ -87,7 +86,6 @@ const BasketCard = ({ cartCount, cart }: IBasketCardProps) => {
           </div>
         </div>
       </Link>
-    </div>
   );
 };
 

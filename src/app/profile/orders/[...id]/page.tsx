@@ -1,5 +1,6 @@
 import { getOrdersHistory } from "@/api/requests";
 import DetailedHistoryItem from "@/components/OrderHistoryComponents/DetailedHistoryItem";
+import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { cookies } from "next/headers";
 
 // interface Params {
@@ -12,6 +13,11 @@ export default async function page() {
 
   if (isAuthed) {
     const ordersHistory = await getOrdersHistory(isAuthed);
-    return <DetailedHistoryItem orders={ordersHistory.items} />;
+    return (
+      <>
+        <ProfileTabs />
+        <DetailedHistoryItem orders={ordersHistory.items} />;
+      </>
+    );
   }
 }

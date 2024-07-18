@@ -3,7 +3,6 @@ import NotFound from "@/app/not-found";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import NotificationPage from "@/components/Profile/UserNotification/NotificationPage";
 import NotificationSettings from "@/components/Profile/UserNotification/NotificationSettings/NotificationSettings";
-import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React from "react";

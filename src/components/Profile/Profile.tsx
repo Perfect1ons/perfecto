@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import clsx from "clsx";
 import { SettingsIcons } from "../../../public/Icons/Icons";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ICard } from "@/types/Card/card";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
@@ -14,6 +14,7 @@ import BasketCard from "./ProfileCards/BasketCard";
 import NotificationCard from "./ProfileCards/NotificationCard";
 import OrderCard from "./ProfileCards/OrderCard";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { AuthContext } from "@/context/AuthContext";
 
 interface IProfileProps {
   history: Item[];
@@ -40,6 +41,7 @@ const Profile = ({ history, data, orders }: IProfileProps) => {
   const [favoritesCount, setFavoritesCount] = useState(0);
   const [cart, setCart] = useState<ICard[]>([]);
   const [favorites, setFavorites] = useState<ICard[]>([]);
+  const { notif } = useContext(AuthContext);
 
   useEffect(() => {
     const savedCart = localStorage.getItem("basket");
@@ -58,52 +60,53 @@ const Profile = ({ history, data, orders }: IProfileProps) => {
     <section className={styles.profile}>
       <div className="container">
         <div className={styles.profile__cards}>
-          <div className={styles.profile__userInfo}>
-            <div className={styles.profile__userInfo_header}>
-              <div className={styles.profile__userInfo_icon}>
-                <Image
-                  className={styles.profile__img}
-                  src={"/img/userPhoto.png"}
-                  width={60}
-                  height={60}
-                  alt="clipboard"
-                  quality={100}
-                />
+            <div className={styles.profile__userInfo}>
+              <div className={styles.profile__userInfo_header}>
+                <div className={styles.profile__userInfo_icon}>
+                  <Image
+                    className={styles.profile__img}
+                    src={"/img/userPhoto.png"}
+                    width={60}
+                    height={60}
+                    alt="clipboard"
+                    quality={100}
+                  />
+                </div>
+                <div>
+                  <p className={styles.profile__userInfo_name}>
+                    {data.fio} {data.name}
+                  </p>
+                  <p className={styles.phone}>
+                    <span>т.</span>
+                    <span
+                      className={styles.phone__number}
+                    >{`+${data.tel}`}</span>
+                  </p>
+                  <p className={styles.city}>
+                    <span>г.</span>
+                    <span className={styles.city__name}>
+                      {data.id_city}, {data.adres} {data.org}
+                    </span>
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className={styles.profile__userInfo_name}>
-                  {data.fio} {data.name}
-                </p>
-                <p className={styles.phone}>
-                  <span>т.</span>
-                  <span className={styles.phone__number}>{`+${data.tel}`}</span>
-                </p>
-                <p className={styles.city}>
-                  <span>г.</span>
-                  <span className={styles.city__name}>
-                    {data.id_city}, {data.adres} {data.org}
-                  </span>
-                </p>
+
+              <div className={styles.profile__userInfo_footer}>
+                <button onClick={handleLogout} className={styles.profile__exit}>
+                  Выйти
+                </button>
+                <Link
+                  className={clsx("link", styles.profile__settings)}
+                  href={"/profile/lk"}
+                >
+                  <SettingsIcons />
+                  <span>Личные данные</span>
+                </Link>
               </div>
             </div>
-
-            <div className={styles.profile__userInfo_footer}>
-              <button onClick={handleLogout} className={styles.profile__exit}>
-                Выйти
-              </button>
-              <Link
-                className={clsx("link", styles.profile__settings)}
-                href={"/profile/lk"}
-              >
-                <SettingsIcons />
-                <span>Личные данные</span>
-              </Link>
-            </div>
-          </div>
-
           <OrderCard orders={orders} />
           <OrderHistoryCard history={history} />
-          <NotificationCard />
+          <NotificationCard notif={notif} />
           <BasketCard cartCount={cartCount} cart={cart} />
           <FavoritesCard
             favoritesCount={favoritesCount}

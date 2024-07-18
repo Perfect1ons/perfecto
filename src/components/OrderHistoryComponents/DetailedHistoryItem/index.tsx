@@ -16,7 +16,6 @@ const DetailedHistoryItem = ({ orders }: IDetailedHistoryItemProps) => {
         orders.map((order) => {
           return (
             <div key={order.id} className={styles.wrapper}>
-              <ProfileTabs />
               <DetailedHistoryHeader order={order} />
               <DetailedHistoryMain order={order} />
               <DetailedHistoryOver order={order} />
