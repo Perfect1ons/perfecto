@@ -93,11 +93,11 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
 
   const [view, setView] = useState<
     "login" | "registration" | "confirm" | "captcha"
-  >("captcha");
+  >("login");
 
   useEffect(() => {
     if (!isVisible) {
-      setView("captcha");
+      setView("login");
     }
   }, [isVisible]);
 
