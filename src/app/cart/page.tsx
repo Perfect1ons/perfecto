@@ -7,11 +7,9 @@ export default async function Page() {
   const cookieStore = cookies();
   const userId = cookieStore.get("userId")?.value;
 
-  if (userId) {
-    const sposobOplaty = await getSposobOplaty(userId);
+  const sposobOplaty = await getSposobOplaty(userId);
 
-    return <Basket variants={sposobOplaty} />;
-  }
+  return <Basket variants={sposobOplaty} />;
 }
 
 export async function generateMetadata() {

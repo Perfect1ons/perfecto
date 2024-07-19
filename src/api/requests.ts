@@ -295,7 +295,9 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
     .json();
 };
 
-export const getSposobOplaty = (idUser: string): Promise<SposobOplaty> => {
+export const getSposobOplaty = (
+  idUser: string | undefined
+): Promise<SposobOplaty> => {
   return maxkg.get(`naltovarok/vopl?idUser=${idUser}`).json();
 };
 
