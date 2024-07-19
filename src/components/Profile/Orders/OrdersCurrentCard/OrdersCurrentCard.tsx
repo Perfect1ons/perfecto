@@ -115,9 +115,7 @@ const OrdersCurrentCard = ({
             <div className={styles.myOrdersHeader}>
               <div className={styles.myNumberOder}>
                 <h3
-                  onClick={() =>
-                    router.push(`/profile/orders/${item.id}`)
-                  }
+                  onClick={() => router.push(`/profile/orders/${item.id}`)}
                   className={styles.myNumberOder__title}
                 >
                   Заказ №: {item.id} от {formattedDate1}
@@ -133,7 +131,7 @@ const OrdersCurrentCard = ({
                 </div>
                 <Link
                   className={styles.myNumberOder__link}
-                  href={`/profile/orders/history/${item.id}`}
+                  href={`/profile/orders/${item.id}`}
                 >
                   Подробнее
                 </Link>

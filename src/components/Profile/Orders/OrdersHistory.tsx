@@ -3,12 +3,14 @@ import styles from "./style.module.scss";
 import Image from "next/image";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { cookies } from "next/headers";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
 interface IOrdersHistoryProps {
   orders: Item[];
+  details: StatusDetailsType;
 }
 
-const OrdersHistory = ({ orders }: IOrdersHistoryProps) => {
+const OrdersHistory = ({ orders, details }: IOrdersHistoryProps) => {
   const cookieStore = cookies();
   const isAuthed = cookieStore.get("identify")?.value;
 
@@ -20,6 +22,7 @@ const OrdersHistory = ({ orders }: IOrdersHistoryProps) => {
             orders.map((order) => {
               return (
                 <OrderHistoryCard
+                  details={details}
                   order={order}
                   key={order.id}
                   isAuthed={isAuthed}

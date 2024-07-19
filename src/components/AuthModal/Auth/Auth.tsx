@@ -203,6 +203,8 @@ const AuthForm = ({ setView, close }: FormProps) => {
         {warning && <span className={styles.warning}>{warning}</span>}
 
         <button
+          // onClick={() => setView("captcha")}
+          // disabled={!warning}
           aria-label="go to enter"
           type="submit"
           className={cn(styles.modal__button, "button")}
