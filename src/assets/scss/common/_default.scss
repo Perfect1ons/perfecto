@@ -3,6 +3,7 @@
 * {
   @include reset-all-styles;
   -webkit-tap-highlight-color: var(--tap-select);
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
 }
 
 table {

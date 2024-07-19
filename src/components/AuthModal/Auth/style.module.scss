@@ -138,10 +138,11 @@
     border: 2px solid var(--dark-blue);
   }
 
-  ::placeholder {
-    @include mixin.font(16px, 400, null, var(--red));
-    padding: 10px 7px;
-  }
+    &::placeholder {
+      @include mixin.font(16px, 400, null, var(--secondary));
+      padding: 10px 7px;
+    }
+
 }
 
 .select__country {
