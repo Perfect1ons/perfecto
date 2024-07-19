@@ -13,7 +13,7 @@
     align-items: flex-start;
   }
 
-  &_manager {
+  &__manager {
     @include mixin.flex(flex-start, flex-start, null, 20px);
     padding: 20px;
     max-width: 540px;
@@ -32,7 +32,7 @@
       max-width: 100%;
     }
 
-    &__info {
+    &_info {
       @include mixin.flex(flex-start, center, column, null);
       &_name {
         @include mixin.font(1rem, 500, 1.4, var(--dark));

@@ -15,7 +15,6 @@ const Orders = ({ currentOrders, details, isAuthed }: ICurrentOrdersProps) => {
   return (
     <section className={styles.orders}>
       <div className="container">
-        <div className={styles.isEmpty}>
           {currentOrders.items.length > 0 ? (
             <OrdersCurrentCard
               isAuthed={isAuthed}
@@ -51,7 +50,6 @@ const Orders = ({ currentOrders, details, isAuthed }: ICurrentOrdersProps) => {
               </button>
             </div>
           )}
-        </div>
       </div>
     </section>
   );

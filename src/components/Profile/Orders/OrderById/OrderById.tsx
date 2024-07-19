@@ -43,23 +43,23 @@ const OrderById = ({ order }: IOrderByIdProps) => {
             </div>
           </div>
 
-          <div className={styles.order_manager}>
+          <div className={styles.order__manager}>
               <Image
-                className={styles.header_manager_img}
+                className={styles.order__manager_img}
                 src={"/img/manager.svg"}
                 quality={100}
-                width={90}
-                height={90}
+                width={110}
+                height={110}
                 alt="manager"
               />
-            <div className={styles.manager__info}>
-              <h2 className={styles.manager__info_name}>
+            <div className={styles.order__manager_info}>
+              <h2 className={styles.order__manager_info_name}>
                 Ваш менеджер Жамалбек
               </h2>
-              <h3 className={styles.manager__info_contact}>
+              <h3 className={styles.order__manager_info_contact}>
                 Контакты: +996 553 931 111
               </h3>
-              <h3 className={styles.manager__info_workTime}>
+              <h3 className={styles.order__manager_info_workTime}>
                 Рабочий график: пн-сб 09:00-18:00
               </h3>
             </div>
