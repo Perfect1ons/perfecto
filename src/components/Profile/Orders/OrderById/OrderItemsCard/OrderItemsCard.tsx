@@ -20,7 +20,9 @@ const OrderItemsCard = ({ tovar, index }: IOrderItemsCardProps) => {
   const totalDiscountPrice = discountPrice * tovar.kol;
   const image =
     tovar.img.length > 1
-      ? `${url}nal/img/${tovar.id_post}/l_${tovar.img}`
+      ? tovar.img.startsWith("https://")
+        ? tovar.img
+        : `${url}nal/img/${tovar.id_post}/l_${tovar.img}`
       : `${url}/images/empty-photo.png`;
 
   return (
@@ -47,7 +49,7 @@ const OrderItemsCard = ({ tovar, index }: IOrderItemsCardProps) => {
         {tovar.sum_skid ? totalDiscountPrice : totalPrice}
       </p>
       <p className={styles.over_good_delete}>
-        <RemoveFromZakazIcon/>
+        <RemoveFromZakazIcon />
       </p>
     </div>
   );
