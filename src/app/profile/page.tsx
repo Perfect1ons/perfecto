@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
-import React from "react";
 import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/FavoriteAuth";
-import Profile from "@/components/Profile/Profile";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
-import { getPersonalDataProfileServer } from "@/api/requests";
+import { getCurrentOrders, getOrdersHistory, getPersonalDataProfileServer } from "@/api/requests";
+import dynamic from "next/dynamic";
+import ProfileSkeleton from "@/components/Profile/ProfileSkeleton";
+const Profile = dynamic(() => import("@/components/Profile/Profile"), {ssr: false, loading: () => <ProfileSkeleton/> });
 
 export const metadata: Metadata = {
   title: "Личный кабинет",
@@ -16,10 +17,13 @@ const page = async () => {
 
   if (isAuthed) {
     const profileData = await getPersonalDataProfileServer(isAuthed);
+    const ordersHistory = await getOrdersHistory(isAuthed);
+    const orders = await getCurrentOrders(isAuthed);
+
     return (
       <>
         <ProfileTabs />
-        <Profile data={profileData} />
+        <Profile data={profileData} history={ordersHistory.items} orders={orders} />
       </>
     );
   }

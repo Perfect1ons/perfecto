@@ -1,0 +1,132 @@
+@use "../../../../../assets/scss/common/mixins" as mixin;
+
+.main {
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  &_buyer_info,
+  &_delivery_info {
+    background: var(--white);
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 15px;
+    max-height: 200px;
+    min-height: 200px;
+    overflow: hidden;
+
+
+    &_name {
+      @include mixin.font(18px, 600, null, var(--dark));
+      margin-top: 10px;
+      @media screen and (max-width: 768px) {
+        font-size: 0.875rem;
+      }
+    }
+    &_phone {
+      @include mixin.font(1rem, 400, null, var(--dark));
+      @media screen and (max-width: 768px) {
+        font-size: 0.875rem;
+      }
+    }
+    &_city {
+      @include mixin.font(1rem, 400, null, var(--dark));
+      @media screen and (max-width: 768px) {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
+
+  &_documents_info {
+      align-self: center;
+      background: var(--white);
+      border-radius: 5px;
+      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      padding: 15px 25px;
+      max-height: 200px;
+      min-height: 200px;
+
+
+      &_list {
+        margin-top: 10px;
+        @include mixin.flex(flex-start, center, column, 10px);
+        &_item {
+          @include mixin.flex(center, center, null, 10px);
+          text-decoration: underline;
+          cursor: pointer;
+          @include mixin.font(1rem, 400, null, var(--dark-blue));
+          transition: 0.2s all;
+          @media screen and (max-width: 768px) {
+            font-size: 0.875rem;
+          }
+
+          &:hover {
+            color: silver;
+            &::before {
+              background: silver;
+            }
+          }
+
+          &::before {
+            display: inline-block;
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--dark-blue);
+            transition: 0.2s all;
+          }
+        }
+      }
+    }
+  
+}
+
+.card__title{
+          @include mixin.font(16px, 500, null, var(--dark));
+      @media screen and (max-width: 768px) {
+        font-size: 0.875rem;
+      }
+}
+
+.delivery__title {
+  @include mixin.font(15px, 400, 16px, var(--dark));
+  @media screen and (max-width: 768px) {
+    font-size: 0.8125rem;
+  }
+}
+
+.delivery__info{
+    margin-top: 10px;
+    @include mixin.flex(flex-start,flex-start,column,10px);
+    &_content{
+        @include mixin.flex(center,null,null,10px)
+    }
+}
+
+.card__header {
+  @include mixin.flex(center, space-between, null, 20px);
+  border-bottom: 2px solid var(--dark);
+  min-height: 32px;
+  svg {
+    cursor: pointer;
+    path {
+      transition: all 0.3s ease;
+      stroke: var(--gray);
+    }
+    &:hover {
+      path {
+        stroke: var(--dark);
+      }
+    }
+  }
+}

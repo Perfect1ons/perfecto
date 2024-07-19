@@ -17,8 +17,6 @@ import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
 import YouWatched from "@/components/HomeComponents/YouWatched/YouWatched";
-import Card from "@/components/UI/Card/Card";
-import Sliker from "@/components/UI/Card/ImageSlider/ImageSlider";
 import MainPageJsonLd from "@/utils/JsonLd/MainPageJsonLd/MainPageJsonLd";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";

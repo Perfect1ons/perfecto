@@ -85,31 +85,38 @@ const Basket = ({variants}: IBasketProps) => {
 
   // Calculate total pages based on favorites length and itemsPerPage
   const pageCount = Math.ceil(data.cart.length / itemsPerPage);
-
   return (
     <div className="container">
-      <div
-        className={cn(styles.modalOpen, {
-          [styles.modalOpen__active]: isModalVisible,
-        })}
-      >
-        <div className={styles.modalOpen__xmark}>
-          <h2>Удалить товары</h2>
-          <button className={styles.modalOpen__xmark__btn} onClick={openModal}>
-            <XMark />
+      <>
+        <div
+          className={cn(styles.modalOpen, {
+            [styles.modalOpen__active]: isModalVisible,
+          })}
+        >
+          <div className={styles.modalOpen__xmark}>
+            <h2>Удалить товары</h2>
+            <button
+              className={styles.modalOpen__xmark__btn}
+              onClick={openModal}
+            >
+              <XMark />
+            </button>
+          </div>
+          <p className={styles.modalOpen__parap}>
+            Вы точно хотите удалить выбранные товары? Отменить данное действие
+            будет невозможно.
+          </p>
+          <button
+            className={styles.modalOpen__button}
+            onClick={handleClearCart}
+          >
+            Удалить
           </button>
         </div>
-        <p className={styles.modalOpen__parap}>
-          Вы точно хотите удалить выбранные товары? Отменить данное действие
-          будет невозможно.
-        </p>
-        <button className={styles.modalOpen__button} onClick={handleClearCart}>
-          Удалить
-        </button>
-      </div>
-      {isModalVisible && (
-        <div onClick={openModal} className={styles.modalBackdrop}></div>
-      )}
+        {isModalVisible && (
+          <div onClick={openModal} className={styles.modalBackdrop}></div>
+        )}
+      </>
 
       {data.cart.length <= 0 ? (
         <section className={cn(styles.section)}>

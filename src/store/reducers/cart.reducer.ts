@@ -43,11 +43,19 @@ const cartSlice = createSlice({
     addProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
+
       if (product) {
-        product.quantity = (product.quantity || 1) + 1;
-        localStorage.setItem("basket", JSON.stringify(state.cart));
+        const quantity = product.quantity || 0;
+        const balance = Number(product.balance) || 0;
+        const minQty = product.minQty || 1; // Убедитесь, что minQty существует и имеет значение по умолчанию
+
+        if (quantity < balance) {
+          product.quantity = Math.max(quantity + 1, minQty); // Убедитесь, что количество не меньше минимального
+          localStorage.setItem("basket", JSON.stringify(state.cart));
+        }
       }
     },
+
     deleteProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
@@ -76,8 +84,11 @@ const cartSlice = createSlice({
       const { id, quantity } = action.payload;
       const product = state.cart.find((p) => p.id === id);
       if (product) {
-        product.quantity = quantity;
-        localStorage.setItem("basket", JSON.stringify(state.cart));
+        const balance = Number(product.balance) || 0;
+        if (quantity <= balance) {
+          product.quantity = quantity;
+          localStorage.setItem("basket", JSON.stringify(state.cart));
+        }
       }
     },
     toggleProductSelection: (state, action: PayloadAction<number>) => {

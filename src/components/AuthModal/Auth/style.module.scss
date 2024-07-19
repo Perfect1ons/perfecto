@@ -1,52 +1,20 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 .modal__form {
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
+
   &_phone {
-    position: relative;
     @include mixin.flex(center, center, column, null);
+    position: relative;
     width: 100%;
+
     &_control {
+      position: relative;
       width: 100%;
       @include mixin.flex(center, center, null, null);
-      &_selectCountry {
-        position: relative;
-        border-right: 1px solid #f6f6f6;
-        background: var(--white);
-        border-radius: 5px 0px 0px 5px;
-        padding: 7px 5px;
-        padding-right: 20px;
-        cursor: pointer;
-        @include mixin.flex(center, center, null, null);
-        &_img {
-          border-radius: 5px;
-        }
-        &_arrow {
-          position: absolute;
-          right: -2px;
-          top: 25%;
-          @include mixin.flex(center, center, null, null);
-          &__active {
-            @include mixin.flex(center, center, null, null);
-            position: absolute;
-            right: -2px;
-            top: 15%;
-            transform: rotate(-180deg);
-          }
-        }
-      }
-      &_input {
-        @include mixin.font(16px, 400, null, var(--dark));
-        width: 100%;
-        background: var(--white);
-        padding: 10px 5px;
-        border-radius: 0px 5px 5px 0px;
-        border: 1px solid var(--white);
-        &:focus {
-          border: 1px solid var(--dark-blue);
-        }
-      }
     }
+
     &_dropdown {
       border-radius: 5px;
       padding: 5px;
@@ -55,7 +23,7 @@
       @include mixin.flex(flex-start, center, column, 5px);
       position: absolute;
       z-index: 10;
-      left: 0;
+      right: 0;
       bottom: -165px;
 
       &_button {
@@ -80,11 +48,9 @@
   }
 }
 
-.modal__more_buttons {
-  @include mixin.flex(center, space-between);
-  margin-top: 10px;
-}
+
 .modal__more_button {
+  margin-top: 10px;
   color: var(--dark-blue);
   cursor: pointer;
   font-weight: 500;
@@ -125,10 +91,6 @@
   }
 }
 
-.errorText {
-  color: red;
-}
-
 .modal__text {
   width: 100%;
   font-size: 16px;
@@ -137,27 +99,13 @@
   color: var(--dark);
 }
 
-.modal__input {
-  border: 1px solid #eef2f7;
-  border-radius: 5px;
-  padding: 15px 10px;
-  margin-top: 20px;
-  font-size: 17px;
-}
-
-.modal__input::placeholder {
-  font-size: 17px;
-  color: rgba(0, 0, 0, 0.8);
-  font-weight: lighter;
-}
-
 .modal__button {
   background: var(--dark-blue);
   color: var(--white);
   border-radius: 5px;
   width: 100%;
   padding: 15px 0;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 17px;
   cursor: pointer;
   transition: all 0.4s ease-in;
@@ -166,10 +114,87 @@
   }
 }
 
-.successMessage {
-  color: #0b920b;
-  text-align: center;
-  margin-top: 15px;
+
+.warning {
+  @include mixin.font(16px, 400, 100%, var(--violet));
+  padding-top: 7px;
+  &__icon {
+    position: absolute;
+    right: 15%;
+    top: 30%;
+  }
+}
+
+.auth__input {
+  position: relative;
+  @include mixin.font(16px, 600, null, var(--dark));
+  width: 100%;
+  background: var(--white);
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: 2px solid var(--secondary);
+
+  &:focus {
+    border: 2px solid var(--dark-blue);
+  }
+
+    &::placeholder {
+      @include mixin.font(16px, 400, null, var(--secondary));
+      padding: 10px 7px;
+    }
+
+}
+
+.select__country {
+  position: absolute;
+  right: 5px;
+  border-radius: 5px 0px 0px 5px;
+  padding: 7px 5px;
+  padding-right: 20px;
+  cursor: pointer;
+  @include mixin.flex(center, center, null, null);
+  transition: all 0.3s ease;
+  &:hover{
+
+    .select__country_arrow{
+      svg{
+        path{
+          fill: var(--dark);
+
+        }
+      }
+    }
+  }
+
+  &_img {
+    border-radius: 50px;
+  }
+  &_arrow {
+    position: absolute;
+    right: -2px;
+    top: 25%;
+    @include mixin.flex(center, center, null, null);
+
+    svg {
+      path {
+        fill: var(--gray);
+      }
+    }
+
+
+    &__active {
+      @include mixin.flex(center, center, null, null);
+      position: absolute;
+      right: -2px;
+      top: 15%;
+      transform: rotate(-180deg);
+      svg {
+        path {
+          fill: var(--dark);
+        }
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -207,7 +232,5 @@
   .modal__button {
     max-width: 100%;
   }
-  .modal__input::placeholder {
-    font-size: 16px;
-  }
+
 }

@@ -116,7 +116,7 @@ const OrdersCurrentCard = ({
               <div className={styles.myNumberOder}>
                 <h3
                   onClick={() =>
-                    router.push(`/profile/orders/history/${item.id}`)
+                    router.push(`/profile/orders/${item.id}`)
                   }
                   className={styles.myNumberOder__title}
                 >

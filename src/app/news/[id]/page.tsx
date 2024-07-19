@@ -1,21 +1,10 @@
 import {
-  getNews,
   getNewsByIdOne,
   getNewsByIdThree,
   getNewsByIdTwo,
 } from "@/api/requests";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
 
-// export const dynamicParams = true;
-
-// export async function generateStaticParams() {
-//   const newsData = await getNews();
-
-//   return newsData.map((product: any) => ({
-//     id: product.id.toString(),
-//     revalidate: 60,
-//   }));
-// }
 
 export default async function IDPage({ params: { id } }: any) {
   // Выполняем запросы параллельно, чтобы ускорить загрузку данных

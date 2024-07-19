@@ -10,7 +10,6 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import { XMark } from "../../../public/Icons/Icons";
 import AuthForm from "./Auth/Auth";
-import AuthRecovery from "./AuthRecovery/AuthRecovery";
 import AuthRegistration from "./AuthRegistration/AuthRegistration";
 import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 import AuthConfirmCode from "./AuthConfirmCode/AuthConfirmCode";
@@ -91,7 +90,7 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
   }, [codeCountryHandler]);
 
   const [view, setView] = useState<
-    "login" | "recovery" | "registration" | "confirm"
+    "login" | "registration" | "confirm"
   >("login");
 
   useEffect(() => {
@@ -106,23 +105,6 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
         return {
           title: "Войти",
           content: <AuthForm setView={setView} close={close} />,
-        };
-      case "recovery":
-        return {
-          title: "Восстановление",
-          content: (
-            <AuthRecovery
-              visibleHandler={visibleHandler}
-              countryOptions={countryOptions}
-              currentCodeCountry={currentCodeCountry}
-              visible={visible}
-              handleBuyerChange={handleBuyerChange}
-              mask={mask}
-              phoneNumber={phoneNumber}
-              setView={setView}
-              close={close}
-            />
-          ),
         };
       case "registration":
         return {

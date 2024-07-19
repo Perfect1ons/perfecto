@@ -1,0 +1,270 @@
+@use '../../../../../assets/scss/common/mixins' as mixin;
+
+.over{
+  &_good {
+    @include mixin.flex(center, flex-start, null, null);
+    margin-top: 20px;
+    min-height: 40px;
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    @include mixin.font(1rem, 400, null, var(--dark));
+    &_number {
+      width: 4%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_photo {
+      max-width: 8%;
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      padding: 15px;
+      &_img {
+        border-radius: 10px;
+      }
+    }
+    &_art {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_name {
+      width: 30%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+    }
+    &_count {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_price,
+    &_discount,
+     &_discount
+     {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_priceWithDiscount {
+      width: 10%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_total {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_delete {
+      cursor: pointer;
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      transition: all 0.3s ease;
+      &:hover{
+      svg{
+        path{
+          fill: var(--dark);
+        }
+      }
+      }
+    }
+  }
+}
+
+.over {
+  padding-top: 20px;
+  @include mixin.flex(null, center, column, null);
+
+  &_tab {
+    background: var(--white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    min-height: 38px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    @include mixin.font(1rem, 400, null, var(--dark));
+
+    &_number {
+      width: 4%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_photo {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_art {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_name {
+      width: 30%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_count {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_price {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_discount {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_priceWithDiscount {
+      width: 10%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_total {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+      border-right: 1px solid var(--secondlight);
+    }
+    &_delete {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+  }
+  &_good {
+    @include mixin.flex(center, flex-start, null, null);
+    margin-top: 20px;
+    min-height: 40px;
+    border-radius: 8px;
+    background: var(--white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    @include mixin.font(1rem, 400, null, var(--dark));
+    &_number {
+      width: 4%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_photo {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+
+      &_img {
+        border-radius: 5px;
+        padding: 2px 0;
+      }
+    }
+    &_art {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_name {
+      width: 30%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+    }
+    &_count {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_price {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_discount {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_priceWithDiscount {
+      width: 10%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_total {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+    &_delete {
+      width: 8%;
+      min-height: 38px;
+      @include mixin.flex(center, center, null, null);
+      text-align: center;
+    }
+  }
+  &_total {
+    background: var(--white);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    max-width: 500px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    align-self: flex-end;
+    margin-bottom: 20px;
+    @media screen and (max-width: 992px) {
+      max-width: 100%;
+    }
+
+    &_priceDiscount {
+      @include mixin.font(1rem, 400, null, var(--dark));
+      border-bottom: 1px dashed;
+      padding-bottom: 10px;
+    }
+    &_price {
+      @include mixin.font(1.375rem, 600, null, var(--dark));
+    }
+    &_paid {
+      @include mixin.font(1rem, 400, null, var(--dark));
+    }
+    &_remainder {
+      @include mixin.font(1rem, 400, null, var(--dark));
+    }
+  }
+}

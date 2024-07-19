@@ -54,7 +54,7 @@
   width: 100%;
   @include mixin.flex(center, space-between, null, 5px);
   &__priceContainer {
-    @include mixin.flex(null, null, column, 5px);
+    @include mixin.flex(flex-start, null, column, 5px);
     &__buttons {
       // opacity: 0;
       // visibility: hidden;

@@ -31,26 +31,33 @@ const CartReducerBtn = ({
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
-  const quantity = product?.quantity || data.minQty;
+  const quantity = product?.quantity ?? data.minQty;
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const value = e.target.value ? parseInt(e.target.value) : 0;
-    if (isNaN(value) || value < 0) return;
+    const value = e.target.value;
+    const parsedValue = value ? parseInt(value) : 0;
 
-    if (value >= data.minQty) {
+    // Если инпут пустой, устанавливаем значение в 0
+    if (value === "" && product) {
+      dispatch(updateProductQuantity({ id: data.id, quantity: 0 }));
+    } else if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
       if (product) {
-        dispatch(updateProductQuantity({ id: data.id, quantity: value }));
+        dispatch(updateProductQuantity({ id: data.id, quantity: parsedValue }));
       } else {
-        const newProduct = { ...data, quantity: value };
+        const newProduct = { ...data, quantity: parsedValue };
         dispatch(addProductToCart(newProduct));
       }
     }
   };
-
+  const handleBlur = () => {
+    if (product && product.quantity === 0) {
+      dispatch(updateProductQuantity({ id: data.id, quantity: data.minQty }));
+    }
+  };
   // add to redux cart storage function
   const addToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -116,8 +123,9 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity}
+        value={quantity === 0 ? "" : quantity}
         onChange={handleChange}
+        onBlur={handleBlur}
         min={0}
         ref={inputRef}
       />

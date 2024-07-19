@@ -1,3 +1,4 @@
+import ky from "ky";
 import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
@@ -5,7 +6,6 @@ import { IPromotion } from "@/types/promotion";
 import { IBrands } from "@/types/brands";
 import { IBoughts } from "@/types/lastBoughts";
 import { ISeasonCategory } from "@/types/seasonCategory";
-import ky from "ky";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
@@ -32,6 +32,7 @@ import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { SposobOplaty } from "@/types/Basket/SposobOplaty";
+import { IOrderById } from "@/types/OrderById/orderbyid";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -296,4 +297,18 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
 
 export const getSposobOplaty = (idUser: string): Promise<SposobOplaty> => {
   return maxkg.get(`naltovarok/vopl?idUser=${idUser}`).json();
+};
+
+export const getCurrentOrder = (
+  token: string,
+  id: number
+): Promise<IOrderById> => {
+  return maxkg
+    .get(`box/zakazok?id_zakaz=${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };

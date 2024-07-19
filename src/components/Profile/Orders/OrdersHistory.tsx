@@ -1,4 +1,3 @@
-import { historyData } from "@/components/temporary/historyOrders";
 import OrderHistoryCard from "./OrderHistoryCard";
 import styles from "./style.module.scss";
 import Image from "next/image";
