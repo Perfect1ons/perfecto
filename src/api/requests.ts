@@ -31,6 +31,7 @@ import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
+import { SposobOplaty } from "@/types/Basket/SposobOplaty";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -291,4 +292,8 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
       },
     })
     .json();
+};
+
+export const getSposobOplaty = (idUser: string): Promise<SposobOplaty> => {
+  return maxkg.get(`naltovarok/vopl?idUser=${idUser}`).json();
 };

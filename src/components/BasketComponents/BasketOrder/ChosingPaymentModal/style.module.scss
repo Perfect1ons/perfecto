@@ -1,0 +1,141 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+@keyframes scaleUp {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.wrap {
+  user-select: none;
+  z-index: 100;
+  position: absolute;
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: var(--white);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  visibility: hidden;
+  transition: visibility 0.3s, opacity 0.3s;
+  opacity: 0;
+  &_header {
+    position: relative;
+    @include mixin.flex(center, space-between, null, null);
+    width: 100%;
+    &_title {
+      @include mixin.font(1.25rem, 500, null, var(--dark));
+    }
+    &_cross {
+      position: absolute;
+      top: 5px;
+      right: 0;
+      color: var(--secondary-gray);
+      scale: 1.7;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--dark);
+      }
+    }
+  }
+  &_payment {
+    margin-top: 15px;
+    @include mixin.flex(flex-start, center, column, null);
+    width: 100%;
+    &_point {
+      @include mixin.flex(center, flex-start, null, 8px);
+      margin-top: 15px;
+      border: 2px solid var(--secondary);
+      border-radius: 5px;
+      width: 100%;
+      padding: 8px;
+      cursor: pointer;
+      @include mixin.font(14px, 400, null, var(--gray));
+
+      &_active {
+        border: 2px solid var(--dark-blue);
+      }
+
+      &_radio {
+        content: " ";
+        width: 14px;
+        @include mixin.flex(center, center, null, null);
+        height: 14px;
+        border-radius: 50%;
+        background: none;
+        border: 1px solid var(--gray);
+
+        &_active {
+          border: 1px solid var(--dark-blue);
+        }
+
+        &_dot {
+          display: none;
+
+          &_active {
+            content: " ";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: none;
+            display: inline-block;
+            background: var(--dark-blue);
+          }
+        }
+      }
+    }
+    &_desc {
+      width: 100%;
+      @include mixin.flex(flex-start, flex-start, column, null);
+      margin-top: 5px;
+      background: var(--light);
+      border-radius: 5px;
+      padding: 0px 20px;
+      height: 0;
+      overflow: hidden;
+      transition: 0.3s all;
+      &_active {
+        padding: 20px;
+        height: auto;
+      }
+
+      &_schedule {
+        @include mixin.font(0.875rem, 500, null, var(--dark));
+      }
+      &_workdays {
+        @include mixin.font(0.875rem, 400, null, var(--dark));
+      }
+      &_info {
+        margin-top: 15px;
+        @include mixin.font(0.875rem, 400, null, var(--dark));
+      }
+    }
+  }
+  &_save {
+    width: 100%;
+    align-self: center;
+    margin-top: 10px;
+    border: 2px solid var(--dark-blue);
+    background: var(--dark-blue);
+    padding: 15px 0;
+    cursor: pointer;
+    @include mixin.font(1rem, 500, null, var(--white));
+    border-radius: 5px;
+    transition: 0.3s all;
+    &:hover {
+      background: none;
+      color: var(--dark-blue);
+    }
+  }
+}
+.show {
+  visibility: visible;
+  opacity: 1;
+  animation: scaleUp 0.3s ease-out forwards;
+}

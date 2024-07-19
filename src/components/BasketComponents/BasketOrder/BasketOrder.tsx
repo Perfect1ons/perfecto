@@ -12,6 +12,8 @@ import InputMask from "react-input-mask";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
+import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
+import { SposobOplaty } from "@/types/Basket/SposobOplaty";
 
 interface Buyer {
   phone: string;
@@ -33,7 +35,11 @@ const codesCountry: Record<string, Country> = {
 
 type CountryKey = keyof typeof codesCountry;
 
-const BasketOrder = () => {
+interface IBasketOrderProps{
+  variants: SposobOplaty;
+}
+
+const BasketOrder = ({variants}: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
 
   const [nds, setNds] = useState<boolean>(false);
@@ -147,6 +153,19 @@ const BasketOrder = () => {
           ></div>
         </>
       )}
+      {activeModal === "payment" && (
+        <>
+          <ChosingPaymentModal
+            visible={activeModal}
+            close={activeModalToggle}
+            variants={variants}
+          />
+          <div
+            onClick={() => activeModalToggle("")}
+            className={styles.backdrop}
+          ></div>
+        </>
+      )}
       <section className={styles.wrap}>
         <button
           onClick={() => activeModalToggle("delivery")}
@@ -159,7 +178,7 @@ const BasketOrder = () => {
           </span>
         </button>
         <button
-          onClick={() => activeModalToggle("pay")}
+          onClick={() => activeModalToggle("payment")}
           className={styles.wrap_payment}
         >
           <Image
