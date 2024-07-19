@@ -1501,3 +1501,38 @@ export const DeliveryCourier = () => {
     </svg>
   );
 };
+
+export const WarningIcon = () => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g clip-path="url(#clip0_249_7)">
+        <path
+          d="M10 19C14.9706 19 19 14.9706 19 10C19 5.02944 14.9706 1 10 1C5.02944 1 1 5.02944 1 10C1 14.9706 5.02944 19 10 19Z"
+          stroke="#991A4E"
+          strokeWidth="2"
+        />
+        <path
+          d="M9.6665 6H10.3332L9.99984 10.8333L9.6665 6Z"
+          stroke="#991A4E"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 14.6667C10.5523 14.6667 11 14.219 11 13.6667C11 13.1145 10.5523 12.6667 10 12.6667C9.44772 12.6667 9 13.1145 9 13.6667C9 14.219 9.44772 14.6667 10 14.6667Z"
+          fill="#991A4E"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_249_7">
+          <rect width="20" height="20" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
