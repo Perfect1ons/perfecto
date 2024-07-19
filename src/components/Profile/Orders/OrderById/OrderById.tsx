@@ -3,40 +3,38 @@ import styles from "./style.module.scss";
 import OrderItems from "./OrderItemsCard/OrderItems";
 import OrderUserInfo from "./OrderUserInfo/OrderUserInfo";
 import Image from "next/image";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
 interface IOrderByIdProps {
   order: IOrderById;
+  details: StatusDetailsType;
 }
 
-const OrderById = ({ order }: IOrderByIdProps) => {
+const OrderById = ({ order, details }: IOrderByIdProps) => {
   return (
     <section className={styles.wrapper}>
       <div className="container">
         <div className={styles.order}>
-
           <div className={styles.order__header}>
             <p className={styles.order__title}>
               Заказ №: 65432 от 17-07-2024 16:41:19
             </p>
             <div className={styles.order__progress}>
-              <p>Отменен.</p>
+              <p>
+                {details.find((detail) => detail.id === order.count)?.sinonim ||
+                  "Отменен"}
+              </p>
               <p className={styles.order__progress_date}>
                 17 июля 2024 г. 17:21
               </p>
               <div className={styles.order__progress_bar}>
                 <span className={styles.order__progress_bar_start}></span>
                 <span className={styles.order__progress_bar_line}></span>
-                <span
-                  className={styles.order__progress_bar_middle}
-                ></span>
+                <span className={styles.order__progress_bar_middle}></span>
                 <span className={styles.order__progress_bar_line}></span>
-                <span
-                  className={styles.order__progress_bar_middle}
-                ></span>
+                <span className={styles.order__progress_bar_middle}></span>
                 <span className={styles.order__progress_bar_line}></span>
-                <span
-                  className={styles.order__progress_bar_middle}
-                ></span>
+                <span className={styles.order__progress_bar_middle}></span>
                 <span className={styles.order__progress_bar_line}></span>
                 <span className={styles.order__progress_bar_end}></span>
               </div>
@@ -44,14 +42,14 @@ const OrderById = ({ order }: IOrderByIdProps) => {
           </div>
 
           <div className={styles.order__manager}>
-              <Image
-                className={styles.order__manager_img}
-                src={"/img/manager.svg"}
-                quality={100}
-                width={110}
-                height={110}
-                alt="manager"
-              />
+            <Image
+              className={styles.order__manager_img}
+              src={"/img/manager.svg"}
+              quality={100}
+              width={110}
+              height={110}
+              alt="manager"
+            />
             <div className={styles.order__manager_info}>
               <h2 className={styles.order__manager_info_name}>
                 Ваш менеджер Жамалбек
@@ -64,8 +62,6 @@ const OrderById = ({ order }: IOrderByIdProps) => {
               </h3>
             </div>
           </div>
-
-
         </div>
 
         <OrderUserInfo />

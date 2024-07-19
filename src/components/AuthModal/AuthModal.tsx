@@ -14,6 +14,7 @@ import AuthRegistration from "./AuthRegistration/AuthRegistration";
 import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 import AuthConfirmCode from "./AuthConfirmCode/AuthConfirmCode";
 import Image from "next/image";
+import AuthRecaptcha from "./AuthRecaptcha/AuthRecaptcha";
 
 interface ModalProps {
   isVisible: boolean;
@@ -90,7 +91,7 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
   }, [codeCountryHandler]);
 
   const [view, setView] = useState<
-    "login" | "registration" | "confirm"
+    "login" | "registration" | "confirm" | "captcha"
   >("login");
 
   useEffect(() => {
@@ -132,6 +133,17 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
               phoneNumber={phoneNumber}
               setView={setView}
               close={close}
+            />
+          ),
+        };
+      case "captcha":
+        return {
+          title: "Подтвердите что вы не робот",
+          content: (
+            <AuthRecaptcha
+              currentCodeCountry={currentCodeCountry}
+              phoneNumber={phoneNumber}
+              setView={setView}
             />
           ),
         };
