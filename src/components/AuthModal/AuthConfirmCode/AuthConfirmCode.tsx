@@ -9,7 +9,7 @@ import {
 } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
-  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
+  setView: (view: "login" |  "registration" | "confirm") => void;
   close: () => void;
   phoneNumber: string;
   currentCodeCountry: Country;
@@ -54,7 +54,6 @@ const AuthConfirmCode = ({
     }
   }, [isButtonDisabled]);
   const handleResendCode = async () => {
-    // Ваш код для повторной отправки кода
     setCanResend(false);
     setIsButtonDisabled(false);
     // Тут можно добавить запрос на повторную отправку кода, например:

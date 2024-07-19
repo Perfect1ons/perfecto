@@ -19,7 +19,7 @@ interface FormProps {
   mask: any;
   currentCodeCountry: Country;
   visible: string;
-  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
+  setView: (view: "login" |  "registration" | "confirm") => void;
   close: () => void;
   visibleHandler: (current: string) => void;
 }
@@ -137,12 +137,7 @@ const AuthRegistration = ({
         >
           Войти
         </button>
-        <button
-          className={cn(styles.modal__more_button, "button")}
-          onClick={() => setView("recovery")}
-        >
-          Напомнить пароль
-        </button>
+
       </div>
     </>
   );

@@ -11,7 +11,7 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 
 interface FormProps {
-  setView: (view: "login" | "recovery" | "registration" | "confirm") => void;
+  setView: (view: "login" | "registration" | "confirm") => void;
   close: () => void;
 }
 
@@ -219,13 +219,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
         >
           Регистрация
         </button>
-        <button
-          className={cn(styles.modal__more_button, "button")}
-          onClick={() => setView("recovery")}
-          aria-label="remind me of the password"
-        >
-          Напомнить пароль
-        </button>
+
       </div>
     </div>
   );

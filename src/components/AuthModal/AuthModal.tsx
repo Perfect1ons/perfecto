@@ -91,7 +91,7 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
   }, [codeCountryHandler]);
 
   const [view, setView] = useState<
-    "login" | "recovery" | "registration" | "confirm"
+    "login" | "registration" | "confirm"
   >("login");
 
   useEffect(() => {
@@ -106,23 +106,6 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
         return {
           title: "Войти",
           content: <AuthForm setView={setView} close={close} />,
-        };
-      case "recovery":
-        return {
-          title: "Восстановление",
-          content: (
-            <AuthRecovery
-              visibleHandler={visibleHandler}
-              countryOptions={countryOptions}
-              currentCodeCountry={currentCodeCountry}
-              visible={visible}
-              handleBuyerChange={handleBuyerChange}
-              mask={mask}
-              phoneNumber={phoneNumber}
-              setView={setView}
-              close={close}
-            />
-          ),
         };
       case "registration":
         return {
