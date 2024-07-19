@@ -4,14 +4,19 @@ import styles from "./style.module.scss";
 import Rating from "./Rating/Rating";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { postOrderReview } from "@/api/clientRequest";
+import { useEffect, useState } from "react";
+import {
+  getOrderHistoryOrderRating,
+  postOrderReview,
+} from "@/api/clientRequest";
+import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 
 interface IOrder {
   order: Item;
+  isAuthed: string | undefined;
 }
 
-const OrderHistoryCard = ({ order }: IOrder) => {
+const OrderHistoryCard = ({ order, isAuthed }: IOrder) => {
   const formatDate = (dateString: string, key?: string) => {
     const date = new Date(dateString);
 
@@ -38,6 +43,10 @@ const OrderHistoryCard = ({ order }: IOrder) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
+  const [ratingFromApi, setRatingFromApi] = useState<
+    IRatingOrderHistoryCard | undefined
+  >(undefined);
+
   const ratingChanger = (rate: number) => {
     if (rate) {
       setRating(rate);
@@ -50,13 +59,25 @@ const OrderHistoryCard = ({ order }: IOrder) => {
     }
   };
 
+  const getOrderReview = async () => {
+    if (isAuthed) {
+      try {
+        const ratingData = await getOrderHistoryOrderRating(isAuthed, order.id);
+        setRatingFromApi(ratingData);
+      } catch (error) {
+        console.error("Failed to fetch order rating:", error);
+        // Handle error appropriately
+      }
+    }
+  };
+
+  useEffect(() => {
+    getOrderReview();
+  });
+
   const postReview = () => {
-    if (rating > 0) {
-      const otz = {
-        id_zakaz: order.id,
-        ocenka: rating,
-      };
-      postOrderReview(otz);
+    if (rating > 0 && isAuthed) {
+      postOrderReview(order.id, rating, isAuthed);
     }
   };
 
@@ -90,6 +111,7 @@ const OrderHistoryCard = ({ order }: IOrder) => {
 
       <div className={styles.rating}>
         <Rating
+          ratingFromApi={ratingFromApi}
           rating={rating}
           ratingChange={ratingChanger}
           commChange={commentChanger}

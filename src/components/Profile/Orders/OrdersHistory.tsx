@@ -3,19 +3,29 @@ import OrderHistoryCard from "./OrderHistoryCard";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
+import { cookies } from "next/headers";
 
 interface IOrdersHistoryProps {
   orders: Item[];
 }
 
 const OrdersHistory = ({ orders }: IOrdersHistoryProps) => {
+  const cookieStore = cookies();
+  const isAuthed = cookieStore.get("identify")?.value;
+
   return (
     <section className={styles.OrdersHistory}>
       <div className="container">
         <div>
           {orders.length > 0 ? (
             orders.map((order) => {
-              return <OrderHistoryCard order={order} key={order.id} />;
+              return (
+                <OrderHistoryCard
+                  order={order}
+                  key={order.id}
+                  isAuthed={isAuthed}
+                />
+              );
             })
           ) : (
             <div className={styles.isEmpty}>

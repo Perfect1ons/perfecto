@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "./style.module.scss";
 import { useState } from "react";
 import ConfirmModal from "./ConfirmModal";
+import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 
 export interface IRating {
   img: string;
@@ -43,6 +44,7 @@ interface IRatingProps {
   ratingChange: (rate: number) => void;
   commChange: (comm: string) => void;
   postReview: () => void;
+  ratingFromApi: IRatingOrderHistoryCard | undefined;
 }
 export interface IReviewType {
   managersService: boolean;
@@ -56,6 +58,7 @@ const Rating = ({
   commChange,
   rating,
   postReview,
+  ratingFromApi,
 }: IRatingProps) => {
   const [submitted, setSubmitted] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -73,6 +76,8 @@ const Rating = ({
   };
 
   const selectedRating = ratings.find((r) => r.rate === rating);
+
+  const rateApi = ratings.findLast((r) => r.rate === ratingFromApi?.ocenka);
 
   const handleOpenModal = () => {
     if (rating === 0) {
@@ -94,7 +99,7 @@ const Rating = ({
   return (
     <div className={styles.rating}>
       <div className={styles.rating__selected}>
-        {selectedRating ? (
+        {selectedRating && !ratingFromApi ? (
           <div className={styles.rating__selected_info}>
             <Image
               src={selectedRating.img}
@@ -104,9 +109,19 @@ const Rating = ({
             />
             <p>{selectedRating.name}</p>
           </div>
-        ) : null}
+        ) : (
+          <div className={styles.rating__selected_info}>
+            <Image
+              src={rateApi?.img || `/${rateApi?.img}`}
+              width={45}
+              height={45}
+              alt={rateApi?.name || `/${rateApi?.name}`}
+            />
+            <p>{rateApi?.name}</p>
+          </div>
+        )}
       </div>
-      {!submitted && (
+      {!submitted && !ratingFromApi && (
         <div className={styles.choice__rating}>
           {ratings.map((r) => (
             <button
@@ -126,7 +141,7 @@ const Rating = ({
           ))}
         </div>
       )}
-      {!submitted && (
+      {!submitted && !ratingFromApi && (
         <button onClick={handleOpenModal} className={styles.rating__button}>
           Оставить отзыв
         </button>
