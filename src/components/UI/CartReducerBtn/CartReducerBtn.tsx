@@ -53,7 +53,11 @@ const CartReducerBtn = ({
       }
     }
   };
-
+  const handleBlur = () => {
+    if (product && product.quantity === 0) {
+      dispatch(updateProductQuantity({ id: data.id, quantity: data.minQty }));
+    }
+  };
   // add to redux cart storage function
   const addToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -121,6 +125,7 @@ const CartReducerBtn = ({
         className={styles.btn_screen}
         value={quantity === 0 ? "" : quantity}
         onChange={handleChange}
+        onBlur={handleBlur}
         min={0}
         ref={inputRef}
       />
