@@ -180,12 +180,13 @@ const BasketCard = ({
               <span className={styles.priceCustom}> с</span>
             </span>
           </div>
+          {item.minQty > 1 ? (
+            <h3 className={styles.minimal__items}>
+              минимальное количество к заказу от {item.minQty} шт.
+            </h3>
+          ) : null}
         </div>
-        {item.minQty > 1 ? (
-          <h3 className={styles.minimal__items}>
-            минимальное количество к заказу от {item.minQty} шт.
-          </h3>
-        ) : null}
+
         <div className={styles.add__to_cart_column}>
           <CartReducerBtn
             data={item}

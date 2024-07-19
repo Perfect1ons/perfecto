@@ -43,15 +43,19 @@ const cartSlice = createSlice({
     addProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
+
       if (product) {
         const quantity = product.quantity || 0;
         const balance = Number(product.balance) || 0;
+        const minQty = product.minQty || 1; // Убедитесь, что minQty существует и имеет значение по умолчанию
+
         if (quantity < balance) {
-          product.quantity = quantity + 1;
+          product.quantity = Math.max(quantity + 1, minQty); // Убедитесь, что количество не меньше минимального
           localStorage.setItem("basket", JSON.stringify(state.cart));
         }
       }
     },
+
     deleteProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
