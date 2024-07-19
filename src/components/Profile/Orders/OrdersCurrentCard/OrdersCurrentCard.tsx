@@ -240,7 +240,7 @@ const OrdersCurrentCard = ({
               </div>
             </div>
             <div className={styles.myOrdersFooter}>
-              {item.img.map((image,index) => {
+              {item.img.map((image, index) => {
                 return (
                   <div key={index} className={styles.imageContainer}>
                     <Image
