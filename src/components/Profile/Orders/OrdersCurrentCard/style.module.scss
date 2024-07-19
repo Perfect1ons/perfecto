@@ -1,8 +1,10 @@
 @use "../../../../assets/scss/common/mixins" as mixin;
 
 .myOrdersContainer {
-  padding: 5px;
   width: 100%;
+  background: var(--white);
+  border-radius: 5px;
+  padding: 20px;
 }
 .myOrders {
   @include mixin.flex(null, null, column, 20px);

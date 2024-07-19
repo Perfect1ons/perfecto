@@ -10,13 +10,15 @@ import {
   postOrderReview,
 } from "@/api/clientRequest";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
+import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
 interface IOrder {
   order: Item;
   isAuthed: string | undefined;
+  details: StatusDetailsType;
 }
 
-const OrderHistoryCard = ({ order, isAuthed }: IOrder) => {
+const OrderHistoryCard = ({ order, isAuthed, details }: IOrder) => {
   const formatDate = (dateString: string, key?: string) => {
     const date = new Date(dateString);
 
@@ -99,11 +101,8 @@ const OrderHistoryCard = ({ order, isAuthed }: IOrder) => {
               order.status == 3 && styles.status__delivery
             )}
           >
-            {order.status == 5
-              ? "Выполнен."
-              : order.status == 2
-              ? "Не выполнен."
-              : "В пути."}
+            {details.find((detail) => detail.id === order.status)?.naim ||
+              "Отменен"}
           </p>
           <p className={styles.status__date}>{formattedDateVid}</p>
         </div>

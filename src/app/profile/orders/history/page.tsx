@@ -1,4 +1,4 @@
-import { getOrdersHistory } from "@/api/requests";
+import { getOrdersHistory, getStatusDetails } from "@/api/requests";
 import OrdersHistory from "@/components/Profile/Orders/OrdersHistory";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
@@ -15,10 +15,12 @@ export default async function page() {
 
   if (isAuthed) {
     const ordersHistory = await getOrdersHistory(isAuthed);
+    const details = await getStatusDetails(isAuthed);
+
     return (
       <div>
         <ProfileTabs />
-        <OrdersHistory orders={ordersHistory.items} />
+        <OrdersHistory details={details} orders={ordersHistory.items} />
       </div>
     );
   }
