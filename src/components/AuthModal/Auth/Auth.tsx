@@ -2,11 +2,11 @@
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ArrowDropdown, CheckIcon } from "../../../../public/Icons/Icons";
-import { usePathname, useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store";
-import { setAuthStatus } from "@/store/reducers/login.reducer";
+import {
+  ArrowDropdown,
+  CheckIcon,
+  WarningIcon,
+} from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 
@@ -30,10 +30,9 @@ const codesCountry: Record<string, Country> = {
 type CountryKey = keyof typeof codesCountry;
 
 const AuthForm = ({ setView, close }: FormProps) => {
-  const [isAnonim, setIsAnonim] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
+  const [isRemember, setIsRemember] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [warning, setWarning] = useState("");
 
   const [visible, setVisible] = useState("");
 
@@ -63,13 +62,8 @@ const AuthForm = ({ setView, close }: FormProps) => {
     setPhoneNumber(value);
   }, []);
 
-  const authStatus = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const dispatch = useDispatch();
-
   const AnonimHandler = () => {
-    setIsAnonim(!isAnonim);
+    setIsRemember(!isRemember);
   };
 
   const handleLogin = async () => {
@@ -85,10 +79,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
       const data = await response.json();
 
       if (data.success) {
-        router.push("/profile");
-        if (authStatus) {
-          dispatch(setAuthStatus(true));
-        }
+        window.location.reload();
         close();
       }
     } catch (error) {
@@ -98,6 +89,20 @@ const AuthForm = ({ setView, close }: FormProps) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    // Remove non-numeric characters from phone number
+    const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
+
+    // Check for empty field or incomplete phone number
+    if (!numericPhoneNumber) {
+      setWarning("Это поле не может быть пустым.");
+      return;
+    } else if (numericPhoneNumber.length < 11) {
+      setWarning("Номер введен не полностью.");
+      return;
+    }
+
+    setWarning("");
     handleLogin();
   };
 
@@ -141,36 +146,11 @@ const AuthForm = ({ setView, close }: FormProps) => {
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                visibleHandler("country");
-              }}
-              className={styles.modal__form_phone_control_selectCountry}
-            >
-              <Image
-                className={styles.modal__form_phone_control_selectCountry_img}
-                src={currentCodeCountry.img}
-                width={30}
-                height={30}
-                alt={currentCodeCountry.name}
-              />
-              <span
-                className={cn(
-                  visible === "country"
-                    ? styles.modal__form_phone_control_selectCountry_arrow__active
-                    : styles.modal__form_phone_control_selectCountry_arrow
-                )}
-              >
-                <ArrowDropdown />
-              </span>
-            </button>
             <InputMask
               mask={mask}
               value={phoneNumber}
               onChange={handleBuyerChange}
-              className={styles.modal__form_phone_control_input}
+              className={styles.auth__input}
             >
               {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
                 <input
@@ -181,6 +161,37 @@ const AuthForm = ({ setView, close }: FormProps) => {
                 />
               )}
             </InputMask>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                visibleHandler("country");
+              }}
+              className={styles.select__country}
+            >
+              <span
+                className={cn(
+                  visible === "country"
+                    ? styles.select__country_arrow__active
+                    : styles.select__country_arrow
+                )}
+              >
+                <ArrowDropdown />
+              </span>
+              <Image
+                className={styles.select__country_img}
+                src={currentCodeCountry.img}
+                width={30}
+                height={30}
+                alt={currentCodeCountry.name}
+              />
+            </button>
+
+            {warning && (
+              <span className={styles.warning__icon}>
+                <WarningIcon />
+              </span>
+            )}
           </div>
           {visible === "country" && (
             <div className={styles.modal__form_phone_dropdown}>
@@ -188,14 +199,18 @@ const AuthForm = ({ setView, close }: FormProps) => {
             </div>
           )}
         </div>
+
+        {warning && <span className={styles.warning}>{warning}</span>}
+
         <button
-          aria-label="go to enter "
+          aria-label="go to enter"
           type="submit"
           className={cn(styles.modal__button, "button")}
         >
           Войти
         </button>
       </form>
+
       <div className={styles.modal__rememberMe}>
         <button
           className={styles.modal__rememberMe_btn}
@@ -203,23 +218,22 @@ const AuthForm = ({ setView, close }: FormProps) => {
         >
           <span
             className={cn(styles.modal__rememberMe_check, {
-              [styles.modal__rememberMe_checkActive]: isAnonim,
+              [styles.modal__rememberMe_checkActive]: isRemember,
             })}
           >
-            {isAnonim && <CheckIcon />}
+            {isRemember && <CheckIcon />}
           </span>
           <span className={styles.modal__rememberMe_text}>Запомнить</span>
         </button>
       </div>
-      <div className={styles.modal__more_buttons}>
-        <button
-          className={cn(styles.modal__more_button, "button")}
-          onClick={() => setView("registration")}
-          aria-label="go to registration"
-        >
-          Регистрация
-        </button>
-      </div>
+
+      <button
+        className={cn(styles.modal__more_button, "button")}
+        onClick={() => setView("registration")}
+        aria-label="go to registration"
+      >
+        Регистрация
+      </button>
     </div>
   );
 };

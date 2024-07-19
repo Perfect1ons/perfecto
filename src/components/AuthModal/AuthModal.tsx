@@ -10,7 +10,6 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import { XMark } from "../../../public/Icons/Icons";
 import AuthForm from "./Auth/Auth";
-import AuthRecovery from "./AuthRecovery/AuthRecovery";
 import AuthRegistration from "./AuthRegistration/AuthRegistration";
 import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 import AuthConfirmCode from "./AuthConfirmCode/AuthConfirmCode";
