@@ -1,4 +1,3 @@
-import ChangePassword from "./ChangePassword/ChangePassword";
 import UserPersonalData from "./UserPersonalData/UserPersonalData";
 import styles from "./style.module.scss";
 
@@ -8,7 +7,6 @@ const Lk = () => {
       <div className="container">
         <div className={styles.informationContainer}>
           <UserPersonalData />
-          <ChangePassword />
         </div>
       </div>
     </section>
