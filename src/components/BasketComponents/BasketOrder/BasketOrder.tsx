@@ -43,9 +43,8 @@ const BasketOrder = () => {
   });
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-
-  const { totalQuantity, totalPrice } = useMemo(() => {
-    return cart.reduce(
+  const { totalQuantity, formattedTotalPrice } = useMemo(() => {
+    const result = cart.reduce(
       (acc, item) => {
         const quantity = item.quantity || 0;
         const price = item.price || 0;
@@ -55,6 +54,21 @@ const BasketOrder = () => {
       },
       { totalQuantity: 0, totalPrice: 0 }
     );
+
+    const formatNumber = (number: number) => {
+      if (number >= 1e9) {
+        return (number / 1e9).toFixed(2) + " млрд";
+      } else if (number >= 1e6) {
+        return (number / 1e6).toFixed(2) + " млн";
+      } else {
+        return number.toLocaleString("ru-RU");
+      }
+    };
+
+    return {
+      totalQuantity: formatNumber(result.totalQuantity),
+      formattedTotalPrice: formatNumber(result.totalPrice),
+    };
   }, [cart]);
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
@@ -257,7 +271,7 @@ const BasketOrder = () => {
             Товары, {totalQuantity} шт.
           </p>
           <p className={styles.wrap_price_good_finalPrice}>
-            {totalPrice.toLocaleString("ru-Ru")} c.
+            {formattedTotalPrice} c.
           </p>
         </div>
         {visible === "organization" && nds && (
@@ -269,7 +283,7 @@ const BasketOrder = () => {
         <div className={styles.wrap_price_priceTotal}>
           <p className={styles.wrap_price_priceTotal_totalTitle}>Итого: </p>
           <p className={styles.wrap_price_priceTotal_price}>
-            {totalPrice.toLocaleString("ru-Ru")} c.
+            {formattedTotalPrice} c.
           </p>
         </div>
       </div>
