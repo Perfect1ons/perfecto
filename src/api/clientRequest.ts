@@ -5,6 +5,7 @@ import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
@@ -309,8 +310,19 @@ export const getPersonalDataProfileClient = (
     .json();
 };
 
-export const postOrderReview = (rev: { id_zakaz: number; ocenka: number }) => {
-  return maxkg.post("otz/zakaz-otz", { json: rev });
+export const postOrderReview = (
+  id_zakaz: number,
+  ocenka: number,
+  token: string
+) => {
+  const params = new URLSearchParams();
+  return maxkg.post(`otz/zakaz-otz?id_zakaz=${id_zakaz}&ocenka=${ocenka}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
 
 export const postСancellationOrder = (token: string, id: number) => {
@@ -322,4 +334,20 @@ export const postСancellationOrder = (token: string, id: number) => {
     },
     body: params.toString(),
   });
+};
+
+export const getOrderHistoryOrderRating = async (
+  token: string | undefined,
+  id_zakaz: number
+): Promise<IRatingOrderHistoryCard> => {
+  const response = await maxkg.get(`otz/zakaz-ocenka?id_zakaz=${id_zakaz}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  return data as IRatingOrderHistoryCard;
 };

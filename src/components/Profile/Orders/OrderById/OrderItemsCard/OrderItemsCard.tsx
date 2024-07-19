@@ -4,6 +4,7 @@ import styles from "./style.module.scss";
 import { ITovaryByID } from "@/types/OrderById/orderbyid";
 import { url } from "@/components/temporary/data";
 import { useState } from "react";
+import { RemoveFromZakazIcon } from "../../../../../../public/Icons/Icons";
 
 interface IOrderItemsCardProps {
   tovar: ITovaryByID;
@@ -27,10 +28,10 @@ const OrderItemsCard = ({ tovar, index }: IOrderItemsCardProps) => {
       <p className={styles.over_good_number}>{index + 1}</p>
       <div className={styles.over_good_photo}>
         <Image
-          className={styles.over_goods_photo_img}
+          className={styles.over_good_photo_img}
           src={image}
-          width={100}
-          height={100}
+          width={88}
+          height={88}
           alt="good img"
         />
       </div>
@@ -45,7 +46,9 @@ const OrderItemsCard = ({ tovar, index }: IOrderItemsCardProps) => {
       <p className={styles.over_good_total}>
         {tovar.sum_skid ? totalDiscountPrice : totalPrice}
       </p>
-      <p className={styles.over_good_delete}></p>
+      <p className={styles.over_good_delete}>
+        <RemoveFromZakazIcon/>
+      </p>
     </div>
   );
 };

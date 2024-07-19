@@ -1,9 +1,8 @@
 "use client";
 import styles from "./style.module.scss";
-import Image from "next/image";
 import { IOrderById } from "@/types/OrderById/orderbyid";
 import { useState } from "react";
-import OrderItemsCard from "./OrderItemsCard/OrderItemsCard";
+import OrderItemsCard from "./OrderItemsCard";
 
 interface IDetailedHistoryOverProps {
   orders: IOrderById;
@@ -12,10 +11,10 @@ interface IDetailedHistoryOverProps {
 const OrderItems = ({ orders }: IDetailedHistoryOverProps) => {
   const [totalPrice, setTotalPrice] = useState(
     orders.itogo.total.replace(/\.00$/, "")
-  ); 
-    const [oplPrice, setOplPrice] = useState(
-      orders.itogo.opl.replace(/\.00$/, "")
-    ); 
+  );
+  const [oplPrice, setOplPrice] = useState(
+    orders.itogo.opl.replace(/\.00$/, "")
+  );
 
   return (
     <div className={styles.over}>
@@ -31,15 +30,10 @@ const OrderItems = ({ orders }: IDetailedHistoryOverProps) => {
         <p className={styles.over_tab_total}>Итого</p>
         <p className={styles.over_tab_delete}>Удалить</p>
       </div>
-      <div>
-        {orders.tovary.length > 0 && 
-          orders.tovary.map((tovar, index) => {
-            return(
-              <OrderItemsCard key={tovar.art} tovar={tovar} index={index}/>
-            )
-          })
-        }
-      </div>
+      {orders.tovary.length > 0 &&
+        orders.tovary.map((tovar, index) => {
+          return <OrderItemsCard key={tovar.art} tovar={tovar} index={index} />;
+        })}
 
       <div className={styles.over_total}>
         <p className={styles.over_total_priceDiscount}>

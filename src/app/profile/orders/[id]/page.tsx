@@ -1,7 +1,12 @@
 import { getCurrentOrder } from "@/api/requests";
 import OrderById from "@/components/Profile/Orders/OrderById/OrderById";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
+
+export const metadata: Metadata = {
+  title: "Оформление заказа",
+};
 
 
 export default async function page({ params: { id } }: any) {
