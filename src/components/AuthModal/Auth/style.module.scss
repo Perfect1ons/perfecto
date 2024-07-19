@@ -199,7 +199,6 @@
 
 @media screen and (max-width: 768px) {
   .modal {
-    max-width: 480px;
     left: 59%;
   }
 }
@@ -207,7 +206,6 @@
 @media screen and (max-width: 640px) {
   .modal {
     left: 70%;
-    max-width: 390px;
   }
   .modal__title {
     font-size: 22px;
@@ -219,9 +217,7 @@
 
 @media screen and (max-width: 480px) {
   .modal {
-    margin-left: -250px;
     left: 73%;
-    max-width: 320px;
   }
   .modal__title {
     font-size: 22px;
