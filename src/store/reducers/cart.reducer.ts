@@ -44,8 +44,12 @@ const cartSlice = createSlice({
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
       if (product) {
-        product.quantity = (product.quantity || 1) + 1;
-        localStorage.setItem("basket", JSON.stringify(state.cart));
+        const quantity = product.quantity || 0;
+        const balance = Number(product.balance) || 0;
+        if (quantity < balance) {
+          product.quantity = quantity + 1;
+          localStorage.setItem("basket", JSON.stringify(state.cart));
+        }
       }
     },
     deleteProductQuantity: (state, action: PayloadAction<number>) => {
@@ -76,8 +80,11 @@ const cartSlice = createSlice({
       const { id, quantity } = action.payload;
       const product = state.cart.find((p) => p.id === id);
       if (product) {
-        product.quantity = quantity;
-        localStorage.setItem("basket", JSON.stringify(state.cart));
+        const balance = Number(product.balance) || 0;
+        if (quantity <= balance) {
+          product.quantity = quantity;
+          localStorage.setItem("basket", JSON.stringify(state.cart));
+        }
       }
     },
     toggleProductSelection: (state, action: PayloadAction<number>) => {
