@@ -19,7 +19,7 @@ interface FormProps {
   mask: any;
   currentCodeCountry: Country;
   visible: string;
-  setView: (view: "login" |  "registration" | "confirm") => void;
+  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
   close: () => void;
   visibleHandler: (current: string) => void;
 }
@@ -137,7 +137,6 @@ const AuthRegistration = ({
         >
           Войти
         </button>
-
       </div>
     </>
   );

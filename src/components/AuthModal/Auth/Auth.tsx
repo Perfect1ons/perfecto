@@ -11,7 +11,7 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 
 interface FormProps {
-  setView: (view: "login" | "registration" | "confirm") => void;
+  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
   close: () => void;
 }
 
@@ -219,7 +219,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
         >
           Регистрация
         </button>
-
       </div>
     </div>
   );
