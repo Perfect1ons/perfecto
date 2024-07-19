@@ -14,7 +14,7 @@
   padding: 20px;
   max-width: 500px;
   width: 100%;
-  height: 700px;
+  height: 800px;
   border-radius: 10px;
   background: var(--white);
   top: 50%;
@@ -187,6 +187,43 @@
       &_info {
         margin-top: 15px;
         @include mixin.font(0.875rem, 400, null, var(--dark));
+      }
+    }
+
+    &_selectTime {
+      margin-top: 15px;
+      @include mixin.flex(center, flex-start, null, 15px);
+      width: 100%;
+
+      &_button {
+        cursor: pointer;
+        position: relative;
+        @include mixin.flex(center, center, null, null);
+        @include mixin.font(1rem, 400, null, var(--gray));
+        transition: 0.2s all;
+        &:hover {
+          color: var(--violet);
+        }
+
+        &_arrow {
+          position: absolute;
+          right: -25px;
+          top: 1px;
+          transition: 0.2s all;
+          &_active {
+            transition: 0.2s all;
+            transform: rotate(-90deg);
+            top: -4px;
+          }
+        }
+      }
+      &_dropdown {
+        @include mixin.flex(center, center, column, null);
+
+        &_toggler {
+          border-radius: 1px solid var(--gray);
+          padding: 10px 20px;
+        }
       }
     }
   }
