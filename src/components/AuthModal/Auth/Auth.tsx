@@ -2,12 +2,16 @@
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { ArrowDropdown, CheckIcon, WarningIcon } from "../../../../public/Icons/Icons";
+import {
+  ArrowDropdown,
+  CheckIcon,
+  WarningIcon,
+} from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 
 interface FormProps {
-  setView: (view: "login" | "registration" | "confirm") => void;
+  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
   close: () => void;
 }
 
@@ -205,7 +209,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
         >
           Войти
         </button>
-
       </form>
 
       <div className={styles.modal__rememberMe}>
@@ -224,13 +227,13 @@ const AuthForm = ({ setView, close }: FormProps) => {
         </button>
       </div>
 
-        <button
-          className={cn(styles.modal__more_button, "button")}
-          onClick={() => setView("registration")}
-          aria-label="go to registration"
-        >
-          Регистрация
-        </button>
+      <button
+        className={cn(styles.modal__more_button, "button")}
+        onClick={() => setView("registration")}
+        aria-label="go to registration"
+      >
+        Регистрация
+      </button>
     </div>
   );
 };

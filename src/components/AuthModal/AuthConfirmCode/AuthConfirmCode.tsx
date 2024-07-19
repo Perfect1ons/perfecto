@@ -9,7 +9,7 @@ import {
 } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
-  setView: (view: "login" |  "registration" | "confirm") => void;
+  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
   close: () => void;
   phoneNumber: string;
   currentCodeCountry: Country;
@@ -223,7 +223,7 @@ const AuthConfirmCode = ({
               disabled={isButtonDisabled}
               // type="submit"
             >
-              Подвердить
+              Подтвердить
             </button>
           )}
         </div>
