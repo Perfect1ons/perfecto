@@ -99,7 +99,7 @@ const Rating = ({
   return (
     <div className={styles.rating}>
       <div className={styles.rating__selected}>
-        {selectedRating && !ratingFromApi ? (
+        {!ratingFromApi && selectedRating ? (
           <div className={styles.rating__selected_info}>
             <Image
               src={selectedRating.img}
@@ -112,16 +112,16 @@ const Rating = ({
         ) : (
           <div className={styles.rating__selected_info}>
             <Image
-              src={rateApi?.img || `/${rateApi?.img}`}
+              src={rateApi?.img || ""}
               width={45}
               height={45}
-              alt={rateApi?.name || `/${rateApi?.name}`}
+              alt={rateApi?.name || ""}
             />
             <p>{rateApi?.name}</p>
           </div>
         )}
       </div>
-      {!submitted && !ratingFromApi && (
+      {!ratingFromApi && !submitted && (
         <div className={styles.choice__rating}>
           {ratings.map((r) => (
             <button
@@ -141,7 +141,7 @@ const Rating = ({
           ))}
         </div>
       )}
-      {!submitted && !ratingFromApi && (
+      {!ratingFromApi && !submitted && (
         <button onClick={handleOpenModal} className={styles.rating__button}>
           Оставить отзыв
         </button>

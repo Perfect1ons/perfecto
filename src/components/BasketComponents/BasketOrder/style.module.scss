@@ -1,5 +1,16 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
+.backdrop {
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--dark);
+  opacity: 0.5;
+}
+
 .wrap {
   user-select: none;
   @include mixin.flex(center, center, column, 15px);
