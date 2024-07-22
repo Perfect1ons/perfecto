@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { ITovaryByID } from "@/types/OrderById/orderbyid";
 import { url } from "@/components/temporary/data";
 import { useState } from "react";
-import { RemoveFromZakazIcon } from "../../../../../../public/Icons/Icons";
+import { TrashIcon } from "../../../../../../public/Icons/Icons";
 
 interface IOrderItemsCardProps {
   tovar: ITovaryByID;
@@ -49,7 +49,7 @@ const OrderItemsCard = ({ tovar, index }: IOrderItemsCardProps) => {
         {tovar.sum_skid ? totalDiscountPrice : totalPrice}
       </p>
       <p className={styles.over_good_delete}>
-        <RemoveFromZakazIcon />
+        <TrashIcon />
       </p>
     </div>
   );
