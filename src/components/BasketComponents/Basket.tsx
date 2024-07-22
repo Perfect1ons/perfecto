@@ -15,13 +15,15 @@ import {
 } from "@/store/reducers/cart.reducer";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ReactPaginate from "react-paginate";
-import { SposobOplaty } from "@/types/Basket/SposobOplaty";
+import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
-interface IBasketProps{
-  variants: SposobOplaty;
+interface IBasketProps {
+  paymentMethod: PaymentMethod;
+  deliveryMethod: DeliveryMethod;
 }
 
-const Basket = ({variants}: IBasketProps) => {
+const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
   const [selectAll, setSelectAll] = useState(false);
@@ -180,7 +182,10 @@ const Basket = ({variants}: IBasketProps) => {
           </div>
           <div className={styles.cardContainer}>
             <BasketProducts currentItems={currentItems} />
-            <BasketOrder variants={variants} />
+            <BasketOrder
+              paymentMethod={paymentMethod}
+              deliveryMethod={deliveryMethod}
+            />
           </div>
         </div>
       )}

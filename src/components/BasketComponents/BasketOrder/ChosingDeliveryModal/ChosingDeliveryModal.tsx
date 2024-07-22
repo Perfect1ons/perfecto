@@ -9,15 +9,18 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface IChosingDeliveryModalProps {
   visible: string;
   close: (value: string) => void;
+  variants: DeliveryMethod;
 }
 
 const ChosingDeliveryModal = ({
   visible,
   close,
+  variants,
 }: IChosingDeliveryModalProps) => {
   const [openPoint, setOpenPoint] = useState("");
 
@@ -52,10 +55,18 @@ const ChosingDeliveryModal = ({
         </button>
       </div>
       {deliveryType === "point" && (
-        <PointDeliveryType openPoint={openPoint} setOpenPoint={setOpenPoint} />
+        <PointDeliveryType
+          openPoint={openPoint}
+          setOpenPoint={setOpenPoint}
+          variants={variants}
+        />
       )}
       {deliveryType === "courier" && (
-        <CourierDeliveryType openPay={openPay} setOpenPay={setOpenPay} />
+        <CourierDeliveryType
+          openPay={openPay}
+          setOpenPay={setOpenPay}
+          variants={variants}
+        />
       )}
       <div className={styles.wrap_typeDelivery}>
         <button

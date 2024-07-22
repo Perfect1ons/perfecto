@@ -121,6 +121,11 @@
     margin-top: 15px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
+
+    &_selectAddress {
+      @include mixin.flex(center, center, null, null);
+    }
+
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
       margin-top: 5px;

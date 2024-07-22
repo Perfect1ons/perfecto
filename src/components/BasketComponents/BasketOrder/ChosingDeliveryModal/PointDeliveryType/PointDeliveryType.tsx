@@ -1,14 +1,17 @@
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import styles from "../style.module.scss";
 import cn from "clsx";
 
 interface IPointDeliveryTypeProps {
   openPoint: string;
   setOpenPoint: React.Dispatch<React.SetStateAction<string>>;
+  variants: DeliveryMethod;
 }
 
 const PointDeliveryType = ({
   openPoint,
   setOpenPoint,
+  variants,
 }: IPointDeliveryTypeProps) => {
   return (
     <div className={styles.wrap_delivery}>
@@ -34,7 +37,7 @@ const PointDeliveryType = ({
             )}
           ></span>
         </span>
-        ПВЗ г. Бишкек, Медерова 8\2
+        {variants[1].desc.slice(59, 111)}
       </button>
       <div
         className={cn(
@@ -42,17 +45,7 @@ const PointDeliveryType = ({
           openPoint === "mederova" && styles.wrap_delivery_desc_active
         )}
       >
-        <p className={styles.wrap_delivery_desc_schedule}>График работы:</p>
-        <p className={styles.wrap_delivery_desc_workdays}>
-          В будние дни: с 9:00 до 18:00, без перерыва
-        </p>
-        <p className={styles.wrap_delivery_desc_workdays}>
-          Воскресенье: с 9:00 до 18:00, обеденный перерыв: с 13:00 до 14:00
-        </p>
-        <p className={styles.wrap_delivery_desc_info}>
-          Предварительно свяжитесь с вашим менеджером для <br />
-          подвержения о готовности выдачи заказа.
-        </p>
+        <p className={styles.wrap_delivery_desc_workdays}>{variants[1].desc}</p>
       </div>
       <button
         onClick={() => setOpenPoint("matyeva")}
@@ -76,7 +69,7 @@ const PointDeliveryType = ({
             )}
           ></span>
         </span>
-        ПВЗ г. Бишкек, Матыева 148
+        {`г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}`}
       </button>
       <div
         className={cn(
@@ -84,17 +77,7 @@ const PointDeliveryType = ({
           openPoint === "matyeva" && styles.wrap_delivery_desc_active
         )}
       >
-        <p className={styles.wrap_delivery_desc_schedule}>График работы:</p>
-        <p className={styles.wrap_delivery_desc_workdays}>
-          В будние дни: с 9:00 до 18:00, без перерыва
-        </p>
-        <p className={styles.wrap_delivery_desc_workdays}>
-          Воскресенье: Выходной
-        </p>
-        <p className={styles.wrap_delivery_desc_info}>
-          Предварительно свяжитесь с вашим менеджером для <br />
-          подвержения о готовности выдачи заказа.
-        </p>
+        <p className={styles.wrap_delivery_desc_workdays}>{variants[1].desc}</p>
       </div>
     </div>
   );

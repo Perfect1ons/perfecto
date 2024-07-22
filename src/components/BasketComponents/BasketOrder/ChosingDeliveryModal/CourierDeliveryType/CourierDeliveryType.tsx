@@ -3,15 +3,18 @@ import { useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
 import { ArrowDropdown } from "../../../../../../public/Icons/Icons";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface ICourierDeliveryTypeProps {
   openPay: string;
   setOpenPay: React.Dispatch<React.SetStateAction<string>>;
+  variants: DeliveryMethod;
 }
 
 const CourierDeliveryType = ({
   openPay,
   setOpenPay,
+  variants,
 }: ICourierDeliveryTypeProps) => {
   const [openTime, setOpenTime] = useState(false);
 
@@ -21,6 +24,10 @@ const CourierDeliveryType = ({
 
   return (
     <div className={styles.wrap_courier}>
+      <div className={styles.wrap_selectAddress}>
+        <button className={styles.wrap_selectAddress_dropdown}>Бишкек</button>
+        <input type="text" className={styles.wrap_selectAddres_input} />
+      </div>
       <button
         onClick={() => setOpenPay("1")}
         aria-label="choose delivery point"
@@ -42,7 +49,7 @@ const CourierDeliveryType = ({
             )}
           ></span>
         </span>
-        По Кыргызстану - от 300 сом
+        {variants[8].name}
       </button>
       <div
         className={cn(
@@ -50,11 +57,7 @@ const CourierDeliveryType = ({
           openPay === "1" && styles.wrap_courier_desc_active
         )}
       >
-        <p className={styles.wrap_courier_desc_workdays}>
-          Стоимость доставки по Кыргызстану 300 сом - заказ весом до 5 кг,
-          размер до 40-40-40 см. Стоимость доставки заказов более 5 кг. сообщит
-          менеджер после оформления.
-        </p>
+        <p className={styles.wrap_courier_desc_workdays}>{variants[8].desc}</p>
       </div>
       <button
         onClick={() => setOpenPay("2")}
@@ -77,7 +80,7 @@ const CourierDeliveryType = ({
             )}
           ></span>
         </span>
-        Курьером по г. Бишкек от 200 сом
+        {variants[10].name}
       </button>
       <div
         className={cn(
@@ -85,11 +88,7 @@ const CourierDeliveryType = ({
           openPay === "2" && styles.wrap_courier_desc_active
         )}
       >
-        <p className={styles.wrap_courier_desc_workdays}>
-          Доставка в пределах красной черты 200 сом. За пределы черты взимается
-          доплата. Бесплатная доставка осуществляется в течении рабочего дня или
-          на следующий день.
-        </p>
+        <p className={styles.wrap_courier_desc_workdays}>{variants[10].desc}</p>
       </div>
       <button
         onClick={() => setOpenPay("3")}
@@ -112,7 +111,7 @@ const CourierDeliveryType = ({
             )}
           ></span>
         </span>
-        Согласовать с менеджером
+        {variants[12].name}
       </button>
       <div
         className={cn(
@@ -120,10 +119,7 @@ const CourierDeliveryType = ({
           openPay === "3" && styles.wrap_courier_desc_active
         )}
       >
-        <p className={styles.wrap_courier_desc_workdays}>
-          Менеджер свяжется с вами для согласования стоимости и условий
-          доставки.
-        </p>
+        <p className={styles.wrap_courier_desc_workdays}>{variants[12].desc}</p>
       </div>
       <button
         onClick={() => setOpenPay("4")}
@@ -146,7 +142,7 @@ const CourierDeliveryType = ({
             )}
           ></span>
         </span>
-        Габаритный груз от 600 сом
+        {variants[13].name}
       </button>
       <div
         className={cn(
@@ -154,11 +150,7 @@ const CourierDeliveryType = ({
           openPay === "4" && styles.wrap_courier_desc_active
         )}
       >
-        <p className={styles.wrap_courier_desc_workdays}>
-          Стоимость доставки габаритных товаров оговаривается отдельно с
-          менеджером, стоимость доставки от 600 с.{" "}
-          {"(Габаритным товаром считается размер более 50 см × 50 см × 50 см)"}
-        </p>
+        <p className={styles.wrap_courier_desc_workdays}>{variants[13].desc}</p>
       </div>
       <div className={styles.wrap_courier_selectTime}>
         <button

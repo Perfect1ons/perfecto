@@ -31,8 +31,9 @@ import { Notifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
-import { SposobOplaty } from "@/types/Basket/SposobOplaty";
 import { IOrderById } from "@/types/OrderById/orderbyid";
+import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -295,9 +296,9 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
     .json();
 };
 
-export const getSposobOplaty = (
+export const getPaymentMethod = (
   idUser: string | undefined
-): Promise<SposobOplaty> => {
+): Promise<PaymentMethod> => {
   return maxkg.get(`naltovarok/vopl?idUser=${idUser}`).json();
 };
 
@@ -313,4 +314,10 @@ export const getCurrentOrder = (
       },
     })
     .json();
+};
+
+export const getDeliveryMethod = (
+  idUser: string | undefined
+): Promise<DeliveryMethod> => {
+  return maxkg.get(`naltovarok/viddost?idUser=${idUser}`).json();
 };
