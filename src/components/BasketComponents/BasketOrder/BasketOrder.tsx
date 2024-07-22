@@ -18,7 +18,7 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 export interface Buyer {
-  phone: number;
+  phone: string;
   surname: string;
   name: string;
   payment: string;
@@ -54,14 +54,17 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
-    phone: codesCountry.kg.code,
+    phone: `${codesCountry.kg.code}`,
     surname: "",
     name: "",
     payment: variableBuyer.payment,
     delivery: variableBuyer.delivery,
   });
 
-  const [warning, setWarning] = useState("");
+  const [paymentWarning, setPaymentWarning] = useState("");
+  const [deliveryWarning, setDeliveryWarning] = useState("");
+  const [surnameWarning, setSurnameWarning] = useState("");
+  const [nameWarning, setNameWarning] = useState("");
 
   const cart = useSelector((state: RootState) => state.cart.cart);
   const { totalQuantity, formattedTotalPrice } = useMemo(() => {
@@ -118,8 +121,8 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setVariableBuyer((prevVariableBuyer) => ({
-      ...prevVariableBuyer,
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
       [name]: value,
     }));
   }, []);
@@ -145,8 +148,8 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
         payment: variableBuyer.payment,
       }));
       activeModalToggle("");
-      setWarning("");
-    } else setWarning("Пожалуйста выберите способ оплаты");
+      setPaymentWarning("");
+    } else setPaymentWarning("Пожалуйста выберите способ оплаты");
   };
 
   const saveDelivery = () => {
@@ -156,9 +159,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
         delivery: variableBuyer.delivery,
       }));
       activeModalToggle("");
-      setWarning("");
+      setDeliveryWarning("");
     } else {
-      setWarning("Пожалуйста выберите способ доставки");
+      setDeliveryWarning("Пожалуйста выберите способ доставки");
     }
   };
 
@@ -167,7 +170,7 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
     setCurrentCodeCountry(selectedCountry);
     setBuyer((prevBuyer) => ({
       ...prevBuyer,
-      phone: selectedCountry.code,
+      phone: `${selectedCountry.code}`,
     }));
     setMask(getMaskForCountry(selectedCountry.code));
     setVisible("");
@@ -182,9 +185,14 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
       buyer.payment
     ) {
       console.log("success");
-      setWarning("");
     } else {
-      null;
+      if (buyer.delivery.length <= 0)
+        setDeliveryWarning("Пожалуйста выберите способ доставки");
+      if (buyer.payment.length <= 0)
+        setPaymentWarning("Пожалуйста выберите способ оплаты ");
+      if (buyer.surname.length <= 0)
+        setSurnameWarning("Пожалуйста укажите вашу фамилию");
+      if (buyer.name.length <= 0) setNameWarning("Пожалуйста укажите вашу имя");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -228,7 +236,7 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             variants={deliveryMethod}
             selectDelivery={selectDelivery}
             saveDelivery={saveDelivery}
-            warning={warning}
+            warning={deliveryWarning}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -245,7 +253,7 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             variants={paymentMethod}
             selectPayment={selectPayment}
             savePayment={savePayment}
-            warning={warning}
+            warning={paymentWarning}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -276,6 +284,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             {buyer.delivery ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
+        {deliveryWarning.length > 0 && (
+          <p className={styles.wrap_warning}>{deliveryWarning}</p>
+        )}
         <button
           onClick={() => activeModalToggle("payment")}
           className={cn(
@@ -303,6 +314,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             {buyer.payment ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
+        {paymentWarning.length > 0 && (
+          <p className={styles.wrap_warning}>{paymentWarning}</p>
+        )}
         <div className={styles.wrap_phone}>
           <div className={styles.wrap_phone_control}>
             <button
@@ -355,6 +369,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             onChange={handleBuyerChange}
             className={styles.wrap_surname_input}
           />
+          {surnameWarning.length > 0 && (
+            <p className={styles.wrap_warning}>{surnameWarning}</p>
+          )}
         </div>
         <div className={styles.wrap_surname}>
           <input
@@ -365,6 +382,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             onChange={handleBuyerChange}
             className={styles.wrap_surname_input}
           />
+          {nameWarning.length > 0 && (
+            <p className={styles.wrap_warning}>{nameWarning}</p>
+          )}
         </div>
         <div className={styles.wrap_organization}>
           <button
