@@ -3,12 +3,12 @@ import { useState } from "react";
 import { Cross } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { SposobOplaty } from "@/types/Basket/SposobOplaty";
+import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 
 interface IChosingPayModalProps {
   visible: string;
   close: (value: string) => void;
-  variants: SposobOplaty;
+  variants: PaymentMethod;
 }
 
 const ChosingPaymentModal = ({

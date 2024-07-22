@@ -1,4 +1,8 @@
-import { getMetaKorzinaPage, getSposobOplaty } from "@/api/requests";
+import {
+  getDeliveryMethod,
+  getMetaKorzinaPage,
+  getPaymentMethod,
+} from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
@@ -7,9 +11,12 @@ export default async function Page() {
   const cookieStore = cookies();
   const userId = cookieStore.get("userId")?.value;
 
-  const sposobOplaty = await getSposobOplaty(userId);
+  const paymentMethod = await getPaymentMethod(userId);
+  const deliveryMehod = await getDeliveryMethod(userId);
 
-  return <Basket variants={sposobOplaty} />;
+  return (
+    <Basket paymentMethod={paymentMethod} deliveryMethod={deliveryMehod} />
+  );
 }
 
 export async function generateMetadata() {

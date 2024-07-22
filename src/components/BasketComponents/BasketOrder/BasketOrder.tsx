@@ -13,7 +13,8 @@ import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
-import { SposobOplaty } from "@/types/Basket/SposobOplaty";
+import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface Buyer {
   phone: string;
@@ -35,11 +36,12 @@ const codesCountry: Record<string, Country> = {
 
 type CountryKey = keyof typeof codesCountry;
 
-interface IBasketOrderProps{
-  variants: SposobOplaty;
+interface IBasketOrderProps {
+  paymentMethod: PaymentMethod;
+  deliveryMethod: DeliveryMethod;
 }
 
-const BasketOrder = ({variants}: IBasketOrderProps) => {
+const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
 
   const [nds, setNds] = useState<boolean>(false);
@@ -160,6 +162,7 @@ const BasketOrder = ({variants}: IBasketOrderProps) => {
           <ChosingDeliveryModal
             visible={activeModal}
             close={activeModalToggle}
+            variants={deliveryMethod}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -172,7 +175,7 @@ const BasketOrder = ({variants}: IBasketOrderProps) => {
           <ChosingPaymentModal
             visible={activeModal}
             close={activeModalToggle}
-            variants={variants}
+            variants={paymentMethod}
           />
           <div
             onClick={() => activeModalToggle("")}

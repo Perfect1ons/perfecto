@@ -121,6 +121,40 @@
     margin-top: 15px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
+
+    &_selectAddress {
+      @include mixin.flex(center, flex-start, null, 0px);
+      margin-bottom: 15px;
+      width: 100%;
+      border: 2px solid var(--secondary);
+      border-radius: 5px;
+
+      &_dropdown {
+        border-radius: 3px 0px 0px 3px;
+        background: var(--dark-blue);
+        @include mixin.font(1rem, 400, null, var(--white));
+        padding: 8px 10px;
+        padding-right: 20px;
+        cursor: pointer;
+        transition: 0.2s all;
+        position: relative;
+        @include mixin.flex(center, center, null, null);
+
+        &_arrow {
+          position: absolute;
+          top: 10px;
+          right: 0;
+          color: var(--white);
+        }
+      }
+      &_input {
+        border-radius: 5px;
+        padding: 8px 5px;
+        width: 100%;
+        @include mixin.font(1rem 400, null, var(--dark));
+      }
+    }
+
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
       margin-top: 5px;
@@ -213,7 +247,7 @@
           &_active {
             transition: 0.2s all;
             transform: rotate(-90deg);
-            top: -4px;
+            top: -3px;
           }
         }
       }
