@@ -5,7 +5,9 @@ import dynamic from "next/dynamic";
 import NotFound from "../not-found";
 
 const SeekNotFound = dynamic(
-  () => import("@/components/NotFound/SeekNotFound")
+  () => import("@/components/NotFound/SeekNotFound"), {
+    ssr: false,
+  }
 );
 
 interface NewsProps {

@@ -31,7 +31,6 @@ export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
     }
   };
 
-  // задается state для открытия и закрытия
   const [isMobileModalOpen, setMobileModalOpen] = useState(false);
 
   return (
