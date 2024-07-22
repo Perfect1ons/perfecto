@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { Cross } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -9,15 +8,21 @@ interface IChosingPayModalProps {
   visible: string;
   close: (value: string) => void;
   variants: PaymentMethod;
+  selectPayment: (value: string) => void;
+  savePayment: () => void;
+  variableBuyer: { payment: string; delivery: string };
+  warning: string;
 }
 
 const ChosingPaymentModal = ({
   visible,
   close,
   variants,
+  selectPayment,
+  savePayment,
+  variableBuyer,
+  warning,
 }: IChosingPayModalProps) => {
-  const [openPoint, setOpenPoint] = useState("");
-
   return (
     <div className={cn(styles.wrap, visible === "payment" && styles.show)}>
       <div className={styles.wrap_header}>
@@ -30,25 +35,29 @@ const ChosingPaymentModal = ({
           <Cross />
         </button>
       </div>
+      {warning.length >= 0 && <p className={styles.wrap_warning}>{warning}</p>}
       <div className={styles.wrap_payment}>
         <button
-          onClick={() => setOpenPoint("1")}
-          aria-label="choose delivery point"
+          onClick={() => selectPayment(variants[1].name)}
+          aria-label="choose payment method"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "1" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "1" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "1" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -57,7 +66,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "1" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -66,23 +76,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("2")}
+          onClick={() => selectPayment(variants[2].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "2" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[2].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "2" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[2].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "2" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[2].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -91,7 +104,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "2" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[2].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -100,23 +114,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("3")}
+          onClick={() => selectPayment(variants[4].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "3" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[4].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "3" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[4].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "3" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[4].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -125,7 +142,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "3" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[4].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -134,23 +152,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("4")}
+          onClick={() => selectPayment(variants[1111].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "4" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1111].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "4" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1111].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "4" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1111].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -159,7 +180,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "4" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1111].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -168,23 +190,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("5")}
+          onClick={() => selectPayment(variants[1113].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "5" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1113].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "5" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1113].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "5" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1113].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -193,7 +218,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "5" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1113].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -202,23 +228,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("6")}
+          onClick={() => selectPayment(variants[1114].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "6" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1114].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "6" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1114].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "6" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1114].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -227,7 +256,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "6" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1114].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -236,23 +266,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("7")}
+          onClick={() => selectPayment(variants[1116].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "7" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1116].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "7" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1116].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "7" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1116].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -261,7 +294,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "7" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1116].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -270,23 +304,26 @@ const ChosingPaymentModal = ({
         </div>
 
         <button
-          onClick={() => setOpenPoint("8")}
+          onClick={() => selectPayment(variants[1121].name)}
           aria-label="choose delivery point"
           className={cn(
             styles.wrap_payment_point,
-            openPoint === "8" && styles.wrap_payment_point_active
+            variableBuyer.payment === variants[1121].name &&
+              styles.wrap_payment_point_active
           )}
         >
           <span
             className={cn(
               styles.wrap_payment_point_radio,
-              openPoint === "8" && styles.wrap_payment_point_radio_active
+              variableBuyer.payment === variants[1121].name &&
+                styles.wrap_payment_point_radio_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_payment_point_radio_dot,
-                openPoint === "8" && styles.wrap_payment_point_radio_dot_active
+                variableBuyer.payment === variants[1121].name &&
+                  styles.wrap_payment_point_radio_dot_active
               )}
             ></span>
           </span>
@@ -295,7 +332,8 @@ const ChosingPaymentModal = ({
         <div
           className={cn(
             styles.wrap_payment_desc,
-            openPoint === "8" && styles.wrap_payment_desc_active
+            variableBuyer.payment === variants[1121].name &&
+              styles.wrap_payment_desc_active
           )}
         >
           <p className={styles.wrap_payment_desc_workdays}>
@@ -303,7 +341,13 @@ const ChosingPaymentModal = ({
           </p>
         </div>
       </div>
-      <button aria-label="save" className={styles.wrap_save}>
+      <button
+        onClick={() => {
+          savePayment();
+        }}
+        aria-label="save"
+        className={styles.wrap_save}
+      >
         Сохранить
       </button>
     </div>

@@ -12,32 +12,33 @@ import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface IChosingDeliveryModalProps {
+  variableBuyer: { payment: string; delivery: string };
   visible: string;
   close: (value: string) => void;
   variants: DeliveryMethod;
+  selectDelivery: (value: string) => void;
+  saveDelivery: () => void;
+  warning: string;
 }
 
 const ChosingDeliveryModal = ({
   visible,
   close,
   variants,
+  selectDelivery,
+  saveDelivery,
+  variableBuyer,
+  warning,
 }: IChosingDeliveryModalProps) => {
-  const [openPoint, setOpenPoint] = useState("");
-
-  const [openPay, setOpenPay] = useState("");
-
   const [deliveryType, setDeliveryType] = useState("point");
 
   const deliveryTypeChanger = (value: string) => {
     switch (value) {
       case "point":
         setDeliveryType("point");
-        setOpenPay("");
         break;
-
       default:
         setDeliveryType("courier");
-        setOpenPoint("");
         break;
     }
   };
@@ -54,18 +55,19 @@ const ChosingDeliveryModal = ({
           <Cross />
         </button>
       </div>
+      {warning.length > 0 && <p className={styles.wrap_warning}>{warning}</p>}
       {deliveryType === "point" && (
         <PointDeliveryType
-          openPoint={openPoint}
-          setOpenPoint={setOpenPoint}
+          variableBuyer={variableBuyer}
           variants={variants}
+          selectDelivery={selectDelivery}
         />
       )}
       {deliveryType === "courier" && (
         <CourierDeliveryType
-          openPay={openPay}
-          setOpenPay={setOpenPay}
+          variableBuyer={variableBuyer}
           variants={variants}
+          selectDelivery={selectDelivery}
         />
       )}
       <div className={styles.wrap_typeDelivery}>
@@ -94,6 +96,15 @@ const ChosingDeliveryModal = ({
           Курьер
         </button>
       </div>
+      <button
+        onClick={() => {
+          saveDelivery();
+        }}
+        aria-label="save"
+        className={styles.wrap_save}
+      >
+        Сохранить
+      </button>
     </div>
   );
 };

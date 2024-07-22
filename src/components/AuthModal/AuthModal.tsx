@@ -10,7 +10,6 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import { XMark } from "../../../public/Icons/Icons";
 import AuthForm from "./Auth/Auth";
-import AuthRegistration from "./AuthRegistration/AuthRegistration";
 import AuthBackdrop from "./AuthBackdrop/AuthBackdrop";
 import AuthConfirmCode from "./AuthConfirmCode/AuthConfirmCode";
 import Image from "next/image";
@@ -106,23 +105,6 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
         return {
           title: "Войти или создать профиль",
           content: <AuthForm setView={setView} close={close} />,
-        };
-      case "registration":
-        return {
-          title: "Регистрация",
-          content: (
-            <AuthRegistration
-              visibleHandler={visibleHandler}
-              countryOptions={countryOptions}
-              currentCodeCountry={currentCodeCountry}
-              visible={visible}
-              handleBuyerChange={handleBuyerChange}
-              mask={mask}
-              phoneNumber={phoneNumber}
-              setView={setView}
-              close={close}
-            />
-          ),
         };
       case "confirm":
         return {

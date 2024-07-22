@@ -6,15 +6,15 @@ import { ArrowDropdown } from "../../../../../../public/Icons/Icons";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface ICourierDeliveryTypeProps {
-  openPay: string;
-  setOpenPay: React.Dispatch<React.SetStateAction<string>>;
+  variableBuyer: { payment: string; delivery: string };
   variants: DeliveryMethod;
+  selectDelivery: (value: string) => void;
 }
 
 const CourierDeliveryType = ({
-  openPay,
-  setOpenPay,
   variants,
+  selectDelivery,
+  variableBuyer,
 }: ICourierDeliveryTypeProps) => {
   const [openTime, setOpenTime] = useState(false);
 
@@ -42,23 +42,26 @@ const CourierDeliveryType = ({
         />
       </div>
       <button
-        onClick={() => setOpenPay("1")}
+        onClick={() => selectDelivery(variants[8].name)}
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_courier_point,
-          openPay === "1" && styles.wrap_courier_point_active
+          variableBuyer.delivery === variants[8].name &&
+            styles.wrap_courier_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_courier_point_radio,
-            openPay === "1" && styles.wrap_courier_point_radio_active
+            variableBuyer.delivery === variants[8].name &&
+              styles.wrap_courier_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_courier_point_radio_dot,
-              openPay === "1" && styles.wrap_courier_point_radio_dot_active
+              variableBuyer.delivery === variants[8].name &&
+                styles.wrap_courier_point_radio_dot_active
             )}
           ></span>
         </span>
@@ -67,29 +70,34 @@ const CourierDeliveryType = ({
       <div
         className={cn(
           styles.wrap_courier_desc,
-          openPay === "1" && styles.wrap_courier_desc_active
+          variableBuyer.delivery === variants[8].name &&
+            styles.wrap_courier_desc_active
         )}
       >
         <p className={styles.wrap_courier_desc_workdays}>{variants[8].desc}</p>
       </div>
+
       <button
-        onClick={() => setOpenPay("2")}
+        onClick={() => selectDelivery(variants[10].name)}
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_courier_point,
-          openPay === "2" && styles.wrap_courier_point_active
+          variableBuyer.delivery === variants[10].name &&
+            styles.wrap_courier_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_courier_point_radio,
-            openPay === "2" && styles.wrap_courier_point_radio_active
+            variableBuyer.delivery === variants[10].name &&
+              styles.wrap_courier_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_courier_point_radio_dot,
-              openPay === "2" && styles.wrap_courier_point_radio_dot_active
+              variableBuyer.delivery === variants[10].name &&
+                styles.wrap_courier_point_radio_dot_active
             )}
           ></span>
         </span>
@@ -98,29 +106,34 @@ const CourierDeliveryType = ({
       <div
         className={cn(
           styles.wrap_courier_desc,
-          openPay === "2" && styles.wrap_courier_desc_active
+          variableBuyer.delivery === variants[10].name &&
+            styles.wrap_courier_desc_active
         )}
       >
         <p className={styles.wrap_courier_desc_workdays}>{variants[10].desc}</p>
       </div>
+
       <button
-        onClick={() => setOpenPay("3")}
+        onClick={() => selectDelivery(variants[12].name)}
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_courier_point,
-          openPay === "3" && styles.wrap_courier_point_active
+          variableBuyer.delivery === variants[12].name &&
+            styles.wrap_courier_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_courier_point_radio,
-            openPay === "3" && styles.wrap_courier_point_radio_active
+            variableBuyer.delivery === variants[12].name &&
+              styles.wrap_courier_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_courier_point_radio_dot,
-              openPay === "3" && styles.wrap_courier_point_radio_dot_active
+              variableBuyer.delivery === variants[12].name &&
+                styles.wrap_courier_point_radio_dot_active
             )}
           ></span>
         </span>
@@ -129,29 +142,34 @@ const CourierDeliveryType = ({
       <div
         className={cn(
           styles.wrap_courier_desc,
-          openPay === "3" && styles.wrap_courier_desc_active
+          variableBuyer.delivery === variants[12].name &&
+            styles.wrap_courier_desc_active
         )}
       >
         <p className={styles.wrap_courier_desc_workdays}>{variants[12].desc}</p>
       </div>
+
       <button
-        onClick={() => setOpenPay("4")}
+        onClick={() => selectDelivery(variants[13].name)}
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_courier_point,
-          openPay === "4" && styles.wrap_courier_point_active
+          variableBuyer.delivery === variants[13].name &&
+            styles.wrap_courier_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_courier_point_radio,
-            openPay === "4" && styles.wrap_courier_point_radio_active
+            variableBuyer.delivery === variants[13].name &&
+              styles.wrap_courier_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_courier_point_radio_dot,
-              openPay === "4" && styles.wrap_courier_point_radio_dot_active
+              variableBuyer.delivery === variants[13].name &&
+                styles.wrap_courier_point_radio_dot_active
             )}
           ></span>
         </span>
@@ -160,11 +178,13 @@ const CourierDeliveryType = ({
       <div
         className={cn(
           styles.wrap_courier_desc,
-          openPay === "4" && styles.wrap_courier_desc_active
+          variableBuyer.delivery === variants[13].name &&
+            styles.wrap_courier_desc_active
         )}
       >
         <p className={styles.wrap_courier_desc_workdays}>{variants[13].desc}</p>
       </div>
+
       <div className={styles.wrap_courier_selectTime}>
         <button
           onClick={openTimeHandler}
