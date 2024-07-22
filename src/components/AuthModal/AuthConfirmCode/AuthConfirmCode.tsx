@@ -119,8 +119,8 @@ const AuthConfirmCode = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) e.preventDefault();
 
     if (code.some((field) => field === "")) {
       setWarning("Пожалуйста, заполните все поля кода.");
@@ -180,6 +180,11 @@ const AuthConfirmCode = ({
 
     setInvalidCodeMessage("Неправильный код. Попробуйте снова.");
   };
+  useEffect(() => {
+    if (code.every((field) => field !== "")) {
+      handleSubmit();
+    }
+  }, [code]);
   if (invalidCodeMessage) {
     setTimeout(() => {
       setInvalidCodeMessage("");

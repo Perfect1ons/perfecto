@@ -8,7 +8,7 @@
   border-radius: 5px;
   border: 2px solid var(--gray);
   padding: 10px 20px;
-  max-width: 56px;
+  max-width: 60px;
   @include mixin.font(24px, 700, null, var(--dark));
 
   &:focus {
