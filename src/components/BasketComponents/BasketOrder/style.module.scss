@@ -25,7 +25,7 @@
     align-self: center;
   }
   &_warning {
-    @include mixin.font(1rem, 400, null, var(--red));
+    @include mixin.font(1rem, 400, null, var(--violet));
     width: 100%;
   }
   &_delivery {
