@@ -24,9 +24,22 @@ const CourierDeliveryType = ({
 
   return (
     <div className={styles.wrap_courier}>
-      <div className={styles.wrap_selectAddress}>
-        <button className={styles.wrap_selectAddress_dropdown}>Бишкек</button>
-        <input type="text" className={styles.wrap_selectAddres_input} />
+      <div className={styles.wrap_courier_selectAddress}>
+        <button
+          title="Выберите ваш город или область"
+          aria-label="choose city"
+          className={styles.wrap_courier_selectAddress_dropdown}
+        >
+          Бишкек
+          <span className={styles.wrap_courier_selectAddress_dropdown_arrow}>
+            <ArrowDropdown />
+          </span>
+        </button>
+        <input
+          placeholder="Введите: улица, дом, квартира"
+          type="text"
+          className={styles.wrap_courier_selectAddress_input}
+        />
       </div>
       <button
         onClick={() => setOpenPay("1")}
