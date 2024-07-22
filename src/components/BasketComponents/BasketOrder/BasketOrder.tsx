@@ -463,6 +463,10 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
         >
           оформить заказ
         </button>
+        <p className={styles.wrap_privacy}>
+          Согласен с использованием Правил пользования торговой площадкой и
+          правилами возврата
+        </p>
       </section>
     </>
   );
