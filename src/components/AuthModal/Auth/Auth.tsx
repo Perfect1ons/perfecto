@@ -1,5 +1,11 @@
 "use client";
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import {
@@ -114,7 +120,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
       </button>
     ));
   }, [codeCountryHandler]);
-
   return (
     <div className={styles.modal}>
       <p className={styles.modal__text}>
@@ -125,7 +130,25 @@ const AuthForm = ({ setView, close }: FormProps) => {
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
-            <InputMask
+            <div className={styles.inputContainer}>
+              <InputMask
+                mask={mask}
+                value={phoneNumber}
+                onChange={handleBuyerChange}
+              >
+                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                  <input
+                    autoComplete="off"
+                    {...inputProps}
+                    name="phone"
+                    type="text"
+                    className={styles.inputField}
+                  />
+                )}
+              </InputMask>
+              <label className={styles.inputLabel}>Телефон</label>
+            </div>
+            {/* <InputMask
               mask={mask}
               value={phoneNumber}
               onChange={handleBuyerChange}
@@ -140,7 +163,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
                   placeholder="Телефон"
                 />
               )}
-            </InputMask>
+            </InputMask> */}
             <button
               onClick={(e) => {
                 e.preventDefault();
