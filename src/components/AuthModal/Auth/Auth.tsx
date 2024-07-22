@@ -1,18 +1,8 @@
 "use client";
-import React, {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import {
-  ArrowDropdown,
-  CheckIcon,
-  WarningIcon,
-} from "../../../../public/Icons/Icons";
+import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 
@@ -36,10 +26,8 @@ const codesCountry: Record<string, Country> = {
 type CountryKey = keyof typeof codesCountry;
 
 const AuthForm = ({ setView, close }: FormProps) => {
-  const [isRemember, setIsRemember] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [warning, setWarning] = useState("");
-
   const [visible, setVisible] = useState("");
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
@@ -68,10 +56,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     setPhoneNumber(value);
   }, []);
 
-  const AnonimHandler = () => {
-    setIsRemember(!isRemember);
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -79,14 +63,27 @@ const AuthForm = ({ setView, close }: FormProps) => {
     const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
 
     // Check for empty field or incomplete phone number
-    if (!numericPhoneNumber) {
-      setWarning("Это поле не может быть пустым.");
-      return;
-    } else if (numericPhoneNumber.length < 11) {
-      setWarning("Номер введен не полностью.");
-      return;
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
     }
 
+    if (numericPhoneNumber.length !== expectedLength) {
+      setWarning("Номер введен не полностью.");
+      return;
+    } else if (!numericPhoneNumber) {
+      setWarning("Это поле не может быть пустым.");
+      return;
+    }
+    setView("captcha");
     setWarning("");
   };
 
@@ -140,8 +137,9 @@ const AuthForm = ({ setView, close }: FormProps) => {
                   autoComplete="off"
                   {...inputProps}
                   name="phone"
-                  placeholder="Телефон"
+                  placeholder="Телефон ( Обязательно )"
                   type="text"
+                  required
                 />
               )}
             </InputMask>
@@ -186,10 +184,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
         </div>
         {warning && <span className={styles.warning}>{warning}</span>}
         <div className={styles.mail__label}>
-          <input
-            className={styles.mail__inputField}
-            type="text"
-          />
+          <input className={styles.mail__inputField} type="text" />
           <label className={styles.mail__inputLabel}>Почта</label>
         </div>
 
@@ -203,22 +198,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
           Получить код
         </button>
       </form>
-
-      <div className={styles.modal__rememberMe}>
-        <button
-          className={styles.modal__rememberMe_btn}
-          onClick={AnonimHandler}
-        >
-          <span
-            className={cn(styles.modal__rememberMe_check, {
-              [styles.modal__rememberMe_checkActive]: isRemember,
-            })}
-          >
-            {isRemember && <CheckIcon />}
-          </span>
-          <span className={styles.modal__rememberMe_text}>Запомнить</span>
-        </button>
-      </div>
 
       <button
         className={cn(styles.modal__more_button, "button")}

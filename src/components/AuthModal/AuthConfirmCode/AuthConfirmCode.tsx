@@ -3,13 +3,15 @@ import styles from "./style.module.scss";
 import React, { useEffect, useRef, useState } from "react";
 import cn from "clsx";
 import {
+  checkUser,
   getPersonalDataProfileClient,
   postConfirmCode,
   postLoginCode,
 } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
+import { useRouter } from "next/navigation";
 interface FormProps {
-  setView: (view:  "registration" | "confirm" | "captcha") => void;
+  setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
   phoneNumber: string;
   currentCodeCountry: Country;
@@ -17,7 +19,6 @@ interface FormProps {
 
 const AuthConfirmCode = ({
   close,
-  setView,
   phoneNumber,
   currentCodeCountry,
 }: FormProps) => {
@@ -29,7 +30,9 @@ const AuthConfirmCode = ({
   const [invalidCodeMessage, setInvalidCodeMessage] = useState("");
   const [timer, setTimer] = useState(0); // Добавляем состояние для таймера
   const [canResend, setCanResend] = useState(false); // Флаг для кнопки повторной отправки
+  const [status, setStatus] = useState<number | null>(null);
   const lastFocusedIndex = useRef<number | null>(null);
+  const router = useRouter()
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
     null,
     null,
@@ -124,6 +127,18 @@ const AuthConfirmCode = ({
     }
   };
 
+  const checkStatus = async (tel: number) => {
+    try {
+      const fetchStatus = await checkUser(tel);
+      if (fetchStatus) {
+        setStatus(fetchStatus);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
+
   const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
     if (e) e.preventDefault();
 
@@ -138,6 +153,16 @@ const AuthConfirmCode = ({
           cleanedPhoneNumber,
           confirmationCode
         );
+        try {
+          checkStatus(parseInt(cleanedPhoneNumber));
+          if (status == 0) {
+            setStatus(0);
+          } else {
+            setStatus(1);
+          }
+        } catch (error) {
+          console.log(error);
+        }
         if (
           response.ok &&
           response.headers.get("Content-Type")?.includes("application/json")
@@ -149,7 +174,7 @@ const AuthConfirmCode = ({
 
           if (data.access_token && userInfo.id) {
             const accessToken = data.access_token;
-            const userId = userInfo.id; // Get userId from response
+            const userId = userInfo.id;
             await fetch("/api/auth", {
               method: "POST",
               headers: {
@@ -159,7 +184,11 @@ const AuthConfirmCode = ({
             });
             setLoading(false);
             close();
-            window.location.reload();
+            if (status == 0) {
+              router.push("/profile/lk");
+            } else{
+              window.location.reload();
+            }
           } else {
             setLoading(false);
             handleInvalidCodeAttempt();
@@ -195,7 +224,7 @@ const AuthConfirmCode = ({
       setLoading(true);
       handleSubmit();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
   useEffect(() => {
     if (!loading && lastFocusedIndex.current !== null) {
