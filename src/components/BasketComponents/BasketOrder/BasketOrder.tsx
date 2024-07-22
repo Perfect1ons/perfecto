@@ -192,7 +192,7 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
         setPaymentWarning("Пожалуйста выберите способ оплаты ");
       if (buyer.surname.length <= 0)
         setSurnameWarning("Пожалуйста укажите вашу фамилию");
-      if (buyer.name.length <= 0) setNameWarning("Пожалуйста укажите вашу имя");
+      if (buyer.name.length <= 0) setNameWarning("Пожалуйста укажите ваше имя");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
