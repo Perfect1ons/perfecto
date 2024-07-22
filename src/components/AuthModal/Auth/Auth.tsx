@@ -147,14 +147,6 @@ const AuthForm = ({
           Получить код
         </button>
       </form>
-
-      <button
-        className={cn(styles.modal__more_button, "button")}
-        onClick={() => setView("registration")}
-        aria-label="go to registration"
-      >
-        Регистрация
-      </button>
     </div>
   );
 };
