@@ -3,36 +3,39 @@ import styles from "../style.module.scss";
 import cn from "clsx";
 
 interface IPointDeliveryTypeProps {
-  openPoint: string;
-  setOpenPoint: React.Dispatch<React.SetStateAction<string>>;
+  variableBuyer: { payment: string; delivery: string };
+
   variants: DeliveryMethod;
+  selectDelivery: (value: string) => void;
 }
 
 const PointDeliveryType = ({
-  openPoint,
-  setOpenPoint,
   variants,
+  selectDelivery,
+  variableBuyer,
 }: IPointDeliveryTypeProps) => {
   return (
     <div className={styles.wrap_delivery}>
       <button
-        onClick={() => setOpenPoint("mederova")}
+        onClick={() => selectDelivery(variants[1].desc.slice(59, 87))}
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_delivery_point,
-          openPoint === "mederova" && styles.wrap_delivery_point_active
+          variableBuyer.delivery === variants[1].desc.slice(59, 87) &&
+            styles.wrap_delivery_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_delivery_point_radio,
-            openPoint === "mederova" && styles.wrap_delivery_point_radio_active
+            variableBuyer.delivery === variants[1].desc.slice(59, 87) &&
+              styles.wrap_delivery_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_delivery_point_radio_dot,
-              openPoint === "mederova" &&
+              variableBuyer.delivery === variants[1].desc.slice(59, 87) &&
                 styles.wrap_delivery_point_radio_dot_active
             )}
           ></span>
@@ -42,29 +45,37 @@ const PointDeliveryType = ({
       <div
         className={cn(
           styles.wrap_delivery_desc,
-          openPoint === "mederova" && styles.wrap_delivery_desc_active
+          variableBuyer.delivery === variants[1].desc.slice(59, 87) &&
+            styles.wrap_delivery_desc_active
         )}
       >
         <p className={styles.wrap_delivery_desc_workdays}>{variants[1].desc}</p>
       </div>
       <button
-        onClick={() => setOpenPoint("matyeva")}
+        onClick={() =>
+          selectDelivery(`г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}`)
+        }
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_delivery_point,
-          openPoint === "matyeva" && styles.wrap_delivery_point_active
+          variableBuyer.delivery ===
+            `г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}` &&
+            styles.wrap_delivery_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_delivery_point_radio,
-            openPoint === "matyeva" && styles.wrap_delivery_point_radio_active
+            variableBuyer.delivery ===
+              `г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}` &&
+              styles.wrap_delivery_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_delivery_point_radio_dot,
-              openPoint === "matyeva" &&
+              variableBuyer.delivery ===
+                `г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}` &&
                 styles.wrap_delivery_point_radio_dot_active
             )}
           ></span>
@@ -74,7 +85,9 @@ const PointDeliveryType = ({
       <div
         className={cn(
           styles.wrap_delivery_desc,
-          openPoint === "matyeva" && styles.wrap_delivery_desc_active
+          variableBuyer.delivery ===
+            `г. Бишкек, ул. ${variants[1].desc.slice(113, 124)}` &&
+            styles.wrap_delivery_desc_active
         )}
       >
         <p className={styles.wrap_delivery_desc_workdays}>{variants[1].desc}</p>

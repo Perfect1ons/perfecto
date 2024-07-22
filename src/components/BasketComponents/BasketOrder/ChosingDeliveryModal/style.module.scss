@@ -43,13 +43,22 @@
       }
     }
   }
+
+  &_warning {
+    margin-top: 15px;
+    @include mixin.font(1rem, 400, null, var(--red));
+    text-align: center;
+    align-self: center;
+    width: 100%;
+  }
+
   &_delivery {
     margin-top: 15px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
-      margin-top: 5px;
+      margin-top: 15px;
       border: 2px solid var(--secondary);
       border-radius: 5px;
       width: 100%;
@@ -157,7 +166,7 @@
 
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
-      margin-top: 5px;
+      margin-top: 15px;
       border: 2px solid var(--secondary);
       border-radius: 5px;
       width: 100%;
@@ -295,6 +304,22 @@
         background: #eee;
         @include mixin.font(0.875rem, 400, null, var(--gray));
       }
+    }
+  }
+  &_save {
+    width: 100%;
+    align-self: center;
+    margin-top: 15px;
+    border: 2px solid var(--dark-blue);
+    background: var(--dark-blue);
+    padding: 10px 0;
+    cursor: pointer;
+    @include mixin.font(1rem, 500, null, var(--white));
+    border-radius: 5px;
+    transition: 0.3s all;
+    &:hover {
+      background: none;
+      color: var(--dark-blue);
     }
   }
 }

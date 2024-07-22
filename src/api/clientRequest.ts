@@ -279,8 +279,9 @@ export const getNotificationCount = (id: number): Promise<Notifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
 
-
-export const getCurrentOrdersClient = (token: string): Promise<CurrentOrdersType> => {
+export const getCurrentOrdersClient = (
+  token: string
+): Promise<CurrentOrdersType> => {
   return maxkg
     .get("zakaz", {
       headers: {
@@ -290,8 +291,6 @@ export const getCurrentOrdersClient = (token: string): Promise<CurrentOrdersType
     })
     .json();
 };
-
-
 
 export const deleteNotification = (id: number) => {
   return maxkgnotif.get(`site/closenotif?id=${id}`);
@@ -354,4 +353,31 @@ export const getOrderHistoryOrderRating = async (
 
 export const checkUser = (tel: number): Promise<number> => {
   return maxkg.get(`prof/exists-user?tel=${tel}`).json();
+};
+
+export const postBoxOrder = (
+  token: string,
+  tel: number,
+  vid_dost: string,
+  id_vopl: string,
+  fio: string,
+  name: string,
+  org: string,
+  org_inn: string,
+  id_bank: number,
+  id_city: number,
+  id_city2: number,
+  directory: string
+) => {
+  const params = new URLSearchParams();
+  return maxkg.post(
+    `box/zakaz?tel=${tel}&vid_dost=${vid_dost}&id_vopl=${id_vopl}&fio=${fio}&name=${name}&org=${org}&org_inn=${org_inn}&id_bank=${id_bank}&id_city=${id_city}&id_city2=${id_city2}&directory=${directory}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    }
+  );
 };

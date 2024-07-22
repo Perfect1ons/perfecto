@@ -7,7 +7,6 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import Modal from "../UI/ModalHeaders/Modal/Modal";
 import { useRouter } from "next/navigation";
-// import CatalogMenu from "../CatalogComponents/CatalogMenu/CatalogMenu";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import Link from "next/link";
 import HeaderSearch from "./HeaderSearch/HeaderSearch";
