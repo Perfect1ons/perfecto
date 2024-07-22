@@ -103,8 +103,8 @@ const Rating = ({
           <div className={styles.rating__selected_info}>
             <Image
               src={selectedRating.img}
-              width={45}
-              height={45}
+              width={40}
+              height={40}
               alt={selectedRating.name}
             />
             <p>{selectedRating.name}</p>
@@ -113,8 +113,8 @@ const Rating = ({
           <div className={styles.rating__selected_info}>
             <Image
               src={rateApi?.img || ""}
-              width={45}
-              height={45}
+              width={40}
+              height={40}
               alt={rateApi?.name || ""}
             />
             <p>{rateApi?.name}</p>
