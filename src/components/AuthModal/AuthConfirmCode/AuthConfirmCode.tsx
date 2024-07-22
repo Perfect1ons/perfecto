@@ -24,17 +24,19 @@ const AuthConfirmCode = ({
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
   const [attemptCount, setAttemptCount] = useState(0);
-  const [lodaing, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [invalidCodeMessage, setInvalidCodeMessage] = useState("");
   const [timer, setTimer] = useState(0); // Добавляем состояние для таймера
   const [canResend, setCanResend] = useState(false); // Флаг для кнопки повторной отправки
+  const lastFocusedIndex = useRef<number | null>(null);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
     null,
     null,
     null,
     null,
   ]);
+
   useEffect(() => {
     if (isButtonDisabled) {
       setCanResend(false);
@@ -94,6 +96,7 @@ const AuthConfirmCode = ({
     if (value && index < 3) {
       // Если введена цифра и это не последний инпут, переводим фокус на следующий инпут
       inputRefs.current[index + 1]?.focus();
+      lastFocusedIndex.current = index + 1;
     }
   };
 
@@ -113,6 +116,7 @@ const AuthConfirmCode = ({
         newCode[index - 1] = "";
         setCode(newCode);
         inputRefs.current[index - 1]?.focus();
+        lastFocusedIndex.current = index - 1;
       }
     } else if (!/^\d$/.test(event.key)) {
       // Если нажатая клавиша не цифра, предотвращаем ввод
@@ -157,12 +161,16 @@ const AuthConfirmCode = ({
             close();
             window.location.reload();
           } else {
+            setLoading(false);
             handleInvalidCodeAttempt();
           }
         } else {
+          setLoading(false);
+
           handleInvalidCodeAttempt();
         }
       } catch (error) {
+        setLoading(false);
         handleInvalidCodeAttempt();
       }
     }
@@ -189,6 +197,11 @@ const AuthConfirmCode = ({
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
+  useEffect(() => {
+    if (!loading && lastFocusedIndex.current !== null) {
+      inputRefs.current[lastFocusedIndex.current]?.focus();
+    }
+  }, [loading]);
   if (invalidCodeMessage) {
     setTimeout(() => {
       setInvalidCodeMessage("");
@@ -197,7 +210,7 @@ const AuthConfirmCode = ({
 
   return (
     <>
-      {lodaing ? (
+      {loading ? (
         <div className={styles.loader__container}>
           <div className={styles.loader}></div>
         </div>
@@ -214,13 +227,16 @@ const AuthConfirmCode = ({
                 maxLength={1}
                 onChange={(e) => handleChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
-                autoFocus={index === 0}
                 ref={(el) => {
                   inputRefs.current[index] = el;
                 }}
+                autoFocus={index === 0}
               />
             ))}
           </div>
+          {invalidCodeMessage && (
+            <p style={{ color: "red" }}>{invalidCodeMessage}</p>
+          )}
           <div className={styles.modalButtons}>
             {canResend ? (
               <button
@@ -248,9 +264,6 @@ const AuthConfirmCode = ({
           )}
 
           {warning && <p style={{ color: "red" }}>{warning}</p>}
-          {invalidCodeMessage && (
-            <p style={{ color: "red" }}>{invalidCodeMessage}</p>
-          )}
         </form>
       )}
     </>
