@@ -23,7 +23,7 @@
       @include mixin.flex(flex-start, center, column, 5px);
       position: absolute;
       z-index: 10;
-      right: 0;
+      left: 0;
       bottom: -165px;
 
       &_button {
@@ -118,8 +118,8 @@
   padding-top: 7px;
   &__icon {
     position: absolute;
-    right: 15%;
-    top: 30%;
+    right: 3%;
+    top: 29%;
   }
 }
 
@@ -128,12 +128,15 @@
   @include mixin.font(16px, 600, null, var(--dark));
   width: 100%;
   background: var(--white);
-  padding: 10px 5px;
+  padding: 10px 5px 10px 70px;
   border-radius: 5px;
   border: 2px solid var(--secondary);
 
+  &:focus + .select__country {
+    border-color: var(--dark-blue);
+  }
   &:focus {
-    border: 2px solid var(--dark-blue);
+    border-color: var(--dark-blue);
   }
 
   &::placeholder {
@@ -141,15 +144,18 @@
     padding: 10px 7px;
   }
 }
-.inputContainer {
+
+.auth__label {
   position: relative;
-  width: 100%;
+  margin-top: 20px;
+  max-width: 100%;
+  max-height: 44px;
 }
+
 .inputField {
   width: 100%;
-  @include mixin.font(16px, 600, null, var(--dark));
-  padding: 10px 5px;
-  border: 1px solid var(--secondary);
+  padding: 10px 5px 10px 5px;
+  border: 2px solid var(--secondary);
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
@@ -162,47 +168,39 @@
   top: 50%;
   transform: translateY(-50%);
   padding: 0 5px;
-  transition: all 0.3s ease;
+  transition: all 0.2пs ease-in;
   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
   text-wrap: nowrap;
   font-size: 16px;
   font-weight: 400;
-  color: var(--gray);
+  color: var(--secondary);
 }
 
 .inputField:focus,
 .inputField:valid {
-  border: 1px solid var(--dark-blue);
+  border: 2px solid var(--dark-blue);
 }
 .inputField:focus + .inputLabel,
 .inputField:valid + .inputLabel {
   background-color: var(--white);
-  color: var(--dark-blue);
   left: 5px;
   top: 0;
   scale: (0.88);
+  @include mixin.font(16px, 600, 100% ,var(--dark-blue));
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
 }
 
-.inputField:placeholder-shown + .inputLabel {
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #aaa; // Цвет текста по умолчанию
-}
-.inputField:focus,
-.inputField:not(:placeholder-shown) {
-  border: 1px solid var(--dark-blue);
-}
+
 
 .select__country {
   position: absolute;
-  right: 5px;
+  left: 5px;
   border-radius: 5px 0px 0px 5px;
   padding: 7px 5px;
+  border-right: 2px solid var(--secondary);
   padding-right: 20px;
   cursor: pointer;
   @include mixin.flex(center, center, null, null);
-  transition: all 0.3s ease;
   &:hover {
     .select__country_arrow {
       svg {
@@ -242,54 +240,56 @@
     }
   }
 }
-.inputContainer {
-  position: relative;
-  max-width: 100%;
-  max-height: 44px;
-}
-.inputField {
-  width: 100%;
-  padding: 10px 5px 10px 5px;
-  border: 1px solid var(--secondary);
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: transparent; // Убираем цвет фона инпута
-}
 
-.inputLabel {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0 5px;
-  transition: all 0.3s ease;
-  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
-  text-wrap: nowrap;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--gray);
-}
+// .inputContainer {
+//   position: relative;
+//   max-width: 100%;
+//   max-height: 44px;
+// }
+// .inputField {
+//   width: 100%;
+//   padding: 10px 5px 10px 5px;
+//   border: 1px solid var(--secondary);
+//   border-radius: 4px;
+//   font-size: 16px;
+//   box-sizing: border-box;
+//   background-color: transparent; // Убираем цвет фона инпута
+// }
 
-.inputField:focus,
-.inputField:valid {
-  border: 1px solid var(--dark-blue);
-}
-.inputField:focus + .inputLabel,
-.inputField:valid + .inputLabel {
-  background-color: var(--white);
-  color: var(--dark-blue);
-  left: 5px;
-  top: 0;
-  scale: (0.88);
-}
+// .inputLabel {
+//   position: absolute;
+//   left: 10px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   padding: 0 5px;
+//   transition: all 0.3s ease;
+//   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+//   text-wrap: nowrap;
+//   font-size: 16px;
+//   font-weight: 400;
+//   color: var(--gray);
+// }
 
-.inputField:placeholder-shown + .inputLabel {
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #aaa; // Цвет текста по умолчанию
-}
+// .inputField:focus,
+// .inputField:valid {
+//   border: 1px solid var(--dark-blue);
+// }
+// .inputField:focus + .inputLabel,
+// .inputField:valid + .inputLabel {
+//   background-color: var(--white);
+//   color: var(--dark-blue);
+//   left: 5px;
+//   top: 0;
+//   scale: (0.88);
+// }
+
+// .inputField:placeholder-shown + .inputLabel {
+//   top: 50%;
+//   transform: translateY(-50%);
+//   font-size: 16px;
+//   color: #aaa; // Цвет текста по умолчанию
+// }
+
 @media screen and (max-width: 768px) {
   .modal {
     left: 59%;

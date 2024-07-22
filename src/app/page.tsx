@@ -97,12 +97,12 @@ export default async function Home() {
     return (
       <>
         <MainPageJsonLd />
+
+
         <Banner mobileData={mobileData} deskstopData={desktopData} />
         {existingWatched.length > 0 ? (
           <YouWatched data={existingWatched} />
-        ) : (
-          null
-        )}
+        ) : null}
         <PopularCategory category={popularCategoryData} />
         <LazyPopularGoods goods={goodsData} />
         <LazyNews news={newsData} />

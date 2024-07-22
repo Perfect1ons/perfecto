@@ -72,7 +72,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     setIsRemember(!isRemember);
   };
 
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -123,32 +122,14 @@ const AuthForm = ({ setView, close }: FormProps) => {
   return (
     <div className={styles.modal}>
       <p className={styles.modal__text}>
-        Войдите в свой аккаунт или зарегистрируйтесь, чтобы делать покупки,
+        Войдите в свой аккаунт или создайте профиль, чтобы делать покупки,
         отслеживать заказы, добавлять в избранное и получать персональные
         скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
-            <div className={styles.inputContainer}>
-              <InputMask
-                mask={mask}
-                value={phoneNumber}
-                onChange={handleBuyerChange}
-              >
-                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                  <input
-                    autoComplete="off"
-                    {...inputProps}
-                    name="phone"
-                    type="text"
-                    className={styles.inputField}
-                  />
-                )}
-              </InputMask>
-              <label className={styles.inputLabel}>Телефон</label>
-            </div>
-            {/* <InputMask
+            <InputMask
               mask={mask}
               value={phoneNumber}
               onChange={handleBuyerChange}
@@ -159,11 +140,11 @@ const AuthForm = ({ setView, close }: FormProps) => {
                   autoComplete="off"
                   {...inputProps}
                   name="phone"
-                  type="text"
                   placeholder="Телефон"
+                  type="text"
                 />
               )}
-            </InputMask> */}
+            </InputMask>
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -196,14 +177,23 @@ const AuthForm = ({ setView, close }: FormProps) => {
               </span>
             )}
           </div>
+
           {visible === "country" && (
             <div className={styles.modal__form_phone_dropdown}>
               {countryOptions}
             </div>
           )}
         </div>
-
         {warning && <span className={styles.warning}>{warning}</span>}
+        <div className={styles.auth__label}>
+          <input
+            className={styles.inputField}
+            type="text"
+            name="fio"
+            required
+          />
+          <label className={styles.inputLabel}>Почта</label>
+        </div>
 
         <button
           // onClick={() => setView("captcha")}
@@ -212,7 +202,7 @@ const AuthForm = ({ setView, close }: FormProps) => {
           type="submit"
           className={cn(styles.modal__button, "button")}
         >
-          Войти
+          Получить код
         </button>
       </form>
 

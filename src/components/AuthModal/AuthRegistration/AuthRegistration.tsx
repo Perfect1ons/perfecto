@@ -19,7 +19,7 @@ interface FormProps {
   mask: any;
   currentCodeCountry: Country;
   visible: string;
-  setView: (view:  "registration" | "confirm" | "captcha") => void;
+  setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
   visibleHandler: (current: string) => void;
 }
@@ -41,19 +41,18 @@ const AuthRegistration = ({
     return phoneRegex.test(phoneNumber);
   };
 
-  
   const checkStatus = async (tel: number) => {
     try {
       const fetchStatus = await checkUser(tel);
       if (fetchStatus) {
-        setStatus(fetchStatus)
+        setStatus(fetchStatus);
       }
     } catch (error) {
       console.error(error);
     } finally {
     }
   };
-  
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -77,18 +76,21 @@ const AuthRegistration = ({
 
       return;
     }
-    try {
-      checkStatus(parseInt(cleanedPhoneNumber));
-      if (status == 0) {
-        postLoginCode(cleanedPhoneNumber);
-        setView("confirm");
-        setWarning("");
-      } else {
-        setWarning("Такой пользователь уже сущетсвует")
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    postLoginCode(cleanedPhoneNumber);
+    setView("confirm");
+    setWarning("");
+    // try {
+    //   checkStatus(parseInt(cleanedPhoneNumber));
+    //   if (status == 0) {
+    //     postLoginCode(cleanedPhoneNumber);
+    //     setView("confirm");
+    //     setWarning("");
+    //   } else {
+    //     setWarning("Такой пользователь уже сущетсвует");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (
