@@ -105,6 +105,7 @@ const AuthRegistration = ({
             >
               {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
                 <input
+                  autoComplete="off"
                   {...inputProps}
                   name="phone"
                   type="text"
