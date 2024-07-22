@@ -157,12 +157,16 @@ const AuthConfirmCode = ({
             close();
             window.location.reload();
           } else {
+            setLoading(false);
             handleInvalidCodeAttempt();
           }
         } else {
+          setLoading(false);
+
           handleInvalidCodeAttempt();
         }
       } catch (error) {
+        setLoading(false);
         handleInvalidCodeAttempt();
       }
     }
