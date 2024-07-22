@@ -1,81 +1,86 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
-.profile__tabs{
-    @include mixin.flex(center,null,null,10px);
-    padding: 10px;
-    background: var(--white);
-    border-radius: 5px;
+.profile__tabs {
+  @include mixin.flex(center, null, null, 10px);
+  padding: 10px;
+  background: var(--white);
+  border-radius: 5px;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+
+  &_container {
+    padding-top: 20px;
+    background: var(--secondlight);
 
     @media screen and (max-width: 768px) {
-        flex-wrap: wrap;
+      padding-top: 8px;
     }
-    
-    &_container{
-        padding-top: 20px;
-        background: var(--secondlight);
-        
-        @media screen and (max-width: 768px) {
-            padding-top: 8px;
-        }
-    }
+  }
 }
 
-.profile__link{
-    @include mixin.font(16px,400,null,var(--dark));
-    padding: 5px 8px;
-    border-radius: 5px;
-    background: var(--white);
-    transition: all 0.3s ease;
-    position: relative;
+.profile__link {
+  @include mixin.font(16px, 400, null, var(--dark));
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: var(--white);
+  transition: all 0.3s ease;
+  position: relative;
 
-    @media screen and (max-width: 992px) {
-        &:nth-child(6){
-            display: none;
-        }
-        &:nth-child(7){
-            display: none;
-        }
+  @media screen and (max-width: 992px) {
+    &:nth-child(6) {
+      display: none;
     }
-    @media screen and (max-width: 768px) {
-        @include mixin.font(14px,400,null,var(--dark));
-        &:hover{
-            @include mixin.font(14px,400,null,var(--white));
-            background: var(--violet)
-        }
+    &:nth-child(7) {
+      display: none;
     }
-    
-    &_count{
-        @include mixin.font(12px,500,100%,var(--white));
-        @include mixin.flex(center,center);
-        width: 18px;
-        height: 18px;
-        position: absolute;
-        right: -5px;
-        top: -5px;
-        border-radius: 50px;
-        background: var(--red);
+  }
+  @media screen and (max-width: 768px) {
+    @include mixin.font(14px, 400, null, var(--dark));
+    &:hover {
+      @include mixin.font(14px, 400, null, var(--white));
+      background: var(--violet);
     }
-    &:hover{
-        @include mixin.font(16px,400,null,var(--white));
-        background: var(--violet)
-    }
-}
+  }
 
-.profile__link_active{
-    @include mixin.font(16px,400,null,var(--white));
-    padding: 5px 8px;
+  &_count {
+    @include mixin.font(12px, 500, 100%, var(--white));
+    @include mixin.flex(center, center);
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    border-radius: 50%;
+    background: var(--red);
+    &_max {
+      width: 30px;
+      @include mixin.flex(center, center);
+      font-size: 12px;
+    }
+  }
+  &:hover {
+    @include mixin.font(16px, 400, null, var(--white));
     background: var(--violet);
-    border-radius: 5px;
-    &:hover{
-        @include mixin.font(16px,400,null,var(--white));
-        background: var(--violet)
-    }
+  }
+}
 
-    @media screen and (max-width: 768px) {
-        @include mixin.font(14px,400,null,var(--white));
-            &:hover{
-        @include mixin.font(14px,400,null,var(--white));
-        background: var(--violet)
+.profile__link_active {
+  @include mixin.font(16px, 400, null, var(--white));
+  padding: 5px 8px;
+  background: var(--violet);
+  border-radius: 5px;
+  &:hover {
+    @include mixin.font(16px, 400, null, var(--white));
+    background: var(--violet);
+  }
+
+  @media screen and (max-width: 768px) {
+    @include mixin.font(14px, 400, null, var(--white));
+    &:hover {
+      @include mixin.font(14px, 400, null, var(--white));
+      background: var(--violet);
     }
-    }
+  }
 }

@@ -164,27 +164,12 @@ const AuthForm = ({ setView, close }: FormProps) => {
                     name="phone"
                     type="text"
                     className={styles.inputField}
+                    required
                   />
                 )}
               </InputMask>
               <label className={styles.inputLabel}>Телефон</label>
             </div>
-            {/* <InputMask
-              mask={mask}
-              value={phoneNumber}
-              onChange={handleBuyerChange}
-              className={styles.auth__input}
-            >
-              {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                <input
-                  autoComplete="off"
-                  {...inputProps}
-                  name="phone"
-                  type="text"
-                  placeholder="Телефон"
-                />
-              )}
-            </InputMask> */}
             <button
               onClick={(e) => {
                 e.preventDefault();

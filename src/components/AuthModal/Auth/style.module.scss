@@ -147,12 +147,10 @@
 }
 .inputField {
   width: 100%;
-  @include mixin.font(16px, 600, null, var(--dark));
+  @include mixin.font(16px, 400, null, var(--dark));
   padding: 10px 5px;
-  border: 1px solid var(--secondary);
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
+  border: 2px solid var(--secondary);
+  border-radius: 5px;
   background-color: transparent; // Убираем цвет фона инпута
 }
 
@@ -263,7 +261,7 @@
   top: 50%;
   transform: translateY(-50%);
   padding: 0 5px;
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
   text-wrap: nowrap;
   font-size: 16px;

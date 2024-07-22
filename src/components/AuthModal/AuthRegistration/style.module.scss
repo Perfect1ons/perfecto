@@ -139,6 +139,54 @@
   margin-top: 15px;
 }
 
+.inputContainer {
+  position: relative;
+  width: 100%;
+}
+.inputField {
+  width: 100%;
+  padding: 10px 5px 10px 5px;
+  @include mixin.font(16px, 400, null, var(--dark));
+  border: 1px solid var(--secondary);
+  border-radius: 0px 5px 5px 0px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: transparent; // Убираем цвет фона инпута
+}
+
+.inputLabel {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 5px;
+  transition: all 0.1s ease;
+  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray);
+}
+
+.inputField:focus,
+.inputField:valid {
+  border: 1px solid var(--dark-blue);
+}
+.inputField:focus + .inputLabel,
+.inputField:valid + .inputLabel {
+  background-color: var(--white);
+  color: var(--dark-blue);
+  left: 5px;
+  top: 0;
+  scale: (0.88);
+}
+
+.inputField:placeholder-shown + .inputLabel {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa; // Цвет текста по умолчанию
+}
 @media screen and (max-width: 768px) {
   .modal {
     max-width: 480px;

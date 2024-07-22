@@ -363,7 +363,12 @@ export default function MobileNav({
               Избранные{" "}
             </span>
             {isAuthed && favoritesCount > 0 && (
-              <span className={styles.option_count}>
+              <span
+                className={cn(
+                  styles.option_count,
+                  favoritesCount <= 99 ? null : styles.option_count_max
+                )}
+              >
                 {favoritesCount > 99 ? "99+" : favoritesCount}
               </span>
             )}
@@ -385,7 +390,12 @@ export default function MobileNav({
               Корзина{" "}
             </span>
             {cartItemCount > 0 && (
-              <span className={styles.option_count}>
+              <span
+                className={cn(
+                  styles.option_count,
+                  cartItemCount <= 99 ? null : styles.option_count_max
+                )}
+              >
                 {cartItemCount > 99 ? "99+" : cartItemCount}
               </span>
             )}

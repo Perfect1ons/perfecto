@@ -74,6 +74,11 @@
   height: 20px;
   border-radius: 50%;
   z-index: 402;
+  &_max {
+    width: 25px;
+    @include mixin.flex(center, center);
+    font-size: 12px;
+  }
 }
 
 .search_bar {

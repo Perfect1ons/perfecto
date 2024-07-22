@@ -97,22 +97,25 @@ const AuthRegistration = ({
                 <ArrowDropdown />
               </span>
             </button>
-            <InputMask
-              mask={mask}
-              value={phoneNumber}
-              onChange={handleBuyerChange}
-              className={styles.modal__form_phone_control_input}
-            >
-              {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                <input
-                  autoComplete="off"
-                  {...inputProps}
-                  name="phone"
-                  type="text"
-                  placeholder="Телефон"
-                />
-              )}
-            </InputMask>
+            <div className={styles.inputContainer}>
+              <InputMask
+                mask={mask}
+                value={phoneNumber}
+                onChange={handleBuyerChange}
+              >
+                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                  <input
+                    autoComplete="off"
+                    {...inputProps}
+                    name="phone"
+                    type="text"
+                    className={styles.inputField}
+                    required
+                  />
+                )}
+              </InputMask>
+              <label className={styles.inputLabel}>Телефон</label>
+            </div>
           </div>
           {warning && <p style={{ color: "red" }}>{warning}</p>}
 

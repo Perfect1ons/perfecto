@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 import { getNotificationCount } from "@/api/clientRequest";
+import cn from "clsx";
 
 const ProfileTabs = () => {
   const pathname = usePathname();
@@ -19,16 +20,16 @@ const ProfileTabs = () => {
     const notification = async () => {
       try {
         const notif = await getNotificationCount(userId);
-         setNotificationCount(notif.length);
+        setNotificationCount(notif.length);
       } catch (error) {
         console.log(error);
       }
     };
-    notification()
+    notification();
     const savedCart = localStorage.getItem("basket");
     const cart = savedCart ? JSON.parse(savedCart) : [];
     setCartCount(cart.length);
-    
+
     const savedFavorites = localStorage.getItem("favorites");
     const favorites = savedFavorites ? JSON.parse(savedFavorites) : [];
     setFavoritesCount(favorites.length);
@@ -38,9 +39,9 @@ const ProfileTabs = () => {
     if (link.href === "/profile/notification") {
       return { ...link, count: notificationCount };
     }
-        if (link.href === "/profile/orders") {
-          return { ...link, count: orders };
-        }
+    if (link.href === "/profile/orders") {
+      return { ...link, count: orders };
+    }
     if (link.href === "/cart") {
       return { ...link, count: cartCount };
     }
@@ -51,7 +52,6 @@ const ProfileTabs = () => {
     return link;
   });
 
-  
   return (
     <div className={styles.profile__tabs_container}>
       <div className={"container"}>
@@ -68,8 +68,13 @@ const ProfileTabs = () => {
                 href={link.href}
               >
                 {link.count !== undefined && link.count > 0 && (
-                  <span className={styles.profile__link_count}>
-                    {link.count}
+                  <span
+                    className={cn(
+                      styles.profile__link_count,
+                      link.count <= 99 ? null : styles.profile__link_count_max
+                    )}
+                  >
+                    {link.count > 99 ? "99+" : link.count}
                   </span>
                 )}
                 {link.title}
