@@ -8,8 +8,12 @@ import {
   postConfirmCode,
   postLoginCode,
 } from "@/api/clientRequest";
-import { Country } from "../AuthRegistration/AuthRegistration";
 import { useRouter } from "next/navigation";
+interface Country {
+  code: number;
+  img: string;
+  name: string;
+}
 interface FormProps {
   setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
@@ -32,7 +36,7 @@ const AuthConfirmCode = ({
   const [canResend, setCanResend] = useState(false); // Флаг для кнопки повторной отправки
   const [status, setStatus] = useState<number | null>(null);
   const lastFocusedIndex = useRef<number | null>(null);
-  const router = useRouter()
+  const router = useRouter();
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
     null,
     null,
@@ -186,7 +190,7 @@ const AuthConfirmCode = ({
             close();
             if (status == 0) {
               router.push("/profile/lk");
-            } else{
+            } else {
               window.location.reload();
             }
           } else {

@@ -73,7 +73,7 @@ const AuthForm = ({
       return;
     }
     postLoginCode(cleanedPhoneNumber);
-    // setView("confirm");
+    setView("confirm");
     setWarning("");
     // try {
     //   checkStatus(parseInt(cleanedPhoneNumber));
