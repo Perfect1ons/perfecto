@@ -189,8 +189,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
           <input
             className={styles.inputField}
             type="text"
-            name="fio"
-            required
           />
           <label className={styles.inputLabel}>Почта</label>
         </div>
