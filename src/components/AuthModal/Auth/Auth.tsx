@@ -5,7 +5,6 @@ import styles from "./style.module.scss";
 import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
-import { postLoginCode } from "@/api/clientRequest";
 
 interface FormProps {
   setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
@@ -36,66 +35,12 @@ const AuthForm = ({
   visibleHandler,
 }: FormProps) => {
   const [warning, setWarning] = useState("");
-  // const [warning, setWarning] = useState("");
-  // const checkStatus = async (tel: number) => {
-  //   try {
-  //     const fetchStatus = await checkUser(tel);
-  //     if (fetchStatus) {
-  //       setStatus(fetchStatus);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //   }
-  // };
-
-  const handleSubmitCode = (event: any) => {
-    event.preventDefault();
-    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
-
-    let expectedLength = 0;
-    switch (currentCodeCountry.code) {
-      case 996:
-        expectedLength = 12;
-        break;
-      case 7:
-        expectedLength = 11;
-        break;
-      default:
-        expectedLength = 12;
-        break;
-    }
-
-    if (cleanedPhoneNumber.length !== expectedLength) {
-      console.log("Phone number length is incorrect for the selected country.");
-      setWarning("Пожалуйста, заполните поле.");
-
-      return;
-    }
-    postLoginCode(cleanedPhoneNumber);
-    // setView("confirm");
-    setWarning("");
-    // try {
-    //   checkStatus(parseInt(cleanedPhoneNumber));
-    //   if (status == 0) {
-    //     postLoginCode(cleanedPhoneNumber);
-    //     setView("confirm");
-    //     setWarning("");
-    //   } else {
-    //     setWarning("Такой пользователь уже сущетсвует");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Remove non-numeric characters from phone number
     const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
 
-    // Check for empty field or incomplete phone number
     let expectedLength = 0;
     switch (currentCodeCountry.code) {
       case 996:
@@ -193,7 +138,6 @@ const AuthForm = ({
         </div>
 
         <button
-          onClick={handleSubmitCode}
           // onClick={() => setView("captcha")}
           // disabled={!warning}
           aria-label="go to enter"
@@ -203,6 +147,14 @@ const AuthForm = ({
           Получить код
         </button>
       </form>
+
+      <button
+        className={cn(styles.modal__more_button, "button")}
+        onClick={() => setView("registration")}
+        aria-label="go to registration"
+      >
+        Регистрация
+      </button>
     </div>
   );
 };
