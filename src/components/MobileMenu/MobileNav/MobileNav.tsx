@@ -29,6 +29,7 @@ import { getFastUserSearch } from "@/api/clientRequest";
 import MobileSearch from "../MobileSearch/MobileSearch";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -258,9 +259,14 @@ export default function MobileNav({
     inputActive &&
     fastValue &&
     (fastValue.catalog.length > 0 || fastValue.model._meta.totalCount > 0);
+  const [isAuthVisible, setAuthVisible] = useState(false);
+  const closeModals = () => setAuthVisible(false);
+  const openAuthModal = () => setAuthVisible(true);
 
   return (
     <>
+      <AuthModal isVisible={isAuthVisible} close={closeModals} />
+
       <MobileModal isVisible={isMobileModalOpen}>
         <div className={styles.catalog_wrap}>
           <MobSearch
@@ -334,7 +340,13 @@ export default function MobileNav({
           <Link
             href="/favorites"
             className={styles.option}
-            onClick={() => setMobileModalOpen(false)}
+            onClick={() => {
+              if (!isAuthed) {
+                openAuthModal();
+              } else {
+                setMobileModalOpen(false);
+              }
+            }}
           >
             {pathname === "/favorites" ? (
               <FavoritesIconActive />
@@ -351,7 +363,9 @@ export default function MobileNav({
               Избранные{" "}
             </span>
             {isAuthed && favoritesCount > 0 && (
-              <span className={styles.option_count}>{favoritesCount}</span>
+              <span className={styles.option_count}>
+                {favoritesCount > 99 ? "99+" : favoritesCount}
+              </span>
             )}
           </Link>
 
@@ -371,19 +385,27 @@ export default function MobileNav({
               Корзина{" "}
             </span>
             {cartItemCount > 0 && (
-              <span className={styles.option_count}>{cartItemCount}</span>
+              <span className={styles.option_count}>
+                {cartItemCount > 99 ? "99+" : cartItemCount}
+              </span>
             )}
           </Link>
 
           <Link
-            href="/auth"
+            href="/profile"
             className={styles.option}
-            onClick={() => setMobileModalOpen(false)}
+            onClick={() => {
+              if (!isAuthed) {
+                openAuthModal();
+              } else {
+                setMobileModalOpen(false);
+              }
+            }}
           >
-            {pathname === "/auth" ? <AuthIconActive /> : <AuthIconDark />}
+            {pathname === "/profile" ? <AuthIconActive /> : <AuthIconDark />}
             <span
               className={
-                pathname === "/auth"
+                pathname === "/profile"
                   ? `${cn(styles.option_span, styles.optionSpan_active)}`
                   : styles.option
               }
