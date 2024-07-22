@@ -8,8 +8,8 @@ import {
   postConfirmCode,
   postLoginCode,
 } from "@/api/clientRequest";
-import { Country } from "../AuthRegistration/AuthRegistration";
 import { useRouter } from "next/navigation";
+import { Country } from "../AuthModal";
 interface FormProps {
   setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;

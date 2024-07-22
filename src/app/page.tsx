@@ -51,6 +51,7 @@ const LazyBrands = dynamic(
   () => import("@/components/HomeComponents/Brands/Brands")
 );
 
+
 export default async function Home() {
  const cookieStore = cookies();
  const existingWatched = JSON.parse(
@@ -97,8 +98,6 @@ export default async function Home() {
     return (
       <>
         <MainPageJsonLd />
-
-
         <Banner mobileData={mobileData} deskstopData={desktopData} />
         {existingWatched.length > 0 ? (
           <YouWatched data={existingWatched} />
