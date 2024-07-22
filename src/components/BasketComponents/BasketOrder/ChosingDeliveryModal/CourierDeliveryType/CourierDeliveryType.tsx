@@ -41,149 +41,161 @@ const CourierDeliveryType = ({
           className={styles.wrap_courier_selectAddress_input}
         />
       </div>
-      <button
-        onClick={() => selectDelivery(variants[8].name)}
-        aria-label="choose delivery point"
-        className={cn(
-          styles.wrap_courier_point,
-          variableBuyer.delivery === variants[8].name &&
-            styles.wrap_courier_point_active
-        )}
-      >
-        <span
-          className={cn(
-            styles.wrap_courier_point_radio,
-            variableBuyer.delivery === variants[8].name &&
-              styles.wrap_courier_point_radio_active
-          )}
-        >
-          <span
+      {variants && variants[8]?.name.length > 0 && (
+        <>
+          <button
+            onClick={() => selectDelivery(variants[8]?.name)}
+            aria-label="choose delivery point"
             className={cn(
-              styles.wrap_courier_point_radio_dot,
-              variableBuyer.delivery === variants[8].name &&
-                styles.wrap_courier_point_radio_dot_active
+              styles.wrap_courier_point,
+              variableBuyer.delivery === variants[8]?.name &&
+                styles.wrap_courier_point_active
             )}
-          ></span>
-        </span>
-        {variants[8].name}
-      </button>
-      <div
-        className={cn(
-          styles.wrap_courier_desc,
-          variableBuyer.delivery === variants[8].name &&
-            styles.wrap_courier_desc_active
-        )}
-      >
-        <p className={styles.wrap_courier_desc_workdays}>{variants[8].desc}</p>
-      </div>
+          >
+            <span
+              className={cn(
+                styles.wrap_courier_point_radio,
+                variableBuyer.delivery === variants[8]?.name &&
+                  styles.wrap_courier_point_radio_active
+              )}
+            >
+              <span
+                className={cn(
+                  styles.wrap_courier_point_radio_dot,
+                  variableBuyer.delivery === variants[8]?.name &&
+                    styles.wrap_courier_point_radio_dot_active
+                )}
+              ></span>
+            </span>
+            {variants[8]?.name}
+          </button>
+          <div
+            className={cn(
+              styles.wrap_courier_desc,
+              variableBuyer.delivery === variants[8]?.name &&
+                styles.wrap_courier_desc_active
+            )}
+          >
+            <p className={styles.wrap_courier_desc_workdays}>
+              {variants[8]?.desc}
+            </p>
+          </div>
 
-      <button
-        onClick={() => selectDelivery(variants[10].name)}
-        aria-label="choose delivery point"
-        className={cn(
-          styles.wrap_courier_point,
-          variableBuyer.delivery === variants[10].name &&
-            styles.wrap_courier_point_active
-        )}
-      >
-        <span
-          className={cn(
-            styles.wrap_courier_point_radio,
-            variableBuyer.delivery === variants[10].name &&
-              styles.wrap_courier_point_radio_active
-          )}
-        >
-          <span
+          <button
+            onClick={() => selectDelivery(variants[10]?.name)}
+            aria-label="choose delivery point"
             className={cn(
-              styles.wrap_courier_point_radio_dot,
-              variableBuyer.delivery === variants[10].name &&
-                styles.wrap_courier_point_radio_dot_active
+              styles.wrap_courier_point,
+              variableBuyer.delivery === variants[10]?.name &&
+                styles.wrap_courier_point_active
             )}
-          ></span>
-        </span>
-        {variants[10].name}
-      </button>
-      <div
-        className={cn(
-          styles.wrap_courier_desc,
-          variableBuyer.delivery === variants[10].name &&
-            styles.wrap_courier_desc_active
-        )}
-      >
-        <p className={styles.wrap_courier_desc_workdays}>{variants[10].desc}</p>
-      </div>
+          >
+            <span
+              className={cn(
+                styles.wrap_courier_point_radio,
+                variableBuyer.delivery === variants[10]?.name &&
+                  styles.wrap_courier_point_radio_active
+              )}
+            >
+              <span
+                className={cn(
+                  styles.wrap_courier_point_radio_dot,
+                  variableBuyer.delivery === variants[10]?.name &&
+                    styles.wrap_courier_point_radio_dot_active
+                )}
+              ></span>
+            </span>
+            {variants[10]?.name}
+          </button>
+          <div
+            className={cn(
+              styles.wrap_courier_desc,
+              variableBuyer.delivery === variants[10]?.name &&
+                styles.wrap_courier_desc_active
+            )}
+          >
+            <p className={styles.wrap_courier_desc_workdays}>
+              {variants[10]?.desc}
+            </p>
+          </div>
 
-      <button
-        onClick={() => selectDelivery(variants[12].name)}
-        aria-label="choose delivery point"
-        className={cn(
-          styles.wrap_courier_point,
-          variableBuyer.delivery === variants[12].name &&
-            styles.wrap_courier_point_active
-        )}
-      >
-        <span
-          className={cn(
-            styles.wrap_courier_point_radio,
-            variableBuyer.delivery === variants[12].name &&
-              styles.wrap_courier_point_radio_active
-          )}
-        >
-          <span
+          <button
+            onClick={() => selectDelivery(variants[12]?.name)}
+            aria-label="choose delivery point"
             className={cn(
-              styles.wrap_courier_point_radio_dot,
-              variableBuyer.delivery === variants[12].name &&
-                styles.wrap_courier_point_radio_dot_active
+              styles.wrap_courier_point,
+              variableBuyer.delivery === variants[12]?.name &&
+                styles.wrap_courier_point_active
             )}
-          ></span>
-        </span>
-        {variants[12].name}
-      </button>
-      <div
-        className={cn(
-          styles.wrap_courier_desc,
-          variableBuyer.delivery === variants[12].name &&
-            styles.wrap_courier_desc_active
-        )}
-      >
-        <p className={styles.wrap_courier_desc_workdays}>{variants[12].desc}</p>
-      </div>
+          >
+            <span
+              className={cn(
+                styles.wrap_courier_point_radio,
+                variableBuyer.delivery === variants[12]?.name &&
+                  styles.wrap_courier_point_radio_active
+              )}
+            >
+              <span
+                className={cn(
+                  styles.wrap_courier_point_radio_dot,
+                  variableBuyer.delivery === variants[12]?.name &&
+                    styles.wrap_courier_point_radio_dot_active
+                )}
+              ></span>
+            </span>
+            {variants[12]?.name}
+          </button>
+          <div
+            className={cn(
+              styles.wrap_courier_desc,
+              variableBuyer.delivery === variants[12]?.name &&
+                styles.wrap_courier_desc_active
+            )}
+          >
+            <p className={styles.wrap_courier_desc_workdays}>
+              {variants[12]?.desc}
+            </p>
+          </div>
 
-      <button
-        onClick={() => selectDelivery(variants[13].name)}
-        aria-label="choose delivery point"
-        className={cn(
-          styles.wrap_courier_point,
-          variableBuyer.delivery === variants[13].name &&
-            styles.wrap_courier_point_active
-        )}
-      >
-        <span
-          className={cn(
-            styles.wrap_courier_point_radio,
-            variableBuyer.delivery === variants[13].name &&
-              styles.wrap_courier_point_radio_active
-          )}
-        >
-          <span
+          <button
+            onClick={() => selectDelivery(variants[13]?.name)}
+            aria-label="choose delivery point"
             className={cn(
-              styles.wrap_courier_point_radio_dot,
-              variableBuyer.delivery === variants[13].name &&
-                styles.wrap_courier_point_radio_dot_active
+              styles.wrap_courier_point,
+              variableBuyer.delivery === variants[13]?.name &&
+                styles.wrap_courier_point_active
             )}
-          ></span>
-        </span>
-        {variants[13].name}
-      </button>
-      <div
-        className={cn(
-          styles.wrap_courier_desc,
-          variableBuyer.delivery === variants[13].name &&
-            styles.wrap_courier_desc_active
-        )}
-      >
-        <p className={styles.wrap_courier_desc_workdays}>{variants[13].desc}</p>
-      </div>
+          >
+            <span
+              className={cn(
+                styles.wrap_courier_point_radio,
+                variableBuyer.delivery === variants[13]?.name &&
+                  styles.wrap_courier_point_radio_active
+              )}
+            >
+              <span
+                className={cn(
+                  styles.wrap_courier_point_radio_dot,
+                  variableBuyer.delivery === variants[13]?.name &&
+                    styles.wrap_courier_point_radio_dot_active
+                )}
+              ></span>
+            </span>
+            {variants[13]?.name}
+          </button>
+          <div
+            className={cn(
+              styles.wrap_courier_desc,
+              variableBuyer.delivery === variants[13]?.name &&
+                styles.wrap_courier_desc_active
+            )}
+          >
+            <p className={styles.wrap_courier_desc_workdays}>
+              {variants[13]?.desc}
+            </p>
+          </div>
+        </>
+      )}
 
       <div className={styles.wrap_courier_selectTime}>
         <button
