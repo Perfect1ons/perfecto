@@ -145,7 +145,7 @@
   }
 }
 
-.auth__label {
+.mail__label {
   position: relative;
   max-width: 100%;
   max-height: 44px;
@@ -153,17 +153,17 @@
   margin-bottom: 5px;
 }
 
-.inputField {
+.mail__inputField {
   width: 100%;
   padding: 10px 5px 10px 5px;
   border: 2px solid var(--secondary);
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
-  background-color: transparent; // Убираем цвет фона инпута
+  background-color: transparent; 
 }
 
-.inputLabel {
+.mail__inputLabel {
   position: absolute;
   left: 10px;
   top: 50%;
@@ -177,10 +177,10 @@
   color: var(--secondary);
 }
 
-.inputField:focus{
+.mail__inputField:focus{
   border: 2px solid var(--dark-blue);
 }
-.inputField:focus + .inputLabel {
+.mail__inputField:focus + .mail__inputLabel {
   background-color: var(--white);
   left: 5px;
   top: 0;

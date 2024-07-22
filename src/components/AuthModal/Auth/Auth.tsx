@@ -185,12 +185,12 @@ const AuthForm = ({ setView, close }: FormProps) => {
           )}
         </div>
         {warning && <span className={styles.warning}>{warning}</span>}
-        <div className={styles.auth__label}>
+        <div className={styles.mail__label}>
           <input
-            className={styles.inputField}
+            className={styles.mail__inputField}
             type="text"
           />
-          <label className={styles.inputLabel}>Почта</label>
+          <label className={styles.mail__inputLabel}>Почта</label>
         </div>
 
         <button
