@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import {
+  ApproveIcon,
   ArrowDropdown,
   DeliveryIcon,
   ExPoint,
@@ -16,10 +17,12 @@ import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
-interface Buyer {
-  phone: string;
+export interface Buyer {
+  phone: number;
   surname: string;
   name: string;
+  payment: string;
+  delivery: string;
 }
 
 interface Country {
@@ -44,12 +47,21 @@ interface IBasketOrderProps {
 const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
 
+  const [variableBuyer, setVariableBuyer] = useState({
+    payment: "",
+    delivery: "",
+  });
+
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
-    phone: `+${codesCountry.kg.code}`,
+    phone: codesCountry.kg.code,
     surname: "",
     name: "",
+    payment: variableBuyer.payment,
+    delivery: variableBuyer.delivery,
   });
+
+  const [warning, setWarning] = useState("");
 
   const cart = useSelector((state: RootState) => state.cart.cart);
   const { totalQuantity, formattedTotalPrice } = useMemo(() => {
@@ -106,25 +118,75 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setBuyer((prevBuyer) => ({
-      ...prevBuyer,
+    setVariableBuyer((prevVariableBuyer) => ({
+      ...prevVariableBuyer,
       [name]: value,
     }));
   }, []);
+
+  const selectPayment = (value: string) => {
+    setVariableBuyer((prevVariableBuyer) => ({
+      ...prevVariableBuyer,
+      payment: value,
+    }));
+  };
+
+  const selectDelivery = (value: string) => {
+    setVariableBuyer((prevVariableBuyer) => ({
+      ...prevVariableBuyer,
+      delivery: value,
+    }));
+  };
+
+  const savePayment = () => {
+    if (variableBuyer.payment) {
+      setBuyer((prevBuyer) => ({
+        ...prevBuyer,
+        payment: variableBuyer.payment,
+      }));
+      activeModalToggle("");
+      setWarning("");
+    } else setWarning("Пожалуйста выберите способ оплаты");
+  };
+
+  const saveDelivery = () => {
+    if (variableBuyer.delivery) {
+      setBuyer((prevBuyer) => ({
+        ...prevBuyer,
+        delivery: variableBuyer.delivery,
+      }));
+      activeModalToggle("");
+      setWarning("");
+    } else {
+      setWarning("Пожалуйста выберите способ доставки");
+    }
+  };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {
     const selectedCountry = codesCountry[country];
     setCurrentCodeCountry(selectedCountry);
     setBuyer((prevBuyer) => ({
       ...prevBuyer,
-      phone: `+${selectedCountry.code}`,
+      phone: selectedCountry.code,
     }));
     setMask(getMaskForCountry(selectedCountry.code));
     setVisible("");
   }, []);
 
   const orderHandler = useCallback(() => {
-    // Order processing logic here
+    if (
+      buyer.phone &&
+      buyer.surname &&
+      buyer.name &&
+      buyer.delivery &&
+      buyer.payment
+    ) {
+      console.log("success");
+      setWarning("");
+    } else {
+      null;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [activeModal, setActiveModal] = useState("");
@@ -160,9 +222,13 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
       {activeModal === "delivery" && (
         <>
           <ChosingDeliveryModal
+            variableBuyer={variableBuyer}
             visible={activeModal}
             close={activeModalToggle}
             variants={deliveryMethod}
+            selectDelivery={selectDelivery}
+            saveDelivery={saveDelivery}
+            warning={warning}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -173,9 +239,13 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
       {activeModal === "payment" && (
         <>
           <ChosingPaymentModal
+            variableBuyer={variableBuyer}
             visible={activeModal}
             close={activeModalToggle}
             variants={paymentMethod}
+            selectPayment={selectPayment}
+            savePayment={savePayment}
+            warning={warning}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -186,17 +256,32 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
       <section className={styles.wrap}>
         <button
           onClick={() => activeModalToggle("delivery")}
-          className={styles.wrap_delivery}
+          className={cn(
+            styles.wrap_delivery,
+            buyer.delivery && styles.wrap_delivery_success
+          )}
         >
           <DeliveryIcon />
-          <p className={styles.wrap_delivery_title}>Выберите способ доставки</p>
-          <span className={styles.wrap_delivery_expoint}>
-            <ExPoint />
+          <p className={styles.wrap_delivery_title}>
+            {buyer.delivery.length === 0
+              ? "Выберите способ доставки"
+              : buyer.delivery}
+          </p>
+          <span
+            className={cn(
+              styles.wrap_delivery_expoint,
+              buyer.delivery && styles.wrap_delivery_approve
+            )}
+          >
+            {buyer.delivery ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
         <button
           onClick={() => activeModalToggle("payment")}
-          className={styles.wrap_payment}
+          className={cn(
+            styles.wrap_payment,
+            buyer.payment && styles.wrap_payment_success
+          )}
         >
           <Image
             src="/img/pay_icon.svg"
@@ -204,9 +289,18 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
             height={20}
             alt="pay icon"
           />
-          <p className={styles.wrap_payment_title}>Выберите способ оплаты</p>
-          <span className={styles.wrap_payment_expoint}>
-            <ExPoint />
+          <p className={styles.wrap_payment_title}>
+            {buyer.payment.length === 0
+              ? "Выберите способ оплаты"
+              : buyer.payment}
+          </p>
+          <span
+            className={cn(
+              styles.wrap_payment_expoint,
+              buyer.payment && styles.wrap_payment_approve
+            )}
+          >
+            {buyer.payment ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
         <div className={styles.wrap_phone}>
