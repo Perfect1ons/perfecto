@@ -1,22 +1,16 @@
 import {
+  getNews,
   getNewsByIdOne,
   getNewsByIdThree,
   getNewsByIdTwo,
 } from "@/api/requests";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
+export const revalidate = 10;
 
+export async function generateStaticParams() {
+  const news = await getNews();
 
-export default async function IDPage({ params: { id } }: any) {
-  // Выполняем запросы параллельно, чтобы ускорить загрузку данных
-  const [dataOne, dataTwo, dataThree] = await Promise.all([
-    getNewsByIdOne(id),
-    getNewsByIdTwo(id),
-    getNewsByIdThree(id),
-  ]);
-
-  const result = [dataOne.result, dataTwo.result, dataThree.result].flat();
-
-  return <NewsById news={result} main={dataOne.news} />;
+  return news.map((newItem) => ({ id: newItem.id.toString() }));
 }
 
 export async function generateMetadata({ params: { id } }: any) {
@@ -30,3 +24,22 @@ export async function generateMetadata({ params: { id } }: any) {
       "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
   };
 }
+
+export default async function IDPage({ params: { id } }: any) {
+  // Выполняем запросы параллельно, чтобы ускорить загрузку данных
+  const [dataOne, dataTwo, dataThree] = await Promise.all([
+    getNewsByIdOne(id),
+    getNewsByIdTwo(id),
+    getNewsByIdThree(id),
+  ]);
+
+  const result = [dataOne.result, dataTwo.result, dataThree.result].flat();
+
+  return (
+    <>
+    <h1>hello world</h1>
+      <NewsById news={result} main={dataOne.news} />
+    </>
+  );
+}
+

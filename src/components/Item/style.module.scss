@@ -35,6 +35,7 @@
   &__aboutTheProduct {
     @include mixin.flex(center, space-between, null, 5px);
     @include mixin.font(14px, 400, 1.4, var(--dark));
+    user-select: none;
     &_codeName {
       user-select: none;
     }
