@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import styles from "./style.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
-import { Country } from "../AuthRegistration/AuthRegistration";
 import { postLoginCode } from "@/api/clientRequest";
+import { Country } from "../AuthModal";
 
 interface IAuthRecaptchaProps {
   setView: (view:  "registration" | "confirm" | "captcha") => void;

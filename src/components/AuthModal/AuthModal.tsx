@@ -19,7 +19,7 @@ interface ModalProps {
   isVisible: boolean;
   close: () => void;
 }
-interface Country {
+export interface Country {
   code: number;
   img: string;
   name: string;
