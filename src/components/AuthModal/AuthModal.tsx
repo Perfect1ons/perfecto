@@ -104,7 +104,19 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
       case "login":
         return {
           title: "Войти или создать профиль",
-          content: <AuthForm setView={setView} close={close} />,
+          content: (
+            <AuthForm
+              visibleHandler={visibleHandler}
+              countryOptions={countryOptions}
+              currentCodeCountry={currentCodeCountry}
+              visible={visible}
+              handleBuyerChange={handleBuyerChange}
+              mask={mask}
+              phoneNumber={phoneNumber}
+              setView={setView}
+              close={close}
+            />
+          ),
         };
       case "confirm":
         return {
