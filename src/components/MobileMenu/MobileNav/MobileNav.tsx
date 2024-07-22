@@ -37,6 +37,7 @@ export interface ICatalogProps {
   isMobileModalOpen: boolean;
   setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   history: string[];
+  isAuthed: any;
 }
 
 export default function MobileNav({
@@ -46,6 +47,7 @@ export default function MobileNav({
   isMobileModalOpen,
   setMobileModalOpen,
   history,
+  isAuthed,
 }: ICatalogProps) {
   // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
   const openMobileModal = () => {
@@ -75,13 +77,8 @@ export default function MobileNav({
   };
 
   const updateCartItemCount = () => {
-    let totalItemsInCart = 0;
-    cart.forEach((item) => {
-      if (item.quantity !== undefined) {
-        totalItemsInCart += item.quantity;
-      }
-    });
-    setCartItemCount(totalItemsInCart);
+    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+    setCartItemCount(baskets.length);
   };
 
   useEffect(() => {
@@ -353,7 +350,7 @@ export default function MobileNav({
             >
               Избранные{" "}
             </span>
-            {favoritesCount > 0 && (
+            {isAuthed && favoritesCount > 0 && (
               <span className={styles.option_count}>{favoritesCount}</span>
             )}
           </Link>
