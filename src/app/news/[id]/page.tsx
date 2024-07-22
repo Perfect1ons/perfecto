@@ -5,11 +5,9 @@ import {
   getNewsByIdTwo,
 } from "@/api/requests";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
-export const revalidate = 10;
 
 export async function generateStaticParams() {
   const news = await getNews();
-
   return news.map((newItem) => ({ id: newItem.id.toString() }));
 }
 
@@ -26,7 +24,6 @@ export async function generateMetadata({ params: { id } }: any) {
 }
 
 export default async function IDPage({ params: { id } }: any) {
-  // Выполняем запросы параллельно, чтобы ускорить загрузку данных
   const [dataOne, dataTwo, dataThree] = await Promise.all([
     getNewsByIdOne(id),
     getNewsByIdTwo(id),
@@ -35,11 +32,7 @@ export default async function IDPage({ params: { id } }: any) {
 
   const result = [dataOne.result, dataTwo.result, dataThree.result].flat();
 
-  return (
-    <>
-    <h1>hello world</h1>
-      <NewsById news={result} main={dataOne.news} />
-    </>
-  );
+  return <NewsById news={result} main={dataOne.news} />;
 }
 
+export const revalidate = 10;

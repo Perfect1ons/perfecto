@@ -23,7 +23,6 @@
     min-height: 200px;
     overflow: hidden;
 
-
     &_name {
       @include mixin.font(18px, 600, null, var(--dark));
       margin-top: 10px;
@@ -45,57 +44,54 @@
     }
   }
 
-
   &_documents_info {
-      align-self: center;
-      background: var(--white);
-      border-radius: 5px;
-      box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-      padding: 15px 25px;
-      max-height: 200px;
-      min-height: 200px;
+    align-self: center;
+    background: var(--white);
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 15px 25px;
+    max-height: 200px;
+    min-height: 200px;
 
+    &_list {
+      margin-top: 10px;
+      @include mixin.flex(flex-start, center, column, 10px);
+      &_item {
+        @include mixin.flex(center, center, null, 10px);
+        text-decoration: underline;
+        cursor: pointer;
+        @include mixin.font(1rem, 400, null, var(--dark-blue));
+        transition: 0.2s all;
+        @media screen and (max-width: 768px) {
+          font-size: 0.875rem;
+        }
 
-      &_list {
-        margin-top: 10px;
-        @include mixin.flex(flex-start, center, column, 10px);
-        &_item {
-          @include mixin.flex(center, center, null, 10px);
-          text-decoration: underline;
-          cursor: pointer;
-          @include mixin.font(1rem, 400, null, var(--dark-blue));
-          transition: 0.2s all;
-          @media screen and (max-width: 768px) {
-            font-size: 0.875rem;
-          }
-
-          &:hover {
-            color: silver;
-            &::before {
-              background: silver;
-            }
-          }
-
+        &:hover {
+          color: silver;
           &::before {
-            display: inline-block;
-            content: "";
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--dark-blue);
-            transition: 0.2s all;
+            background: silver;
           }
+        }
+
+        &::before {
+          display: inline-block;
+          content: "";
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--dark-blue);
+          transition: 0.2s all;
         }
       }
     }
-  
+  }
 }
 
-.card__title{
-          @include mixin.font(16px, 500, null, var(--dark));
-      @media screen and (max-width: 768px) {
-        font-size: 0.875rem;
-      }
+.card__title {
+  @include mixin.font(16px, 500, null, var(--dark));
+  @media screen and (max-width: 768px) {
+    font-size: 0.875rem;
+  }
 }
 
 .delivery__title {
@@ -105,17 +101,16 @@
   }
 }
 
-.delivery__info{
-    margin-top: 10px;
-    @include mixin.flex(flex-start,flex-start,column,10px);
-    &_content{
-        @include mixin.flex(center,null,null,10px)
-    }
+.delivery__info {
+  margin-top: 10px;
+  @include mixin.flex(flex-start, flex-start, column, 10px);
+  &_content {
+    @include mixin.flex(center, null, null, 10px);
+  }
 }
 
 .card__header {
   @include mixin.flex(center, space-between, null, 20px);
-  border-bottom: 2px solid var(--dark);
   min-height: 32px;
   svg {
     cursor: pointer;

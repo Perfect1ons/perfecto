@@ -3,13 +3,15 @@ import styles from "./style.module.scss";
 import React, { useEffect, useRef, useState } from "react";
 import cn from "clsx";
 import {
+  checkUser,
   getPersonalDataProfileClient,
   postConfirmCode,
   postLoginCode,
 } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
+import { useRouter } from "next/navigation";
 interface FormProps {
-  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
+  setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
   phoneNumber: string;
   currentCodeCountry: Country;
@@ -17,23 +19,27 @@ interface FormProps {
 
 const AuthConfirmCode = ({
   close,
-  setView,
   phoneNumber,
   currentCodeCountry,
 }: FormProps) => {
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
   const [attemptCount, setAttemptCount] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [invalidCodeMessage, setInvalidCodeMessage] = useState("");
   const [timer, setTimer] = useState(0); // Добавляем состояние для таймера
   const [canResend, setCanResend] = useState(false); // Флаг для кнопки повторной отправки
+  const [status, setStatus] = useState<number | null>(null);
+  const lastFocusedIndex = useRef<number | null>(null);
+  const router = useRouter()
   const inputRefs = useRef<Array<HTMLInputElement | null>>([
     null,
     null,
     null,
     null,
   ]);
+
   useEffect(() => {
     if (isButtonDisabled) {
       setCanResend(false);
@@ -93,6 +99,7 @@ const AuthConfirmCode = ({
     if (value && index < 3) {
       // Если введена цифра и это не последний инпут, переводим фокус на следующий инпут
       inputRefs.current[index + 1]?.focus();
+      lastFocusedIndex.current = index + 1;
     }
   };
 
@@ -112,6 +119,7 @@ const AuthConfirmCode = ({
         newCode[index - 1] = "";
         setCode(newCode);
         inputRefs.current[index - 1]?.focus();
+        lastFocusedIndex.current = index - 1;
       }
     } else if (!/^\d$/.test(event.key)) {
       // Если нажатая клавиша не цифра, предотвращаем ввод
@@ -119,8 +127,20 @@ const AuthConfirmCode = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const checkStatus = async (tel: number) => {
+    try {
+      const fetchStatus = await checkUser(tel);
+      if (fetchStatus) {
+        setStatus(fetchStatus);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
+
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) e.preventDefault();
 
     if (code.some((field) => field === "")) {
       setWarning("Пожалуйста, заполните все поля кода.");
@@ -133,6 +153,16 @@ const AuthConfirmCode = ({
           cleanedPhoneNumber,
           confirmationCode
         );
+        try {
+          checkStatus(parseInt(cleanedPhoneNumber));
+          if (status == 0) {
+            setStatus(0);
+          } else {
+            setStatus(1);
+          }
+        } catch (error) {
+          console.log(error);
+        }
         if (
           response.ok &&
           response.headers.get("Content-Type")?.includes("application/json")
@@ -144,7 +174,7 @@ const AuthConfirmCode = ({
 
           if (data.access_token && userInfo.id) {
             const accessToken = data.access_token;
-            const userId = userInfo.id; // Get userId from response
+            const userId = userInfo.id;
             await fetch("/api/auth", {
               method: "POST",
               headers: {
@@ -152,15 +182,24 @@ const AuthConfirmCode = ({
               },
               body: JSON.stringify({ accessToken, userId }), // Send both accessToken and userId
             });
+            setLoading(false);
             close();
-            window.location.reload();
+            if (status == 0) {
+              router.push("/profile/lk");
+            } else{
+              window.location.reload();
+            }
           } else {
+            setLoading(false);
             handleInvalidCodeAttempt();
           }
         } else {
+          setLoading(false);
+
           handleInvalidCodeAttempt();
         }
       } catch (error) {
+        setLoading(false);
         handleInvalidCodeAttempt();
       }
     }
@@ -180,6 +219,18 @@ const AuthConfirmCode = ({
 
     setInvalidCodeMessage("Неправильный код. Попробуйте снова.");
   };
+  useEffect(() => {
+    if (code.every((field) => field !== "")) {
+      setLoading(true);
+      handleSubmit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code]);
+  useEffect(() => {
+    if (!loading && lastFocusedIndex.current !== null) {
+      inputRefs.current[lastFocusedIndex.current]?.focus();
+    }
+  }, [loading]);
   if (invalidCodeMessage) {
     setTimeout(() => {
       setInvalidCodeMessage("");
@@ -188,56 +239,62 @@ const AuthConfirmCode = ({
 
   return (
     <>
-      <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <p>Введите код, который мы отправили вам в SMS:</p>
-        <div className={styles.containerConfirm}>
-          {code.map((digit, index) => (
-            <input
-              key={index}
-              type="text"
-              className={styles.inputConfirm}
-              value={digit}
-              maxLength={1}
-              onChange={(e) => handleChange(index, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
-              autoFocus={index === 0}
-              ref={(el) => {
-                inputRefs.current[index] = el;
-              }}
-            />
-          ))}
+      {loading ? (
+        <div className={styles.loader__container}>
+          <div className={styles.loader}></div>
         </div>
-        <div className={styles.modalButtons}>
-          {canResend ? (
-            <button
-              className={cn(styles.modalButton, "button")}
-              onClick={handleResendCode}
-              aria-label="resend verification code"
-            >
-              Отправить код повторно
-            </button>
-          ) : (
-            <button
-              className={cn(styles.modalButton, "button")}
-              aria-label="confirm the confirmation code"
-              disabled={isButtonDisabled}
-              // type="submit"
-            >
-              Подтвердить
-            </button>
+      ) : (
+        <form className={styles.modal__form} onSubmit={handleSubmit}>
+          <p>Введите код, который мы отправили вам в SMS:</p>
+          <div className={styles.containerConfirm}>
+            {code.map((digit, index) => (
+              <input
+                key={index}
+                type="text"
+                className={styles.inputConfirm}
+                value={digit}
+                maxLength={1}
+                onChange={(e) => handleChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+                ref={(el) => {
+                  inputRefs.current[index] = el;
+                }}
+                autoFocus={index === 0}
+              />
+            ))}
+          </div>
+          {invalidCodeMessage && (
+            <p style={{ color: "red" }}>{invalidCodeMessage}</p>
           )}
-        </div>
-        {isButtonDisabled && (
-          <p style={{ color: "red", fontSize: "0.9rem" }}>
-            Вы превысили лимит попыток. Попробуйте снова через {timer}s.
-          </p>
-        )}
+          <div className={styles.modalButtons}>
+            {canResend ? (
+              <button
+                className={cn(styles.modalButton, "button")}
+                onClick={handleResendCode}
+                aria-label="resend verification code"
+              >
+                Отправить код повторно
+              </button>
+            ) : (
+              <button
+                className={cn(styles.modalButton, "button")}
+                aria-label="confirm the confirmation code"
+                disabled={isButtonDisabled}
+                // type="submit"
+              >
+                Подтвердить
+              </button>
+            )}
+          </div>
+          {isButtonDisabled && (
+            <p style={{ color: "red", fontSize: "0.9rem" }}>
+              Вы превысили лимит попыток. Попробуйте снова через {timer}s.
+            </p>
+          )}
 
-        {warning && <p style={{ color: "red" }}>{warning}</p>}
-        {invalidCodeMessage && (
-          <p style={{ color: "red" }}>{invalidCodeMessage}</p>
-        )}
-      </form>
+          {warning && <p style={{ color: "red" }}>{warning}</p>}
+        </form>
+      )}
     </>
   );
 };

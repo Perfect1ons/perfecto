@@ -8,7 +8,7 @@
   border-radius: 5px;
   border: 2px solid var(--gray);
   padding: 10px 20px;
-  max-width: 56px;
+  max-width: 60px;
   @include mixin.font(24px, 700, null, var(--dark));
 
   &:focus {
@@ -31,5 +31,28 @@
 
   &:hover {
     background: var(--violet);
+  }
+}
+.loader__container {
+  @include mixin.flex(center, center, column, 30px);
+  min-height: 173px;
+  border-radius: 10px;
+}
+
+.loader {
+  border: 5px solid var(--dark-blue);
+  border-top: 5px solid #112b6670;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }

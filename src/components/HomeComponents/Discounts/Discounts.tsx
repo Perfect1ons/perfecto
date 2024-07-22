@@ -85,9 +85,9 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
         </div>
 
         {!loading && shownCount < 20 && (
-          <div className="default__buttons">
+          <div className="showMore__buttons">
             <button
-              className="default__buttons_showMore"
+              className="showMore__button"
               onClick={handleShowMore}
               aria-label="click to show more"
             >
@@ -97,11 +97,11 @@ const Discounts: React.FC<IDiscountsProps> = ({ discounts }) => {
         )}
 
         {shownCount >= 20 && (
-          <div className="default__buttons">
-            <Link className="link" href="/discount?page=1">
+          <div className="showMore__buttons">
+            <Link href="/discount?page=1">
               <button
                 aria-label="click to show all"
-                className="default__buttons_showMore"
+                className="showMore__button"
               >
                 Показать все
               </button>

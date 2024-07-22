@@ -2,13 +2,10 @@
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
-import {
-  ArrowDropdown,
-  CheckIcon,
-  WarningIcon,
-} from "../../../../public/Icons/Icons";
+import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
+import { postLoginCode } from "@/api/clientRequest";
 
 interface FormProps {
   setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
@@ -30,11 +27,61 @@ const codesCountry: Record<string, Country> = {
 type CountryKey = keyof typeof codesCountry;
 
 const AuthForm = ({ setView, close }: FormProps) => {
-  const [isRemember, setIsRemember] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [warning, setWarning] = useState("");
-
   const [visible, setVisible] = useState("");
+  // const [warning, setWarning] = useState("");
+  // const checkStatus = async (tel: number) => {
+  //   try {
+  //     const fetchStatus = await checkUser(tel);
+  //     if (fetchStatus) {
+  //       setStatus(fetchStatus);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //   }
+  // };
+
+  const handleSubmitCode = (event: any) => {
+    event.preventDefault();
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
+    }
+
+    if (cleanedPhoneNumber.length !== expectedLength) {
+      console.log("Phone number length is incorrect for the selected country.");
+      setWarning("Пожалуйста, заполните поле.");
+
+      return;
+    }
+    postLoginCode(cleanedPhoneNumber);
+    // setView("confirm");
+    setWarning("");
+    // try {
+    //   checkStatus(parseInt(cleanedPhoneNumber));
+    //   if (status == 0) {
+    //     postLoginCode(cleanedPhoneNumber);
+    //     setView("confirm");
+    //     setWarning("");
+    //   } else {
+    //     setWarning("Такой пользователь уже сущетсвует");
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
@@ -62,31 +109,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     setPhoneNumber(value);
   }, []);
 
-  const AnonimHandler = () => {
-    setIsRemember(!isRemember);
-  };
-
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("/api/jlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        window.location.reload();
-        close();
-      }
-    } catch (error) {
-      console.log("An error occurred");
-    }
-  };
-
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -94,16 +116,28 @@ const AuthForm = ({ setView, close }: FormProps) => {
     const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
 
     // Check for empty field or incomplete phone number
-    if (!numericPhoneNumber) {
-      setWarning("Это поле не может быть пустым.");
-      return;
-    } else if (numericPhoneNumber.length < 11) {
-      setWarning("Номер введен не полностью.");
-      return;
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
     }
 
+    if (numericPhoneNumber.length !== expectedLength) {
+      setWarning("Номер введен не полностью.");
+      return;
+    } else if (!numericPhoneNumber) {
+      setWarning("Это поле не может быть пустым.");
+      return;
+    }
+    setView("captcha");
     setWarning("");
-    handleLogin();
   };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {
@@ -135,11 +169,10 @@ const AuthForm = ({ setView, close }: FormProps) => {
       </button>
     ));
   }, [codeCountryHandler]);
-
   return (
     <div className={styles.modal}>
       <p className={styles.modal__text}>
-        Войдите в свой аккаунт или зарегистрируйтесь, чтобы делать покупки,
+        Войдите в свой аккаунт или создайте профиль, чтобы делать покупки,
         отслеживать заказы, добавлять в избранное и получать персональные
         скидки.
       </p>
@@ -154,10 +187,12 @@ const AuthForm = ({ setView, close }: FormProps) => {
             >
               {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
                 <input
+                  autoComplete="off"
                   {...inputProps}
                   name="phone"
+                  placeholder="Телефон ( Обязательно )"
                   type="text"
-                  placeholder="Телефон"
+                  required
                 />
               )}
             </InputMask>
@@ -193,49 +228,30 @@ const AuthForm = ({ setView, close }: FormProps) => {
               </span>
             )}
           </div>
+
           {visible === "country" && (
             <div className={styles.modal__form_phone_dropdown}>
               {countryOptions}
             </div>
           )}
         </div>
-
         {warning && <span className={styles.warning}>{warning}</span>}
+        <div className={styles.mail__label}>
+          <input className={styles.mail__inputField} type="text" />
+          <label className={styles.mail__inputLabel}>Почта</label>
+        </div>
 
         <button
+          onClick={handleSubmitCode}
           // onClick={() => setView("captcha")}
           // disabled={!warning}
           aria-label="go to enter"
           type="submit"
           className={cn(styles.modal__button, "button")}
         >
-          Войти
+          Получить код
         </button>
       </form>
-
-      <div className={styles.modal__rememberMe}>
-        <button
-          className={styles.modal__rememberMe_btn}
-          onClick={AnonimHandler}
-        >
-          <span
-            className={cn(styles.modal__rememberMe_check, {
-              [styles.modal__rememberMe_checkActive]: isRemember,
-            })}
-          >
-            {isRemember && <CheckIcon />}
-          </span>
-          <span className={styles.modal__rememberMe_text}>Запомнить</span>
-        </button>
-      </div>
-
-      <button
-        className={cn(styles.modal__more_button, "button")}
-        onClick={() => setView("registration")}
-        aria-label="go to registration"
-      >
-        Регистрация
-      </button>
     </div>
   );
 };
