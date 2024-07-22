@@ -1,7 +1,7 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
 .skeletons {
-  background: var(--secondlight);
+  background: var(--bg-graylight);
   padding-bottom: 50px;
 
   &__cards {
@@ -38,7 +38,7 @@
 }
 
 .profile {
-  background: var(--secondlight);
+  background: var(--bg-graylight);
   padding-bottom: 50px;
   &__showMore {
     text-decoration: none;

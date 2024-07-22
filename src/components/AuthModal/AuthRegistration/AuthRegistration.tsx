@@ -79,18 +79,7 @@ const AuthRegistration = ({
     postLoginCode(cleanedPhoneNumber);
     setView("confirm");
     setWarning("");
-    // try {
-    //   checkStatus(parseInt(cleanedPhoneNumber));
-    //   if (status == 0) {
-    //     postLoginCode(cleanedPhoneNumber);
-    //     setView("confirm");
-    //     setWarning("");
-    //   } else {
-    //     setWarning("Такой пользователь уже сущетсвует");
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+
   };
 
   return (
