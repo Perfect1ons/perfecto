@@ -10,8 +10,7 @@ interface IHeaderProps {
   searchHistory: string[];
 }
 
-export default function HeaderWrap({ isAuthed,  searchHistory }: IHeaderProps) {
-
+export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -47,6 +46,7 @@ export default function HeaderWrap({ isAuthed,  searchHistory }: IHeaderProps) {
         setMobileModalOpen={setMobileModalOpen}
       />
       <MobileNav
+        isAuthed={isAuthed}
         history={searchHistory}
         catalogs={catalog}
         click={fetchCatalogs}
