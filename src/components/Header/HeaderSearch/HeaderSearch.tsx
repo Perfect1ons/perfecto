@@ -47,6 +47,8 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
       setFastValue(undefined);
       return;
     }
+    console.log(decodeURIComponent(newValue));
+    
     fetchData(decodeURIComponent(newValue));
     setInputActive(true);
   };
@@ -249,7 +251,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = ({
                     />
                   </>
                 )}
-                {fastValue?.model && fastValue.model._meta.totalCount > 0 && (
+                {fastValue?.model && fastValue.model.items.length > 0 && (
                   <>
                     <div className={styles.searchResults__section}>
                       <h4 className={styles.searchResults__section__title}>

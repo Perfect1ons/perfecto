@@ -134,7 +134,7 @@ export const getUserSearch = (slug: string): Promise<ISearch> => {
 };
 
 export const getFastUserSearch = (slug: string): Promise<ISearch> => {
-  return maxkg.get(`naltovarok/seek?search=${slug}`).json();
+  return maxkg.get(`naltovarok/seek?search=${slug}&page=1`).json();
 };
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 

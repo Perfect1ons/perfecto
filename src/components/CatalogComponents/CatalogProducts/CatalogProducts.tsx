@@ -13,10 +13,7 @@ import CatalogFiltres, {
 import AllFiltersMobile from "../AllFiltersMobile/AllFiltersMobile";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import cn from "clsx";
-import {
-  ICategoryFilter,
-  ICategoryModel,
-} from "@/types/Catalog/catalogFilters";
+import { ICategoryModel } from "@/types/Catalog/catalogFilters";
 import { ICatalogsProducts, Tov } from "@/types/Catalog/catalogProducts";
 import { IFiltersBrand, Filter2 } from "@/types/filtersBrand";
 import { BreadCrumbs } from "@/types/BreadCrums/breadCrums";
@@ -492,7 +489,9 @@ export default function CatalogProducts({
   return (
     <section>
       <CatalogCrumbs breadCrumbs={breadCrumbs} />
-      <CatalogBanner isMobile={isMobile} banner={banner} />
+      {banner.baner.length > 0 && (
+        <CatalogBanner isMobile={isMobile} banner={banner} />
+      )}
       <div className="container">
         <h1 className={styles.category__title}>{catalog.category.name}</h1>
       </div>
