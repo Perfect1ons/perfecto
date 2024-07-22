@@ -6,6 +6,7 @@ import { INews } from "@/types/news";
 import styles from "./style.module.scss";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { url } from "@/components/temporary/data";
 
 interface INewProps {
   news: INews[];
@@ -43,7 +44,7 @@ const News = ({ news }: INewProps) => {
                   >
                     <Image
                       className={styles.promotion__card_img}
-                      src={`https://max.kg/${item.logo}`}
+                      src={`${url}${item.logo}`}
                       width={400}
                       height={250}
                       alt={item.naim}
@@ -53,10 +54,10 @@ const News = ({ news }: INewProps) => {
                 </div>
               ))}
         </div>
-        <div className="default__buttons">
+        <div className="showMore__buttons">
           {!loading && shownCount < 18 && !showAllButton && (
             <button
-              className="default__buttons_showMore"
+              className="showMore__button"
               onClick={handleShowMore}
               aria-label="click to show more"
             >
@@ -64,10 +65,10 @@ const News = ({ news }: INewProps) => {
             </button>
           )}
           {shownCount >= 18 && !showAllButton && (
-            <Link className="link" href="/news">
+            <Link href="/news">
               <button
                 aria-label="click to show all"
-                className="default__buttons_showMore"
+                className="showMore__button"
               >
                 Показать все
               </button>

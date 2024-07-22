@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { url } from "@/components/temporary/data";
 
 interface IPromoProps {
   promotion: IPromotion[];
@@ -55,7 +56,7 @@ const Promotion = ({ promotion }: IPromoProps) => {
                   >
                     <Image
                       className={styles.promotion__card_img}
-                      src={`https://max.kg/${item.logo}`}
+                      src={`${url}${item.logo}`}
                       width={400}
                       height={250}
                       alt={item.naim}
@@ -64,20 +65,15 @@ const Promotion = ({ promotion }: IPromoProps) => {
                 </div>
               ))}
         </div>
-        <div className="default__buttons">
+        <div className="showMore__buttons">
           {!loading ? (
             !showAll ? (
-              <button
-                className="default__buttons_showMore"
-                onClick={handleShowMore}
-              >
+              <button className="showMore__button" onClick={handleShowMore}>
                 Показать ещё
               </button>
             ) : (
-              <Link className="link" href="promotions" passHref>
-                <button className="default__buttons_showMore">
-                  Показать все
-                </button>
+              <Link  href="promotions" passHref>
+                <button className="showMore__button">Показать все</button>
               </Link>
             )
           ) : (

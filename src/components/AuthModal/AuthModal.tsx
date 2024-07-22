@@ -43,6 +43,7 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
     const { value } = e.target;
     setPhoneNumber(value);
   }, []);
+
   const getMaskForCountry = (code: number) => {
     switch (code) {
       case 996:
@@ -91,25 +92,21 @@ const AuthModal = ({ isVisible, close }: ModalProps) => {
   }, [codeCountryHandler]);
 
   const [view, setView] = useState<
-    "login" | "registration" | "confirm" | "captcha"
-  >("login");
+     "registration" | "confirm" | "captcha"
+  >("registration");
 
   useEffect(() => {
     if (!isVisible) {
-      setView("login");
+      setView("registration");
     }
   }, [isVisible]);
 
   const renderFormContent = () => {
     switch (view) {
-      case "login":
-        return {
-          title: "Войти",
-          content: <AuthForm setView={setView} close={close} />,
-        };
+
       case "registration":
         return {
-          title: "Регистрация",
+          title: "Войти или создать профиль",
           content: (
             <AuthRegistration
               visibleHandler={visibleHandler}

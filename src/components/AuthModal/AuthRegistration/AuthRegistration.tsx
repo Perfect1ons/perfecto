@@ -5,7 +5,7 @@ import { ArrowDropdown } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 import { ChangeEvent, useState } from "react";
-import { postLoginCode } from "@/api/clientRequest";
+import { checkUser, postLoginCode } from "@/api/clientRequest";
 export interface Country {
   code: number;
   img: string;
@@ -19,7 +19,7 @@ interface FormProps {
   mask: any;
   currentCodeCountry: Country;
   visible: string;
-  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
+  setView: (view:  "registration" | "confirm" | "captcha") => void;
   close: () => void;
   visibleHandler: (current: string) => void;
 }
@@ -35,10 +35,25 @@ const AuthRegistration = ({
   visibleHandler,
 }: FormProps) => {
   const [warning, setWarning] = useState("");
+  const [status, setStatus] = useState<number | null>(null);
   const isValidPhoneNumber = (phoneNumber: string, mask: string): boolean => {
     const phoneRegex = new RegExp(`^${mask}$`);
     return phoneRegex.test(phoneNumber);
   };
+
+  
+  const checkStatus = async (tel: number) => {
+    try {
+      const fetchStatus = await checkUser(tel);
+      if (fetchStatus) {
+        setStatus(fetchStatus)
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
+  
   const handleSubmit = (event: any) => {
     event.preventDefault();
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
@@ -62,9 +77,18 @@ const AuthRegistration = ({
 
       return;
     }
-    setWarning("");
-    postLoginCode(cleanedPhoneNumber);
-    setView("confirm");
+    try {
+      checkStatus(parseInt(cleanedPhoneNumber));
+      if (status == 0) {
+        postLoginCode(cleanedPhoneNumber);
+        setView("confirm");
+        setWarning("");
+      } else {
+        setWarning("Такой пользователь уже сущетсвует")
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -113,7 +137,7 @@ const AuthRegistration = ({
               )}
             </InputMask>
           </div>
-          {warning && <p style={{ color: "red" }}>{warning}</p>}
+          {warning && <p className={styles.warning}>{warning}</p>}
 
           {visible === "country" && (
             <div className={styles.modal__form_phone_dropdown}>
@@ -130,14 +154,6 @@ const AuthRegistration = ({
           Регистрация
         </button>
       </form>
-      <div className={styles.modal__more_buttons}>
-        <button
-          className={cn(styles.modal__more_button, "button")}
-          onClick={() => setView("login")}
-        >
-          Войти
-        </button>
-      </div>
     </>
   );
 };

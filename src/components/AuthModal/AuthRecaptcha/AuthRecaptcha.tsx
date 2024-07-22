@@ -6,7 +6,7 @@ import { Country } from "../AuthRegistration/AuthRegistration";
 import { postLoginCode } from "@/api/clientRequest";
 
 interface IAuthRecaptchaProps {
-  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
+  setView: (view:  "registration" | "confirm" | "captcha") => void;
   phoneNumber: string;
   currentCodeCountry: Country;
 }

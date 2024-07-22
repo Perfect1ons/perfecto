@@ -51,43 +51,35 @@ export default function PopularGoods({ goods }: IPopularGoodsProps) {
 
   return (
     <div className="goods">
-      <div className="container">
-        <h1 className="sections__title">Популярные товары</h1>
+      <h1 className="sections__title container">Популярные товары</h1>
+      <div className="cards">
+        {loading
+          ? skeletonCards.map((_, index) => (
+              <CardSkeleton key={index} loading={loading} />
+            ))
+          : data.slice(0, page * perPage).map((item, index) => (
+              <Card cardData={item} key={index} />
+            ))}
       </div>
-      <div className="cardContainer">
-        <div className="cards">
-          {loading
-            ? skeletonCards.map((_, index) => (
-                <CardSkeleton key={index} loading={loading} />
-              ))
-            : data.slice(0, page * perPage).map((item, index) => (
-                <Card cardData={item} key={index} />
-                // <Card cardData={item} key={index} loading={loading} />
-              ))}
+
+      {!loading && !showAll && page < maxPagesToShowMore && (
+        <div className="showMore__buttons">
+          <button className="showMore__button" onClick={handleShowMore}>
+            Показать еще
+          </button>
         </div>
+      )}
 
-        {!loading && !showAll && page < maxPagesToShowMore && (
-          <div className="showMoreBtn">
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowMore}
-            >
-              Показать еще
-            </button>
-          </div>
-        )}
-
-        {showAll && (
-          <div className="showMoreBtn">
-            <button
-              className="default__buttons_showMore"
-              onClick={() => router.push("/popular")}
-            >
-              Показать все
-            </button>
-          </div>
-        )}
-      </div>
+      {showAll && (
+        <div className="showMore__buttons">
+          <button
+            className="showMore__button"
+            onClick={() => router.push("/popular")}
+          >
+            Показать все
+          </button>
+        </div>
+      )}
     </div>
   );
 }

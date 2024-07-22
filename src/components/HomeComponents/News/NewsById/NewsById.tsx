@@ -28,7 +28,6 @@ const NewsById = ({ news, main }: INewsByIdProps) => {
   };
   return (
     <section className="news__by_path">
-      <h1>hello world</h1>
       <div className="container">
         <div className="all__directions">
           <Link href={"/"} className="all__directions_link">

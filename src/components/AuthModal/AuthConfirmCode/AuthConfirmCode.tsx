@@ -9,7 +9,7 @@ import {
 } from "@/api/clientRequest";
 import { Country } from "../AuthRegistration/AuthRegistration";
 interface FormProps {
-  setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
+  setView: (view:  "registration" | "confirm" | "captcha") => void;
   close: () => void;
   phoneNumber: string;
   currentCodeCountry: Country;
@@ -184,6 +184,7 @@ const AuthConfirmCode = ({
     if (code.every((field) => field !== "")) {
       handleSubmit();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
   if (invalidCodeMessage) {
     setTimeout(() => {

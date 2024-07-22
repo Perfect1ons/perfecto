@@ -66,26 +66,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     setIsRemember(!isRemember);
   };
 
-  const handleLogin = async () => {
-    try {
-      const response = await fetch("/api/jlogin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        window.location.reload();
-        close();
-      }
-    } catch (error) {
-      console.log("An error occurred");
-    }
-  };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -103,7 +83,6 @@ const AuthForm = ({ setView, close }: FormProps) => {
     }
 
     setWarning("");
-    handleLogin();
   };
 
   const codeCountryHandler = useCallback((country: CountryKey) => {

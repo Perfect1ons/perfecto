@@ -351,3 +351,7 @@ export const getOrderHistoryOrderRating = async (
 
   return data as IRatingOrderHistoryCard;
 };
+
+export const checkUser = (tel: number): Promise<number> => {
+  return maxkg.get(`prof/exists-user?tel=${tel}`).json();
+};

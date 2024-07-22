@@ -4,10 +4,6 @@ import { IBrandItem } from "@/types/brands";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 interface IBrandsProps {
   brands: IBrandItem[];
@@ -16,7 +12,6 @@ interface IBrandsProps {
 const Brands = ({ brands }: IBrandsProps) => {
   const initialPageSize = 12;
   const [pageSize, setPageSize] = useState(initialPageSize);
-  const router = useRouter();
 
   const handleShowMore = () => {
     const newPageSize = pageSize + 12 > 24 ? 24 : pageSize + 12;
@@ -40,21 +35,19 @@ const Brands = ({ brands }: IBrandsProps) => {
             );
           })}
         </div>
-        <div className="default__buttons">
+        <div className="showMore__buttons">
           {pageSize < 24 ? (
-            <button
-              className="default__buttons_showMore"
-              onClick={handleShowMore}
-            >
+            <button className="showMore__button" onClick={handleShowMore}>
               Показать еще
             </button>
           ) : (
-            <button
-              onClick={() => router.push("/brands")}
-              className="default__buttons_showMore"
-            >
-              Показать все
-            </button>
+            <Link href={"/brands"}>
+              <button
+                className="showMore__button"
+              >
+                Показать все
+              </button>
+            </Link>
           )}
         </div>
       </div>
