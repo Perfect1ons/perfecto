@@ -17,14 +17,21 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import ReactPaginate from "react-paginate";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { SelectCityType } from "@/types/Basket/SelectCity";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
+  deliveryCity: SelectCityType;
 }
 
-const Basket = ({ paymentMethod, deliveryMethod, authToken }: IBasketProps) => {
+const Basket = ({
+  paymentMethod,
+  deliveryMethod,
+  authToken,
+  deliveryCity,
+}: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
   const [selectAll, setSelectAll] = useState(false);
@@ -176,6 +183,7 @@ const Basket = ({ paymentMethod, deliveryMethod, authToken }: IBasketProps) => {
           <div className={styles.cardContainer}>
             <BasketProducts currentItems={currentItems} />
             <BasketOrder
+              deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
               authToken={authToken}

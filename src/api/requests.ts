@@ -34,6 +34,7 @@ import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { IOrderById } from "@/types/OrderById/orderbyid";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { SelectCityType } from "@/types/Basket/SelectCity";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -321,6 +322,6 @@ export const getDeliveryMethod = (
 ): Promise<DeliveryMethod> => {
   return maxkg.get(`naltovarok/viddost?idUser=${idUser}`).json();
 };
-export const getSelectRegion = (): Promise<DeliveryMethod> => {
+export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
 };

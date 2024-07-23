@@ -10,6 +10,7 @@ import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { SelectCityType } from "@/types/Basket/SelectCity";
 
 interface IChosingDeliveryModalProps {
   variableBuyer: { payment: string; delivery: string };
@@ -19,6 +20,8 @@ interface IChosingDeliveryModalProps {
   selectDelivery: (value: string) => void;
   saveDelivery: () => void;
   warning: string;
+  deliveryCity: SelectCityType;
+  authToken: string | undefined;
 }
 
 const ChosingDeliveryModal = ({
@@ -29,6 +32,8 @@ const ChosingDeliveryModal = ({
   saveDelivery,
   variableBuyer,
   warning,
+  deliveryCity,
+  authToken,
 }: IChosingDeliveryModalProps) => {
   const [deliveryType, setDeliveryType] = useState("point");
 
@@ -65,6 +70,8 @@ const ChosingDeliveryModal = ({
       )}
       {deliveryType === "courier" && (
         <CourierDeliveryType
+          authToken={authToken}
+          deliveryCity={deliveryCity}
           variableBuyer={variableBuyer}
           variants={variants}
           selectDelivery={selectDelivery}

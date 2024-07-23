@@ -2,6 +2,7 @@ import {
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
+  getSelectCity,
 } from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
 import { generatePageMetadata } from "@/utils/metadata";
@@ -14,9 +15,11 @@ export default async function Page() {
 
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);
+  const deliveryCity = await getSelectCity();
 
   return (
     <Basket
+      deliveryCity={deliveryCity}
       paymentMethod={paymentMethod}
       deliveryMethod={deliveryMehod}
       authToken={authToken}
