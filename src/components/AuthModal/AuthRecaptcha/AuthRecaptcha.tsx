@@ -3,11 +3,8 @@ import React, { useState } from "react";
 import styles from "./style.module.scss";
 import ReCAPTCHA from "react-google-recaptcha";
 import { postLoginCode } from "@/api/clientRequest";
-interface Country {
-  code: number;
-  img: string;
-  name: string;
-}
+import { Country } from "../AuthModal";
+
 interface IAuthRecaptchaProps {
   setView: (view: "registration" | "confirm" | "captcha") => void;
   phoneNumber: string;

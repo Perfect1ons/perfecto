@@ -9,11 +9,7 @@ import {
   postLoginCode,
 } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
-interface Country {
-  code: number;
-  img: string;
-  name: string;
-}
+import { Country } from "../AuthModal";
 interface FormProps {
   setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
