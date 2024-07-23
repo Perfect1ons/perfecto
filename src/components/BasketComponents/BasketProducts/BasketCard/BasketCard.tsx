@@ -153,9 +153,7 @@ const BasketCard = ({
               title={
                 isFavorite ? "Удалить из избранного" : "Добавить в избранное"
               }
-              className={cn("add__to_fav", {
-                ["add__to_fav_active"]: isFavorite,
-              })}
+              className={styles.iconBasket}
             >
               <span className="add__to_fav_icon">
                 {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
@@ -164,7 +162,7 @@ const BasketCard = ({
             <button
               onClick={removeFromCart}
               title="Удалить товар"
-              className={cn("add__to_fav")}
+              className={styles.iconBasket}
             >
               <span className="add__to_fav_icon">
                 <TrashIcon />

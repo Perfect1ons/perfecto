@@ -21,9 +21,10 @@ import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
+  authToken: string | undefined;
 }
 
-const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
+const Basket = ({ paymentMethod, deliveryMethod, authToken }: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
   const [selectAll, setSelectAll] = useState(false);
@@ -185,6 +186,7 @@ const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
             <BasketOrder
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
+              authToken={authToken}
             />
           </div>
         </div>

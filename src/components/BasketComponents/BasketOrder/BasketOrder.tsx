@@ -16,6 +16,7 @@ import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 export interface Buyer {
   phone: string;
@@ -42,10 +43,21 @@ type CountryKey = keyof typeof codesCountry;
 interface IBasketOrderProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
+  authToken: string | undefined;
 }
 
-const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
+const BasketOrder = ({
+  paymentMethod,
+  deliveryMethod,
+  authToken,
+}: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
+
+  const [regVisible, setRegVisible] = useState(false);
+
+  const regVisibleHandle = () => {
+    setRegVisible(false);
+  };
 
   const [variableBuyer, setVariableBuyer] = useState({
     payment: "",
@@ -177,23 +189,29 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
   }, []);
 
   const orderHandler = useCallback(() => {
-    if (
-      buyer.phone &&
-      buyer.surname &&
-      buyer.name &&
-      buyer.delivery &&
-      buyer.payment
-    ) {
-      console.log("success");
+    if (authToken) {
+      console.log("welcome");
     } else {
-      if (buyer.delivery.length <= 0)
-        setDeliveryWarning("Пожалуйста выберите способ доставки");
-      if (buyer.payment.length <= 0)
-        setPaymentWarning("Пожалуйста выберите способ оплаты ");
-      if (buyer.surname.length <= 0)
-        setSurnameWarning("Пожалуйста укажите вашу фамилию");
-      if (buyer.name.length <= 0) setNameWarning("Пожалуйста укажите ваше имя");
+      setRegVisible(true);
     }
+    // if (
+    //   buyer.phone &&
+    //   buyer.surname &&
+    //   buyer.name &&
+    //   buyer.delivery &&
+    //   buyer.payment
+    // ) {
+    //   console.log("success");
+    // } else {
+    //   if (buyer.delivery.length === 0)
+    //     setDeliveryWarning("Пожалуйста выберите способ доставки");
+    //   if (buyer.payment.length === 0)
+    //     setPaymentWarning("Пожалуйста выберите способ оплаты ");
+    //   if (buyer.surname.length === 0)
+    //     setSurnameWarning("Пожалуйста укажите вашу фамилию");
+    //   if (buyer.name.length === 0)
+    //     setNameWarning("Пожалуйста укажите ваше имя");
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -201,6 +219,11 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   const activeModalToggle = (value: string) => {
     setActiveModal(value);
+    // if (authToken) {
+    //   setActiveModal(value);
+    // } else {
+    //   setRegVisible(true);
+    // }
   };
 
   const countryOptions = useMemo(() => {
@@ -227,6 +250,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   return (
     <>
+      {regVisible === true && (
+        <AuthModal isVisible={regVisible} close={regVisibleHandle} />
+      )}
       {activeModal === "delivery" && (
         <>
           <ChosingDeliveryModal
@@ -319,69 +345,80 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
         )}
         <div className={styles.wrap_phone}>
           <div className={styles.wrap_phone_control}>
-            <button
-              onClick={() => visibleHandler("country")}
-              className={styles.wrap_phone_control_selectCountry}
+            <InputMask
+              mask={mask}
+              value={buyer.phone}
+              onChange={handleBuyerChange}
+              className={styles.auth__input}
             >
+              {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                <input
+                  autoComplete="off"
+                  {...inputProps}
+                  name="phone"
+                  placeholder="Телефон ( Обязательно )"
+                  type="text"
+                  required
+                />
+              )}
+            </InputMask>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                visibleHandler("country");
+              }}
+              className={styles.select__country}
+            >
+              <span
+                className={cn(
+                  visible === "country"
+                    ? styles.select__country_arrow__active
+                    : styles.select__country_arrow
+                )}
+              >
+                <ArrowDropdown />
+              </span>
               <Image
-                className={styles.wrap_phone_control_selectCountry_img}
+                className={styles.select__country_img}
                 src={currentCodeCountry.img}
                 width={30}
                 height={30}
                 alt={currentCodeCountry.name}
               />
-              <span
-                className={cn(
-                  visible === "country"
-                    ? styles.wrap_phone_control_selectCountry_arrow__active
-                    : styles.wrap_phone_control_selectCountry_arrow
-                )}
-              >
-                <ArrowDropdown />
-              </span>
             </button>
-            <InputMask
-              mask={mask}
-              value={buyer.phone}
-              onChange={handleBuyerChange}
-              className={styles.wrap_phone_control_input}
-            >
-              {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                <input
-                  {...inputProps}
-                  name="phone"
-                  type="text"
-                  placeholder="Телефон"
-                />
-              )}
-            </InputMask>
           </div>
           {visible === "country" && (
             <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
           )}
         </div>
-        <div className={styles.wrap_surname}>
-          <input
-            name="surname"
-            placeholder="Фамилия"
-            type="text"
-            value={buyer.surname}
-            onChange={handleBuyerChange}
-            className={styles.wrap_surname_input}
-          />
+        <div className={styles.containerInputLabel}>
+          <div className={styles.mail__label}>
+            <input
+              className={styles.mail__inputField}
+              value={buyer.surname}
+              name="surname"
+              type="text"
+              onChange={handleBuyerChange}
+            />
+            <label className={styles.mail__inputLabel}>Фамилия</label>
+          </div>
           {surnameWarning.length > 0 && (
             <p className={styles.wrap_warning}>{surnameWarning}</p>
           )}
         </div>
-        <div className={styles.wrap_surname}>
-          <input
-            name="name"
-            placeholder="Имя"
-            type="text"
-            value={buyer.name}
-            onChange={handleBuyerChange}
-            className={styles.wrap_surname_input}
-          />
+
+        <div className={styles.containerInputLabel}>
+          <div className={styles.mail__label}>
+            <input
+              className={styles.mail__inputField}
+              value={buyer.name}
+              name="name"
+              type="text"
+              onChange={handleBuyerChange}
+            />
+            <label className={styles.mail__inputLabel}>Имя</label>
+          </div>
           {nameWarning.length > 0 && (
             <p className={styles.wrap_warning}>{nameWarning}</p>
           )}
@@ -409,16 +446,16 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
                 : styles.wrap_organization_dropdown
             )}
           >
-            <input
-              placeholder="Название организации:"
-              className={styles.wrap_organization_dropdown__name}
-              type="text"
-            />
-            <input
-              placeholder="ИНН:"
-              className={styles.wrap_organization_dropdown__inn}
-              type="text"
-            />
+            <div className={styles.mail__label}>
+              <input className={styles.mail__inputField} type="text" />
+              <label className={styles.mail__inputLabel}>
+                Название организации:
+              </label>
+            </div>
+            <div className={styles.mail__label}>
+              <input className={styles.mail__inputField} type="text" />
+              <label className={styles.mail__inputLabel}>ИНН:</label>
+            </div>
             <div className={styles.wrap_organization_dropdown_nds}>
               <label className={styles.wrap_organization_dropdown_nds_switch}>
                 <input onClick={ndsHandler} type="checkbox" />
