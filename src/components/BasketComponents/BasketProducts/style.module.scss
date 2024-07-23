@@ -68,6 +68,14 @@
   left: 0;
   cursor: pointer;
 }
+.iconBasket {
+  color: var(--light-gray);
+  padding: 5px;
+  cursor: pointer;
+  &:hover {
+    color: var(--secondary-gray);
+  }
+}
 @media screen and (max-width: 1200px) {
   .rigthPart {
     width: 40%;
