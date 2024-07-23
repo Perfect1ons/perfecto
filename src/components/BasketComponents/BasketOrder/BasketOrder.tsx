@@ -16,6 +16,7 @@ import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 export interface Buyer {
   phone: string;
@@ -42,10 +43,21 @@ type CountryKey = keyof typeof codesCountry;
 interface IBasketOrderProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
+  authToken: string | undefined;
 }
 
-const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
+const BasketOrder = ({
+  paymentMethod,
+  deliveryMethod,
+  authToken,
+}: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
+
+  const [regVisible, setRegVisible] = useState(false);
+
+  const regVisibleHandle = () => {
+    setRegVisible(false);
+  };
 
   const [variableBuyer, setVariableBuyer] = useState({
     payment: "",
@@ -177,23 +189,29 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
   }, []);
 
   const orderHandler = useCallback(() => {
-    if (
-      buyer.phone &&
-      buyer.surname &&
-      buyer.name &&
-      buyer.delivery &&
-      buyer.payment
-    ) {
-      console.log("success");
+    if (authToken) {
+      console.log("welcome");
     } else {
-      if (buyer.delivery.length <= 0)
-        setDeliveryWarning("Пожалуйста выберите способ доставки");
-      if (buyer.payment.length <= 0)
-        setPaymentWarning("Пожалуйста выберите способ оплаты ");
-      if (buyer.surname.length <= 0)
-        setSurnameWarning("Пожалуйста укажите вашу фамилию");
-      if (buyer.name.length <= 0) setNameWarning("Пожалуйста укажите ваше имя");
+      setRegVisible(true);
     }
+    // if (
+    //   buyer.phone &&
+    //   buyer.surname &&
+    //   buyer.name &&
+    //   buyer.delivery &&
+    //   buyer.payment
+    // ) {
+    //   console.log("success");
+    // } else {
+    //   if (buyer.delivery.length === 0)
+    //     setDeliveryWarning("Пожалуйста выберите способ доставки");
+    //   if (buyer.payment.length === 0)
+    //     setPaymentWarning("Пожалуйста выберите способ оплаты ");
+    //   if (buyer.surname.length === 0)
+    //     setSurnameWarning("Пожалуйста укажите вашу фамилию");
+    //   if (buyer.name.length === 0)
+    //     setNameWarning("Пожалуйста укажите ваше имя");
+    // }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -227,6 +245,9 @@ const BasketOrder = ({ paymentMethod, deliveryMethod }: IBasketOrderProps) => {
 
   return (
     <>
+      {regVisible === true && (
+        <AuthModal isVisible={regVisible} close={regVisibleHandle} />
+      )}
       {activeModal === "delivery" && (
         <>
           <ChosingDeliveryModal
