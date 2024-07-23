@@ -1,9 +1,10 @@
-
-
 const MAXKG = process.env.NEXT_PUBLIC_API;
 
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  swcMinify: true,
   images: {
+    formats: [ "image/webp","image/avif"],
     remotePatterns: [
       {
         protocol: "https",
@@ -43,19 +44,7 @@ module.exports = {
       },
       {
         protocol: "https",
-        hostname: "www.jtcrussia.ru",
-      },
-      {
-        protocol: "https",
         hostname: "www.levenhuk-opt.ru",
-      },
-      {
-        protocol: "https",
-        hostname: "www.levenhuk-opt.ru",
-      },
-      {
-        protocol: "https",
-        hostname: "www.4glaza.ru",
       },
       {
         protocol: "https",
@@ -71,18 +60,6 @@ module.exports = {
       },
       {
         protocol: "https",
-        hostname: "static-basket-01.wbbasket.ru",
-      },
-      {
-        protocol: "https",
-        hostname: "ru.bekhost.com",
-      },
-      {
-        protocol: "https",
-        hostname: "ru.bekhost.com",
-      },
-      {
-        protocol: "https",
         hostname: "ru.bekhost.com",
       },
       {
@@ -91,23 +68,7 @@ module.exports = {
       },
       {
         protocol: "https",
-        hostname: "mnogogerz.ru",
-      },
-      {
-        protocol: "https",
         hostname: "ua.powerwalker.com",
-      },
-      {
-        protocol: "https",
-        hostname: "ua.powerwalker.com",
-      },
-      {
-        protocol: "https",
-        hostname: "ua.powerwalker.com",
-      },
-      {
-        protocol: "https",
-        hostname: "www.emscorp.ru",
       },
       {
         protocol: "https",
@@ -144,3 +105,9 @@ module.exports = {
     ];
   },
 };
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(nextConfig);

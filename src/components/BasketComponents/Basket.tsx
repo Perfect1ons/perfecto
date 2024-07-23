@@ -6,7 +6,7 @@ import { RootState } from "@/store";
 import Link from "next/link";
 import BasketOrder from "./BasketOrder/BasketOrder";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TrashIcon, XMark } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import {
@@ -37,7 +37,6 @@ const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
   const offset = currentPage * itemsPerPage;
   const currentItems = data.cart.slice(offset, offset + itemsPerPage);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -45,15 +44,16 @@ const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
     // Синхронизируем состояние selectAll с выбором всех товаров
     setSelectAll(data.cart.every((product) => product.selected));
   }, [data.cart]);
-  const handleSelectAllToggle = useCallback(() => {
+  const handleSelectAllToggle = () => {
     dispatch(toggleSelectAllProducts());
     setSelectAll(!selectAll);
-  }, [dispatch, selectAll]);
-  const handleClearCart = useCallback(() => {
+  };
+
+  const handleClearCart = () => {
     dispatch(clearSelectedProducts());
-    setSelectAll(false);
+    setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
     openModal();
-  }, [dispatch, openModal]);
+  };
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -87,31 +87,39 @@ const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
 
   // Calculate total pages based on favorites length and itemsPerPage
   const pageCount = Math.ceil(data.cart.length / itemsPerPage);
-
   return (
     <div className="container">
-      <div
-        className={cn(styles.modalOpen, {
-          [styles.modalOpen__active]: isModalVisible,
-        })}
-      >
-        <main className={styles.modalOpen__xmark}>
-          <h2>Удалить товары</h2>
-          <button className={styles.modalOpen__xmark__btn} onClick={openModal}>
-            <XMark />
+      <>
+        <div
+          className={cn(styles.modalOpen, {
+            [styles.modalOpen__active]: isModalVisible,
+          })}
+        >
+          <div className={styles.modalOpen__xmark}>
+            <h2>Удалить товары</h2>
+            <button
+              className={styles.modalOpen__xmark__btn}
+              onClick={openModal}
+            >
+              <XMark />
+            </button>
+          </div>
+          <p className={styles.modalOpen__parap}>
+            Вы точно хотите удалить выбранные товары? Отменить данное действие
+            будет невозможно.
+          </p>
+          <button
+            className={styles.modalOpen__button}
+            onClick={handleClearCart}
+          >
+            Удалить
           </button>
-        </main>
-        <p className={styles.modalOpen__parap}>
-          Вы точно хотите удалить выбранные товары? Отменить данное действие
-          будет невозможно.
-        </p>
-        <button className={styles.modalOpen__button} onClick={handleClearCart}>
-          Удалить
-        </button>
-      </div>
-      {isModalVisible && (
-        <div onClick={openModal} className={styles.modalBackdrop}></div>
-      )}
+        </div>
+        {isModalVisible && (
+          <div onClick={openModal} className={styles.modalBackdrop}></div>
+        )}
+      </>
+
       {data.cart.length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>

@@ -1,11 +1,17 @@
 import { getPopularGoods } from "@/api/requests";
 import { Metadata } from "next";
-import React from "react";
+import dynamic from "next/dynamic";
 
-const PopularGoods = React.lazy(
-  () => import("@/components/HomeComponents/PopularGoods/PopularGoods")
+const PopularGoods = dynamic(
+  () => import("@/components/HomeComponents/PopularGoods/PopularGoods"),
+  {
+    ssr: false,
+  }
 );
-const NotFounded = React.lazy(() => import("@/components/NotFound/NotFound"));
+
+const NotFounded = dynamic(() => import("@/components/NotFound/NotFound"), {
+  loading: () => <h1>loading...</h1>,
+});
 
 export const metadata: Metadata = {
   title: "Страница не найдена | MaxKg",
@@ -14,18 +20,12 @@ export const metadata: Metadata = {
 };
 
 const NotFound = async () => {
-
-  const [goodsOne, goodsTwo, goodsThree] = await Promise.all([
-    getPopularGoods(1),
-    getPopularGoods(2),
-    getPopularGoods(3),
-  ]);
-  const goods = [goodsOne, goodsTwo, goodsThree].flat();
+  const goodsOne = await getPopularGoods(1);
 
   return (
     <>
       <NotFounded />
-      <PopularGoods goods={goods} />
+      <PopularGoods goods={goodsOne} />
     </>
   );
 };

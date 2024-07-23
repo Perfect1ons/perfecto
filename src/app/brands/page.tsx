@@ -10,6 +10,10 @@ interface BrandProps {
   };
 }
 
+export async function generateMetadata() {
+  return generatePageMetadata(getMetaBrandPage);
+}
+
 export default async function page({ searchParams }: BrandProps) {
     const brandsData = await getBrandsData();
     const currentPage = parseInt(searchParams.page || "1", 10);
@@ -28,6 +32,3 @@ export default async function page({ searchParams }: BrandProps) {
     );
 }
 
-export async function generateMetadata() {
-  return generatePageMetadata(getMetaBrandPage);
-}

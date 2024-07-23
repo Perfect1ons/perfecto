@@ -284,6 +284,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
+            aria-label="check item rating"
           >
             <div className="card__info_rating">
               {[...Array(5)].map((_, index) => (
