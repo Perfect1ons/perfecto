@@ -219,6 +219,11 @@ const BasketOrder = ({
 
   const activeModalToggle = (value: string) => {
     setActiveModal(value);
+    // if (authToken) {
+    //   setActiveModal(value);
+    // } else {
+    //   setRegVisible(true);
+    // }
   };
 
   const countryOptions = useMemo(() => {
