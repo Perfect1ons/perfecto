@@ -37,6 +37,7 @@ const Basket = ({ paymentMethod, deliveryMethod }: IBasketProps) => {
   const offset = currentPage * itemsPerPage;
   const currentItems = data.cart.slice(offset, offset + itemsPerPage);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
