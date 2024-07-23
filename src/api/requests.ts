@@ -321,3 +321,6 @@ export const getDeliveryMethod = (
 ): Promise<DeliveryMethod> => {
   return maxkg.get(`naltovarok/viddost?idUser=${idUser}`).json();
 };
+export const getSelectRegion = (): Promise<DeliveryMethod> => {
+  return maxkg.get(`naltovarok/city`).json();
+};
