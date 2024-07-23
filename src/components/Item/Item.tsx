@@ -28,16 +28,22 @@ interface IItemPageProps {
   data: ICardProductItems;
   similar?: ISimilarItem[];
   breadCrumbs?: BreadCrumbs[];
+  authToken: string | undefined;
 }
 
-const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
+const ItemPage = ({
+  data,
+  similar,
+  breadCrumbs,
+  authToken,
+}: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [itemModalDescription, setItemModalDescription] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isClient, setIsClient] = useState(false);
-  
+
   // Общий блок для блокировки скролла
   const scrollLockBlock = (open: boolean) => {
     const body = document.body;
@@ -98,12 +104,12 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
     setItemModalDescription(!itemModalDescription);
     scrollLockBlock(!itemModalDescription);
   };
-  
-    useEffect(() => {
-      setIsLoading(false);
-      setIsClient(true);
-    }, []);
-  
+
+  useEffect(() => {
+    setIsLoading(false);
+    setIsClient(true);
+  }, []);
+
   return (
     <section className={styles.wrap}>
       {isOpenReview && (
@@ -231,7 +237,11 @@ const ItemPage = ({ data, similar, breadCrumbs }: IItemPageProps) => {
               </div>
             </div>
           </div>
-          <ProductReview data={data.items} func={openModal} />
+          <ProductReview
+            authToken={authToken}
+            data={data.items}
+            func={openModal}
+          />
           <ItemAccordion />
         </div>
       )}

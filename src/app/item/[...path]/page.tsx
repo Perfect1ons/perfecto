@@ -6,6 +6,7 @@ import {
 import ItemPage from "@/components/Item/Item";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 
 const DynamicJsonLd = dynamic(() => import("@/utils/jsonld"));
 
@@ -15,13 +16,21 @@ interface Params {
 
 export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
+  const cookieStore = cookies();
+  const authToken = cookieStore.get("identify")?.value;
   try {
     const breadCrumbs = await getBreadCrumbs(data.items.id_cat);
     const similarData = await getSimilarProduct(path[0]);
+
     return (
       <>
         <DynamicJsonLd meta={data.meta} data={data.items} />
-        <ItemPage data={data} similar={similarData} breadCrumbs={breadCrumbs} />
+        <ItemPage
+          authToken={authToken}
+          data={data}
+          similar={similarData}
+          breadCrumbs={breadCrumbs}
+        />
       </>
     );
   } catch (error) {
@@ -30,7 +39,7 @@ export default async function item({ params: { path } }: Params) {
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-      <ItemPage data={data} />
+      <ItemPage authToken={authToken} data={data} />
     </>
   );
 }
@@ -56,7 +65,7 @@ export async function generateMetadata({
       keywords: keywords,
       robots: "index, follow",
       alternates: {
-        canonical : canonical
+        canonical: canonical,
       },
       openGraph: {
         title: ogtitle || title, // Fallback to title if og_title is not defined
