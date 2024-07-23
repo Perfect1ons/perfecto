@@ -33,7 +33,6 @@ const ImageSlider = ({ images, name }: IImageProps) => {
             width={300}
             height={250}
             alt={name}
-            loading="lazy"
           />
         </div>
       ))}

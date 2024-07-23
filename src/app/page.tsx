@@ -23,10 +23,16 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 
 const LazySecondBanner = dynamic(
-  () => import("@/components/HomeComponents/Banner/SecondBanner")
+  () => import("@/components/HomeComponents/Banner/SecondBanner"),
+  {
+    ssr: false,
+  }
 );
 const LazyThirdBanner = dynamic(
-  () => import("@/components/HomeComponents/Banner/ThirdBanner")
+  () => import("@/components/HomeComponents/Banner/ThirdBanner"),
+  {
+    ssr: false,
+  }
 );
 const LazySeasonCategorySwiper = dynamic(
   () =>

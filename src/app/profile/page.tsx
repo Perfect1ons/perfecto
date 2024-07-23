@@ -1,5 +1,4 @@
 import { cookies } from "next/headers";
-import FavoriteAuth from "@/components/FavoritesComponents/FavoriteAuth/FavoriteAuth";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
 import { getCurrentOrders, getOrdersHistory, getPersonalDataProfileServer } from "@/api/requests";
@@ -27,8 +26,6 @@ const page = async () => {
       </>
     );
   }
-
-  return <FavoriteAuth />;
 };
 
 export default page;
