@@ -192,7 +192,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   };
 
   const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item) => item.id === cardData.id);
+  const product = cart.find((item: any) => item.id === cardData.id);
 
   return (
     <>

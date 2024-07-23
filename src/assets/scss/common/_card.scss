@@ -362,6 +362,7 @@
 }
 
 .linkCart {
-  text-decoration: underline;
-  color: var(--violet);
+  font-weight: 500;
+  color: var(--white);
+  border-bottom: 1px dashed var(--white);
 }
