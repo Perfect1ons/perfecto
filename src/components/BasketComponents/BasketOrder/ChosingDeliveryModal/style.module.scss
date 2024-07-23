@@ -234,7 +234,7 @@
     }
 
     &_selectTime {
-      // margin-top: 15px;
+      margin-top: 15px;
       @include mixin.flex(center, flex-start, null, 25px);
       width: 100%;
 
@@ -293,7 +293,7 @@
           }
           &_arrow {
             position: relative;
-            top: 5px;
+            top: 6px;
             right: -5px;
             scale: 1.2;
             color: var(--gray);

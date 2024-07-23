@@ -13,6 +13,9 @@ interface ICourierDeliveryTypeProps {
 
 const times = [
   {
+    value: "Не выбрано",
+  },
+  {
     value: "с 9.00 до 10.00",
   },
   {
@@ -61,6 +64,7 @@ const CourierDeliveryType = ({
 
   const openTimeHandler = () => {
     setOpenTime(!openTime);
+    setOpenSelect(false);
   };
 
   const selectTime = (value: string) => {
