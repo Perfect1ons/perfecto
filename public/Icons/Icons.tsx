@@ -1187,8 +1187,8 @@ export const BackArrow = () => {
 export const SalesmanIcon = () => {
   return (
     <svg
-      width="15"
-      height="15"
+      width="22"
+      height="22"
       viewBox="0 0 20 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -1482,8 +1482,8 @@ export const ChangeValueIcon = () => {
 export const DeliveryCourier = () => {
   return (
     <svg
-      width={15}
-      height={15}
+      width="22"
+      height="22"
       fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 512 512"
