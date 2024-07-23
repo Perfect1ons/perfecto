@@ -133,7 +133,7 @@
 
     &_selectAddress {
       @include mixin.flex(center, flex-start, null, null);
-      margin-bottom: 15px;
+      margin-top: 15px;
       width: 100%;
       border: 2px solid var(--secondary);
       border-radius: 5px;
@@ -387,4 +387,72 @@
   visibility: visible;
   opacity: 1;
   animation: scaleUp 0.3s ease-out forwards;
+}
+.inputsContainerCity {
+  @include mixin.flex(center, flex-start, null, 10px);
+  width: 100%;
+}
+.inputContainer {
+  position: relative;
+  width: 100%;
+  max-width: 225px;
+}
+.dropdownContainer {
+  @include mixin.flex(null, null, column, null);
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  margin: 0;
+  list-style: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  max-width: 250px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  visibility: hidden;
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: 0.3s;
+}
+.dropdownContainerActive {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.3s;
+}
+.cityContainer {
+  text-overflow: ellipsis;
+  cursor: pointer;
+  @include mixin.flex(center, space-between, null, null);
+  width: 100%;
+  padding: 8px;
+  border: 2px solid var(--secondary);
+  border-radius: 4px;
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray);
+  overflow: hidden;
+  background: var(--white);
+  &:hover {
+    border: 2px solid var(--dark-blue);
+  }
+}
+.dropdownItem {
+  border-radius: 5px;
+  padding: 2px;
+  color: var(--dark);
+  cursor: pointer;
+  &:hover {
+    background: var(--gray-white);
+    // color: var(--violet);
+  }
+}
+.iconChewronDown {
+  position: sticky;
+  padding-left: 5px;
+  right: 0;
+  background: var(--white);
 }

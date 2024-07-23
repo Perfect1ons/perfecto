@@ -420,13 +420,24 @@
 .mail__inputField:focus {
   border: 2px solid var(--dark-blue);
 }
-.mail__inputField:focus + .mail__inputLabel {
-  background-color: var(--white);
+.mail__inputField:focus + .mail__inputLabel,
+.mail__inputField:valid + .mail__inputLabel {
+  background-color: var(--bg-light);
   left: 5px;
   top: 0;
   scale: (0.88);
   @include mixin.font(16px, 600, 100%, var(--dark-blue));
   font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+.inputField:focus,
+.inputField:valid {
+  border: 1px solid var(--dark-blue);
+}
+.mail__inputField:placeholder-shown + .mail__inputLabel {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa; // Цвет текста по умолчанию
 }
 .select__country {
   position: absolute;

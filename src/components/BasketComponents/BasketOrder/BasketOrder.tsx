@@ -17,6 +17,7 @@ import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
+import { SelectCityType } from "@/types/Basket/SelectRegion";
 
 export interface Buyer {
   phone: string;
@@ -44,12 +45,14 @@ interface IBasketOrderProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
+  deliveryCity: SelectCityType;
 }
 
 const BasketOrder = ({
   paymentMethod,
   deliveryMethod,
   authToken,
+  deliveryCity,
 }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
 
@@ -251,6 +254,8 @@ const BasketOrder = ({
       {activeModal === "delivery" && (
         <>
           <ChosingDeliveryModal
+            authToken={authToken}
+            deliveryCity={deliveryCity}
             variableBuyer={variableBuyer}
             visible={activeModal}
             close={activeModalToggle}
@@ -395,6 +400,7 @@ const BasketOrder = ({
               name="surname"
               type="text"
               onChange={handleBuyerChange}
+              required
             />
             <label className={styles.mail__inputLabel}>Фамилия</label>
           </div>
@@ -411,6 +417,7 @@ const BasketOrder = ({
               name="name"
               type="text"
               onChange={handleBuyerChange}
+              required
             />
             <label className={styles.mail__inputLabel}>Имя</label>
           </div>
@@ -442,13 +449,13 @@ const BasketOrder = ({
             )}
           >
             <div className={styles.mail__label}>
-              <input className={styles.mail__inputField} type="text" />
+              <input className={styles.mail__inputField} required type="text" />
               <label className={styles.mail__inputLabel}>
                 Название организации:
               </label>
             </div>
             <div className={styles.mail__label}>
-              <input className={styles.mail__inputField} type="text" />
+              <input className={styles.mail__inputField} required type="text" />
               <label className={styles.mail__inputLabel}>ИНН:</label>
             </div>
             <div className={styles.wrap_organization_dropdown_nds}>

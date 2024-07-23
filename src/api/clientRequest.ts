@@ -19,6 +19,7 @@ import { IPopularGood } from "@/types/popularGoods";
 
 //! Импорт библиотеки
 import ky from "ky";
+import { SelectRegionType } from "@/types/Basket/SelectRegion";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -380,4 +381,20 @@ export const postBoxOrder = (
       body: params.toString(),
     }
   );
+};
+
+export const getSelectRegion = async (
+  token: string,
+  id: number
+): Promise<SelectRegionType> => {
+  const response = await maxkg.get(`naltovarok/region?id=${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  return data as SelectRegionType;
 };
