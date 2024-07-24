@@ -382,63 +382,6 @@
     padding: 10px 7px;
   }
 }
-.containerInputLabel {
-  @include mixin.flex(center, center, column, null);
-  width: 100%;
-}
-.mail__label {
-  margin-top: 15px;
-  position: relative;
-  width: 100%;
-  // max-height: 44px;
-}
-
-.mail__inputField {
-  width: 100%;
-  padding: 10px 5px 10px 5px;
-  border: 2px solid var(--secondary);
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: transparent;
-}
-
-.mail__inputLabel {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0 5px;
-  transition: all 0.2s ease-in;
-  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
-  text-wrap: nowrap;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--secondary);
-}
-
-.mail__inputField:focus {
-  border: 2px solid var(--dark-blue);
-}
-.mail__inputField:focus + .mail__inputLabel,
-.mail__inputField:valid + .mail__inputLabel {
-  background-color: var(--bg-light);
-  left: 5px;
-  top: 0;
-  scale: (0.88);
-  @include mixin.font(16px, 600, 100%, var(--dark-blue));
-  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
-}
-.inputField:focus,
-.inputField:valid {
-  border: 1px solid var(--dark-blue);
-}
-.mail__inputField:placeholder-shown + .mail__inputLabel {
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #aaa; // Цвет текста по умолчанию
-}
 .select__country {
   position: absolute;
   left: 5px;

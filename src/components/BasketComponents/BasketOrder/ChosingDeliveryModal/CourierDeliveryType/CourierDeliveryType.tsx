@@ -123,9 +123,11 @@ const CourierDeliveryType = ({
   };
 
   const getRegions = async (id: number) => {
-    if (authToken) {
+    if (authToken && (id < 10 || id > 99)) {
       const data = await getSelectRegion(authToken, id);
       setRegion(data);
+    } else {
+      setRegion(region);
     }
   };
   const [visibleDropdown, setVisibleDropdown] = useState<string | null>(null);
@@ -179,7 +181,8 @@ const CourierDeliveryType = ({
             onClick={() => toggleFilter("region")}
           >
             <button className={styles.cityContainer}>
-              {location.region || "Регион"}
+              {location.region ||
+                (region.length > 0 ? region[0].naim : "Не выбран")}
               <span
                 className={cn(
                   "filterNavItemArrowIsActive",
