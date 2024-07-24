@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import { DeliveryCourier, SalesmanIcon } from "../../../../public/Icons/Icons";
@@ -16,7 +16,44 @@ interface UserGeo {
 }
 
 const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
-  const [isCourier, setIsCourier] = useState(false);
+  const [isCourier, setIsCourier] = useState(true);
+
+  //   useEffect(() => {
+  //     fetch("http://ip-api.com/json/")
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error(`Ошибка HTTP: ${response.status}`);
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         const ip = data.query;
+
+  //         const city = data.city;
+  //         const region = data.regionName;
+  //         const country = data.country;
+  //         const loc = `${data.lat},${data.lon}`;
+  //         const org = data.org;
+  //         const timezone = data.timezone;
+
+  //         console.log("IP-адрес:", ip);
+
+  //         console.log("Город:", city);
+
+  //         console.log("Регион:", region);
+
+  //         console.log("Страна:", country);
+
+  //         console.log("Координаты:", loc);
+
+  //         console.log("Организация:", org);
+
+  //         console.log("Часовой пояс:", timezone);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Ошибка получения данных:", error);
+  //       });
+  //   }, []);
 
   const [point, setPoint] = useState("");
 
@@ -36,11 +73,31 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
     city: "",
   });
 
+  const deliveryTypeChanger = (value: boolean) => {
+    if (value === true) {
+      setIsCourier(value);
+    } else {
+      setIsCourier(value);
+    }
+  };
+
   const userGeoChanger = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserGeo((prevUserGeo) => ({
       ...prevUserGeo,
       [name]: value,
+    }));
+    setPoint("");
+  };
+
+  const pointChanger = (value: string) => {
+    setPoint(value);
+    setUserGeo((prevUserGeo) => ({
+      ...prevUserGeo,
+      street: "",
+      house: "",
+      apartament: "",
+      city: "",
     }));
   };
 
@@ -133,42 +190,62 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
           ? "Пожалуйста укажите ваш адрес"
           : "Пожалуйста укажите пункт выдачи"}
       </p>
-      {isCourier ? (
+      {isCourier && (
         <div className={styles.location}>
           <div className="mail__label">
             <input
+              value={userGeo.street}
+              onChange={userGeoChanger}
               className="mail__inputField"
-              name="name"
+              name="street"
               type="text"
               required
             />
             <label className="mail__inputLabel">Улица</label>
           </div>
+          {userWarning.street.length > 0 && (
+            <p className={styles.wrap__warning}>{userWarning.street}</p>
+          )}
           <div className={styles.location__home}>
             <div className="mail__label">
               <input
+                onChange={userGeoChanger}
+                value={userGeo.house}
                 className="mail__inputField"
-                name="name"
+                name="house"
                 type="text"
                 required
               />
               <label className="mail__inputLabel">Частный дом</label>
+              {userWarning.house.length > 0 && (
+                <p className={styles.wrap__warning}>{userWarning.house}</p>
+              )}
             </div>
+
             <div className="mail__label">
               <input
+                onChange={userGeoChanger}
+                value={userGeo.apartament}
                 className="mail__inputField"
-                name="name"
+                name="apartament"
                 type="text"
                 required
               />
               <label className="mail__inputLabel">Квартира</label>
+              {userWarning.apartament.length > 0 && (
+                <p className={styles.wrap__warning}>{userWarning.apartament}</p>
+              )}
             </div>
           </div>
         </div>
-      ) : (
+      )}
+      {!isCourier && (
         <div className={styles.pickUp}>
+          {pointWarning.length > 0 && (
+            <p className={styles.wrap__warning}>{pointWarning}</p>
+          )}
           <button
-            onClick={() => setPoint("1")}
+            onClick={() => pointChanger("1")}
             aria-label="choose delivery point"
             className={cn(
               styles.pickUp__point,
@@ -204,7 +281,7 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             </p>
           </div>
           <button
-            onClick={() => setPoint("2")}
+            onClick={() => pointChanger("2")}
             aria-label="choose delivery point"
             className={cn(
               styles.pickUp__point,
@@ -244,17 +321,7 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
         <p className={styles.delivery__title}>Способ доставки</p>
         <div className={styles.delivery__type}>
           <button
-            onClick={() => setIsCourier(false)}
-            className={cn(
-              styles.delivery__type_point,
-              isCourier && styles.delivery__type_point_disactive
-            )}
-          >
-            <SalesmanIcon />
-            Пункты выдачи
-          </button>
-          <button
-            onClick={() => setIsCourier(true)}
+            onClick={() => deliveryTypeChanger(true)}
             className={cn(
               styles.delivery__type_courier,
               isCourier && styles.delivery__type_courier_active
@@ -263,13 +330,28 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             <DeliveryCourier />
             Курьер
           </button>
+          <button
+            onClick={() => deliveryTypeChanger(false)}
+            className={cn(
+              styles.delivery__type_point,
+              isCourier && styles.delivery__type_point_disactive
+            )}
+          >
+            <SalesmanIcon />
+            Пункты выдачи
+          </button>
         </div>
       </div>
       {isCourier && (
-        <div className={styles.city}>
-          <p className={styles.city__title}>Пожалуйста укажите ваш город</p>
-          <div className={styles.city__location}>г. Джалал-Абад</div>
-        </div>
+        <>
+          <div className={styles.city}>
+            <p className={styles.city__title}>Пожалуйста укажите ваш город</p>
+            <div className={styles.city__location}>г. Джалал-Абад</div>
+          </div>
+          {userWarning.city.length > 0 && (
+            <p className={styles.wrap__warning}>{userWarning.city}</p>
+          )}
+        </>
       )}
       <button
         onClick={saveUserGeo}
