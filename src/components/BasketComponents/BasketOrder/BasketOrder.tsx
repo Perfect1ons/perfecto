@@ -78,6 +78,7 @@ const BasketOrder = ({
 
   const [paymentWarning, setPaymentWarning] = useState("");
   const [deliveryWarning, setDeliveryWarning] = useState("");
+  const [phoneWarning, setPhoneWarning] = useState("");
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
 
@@ -191,32 +192,78 @@ const BasketOrder = ({
     setVisible("");
   }, []);
 
-  const orderHandler = useCallback(() => {
-    if (authToken) {
-      console.log("welcome");
+  const validateBuyerInfo = (): boolean => {
+    let isValid = true;
+
+    // Delivery validation
+    if (!buyer.delivery) {
+      setDeliveryWarning("Пожалуйста выберите способ доставки");
+      isValid = false;
     } else {
-      setRegVisible(true);
+      setDeliveryWarning("");
     }
-    // if (
-    //   buyer.phone &&
-    //   buyer.surname &&
-    //   buyer.name &&
-    //   buyer.delivery &&
-    //   buyer.payment
-    // ) {
-    //   console.log("success");
-    // } else {
-    //   if (buyer.delivery.length === 0)
-    //     setDeliveryWarning("Пожалуйста выберите способ доставки");
-    //   if (buyer.payment.length === 0)
-    //     setPaymentWarning("Пожалуйста выберите способ оплаты ");
-    //   if (buyer.surname.length === 0)
-    //     setSurnameWarning("Пожалуйста укажите вашу фамилию");
-    //   if (buyer.name.length === 0)
-    //     setNameWarning("Пожалуйста укажите ваше имя");
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+    // Payment validation
+    if (!buyer.payment) {
+      setPaymentWarning("Пожалуйста выберите способ оплаты");
+      isValid = false;
+    } else {
+      setPaymentWarning("");
+    }
+
+    // Phone number validation
+    const numericPhoneNumber = buyer.phone.replace(/\D/g, "");
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
+    }
+
+    if (!numericPhoneNumber) {
+      setPhoneWarning("Это поле не может быть пустым.");
+      isValid = false;
+    } else if (numericPhoneNumber.length !== expectedLength) {
+      setPhoneWarning("Номер введен не полностью.");
+      isValid = false;
+    } else {
+      setPhoneWarning("");
+    }
+
+    // Surname validation
+    if (!buyer.surname) {
+      setSurnameWarning("Пожалуйста укажите вашу фамилию");
+      isValid = false;
+    } else {
+      setSurnameWarning("");
+    }
+
+    // Name validation
+    if (!buyer.name) {
+      setNameWarning("Пожалуйста укажите ваше имя");
+      isValid = false;
+    } else {
+      setNameWarning("");
+    }
+
+    return isValid;
+  };
+
+  const orderHandler = () => {
+    if (validateBuyerInfo()) {
+      if (!authToken) {
+        setRegVisible(true);
+      } else {
+        console.log("Order placed successfully");
+      }
+    }
+  };
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -253,7 +300,7 @@ const BasketOrder = ({
 
   return (
     <>
-      {regVisible === true && (
+      {regVisible && (
         <AuthModal isVisible={regVisible} close={regVisibleHandle} />
       )}
       {activeModal === "delivery" && (
@@ -315,7 +362,7 @@ const BasketOrder = ({
             {buyer.delivery ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
-        {deliveryWarning.length > 0 && (
+        {deliveryWarning && (
           <p className={styles.wrap_warning}>{deliveryWarning}</p>
         )}
         <button
@@ -345,7 +392,7 @@ const BasketOrder = ({
             {buyer.payment ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
-        {paymentWarning.length > 0 && (
+        {paymentWarning && (
           <p className={styles.wrap_warning}>{paymentWarning}</p>
         )}
         <div className={styles.wrap_phone}>
@@ -393,6 +440,9 @@ const BasketOrder = ({
               />
             </button>
           </div>
+          {phoneWarning && (
+            <p className={styles.wrap_warning}>{phoneWarning}</p>
+          )}
           {visible === "country" && (
             <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
           )}
@@ -409,7 +459,7 @@ const BasketOrder = ({
             />
             <label className={styles.mail__inputLabel}>Фамилия</label>
           </div>
-          {surnameWarning.length > 0 && (
+          {surnameWarning && (
             <p className={styles.wrap_warning}>{surnameWarning}</p>
           )}
         </div>
@@ -426,9 +476,7 @@ const BasketOrder = ({
             />
             <label className={styles.mail__inputLabel}>Имя</label>
           </div>
-          {nameWarning.length > 0 && (
-            <p className={styles.wrap_warning}>{nameWarning}</p>
-          )}
+          {nameWarning && <p className={styles.wrap_warning}>{nameWarning}</p>}
         </div>
         <div className={styles.wrap_organization}>
           <button
