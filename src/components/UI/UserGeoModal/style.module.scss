@@ -1,0 +1,231 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+@keyframes scaleUp {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.wrap {
+  z-index: 100;
+  position: absolute;
+  padding: 20px;
+  max-width: 550px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: var(--white);
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  visibility: hidden;
+  transition: visibility 0.3s, opacity 0.3s;
+  opacity: 0;
+
+  &__title {
+    @include mixin.font(1.125rem, 500, null, var(--gray));
+    max-width: 356px;
+    width: 100%;
+  }
+  &__save {
+    width: 100%;
+    align-self: center;
+    margin-top: 15px;
+    border: 2px solid var(--violet);
+    background: var(--violet);
+    padding: 10px 0;
+    cursor: pointer;
+    @include mixin.font(1rem, 500, null, var(--white));
+    border-radius: 5px;
+    transition: 0.3s all;
+    &:hover {
+      background: none;
+      color: var(--violet);
+    }
+  }
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  animation: scaleUp 0.3s ease-out forwards;
+}
+
+.pickUp {
+  margin-top: 15px;
+  @include mixin.flex(flex-start, center, column, null);
+  width: 100%;
+  &__point {
+    @include mixin.flex(center, flex-start, null, 8px);
+    margin-top: 15px;
+    border: 2px solid var(--secondary);
+    border-radius: 5px;
+    width: 100%;
+    padding: 8px;
+    cursor: pointer;
+    @include mixin.font(14px, 400, null, var(--gray));
+
+    &_active {
+      border: 2px solid var(--dark-blue);
+    }
+
+    &_radio {
+      content: " ";
+      width: 14px;
+      @include mixin.flex(center, center, null, null);
+      height: 14px;
+      border-radius: 50%;
+      background: none;
+      border: 1px solid var(--gray);
+
+      &__active {
+        border: 1px solid var(--dark-blue);
+      }
+
+      &_dot {
+        display: none;
+
+        &__active {
+          content: " ";
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          display: inline-block;
+          background: var(--dark-blue);
+        }
+      }
+    }
+  }
+
+  &__desc {
+    width: 100%;
+    @include mixin.flex(flex-start, flex-start, column, null);
+    margin-top: 5px;
+    background: var(--light);
+    border-radius: 5px;
+    padding: 0px 20px;
+    height: 0;
+    overflow: hidden;
+    transition: 0.3s all;
+    &_active {
+      padding: 20px;
+      height: auto;
+    }
+    &_workdays {
+      @include mixin.font(0.875rem, 400, null, var(--dark));
+    }
+  }
+}
+
+.location {
+  margin-top: 15px;
+  width: 100%;
+  @include mixin.flex(center, center, column, null);
+
+  &__street {
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: 2px solid var(--secondary);
+
+    &:focus {
+      border: 2px solid var(--dark-blue);
+    }
+  }
+
+  &__home {
+    margin-top: 15px;
+    @include mixin.flex(center, center, null, 15px);
+    width: 100%;
+    &_house {
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 5px;
+      border: 2px solid var(--secondary);
+
+      &:focus {
+        border: 2px solid var(--dark-blue);
+      }
+    }
+    &_apartament {
+      width: 100%;
+      padding: 10px 10px;
+      border-radius: 5px;
+      border: 2px solid var(--secondary);
+
+      &:focus {
+        border: 2px solid var(--dark-blue);
+      }
+    }
+  }
+}
+
+.delivery {
+  margin-top: 15px;
+  @include mixin.flex(center, center, column, 15px);
+  width: 100%;
+
+  &__title {
+    width: 100%;
+    @include mixin.font(1rem, 400, null, var(--dark));
+  }
+  &__type {
+    @include mixin.flex(center, flex-start, null, 15px);
+    width: 100%;
+    &_point {
+      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+      @include mixin.font(0.875rem, 400, null, #555);
+      @include mixin.flex(flex-end, center, null, 5px);
+      cursor: pointer;
+      background: #eee;
+
+      &_disactive {
+        background: var(--white);
+        color: var(--dark-blue);
+      }
+    }
+    &_courier {
+      cursor: pointer;
+      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+      background: var(--white);
+      @include mixin.font(0.875rem, 400, null, var(--dark-blue));
+      @include mixin.flex(center, center, null, 5px);
+      &_active {
+        color: #555;
+        background: #eee;
+        @include mixin.font(0.875rem, 400, null, var(--gray));
+      }
+    }
+  }
+}
+
+.city {
+  margin-top: 15px;
+  width: 100%;
+  @include mixin.flex(center, center, null, 15px);
+
+  &__title {
+    text-wrap: nowrap;
+    @include mixin.font(1rem, 400, null, var(--dark));
+    width: 100%;
+  }
+
+  &__location {
+    cursor: pointer;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 0;
+    width: 100%;
+    background: var(--white);
+    box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
+  }
+}

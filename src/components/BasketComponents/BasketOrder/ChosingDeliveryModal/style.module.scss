@@ -112,15 +112,7 @@
         padding: 20px;
         height: auto;
       }
-
-      &_schedule {
-        @include mixin.font(0.875rem, 500, null, var(--dark));
-      }
       &_workdays {
-        @include mixin.font(0.875rem, 400, null, var(--dark));
-      }
-      &_info {
-        margin-top: 15px;
         @include mixin.font(0.875rem, 400, null, var(--dark));
       }
     }

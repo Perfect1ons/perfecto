@@ -18,6 +18,7 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { SelectCityType } from "@/types/Basket/SelectCity";
+import UserGeoModal from "@/components/UI/UserGeoModal/UserGeoModal";
 
 export interface Buyer {
   phone: string;
@@ -305,7 +306,8 @@ const BasketOrder = ({
       )}
       {activeModal === "delivery" && (
         <>
-          <ChosingDeliveryModal
+          <UserGeoModal visible={true} />
+          {/* <ChosingDeliveryModal
             authToken={authToken}
             deliveryCity={deliveryCity}
             variableBuyer={variableBuyer}
@@ -315,7 +317,7 @@ const BasketOrder = ({
             selectDelivery={selectDelivery}
             saveDelivery={saveDelivery}
             warning={deliveryWarning}
-          />
+          /> */}
           <div
             onClick={() => activeModalToggle("")}
             className={styles.backdrop}
