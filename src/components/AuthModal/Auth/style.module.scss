@@ -160,7 +160,7 @@
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
-  background-color: transparent; 
+  background-color: transparent;
 }
 
 .mail__inputLabel {
@@ -177,7 +177,7 @@
   color: var(--secondary);
 }
 
-.mail__inputField:focus{
+.mail__inputField:focus {
   border: 2px solid var(--dark-blue);
 }
 .mail__inputField:focus + .mail__inputLabel {
@@ -185,11 +185,9 @@
   left: 5px;
   top: 0;
   scale: (0.88);
-  @include mixin.font(16px, 600, 100% ,var(--dark-blue));
+  @include mixin.font(16px, 600, 100%, var(--dark-blue));
   font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
 }
-
-
 
 .select__country {
   position: absolute;
@@ -303,7 +301,8 @@
     font-size: 22px;
   }
   .modal__text {
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 1.2;
   }
 }
 
@@ -315,7 +314,7 @@
     font-size: 22px;
   }
   .modal__text {
-    font-size: 18px;
+    font-size: 16px;
   }
   .modal__button {
     max-width: 100%;
