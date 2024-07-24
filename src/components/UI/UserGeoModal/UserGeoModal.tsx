@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import { DeliveryCourier, SalesmanIcon } from "../../../../public/Icons/Icons";
@@ -8,10 +8,123 @@ interface IUserGeoModalProps {
   visible: boolean;
 }
 
+interface UserGeo {
+  street: string;
+  house: string;
+  apartament: string;
+  city: string;
+}
+
 const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
   const [isCourier, setIsCourier] = useState(false);
 
   const [point, setPoint] = useState("");
+
+  const [pointWarning, setPointWarning] = useState("");
+
+  const [userGeo, setUserGeo] = useState<UserGeo>({
+    street: "",
+    house: "",
+    apartament: "",
+    city: "",
+  });
+
+  const [userWarning, setUserWarning] = useState<UserGeo>({
+    street: "",
+    house: "",
+    apartament: "",
+    city: "",
+  });
+
+  const userGeoChanger = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserGeo((prevUserGeo) => ({
+      ...prevUserGeo,
+      [name]: value,
+    }));
+  };
+
+  const validateUserGeo = (): boolean => {
+    let isValid = true;
+
+    //if isCourier === true
+    if (isCourier) {
+      // street validation
+      if (!userGeo.street) {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          street: "Пожалуйста укажите название вашей улицы",
+        }));
+        isValid = false;
+      } else {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          street: "",
+        }));
+      }
+
+      // house validation
+      if (!userGeo.house) {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          house: "Пожалуйста укажите номер вашего дома",
+        }));
+        isValid = false;
+      } else {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          house: "",
+        }));
+      }
+
+      // apartament validation
+      if (!userGeo.apartament) {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          apartament: "Пожалуйста укажите номер вашей квартиры",
+        }));
+        isValid = false;
+      } else {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          apartament: "",
+        }));
+      }
+
+      // city validation
+      if (!userGeo.city) {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          city: "Пожалуйста укажите название вашего города",
+        }));
+        isValid = false;
+      } else {
+        setUserWarning((prevWarning) => ({
+          ...prevWarning,
+          city: "",
+        }));
+      }
+    }
+    //else isCourier === false
+    else {
+      if (!point) {
+        setPointWarning("Пожалуйста выберите пункт доставки");
+        isValid = false;
+      } else {
+        setPointWarning("");
+      }
+    }
+
+    return isValid;
+  };
+
+  const saveUserGeo = () => {
+    if (validateUserGeo()) {
+      console.log("success");
+    } else {
+      console.log("error");
+    }
+  };
 
   return (
     <div className={cn(styles.wrap, visible && styles.show)}>
@@ -146,7 +259,11 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
           <div className={styles.city__location}>г. Джалал-Абад</div>
         </div>
       )}
-      <button aria-label="save geo" className={styles.wrap__save}>
+      <button
+        onClick={saveUserGeo}
+        aria-label="save geo"
+        className={styles.wrap__save}
+      >
         Сохранить
       </button>
     </div>
