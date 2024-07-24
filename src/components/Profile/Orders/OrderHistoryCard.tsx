@@ -75,7 +75,8 @@ const OrderHistoryCard = ({ order, isAuthed, details }: IOrder) => {
 
   useEffect(() => {
     getOrderReview();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const postReview = () => {
     if (rating > 0 && isAuthed) {

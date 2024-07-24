@@ -2,8 +2,13 @@
 import { useState } from "react";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { getCatalogsMenu } from "@/api/clientRequest";
-import Header from "../Header";
-import MobileNav from "@/components/MobileMenu/MobileNav/MobileNav";
+import dynamic from "next/dynamic";
+const MobileNav = dynamic(
+  () => import("@/components/MobileMenu/MobileNav/MobileNav")
+);
+
+const Header = dynamic(() => import("../Header"));
+
 
 interface IHeaderProps {
   isAuthed: any;

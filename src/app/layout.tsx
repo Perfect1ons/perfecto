@@ -9,14 +9,25 @@ import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
 
 const Application = dynamic(
-  () => import("@/components/HomeComponents/Application/Application")
+  () => import("@/components/HomeComponents/Application/Application"),
+  {
+    ssr: false,
+  }
 );
 const DownloadAppMobile = dynamic(
-  () => import("@/components/DownloadAppMobile/DownloadAppMobile")
+  () => import("@/components/DownloadAppMobile/DownloadAppMobile"),
+  {
+    ssr: false,
+  }
 );
-const Footer = dynamic(() => import("@/components/Footer/Footer"));
+const Footer = dynamic(() => import("@/components/Footer/Footer"), {
+  ssr: false,
+});
+
 const ScrollToTopButton = dynamic(
-  () => import("@/components/UI/ScrollToTopButton/ScrollToTopButton")
+  () => import("@/components/UI/ScrollToTopButton/ScrollToTopButton"),{
+    ssr: false
+  }
 );
 
 const rubik = Rubik({
@@ -26,6 +37,10 @@ const rubik = Rubik({
 
 export const metadata: Metadata = {
   icons: "/img/favicon.ico",
+  description:
+    "Интернет магазин Max.kg:бытовая техника, ноутбуки, спорт товары, туризм, сад и огород, автотовары и оборудование, товары для дома и бизнеса. Покупайте в Max.kg: ✓ Официальная гарантия",
+  keywords:
+    "Оптом  Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
 export default async function RootLayout({

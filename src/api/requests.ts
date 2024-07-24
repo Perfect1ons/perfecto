@@ -35,6 +35,7 @@ import { IOrderById } from "@/types/OrderById/orderbyid";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
+import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -324,4 +325,18 @@ export const getDeliveryMethod = (
 };
 export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
+};
+
+export const getOrderHistoryOrderRating = (
+  token: string | undefined,
+  id_zakaz: number
+): Promise<IRatingOrderHistoryCard> => {
+  return maxkg
+    .get(`otz/zakaz-ocenka?id_zakaz=${id_zakaz}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
