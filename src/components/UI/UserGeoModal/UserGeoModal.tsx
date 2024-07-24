@@ -135,22 +135,34 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
       </p>
       {isCourier ? (
         <div className={styles.location}>
-          <input
-            placeholder="Улица"
-            className={styles.location__street}
-            type="text"
-          />
+          <div className="mail__label">
+            <input
+              className="mail__inputField"
+              name="name"
+              type="text"
+              required
+            />
+            <label className="mail__inputLabel">Улица</label>
+          </div>
           <div className={styles.location__home}>
-            <input
-              placeholder="Частный дом"
-              type="text"
-              className={styles.location__home_house}
-            />
-            <input
-              placeholder="Квартира"
-              type="text"
-              className={styles.location__home_apartament}
-            />
+            <div className="mail__label">
+              <input
+                className="mail__inputField"
+                name="name"
+                type="text"
+                required
+              />
+              <label className="mail__inputLabel">Частный дом</label>
+            </div>
+            <div className="mail__label">
+              <input
+                className="mail__inputField"
+                name="name"
+                type="text"
+                required
+              />
+              <label className="mail__inputLabel">Квартира</label>
+            </div>
           </div>
         </div>
       ) : (
