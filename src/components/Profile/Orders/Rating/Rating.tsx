@@ -44,7 +44,7 @@ interface IRatingProps {
   ratingChange: (rate: number) => void;
   commChange: (comm: string) => void;
   postReview: () => void;
-  ratingFromApi: IRatingOrderHistoryCard | undefined;
+  ratingFromApi: IRatingOrderHistoryCard[];
 }
 export interface IReviewType {
   managersService: boolean;
@@ -77,7 +77,10 @@ const Rating = ({
 
   const selectedRating = ratings.find((r) => r.rate === rating);
 
-  const rateApi = ratings.findLast((r) => r.rate === ratingFromApi?.ocenka);
+  // const rateApi = ratings.findLast((r) => r.rate === ratingFromApi?.ocenka);
+  const rateApi = ratings.find((r) =>
+    ratingFromApi.some((item) => item.ocenka === r.rate)
+  );
 
   const handleOpenModal = () => {
     if (rating === 0) {

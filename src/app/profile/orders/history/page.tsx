@@ -1,4 +1,8 @@
-import { getOrdersHistory, getStatusDetails } from "@/api/requests";
+import {
+  getOrderHistoryOrderRating,
+  getOrdersHistory,
+  getStatusDetails,
+} from "@/api/requests";
 import OrdersHistory from "@/components/Profile/Orders/OrdersHistory";
 import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
@@ -16,11 +20,20 @@ export default async function page() {
   if (isAuthed) {
     const ordersHistory = await getOrdersHistory(isAuthed);
     const details = await getStatusDetails(isAuthed);
+    const ratingsData = await Promise.all(
+      ordersHistory.items.map((item) =>
+        getOrderHistoryOrderRating(isAuthed, item.id)
+      )
+    );
 
     return (
       <div>
         <ProfileTabs />
-        <OrdersHistory details={details} orders={ordersHistory.items} />
+        <OrdersHistory
+          ratingsData={ratingsData}
+          details={details}
+          orders={ordersHistory.items}
+        />
       </div>
     );
   }
