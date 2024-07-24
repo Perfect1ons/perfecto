@@ -1,6 +1,6 @@
-@use '../../../../../assets/scss/common/mixins' as mixin;
+@use "../../../../../assets/scss/common/mixins" as mixin;
 
-.over{
+.over {
   &_good {
     @include mixin.flex(center, flex-start, null, null);
     margin-top: 20px;
@@ -45,8 +45,7 @@
     }
     &_price,
     &_discount,
-     &_discount
-     {
+    &_discount {
       width: 8%;
       min-height: 38px;
       @include mixin.flex(center, center, null, null);
@@ -70,12 +69,10 @@
       min-height: 38px;
       @include mixin.flex(center, center, null, null);
       transition: all 0.3s ease;
-      &:hover{
-      svg{
-        path{
-          fill: var(--dark);
-        }
-      }
+      color: var(--secondary-gray);
+
+      &:hover {
+        color: var(--gray-dark);
       }
     }
   }

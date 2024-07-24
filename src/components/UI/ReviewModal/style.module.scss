@@ -88,14 +88,10 @@
   }
 }
 
-
-
 .container {
   @include mixin.flex(center, null, column, null);
   background: var(--white);
   z-index: 200;
-
-
 
   &_product {
     align-self: flex-start;
@@ -118,8 +114,7 @@
   }
 
   &_ocenka {
-    margin-right: 10px;
-    @include mixin.flex(null, center, null, null);
+    @include mixin.flex(center, center, column, 4px);
     position: relative;
     margin-top: 5px;
     &_rating {
@@ -133,17 +128,7 @@
     }
     &_text {
       user-select: none;
-      position: absolute;
-      margin-top: 25px;
       @include mixin.font(1rem, 400, null, var(--secondary-gray));
-    }
-    &_warning {
-      text-wrap: nowrap;
-      padding-left: 2px;
-      left: -25px;
-      bottom: -40px;
-      position: absolute;
-      @include mixin.font(0.875rem, 700, null, var(--danger));
     }
     @media screen and (max-width: 576px) {
       margin: 10px auto 25px;
@@ -184,35 +169,10 @@
   }
   &_areas {
     margin-top: 10px;
+    margin-bottom: 15px;
+
     width: 100%;
     @include mixin.flex(center, null, column, null);
-    &_block {
-      @include mixin.flex(flex-start, null, column, null);
-      width: 100%;
-      &_title {
-        user-select: none;
-        width: 100%;
-        padding: 0;
-        @include mixin.font(1rem, 400, null, var(--secondary-gray));
-      }
-      &_area {
-        overflow-y: hidden;
-        margin-top: 5px;
-        margin-bottom: 5px;
-        border-radius: 5px;
-        padding: 8px 8px;
-        @include mixin.font(1rem, 400, null, var(--dark));
-        resize: none;
-        width: 100%;
-        max-height: 165px;
-        border: 2px solid var(--secondary-white);;
-        outline: none;
-        &:focus {
-          border: 2px solid var(--focus);
-          outline: none;
-        }
-      }
-    }
     @media screen and (max-width: 576px) {
       margin: 0;
     }
@@ -227,10 +187,10 @@
       padding: 10px 60px;
       width: 100%;
       position: relative;
-      border: 2px solid var(--secondary-white);;
+      border: 2px solid var(--secondary-white);
       outline: none;
       transition: 0.4s all;
-      
+
       &:hover {
         background-color: var(--white);
       }

@@ -449,34 +449,34 @@ const BasketOrder = ({
             <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
           )}
         </div>
-        <div className={styles.containerInputLabel}>
-          <div className={styles.mail__label}>
+        <div className="containerInputLabel">
+          <div className="mail__label">
             <input
-              className={styles.mail__inputField}
+              className="mail__inputField"
               value={buyer.surname}
               name="surname"
               type="text"
               onChange={handleBuyerChange}
               required
             />
-            <label className={styles.mail__inputLabel}>Фамилия</label>
+            <label className="mail__inputLabel">Фамилия</label>
           </div>
           {surnameWarning && (
             <p className={styles.wrap_warning}>{surnameWarning}</p>
           )}
         </div>
 
-        <div className={styles.containerInputLabel}>
-          <div className={styles.mail__label}>
+        <div className="containerInputLabel">
+          <div className="mail__label">
             <input
-              className={styles.mail__inputField}
+              className="mail__inputField"
               value={buyer.name}
               name="name"
               type="text"
               onChange={handleBuyerChange}
               required
             />
-            <label className={styles.mail__inputLabel}>Имя</label>
+            <label className="mail__inputLabel">Имя</label>
           </div>
           {nameWarning && <p className={styles.wrap_warning}>{nameWarning}</p>}
         </div>
@@ -503,15 +503,13 @@ const BasketOrder = ({
                 : styles.wrap_organization_dropdown
             )}
           >
-            <div className={styles.mail__label}>
-              <input className={styles.mail__inputField} required type="text" />
-              <label className={styles.mail__inputLabel}>
-                Название организации:
-              </label>
+            <div className="mail__label">
+              <input className="mail__inputField" required type="text" />
+              <label className="mail__inputLabel">Название организации:</label>
             </div>
-            <div className={styles.mail__label}>
-              <input className={styles.mail__inputField} required type="text" />
-              <label className={styles.mail__inputLabel}>ИНН:</label>
+            <div className="mail__label">
+              <input className="mail__inputField" required type="text" />
+              <label className="mail__inputLabel">ИНН:</label>
             </div>
             <div className={styles.wrap_organization_dropdown_nds}>
               <label className={styles.wrap_organization_dropdown_nds_switch}>

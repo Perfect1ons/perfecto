@@ -5,6 +5,7 @@
   background: var(--white);
   border-radius: 5px;
   padding: 20px;
+  @include mixin.flex(null, null, column, 20px);
 }
 .myOrders {
   @include mixin.flex(null, null, column, 20px);

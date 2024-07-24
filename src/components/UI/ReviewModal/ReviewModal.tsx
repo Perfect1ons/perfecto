@@ -243,78 +243,63 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                   </button>
                 ))}
               </div>
+              {errors.rating && <p className="warningInput">{errors.rating}</p>}
               <div className={styles.container_ocenka_text}>
                 {ratingTexts[hoverRating - 1] ||
                   ratingTexts[otz.ocenka - 1] ||
                   "Поставьте оценку"}
               </div>
-              {errors.rating && (
-                <p className={styles.container_ocenka_warning}>
-                  {errors.rating}
-                </p>
-              )}
             </div>
-            <div className={styles.container_inputs}>
-              <label id="name" className={styles.container_inputs_title}>
-                Ваше имя
-                <input
-                  maxLength={15}
-                  name="name"
-                  autoComplete="off"
-                  onChange={ChangeHandler}
-                  type="text"
-                  className={styles.container_inputs_name}
-                />
-              </label>
-              {errors.name && (
-                <p className={styles.container_inputs_warning}>{errors.name}</p>
-              )}
-            </div>
+
             <div className={styles.container_areas}>
-              <div className={styles.container_areas_block}>
-                <label className={styles.container_areas_block_title} id="dost">
-                  Достоинства
-                  <textarea
-                    rows={1}
-                    maxLength={255}
+              <div className="containerInputLabel">
+                <div className="mail__label">
+                  <input
+                    className="mail__inputField"
+                    name="name"
+                    type="text"
                     onChange={ChangeHandler}
-                    name="dostoinsva"
-                    id="dostoinsva"
-                    className={styles.container_areas_block_area}
-                  ></textarea>
-                </label>
+                    required
+                  />
+                  <label className="mail__inputLabel"> Ваше имя</label>
+                </div>
+                {errors.name && <p className="warningInput">{errors.name}</p>}
               </div>
-              <div className={styles.container_areas_block}>
-                <label
-                  className={styles.container_areas_block_title}
-                  id="nedost"
-                >
-                  Недостатки
-                  <textarea
-                    rows={1}
-                    maxLength={255}
-                    onChange={ChangeHandler}
-                    name="nedostatki"
-                    id="nedostatki"
-                    className={styles.container_areas_block_area}
-                  ></textarea>
-                </label>
+              <div className="mail__label">
+                <textarea
+                  rows={1}
+                  maxLength={255}
+                  onChange={ChangeHandler}
+                  name="dostoinsva"
+                  id="dostoinsva"
+                  className={cn("mail__textareaField")}
+                  required
+                ></textarea>
+                <label className="mail__inputLabel">Достоинства</label>
               </div>
-              <div className={styles.container_areas_block}>
-                <label
-                  className={styles.container_areas_block_title}
-                  id="comment"
-                >
-                  Добавить комментарий
-                  <textarea
-                    rows={1}
-                    maxLength={255}
-                    name="text"
-                    id="text"
-                    onChange={ChangeHandler}
-                    className={styles.container_areas_block_area}
-                  ></textarea>
-                </label>
+              <div className="mail__label">
+                <textarea
+                  rows={1}
+                  maxLength={255}
+                  onChange={ChangeHandler}
+                  name="nedostatki"
+                  id="nedostatki"
+                  className="mail__textareaField"
+                  required
+                ></textarea>
+                <label className="mail__inputLabel"> Недостатки</label>
+              </div>
+              <div className="mail__label">
+                <textarea
+                  rows={1}
+                  maxLength={255}
+                  name="text"
+                  id="text"
+                  onChange={ChangeHandler}
+                  className="mail__textareaField"
+                  required
+                ></textarea>
+                <label className="mail__inputLabel">Добавить комментарий</label>
               </div>
             </div>
             <div className={styles.container_selectMedia}>
@@ -370,11 +355,25 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                 onClick={AnonimHandler}
               >
                 <span
-                  className={cn(styles.container_anonim_check, {
-                    [styles.container_anonim_checkActive]: isAnomim,
+                  className={cn("showFiltersUlContainer__check", {
+                    ["showFiltersUlContainer__checkActive"]: isAnomim,
                   })}
                 >
-                  {isAnomim && <CheckIcon />}
+                  {isAnomim ? (
+                    <Image
+                      src="/img/checkIconWhite.svg"
+                      width={15}
+                      height={15}
+                      alt="check"
+                    />
+                  ) : (
+                    <Image
+                      src="/img/checkIconWhite.svg"
+                      width={15}
+                      height={15}
+                      alt="check"
+                    />
+                  )}
                 </span>
                 <span className={styles.container_anonim_text}>
                   Оставить отзыв анонимно

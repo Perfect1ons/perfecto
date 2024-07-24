@@ -5,6 +5,7 @@ import styles from "./style.module.scss";
 import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
+import { postLoginCode } from "@/api/clientRequest";
 
 interface FormProps {
   setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
@@ -61,7 +62,8 @@ const AuthForm = ({
       setWarning("Это поле не может быть пустым.");
       return;
     }
-    setView("captcha");
+    postLoginCode(numericPhoneNumber);
+    setView("confirm");
     setWarning("");
   };
 
@@ -132,9 +134,9 @@ const AuthForm = ({
           )}
         </div>
         {warning && <span className={styles.warning}>{warning}</span>}
-        <div className={styles.mail__label}>
-          <input className={styles.mail__inputField} type="text" />
-          <label className={styles.mail__inputLabel}>Почта</label>
+        <div className="mail__label">
+          <input className="mail__inputField" required type="text" />
+          <label className="mail__inputLabel">Почта</label>
         </div>
 
         <button
