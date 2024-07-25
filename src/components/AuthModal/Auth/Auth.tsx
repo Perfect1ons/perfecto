@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
@@ -36,13 +36,19 @@ const AuthForm = ({
   visibleHandler,
 }: FormProps) => {
   const [warning, setWarning] = useState("");
+  const phoneInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  useEffect(() => {
+    // Focus on the phone input when the modal opens
+    if (phoneInputRef.current) {
+      phoneInputRef.current.focus();
+    }
+  }, []);
 
+  const validatePhoneNumber = () => {
     const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
-
     let expectedLength = 0;
+
     switch (currentCodeCountry.code) {
       case 996:
         expectedLength = 12;
@@ -57,14 +63,35 @@ const AuthForm = ({
 
     if (numericPhoneNumber.length !== expectedLength) {
       setWarning("Номер введен не полностью.");
-      return;
+      return false;
     } else if (!numericPhoneNumber) {
       setWarning("Это поле не может быть пустым.");
-      return;
+      return false;
     }
     postLoginCode(numericPhoneNumber);
     setView("confirm");
-    setWarning("");
+    return true;
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (validatePhoneNumber()) {
+      setView("captcha");
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (validatePhoneNumber()) {
+        // Trigger form submit when Enter key is pressed and phone number is valid
+        const form = event.currentTarget.closest("form");
+        if (form) {
+          form.requestSubmit();
+        }
+      }
+    }
   };
 
   return (
