@@ -2,7 +2,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { DeliveryCourier, SalesmanIcon } from "../../../../public/Icons/Icons";
+import { SalesmanIcon } from "../../../../public/Icons/Icons";
+import Image from "next/image";
 
 interface IUserGeoModalProps {
   visible: boolean;
@@ -327,7 +328,16 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
               isCourier && styles.delivery__type_courier_active
             )}
           >
-            <DeliveryCourier />
+            <Image
+              src={
+                isCourier
+                  ? "/img/delivery_icon_dark.svg"
+                  : "/img/delivery_icon.svg"
+              }
+              width={22}
+              height={22}
+              alt="delivery icon"
+            ></Image>
             Курьер
           </button>
           <button
