@@ -7,7 +7,7 @@ const OrderUserInfo = () => {
     <div className={styles.main}>
       <div className={styles.main_buyer_info}>
         <div className={styles.card__header}>
-          <h3 className={styles.card__title}>Покупатель:</h3>с{" "}
+          <h3 className={styles.card__title}>Покупатель:</h3>
         </div>
         <h4 className={styles.main_buyer_info_name}>
           {/* {order.fio} {order.name} */}
