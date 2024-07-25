@@ -62,6 +62,9 @@
     }
   }
 }
+.iconFavorite {
+  @include mixin.flex(center, center, null, null);
+}
 .checkBoxPosition {
   position: absolute;
   top: 0;

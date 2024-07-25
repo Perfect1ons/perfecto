@@ -47,7 +47,10 @@
     }
   }
 }
-
+.containerInputs {
+  @include mixin.flex(null, null, column, 10px);
+  width: 100%;
+}
 .modal__more_button {
   margin-top: 10px;
   color: var(--dark-blue);
@@ -102,9 +105,9 @@
   background: var(--dark-blue);
   color: var(--white);
   border-radius: 5px;
+  margin-top: 10px;
   width: 100%;
   padding: 15px 0;
-  margin-top: 10px;
   font-size: 17px;
   cursor: pointer;
   transition: all 0.4s ease-in;
@@ -145,49 +148,49 @@
   }
 }
 
-.mail__label {
-  position: relative;
-  max-width: 100%;
-  max-height: 44px;
-  margin-top: 15px;
-  margin-bottom: 5px;
-}
+// .mail__label {
+//   position: relative;
+//   max-width: 100%;
+//   max-height: 44px;
+//   margin-top: 15px;
+//   margin-bottom: 5px;
+// }
 
-.mail__inputField {
-  width: 100%;
-  padding: 10px 5px 10px 5px;
-  border: 2px solid var(--secondary);
-  border-radius: 4px;
-  font-size: 16px;
-  box-sizing: border-box;
-  background-color: transparent;
-}
+// .mail__inputField {
+//   width: 100%;
+//   padding: 10px 5px 10px 5px;
+//   border: 2px solid var(--secondary);
+//   border-radius: 4px;
+//   font-size: 16px;
+//   box-sizing: border-box;
+//   background-color: transparent;
+// }
 
-.mail__inputLabel {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 0 5px;
-  transition: all 0.2s ease-in;
-  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
-  text-wrap: nowrap;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--secondary);
-}
+// .mail__inputLabel {
+//   position: absolute;
+//   left: 10px;
+//   top: 50%;
+//   transform: translateY(-50%);
+//   padding: 0 5px;
+//   transition: all 0.2s ease-in;
+//   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+//   text-wrap: nowrap;
+//   font-size: 16px;
+//   font-weight: 400;
+//   color: var(--secondary);
+// }
 
-.mail__inputField:focus {
-  border: 2px solid var(--dark-blue);
-}
-.mail__inputField:focus + .mail__inputLabel {
-  background-color: var(--white);
-  left: 5px;
-  top: 0;
-  scale: (0.88);
-  @include mixin.font(16px, 600, 100%, var(--dark-blue));
-  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
-}
+// .mail__inputField:focus {
+//   border: 2px solid var(--dark-blue);
+// }
+// .mail__inputField:focus + .mail__inputLabel {
+//   background-color: var(--white);
+//   left: 5px;
+//   top: 0;
+//   scale: (0.88);
+//   @include mixin.font(16px, 600, 100%, var(--dark-blue));
+//   font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+// }
 
 .select__country {
   position: absolute;
@@ -237,55 +240,6 @@
     }
   }
 }
-
-// .inputContainer {
-//   position: relative;
-//   max-width: 100%;
-//   max-height: 44px;
-// }
-// .inputField {
-//   width: 100%;
-//   padding: 10px 5px 10px 5px;
-//   border: 1px solid var(--secondary);
-//   border-radius: 4px;
-//   font-size: 16px;
-//   box-sizing: border-box;
-//   background-color: transparent; // Убираем цвет фона инпута
-// }
-
-// .inputLabel {
-//   position: absolute;
-//   left: 10px;
-//   top: 50%;
-//   transform: translateY(-50%);
-//   padding: 0 5px;
-//   transition: all 0.3s ease;
-//   pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
-//   text-wrap: nowrap;
-//   font-size: 16px;
-//   font-weight: 400;
-//   color: var(--gray);
-// }
-
-// .inputField:focus,
-// .inputField:valid {
-//   border: 1px solid var(--dark-blue);
-// }
-// .inputField:focus + .inputLabel,
-// .inputField:valid + .inputLabel {
-//   background-color: var(--white);
-//   color: var(--dark-blue);
-//   left: 5px;
-//   top: 0;
-//   scale: (0.88);
-// }
-
-// .inputField:placeholder-shown + .inputLabel {
-//   top: 50%;
-//   transform: translateY(-50%);
-//   font-size: 16px;
-//   color: #aaa; // Цвет текста по умолчанию
-// }
 
 @media screen and (max-width: 768px) {
   .modal {

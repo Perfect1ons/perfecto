@@ -366,7 +366,6 @@
   position: relative;
   @include mixin.font(16px, 600, null, var(--dark));
   width: 100%;
-  background: var(--white);
   padding: 10px 5px 10px 70px;
   border-radius: 5px;
   border: 2px solid var(--secondary);

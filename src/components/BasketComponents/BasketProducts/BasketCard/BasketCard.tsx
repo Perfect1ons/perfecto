@@ -1,5 +1,6 @@
 import cn from "clsx";
 import {
+  CardFavoritesIcon,
   GrayFavoritesIcon,
   GrayStar,
   TrashIcon,
@@ -155,8 +156,16 @@ const BasketCard = ({
               }
               className={styles.iconBasket}
             >
-              <span className="add__to_fav_icon">
-                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
+              <span
+                title={
+                  isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+                }
+                className={cn(
+                  "add__to_fav_icon",
+                  ` ${isFavorite ? "card__info_addedFavorites" : ""}`
+                )}
+              >
+                <CardFavoritesIcon />
               </span>
             </button>
             <button

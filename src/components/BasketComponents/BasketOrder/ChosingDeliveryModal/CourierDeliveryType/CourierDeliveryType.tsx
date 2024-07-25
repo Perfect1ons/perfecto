@@ -155,13 +155,13 @@ const CourierDeliveryType = ({
               <СhevronDownIcon />
             </span>
           </button>
-          <div
+          <ul
             className={cn(styles.dropdownContainer, {
               [styles.dropdownContainerActive]: visibleDropdown === "city",
             })}
           >
             {deliveryCity.map((city) => (
-              <span
+              <li
                 key={city.id}
                 className={styles.dropdownItem}
                 onClick={() => {
@@ -170,9 +170,9 @@ const CourierDeliveryType = ({
                 }}
               >
                 {city.naim}
-              </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
         {region && (
           <div
@@ -192,13 +192,13 @@ const CourierDeliveryType = ({
                 <СhevronDownIcon />
               </span>
             </button>
-            <div
+            <ul
               className={cn(styles.dropdownContainer, {
                 [styles.dropdownContainerActive]: visibleDropdown === "region",
               })}
             >
               {region.map((region) => (
-                <span
+                <li
                   key={region.id}
                   className={styles.dropdownItem}
                   onClick={() => {
@@ -206,9 +206,9 @@ const CourierDeliveryType = ({
                   }}
                 >
                   {region.naim}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         )}
       </div>
@@ -303,20 +303,20 @@ const CourierDeliveryType = ({
             </span>
           </button>
           {openSelect && (
-            <ul className={cn(styles.wrap_courier_selectTime_dropdown_time)}>
-              {times.map((time, index) => {
-                return (
-                  <li
-                    onClick={() => selectTime(time.value)}
-                    key={index}
-                    className={
-                      styles.wrap_courier_selectTime_dropdown_time_item
-                    }
-                  >
-                    {time.value}
-                  </li>
-                );
+            <ul
+              className={cn(styles.dropdownContainer, {
+                [styles.dropdownContainerActive]: openSelect,
               })}
+            >
+              {times.map((time, index) => (
+                <li
+                  key={index}
+                  className={styles.dropdownItem}
+                  onClick={() => selectTime(time.value)}
+                >
+                  {time.value}
+                </li>
+              ))}
             </ul>
           )}
         </div>
