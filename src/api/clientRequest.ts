@@ -400,22 +400,35 @@ export const getSelectRegion = async (
 };
 export const postBasketProduct = async (
   token: string,
-  cart: { kol: number; id_tov: number }
+  kol: number,
+  id_tov: number
 ): Promise<any> => {
   const params = new URLSearchParams();
-  params.append(" kol", cart.kol);
-  params.append(" id_tov", cart.id_tov);
-  const response = await maxkg.get(`box/set-box-guest`, {
+  params.append("kol", kol.toString());
+  params.append("id_tov", id_tov.toString());
+  return maxkg.post(`box/set-box-guest`, {
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
     },
+    body: params.toString(),
   });
-
-  const data = await response.json();
-
-  return data as any;
 };
+// export const postBasketProduct = (
+//   token: string,
+//   cart: { id_tov: number; kol: number }
+// ) => {
+//   const params = new URLSearchParams();
+//   params.append("ind_pred", ind_pred);
+//   params.append("org", org);
+//   return maxkg.post(`box/set-box-guest?id_tov=${cart.id_tov}&kol=${cart.kol}`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//     body: params.toString(),
+//   });
+// };
 // export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
 //   return maxkg.post("box/set-box-guest", { json: cart });
 // };
