@@ -154,6 +154,8 @@ const UserPersonalData = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [dropdownOpen]);
+  const currentDate = new Date().toISOString().split("T")[0];
+
   return (
     <div className={styles.containerPersonalData}>
       <div className="mail__label">
@@ -180,14 +182,15 @@ const UserPersonalData = () => {
       </div>
       <div className="mail__label">
         <input
-          className="mail__inputField"
-          type="text"
-          required
-          value={data?.birthday}
+          className={cn(styles.customInputDate, "mail__inputField")}
           name="birthday"
+          max={currentDate}
           onChange={handleChange}
+          value={data?.birthday}
+          type="date"
+          required
         />
-        <label className="mail__inputLabel">Дата рождения</label>
+        {/* <label className="mail__inputLabel">Дата рождения</label> */}
       </div>
       <div
         className="mail__label"
