@@ -136,13 +136,13 @@ const BasketOrder = ({
     setNds((prevNds) => !prevNds);
   }, []);
 
-  const handleBuyerChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleBuyerChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setBuyer((prevBuyer) => ({
       ...prevBuyer,
       [name]: value,
     }));
-  }, []);
+  };
 
   const selectPayment = (value: string) => {
     setVariableBuyer((prevVariableBuyer) => ({

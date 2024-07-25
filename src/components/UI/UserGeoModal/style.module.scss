@@ -12,7 +12,7 @@
   z-index: 100;
   position: absolute;
   padding: 20px;
-  max-width: 550px;
+  max-width: 650px;
   width: 100%;
   height: auto;
   border-radius: 10px;
@@ -44,6 +44,12 @@
       background: none;
       color: var(--violet);
     }
+  }
+
+  &__warning {
+    text-wrap: nowrap;
+    @include mixin.font(14px, 400, null, var(--violet));
+    width: 100%;
   }
 }
 
@@ -170,6 +176,7 @@
 
   &__title {
     width: 100%;
+    margin-top: 15px;
     @include mixin.font(1rem, 400, null, var(--dark));
   }
   &__type {
