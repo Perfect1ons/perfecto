@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^14.2.5",
     "@reduxjs/toolkit": "^2.2.5",
     "http-proxy": "^1.18.1",
     "isomorphic-dompurify": "^2.10.0",

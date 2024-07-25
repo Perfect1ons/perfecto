@@ -3,8 +3,14 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   swcMinify: true,
+  reactStrictMode: true,
+  optimizeFonts: true,
+  compress: true,
+  experimental: {
+    optimizePackageImports: ["swiper", "clsx", "react-loading-skeleton"],
+  },
   images: {
-    formats: [ "image/webp","image/avif"],
+    formats: ["image/webp"],
     remotePatterns: [
       {
         protocol: "https",
@@ -83,6 +89,15 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [
           { key: "Content-Type", value: "application/json" },
+          // Заголовки безопасности
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-XSS-Protection", value: "1; mode=block" },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "default-src 'self'; img-src 'self' data:; media-src media1.com media2.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';",
+          },
           // Добавьте другие заголовки, если это необходимо для вашего API
         ],
       },
@@ -106,8 +121,5 @@ const nextConfig = {
   },
 };
 
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = nextConfig;

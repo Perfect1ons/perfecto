@@ -3,9 +3,7 @@ import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
 import { IPromotion } from "@/types/promotion";
-import { IBrands } from "@/types/brands";
 import { IBoughts } from "@/types/lastBoughts";
-import { ISeasonCategory } from "@/types/seasonCategory";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IPopularGood } from "@/types/popularGoods";
@@ -36,6 +34,9 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
+import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
+import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
+import { IMainPageBrands } from "@/types/HomeTypes/brands";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -100,7 +101,7 @@ export const getBannerData = (): Promise<IBanner> => {
   return maxkg.get("baner?pageSize=20&page=1").json();
 };
 
-export const getPromotion = (): Promise<IPromotion[]> => {
+export const getPromotion = (): Promise<IMainPagePromotion[]> => {
   return maxkg.get(`ak`).json();
 };
 export const getPromotionPagination = (id: number): Promise<IPromotion[]> => {
@@ -119,19 +120,19 @@ export const getNewsPagination = (id: number): Promise<INews[]> => {
   return maxkg.get(`news?pageSize=10&page=${id}`).json();
 };
 
-export const getSeasonCategory = (): Promise<ISeasonCategory> => {
+export const getSeasonCategory = (): Promise<IMainPageSeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
 
-export const getBrands = (): Promise<IBrands> => {
+export const getBrands = (): Promise<IMainPageBrands> => {
   return maxkg.get("brand?pageSize=36").json();
 };
 
-export const getBrandsData = (): Promise<IBrands> => {
+export const getBrandsData = (): Promise<IMainPageBrands> => {
   return maxkg.get("brand?pageSize=all").json();
 };
 
-export const getBrandsPaginations = (id: number): Promise<IBrands> => {
+export const getBrandsPaginations = (id: number): Promise<IMainPageBrands> => {
   return maxkg.get(`brand?pageSize=36&page=${id}`).json();
 };
 

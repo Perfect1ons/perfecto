@@ -8,40 +8,6 @@
   margin-top: 20px;
   position: relative;
 }
-.swiper__slide {
-  -webkit-tap-highlight-color: transparent;
-  cursor: pointer;
-  min-height: 170px;
-  text-align: center;
-  padding: 15px 0px;
-  border-radius: 5px;
-  font-size: 18px;
-  background: #ffffff;
-  height: calc((100% - 30px) / 2) !important;
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  align-items: center;
-  flex-direction: column;
-
-  @media screen and (max-width: 480px) {
-    min-height: 80px;
-    overflow: hidden;
-  }
-
-  &_img {
-    user-select: none;
-    border-radius: 5px;
-
-    @media screen and (max-width: 480px) {
-      width: 65px;
-      height: 65px;
-    }
-  }
-  &:hover {
-    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-  }
-}
 
 .swiper__slide_title {
   @include mixin.font(15px, 400, 150%, #424242);
