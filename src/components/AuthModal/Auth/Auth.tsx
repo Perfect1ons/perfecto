@@ -44,7 +44,7 @@ const AuthForm = ({
     }
   }, []);
 
-  const validatePhoneNumber = () => {
+  const validatePhoneNumber = (): boolean => {
     const numericPhoneNumber = phoneNumber.replace(/\D/g, "");
     let expectedLength = 0;
 
@@ -169,6 +169,7 @@ const AuthForm = ({
           </div>
         </div>
         <button
+          onClick={handleSubmit}
           aria-label="go to enter"
           type="submit"
           className={cn(styles.modal__button, "button")}
