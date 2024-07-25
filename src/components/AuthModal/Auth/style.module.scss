@@ -47,7 +47,10 @@
     }
   }
 }
-
+.containerInputs {
+  @include mixin.flex(null, null, column, 10px);
+  width: 100%;
+}
 .modal__more_button {
   margin-top: 10px;
   color: var(--dark-blue);

@@ -73,7 +73,7 @@ const AuthForm = ({
         скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <div className="allContainerInput">
+        <div className={styles.containerInputs}>
           <div className={styles.modal__form_phone}>
             <div className={styles.modal__form_phone_control}>
               <InputMask
