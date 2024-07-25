@@ -1,12 +1,12 @@
-"use client"
-import Image from 'next/image';
-import styles from './card.module.scss'
-import Link from 'next/link';
-import { SettingsIcons } from '../../../../public/Icons/Icons';
-import clsx from 'clsx';
+"use client";
+import Image from "next/image";
+import styles from "./card.module.scss";
+import Link from "next/link";
+import { SettingsIcons } from "../../../../public/Icons/Icons";
+import clsx from "clsx";
 
-interface INotificationCardProps{
-    notif: number;
+interface INotificationCardProps {
+  notif: number;
 }
 
 const NotificationCard = ({ notif }: INotificationCardProps) => {
@@ -26,7 +26,7 @@ const NotificationCard = ({ notif }: INotificationCardProps) => {
             <p className={styles.profile__userInfo_name}>Уведомления</p>
             <p className={styles.orders}>
               У вас <span className={styles.orders__count}>{notif}</span>{" "}
-              уведомлений
+              {notif === 1 ? "уведомление" : "уведомлений"}
             </p>
           </div>
         </div>
@@ -45,4 +45,4 @@ const NotificationCard = ({ notif }: INotificationCardProps) => {
   );
 };
 
-export default NotificationCard
+export default NotificationCard;
