@@ -165,68 +165,8 @@ body {
   }
 }
 
-//! стили популярных категорий
-.myCategory__swiper {
-  padding-bottom: 30px !important;
 
-  @media screen and (max-width: 640px) {
-    padding-bottom: 20px;
-  }
-}
 
-.swiper__slide {
-  cursor: pointer;
-  height: 180px !important;
-  overflow: hidden;
-  text-align: center;
-  max-width: 210px !important;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  font-size: 18px;
-  background: var(--bg-white);
-  @include mixin.flex(center, center, column, 10px);
-  @media screen and (max-width: 992px) {
-    max-height: 160px;
-    height: auto !important;
-    padding-bottom: 0;
-  }
-  @media screen and (max-width: 768px) {
-    min-height: 130px;
-    padding-top: 0;
-  }
-  &_img {
-    user-select: none;
-    @media screen and (max-width: 640px) {
-      width: 63px;
-      height: auto;
-    }
-  }
-
-  &:hover {
-    box-shadow: 0 0 8px 0 rgba(34, 60, 80, 0.2);
-
-    .category__item_title {
-      color: var(--violet);
-    }
-  }
-}
-
-.category__item_title {
-  @include mixin.font(14px, 400, 150%, var(--gray-dark));
-  text-align: center;
-  // max-width: 210px !important;
-  transition: 0.1s ease-in-out;
-  user-select: none;
-  padding: 0 10px;
-  @media screen and (max-width: 480px) {
-    font-size: 15px;
-    color: var(--black);
-    max-width: 100%;
-    overflow-wrap: break-word;
-    max-height: 45px;
-    overflow: hidden;
-  }
-}
 
 //! Стиль тайтла страниц когда нажимаешь показать все
 .default__showMore_title {
@@ -604,4 +544,26 @@ body {
 .wrapInfoItem {
   max-width: 100%;
   width: 100%;
+}
+
+
+//! Карточки новостей, скидок
+.info__cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+
+    @media screen and (max-width: 992px) {
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
 }

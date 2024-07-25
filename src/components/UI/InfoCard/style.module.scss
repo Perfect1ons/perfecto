@@ -1,22 +1,7 @@
 @use '../../../assets/scss/common/mixins' as mixin;
 
-.news__container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 25px;
 
-  @media screen and (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  @media screen and (max-width: 480px) {
-    grid-template-columns: repeat(1, 1fr);
-    gap: 10px;
-  }
-}
-
-.promotion__card {
+.card {
   opacity: 0;
   transition: opacity 0.5s ease;
   border-radius: 15px;
@@ -26,7 +11,7 @@
     display: block;
     position: relative;
     width: 100%;
-    padding-bottom: 62.5%; /* Соотношение сторон 16:9 */
+    padding-bottom: 62.5%;
     overflow: hidden;
   }
 
@@ -46,11 +31,36 @@
     }
   }
 
+
+}
+
+.card:not(.card--shown) {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.promotion__card {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  border-radius: 10px;
+  overflow: hidden;
+
   &_skeleton {
     width: 100%;
     height: 0;
     padding-bottom: 62.5%; /* Соотношение сторон 16:9 */
     overflow: hidden;
+    border-radius: 15px !important;
 
     > span {
       display: block;

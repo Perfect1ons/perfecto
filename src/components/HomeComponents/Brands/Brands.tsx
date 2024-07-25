@@ -1,20 +1,20 @@
 "use client";
-import { useState } from "react";
-import { IBrandItem } from "@/types/brands";
+import { memo, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import Link from "next/link";
+import { IBrandItem } from "@/types/HomeTypes/brands";
 
 interface IBrandsProps {
   brands: IBrandItem[];
 }
 
-const Brands = ({ brands }: IBrandsProps) => {
+const Brands = memo(({ brands }: IBrandsProps) => {
   const initialPageSize = 12;
   const [pageSize, setPageSize] = useState(initialPageSize);
 
   const handleShowMore = () => {
-    const newPageSize = pageSize + 12 > 24 ? 24 : pageSize + 12;
+    const newPageSize = pageSize + 12 > 36 ? 24 : pageSize + 12;
     setPageSize(newPageSize);
   };
 
@@ -36,23 +36,21 @@ const Brands = ({ brands }: IBrandsProps) => {
           })}
         </div>
         <div className="showMore__buttons">
-          {pageSize < 24 ? (
+          {pageSize < 36 ? (
             <button className="showMore__button" onClick={handleShowMore}>
               Показать еще
             </button>
           ) : (
             <Link href={"/brands"}>
-              <button
-                className="showMore__button"
-              >
-                Показать все
-              </button>
+              <button className="showMore__button">Показать все</button>
             </Link>
           )}
         </div>
       </div>
     </section>
   );
-};
+});
+
+Brands.displayName = "Brands";
 
 export default Brands;

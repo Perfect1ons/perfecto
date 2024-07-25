@@ -15,13 +15,22 @@ import {
 } from "@/api/requests";
 import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
-import PopularCategory from "@/components/HomeComponents/PopularCategory/PopularCategory";
+import BrandsSkeleton from "@/components/HomeComponents/Brands/BrandsSkeleton";
+import DiscountsSkeleton from "@/components/HomeComponents/Discounts/DiscountsSkeleton";
 import YouWatched from "@/components/HomeComponents/YouWatched/YouWatched";
+import CategorySkeleton from "@/components/UI/CategorySkeleton/CategorySkeleton";
+import InfoCardLoading from "@/components/UI/InfoCard/InfoCardLoading";
 import MainPageJsonLd from "@/utils/JsonLd/MainPageJsonLd/MainPageJsonLd";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
-
+const DynamicPopularCategory = dynamic(
+  () => import("@/components/HomeComponents/PopularCategory/PopularCategory"),
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton title="Популярные категории" />,
+  }
+);
 const LazySecondBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/SecondBanner"),
   {
@@ -34,51 +43,62 @@ const LazyThirdBanner = dynamic(
     ssr: false,
   }
 );
-const LazySeasonCategorySwiper = dynamic(
-  () =>
-    import(
-      "@/components/HomeComponents/SeasonCategorySwiper/SeasonCategorySwiper"
-    )
+const DynamicSeasonCategory = dynamic(
+  () => import("@/components/HomeComponents/SeasonCategory/SeasonCategory"),
+  {
+    ssr: false,
+    loading: () => <CategorySkeleton title="Сезонные категории" />,
+  }
 );
 const LazyTodaysBoughts = dynamic(
   () => import("@/components/HomeComponents/TodayBoughts/TodayBoughts")
 );
-const LazyNews = dynamic(() => import("@/components/HomeComponents/News/News"));
-const LazyDiscounts = dynamic(
-  () => import("@/components/HomeComponents/Discounts/Discounts")
+const DynamicNews = dynamic(
+  () => import("@/components/HomeComponents/News/News"),
+  {
+    ssr: false,
+    loading: () => <InfoCardLoading title="Новости" />,
+  }
 );
-const LazyPromotion = dynamic(
-  () => import("@/components/HomeComponents/Promotion/Promotion")
+
+const DynamicDiscounts = dynamic(
+  () => import("@/components/HomeComponents/Discounts/Discounts"),
+  {
+    ssr: false,
+    loading: () => <DiscountsSkeleton />,
+  }
+);
+const DynamicPromotions = dynamic(
+  () => import("@/components/HomeComponents/Promotion/Promotion"),
+  {
+    ssr: false,
+    loading: () => <InfoCardLoading title="Акции" />,
+  }
 );
 const LazyPopularGoods = dynamic(
   () => import("@/components/HomeComponents/PopularGoods/PopularGoods")
 );
-const LazyBrands = dynamic(
-  () => import("@/components/HomeComponents/Brands/Brands")
+
+const DynamicBrands = dynamic(
+  () => import("@/components/HomeComponents/Brands/Brands"),
+  {
+    ssr: false,
+    loading: () => <BrandsSkeleton />,
+  }
 );
 
-
 export default async function Home() {
- const cookieStore = cookies();
- const existingWatched = JSON.parse(
-   cookieStore.get("youWatched")?.value || "[]"
- );
-  let popularCategoryData, goodsData;
-
-  try {
-    [popularCategoryData, goodsData] = await Promise.all([
-      getPopularCategory(),
-      getPopularGoods(1),
-    ]);
-  } catch (error) {
-    console.error("Error fetching popular category or goods data:", error);
-    return <ErrorPage />;
-  }
+  const cookieStore = cookies();
+  const existingWatched = JSON.parse(
+    cookieStore.get("youWatched")?.value || "[]"
+  );
 
   try {
     const [
       mobileData,
       desktopData,
+      popularCategoryData,
+      goodsData,
       newsData,
       discounts,
       secondBanner,
@@ -88,6 +108,8 @@ export default async function Home() {
     ] = await Promise.all([
       getMobileData(),
       getDekstopData(),
+      getPopularCategory(),
+      getPopularGoods(1),
       getNewsByLimit(),
       getDiscounts(1),
       getSecondBanner(),
@@ -108,14 +130,14 @@ export default async function Home() {
         {existingWatched.length > 0 ? (
           <YouWatched data={existingWatched} />
         ) : null}
-        <PopularCategory category={popularCategoryData} />
+        <DynamicPopularCategory category={popularCategoryData} />
         <LazyPopularGoods goods={goodsData} />
-        <LazyNews news={newsData} />
-        <LazyDiscounts discounts={discounts} />
+        <DynamicNews news={newsData} />
+        <DynamicDiscounts discounts={discounts} />
         <LazySecondBanner banner={secondBanner.baner} />
-        <LazyPromotion promotion={promotionData} />
-        <LazySeasonCategorySwiper seasonItems={seasonCategoryData} />
-        <LazyBrands brands={brandsData} />
+        <DynamicPromotions promotions={promotionData} />
+        <DynamicSeasonCategory seasonItems={seasonCategoryData} />
+        <DynamicBrands brands={brandsData} />
         <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
         <LazyThirdBanner banner={thirdBanner.baner} />
       </>

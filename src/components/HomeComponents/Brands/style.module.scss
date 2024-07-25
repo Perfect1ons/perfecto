@@ -1,6 +1,7 @@
 @use "../../../assets/scss/common/mixins" as mixin;
+
 .brands__container {
-  @include mixin.flex(null, null, column, null );
+  @include mixin.flex(null, null, column, null);
 }
 
 .brandsContainer {
@@ -24,16 +25,22 @@
   max-width: 230px;
   height: 100px;
   box-shadow: 0 2px 8px 0px rgba(34, 60, 80, 0.2);
-  @include mixin.flex(center, center, null, null );
+  @include mixin.flex(center, center, null, null);
   cursor: pointer;
   text-decoration: none;
-   @include mixin.font(16px, 600, 21px, var(--gray-dark));
+  @include mixin.font(16px, 600, 21px, var(--gray-dark));
   text-align: center;
 
   &:hover {
-      color: var(--violet);
+    color: var(--violet);
   }
   @media screen and (max-width: 1200px) {
     max-width: 260px;
   }
+}
+
+.skeleton {
+  padding: 0px 20px;
+  max-width: 230px;
+  height: 100px;
 }
