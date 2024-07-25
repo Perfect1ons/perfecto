@@ -1,5 +1,6 @@
-import { IPopularCategory } from "@/types/PopularCategory";
+import { IPopularCategory } from "@/types/HomeTypes/popularcategory";
 import CategorySwiper from "./CategorySwiper/CategorySwiper";
+
 export interface ICategory {
   category: IPopularCategory[];
 }

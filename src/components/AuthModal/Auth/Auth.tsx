@@ -5,6 +5,7 @@ import styles from "./style.module.scss";
 import { ArrowDropdown, WarningIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 import InputMask from "react-input-mask";
+import { postLoginCode } from "@/api/clientRequest";
 
 interface FormProps {
   setView: (view: "login" | "registration" | "confirm" | "captcha") => void;
@@ -67,8 +68,8 @@ const AuthForm = ({
       setWarning("Это поле не может быть пустым.");
       return false;
     }
-
-    setWarning("");
+    postLoginCode(numericPhoneNumber);
+    setView("confirm");
     return true;
   };
 
@@ -101,73 +102,70 @@ const AuthForm = ({
         скидки.
       </p>
       <form className={styles.modal__form} onSubmit={handleSubmit}>
-        <div className={styles.containerInputs}>
-          <div className={styles.modal__form_phone}>
-            <div className={styles.modal__form_phone_control}>
-              <InputMask
-                mask={mask}
-                value={phoneNumber}
-                onChange={handleBuyerChange}
-                className={styles.auth__input}
-              >
-                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                  <input
-                    autoComplete="off"
-                    ref={phoneInputRef}
-                    {...inputProps}
-                    name="phone"
-                    placeholder="Телефон ( Обязательно )"
-                    type="text"
-                    required
-                    onKeyDown={handleKeyDown}
-                  />
-                )}
-              </InputMask>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  visibleHandler("country");
-                }}
-                className={styles.select__country}
-              >
-                <span
-                  className={cn(
-                    visible === "country"
-                      ? styles.select__country_arrow__active
-                      : styles.select__country_arrow
-                  )}
-                >
-                  <ArrowDropdown />
-                </span>
-                <Image
-                  className={styles.select__country_img}
-                  src={currentCodeCountry.img}
-                  width={30}
-                  height={30}
-                  alt={currentCodeCountry.name}
+        <div className={styles.modal__form_phone}>
+          <div className={styles.modal__form_phone_control}>
+            <InputMask
+              mask={mask}
+              value={phoneNumber}
+              onChange={handleBuyerChange}
+              className={styles.auth__input}
+            >
+              {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
+                <input
+                  autoComplete="off"
+                  {...inputProps}
+                  name="phone"
+                  placeholder="Телефон ( Обязательно )"
+                  type="text"
+                  required
                 />
-              </button>
-
-              {warning && (
-                <span className={styles.warning__icon}>
-                  <WarningIcon />
-                </span>
               )}
-            </div>
-            {warning && <span className={styles.warning}>{warning}</span>}
+            </InputMask>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                visibleHandler("country");
+              }}
+              className={styles.select__country}
+            >
+              <span
+                className={cn(
+                  visible === "country"
+                    ? styles.select__country_arrow__active
+                    : styles.select__country_arrow
+                )}
+              >
+                <ArrowDropdown />
+              </span>
+              <Image
+                className={styles.select__country_img}
+                src={currentCodeCountry.img}
+                width={30}
+                height={30}
+                alt={currentCodeCountry.name}
+              />
+            </button>
 
-            {visible === "country" && (
-              <div className={styles.modal__form_phone_dropdown}>
-                {countryOptions}
-              </div>
+            {warning && (
+              <span className={styles.warning__icon}>
+                <WarningIcon />
+              </span>
             )}
           </div>
-          <div className="mail__label">
-            <input className="mail__inputField" required type="text" />
-            <label className="mail__inputLabel">Почта</label>
-          </div>
+
+          {visible === "country" && (
+            <div className={styles.modal__form_phone_dropdown}>
+              {countryOptions}
+            </div>
+          )}
         </div>
+        {warning && <span className={styles.warning}>{warning}</span>}
+        <div className="mail__label">
+          <input className="mail__inputField" required type="text" />
+          <label className="mail__inputLabel">Почта</label>
+        </div>
+
         <button
           onClick={handleSubmit}
           aria-label="go to enter"
