@@ -25,7 +25,6 @@ interface IBasketProps {
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
   deliveryCity: SelectCityType;
-  cart: getBasketProductsType;
 }
 
 const Basket = ({
@@ -33,7 +32,6 @@ const Basket = ({
   deliveryMethod,
   authToken,
   deliveryCity,
-  cart,
 }: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
@@ -192,10 +190,7 @@ const Basket = ({
             </button>
           </div>
           <div className={styles.cardContainer}>
-            <BasketProducts
-              products={cart?.model}
-              currentItems={currentItems}
-            />
+            <BasketProducts currentItems={currentItems} />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}

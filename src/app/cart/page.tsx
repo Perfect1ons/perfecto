@@ -2,7 +2,6 @@ import {
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
-  getProductBasket,
   getSelectCity,
 } from "@/api/requests";
 import MainLoader from "@/components/UI/Loader/MainLoader";
@@ -19,8 +18,6 @@ export default async function Page() {
   const userId = cookieStore.get("userId")?.value;
   const authToken = cookieStore.get("identify")?.value;
 
-  const cartProducts = await getProductBasket();
-
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);
   const deliveryCity = await getSelectCity();
@@ -31,7 +28,6 @@ export default async function Page() {
       paymentMethod={paymentMethod}
       deliveryMethod={deliveryMehod}
       authToken={authToken}
-      cart={cartProducts}
     />
   );
 }

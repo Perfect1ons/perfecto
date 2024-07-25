@@ -94,6 +94,8 @@ const AuthForm = ({
     }
   };
 
+  const inputMaskRef = useRef(null);
+
   return (
     <div className={styles.modal}>
       <p className={styles.modal__text}>
@@ -104,11 +106,12 @@ const AuthForm = ({
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
-            <InputMask
+            {/* <InputMask
               mask={mask}
               value={phoneNumber}
               onChange={handleBuyerChange}
               className={styles.auth__input}
+              ref={inputMaskRef}
             >
               {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
                 <input
@@ -120,7 +123,7 @@ const AuthForm = ({
                   required
                 />
               )}
-            </InputMask>
+            </InputMask> */}
             <button
               onClick={(e) => {
                 e.preventDefault();

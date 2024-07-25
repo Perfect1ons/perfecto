@@ -10,7 +10,6 @@ interface INewProps {
 
 const News = memo(function News({ news }: INewProps) {
   const [shownCount, setShownCount] = useState(6);
-  const [showAllButton, setShowAllButton] = useState(false);
 
   const handleShowMore = () => {
     setShownCount((prevCount) => prevCount + 6);
@@ -28,7 +27,7 @@ const News = memo(function News({ news }: INewProps) {
         </div>
 
         <div className="showMore__buttons">
-          {shownCount < 18 && !showAllButton && (
+          {shownCount < news.length && (
             <button
               className="showMore__button"
               onClick={handleShowMore}
@@ -37,7 +36,7 @@ const News = memo(function News({ news }: INewProps) {
               Показать еще
             </button>
           )}
-          {shownCount >= 18 && !showAllButton && (
+          {shownCount >= news.length && news.length > 6 && (
             <Link href="/news">
               <button
                 aria-label="click to show all"
