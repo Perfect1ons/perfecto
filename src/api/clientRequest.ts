@@ -403,8 +403,8 @@ export const postBasketProduct = async (
   cart: { kol: number; id_tov: number }
 ): Promise<any> => {
   const params = new URLSearchParams();
-  params.append(" kol", cart.kol);
-  params.append(" id_tov", cart.id_tov);
+  params.append(" kol", cart.kol.toString());
+  params.append(" id_tov", cart.id_tov.toString());
   const response = await maxkg.get(`box/set-box-guest`, {
     headers: {
       Authorization: `Bearer ${token}`,
