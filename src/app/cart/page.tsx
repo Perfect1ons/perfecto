@@ -20,7 +20,6 @@ export default async function Page() {
   const authToken = cookieStore.get("identify")?.value;
 
   const cartProducts = await getProductBasket();
-  ``;
 
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);

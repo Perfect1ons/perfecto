@@ -30,7 +30,7 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
-  const { isAuthed } = useContext(AuthContext);
+  const { isAuthed, token } = useContext(AuthContext);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -188,10 +188,10 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     addToCart();
     setShouldFocusInput(true);
     const data = {
+      kol: 1,
       id_tov: cardData.id_tov,
-      kol: cardData.minQty,
     };
-    postBasketProduct(data);
+    postBasketProduct(token, data);
   };
 
   const closeModalCart = () => {
