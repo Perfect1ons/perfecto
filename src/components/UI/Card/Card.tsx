@@ -20,6 +20,7 @@ import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
+import { useRouter } from "next/router";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -194,6 +195,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item: any) => item.id === cardData.id);
 
+  const [isHomePage, setIsHomePage] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsHomePage(window.location.pathname === "/");
+    }
+  }, []);
+
   return (
     <>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
@@ -309,7 +318,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!product?.quantity && (
+          {!isHomePage && !product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -328,7 +337,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
               </button>
             </div>
           )}
-          {product?.quantity && (
+          {!isHomePage && product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
