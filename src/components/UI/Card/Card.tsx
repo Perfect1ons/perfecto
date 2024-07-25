@@ -181,16 +181,12 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
-    const data = {
-      kol: 1,
-      id_tov: cardData.id_tov,
-    };
-    postBasketProduct(token, data);
   };
 
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
+    postBasketProduct(token, 1, cardData.id_tov);
   };
 
   const closeModalCart = () => {
