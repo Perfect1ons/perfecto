@@ -122,7 +122,6 @@ export const getFiltersBrandByAClient = (
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });
 };
-
 export const postRating = (ocenka: IOcenka) => {
   return maxkg.post("otz/set-ocenka", { json: ocenka });
 };
@@ -397,4 +396,7 @@ export const getSelectRegion = async (
   const data = await response.json();
 
   return data as SelectRegionType;
+};
+export const postBasketProduct = (kol: number, id: number) => {
+  return maxkg.post("box/set-box-guest", { json: kol, id });
 };

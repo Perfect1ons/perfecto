@@ -75,6 +75,15 @@
   border-radius: 50%;
   z-index: 402;
 }
+.option_countSvg {
+  @include mixin.flex(center, center, null, null);
+  svg {
+    rotate: 45deg;
+    fill: var(--white);
+    max-width: 15px;
+    max-height: 15px;
+  }
+}
 
 .search_bar {
   @include mixin.flex(center, space-between, null, 8px);
