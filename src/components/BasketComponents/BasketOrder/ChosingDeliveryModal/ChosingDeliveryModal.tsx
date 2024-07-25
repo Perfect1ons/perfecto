@@ -1,16 +1,13 @@
 "use client";
 import { useState } from "react";
-import {
-  Cross,
-  DeliveryCourier,
-  SalesmanIcon,
-} from "../../../../../public/Icons/Icons";
+import { Cross, SalesmanIcon } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
+import Image from "next/image";
 
 interface IChosingDeliveryModalProps {
   variableBuyer: { payment: string; delivery: string };
@@ -99,7 +96,16 @@ const ChosingDeliveryModal = ({
               styles.wrap_typeDelivery_typeCourier_active
           )}
         >
-          <DeliveryCourier />
+          <Image
+            src={
+              deliveryType === "courier"
+                ? "/img/delivery_icon_dark.svg"
+                : "/img/delivery_icon.svg"
+            }
+            width={22}
+            height={22}
+            alt="delivery icon"
+          ></Image>
           Курьер
         </button>
       </div>

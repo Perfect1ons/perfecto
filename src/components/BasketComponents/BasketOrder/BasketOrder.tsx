@@ -261,7 +261,7 @@ const BasketOrder = ({
       if (!authToken) {
         setRegVisible(true);
       } else {
-        console.log("Order placed successfully");
+        //order logic here
       }
     }
   };
