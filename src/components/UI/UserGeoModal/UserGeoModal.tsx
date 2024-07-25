@@ -205,7 +205,9 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             <label className="mail__inputLabel">Улица</label>
           </div>
           {userWarning.street.length > 0 && (
-            <p className={styles.wrap__warning}>{userWarning.street}</p>
+            <p style={{ marginTop: "4px" }} className={styles.wrap__warning}>
+              {userWarning.street}
+            </p>
           )}
           <div className={styles.location__home}>
             <div className="mail__label">
@@ -359,7 +361,12 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             <div className={styles.city__location}>г. Джалал-Абад</div>
           </div>
           {userWarning.city.length > 0 && (
-            <p className={styles.wrap__warning}>{userWarning.city}</p>
+            <p
+              style={{ textAlign: "end", marginTop: "4px" }}
+              className={styles.wrap__warning}
+            >
+              {userWarning.city}
+            </p>
           )}
         </>
       )}

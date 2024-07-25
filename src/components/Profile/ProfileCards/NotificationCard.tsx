@@ -10,6 +10,22 @@ interface INotificationCardProps {
 }
 
 const NotificationCard = ({ notif }: INotificationCardProps) => {
+  const getNotificationText = (count: number) => {
+    if (count % 10 === 1 && count % 100 !== 11) {
+      return "уведомление";
+    } else if (
+      count % 10 >= 2 &&
+      count % 10 <= 4 &&
+      (count % 100 < 10 || count % 100 >= 20)
+    ) {
+      return "уведомления";
+    } else {
+      return "уведомлений";
+    }
+  };
+
+  const notificationText = getNotificationText(notif);
+
   return (
     <Link className="link" href={"/profile/notification"}>
       <div className={styles.profile__userInfo}>
@@ -26,7 +42,7 @@ const NotificationCard = ({ notif }: INotificationCardProps) => {
             <p className={styles.profile__userInfo_name}>Уведомления</p>
             <p className={styles.orders}>
               У вас <span className={styles.orders__count}>{notif}</span>{" "}
-              {notif === 1 ? "уведомление" : "уведомлений"}
+              {notificationText}
             </p>
           </div>
         </div>

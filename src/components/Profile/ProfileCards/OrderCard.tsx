@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import styles from './card.module.scss'
-import Image from 'next/image';
-import { CurrentOrdersType } from '@/types/Profile/CurrentOrders';
+import Link from "next/link";
+import styles from "./card.module.scss";
+import Image from "next/image";
+import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 
 interface IOrderCardProps {
-  orders: CurrentOrdersType
+  orders: CurrentOrdersType;
 }
 
-const OrderCard = ({orders}: IOrderCardProps) => {
+const OrderCard = ({ orders }: IOrderCardProps) => {
   return (
     <Link className="link" href={"/profile/orders"}>
       <div className={styles.profile__userInfo}>
@@ -40,7 +40,13 @@ const OrderCard = ({orders}: IOrderCardProps) => {
                 key={item.id}
                 className={styles.orders__img}
               >
-                Заказ №{item.id}
+                <Image
+                  className={styles.orders__img_item}
+                  src={item.img[0]}
+                  width={60}
+                  height={60}
+                  alt="order item"
+                ></Image>
               </Link>
             ))}
             {orders.items.length > 3 && (
@@ -53,6 +59,6 @@ const OrderCard = ({orders}: IOrderCardProps) => {
       </div>
     </Link>
   );
-}
+};
 
-export default OrderCard
+export default OrderCard;
