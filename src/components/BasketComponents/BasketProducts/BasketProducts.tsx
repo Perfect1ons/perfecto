@@ -11,12 +11,14 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
+import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProductsProps {
   currentItems: ICard[];
+  products: Model[];
 }
 
-const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
+const BasketProducts = ({ currentItems, products }: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
@@ -124,7 +126,7 @@ const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {currentItems.map((item) => {
+      {products?.map((item) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")

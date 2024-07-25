@@ -397,6 +397,7 @@ export const getSelectRegion = async (
 
   return data as SelectRegionType;
 };
-export const postBasketProduct = (kol: number, id: number) => {
-  return maxkg.post("box/set-box-guest", { json: kol, id });
+
+export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
+  return maxkg.post("box/set-box-guest", { json: cart });
 };
