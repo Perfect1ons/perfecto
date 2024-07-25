@@ -20,6 +20,7 @@ import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
+import { postBasketProduct } from "@/api/clientRequest";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -180,6 +181,11 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
+    const data = {
+      id_tov: cardData.id_tov,
+      kol: cardData.minQty,
+    };
+    postBasketProduct(data);
   };
 
   const handleAddToCart = () => {

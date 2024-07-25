@@ -398,9 +398,9 @@ export const getSelectRegion = async (
   return data as SelectRegionType;
 };
 
-// export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
-//   return maxkg.post("box/set-box-guest", { json: cart });
-// };
+export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
+  return maxkg.post("box/set-box-guest", { json: cart });
+};
 
 // export const postBasketProduct = (
 //   token: string,

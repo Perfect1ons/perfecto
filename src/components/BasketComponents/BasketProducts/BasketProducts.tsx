@@ -15,10 +15,9 @@ import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProductsProps {
   currentItems: ICard[];
-  products: Model[];
 }
 
-const BasketProducts = ({ currentItems, products }: IBasketProductsProps) => {
+const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
