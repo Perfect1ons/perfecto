@@ -20,8 +20,6 @@ import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/router";
-import { postBasketProduct } from "@/api/clientRequest";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -30,7 +28,7 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
-  const { isAuthed } = useContext(AuthContext);
+  const { isAuthed, token } = useContext(AuthContext);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -187,11 +185,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-    const data = {
-      id_tov: cardData.id_tov,
-      kol: cardData.minQty,
-    };
-    postBasketProduct(data);
   };
 
   const closeModalCart = () => {

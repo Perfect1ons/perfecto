@@ -398,6 +398,22 @@ export const getSelectRegion = async (
   return data as SelectRegionType;
 };
 
-export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
-  return maxkg.post("box/set-box-guest", { json: cart });
-};
+// export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
+//   return maxkg.post("box/set-box-guest", { json: cart });
+// };
+
+// export const postBasketProduct = (
+//   token: string,
+//   cart: { id_tov: string; kol: string }
+// ) => {
+//   const params = new URLSearchParams();
+//   params.append("id_tov", cart.id_tov);
+//   params.append("id_tov", cart.kol);
+//   return maxkg.post(`box/set-box-guest`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//     body: params.toString(),
+//   });
+// };

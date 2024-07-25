@@ -126,7 +126,7 @@ const BasketProducts = ({ currentItems, products }: IBasketProductsProps) => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {products?.map((item) => {
+      {currentItems.map((item) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")
