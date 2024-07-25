@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 // импорты стилей и иконок
@@ -17,6 +17,7 @@ import {
   HomeIcon,
   HomeIconActive,
   XMark,
+  BellIcon,
 } from "../../../../public/Icons/Icons";
 
 // типизации и компоненты
@@ -30,6 +31,7 @@ import MobileSearch from "../MobileSearch/MobileSearch";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import AuthModal from "@/components/AuthModal/AuthModal";
+import { AuthContext } from "@/context/AuthContext";
 
 export interface ICatalogProps {
   catalogs: ICatalogMenu | undefined;
@@ -64,6 +66,8 @@ export default function MobileNav({
   const [isScrollingDown, setIsScrollingDown] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchValue, setSearchValue] = useState<string>("");
+  const { notif } = useContext(AuthContext);
+
   // const handleSubmit = () => {
   //   window.location.href = `/seek/search=${searchValue}`;
   // };
@@ -326,6 +330,11 @@ export default function MobileNav({
             >
               Главная
             </span>
+            {isAuthed && notif > 0 && (
+              <span className={cn(styles.option_count, styles.option_countSvg)}>
+                {<BellIcon />}
+              </span>
+            )}
           </Link>
 
           <li className={styles.option} onClick={openMobileModal}>

@@ -2,6 +2,7 @@ import {
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
+  getProductBasket,
   getSelectCity,
 } from "@/api/requests";
 import MainLoader from "@/components/UI/Loader/MainLoader";
@@ -10,14 +11,16 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 const Basket = dynamic(() => import("@/components/BasketComponents/Basket"), {
   ssr: false,
-  loading: () => <MainLoader/>,
+  loading: () => <MainLoader />,
 });
-
 
 export default async function Page() {
   const cookieStore = cookies();
   const userId = cookieStore.get("userId")?.value;
   const authToken = cookieStore.get("identify")?.value;
+
+  const cartProducts = await getProductBasket();
+  ``;
 
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);
@@ -29,6 +32,7 @@ export default async function Page() {
       paymentMethod={paymentMethod}
       deliveryMethod={deliveryMehod}
       authToken={authToken}
+      cart={cartProducts}
     />
   );
 }

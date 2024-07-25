@@ -18,12 +18,14 @@ import ReactPaginate from "react-paginate";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
+import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
   deliveryCity: SelectCityType;
+  cart: getBasketProductsType;
 }
 
 const Basket = ({
@@ -31,6 +33,7 @@ const Basket = ({
   deliveryMethod,
   authToken,
   deliveryCity,
+  cart,
 }: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
@@ -189,7 +192,10 @@ const Basket = ({
             </button>
           </div>
           <div className={styles.cardContainer}>
-            <BasketProducts currentItems={currentItems} />
+            <BasketProducts
+              products={cart?.model}
+              currentItems={currentItems}
+            />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}

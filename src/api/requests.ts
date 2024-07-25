@@ -37,6 +37,7 @@ import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistor
 import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
+import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -326,6 +327,9 @@ export const getDeliveryMethod = (
 };
 export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
+};
+export const getProductBasket = (): Promise<getBasketProductsType> => {
+  return maxkg.get(`box/set-box-guest`).json();
 };
 
 export const getOrderHistoryOrderRating = (

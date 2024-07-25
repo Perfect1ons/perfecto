@@ -184,7 +184,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       <UserInfoModal visible={cartModal} onClose={closeModalCart}>
         Ваш товар добавлен в корзину. <br />
         Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className={styles.linkCart} href={"/cart"}>
+        <Link className="linkCart" href={"/cart"}>
           Перейти в корзину
         </Link>
       </UserInfoModal>
