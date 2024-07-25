@@ -20,7 +20,6 @@ import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
-import { useRouter } from "next/router";
 import { postBasketProduct } from "@/api/clientRequest";
 
 interface IcardDataProps {
@@ -182,16 +181,16 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
-  };
-
-  const handleAddToCart = () => {
-    addToCart();
-    setShouldFocusInput(true);
     const data = {
       kol: 1,
       id_tov: cardData.id_tov,
     };
     postBasketProduct(token, data);
+  };
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
   };
 
   const closeModalCart = () => {

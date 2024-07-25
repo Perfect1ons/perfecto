@@ -15,10 +15,9 @@ import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProductsProps {
   currentItems: ICard[];
-  products: Model[];
 }
 
-const BasketProducts = ({ currentItems, products }: IBasketProductsProps) => {
+const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
@@ -126,7 +125,7 @@ const BasketProducts = ({ currentItems, products }: IBasketProductsProps) => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {products?.map((item) => {
+      {currentItems.map((item) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")
