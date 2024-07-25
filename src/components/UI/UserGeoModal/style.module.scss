@@ -24,11 +24,28 @@
   transition: visibility 0.3s, opacity 0.3s;
   opacity: 0;
 
-  &__title {
-    @include mixin.font(1.125rem, 500, null, var(--dark));
-    max-width: 356px;
-    width: 100%;
+  &__top {
+    position: relative;
+    @include mixin.flex(center, space-between, null, null);
+    &__title {
+      @include mixin.font(1.125rem, 500, null, var(--dark));
+      max-width: 356px;
+      width: 100%;
+    }
+    &__cross {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      color: var(--secondary-gray);
+      scale: 1.7;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--dark);
+      }
+    }
   }
+
   &__save {
     width: 100%;
     align-self: center;

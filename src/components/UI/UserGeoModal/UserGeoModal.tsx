@@ -2,11 +2,12 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { SalesmanIcon } from "../../../../public/Icons/Icons";
+import { Cross, SalesmanIcon } from "../../../../public/Icons/Icons";
 import Image from "next/image";
 
 interface IUserGeoModalProps {
   visible: boolean;
+  close: (value: string) => void;
 }
 
 interface UserGeo {
@@ -16,7 +17,7 @@ interface UserGeo {
   city: string;
 }
 
-const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
+const UserGeoModal = ({ visible, close }: IUserGeoModalProps) => {
   const [isCourier, setIsCourier] = useState(true);
 
   //   useEffect(() => {
@@ -186,11 +187,20 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
 
   return (
     <div className={cn(styles.wrap, visible && styles.show)}>
-      <p className={styles.wrap__title}>
-        {isCourier
-          ? "Пожалуйста укажите ваш адрес"
-          : "Пожалуйста укажите пункт выдачи"}
-      </p>
+      <div className={styles.wrap__top}>
+        <p className={styles.wrap__top__title}>
+          {isCourier
+            ? "Пожалуйста укажите ваш адрес"
+            : "Пожалуйста укажите пункт выдачи"}
+        </p>
+        <button
+          onClick={() => close("")}
+          aria-label="close modal"
+          className={styles.wrap__top__cross}
+        >
+          <Cross />
+        </button>
+      </div>
       {isCourier && (
         <div className={styles.location}>
           <div className="mail__label">
