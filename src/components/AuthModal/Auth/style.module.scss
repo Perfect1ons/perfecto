@@ -119,6 +119,7 @@
 .warning {
   @include mixin.font(16px, 400, 100%, var(--violet));
   padding-top: 7px;
+  margin-right: auto;
   &__icon {
     position: absolute;
     right: 3%;
