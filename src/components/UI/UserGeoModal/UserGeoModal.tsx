@@ -2,7 +2,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { DeliveryCourier, SalesmanIcon } from "../../../../public/Icons/Icons";
+import { SalesmanIcon } from "../../../../public/Icons/Icons";
+import Image from "next/image";
 
 interface IUserGeoModalProps {
   visible: boolean;
@@ -204,7 +205,9 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             <label className="mail__inputLabel">Улица</label>
           </div>
           {userWarning.street.length > 0 && (
-            <p className={styles.wrap__warning}>{userWarning.street}</p>
+            <p style={{ marginTop: "4px" }} className={styles.wrap__warning}>
+              {userWarning.street}
+            </p>
           )}
           <div className={styles.location__home}>
             <div className="mail__label">
@@ -327,7 +330,16 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
               isCourier && styles.delivery__type_courier_active
             )}
           >
-            <DeliveryCourier />
+            <Image
+              src={
+                isCourier
+                  ? "/img/delivery_icon_dark.svg"
+                  : "/img/delivery_icon.svg"
+              }
+              width={22}
+              height={22}
+              alt="delivery icon"
+            ></Image>
             Курьер
           </button>
           <button
@@ -349,7 +361,12 @@ const UserGeoModal = ({ visible }: IUserGeoModalProps) => {
             <div className={styles.city__location}>г. Джалал-Абад</div>
           </div>
           {userWarning.city.length > 0 && (
-            <p className={styles.wrap__warning}>{userWarning.city}</p>
+            <p
+              style={{ textAlign: "end", marginTop: "4px" }}
+              className={styles.wrap__warning}
+            >
+              {userWarning.city}
+            </p>
           )}
         </>
       )}

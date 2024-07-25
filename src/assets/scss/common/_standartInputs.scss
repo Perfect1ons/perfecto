@@ -55,7 +55,7 @@
 }
 .mail__inputField:focus + .mail__inputLabel,
 .mail__inputField:valid + .mail__inputLabel {
-  background-color: var(--bg-light);
+  background-color: var(--white);
   left: 5px;
   top: 0;
   scale: (0.88);
