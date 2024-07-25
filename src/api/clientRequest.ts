@@ -20,6 +20,7 @@ import { IPopularGood } from "@/types/popularGoods";
 //! Импорт библиотеки
 import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
+import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -397,7 +398,24 @@ export const getSelectRegion = async (
 
   return data as SelectRegionType;
 };
+export const postBasketProduct = async (
+  token: string,
+  cart: { kol: number; id_tov: number }
+): Promise<any> => {
+  const params = new URLSearchParams();
+  params.append(" kol", cart.kol);
+  params.append(" id_tov", cart.id_tov);
+  const response = await maxkg.get(`box/set-box-guest`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
 
-export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
-  return maxkg.post("box/set-box-guest", { json: cart });
+  const data = await response.json();
+
+  return data as any;
 };
+// export const postBasketProduct = (cart: { id_tov: number; kol: number }) => {
+//   return maxkg.post("box/set-box-guest", { json: cart });
+// };

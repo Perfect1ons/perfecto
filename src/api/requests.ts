@@ -329,7 +329,7 @@ export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
 };
 export const getProductBasket = (): Promise<getBasketProductsType> => {
-  return maxkg.get(`box/set-box-guest`).json();
+  return maxkg.get(`box/get-box-guest`).json();
 };
 
 export const getOrderHistoryOrderRating = (
