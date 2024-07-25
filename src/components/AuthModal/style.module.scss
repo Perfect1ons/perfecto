@@ -1,4 +1,4 @@
-@use '../../assets/scss/common/mixins' as mixin;
+@use "../../assets/scss/common/mixins" as mixin;
 
 @keyframes scaleUp {
   from {
@@ -24,6 +24,50 @@
   visibility: hidden;
   transition: visibility 0.3s, opacity 0.3s;
   opacity: 0;
+
+  &__form {
+    &_phone {
+      @include mixin.flex(center, center, column, null);
+      position: relative;
+      width: 100%;
+
+      &_control {
+        position: relative;
+        width: 100%;
+        @include mixin.flex(center, center, null, null);
+      }
+      &_dropdown {
+        border-radius: 5px;
+        padding: 5px;
+        background: var(--white);
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        @include mixin.flex(flex-start, center, column, 5px);
+        position: absolute;
+        z-index: 10;
+        left: 0;
+        bottom: -165px;
+
+        &_button {
+          @include mixin.flex(center, flex-start, null, 0.875rem);
+          cursor: pointer;
+          width: 100%;
+          border-radius: 5px;
+          padding: 8px 8px;
+
+          &_img {
+            border-radius: 5px;
+          }
+          &_code {
+            padding-top: 2px;
+            @include mixin.font(14px, 400, null, var(--secondary));
+          }
+          &:hover {
+            background: #f6f6f6;
+          }
+        }
+      }
+    }
+  }
 }
 
 .show {
@@ -55,6 +99,11 @@
 }
 
 .modal__title {
-  @include mixin.font(20px,500,100%,var(--dark));
+  @include mixin.font(20px, 500, 100%, var(--dark));
   font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+@media screen and (max-width: 768px) {
+  .modal__title {
+    font-size: 18px;
+  }
 }

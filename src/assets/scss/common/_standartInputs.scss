@@ -1,0 +1,102 @@
+@use "./mixins" as mixin;
+.allContainerInput {
+  @include mixin.flex(null, null, column, 15px);
+  width: 100%;
+}
+.containerInputLabel {
+  @include mixin.flex(center, center, column, 2px);
+  width: 100%;
+}
+.mail__label {
+  position: relative;
+  width: 100%;
+  max-height: 44px;
+}
+
+.mail__inputField {
+  width: 100%;
+  padding: 10px 5px 10px 5px;
+  border: 2px solid var(--secondary);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+.mail__textareaField {
+  overflow-y: hidden;
+  resize: none;
+  width: 100%;
+  max-height: 165px;
+  width: 100%;
+  padding: 10px 5px 10px 5px;
+  border: 2px solid var(--secondary);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.mail__inputLabel {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 5px;
+  transition: all 0.2s ease-in;
+  pointer-events: none; // Чтобы текст метки не мешал при клике на инпут
+  text-wrap: nowrap;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--secondary);
+}
+
+.mail__inputField:focus {
+  border: 2px solid var(--dark-blue);
+}
+.mail__inputField:focus + .mail__inputLabel,
+.mail__inputField:valid + .mail__inputLabel {
+  background-color: var(--bg-light);
+  left: 5px;
+  top: 0;
+  scale: (0.88);
+  @include mixin.font(16px, 600, 100%, var(--dark-blue));
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+
+.inputField:focus,
+.inputField:valid {
+  border: 2px solid var(--dark-blue);
+}
+
+.mail__inputField:placeholder-shown + .mail__inputLabel {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa; // Цвет текста по умолчанию
+}
+.mail__textareaField:focus {
+  border: 2px solid var(--dark-blue);
+}
+.mail__textareaField:focus + .mail__inputLabel,
+.mail__textareaField:valid + .mail__inputLabel {
+  background-color: var(--bg-light);
+  left: 5px;
+  top: 0;
+  scale: (0.88);
+  @include mixin.font(16px, 600, 100%, var(--dark-blue));
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+.inputField:focus,
+.inputField:valid {
+  border: 2px solid var(--dark-blue);
+}
+.mail__textareaField:placeholder-shown + .mail__inputLabel {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #aaa; // Цвет текста по умолчанию
+}
+.warningInput {
+  @include mixin.font(1rem, 400, null, var(--danger));
+  width: 100%;
+}

@@ -4,11 +4,8 @@ import styles from "./style.module.scss";
 import Rating from "./Rating/Rating";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import {
-  getOrderHistoryOrderRating,
-  postOrderReview,
-} from "@/api/clientRequest";
+import { useState } from "react";
+import { postOrderReview } from "@/api/clientRequest";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
 
@@ -16,9 +13,15 @@ interface IOrder {
   order: Item;
   isAuthed: string | undefined;
   details: StatusDetailsType;
+  ratingsData: IRatingOrderHistoryCard[];
 }
 
-const OrderHistoryCard = ({ order, isAuthed, details }: IOrder) => {
+const OrderHistoryCard = ({
+  order,
+  isAuthed,
+  details,
+  ratingsData,
+}: IOrder) => {
   const formatDate = (dateString: string, key?: string) => {
     const date = new Date(dateString);
 
@@ -43,41 +46,18 @@ const OrderHistoryCard = ({ order, isAuthed, details }: IOrder) => {
   const formattedDateVid = formatDate(order.dat_vid, "seconds");
 
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
-
-  const [ratingFromApi, setRatingFromApi] = useState<
-    IRatingOrderHistoryCard | undefined
-  >(undefined);
-
   const ratingChanger = (rate: number) => {
     if (rate) {
       setRating(rate);
     }
   };
+  const [comment, setComment] = useState("");
 
   const commentChanger = (comm: string) => {
     if (comm && comm.length <= 15) {
       setComment(comm);
     }
   };
-
-  const getOrderReview = async () => {
-    if (isAuthed) {
-      try {
-        const ratingData = await getOrderHistoryOrderRating(isAuthed, order.id);
-        setRatingFromApi(ratingData);
-      } catch (error) {
-        console.error("Failed to fetch order rating:", error);
-        // Handle error appropriately
-      }
-    }
-  };
-
-  useEffect(() => {
-    getOrderReview();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const postReview = () => {
     if (rating > 0 && isAuthed) {
       postOrderReview(order.id, rating, isAuthed);
@@ -111,7 +91,7 @@ const OrderHistoryCard = ({ order, isAuthed, details }: IOrder) => {
 
       <div className={styles.rating}>
         <Rating
-          ratingFromApi={ratingFromApi}
+          ratingFromApi={ratingsData}
           rating={rating}
           ratingChange={ratingChanger}
           commChange={commentChanger}

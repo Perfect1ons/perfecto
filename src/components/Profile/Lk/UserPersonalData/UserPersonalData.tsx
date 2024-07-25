@@ -156,41 +156,41 @@ const UserPersonalData = () => {
   }, [dropdownOpen]);
   return (
     <div className={styles.containerPersonalData}>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           type="text"
           name="fio"
           onChange={handleChange}
           value={data?.fio}
           required
         />
-        <label className={styles.inputLabel}>Фамилия</label>
+        <label className="mail__inputLabel">Фамилия</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           name="name"
           onChange={handleChange}
           value={data?.name}
           type="text"
           required
         />
-        <label className={styles.inputLabel}>Имя</label>
+        <label className="mail__inputLabel">Имя</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           type="text"
           required
           value={data?.birthday}
           name="birthday"
           onChange={handleChange}
         />
-        <label className={styles.inputLabel}>Дата рождения</label>
+        <label className="mail__inputLabel">Дата рождения</label>
       </div>
       <div
-        className={styles.inputContainer}
+        className="mail__label"
         ref={dropdownRef}
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
@@ -222,70 +222,70 @@ const UserPersonalData = () => {
           ))}
         </div>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           name="adres"
           onChange={handleChange}
           type="text"
           required
           value={data?.adres}
         />
-        <label className={styles.inputLabel}>Адрес доставки</label>
+        <label className="mail__inputLabel">Адрес доставки</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           required
           name="tel"
           onChange={handleChange}
           value={data?.tel}
           type="text"
         />
-        <label className={styles.inputLabel}>Мобильный номер</label>
+        <label className="mail__inputLabel">Мобильный номер</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           name="workPlace"
           onChange={handleChange}
           type="text"
           required
         />
-        <label className={styles.inputLabel}>Место работы</label>
+        <label className="mail__inputLabel">Место работы</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           type="text"
           required
           value={data?.position}
           name="position"
           onChange={handleChange}
         />
-        <label className={styles.inputLabel}>Должность</label>
+        <label className="mail__inputLabel">Должность</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           type="text"
           required
           name="org"
           value={data?.org}
           onChange={handleChange}
         />
-        <label className={styles.inputLabel}>Название организации, ИНН</label>
+        <label className="mail__inputLabel">Название организации, ИНН</label>
       </div>
-      <div className={styles.inputContainer}>
+      <div className="mail__label">
         <input
-          className={styles.inputField}
+          className="mail__inputField"
           type="text"
           required
           name="prim"
           value={data?.prim}
           onChange={handleChange}
         />
-        <label className={styles.inputLabel}>Коментарии</label>
+        <label className="mail__inputLabel">Коментарии</label>
       </div>
       <div className={styles.checkBoxContainer} onClick={handleCheckboxChange}>
         <span

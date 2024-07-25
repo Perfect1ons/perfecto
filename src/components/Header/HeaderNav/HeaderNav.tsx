@@ -2,6 +2,7 @@
 import styles from "./style.module.scss";
 import {
   AuthIcon,
+  BellIcon,
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
@@ -30,7 +31,7 @@ const navLinks: ILinks[] = [
     count: 0,
   },
   { href: "/auth", title: "Войти", id: 2, icon: <AuthIcon /> },
-  { href: "/profile", title: "Профиль", id: 4, icon: <AuthIcon /> },
+  { href: "/profile", title: "Профиль", id: 4, icon: <AuthIcon />, count: 0 },
   { href: "/cart", title: "Корзина", id: 3, icon: <CartIcon />, count: 0 },
 ];
 
@@ -142,7 +143,14 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
             key={link.id}
           >
             <div className={styles.nav__link_items}>
-              <div className={styles.nav__link_items_icon}>{link.icon}</div>
+              <div className={styles.nav__link_items_icon}>
+                {link.icon}
+                {link.count !== undefined && link.count > 0 && (
+                  <span className={cn(styles.nav__link_items_countBell)}>
+                    {<BellIcon /> ? <BellIcon /> : "99+"}
+                  </span>
+                )}
+              </div>
               <p className={styles.nav__link_items_title}>{link.title}</p>
             </div>
           </Link>

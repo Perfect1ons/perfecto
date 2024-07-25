@@ -1,68 +1,83 @@
 @use "../../../assets/scss/common/mixins" as mixin;
 
 .nav {
-    width: 290px;
-    height: 100%;
-    margin-left: 20px;
-    @include mixin.flex(null, space-between, null);
-    
-    @media screen and (max-width: 1200px) {
-        width: 250px;
+  width: 290px;
+  height: 100%;
+  margin-left: 20px;
+  @include mixin.flex(null, space-between, null);
+
+  @media screen and (max-width: 1200px) {
+    width: 250px;
+  }
+
+  &__link {
+    cursor: pointer;
+    @include mixin.link(16px, 400, var(--white));
+    opacity: 0.7;
+    transition: 0.2s;
+    max-height: 100%;
+
+    &:hover {
+      opacity: 1;
     }
 
-    &__link {
-        cursor: pointer;
-        @include mixin.link(16px,400,var(--white));
-        opacity: 0.7;
-        transition: 0.2s;
-        max-height: 100%;
+    &_items {
+      height: 100%;
+      @include mixin.flex(center, space-between, column, 7px);
+      &_icon {
+        max-width: 20px;
+        max-height: 20px;
+        position: relative;
+      }
 
-        &:hover {
-            opacity: 1;
+      &_title {
+        max-width: 100%;
+        height: auto;
+        line-height: 100%;
+        font-weight: 400;
+        font-size: 16px;
+      }
+      &_countBell {
+        @include mixin.font(14px, 400, null, var(--white));
+        @include mixin.flex(center, center);
+        position: absolute;
+        top: -5px;
+        left: 14px;
+        color: var(--white);
+        background: var(--red);
+        width: 20px;
+        text-align: center;
+        height: 20px;
+        border-radius: 50%;
+        svg {
+          rotate: 45deg;
+          fill: var(--white);
+          max-width: 15px;
+          max-height: 15px;
         }
+      }
+      &_count {
+        @include mixin.font(14px, 400, null, var(--white));
+        position: absolute;
+        top: -5px;
+        left: 15px;
+        background: var(--red);
+        width: 20px;
+        text-align: center;
+        height: 20px;
+        border-radius: 50%;
 
-
-
-        &_items{
-            height: 100%;
-            @include mixin.flex(center,space-between,column,7px);
-            &_icon{
-                max-width: 20px;
-                max-height: 20px;
-                position: relative;
-            }
-
-            &_title{
-                max-width: 100%;
-                height: auto;
-                line-height: 100%;
-                font-weight: 400;
-                font-size: 16px;
-            }
-
-            &_count{
-                @include mixin.font(14px,400,null,var(--white));
-                position: absolute;
-                top: -5px;
-                left: 15px;
-                background: var(--red);
-                width: 20px;
-                text-align: center;
-                height: 20px;
-                border-radius: 50%;
-
-                &_max{
-                    width: 30px;
-                    @include mixin.flex(center,center);
-                    font-size: 12px;
-                }
-            }
+        &_max {
+          width: 30px;
+          @include mixin.flex(center, center);
+          font-size: 12px;
         }
+      }
     }
+  }
 }
 
 .active {
-    color: var(--white);
-    opacity: 1;
+  color: var(--white);
+  opacity: 1;
 }
-
