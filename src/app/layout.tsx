@@ -25,8 +25,9 @@ const Footer = dynamic(() => import("@/components/Footer/Footer"), {
 });
 
 const ScrollToTopButton = dynamic(
-  () => import("@/components/UI/ScrollToTopButton/ScrollToTopButton"),{
-    ssr: false
+  () => import("@/components/UI/ScrollToTopButton/ScrollToTopButton"),
+  {
+    ssr: false,
   }
 );
 

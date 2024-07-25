@@ -6,13 +6,14 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { AuthContext } from "@/context/AuthContext";
 
 interface ILinks {
   href: string;
@@ -45,11 +46,11 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
+  const { notif } = useContext(AuthContext);
 
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
-
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
@@ -58,7 +59,11 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
           return { ...link, count: authStatus ? favorites.length : 0 };
-        } else if (link.href === "/cart") {
+        }
+        if (link.href === "/profile") {
+          return { ...link, count: notif };
+        }
+        if (link.href === "/cart") {
           return { ...link, count: baskets.length };
         }
         return link;
@@ -68,7 +73,6 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 
   useEffect(() => {
     updateCounts();
-
     const favoritesListener = () => updateCounts();
     const cartListener = () => updateCounts();
 
@@ -79,8 +83,9 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
       window.removeEventListener("favoritesUpdated", favoritesListener);
       window.removeEventListener("cartUpdated", cartListener);
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cart]);
+  }, [notif, cart, authStatus]);
 
   return (
     <nav className={styles.nav}>
@@ -147,7 +152,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
                 {link.icon}
                 {link.count !== undefined && link.count > 0 && (
                   <span className={cn(styles.nav__link_items_countBell)}>
-                    {<BellIcon /> ? <BellIcon /> : "99+"}
+                    {<BellIcon />}
                   </span>
                 )}
               </div>
