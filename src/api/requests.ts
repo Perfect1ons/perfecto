@@ -3,7 +3,6 @@ import { ICategory } from "@/types/PopularCategory";
 import { IBanner } from "@/types/bannerRequest";
 import { INews } from "@/types/news";
 import { IPromotion } from "@/types/promotion";
-import { IBrands } from "@/types/brands";
 import { IBoughts } from "@/types/lastBoughts";
 import { IDiscounts } from "@/types/discounts";
 import { IFiltersBrand } from "@/types/filtersBrand";
@@ -37,6 +36,7 @@ import { SelectCityType } from "@/types/Basket/SelectCity";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
+import { IMainPageBrands } from "@/types/HomeTypes/brands";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -124,15 +124,15 @@ export const getSeasonCategory = (): Promise<IMainPageSeasonCategory> => {
   return maxkg.get("catalog/season-cat").json();
 };
 
-export const getBrands = (): Promise<IBrands> => {
+export const getBrands = (): Promise<IMainPageBrands> => {
   return maxkg.get("brand?pageSize=36").json();
 };
 
-export const getBrandsData = (): Promise<IBrands> => {
+export const getBrandsData = (): Promise<IMainPageBrands> => {
   return maxkg.get("brand?pageSize=all").json();
 };
 
-export const getBrandsPaginations = (id: number): Promise<IBrands> => {
+export const getBrandsPaginations = (id: number): Promise<IMainPageBrands> => {
   return maxkg.get(`brand?pageSize=36&page=${id}`).json();
 };
 

@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import BrandCard from "./BrandCard";
-import { IBrands } from "@/types/brands";
 import MainLoader from "../UI/Loader/MainLoader";
 import clsx from "clsx";
 import styles from './style.module.scss'
+import { IMainPageBrands } from "@/types/HomeTypes/brands";
 
 interface IBrandProps {
-  brands: IBrands;
+  brands: IMainPageBrands;
 }
 
 const BrandsList = ({ brands }: IBrandProps) => {

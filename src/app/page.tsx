@@ -27,26 +27,26 @@ import { cookies } from "next/headers";
 const DynamicPopularCategory = dynamic(
   () => import("@/components/HomeComponents/PopularCategory/PopularCategory"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <CategorySkeleton title="Популярные категории" />,
   }
 );
 const LazySecondBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/SecondBanner"),
   {
-    ssr: false,
+    ssr: true,
   }
 );
 const LazyThirdBanner = dynamic(
   () => import("@/components/HomeComponents/Banner/ThirdBanner"),
   {
-    ssr: false,
+    ssr: true,
   }
 );
 const DynamicSeasonCategory = dynamic(
   () => import("@/components/HomeComponents/SeasonCategory/SeasonCategory"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <CategorySkeleton title="Сезонные категории" />,
   }
 );
@@ -56,7 +56,7 @@ const LazyTodaysBoughts = dynamic(
 const DynamicNews = dynamic(
   () => import("@/components/HomeComponents/News/News"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <InfoCardLoading title="Новости" />,
   }
 );
@@ -64,14 +64,14 @@ const DynamicNews = dynamic(
 const DynamicDiscounts = dynamic(
   () => import("@/components/HomeComponents/Discounts/Discounts"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <DiscountsSkeleton />,
   }
 );
 const DynamicPromotions = dynamic(
   () => import("@/components/HomeComponents/Promotion/Promotion"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <InfoCardLoading title="Акции" />,
   }
 );
@@ -82,7 +82,7 @@ const LazyPopularGoods = dynamic(
 const DynamicBrands = dynamic(
   () => import("@/components/HomeComponents/Brands/Brands"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <BrandsSkeleton />,
   }
 );
