@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { url } from "@/components/temporary/data";
 import {
   CardFavoritesIcon,
@@ -21,6 +21,7 @@ import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
 import { postBasketProduct } from "@/api/clientRequest";
+import InformationModal from "../InformationModal/InformationModal";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -50,11 +51,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const [isRedirect, setIsRedirect] = useState(false);
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
-
+  const showModal = (message: React.ReactNode) => {
+    setModalMessage(message);
+    setModalVisible(true);
+  };
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -63,7 +67,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
-
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -73,7 +76,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     }
 
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
 
     const favoriteData = {
       id: cardData.id,
@@ -95,24 +97,27 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
-      message = "Товар удален из избранного.";
+      showModal("Товар удален из избранного.");
       setIsRedirect(false);
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
     } else {
       favorites.push(favoriteData);
-      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      showModal(
+        <>
+          Товар добавлен в избранное. Нажмите, чтобы перейти к списку.
+          <Link className="linkCart" href={"/favorites"}>
+            Перейти в избранное
+          </Link>
+        </>
+      );
       setIsRedirect(true);
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
-
-    // Show modal with corresponding message
-    setModalMessage(message);
-    setModalVisible(true);
   };
 
   const handleModalClose = () => {
@@ -172,25 +177,25 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setAdded(false);
   };
 
-  const [cartModal, setCartModal] = useState(false);
-
   const dispatch = useDispatch();
 
   const addToCart = () => {
     dispatch(addProductToCart(cardData));
     setAdded(true);
-    setCartModal(true);
-    setTimeout(() => setCartModal(false), 5000);
   };
 
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
     postBasketProduct(token, 1, cardData.id_tov);
-  };
-
-  const closeModalCart = () => {
-    setCartModal(false);
+    showModal(
+      <>
+        Товар добавлен в корзину. Нажмите, чтобы перейти к списку.
+        <Link className="linkCart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </>
+    );
   };
 
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -207,19 +212,9 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   return (
     <>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
-      <FavoriteModal
-        isVisible={isModalVisible}
-        message={modalMessage}
-        isRedirect={isRedirect}
-        onClose={handleModalClose}
-      />
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
       <div className="card" onClick={handleCardClick}>
         {cardData.status !== 6 && (
           <div className="card__notAvailable">

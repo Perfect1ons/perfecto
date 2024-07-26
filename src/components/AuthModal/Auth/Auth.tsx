@@ -77,7 +77,7 @@ const AuthForm = ({
     event.preventDefault();
 
     if (validatePhoneNumber()) {
-      setView("captcha");
+      setView("confirm");
     }
   };
 
