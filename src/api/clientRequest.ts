@@ -414,7 +414,14 @@ export const postBasketProduct = async (
     body: params.toString(),
   });
 };
-
+export const deleteBasketProduct = (
+  cart_id: number,
+  id_tovar: number
+): Promise<boolean> => {
+  return maxkg
+    .delete(`box/del-box-guest?cart_id=${cart_id}&id_tov=${id_tovar}`)
+    .json();
+};
 // export const postBasketProduct = (
 //   token: string,
 //   cart: { id_tov: string; kol: string }

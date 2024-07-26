@@ -1,5 +1,4 @@
 "use client";
-import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
@@ -11,7 +10,6 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
-import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProductsProps {
   currentItems: ICard[];
