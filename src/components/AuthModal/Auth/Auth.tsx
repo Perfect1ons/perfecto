@@ -106,7 +106,7 @@ const AuthForm = ({
       <form className={styles.modal__form} onSubmit={handleSubmit}>
         <div className={styles.modal__form_phone}>
           <div className={styles.modal__form_phone_control}>
-            {/* <InputMask
+            <InputMask
               mask={mask}
               value={phoneNumber}
               onChange={handleBuyerChange}
@@ -123,7 +123,7 @@ const AuthForm = ({
                   required
                 />
               )}
-            </InputMask> */}
+            </InputMask>
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -164,7 +164,7 @@ const AuthForm = ({
           )}
         </div>
         {warning && <span className={styles.warning}>{warning}</span>}
-        <div className="mail__label">
+        <div style={{ marginTop: "6px" }} className="mail__label">
           <input className="mail__inputField" required type="text" />
           <label className="mail__inputLabel">Почта</label>
         </div>
