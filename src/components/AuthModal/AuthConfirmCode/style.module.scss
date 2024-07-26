@@ -2,7 +2,7 @@
 
 .containerConfirm {
   @include mixin.flex(center, center, null, 10px);
-  margin: 20px 0;
+  margin: 20px 0 0 0;
 }
 .inputConfirm {
   border-radius: 5px;
@@ -37,6 +37,12 @@
   @include mixin.flex(center, center, column, 30px);
   min-height: 173px;
   border-radius: 10px;
+}
+.disabledButton {
+  background: var(--gray);
+  &:hover {
+    background: var(--gray); /* Убедитесь, что фон не меняется при наведении */
+  }
 }
 
 .loader {
