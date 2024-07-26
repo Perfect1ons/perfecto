@@ -399,20 +399,18 @@ export const getSelectRegion = async (
   return data as SelectRegionType;
 };
 export const postBasketProduct = async (
-  token: string,
   kol: number,
   id_tov: number
-): Promise<any> => {
-  const params = new URLSearchParams();
-  params.append("kol", kol.toString());
-  params.append("id_tov", id_tov.toString());
-  return maxkg.post(`box/set-box-guest`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: params.toString(),
-  });
+): Promise<getBasketProductsType> => {
+  const formData = new FormData();
+  formData.append("kol", kol.toString());
+  formData.append("id_tov", id_tov.toString());
+
+  return maxkg
+    .post("box/set-box-guest", {
+      body: formData,
+    })
+    .json();
 };
 
 // export const postBasketProduct = (
@@ -425,7 +423,7 @@ export const postBasketProduct = async (
 //   return maxkg.post(`box/set-box-guest`, {
 //     headers: {
 //       Authorization: `Bearer ${token}`,
-//       "Content-Type": "application/x-www-form-urlencoded",
+//       "Content-Type": "application/form-data",
 //     },
 //     body: params.toString(),
 //   });

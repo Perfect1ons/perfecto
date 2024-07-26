@@ -186,7 +186,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-    postBasketProduct(token, 1, cardData.id_tov);
+    postBasketProduct(cardData.minQty, cardData.art);
   };
 
   const closeModalCart = () => {
