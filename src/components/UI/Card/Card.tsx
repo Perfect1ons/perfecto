@@ -177,7 +177,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
-    dispatch(addProductToCart(cardData));
+    postBasketProduct(cardData.minQty, cardData.id_tov);
     setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
@@ -186,7 +186,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-    postBasketProduct(cardData.minQty, cardData.art);
   };
 
   const closeModalCart = () => {

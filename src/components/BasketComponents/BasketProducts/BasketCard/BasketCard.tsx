@@ -44,7 +44,7 @@ const BasketCard = ({
     } else if (number >= 1e6) {
       return (number / 1e6).toFixed(2) + " млн";
     } else {
-      return number.toLocaleString("ru-RU");
+      // return number.toLocaleString("ru-RU");
     }
   };
 

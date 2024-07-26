@@ -25,6 +25,8 @@ interface IBasketProps {
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
   deliveryCity: SelectCityType;
+  cart: getBasketProductsType;
+  cartId: string | null | undefined;
 }
 
 const Basket = ({
@@ -32,6 +34,8 @@ const Basket = ({
   deliveryMethod,
   authToken,
   deliveryCity,
+  cart,
+  cartId,
 }: IBasketProps) => {
   const dispatch = useDispatch();
   const data = useSelector((store: RootState) => store.cart);
@@ -95,7 +99,7 @@ const Basket = ({
   };
 
   // Calculate total pages based on favorites length and itemsPerPage
-  const pageCount = Math.ceil(data.cart.length / itemsPerPage);
+  const pageCount = Math.ceil(cart.count / itemsPerPage);
   return (
     <div className="container">
       <>
@@ -129,7 +133,7 @@ const Basket = ({
         )}
       </>
 
-      {data.cart.length <= 0 ? (
+      {cart.count <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
@@ -190,7 +194,7 @@ const Basket = ({
             </button>
           </div>
           <div className={styles.cardContainer}>
-            <BasketProducts currentItems={currentItems} />
+            <BasketProducts currentItems={cart.model} cartId={cartId} />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}
