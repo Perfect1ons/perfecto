@@ -164,7 +164,7 @@ const AuthForm = ({
           )}
         </div>
         {warning && <span className={styles.warning}>{warning}</span>}
-        <div style={{ marginTop: "6px" }} className="mail__label">
+        <div style={{ marginTop: "10px" }} className="mail__label">
           <input className="mail__inputField" required type="text" />
           <label className="mail__inputLabel">Почта</label>
         </div>

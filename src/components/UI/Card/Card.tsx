@@ -11,11 +11,9 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
-import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
@@ -56,8 +54,17 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
   const showModal = (message: React.ReactNode) => {
-    setModalMessage(message);
-    setModalVisible(true);
+    // Сначала закрываем старое модальное окно, если оно открыто
+    if (isModalVisible) {
+      setModalVisible(false);
+      setTimeout(() => {
+        setModalMessage(message);
+        setModalVisible(true);
+      }, 300); // Небольшая задержка для плавного перехода
+    } else {
+      setModalMessage(message);
+      setModalVisible(true);
+    }
   };
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
@@ -106,9 +113,9 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       favorites.push(favoriteData);
       showModal(
         <>
-          Товар добавлен в избранное. Нажмите, чтобы перейти к списку.
+          Товар добавлен в избранное.
           <Link className="linkCart" href={"/favorites"}>
-            Перейти в избранное
+            Нажмите, чтобы перейти к списку.
           </Link>
         </>
       );
@@ -190,9 +197,9 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     postBasketProduct(token, 1, cardData.id_tov);
     showModal(
       <>
-        Товар добавлен в корзину. Нажмите, чтобы перейти к списку.
+        Товар добавлен в корзину.{" "}
         <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
+          Нажмите, чтобы перейти к списку.
         </Link>
       </>
     );
