@@ -88,15 +88,6 @@ const OrdersCurrentCard = ({
       return newState;
     });
   };
-
-  // const handleClickOutside = (event: MouseEvent) => {
-  //   if (
-  //     dropdownRef.current &&
-  //     !dropdownRef.current.contains(event.target as Node)
-  //   ) {
-  //     setVisibleDetails({});
-  //   }
-  // };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
