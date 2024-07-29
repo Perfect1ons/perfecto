@@ -1,23 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  addProductQuantity,
-  addProductToCart,
-  deleteProductQuantity,
-  removeProductFromCart,
-  updateProductQuantity,
-} from "@/store/reducers/cart.reducer";
-import { RootState } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { deleteBasketProduct, postBasketProduct } from "@/api/clientRequest";
 
 interface ICartReducerBtnProps {
   data: Items;
   onCartEmpty: () => void;
-  shouldFocusInput: boolean; // Changed from function to boolean
-  onFocusHandled: () => void; // Callback to reset focus state
+  shouldFocusInput: boolean;
+  onFocusHandled: () => void;
 }
 
 const CartReducerBtn = ({
@@ -26,74 +18,62 @@ const CartReducerBtn = ({
   shouldFocusInput,
   onFocusHandled,
 }: ICartReducerBtnProps) => {
-  // логика добавления в корзину
-  const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item) => item.id === data.id);
-  const quantity = product?.quantity ?? data.minQty;
-
+  const [quantity, setQuantity] = useState<number>(data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
     const value = e.target.value;
     const parsedValue = value ? parseInt(value) : 0;
 
-    // Если инпут пустой, устанавливаем значение в 0
-    if (value === "" && product) {
-      dispatch(updateProductQuantity({ id: data.id, quantity: 0 }));
-    } else if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
-      if (product) {
-        dispatch(updateProductQuantity({ id: data.id, quantity: parsedValue }));
-      } else {
-        const newProduct = { ...data, quantity: parsedValue };
-        dispatch(addProductToCart(newProduct));
-      }
-    }
-  };
-  const handleBlur = () => {
-    if (product && product.quantity === 0) {
-      dispatch(updateProductQuantity({ id: data.id, quantity: data.minQty }));
-    }
-  };
-  // add to redux cart storage function
-  const addToCart = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.stopPropagation();
-    event.preventDefault();
-    if (product) {
-      dispatch(addProductQuantity(data.id));
+    if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
+      setQuantity(parsedValue);
+      await postBasketProduct(parsedValue, data.id_tov);
     } else {
-      const newProduct = { ...data, quantity: data.minQty };
-      dispatch(addProductToCart(newProduct));
+      setQuantity(0);
+      await postBasketProduct(0, data.id_tov);
     }
   };
 
-  // remove from redux cart storage function
-  const removeFromCart = (
+  const handleBlur = async () => {
+    if (quantity === 0) {
+      setQuantity(data.minQty);
+      await postBasketProduct(data.minQty, data.id_tov);
+    }
+  };
+
+  const addToCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
     event.preventDefault();
-    if (product) {
-      if (product.quantity && product.quantity <= data.minQty) {
-        dispatch(removeProductFromCart(data.id));
-        onCartEmpty();
-      } else {
-        dispatch(deleteProductQuantity(data.id));
-      }
-    }
+    const newQuantity = quantity + 1;
+    setQuantity(newQuantity);
+    await postBasketProduct(newQuantity, data.id_tov);
   };
 
-  // перевод фокуса на инпут
-  const inputRef = useRef<HTMLInputElement>(null);
+  const removeFromCart = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (quantity <= data.minQty) {
+      setQuantity(0);
+      await deleteBasketProduct("162138", data.id_tov);
+      onCartEmpty();
+    } else {
+      const newQuantity = quantity - 1;
+      setQuantity(newQuantity);
+      await deleteBasketProduct("162138", data.id_tov);
+    }
+  };
 
   useEffect(() => {
     if (shouldFocusInput && inputRef.current && isDesktop) {
       inputRef.current.focus();
-      onFocusHandled(); // Reset focus state
+      onFocusHandled();
     }
   }, [shouldFocusInput, onFocusHandled, isDesktop]);
 
@@ -101,23 +81,19 @@ const CartReducerBtn = ({
     <div className={styles.btn}>
       <button
         title={
-          product?.quantity && product.quantity <= data.minQty
+          quantity <= data.minQty
             ? "удалить товар из корзины"
             : "уменьшить количество товара"
         }
         aria-label={
-          product?.quantity && product.quantity <= data.minQty
+          quantity <= data.minQty
             ? "removing an item from the cart"
             : "decreasing items in cart"
         }
         onClick={removeFromCart}
         className={styles.btn_left}
       >
-        {product?.quantity && product.quantity <= data.minQty ? (
-          <TrashIcon />
-        ) : (
-          <MinusIcon />
-        )}
+        {quantity <= data.minQty ? <TrashIcon /> : <MinusIcon />}
       </button>
       <input
         type="text"
