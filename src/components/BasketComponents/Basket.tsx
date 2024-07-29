@@ -51,11 +51,20 @@ const Basket = ({
   //   // Синхронизируем состояние selectAll с выбором всех товаров
   //   setSelectAll(data.cart.every((product) => product.selected));
   // }, [data.cart]);
+  // const handleSelectAllToggle = () => {
+
+  //   // dispatch(toggleSelectAllProducts());
+  //   setSelectAll(!selectAll);
+  // };
   const handleSelectAllToggle = () => {
-    // dispatch(toggleSelectAllProducts());
+    if (!selectAll) {
+      const allIds = cart.model.map((product) => product.id_tov);
+      setSelected(allIds);
+    } else {
+      setSelected([]);
+    }
     setSelectAll(!selectAll);
   };
-
   const handleClearCart = () => {
     deleteBasketProductAll(cartId, selected);
     setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
