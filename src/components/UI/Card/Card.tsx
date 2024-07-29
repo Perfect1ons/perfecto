@@ -190,14 +190,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
-    dispatch(addProductToCart(cardData));
+    postBasketProduct(cardData.minQty, cardData.id_tov);
     setAdded(true);
   };
 
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-    postBasketProduct(token, 1, cardData.id_tov);
+    postBasketProduct(1, cardData.id_tov);
     showModal(
       <>
         Товар добавлен в корзину.{" "}

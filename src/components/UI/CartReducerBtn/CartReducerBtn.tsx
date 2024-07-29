@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";

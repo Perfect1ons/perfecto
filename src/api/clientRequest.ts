@@ -21,6 +21,7 @@ import { IPopularGood } from "@/types/popularGoods";
 import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -28,7 +29,7 @@ const maxkg = ky.create({
   prefixUrl: "/api/",
 });
 
-const maxkgnotif = ky.create({
+const maxkgnocache = ky.create({
   prefixUrl: "/api/",
   cache: "no-cache",
 });
@@ -294,7 +295,7 @@ export const getCurrentOrdersClient = (
 };
 
 export const deleteNotification = (id: number) => {
-  return maxkgnotif.get(`site/closenotif?id=${id}`);
+  return maxkgnocache.get(`site/closenotif?id=${id}`);
 };
 
 export const getPersonalDataProfileClient = (
@@ -399,41 +400,33 @@ export const getSelectRegion = async (
   return data as SelectRegionType;
 };
 export const postBasketProduct = async (
-  token: string,
   kol: number,
   id_tov: number
-): Promise<any> => {
-  const params = new URLSearchParams();
-  params.append("kol", kol.toString());
-  params.append("id_tov", id_tov.toString());
-  return maxkg.post(`box/set-box-guest`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: params.toString(),
-  });
+): Promise<ResponsePostBasket> => {
+  const formData = new FormData();
+  formData.append("kol", kol.toString());
+  formData.append("id_tov", id_tov.toString());
+
+  try {
+    const response: ResponsePostBasket = await maxkgnocache
+      .post("box/set-box-guest", {
+        body: formData,
+      })
+      .json();
+
+    // Return the response directly, since it matches the ResponsePostBasket type
+    return response;
+  } catch (error) {
+    console.error("Error posting basket product:", error);
+    throw error; // Optionally re-throw the error for further handling
+  }
 };
+
 export const deleteBasketProduct = (
-  cart_id: number,
+  cart_id: string | null | undefined,
   id_tovar: number
 ): Promise<boolean> => {
-  return maxkg
+  return maxkgnocache
     .delete(`box/del-box-guest?cart_id=${cart_id}&id_tov=${id_tovar}`)
     .json();
 };
-// export const postBasketProduct = (
-//   token: string,
-//   cart: { id_tov: string; kol: string }
-// ) => {
-//   const params = new URLSearchParams();
-//   params.append("id_tov", cart.id_tov);
-//   params.append("id_tov", cart.kol);
-//   return maxkg.post(`box/set-box-guest`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     body: params.toString(),
-//   });
-// };

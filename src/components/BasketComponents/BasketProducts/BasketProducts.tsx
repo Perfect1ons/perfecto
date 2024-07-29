@@ -10,12 +10,15 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
+import { Model } from "@/types/Basket/getBasketProduct";
+import { deleteBasketProduct } from "@/api/clientRequest";
 
 interface IBasketProductsProps {
-  currentItems: ICard[];
+  currentItems: Model[];
+  cartId: string | null | undefined;
 }
 
-const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
+const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
@@ -106,10 +109,7 @@ const BasketProducts = ({ currentItems }: IBasketProductsProps) => {
     event.stopPropagation();
     event.preventDefault();
 
-    // Диспетчеризуем действие для удаления товара из Redux хранилища
-    dispatch(removeProductFromCart(item.id)); // Предположим, что у вас есть действие removeProductFromCart, которое принимает id товара для удаления
-
-    // Если вы хотите выполнить дополнительные действия после удаления (например, обновление состояния), добавьте их здесь
+    deleteBasketProduct(cartId, item.id_tov);
   };
   const handleToggleSelection = (id: number) => {
     dispatch(toggleProductSelection(id));

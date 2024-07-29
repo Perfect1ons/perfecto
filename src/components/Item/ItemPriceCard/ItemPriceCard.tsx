@@ -25,6 +25,7 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
+import { postBasketProduct } from "@/api/clientRequest";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -43,7 +44,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const [added, setAdded] = useState(false);
 
   const addToCart = () => {
-    dispatch(addProductToCart(data.items));
+    postBasketProduct(data.items.minQty, data.items.id_tov);
     setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
