@@ -19,6 +19,7 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { deleteBasketProduct } from "@/api/clientRequest";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
@@ -43,12 +44,11 @@ const Basket = ({
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 20; // Показывать по 0 товаров на странице
+  const itemsPerPage = 20; // Показывать по 20 товаров на странице
 
   const isMobile = useMediaQuery("(max-width: 480px)");
 
-  const offset = currentPage * itemsPerPage;
-  const currentItems = data.cart.slice(offset, offset + itemsPerPage);
+  const [selected, setSelected] = useState<number[]>([]);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -63,7 +63,7 @@ const Basket = ({
   };
 
   const handleClearCart = () => {
-    dispatch(clearSelectedProducts());
+    deleteBasketProduct(cartId, selected);
     setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
     openModal();
   };
@@ -98,7 +98,7 @@ const Basket = ({
     window.scrollTo({ top: 0, behavior: "auto" });
   };
 
-  // Calculate total pages based on favorites length and itemsPerPage
+  // Calculate total pages based on cart length and itemsPerPage
   const pageCount = Math.ceil(cart.count / itemsPerPage);
   return (
     <div className="container">
@@ -157,7 +157,7 @@ const Basket = ({
       ) : (
         <div className={styles.basketAllContainer}>
           <div className={styles.controlContainer}>
-            <h1 className={styles.basketTilte}>Корзина - #160989</h1>
+            <h1 className={styles.basketTilte}>Корзина - {`#${cartId}`}</h1>
             <div
               className={styles.checkBoxContainer}
               onClick={handleSelectAllToggle}
@@ -187,19 +187,25 @@ const Basket = ({
             </div>
             <button
               onClick={openModal}
-              disabled={!data.cart.some((product) => product.selected)}
+              disabled={selected.length === 0}
               className={styles.trashButton}
             >
               <TrashIcon />
             </button>
           </div>
           <div className={styles.cardContainer}>
-            <BasketProducts currentItems={cart.model} cartId={cartId} />
+            <BasketProducts
+              currentItems={cart.model}
+              cartId={cartId}
+              selected={selected}
+              setSelected={setSelected}
+            />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
               authToken={authToken}
+              currentItems={cart.model}
             />
           </div>
         </div>

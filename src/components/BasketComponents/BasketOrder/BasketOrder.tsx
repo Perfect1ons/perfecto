@@ -10,15 +10,13 @@ import styles from "./style.module.scss";
 import { useState, ChangeEvent, useCallback, useMemo } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
-import { RootState } from "@/store";
-import { useSelector } from "react-redux";
-import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import UserGeoModal from "@/components/UI/UserGeoModal/UserGeoModal";
+import { Model } from "@/types/Basket/getBasketProduct";
 
 export interface Buyer {
   phone: string;
@@ -47,6 +45,7 @@ interface IBasketOrderProps {
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
   deliveryCity: SelectCityType;
+  currentItems: Model[];
 }
 
 const BasketOrder = ({
@@ -54,6 +53,7 @@ const BasketOrder = ({
   deliveryMethod,
   authToken,
   deliveryCity,
+  currentItems,
 }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
 
@@ -83,11 +83,10 @@ const BasketOrder = ({
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
 
-  const cart = useSelector((state: RootState) => state.cart.cart);
   const { totalQuantity, formattedTotalPrice } = useMemo(() => {
-    const result = cart.reduce(
+    const result = currentItems.reduce(
       (acc, item) => {
-        const quantity = item.quantity || 0;
+        const quantity = item.kol || 0;
         const price = item.price || 0;
         acc.totalQuantity += quantity;
         acc.totalPrice += quantity * price;
@@ -110,7 +109,8 @@ const BasketOrder = ({
       totalQuantity: formatNumber(result.totalQuantity),
       formattedTotalPrice: formatNumber(result.totalPrice),
     };
-  }, [cart]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
@@ -273,6 +273,7 @@ const BasketOrder = ({
     // if (authToken) {
     //   setActiveModal(value);
     // } else {
+    //   setActiveModal("");
     //   setRegVisible(true);
     // }
   };

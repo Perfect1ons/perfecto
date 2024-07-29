@@ -1,11 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { SetStateAction, useEffect, useState } from "react";
 import styles from "./style.module.scss";
-import {
-  removeProductFromCart,
-  toggleProductSelection,
-} from "@/store/reducers/cart.reducer";
 import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
@@ -16,16 +11,22 @@ import { deleteBasketProduct } from "@/api/clientRequest";
 interface IBasketProductsProps {
   currentItems: Model[];
   cartId: string | null | undefined;
+  selected: number[];
+  setSelected: React.Dispatch<SetStateAction<number[]>>;
 }
 
-const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
+const BasketProducts = ({
+  currentItems,
+  cartId,
+  selected,
+  setSelected,
+}: IBasketProductsProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
   }>({});
-  const dispatch = useDispatch();
 
   useEffect(() => {
     updateFavoriteItems();
@@ -112,7 +113,13 @@ const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
     deleteBasketProduct(cartId, item.id_tov);
   };
   const handleToggleSelection = (id: number) => {
-    dispatch(toggleProductSelection(id));
+    setSelected((prevSelected) => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter((selectedId) => selectedId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
   };
 
   return (
@@ -134,22 +141,24 @@ const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
             : "/img/noPhoto.svg";
         const isFavorite = favoriteItems[item.id_tov] || false;
         return (
-          <>
-            <h1>{item?.kol}</h1>
-            <BasketCard
-              key={item.id_tov}
-              item={item}
-              imageUrl={imageUrl}
-              handleToggleSelection={() => handleToggleSelection(item.id)}
-              isFavorite={isFavorite}
-              rating={Math.floor(item.ocenka)}
-              handleFavoriteClick={(e: any) => handleFavoriteClick(e, item)}
-              removeFromCart={(e: any) => removeFromCart(e, item)}
-              handleCartEmpty={handleCartEmpty}
-              shouldFocusInput={shouldFocusInput}
-              setShouldFocusInput={() => setShouldFocusInput(false)}
-            />
-          </>
+          <BasketCard
+            key={item.id_tov}
+            item={item}
+            imageUrl={imageUrl}
+            handleToggleSelection={() => handleToggleSelection(item.id_tov)}
+            isFavorite={isFavorite}
+            rating={Math.floor(item.ocenka)}
+            handleFavoriteClick={(e: React.MouseEvent) =>
+              handleFavoriteClick(e, item)
+            }
+            removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
+              removeFromCart(e, item)
+            }
+            handleCartEmpty={handleCartEmpty}
+            shouldFocusInput={shouldFocusInput}
+            setShouldFocusInput={() => setShouldFocusInput(false)}
+            selected={selected.includes(item.id_tov)}
+          />
         );
       })}
     </div>

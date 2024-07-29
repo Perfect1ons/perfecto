@@ -24,6 +24,7 @@ interface IBasketCardProps {
   handleCartEmpty: () => void;
   shouldFocusInput: boolean;
   setShouldFocusInput: () => void;
+  selected: boolean;
 }
 
 const BasketCard = ({
@@ -37,6 +38,7 @@ const BasketCard = ({
   handleCartEmpty,
   shouldFocusInput,
   setShouldFocusInput,
+  selected,
 }: IBasketCardProps) => {
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
@@ -44,13 +46,13 @@ const BasketCard = ({
     } else if (number >= 1e6) {
       return (number / 1e6).toFixed(2) + " млн";
     } else {
-      // return number.toLocaleString("ru-RU");
+      return number.toLocaleString("ru-RU");
     }
   };
 
-  const totalPrice = item.cenaok * item.quantity;
+  const totalPrice = item.cenaok * item.kol;
   const formattedPrice = formatNumber(totalPrice);
-  const formattedQuantity = formatNumber(item.quantity);
+  const formattedQuantity = formatNumber(item.kol);
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
@@ -68,10 +70,10 @@ const BasketCard = ({
             <span
               onClick={handleToggleSelection}
               className={cn("showFiltersUlContainer__check", {
-                ["showFiltersUlContainer__checkActive"]: item.selected,
+                ["showFiltersUlContainer__checkActive"]: selected,
               })}
             >
-              {item.selected ? (
+              {selected ? (
                 <Image
                   src="/img/checkIconWhite.svg"
                   width={15}
