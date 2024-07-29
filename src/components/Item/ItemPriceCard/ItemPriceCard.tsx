@@ -15,7 +15,7 @@ import {
   ShareIcon,
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
@@ -24,8 +24,10 @@ import clsx from "clsx";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
-import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import { postBasketProduct } from "@/api/clientRequest";
+import { AuthContext } from "@/context/AuthContext";
+import AuthModal from "@/components/AuthModal/AuthModal";
+import InformationModal from "@/components/UI/InformationModal/InformationModal";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -33,6 +35,7 @@ interface IPriceProps {
 
 const ItemPriceCard = ({ data }: IPriceProps) => {
   const dispatch = useDispatch();
+  const { isAuthed, token } = useContext(AuthContext);
 
   const isMobile = useMediaQuery("(max-width: 992px)");
 
@@ -40,14 +43,8 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.items.id);
 
-  const [cartModal, setCartModal] = useState(false);
-  const [added, setAdded] = useState(false);
-
   const addToCart = () => {
     postBasketProduct(data.items.minQty, data.items.id_tov);
-    setAdded(true);
-    setCartModal(true);
-    setTimeout(() => setCartModal(false), 5000);
   };
 
   // копирования ссылки
@@ -76,9 +73,14 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const [favorite, setFavorite] = useState(false);
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [isAuthVisible, setAuthVisible] = useState(false);
   const [isRedirect, setIsRedirect] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const [added, setAdded] = useState(false);
+
+  const openAuthModal = () => setAuthVisible(true);
+  const closeAuthModal = () => setAuthVisible(false);
   useEffect(() => {
     setRating(Math.floor(data.items.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -86,38 +88,76 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
       favorites.some((fav: ICard) => fav.id_tov === data.items.id_tov)
     );
   }, [data.items.ocenka, data.items.id_tov]);
+  const showModal = (message: React.ReactNode) => {
+    // Сначала закрываем старое модальное окно, если оно открыто
+    if (isModalVisible) {
+      setModalVisible(false);
+      setTimeout(() => {
+        setModalMessage(message);
+        setModalVisible(true);
+      }, 300); // Небольшая задержка для плавного перехода
+    } else {
+      setModalMessage(message);
+      setModalVisible(true);
+    }
+  };
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+
+    if (!isAuthed) {
+      openAuthModal();
+      return;
+    }
+
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
+
+    const favoriteData = {
+      id: data.items.id,
+      id_tov: data.items.id_tov,
+      id_post: data.items.id_post,
+      old_price: data.items.old_price,
+      discount_prc: data.items.discount_prc,
+      naim: data.items.naim,
+      ddos: data.items.ddos,
+      cenaok: data.items.cenaok,
+      url: data.items.url,
+      photos: data.items.photos,
+      ocenka: data.items.ocenka,
+      status: data.items.status,
+      minQty: data.items.minQty,
+    };
+
+    const message = isFavorite ? (
+      "Товар удален из избранного."
+    ) : (
+      <>
+        Товар добавлен в избранное.
+        <Link className="linkCart" href={"/favorites"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
 
     if (isFavorite) {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== data.items.id_tov
       );
-      message = "Товар удален из избранного.";
-      setIsRedirect(false);
+      // if (removeFromFavorites) {
+      //   removeFromFavorites(data.items.id_tov);
+      // }
     } else {
-      favorites.push(data.items);
-      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-      setIsRedirect(true);
+      favorites.push(favoriteData);
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
 
-    // Показываем модалку с соответствующим сообщением
-    setModalMessage(message);
-    setModalVisible(true);
+    showModal(message);
+    setIsRedirect(!isFavorite);
   };
-
   const handleCartEmpty = () => {
     setAdded(false);
-  };
-
-  const closeModalCart = () => {
-    setCartModal(false);
   };
 
   // для открытия модалки ИП (не айпи)
@@ -139,6 +179,14 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
+    showModal(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
   };
 
   // для отображения MobileBuyBtn на мобильных устройствах
@@ -181,14 +229,10 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
           addToCart={addToCart}
         />
       )}
-
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
+      <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
 
       <section className={styles.section_wrap} ref={sectionRef}>
         <div className={styles.ItemPriceCard}>
@@ -421,12 +465,12 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             className={styles.share_btnControl}
             onClick={handleFavoriteClick}
           >
-            <FavoriteModal
+            {/* <FavoriteModal
               isVisible={isModalVisible}
               message={modalMessage}
               isRedirect={isRedirect}
               onClose={handleModalClose}
-            />
+            /> */}
             <button
               aria-label="add to favorites"
               title={

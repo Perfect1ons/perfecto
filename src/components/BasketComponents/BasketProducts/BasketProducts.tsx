@@ -47,7 +47,6 @@ const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
   const [added, setAdded] = useState(false);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
   const [allItemsSelected, setAllItemsSelected] = useState(false); // State to track if all items are selecte
-
   const handleToggleAllItems = () => {
     setAllItemsSelected(!allItemsSelected);
   };
