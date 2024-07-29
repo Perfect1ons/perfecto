@@ -74,6 +74,58 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
+  // const handleFavoriteClick = (e: React.MouseEvent) => {
+  //   e.stopPropagation();
+
+  //   if (!isAuthed) {
+  //     openAuthModal();
+  //     return;
+  //   }
+
+  //   let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+
+  //   const favoriteData = {
+  //     id: cardData.id,
+  //     id_tov: cardData.id_tov,
+  //     id_post: cardData.id_post,
+  //     old_price: cardData.old_price,
+  //     discount_prc: cardData.discount_prc,
+  //     naim: cardData.naim,
+  //     ddos: cardData.ddos,
+  //     cenaok: cardData.cenaok,
+  //     url: cardData.url,
+  //     photos: cardData.photos,
+  //     ocenka: cardData.ocenka,
+  //     status: cardData.status,
+  //     minQty: cardData.minQty,
+  //   };
+
+  //   if (isFavorite) {
+  //     favorites = favorites.filter(
+  //       (fav: ICard) => fav.id_tov !== cardData.id_tov
+  //     );
+  //     showModal("Товар удален из избранного.");
+  //     setIsRedirect(false);
+  //     if (removeFromFavorites) {
+  //       removeFromFavorites(cardData.id_tov);
+  //     }
+  //   } else {
+  //     favorites.push(favoriteData);
+  //     showModal(
+  //       <>
+  //         Товар добавлен в избранное.
+  //         <Link className="linkCart" href={"/favorites"}>
+  //           Нажмите, чтобы перейти к списку.
+  //         </Link>
+  //       </>
+  //     );
+  //     setIsRedirect(true);
+  //   }
+
+  //   localStorage.setItem("favorites", JSON.stringify(favorites));
+  //   setIsFavorite(!isFavorite);
+  //   window.dispatchEvent(new Event("favoritesUpdated"));
+  // };
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -100,31 +152,34 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       minQty: cardData.minQty,
     };
 
+    const message = isFavorite ? (
+      "Товар удален из избранного."
+    ) : (
+      <>
+        Товар добавлен в избранное.
+        <Link className="linkCart" href={"/favorites"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+
     if (isFavorite) {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
-      showModal("Товар удален из избранного.");
-      setIsRedirect(false);
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
     } else {
       favorites.push(favoriteData);
-      showModal(
-        <>
-          Товар добавлен в избранное.
-          <Link className="linkCart" href={"/favorites"}>
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
-      setIsRedirect(true);
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
+
+    showModal(message);
+    setIsRedirect(!isFavorite);
   };
 
   const handleModalClose = () => {
