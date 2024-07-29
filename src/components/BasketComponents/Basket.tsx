@@ -9,17 +9,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { TrashIcon, XMark } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import {
-  clearSelectedProducts,
-  toggleSelectAllProducts,
-} from "@/store/reducers/cart.reducer";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ReactPaginate from "react-paginate";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
-import { deleteBasketProduct } from "@/api/clientRequest";
+import { deleteBasketProductAll } from "@/api/clientRequest";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
@@ -38,8 +34,6 @@ const Basket = ({
   cart,
   cartId,
 }: IBasketProps) => {
-  const dispatch = useDispatch();
-  const data = useSelector((store: RootState) => store.cart);
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -53,17 +47,17 @@ const Basket = ({
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-  useEffect(() => {
-    // Синхронизируем состояние selectAll с выбором всех товаров
-    setSelectAll(data.cart.every((product) => product.selected));
-  }, [data.cart]);
+  // useEffect(() => {
+  //   // Синхронизируем состояние selectAll с выбором всех товаров
+  //   setSelectAll(data.cart.every((product) => product.selected));
+  // }, [data.cart]);
   const handleSelectAllToggle = () => {
-    dispatch(toggleSelectAllProducts());
+    // dispatch(toggleSelectAllProducts());
     setSelectAll(!selectAll);
   };
 
   const handleClearCart = () => {
-    deleteBasketProduct(cartId, selected);
+    deleteBasketProductAll(cartId, selected);
     setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
     openModal();
   };
