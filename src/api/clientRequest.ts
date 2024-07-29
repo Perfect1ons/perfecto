@@ -431,11 +431,27 @@ export const deleteBasketProduct = (
     .json();
 };
 
-export const deleteBasketProductAll = (
+export const deleteBasketProductAll = async (
   cart_id: string | null | undefined,
   ids_tov: number[]
 ): Promise<boolean> => {
-  return maxkgnocache
-    .delete(`box/del-box-guest-all?cart_id=${cart_id}?id_tov=${ids_tov}`)
-    .json();
+  const formData = new FormData();
+  formData.append("cart_id", cart_id || "");
+  formData.append("id_tov", ids_tov.join(","));
+  try {
+    const response = await maxkgnocache.post(`box/del-box-guest-all`, {
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
 };

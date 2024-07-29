@@ -107,6 +107,7 @@ export interface Items {
   banners_discount?: any[];
   quantity?: number;
   selected?: boolean;
+  kol?: number;
 }
 
 export interface Seller {

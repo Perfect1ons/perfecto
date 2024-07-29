@@ -98,7 +98,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity === 0 ? "" : quantity}
+        value={quantity === 0 ? "" : data.kol}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}
