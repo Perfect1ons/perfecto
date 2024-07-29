@@ -1,10 +1,8 @@
 import cn from "clsx";
 import {
   CardFavoritesIcon,
-  GrayFavoritesIcon,
   GrayStar,
   TrashIcon,
-  VioletFavoritesIcon,
   YellowStar,
 } from "../../../../../public/Icons/Icons";
 import styles from "../style.module.scss";
