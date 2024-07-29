@@ -110,7 +110,7 @@ const BasketOrder = ({
       formattedTotalPrice: formatNumber(result.totalPrice),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentItems]);
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg

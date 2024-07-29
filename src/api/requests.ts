@@ -45,6 +45,11 @@ const maxkg = ky.create({
   next: { revalidate: 5 },
 });
 
+const maxkgnocache = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache",
+});
+
 const maxkgcatalog = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 3600 },
@@ -334,7 +339,7 @@ export const getProductBasket = (
   page: number,
   cart_id: string | null | undefined
 ): Promise<getBasketProductsType> => {
-  return maxkg
+  return maxkgnocache
     .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
     .json();
 };

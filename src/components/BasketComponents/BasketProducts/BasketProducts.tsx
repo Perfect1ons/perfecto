@@ -9,18 +9,24 @@ import { Model } from "@/types/Basket/getBasketProduct";
 import { deleteBasketProduct } from "@/api/clientRequest";
 
 interface IBasketProductsProps {
-  currentItems: Model[];
+  items: Model[];
   cartId: string | null | undefined;
   selected: number[];
   setSelected: React.Dispatch<SetStateAction<number[]>>;
+  deleteItem: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    item: ICard
+  ) => void;
 }
 
 const BasketProducts = ({
-  currentItems,
+  items,
   cartId,
   selected,
   setSelected,
+  deleteItem,
 }: IBasketProductsProps) => {
+  // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
@@ -30,7 +36,6 @@ const BasketProducts = ({
 
   useEffect(() => {
     updateFavoriteItems();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateFavoriteItems = () => {
@@ -47,7 +52,7 @@ const BasketProducts = ({
 
   const [added, setAdded] = useState(false);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-  const [allItemsSelected, setAllItemsSelected] = useState(false); // State to track if all items are selecte
+  const [allItemsSelected, setAllItemsSelected] = useState(false); // State to track if all items are selected
   const handleToggleAllItems = () => {
     setAllItemsSelected(!allItemsSelected);
   };
@@ -101,16 +106,7 @@ const BasketProducts = ({
   const handleModalClose = () => {
     setModalVisible(false);
   };
-  // remove from redux cart storage function
-  const removeFromCart = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    item: ICard
-  ) => {
-    event.stopPropagation();
-    event.preventDefault();
 
-    deleteBasketProduct(cartId, item.id_tov);
-  };
   const handleToggleSelection = (id: number) => {
     setSelected((prevSelected) => {
       if (prevSelected.includes(id)) {
@@ -129,7 +125,7 @@ const BasketProducts = ({
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {currentItems.map((item) => {
+      {items.map((item) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")
@@ -151,7 +147,7 @@ const BasketProducts = ({
               handleFavoriteClick(e, item)
             }
             removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
-              removeFromCart(e, item)
+              deleteItem(e, item)
             }
             handleCartEmpty={handleCartEmpty}
             shouldFocusInput={shouldFocusInput}
