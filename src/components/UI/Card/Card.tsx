@@ -12,9 +12,6 @@ import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
 import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
-import { useDispatch, useSelector } from "react-redux";
-import { addProductToCart } from "@/store/reducers/cart.reducer";
-import { RootState } from "@/store";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
@@ -54,13 +51,12 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
   const showModal = (message: React.ReactNode) => {
-    // Сначала закрываем старое модальное окно, если оно открыто
     if (isModalVisible) {
       setModalVisible(false);
       setTimeout(() => {
         setModalMessage(message);
         setModalVisible(true);
-      }, 300); // Небольшая задержка для плавного перехода
+      }, 300);
     } else {
       setModalMessage(message);
       setModalVisible(true);
@@ -72,8 +68,8 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setIsFavorite(
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, cardData.id_tov]);
+
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -187,17 +183,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     setAdded(false);
   };
 
-  const dispatch = useDispatch();
-
-  const addToCart = () => {
-    postBasketProduct(cardData.minQty, cardData.id_tov);
+  const addToCart = async () => {
+    await postBasketProduct(cardData.minQty, cardData.id_tov);
     setAdded(true);
   };
 
-  const handleAddToCart = () => {
-    addToCart();
+  const handleAddToCart = async () => {
+    await addToCart();
     setShouldFocusInput(true);
-    postBasketProduct(1, cardData.id_tov);
     showModal(
       <>
         Товар добавлен в корзину.{" "}
@@ -207,9 +200,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       </>
     );
   };
-
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item: any) => item.id === cardData.id);
 
   const [isHomePage, setIsHomePage] = useState(false);
 
@@ -324,7 +314,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!isHomePage && !product?.quantity && (
+          {!isHomePage && !added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -343,7 +333,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
               </button>
             </div>
           )}
-          {!isHomePage && product?.quantity && (
+          {!isHomePage && added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"

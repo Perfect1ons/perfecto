@@ -190,6 +190,7 @@
 }
 .priceCustomContainer {
   @include mixin.flex(center, null, null, 3px);
+  text-wrap: nowrap;
 }
 .priceCustom {
   margin-right: 3px;
