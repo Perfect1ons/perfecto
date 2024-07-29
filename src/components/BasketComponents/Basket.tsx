@@ -184,7 +184,8 @@ const Basket = ({
         <div className={styles.basketAllContainer}>
           <div className={styles.controlContainer}>
             <h1 className={styles.basketTilte}>Корзина - {`#${cartId}`}</h1>
-            <div
+            <button
+              aria-label="select all products"
               className={styles.checkBoxContainer}
               onClick={handleSelectAllToggle}
             >
@@ -210,8 +211,9 @@ const Basket = ({
                 )}
               </span>
               Выбрать все товары
-            </div>
+            </button>
             <button
+              aria-label="delete products"
               onClick={openModal}
               disabled={selected.length === 0}
               className={styles.trashButton}
