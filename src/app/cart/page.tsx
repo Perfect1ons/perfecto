@@ -5,14 +5,11 @@ import {
   getProductBasket,
   getSelectCity,
 } from "@/api/requests";
+import Basket from "@/components/BasketComponents/Basket";
 import MainLoader from "@/components/UI/Loader/MainLoader";
 import { generatePageMetadata } from "@/utils/metadata";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
-const Basket = dynamic(() => import("@/components/BasketComponents/Basket"), {
-  ssr: false,
-  loading: () => <MainLoader />,
-});
 
 export default async function Page() {
   const cookieStore = cookies();
@@ -43,3 +40,4 @@ export default async function Page() {
 export async function generateMetadata() {
   return generatePageMetadata(getMetaKorzinaPage);
 }
+export const revalidate = 0.05;

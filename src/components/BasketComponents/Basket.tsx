@@ -1,8 +1,6 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
 import cn from "clsx";
 import BasketProducts from "./BasketProducts/BasketProducts";
-import { RootState } from "@/store";
 import Link from "next/link";
 import BasketOrder from "./BasketOrder/BasketOrder";
 import Image from "next/image";
@@ -15,7 +13,11 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
-import { deleteBasketProductAll } from "@/api/clientRequest";
+import {
+  deleteBasketProduct,
+  deleteBasketProductAll,
+} from "@/api/clientRequest";
+import { ICard } from "@/types/Card/card";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
@@ -36,6 +38,8 @@ const Basket = ({
 }: IBasketProps) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [items, setItems] = useState(cart.model);
+  const [allItemsSelected, setAllItemsSelected] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20; // Показывать по 20 товаров на странице
@@ -47,15 +51,25 @@ const Basket = ({
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-  // useEffect(() => {
-  //   // Синхронизируем состояние selectAll с выбором всех товаров
-  //   setSelectAll(data.cart.every((product) => product.selected));
-  // }, [data.cart]);
-  // const handleSelectAllToggle = () => {
 
-  //   // dispatch(toggleSelectAllProducts());
-  //   setSelectAll(!selectAll);
-  // };
+  const removeFromCart = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    item: ICard
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    deleteBasketProduct(cartId, item.id_tov)
+      .then(() => {
+        setItems((prevItems) =>
+          prevItems.filter((i) => i.id_tov !== item.id_tov)
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to remove item from cart:", error);
+      });
+  };
+
   const handleSelectAllToggle = () => {
     if (!selectAll) {
       const allIds = cart.model.map((product) => product.id_tov);
@@ -66,9 +80,18 @@ const Basket = ({
     setSelectAll(!selectAll);
   };
   const handleClearCart = () => {
-    deleteBasketProductAll(cartId, selected);
-    setSelectAll(false); // Сброс состояния selectAll после очистки выбранных продуктов
-    openModal();
+    deleteBasketProductAll(cartId, selected)
+      .then(() => {
+        setItems((prevItems) =>
+          prevItems.filter((i) => !selected.includes(i.id_tov))
+        );
+        setSelected([]);
+        setAllItemsSelected(false); // Reset the state after clearing selected items
+        openModal();
+      })
+      .catch((error) => {
+        console.error("Failed to clear cart:", error);
+      });
   };
   useEffect(() => {
     const body = document.body;
@@ -136,7 +159,7 @@ const Basket = ({
         )}
       </>
 
-      {cart.count <= 0 ? (
+      {items.length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
@@ -198,17 +221,18 @@ const Basket = ({
           </div>
           <div className={styles.cardContainer}>
             <BasketProducts
-              currentItems={cart.model}
+              items={items}
               cartId={cartId}
               selected={selected}
               setSelected={setSelected}
+              deleteItem={removeFromCart}
             />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
               authToken={authToken}
-              currentItems={cart.model}
+              currentItems={items}
             />
           </div>
         </div>
