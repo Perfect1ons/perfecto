@@ -424,9 +424,18 @@ export const postBasketProduct = async (
 
 export const deleteBasketProduct = (
   cart_id: string | null | undefined,
-  id_tovar: number | number[]
+  id_tovar: number
 ): Promise<boolean> => {
   return maxkgnocache
     .delete(`box/del-box-guest?cart_id=${cart_id}&id_tov=${id_tovar}`)
+    .json();
+};
+
+export const deleteBasketProductAll = (
+  cart_id: string | null | undefined,
+  ids_tov: number[]
+): Promise<boolean> => {
+  return maxkgnocache
+    .delete(`box/del-box-guest-all?cart_id=${cart_id}?id_tov=${ids_tov}`)
     .json();
 };
