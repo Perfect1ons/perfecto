@@ -23,6 +23,7 @@ export interface Model {
   notfound: number;
   id_city: number;
   dat1: any;
+  kol: number;
   minQty: number;
   isNovelty?: number; // Сделано необязательным
   country_id: any;
@@ -97,5 +98,3 @@ export interface Photo {
 export interface Country {
   name: string;
 }
-
-

@@ -133,19 +133,22 @@ const BasketProducts = ({ currentItems, cartId }: IBasketProductsProps) => {
             : "/img/noPhoto.svg";
         const isFavorite = favoriteItems[item.id_tov] || false;
         return (
-          <BasketCard
-            key={item.id_tov}
-            item={item}
-            imageUrl={imageUrl}
-            handleToggleSelection={() => handleToggleSelection(item.id)}
-            isFavorite={isFavorite}
-            rating={Math.floor(item.ocenka)}
-            handleFavoriteClick={(e: any) => handleFavoriteClick(e, item)}
-            removeFromCart={(e: any) => removeFromCart(e, item)}
-            handleCartEmpty={handleCartEmpty}
-            shouldFocusInput={shouldFocusInput}
-            setShouldFocusInput={() => setShouldFocusInput(false)}
-          />
+          <>
+            <h1>{item?.kol}</h1>
+            <BasketCard
+              key={item.id_tov}
+              item={item}
+              imageUrl={imageUrl}
+              handleToggleSelection={() => handleToggleSelection(item.id)}
+              isFavorite={isFavorite}
+              rating={Math.floor(item.ocenka)}
+              handleFavoriteClick={(e: any) => handleFavoriteClick(e, item)}
+              removeFromCart={(e: any) => removeFromCart(e, item)}
+              handleCartEmpty={handleCartEmpty}
+              shouldFocusInput={shouldFocusInput}
+              setShouldFocusInput={() => setShouldFocusInput(false)}
+            />
+          </>
         );
       })}
     </div>
