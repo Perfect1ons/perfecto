@@ -1,36 +1,30 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 
-interface NewsPaginationProps {
+interface IFavoritesPaginationProps {
+  isMobile: boolean;
   pageCount: number;
   currentPage: number;
+  handlePageClick: ({ selected }: { selected: number }) => void;
 }
 
-const FavoritesPagination: React.FC<NewsPaginationProps> = ({
+
+const FavoritesPagination = ({
+  isMobile,
   pageCount,
   currentPage,
-}) => {
-  const router = useRouter();
-
-  const handlePageClick = (selectedItem: { selected: number }) => {
-    const selectedPage = selectedItem.selected + 1; // Pagination starts from 0, so add 1
-    router.push(`/favorites?page=${selectedPage}`);
-  };
-
+  handlePageClick,
+}: IFavoritesPaginationProps) => {
   return (
     <ReactPaginate
-      initialPage={currentPage - 1} // ReactPaginate pages start from 0
-      pageCount={pageCount}
-      pageRangeDisplayed={3}
-      marginPagesDisplayed={1}
-      onPageChange={handlePageClick}
-      containerClassName={"pagination"}
-      activeClassName={"active"}
       previousLabel={"<"}
       nextLabel={">"}
-      breakLabel={"..."}
+      forcePage={currentPage}
+      breakLabel={isMobile ? ".." : "..."}
+      pageCount={pageCount}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={isMobile ? 2 : 3}
+      onPageChange={handlePageClick}
+      containerClassName={"pagination"}
       pageClassName={"page-item"}
       pageLinkClassName={"page-link"}
       previousClassName={"page-item-btn"}
@@ -39,8 +33,9 @@ const FavoritesPagination: React.FC<NewsPaginationProps> = ({
       nextLinkClassName={"page-link-next"}
       breakClassName={"page-item"}
       breakLinkClassName={"page-link"}
+      activeClassName={"active"}
     />
   );
 };
 
-export default FavoritesPagination;
+export default FavoritesPagination

@@ -38,7 +38,7 @@ import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
-import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
+import { IFavorites } from "@/types/Favorites/favorites";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -48,6 +48,11 @@ const maxkg = ky.create({
 const maxkgcatalog = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 3600 },
+});
+
+const maxkgnocache = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache"
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
@@ -345,6 +350,18 @@ export const getOrderHistoryOrderRating = (
 ): Promise<IRatingOrderHistoryCard> => {
   return maxkg
     .get(`otz/zakaz-ocenka?id_zakaz=${id_zakaz}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+
+export const getFavorites = (token: string | undefined): Promise<IFavorites> => {
+  return maxkgnocache
+    .get("izb", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

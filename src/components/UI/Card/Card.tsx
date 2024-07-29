@@ -15,16 +15,21 @@ import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
-import { postBasketProduct } from "@/api/clientRequest";
+import { postBasketProduct, postFavorites } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
+import { IFavoritesModel } from "@/types/Favorites/favorites";
 
 interface IcardDataProps {
+  favoritesData?: IFavoritesModel[];
   cardData: ICard;
-  loading?: boolean;
   removeFromFavorites?: (id_tov: number) => void;
 }
 
-const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
+const Card = ({
+  favoritesData,
+  cardData,
+  removeFromFavorites,
+}: IcardDataProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
@@ -41,13 +46,18 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
 
     return newImages;
   });
-
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(Math.floor(cardData.ocenka));
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
-  const [isRedirect, setIsRedirect] = useState(false);
+  const maxLength = 40;
+  const maxLengthDdos = 32;
+  const truncatedTitle = truncateText(cardData.naim, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
+  const [added, setAdded] = useState(false);
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
   const showModal = (message: React.ReactNode) => {
@@ -63,12 +73,14 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     }
   };
   useEffect(() => {
-    setRating(Math.floor(cardData.ocenka));
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorite(
-      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
-    );
-  }, [cardData.ocenka, cardData.id_tov]);
+    if (favoritesData) {
+      setIsFavorite(
+        favoritesData.some(
+          (fav: IFavoritesModel) => fav.id_tov === cardData.id_tov
+        )
+      );
+    }
+  }, [cardData.ocenka, cardData.id_tov, favoritesData]);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -78,23 +90,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       return;
     }
 
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
 
     const message = isFavorite ? (
       "Товар удален из избранного."
@@ -108,76 +103,28 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     );
 
     if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      favoritesData = favoritesData?.filter(
+        (fav: IFavoritesModel) => fav.id_tov !== cardData.id_tov
       );
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
-    } else {
-      favorites.push(favoriteData);
     }
 
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    postFavorites(1, cardData.id_tov, token);
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
 
     showModal(message);
-    setIsRedirect(!isFavorite);
   };
 
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
-  const sendWatchedItemToAPI = async (item: any) => {
-    try {
-      const response = await fetch("/api/watched-products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(item),
-      });
-
-      const data = await response.json();
-      if (!data.success) {
-        console.error("Failed to add item to watched history");
-      }
-    } catch (error) {
-      console.error("Error sending watched item to API:", error);
-    }
-  };
-
   const handleCardClick = async () => {
-    const item = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
-
-    await sendWatchedItemToAPI(item);
-
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
-
-  const maxLength = 40;
-  const maxLengthDdos = 32;
-  const truncatedTitle = truncateText(cardData.naim, maxLength);
-  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
-
-  const [added, setAdded] = useState(false);
-  const [shouldFocusInput, setShouldFocusInput] = useState(false);
 
   const handleCartEmpty = () => {
     setAdded(false);

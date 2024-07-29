@@ -1,8 +1,6 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
 import cn from "clsx";
 import BasketProducts from "./BasketProducts/BasketProducts";
-import { RootState } from "@/store";
 import Link from "next/link";
 import BasketOrder from "./BasketOrder/BasketOrder";
 import Image from "next/image";

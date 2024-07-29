@@ -11,8 +11,6 @@ import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AuthModal from "@/components/AuthModal/AuthModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { AuthContext } from "@/context/AuthContext";
 
 interface ILinks {
@@ -38,33 +36,27 @@ const navLinks: ILinks[] = [
 
 interface IHeaderNav {
   isAuthed: boolean;
+  favorites: number;
 }
 
-const HeaderNav = ({ isAuthed }: IHeaderNav) => {
+const HeaderNav = ({ isAuthed, favorites }: IHeaderNav) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
-  const cart = useSelector((state: RootState) => state.cart.cart);
   const { notif } = useContext(AuthContext);
 
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-  const addToFavorite = () => setAuthVisible(false);
-  const updateCounts = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
+  const updateCounts = () => {
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
+          return { ...link, count: authStatus ? favorites : 0 };
         }
         if (link.href === "/profile") {
           return { ...link, count: notif };
-        }
-        if (link.href === "/cart") {
-          return { ...link, count: baskets.length };
         }
         return link;
       })
@@ -73,19 +65,8 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 
   useEffect(() => {
     updateCounts();
-    const favoritesListener = () => updateCounts();
-    const cartListener = () => updateCounts();
-
-    window.addEventListener("favoritesUpdated", favoritesListener);
-    window.addEventListener("cartUpdated", cartListener);
-
-    return () => {
-      window.removeEventListener("favoritesUpdated", favoritesListener);
-      window.removeEventListener("cartUpdated", cartListener);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notif, cart, authStatus]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <nav className={styles.nav}>

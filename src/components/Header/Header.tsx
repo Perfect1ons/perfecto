@@ -16,6 +16,7 @@ const CatalogMenu = lazy(
 );
 
 export interface ICatalogProps {
+  favorites: number;
   isAuthed: boolean;
   history: string[];
   catalogs: ICatalogMenu | undefined;
@@ -31,6 +32,7 @@ export interface UserCoordinates {
 }
 
 const Header = ({
+  favorites,
   isAuthed,
   history,
   catalogs,
@@ -197,7 +199,7 @@ const Header = ({
           </div>
 
           <div className={styles.header__nav} onClick={onClose}>
-            <HeaderNav isAuthed={isAuthed} />
+            <HeaderNav favorites={favorites} isAuthed={isAuthed} />
           </div>
         </div>
 

@@ -41,6 +41,7 @@ export interface ICatalogProps {
   setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   history: string[];
   isAuthed: any;
+  favorites: number;
 }
 
 export default function MobileNav({
@@ -51,6 +52,7 @@ export default function MobileNav({
   setMobileModalOpen,
   history,
   isAuthed,
+  favorites,
 }: ICatalogProps) {
   // переключает state когда setMobileModalOpen не равен isOpen, т.е. вкл/выкл
   const openMobileModal = () => {
@@ -77,8 +79,7 @@ export default function MobileNav({
   const cart = useSelector((state: RootState) => state.cart.cart);
 
   const updateFavoritesCount = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setFavoritesCount(favorites.length);
+    setFavoritesCount(favorites);
   };
 
   const updateCartItemCount = () => {
