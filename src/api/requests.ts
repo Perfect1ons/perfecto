@@ -38,6 +38,7 @@ import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { IFavorites } from "@/types/Favorites/favorites";
 import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 const maxkg = ky.create({
@@ -366,6 +367,26 @@ export const getBasketAuthed = (
 ): Promise<BasketAuth> => {
   return maxkgnocache
     .get(`box?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+
+export const getResents = (): Promise<any[]> => {
+  return maxkg.get("naltovarok/getresent").json();
+}
+
+export const postResents = (): Promise<any[]> => {
+  return maxkg.post("naltovarok/getresent").json();
+};
+
+export const getFavorites = (token: string ): Promise<IFavorites> => {
+  return maxkgnocache
+    .get("izb", {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

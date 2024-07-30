@@ -108,7 +108,7 @@ export interface Items {
   quantity?: number;
   selected?: boolean;
   kol?: number;
-  id_box: number;
+  id_box?: number;
 }
 
 export interface Seller {

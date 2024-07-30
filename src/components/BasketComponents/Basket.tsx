@@ -70,7 +70,7 @@ const Basket = ({
     event.stopPropagation();
     event.preventDefault();
 
-    if (authToken) {
+    if (authToken && item.id_box) {
       deleteBasketProductAuthed(authToken, item.id_box, item.id_tov)
         .then(() => {
           setItems((prevItems) =>

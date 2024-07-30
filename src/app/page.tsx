@@ -122,9 +122,10 @@ export default async function Home() {
       getBoughts(1),
       getThirdBanner(),
     ]);
-
+    
     return (
       <>
+
         <MainPageJsonLd />
         <Banner mobileData={mobileData} deskstopData={desktopData} />
         {existingWatched.length > 0 ? (

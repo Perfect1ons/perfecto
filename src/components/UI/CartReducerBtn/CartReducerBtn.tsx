@@ -59,7 +59,7 @@ const CartReducerBtn = ({
     event.preventDefault();
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    if (token) {
+    if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
@@ -74,7 +74,7 @@ const CartReducerBtn = ({
     if (quantity <= data.minQty) {
       setQuantity(0);
       if (token) {
-        if (setItems) {
+        if (setItems && data.id_box) {
           await deleteBasketProductAuthed(token, data.id_box, data.id_tov)
             .then(() => {
               setItems((prevItems) =>
@@ -102,7 +102,7 @@ const CartReducerBtn = ({
     } else {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      if (token) {
+      if (token && data.id_box) {
         await patchBasketProductAuthed(token, data.id_box, newQuantity);
       } else {
         await postBasketProduct(newQuantity, data.id_tov);

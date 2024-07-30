@@ -83,7 +83,7 @@ export default function AllPopularGoods({ goods }: IPopularGoodsProps) {
       <div className="cardContainer">
         <div className="cards">
           {data.map((item, index) => (
-            <Card cardData={item} key={index} loading={isLoading} />
+            <Card cardData={item} key={index} />
           ))}
         </div>
         <div ref={loaderRef} className="loading">
