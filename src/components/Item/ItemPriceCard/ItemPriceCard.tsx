@@ -89,7 +89,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isRedirect, setIsRedirect] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [added, setAdded] = useState(false);
 
   const openAuthModal = () => setAuthVisible(true);
@@ -101,19 +101,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       favorites.some((fav: ICard) => fav.id_tov === data.items.id_tov)
     );
   }, [data.items.ocenka, data.items.id_tov]);
-  const showModal = (message: React.ReactNode) => {
-    // Сначала закрываем старое модальное окно, если оно открыто
-    if (isModalVisible) {
-      setModalVisible(false);
-      setTimeout(() => {
-        setModalMessage(message);
-        setModalVisible(true);
-      }, 300); // Небольшая задержка для плавного перехода
-    } else {
-      setModalMessage(message);
-      setModalVisible(true);
-    }
-  };
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -123,6 +110,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     }
 
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message: string | JSX.Element = "";
 
     const favoriteData = {
       id: data.items.id,
@@ -140,33 +128,33 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       minQty: data.items.minQty,
     };
 
-    const message = isFavorite ? (
-      "Товар удален из избранного."
-    ) : (
-      <>
-        Товар добавлен в избранное.
-        <Link className="linkCart" href={"/favorites"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-
     if (isFavorite) {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== data.items.id_tov
       );
+      message = "Товар удален из избранного.";
+
       // if (removeFromFavorites) {
       //   removeFromFavorites(data.items.id_tov);
       // }
     } else {
       favorites.push(favoriteData);
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
 
-    showModal(message);
+    setModalMessage(message);
+    setModalVisible(true);
     setIsRedirect(!isFavorite);
   };
   const handleCartEmpty = () => {
@@ -192,7 +180,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-    showModal(
+    setModalMessage(
       <>
         Товар добавлен в корзину.{" "}
         <Link className="linkCart" href={"/cart"}>
@@ -200,6 +188,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
         </Link>
       </>
     );
+    setModalVisible(true);
   };
 
   // для отображения MobileBuyBtn на мобильных устройствах

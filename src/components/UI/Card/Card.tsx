@@ -50,22 +50,10 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [isRedirect, setIsRedirect] = useState(false);
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
-  const showModal = (message: React.ReactNode) => {
-    if (isModalVisible) {
-      setModalVisible(false);
-      setTimeout(() => {
-        setModalMessage(message);
-        setModalVisible(true);
-      }, 300);
-    } else {
-      setModalMessage(message);
-      setModalVisible(true);
-    }
-  };
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -83,6 +71,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
     }
 
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message: string | JSX.Element = "";
 
     const favoriteData = {
       id: cardData.id,
@@ -99,34 +88,34 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       status: cardData.status,
       minQty: cardData.minQty,
     };
-
-    const message = isFavorite ? (
-      "Товар удален из избранного."
-    ) : (
-      <>
-        Товар добавлен в избранное.
-        <Link className="linkCart" href={"/favorites"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-
     if (isFavorite) {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
+      message = "Товар удален из избранного.";
+
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
     } else {
       favorites.push(favoriteData);
+      favorites.push(favoriteData);
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
 
-    showModal(message);
+    setModalMessage(message);
+    setModalVisible(true);
     setIsRedirect(!isFavorite);
   };
 
@@ -203,7 +192,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const handleAddToCart = async () => {
     await addToCart();
     setShouldFocusInput(true);
-    showModal(
+    setModalMessage(
       <>
         Товар добавлен в корзину.{" "}
         <Link className="linkCart" href={"/cart"}>
@@ -211,6 +200,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         </Link>
       </>
     );
+    setModalVisible(true);
   };
 
   const [isHomePage, setIsHomePage] = useState(false);
@@ -355,7 +345,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
                 onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                // id_cart={id_cart}
+                id_cart={id_cart}
               />
             </div>
           )}
