@@ -494,3 +494,21 @@ export const deleteBasketProductAuthed = (
     })
     .json();
 };
+
+export const patchBasketProductAuthed = (
+  token: string,
+  id_box: number,
+  kol: number
+) => {
+  return maxkgnocache
+    .patch(`box/${id_box}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        kol: kol,
+      }),
+    })
+    .json();
+};
