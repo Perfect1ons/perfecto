@@ -12,6 +12,7 @@ import ReactPaginate from "react-paginate";
 import {
   deleteBasketProduct,
   deleteBasketProductAll,
+  deleteBasketProductAllAuthed,
   deleteBasketProductAuthed,
 } from "@/api/clientRequest";
 
@@ -103,18 +104,33 @@ const Basket = ({
   };
 
   const handleClearCart = () => {
-    deleteBasketProductAll(cartId, selected)
-      .then(() => {
-        setItems((prevItems) =>
-          prevItems.filter((i) => !selected.includes(i.id_tov))
-        );
-        setSelected([]);
-        setAllItemsSelected(false); // Reset the state after clearing selected items
-        openModal();
-      })
-      .catch((error) => {
-        console.error("Failed to clear cart:", error);
-      });
+    if (authToken) {
+      deleteBasketProductAllAuthed(authToken, selected)
+        .then(() => {
+          setItems((prevItems) =>
+            prevItems.filter((i) => !selected.includes(i.id_tov))
+          );
+          setSelected([]);
+          setAllItemsSelected(false); // Reset the state after clearing selected items
+          openModal();
+        })
+        .catch((error) => {
+          console.error("Failed to clear cart:", error);
+        });
+    } else {
+      deleteBasketProductAll(cartId, selected)
+        .then(() => {
+          setItems((prevItems) =>
+            prevItems.filter((i) => !selected.includes(i.id_tov))
+          );
+          setSelected([]);
+          setAllItemsSelected(false); // Reset the state after clearing selected items
+          openModal();
+        })
+        .catch((error) => {
+          console.error("Failed to clear cart:", error);
+        });
+    }
   };
 
   useEffect(() => {

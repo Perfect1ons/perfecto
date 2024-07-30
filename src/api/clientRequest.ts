@@ -511,3 +511,30 @@ export const patchBasketProductAuthed = (
     })
     .json();
 };
+
+export const deleteBasketProductAllAuthed = async (
+  token: string,
+  ids_tov: number[]
+): Promise<boolean> => {
+  const formData = new FormData();
+  formData.append("id_tov", ids_tov.join(","));
+  try {
+    const response = await maxkgnocache.post(`box/del-box-all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};
