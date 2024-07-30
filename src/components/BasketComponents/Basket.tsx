@@ -18,6 +18,7 @@ import {
   deleteBasketProductAll,
 } from "@/api/clientRequest";
 import { ICard } from "@/types/Card/card";
+import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;

@@ -15,7 +15,10 @@ import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
 import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
-import { postBasketProduct } from "@/api/clientRequest";
+import {
+  postBasketProduct,
+  postBasketProductAuthed,
+} from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 
 interface IcardDataProps {
@@ -190,7 +193,15 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
   };
 
   const addToCart = async () => {
-    await postBasketProduct(cardData.minQty, cardData.id_tov);
+    if (isAuthed) {
+      await postBasketProductAuthed(
+        token,
+        `${cardData.minQty}`,
+        `${cardData.id_tov}`
+      );
+    } else {
+      await postBasketProduct(cardData.minQty, cardData.id_tov);
+    }
     setAdded(true);
   };
 

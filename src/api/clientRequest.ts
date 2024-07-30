@@ -455,3 +455,60 @@ export const deleteBasketProductAll = async (
     return false;
   }
 };
+
+//запросы корзины для зареганных юзеров
+
+export const postBasketProductAuthed = async (
+  token: string,
+  kol: string,
+  id_tov: string
+): Promise<ResponsePostBasket> => {
+  const params = new URLSearchParams();
+  params.set("id_tov", id_tov);
+  params.set("kol", kol);
+  return maxkgnocache
+    .post(`box/create`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    })
+    .json();
+};
+
+export const deleteBasketProductAuthed = (
+  token: string,
+  id_box: number,
+  id_tov: number
+) => {
+  return maxkgnocache
+    .delete(`box/${id_box}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_tov: id_tov,
+      }),
+    })
+    .json();
+};
+
+export const patchBasketProductAuthed = (
+  token: string,
+  id_box: number,
+  kol: number
+) => {
+  return maxkgnocache
+    .patch(`box/${id_box}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        kol: kol,
+      }),
+    })
+    .json();
+};

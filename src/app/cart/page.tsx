@@ -1,4 +1,5 @@
 import {
+  getBasketAuthed,
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
@@ -6,9 +7,7 @@ import {
   getSelectCity,
 } from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
-import MainLoader from "@/components/UI/Loader/MainLoader";
 import { generatePageMetadata } from "@/utils/metadata";
-import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 
 export default async function Page() {
@@ -24,6 +23,11 @@ export default async function Page() {
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);
   const deliveryCity = await getSelectCity();
+
+  if (authToken) {
+    const cartAuth = await getBasketAuthed(authToken, 1);
+    console.log(cartAuth);
+  }
 
   return (
     <Basket

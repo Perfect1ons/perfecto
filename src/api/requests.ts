@@ -38,8 +38,8 @@ import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
-import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { IFavorites } from "@/types/Favorites/favorites";
+import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -359,10 +359,14 @@ export const getOrderHistoryOrderRating = (
     .json();
 };
 
+//получение корзины для зареганных юзеров
 
-export const getFavorites = (token: string | undefined): Promise<IFavorites> => {
+export const getBasketAuthed = (
+  token: string,
+  page: number
+): Promise<BasketAuth> => {
   return maxkgnocache
-    .get("izb", {
+    .get(`box?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -378,4 +382,15 @@ export const getResents = (): Promise<any[]> => {
 
 export const postResents = (): Promise<any[]> => {
   return maxkg.post("naltovarok/getresent").json();
+};
+
+export const getFavorites = (token: string | undefined): Promise<IFavorites> => {
+  return maxkgnocache
+    .get("izb", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
