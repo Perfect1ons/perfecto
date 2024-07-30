@@ -1,11 +1,10 @@
 import { getFavorites } from "@/api/requests";
 import FavoriteMain from "@/components/FavoritesComponents/FavoriteMain/FavoriteMain";
+import FavoritesIsEmpty from "@/components/FavoritesComponents/FavoriteMain/FavoritesIsEmpty";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-
-
-export const revalidate = 0.05
+export const revalidate = 0.05;
 
 export const metadata: Metadata = {
   title: "Избранное",
@@ -20,10 +19,10 @@ export default async function Favorites() {
   const authToken = cookieStore.get("identify")?.value;
   if (authToken) {
     const favoriteData = await getFavorites(authToken);
-    return <FavoriteMain favoriteData={favoriteData.model} />;
+    if (favoriteData !== null) {
+      return <FavoriteMain favoriteData={favoriteData.model} />;
+    } else {
+      return <FavoritesIsEmpty />;
+    }
   }
-
-  return (
-    <h1>Авторизуйся  как ты попал сюда мой мидл ваер тебя пропустил </h1>
-  )
 }

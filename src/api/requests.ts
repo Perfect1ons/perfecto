@@ -384,7 +384,7 @@ export const postResents = (): Promise<any[]> => {
   return maxkg.post("naltovarok/getresent").json();
 };
 
-export const getFavorites = (token: string | undefined): Promise<IFavorites> => {
+export const getFavorites = (token: string ): Promise<IFavorites> => {
   return maxkgnocache
     .get("izb", {
       headers: {

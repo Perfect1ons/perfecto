@@ -512,3 +512,46 @@ export const patchBasketProductAuthed = (
     })
     .json();
 };
+
+export const removeFavorite = async (
+  id_tov: number,
+  token: string
+): Promise<any> => {
+  maxkgnocache
+    .post(`izb/del?id_tov=${id_tov}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .json();
+};
+
+export const postFavorite = async (
+  id_tov: number,
+  kol: number,
+  token: string
+): Promise<any> => {
+  const formData = new FormData();
+  formData.append("id_tov", id_tov.toString());
+  formData.append("kol", kol.toString());
+
+  try {
+    const response = await maxkgnocache.post(`izb`, {
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};

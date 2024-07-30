@@ -18,17 +18,36 @@ import { AuthContext } from "@/context/AuthContext";
 import {
   postBasketProduct,
   postBasketProductAuthed,
+  postFavorite,
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
+import { IFavoritesModel } from "@/types/Favorites/favorites";
 
 interface IcardDataProps {
   cardData: ICard;
-  loading?: boolean;
+  favoritesData?: IFavoritesModel[];
   removeFromFavorites?: (id_tov: number) => void;
 }
 
-const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
+const Card = ({
+  cardData,
+  favoritesData,
+  removeFromFavorites,
+}: IcardDataProps) => {
   const { isAuthed, token } = useContext(AuthContext);
+  const maxLength = 40;
+  const maxLengthDdos = 32;
+  const truncatedTitle = truncateText(cardData.naim, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
+  const [added, setAdded] = useState(false);
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [isAuthVisible, setAuthVisible] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const openAuthModal = () => setAuthVisible(true);
+  const closeAuthModal = () => setAuthVisible(false);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -45,14 +64,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     return newImages;
   });
 
-  const [rating, setRating] = useState(0);
-  const [isAuthVisible, setAuthVisible] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
-  const [isRedirect, setIsRedirect] = useState(false);
-  const openAuthModal = () => setAuthVisible(true);
-  const closeAuthModal = () => setAuthVisible(false);
   const showModal = (message: React.ReactNode) => {
     if (isModalVisible) {
       setModalVisible(false);
@@ -65,13 +76,17 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       setModalVisible(true);
     }
   };
+
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorite(
-      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
-    );
-  }, [cardData.ocenka, cardData.id_tov]);
+    if (favoritesData) {
+      setIsFavorite(
+        favoritesData.some(
+          (fav: IFavoritesModel) => fav.id_tov === cardData.id_tov
+        )
+      );
+    }
+  }, [cardData.ocenka, cardData.id_tov, favoritesData]);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -80,24 +95,6 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
       openAuthModal();
       return;
     }
-
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
 
     const message = isFavorite ? (
       "Товар удален из избранного."
@@ -111,82 +108,24 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
     );
 
     if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
     } else {
-<<<<<<< HEAD
-      postFavorites(1, cardData.id_tov, token);
+      postFavorite(cardData.id_tov,1, token)
     }
 
-=======
-      favorites.push(favoriteData);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
->>>>>>> 11ebbbb9f850bf6bbc2a0b4570055f23a441a431
+  
     showModal(message);
-    setIsRedirect(!isFavorite);
   };
 
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
-  const sendWatchedItemToAPI = async (item: any) => {
-    try {
-      const response = await fetch("/api/watched-products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(item),
-      });
-
-      const data = await response.json();
-      if (!data.success) {
-        console.error("Failed to add item to watched history");
-      }
-    } catch (error) {
-      console.error("Error sending watched item to API:", error);
-    }
-  };
-
   const handleCardClick = async () => {
-    const item = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
-
-    await sendWatchedItemToAPI(item);
-
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
-
-  const maxLength = 40;
-  const maxLengthDdos = 32;
-  const truncatedTitle = truncateText(cardData.naim, maxLength);
-  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
-
-  const [added, setAdded] = useState(false);
-  const [shouldFocusInput, setShouldFocusInput] = useState(false);
 
   const handleCartEmpty = () => {
     setAdded(false);
