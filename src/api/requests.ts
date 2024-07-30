@@ -38,7 +38,7 @@ import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
-import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
+import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -350,6 +350,22 @@ export const getOrderHistoryOrderRating = (
 ): Promise<IRatingOrderHistoryCard> => {
   return maxkg
     .get(`otz/zakaz-ocenka?id_zakaz=${id_zakaz}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+//получение корзины для зареганных юзеров
+
+export const getBasketAuthed = (
+  token: string,
+  page: number
+): Promise<BasketAuth> => {
+  return maxkgnocache
+    .get(`box?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
