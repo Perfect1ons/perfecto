@@ -476,3 +476,21 @@ export const postBasketProductAuthed = async (
     })
     .json();
 };
+
+export const deleteBasketProductAuthed = (
+  token: string,
+  id_box: number,
+  id_tov: number
+) => {
+  return maxkgnocache
+    .delete(`box/${id_box}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id_tov: id_tov,
+      }),
+    })
+    .json();
+};
