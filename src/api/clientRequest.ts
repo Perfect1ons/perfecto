@@ -458,7 +458,7 @@ export const deleteBasketProductAll = async (
 
 //запросы корзины для зареганных юзеров
 
-export const postBasketProductAuthed = async (
+export const postBasketProductAuthed = (
   token: string,
   kol: string,
   id_tov: string
