@@ -38,6 +38,7 @@ import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
 import { IMainPagePromotion } from "@/types/HomeTypes/promotions";
 import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { IFavorites } from "@/types/Favorites/favorites";
 
 const maxkg = ky.create({
@@ -45,14 +46,14 @@ const maxkg = ky.create({
   next: { revalidate: 5 },
 });
 
+const maxkgnocache = ky.create({
+  prefixUrl: process.env.PUBLIC_NEXT_API,
+  cache: "no-cache",
+});
+
 const maxkgcatalog = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
   next: { revalidate: 3600 },
-});
-
-const maxkgnocache = ky.create({
-  prefixUrl: process.env.PUBLIC_NEXT_API,
-  cache: "no-cache"
 });
 
 export const getPopularGoods = (page: number): Promise<IPopularGood[]> => {
@@ -339,7 +340,7 @@ export const getProductBasket = (
   page: number,
   cart_id: string | null | undefined
 ): Promise<getBasketProductsType> => {
-  return maxkg
+  return maxkgnocache
     .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
     .json();
 };

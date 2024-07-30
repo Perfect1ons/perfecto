@@ -13,10 +13,9 @@ const MobileNav = dynamic(
 interface IHeaderProps {
   isAuthed: any;
   searchHistory: string[];
-  favorites: number;
 }
 
-export default function HeaderWrap({favorites, isAuthed, searchHistory }: IHeaderProps) {
+export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -42,7 +41,6 @@ export default function HeaderWrap({favorites, isAuthed, searchHistory }: IHeade
   return (
     <header className="header">
       <Header
-        favorites={favorites}
         isAuthed={isAuthed}
         history={searchHistory}
         catalogs={catalog}
@@ -52,7 +50,6 @@ export default function HeaderWrap({favorites, isAuthed, searchHistory }: IHeade
         setMobileModalOpen={setMobileModalOpen}
       />
       <MobileNav
-        favorites={favorites}
         isAuthed={isAuthed}
         history={searchHistory}
         catalogs={catalog}

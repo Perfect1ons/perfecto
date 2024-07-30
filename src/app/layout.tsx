@@ -7,7 +7,6 @@ import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
-import { getFavorites } from "@/api/requests";
 
 const Application = dynamic(
   () => import("@/components/HomeComponents/Application/Application"),
@@ -50,12 +49,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // const cookieStore = cookies();
-  // const searchHistory: string[] = JSON.parse(
-    // cookieStore.get("searchHistory")?.value || "[]"
-  // );
-  // const isAuthed = cookieStore.get("identify")?.value;
-  // const favoriteData = await getFavorites(isAuthed);
+  const cookieStore = cookies();
+  const searchHistory: string[] = JSON.parse(
+    cookieStore.get("searchHistory")?.value || "[]"
+  );
+  const isAuthed = cookieStore.get("identify")?.value;
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
@@ -63,11 +61,7 @@ export default async function RootLayout({
         <div id="__next">
           <AuthProvider>
             <ReactProvider>
-              {/* <HeaderWrap
-                favorites={favoriteData.model.length}
-                isAuthed={isAuthed}
-                searchHistory={searchHistory}
-              /> */}
+              <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
               <DownloadAppMobile />
               <Provider>
                 <main id="main">{children}</main>

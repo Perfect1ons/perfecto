@@ -156,6 +156,10 @@
   background: var(--super-light-white);
   border-radius: 5px;
   padding: 7px 7px;
+
+  &:disabled {
+    opacity: 0.5;
+  }
 }
 .basketTilte {
   @include mixin.font(18px, 600, null, var(--dark));

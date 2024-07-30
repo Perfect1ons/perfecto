@@ -17,7 +17,7 @@ const InformationModal = ({
     if (visible) {
       const timer = setTimeout(() => {
         onClose();
-      }, 3000); 
+      }, 3000); // Закрыть модалку через 3 секунды
       return () => clearTimeout(timer);
     }
   }, [visible, children, onClose]);

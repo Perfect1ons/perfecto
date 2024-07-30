@@ -18,7 +18,7 @@ const CartReducerBtn = ({
   shouldFocusInput,
   onFocusHandled,
 }: ICartReducerBtnProps) => {
-  const [quantity, setQuantity] = useState<number>(data.minQty);
+  const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -98,7 +98,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity === 0 ? "" : data.kol}
+        value={quantity === 0 ? "" : quantity}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}

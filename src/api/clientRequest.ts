@@ -22,7 +22,6 @@ import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
-import { IFavoritesModel } from "@/types/Favorites/favorites";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -455,43 +454,4 @@ export const deleteBasketProductAll = async (
     console.error("Network error:", error);
     return false;
   }
-};
-
-export const postFavorites = async (
-  kol: number,
-  id_tov: number,
-  token: string
-): Promise<IFavoritesModel> => {
-  const formData = new FormData();
-  formData.append("kol", kol.toString());
-  formData.append("id_tov", id_tov.toString());
-
-  try {
-    const response: IFavoritesModel = await maxkgnocache
-      .post("izb", {
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .json();
-
-    return response;
-  } catch (error) {
-    console.error("Error posting basket product:", error);
-    throw error; // Дополнительно можно пробросить ошибку для дальнейшей обработки
-  }
-};
-
-export const removeFavorite = async (
-  id_tov: number,
-  token: string
-): Promise<any> => {
-  maxkgnocache
-    .post(`izb/del?id_tov=${id_tov}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .json();
 };

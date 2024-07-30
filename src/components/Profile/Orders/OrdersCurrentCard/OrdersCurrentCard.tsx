@@ -21,7 +21,9 @@ const OrdersCurrentCard = ({
   details,
   isAuthed,
 }: ICurrentOrdersProps) => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [visibleDetails, setVisibleDetails] = useState<{
+    [key: number]: boolean;
+  }>({});
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const formatDate = (dateString: string, key?: string) => {
@@ -80,27 +82,35 @@ const OrdersCurrentCard = ({
   }, []);
 
   const router = useRouter();
-  const visibleDetails = () => {
-    setIsVisible(!isVisible);
-  };
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsVisible(false);
-    }
+  const toggleDetails = (orderId: number) => {
+    setVisibleDetails((prevState) => {
+      const newState = { ...prevState, [orderId]: !prevState[orderId] };
+      return newState;
+    });
   };
   useEffect(() => {
-    if (isVisible) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setVisibleDetails((prevState) => {
+          if (Object.values(prevState).some((isVisible) => isVisible)) {
+            return {};
+          }
+          return prevState;
+        });
+      }
+    };
+
+    if (Object.values(visibleDetails).some((isVisible) => isVisible)) {
       document.addEventListener("click", handleClickOutside);
-    } else {
-      document.removeEventListener("click", handleClickOutside);
     }
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [isVisible]);
+  }, [visibleDetails]);
+
   const sortedOrders = [...currentOrders.items].sort(
     (a, b) => a.status - b.status
   );
@@ -144,7 +154,7 @@ const OrdersCurrentCard = ({
 
                 <p className={styles.status__date}>{currentDateTime}</p>
                 <span
-                  onClick={visibleDetails}
+                  onClick={() => toggleDetails(item.id)}
                   className={styles.myDostOder__link}
                 >
                   Детализация
@@ -152,7 +162,7 @@ const OrdersCurrentCard = ({
                 <div
                   ref={dropdownRef}
                   className={cn(styles.containerDetails, {
-                    [styles.containerDetailsVisible]: isVisible,
+                    [styles.containerDetailsVisible]: visibleDetails[item.id],
                   })}
                 >
                   <div className={styles.containerDetails__header}>
@@ -161,7 +171,7 @@ const OrdersCurrentCard = ({
                     </h4>
                     <span
                       className={styles.containerDetails__header__icon}
-                      onClick={visibleDetails}
+                      onClick={() => toggleDetails(item.id)}
                     >
                       <XMark />
                     </span>
