@@ -3,9 +3,10 @@ import React, { SetStateAction, useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
-import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
 import { Model } from "@/types/Basket/getBasketProduct";
+import InformationModal from "@/components/UI/InformationModal/InformationModal";
+import Link from "next/link";
 
 interface IBasketProductsProps {
   items: any;
@@ -29,7 +30,7 @@ const BasketProducts = ({
 }: IBasketProductsProps) => {
   // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [isRedirect, setIsRedirect] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
@@ -61,7 +62,7 @@ const BasketProducts = ({
   const handleFavoriteClick = (e: React.MouseEvent, cardData: ICard) => {
     e.stopPropagation();
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
+    let message: string | JSX.Element = "";
 
     const favoriteData = {
       id: cardData.id,
@@ -88,7 +89,14 @@ const BasketProducts = ({
       setIsRedirect(false);
     } else {
       favorites.push(favoriteData);
-      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
       setFavoriteItems((prev) => ({ ...prev, [cardData.id_tov]: true }));
       setIsRedirect(true);
     }
@@ -120,12 +128,9 @@ const BasketProducts = ({
 
   return (
     <div className={styles.cardsAllContainer}>
-      <FavoriteModal
-        isVisible={isModalVisible}
-        message={modalMessage}
-        isRedirect={isRedirect}
-        onClose={handleModalClose}
-      />
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
       {items.map((item: any) => {
         const imageUrl =
           item.photos.length > 0

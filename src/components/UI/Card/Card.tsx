@@ -148,7 +148,7 @@ const Card = ({
   const handleAddToCart = async () => {
     await addToCart();
     setShouldFocusInput(true);
-    showModal(
+    setModalMessage(
       <>
         Товар добавлен в корзину.{" "}
         <Link className="linkCart" href={"/cart"}>
@@ -156,6 +156,7 @@ const Card = ({
         </Link>
       </>
     );
+    setModalVisible(true);
   };
 
   const [isHomePage, setIsHomePage] = useState(false);
@@ -300,7 +301,7 @@ const Card = ({
                 onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                // id_cart={id_cart}
+                id_cart={id_cart}
               />
             </div>
           )}
