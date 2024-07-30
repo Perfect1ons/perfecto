@@ -32,7 +32,7 @@ const CartReducerBtn = ({
   price,
   setItems,
 }: ICartReducerBtnProps) => {
-  const { isAuthed, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,14 +49,7 @@ const CartReducerBtn = ({
   };
 
   const handleBlur = async () => {
-    if (quantity === 0) {
-      setQuantity(data.minQty);
-      await postBasketProduct(data.minQty, data.id_tov);
-    } else if (token) {
-      await patchBasketProductAuthed(token, data.id_box, quantity);
-    } else {
-      await postBasketProduct(quantity, data.id_tov);
-    }
+    setQuantity(data.minQty);
   };
 
   const addToCart = async (

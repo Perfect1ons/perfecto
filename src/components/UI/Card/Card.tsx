@@ -355,7 +355,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
                 onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                id_cart={id_cart}
+                // id_cart={id_cart}
               />
             </div>
           )}
