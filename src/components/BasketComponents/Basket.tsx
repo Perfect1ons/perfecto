@@ -67,7 +67,7 @@ const Basket = ({
   ) => {
     event.stopPropagation();
     event.preventDefault();
-
+    setItems((prevItems) => prevItems.filter((i) => i.id_tov !== item.id_tov));
     deleteBasketProduct(cartId, item.id_tov)
       .then(() => {
         setItems((prevItems) =>

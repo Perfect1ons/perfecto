@@ -17,7 +17,6 @@ interface ICartReducerBtnProps {
   onCartEmpty: () => void;
   shouldFocusInput: boolean;
   onFocusHandled: () => void;
-  id_cart?: string | null | undefined;
 }
 
 const CartReducerBtn = ({
@@ -25,9 +24,8 @@ const CartReducerBtn = ({
   onCartEmpty,
   shouldFocusInput,
   onFocusHandled,
-  id_cart,
 }: ICartReducerBtnProps) => {
-  const { isAuthed, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,14 +42,7 @@ const CartReducerBtn = ({
   };
 
   const handleBlur = async () => {
-    if (quantity === 0) {
-      setQuantity(data.minQty);
-      await postBasketProduct(data.minQty, data.id_tov);
-    } else if (token) {
-      await patchBasketProductAuthed(token, data.id_box, quantity);
-    } else {
-      await postBasketProduct(quantity, data.id_tov);
-    }
+    setQuantity(data.minQty);
   };
 
   const addToCart = async (
@@ -78,8 +69,7 @@ const CartReducerBtn = ({
       if (token) {
         await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
       } else {
-        id_cart !== undefined &&
-          (await deleteBasketProduct(id_cart, data.id_tov));
+        await deleteBasketProduct("162138", data.id_tov);
       }
       onCartEmpty();
     } else {
@@ -88,8 +78,7 @@ const CartReducerBtn = ({
       if (token) {
         await patchBasketProductAuthed(token, data.id_box, newQuantity);
       } else {
-        id_cart !== undefined &&
-          (await deleteBasketProduct(id_cart, data.id_tov));
+        await deleteBasketProduct("162138", data.id_tov);
       }
     }
   };
