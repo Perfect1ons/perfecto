@@ -5,8 +5,6 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
-import { Model } from "@/types/Basket/getBasketProduct";
-import { deleteBasketProduct } from "@/api/clientRequest";
 
 interface IBasketProductsProps {
   items: any;

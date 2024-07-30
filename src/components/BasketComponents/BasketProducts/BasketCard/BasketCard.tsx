@@ -1,3 +1,4 @@
+"use client";
 import cn from "clsx";
 import {
   CardFavoritesIcon,
@@ -10,6 +11,7 @@ import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface IBasketCardProps {
   item: any;

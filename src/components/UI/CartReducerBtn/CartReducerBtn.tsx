@@ -18,6 +18,7 @@ interface ICartReducerBtnProps {
   shouldFocusInput: boolean;
   onFocusHandled: () => void;
   id_cart?: string | null | undefined;
+  price?: string;
 }
 
 const CartReducerBtn = ({
@@ -26,6 +27,7 @@ const CartReducerBtn = ({
   shouldFocusInput,
   onFocusHandled,
   id_cart,
+  price,
 }: ICartReducerBtnProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
@@ -78,8 +80,7 @@ const CartReducerBtn = ({
       if (token) {
         await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
       } else {
-        id_cart !== undefined &&
-          (await deleteBasketProduct(id_cart, data.id_tov));
+        await deleteBasketProduct(id_cart, data.id_tov);
       }
       onCartEmpty();
     } else {
@@ -88,8 +89,7 @@ const CartReducerBtn = ({
       if (token) {
         await patchBasketProductAuthed(token, data.id_box, newQuantity);
       } else {
-        id_cart !== undefined &&
-          (await deleteBasketProduct(id_cart, data.id_tov));
+        await postBasketProduct(newQuantity, data.id_tov);
       }
     }
   };
