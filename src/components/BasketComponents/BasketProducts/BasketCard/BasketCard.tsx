@@ -23,6 +23,7 @@ interface IBasketCardProps {
   shouldFocusInput: boolean;
   setShouldFocusInput: () => void;
   selected: boolean;
+  id_cart: string | null | undefined;
 }
 
 const BasketCard = ({
@@ -37,6 +38,7 @@ const BasketCard = ({
   shouldFocusInput,
   setShouldFocusInput,
   selected,
+  id_cart,
 }: IBasketCardProps) => {
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
@@ -200,6 +202,7 @@ const BasketCard = ({
             onCartEmpty={handleCartEmpty}
             shouldFocusInput={shouldFocusInput}
             onFocusHandled={setShouldFocusInput}
+            id_cart={id_cart}
           />
         </div>
       </div>

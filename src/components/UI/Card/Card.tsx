@@ -25,9 +25,10 @@ interface IcardDataProps {
   cardData: ICard;
   loading?: boolean;
   removeFromFavorites?: (id_tov: number) => void;
+  id_cart?: string | null | undefined;
 }
 
-const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
+const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
@@ -344,7 +345,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
               </button>
             </div>
           )}
-          {!isHomePage && added && (
+          {!isHomePage && added && id_cart && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
@@ -354,6 +355,7 @@ const Card = ({ cardData, removeFromFavorites }: IcardDataProps) => {
                 onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
+                id_cart={id_cart}
               />
             </div>
           )}

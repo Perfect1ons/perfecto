@@ -31,9 +31,10 @@ import InformationModal from "@/components/UI/InformationModal/InformationModal"
 
 interface IPriceProps {
   data: ICardProductItems;
+  id_cart?: string | null | undefined;
 }
 
-const ItemPriceCard = ({ data }: IPriceProps) => {
+const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const dispatch = useDispatch();
   const { isAuthed, token } = useContext(AuthContext);
 
@@ -45,6 +46,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
 
   const addToCart = () => {
     postBasketProduct(data.items.minQty, data.items.id_tov);
+    setAdded(true);
   };
 
   // копирования ссылки
@@ -290,7 +292,7 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
             <span className={styles.ItemPriceCard__minQty_none}></span>
           )}
           <div className={styles.ItemPriceCard__buttons}>
-            {!product?.quantity && (
+            {!added && (
               <button
                 title="Добавить в корзину"
                 aria-label="add to cart"
@@ -303,12 +305,13 @@ const ItemPriceCard = ({ data }: IPriceProps) => {
                 В корзину
               </button>
             )}
-            {product?.quantity && (
+            {added && (
               <CartReducerBtn
                 data={data.items}
                 onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
+                id_cart={id_cart}
               />
             )}
             {data.items?.cenaok < 1000 ? null : (

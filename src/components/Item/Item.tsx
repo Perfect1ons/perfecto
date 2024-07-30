@@ -29,6 +29,7 @@ interface IItemPageProps {
   similar?: ISimilarItem[];
   breadCrumbs?: BreadCrumbs[];
   authToken: string | undefined;
+  id_cart?: string | null | undefined;
 }
 
 const ItemPage = ({
@@ -36,6 +37,7 @@ const ItemPage = ({
   similar,
   breadCrumbs,
   authToken,
+  id_cart,
 }: IItemPageProps) => {
   const [isOpenReview, setIsOpenReview] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -168,7 +170,7 @@ const ItemPage = ({
                 </div>
               )}
               <div className={styles.priceCard_mobile}>
-                <ItemPriceCard data={data} />
+                <ItemPriceCard data={data} id_cart={id_cart} />
               </div>
 
               <h1 className={styles.item__preview_info_title}>
@@ -252,7 +254,7 @@ const ItemPage = ({
           visible={itemModalDescription}
         />
       )}
-      {similar && <SimilarProducts similar={similar} />}
+      {similar && <SimilarProducts similar={similar} id_cart={id_cart} />}
     </section>
   );
 };

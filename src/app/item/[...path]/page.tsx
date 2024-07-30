@@ -18,6 +18,10 @@ export default async function item({ params: { path } }: Params) {
   const data = await getCardProduct(path[0]);
   const cookieStore = cookies();
   const authToken = cookieStore.get("identify")?.value;
+  const cart = cookieStore.get("cart")?.value;
+  const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
+  const cartId = match && match[1];
+
   try {
     const breadCrumbs = await getBreadCrumbs(data.items.id_cat);
     const similarData = await getSimilarProduct(path[0]);
@@ -30,6 +34,7 @@ export default async function item({ params: { path } }: Params) {
           data={data}
           similar={similarData}
           breadCrumbs={breadCrumbs}
+          id_cart={cartId}
         />
       </>
     );

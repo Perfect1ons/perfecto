@@ -9,7 +9,7 @@ import { Model } from "@/types/Basket/getBasketProduct";
 import { deleteBasketProduct } from "@/api/clientRequest";
 
 interface IBasketProductsProps {
-  items: Model[];
+  items: any;
   cartId: string | null | undefined;
   selected: number[];
   setSelected: React.Dispatch<SetStateAction<number[]>>;
@@ -125,7 +125,7 @@ const BasketProducts = ({
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      {items.map((item) => {
+      {items.map((item: any) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")
@@ -153,6 +153,7 @@ const BasketProducts = ({
             shouldFocusInput={shouldFocusInput}
             setShouldFocusInput={() => setShouldFocusInput(false)}
             selected={selected.includes(item.id_tov)}
+            id_cart={cartId}
           />
         );
       })}

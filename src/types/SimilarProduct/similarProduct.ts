@@ -84,6 +84,7 @@ export interface ISimilarItem {
   ddos: string;
   photos: Photo[];
   ocenka: number;
+  id_box: number;
 }
 
 export interface Photo {
