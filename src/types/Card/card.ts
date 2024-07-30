@@ -83,6 +83,7 @@ export interface ICard {
   photos: Photo[];
   ocenka: number;
   timer?: number;
+  id_box: number;
 }
 
 export interface Photo {

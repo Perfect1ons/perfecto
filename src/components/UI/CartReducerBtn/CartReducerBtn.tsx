@@ -38,10 +38,17 @@ const CartReducerBtn = ({
 
     if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
       setQuantity(parsedValue);
-      await postBasketProduct(parsedValue, data.id_tov);
+      if (token) {
+        await patchBasketProductAuthed(token, data.id_box, quantity);
+      } else {
+        await postBasketProduct(parsedValue, data.id_tov);
+      }
     } else {
-      setQuantity(0);
-      await postBasketProduct(0, data.id_tov);
+      if (token) {
+        await patchBasketProductAuthed(token, data.id_box, quantity);
+      } else {
+        await postBasketProduct(0, data.id_tov);
+      }
     }
   };
 
@@ -59,7 +66,11 @@ const CartReducerBtn = ({
     event.preventDefault();
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    await postBasketProduct(newQuantity, data.id_tov);
+    if (token) {
+      await patchBasketProductAuthed(token, data.id_box, quantity);
+    } else {
+      await postBasketProduct(newQuantity, data.id_tov);
+    }
   };
 
   const removeFromCart = async (
@@ -70,7 +81,7 @@ const CartReducerBtn = ({
     if (quantity <= data.minQty) {
       setQuantity(0);
       if (token) {
-        await deleteBasketProductAuthed(token, data.id, data.id_tov);
+        await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
       } else {
         await deleteBasketProduct("162138", data.id_tov);
       }
@@ -79,7 +90,7 @@ const CartReducerBtn = ({
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
       if (token) {
-        await patchBasketProductAuthed(token, data.id, quantity);
+        await patchBasketProductAuthed(token, data.id_box, quantity);
       } else {
         await deleteBasketProduct("162138", data.id_tov);
       }
