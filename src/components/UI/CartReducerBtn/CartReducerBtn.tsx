@@ -30,25 +30,14 @@ const CartReducerBtn = ({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
     const value = e.target.value;
     const parsedValue = value ? parseInt(value) : 0;
 
-    if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
+    if (!isNaN(parsedValue)) {
       setQuantity(parsedValue);
-      if (token) {
-        await patchBasketProductAuthed(token, data.id_box, quantity);
-      } else {
-        await postBasketProduct(parsedValue, data.id_tov);
-      }
-    } else {
-      if (token) {
-        await patchBasketProductAuthed(token, data.id_box, quantity);
-      } else {
-        await postBasketProduct(0, data.id_tov);
-      }
     }
   };
 
@@ -56,6 +45,10 @@ const CartReducerBtn = ({
     if (quantity === 0) {
       setQuantity(data.minQty);
       await postBasketProduct(data.minQty, data.id_tov);
+    } else if (token) {
+      await patchBasketProductAuthed(token, data.id_box, quantity);
+    } else {
+      await postBasketProduct(quantity, data.id_tov);
     }
   };
 
@@ -67,7 +60,7 @@ const CartReducerBtn = ({
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
     if (token) {
-      await patchBasketProductAuthed(token, data.id_box, quantity);
+      await patchBasketProductAuthed(token, data.id_box, newQuantity);
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
     }
@@ -90,7 +83,7 @@ const CartReducerBtn = ({
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
       if (token) {
-        await patchBasketProductAuthed(token, data.id_box, quantity);
+        await patchBasketProductAuthed(token, data.id_box, newQuantity);
       } else {
         await deleteBasketProduct("162138", data.id_tov);
       }
