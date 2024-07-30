@@ -12,6 +12,7 @@ import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketCardProps {
   item: any;
@@ -26,6 +27,7 @@ interface IBasketCardProps {
   setShouldFocusInput: () => void;
   selected: boolean;
   id_cart: string | null | undefined;
+  setItems: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const BasketCard = ({
@@ -41,6 +43,7 @@ const BasketCard = ({
   setShouldFocusInput,
   selected,
   id_cart,
+  setItems,
 }: IBasketCardProps) => {
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
@@ -205,6 +208,7 @@ const BasketCard = ({
             shouldFocusInput={shouldFocusInput}
             onFocusHandled={setShouldFocusInput}
             id_cart={id_cart}
+            setItems={setItems}
           />
         </div>
       </div>

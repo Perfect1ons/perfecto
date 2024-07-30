@@ -188,7 +188,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   };
 
   const addToCart = async () => {
-    if (isAuthed) {
+    if (token) {
       await postBasketProductAuthed(
         token,
         `${cardData.minQty}`,

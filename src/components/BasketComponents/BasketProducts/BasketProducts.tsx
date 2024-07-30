@@ -5,6 +5,7 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import BasketCard from "./BasketCard/BasketCard";
+import { Model } from "@/types/Basket/getBasketProduct";
 
 interface IBasketProductsProps {
   items: any;
@@ -15,6 +16,7 @@ interface IBasketProductsProps {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
   ) => void;
+  setItems: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const BasketProducts = ({
@@ -23,6 +25,7 @@ const BasketProducts = ({
   selected,
   setSelected,
   deleteItem,
+  setItems,
 }: IBasketProductsProps) => {
   // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
@@ -152,6 +155,7 @@ const BasketProducts = ({
             setShouldFocusInput={() => setShouldFocusInput(false)}
             selected={selected.includes(item.id_tov)}
             id_cart={cartId}
+            setItems={setItems}
           />
         );
       })}

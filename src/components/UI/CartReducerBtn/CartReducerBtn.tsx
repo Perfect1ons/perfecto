@@ -11,6 +11,7 @@ import {
   postBasketProduct,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
+import { Model } from "@/types/Basket/getBasketProduct";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -19,6 +20,7 @@ interface ICartReducerBtnProps {
   onFocusHandled: () => void;
   id_cart?: string | null | undefined;
   price?: string;
+  setItems?: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const CartReducerBtn = ({
@@ -28,6 +30,7 @@ const CartReducerBtn = ({
   onFocusHandled,
   id_cart,
   price,
+  setItems,
 }: ICartReducerBtnProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
@@ -78,9 +81,29 @@ const CartReducerBtn = ({
     if (quantity <= data.minQty) {
       setQuantity(0);
       if (token) {
-        await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
+        if (setItems) {
+          await deleteBasketProductAuthed(token, data.id_box, data.id_tov)
+            .then(() => {
+              setItems((prevItems) =>
+                prevItems.filter((i) => i.id_tov !== data.id_tov)
+              );
+            })
+            .catch((error) => {
+              console.error("Failed to remove item from cart:", error);
+            });
+        }
       } else {
-        await deleteBasketProduct(id_cart, data.id_tov);
+        if (setItems) {
+          await deleteBasketProduct(id_cart, data.id_tov)
+            .then(() => {
+              setItems((prevItems) =>
+                prevItems.filter((i) => i.id_tov !== data.id_tov)
+              );
+            })
+            .catch((error) => {
+              console.error("Failed to remove item from cart:", error);
+            });
+        }
       }
       onCartEmpty();
     } else {

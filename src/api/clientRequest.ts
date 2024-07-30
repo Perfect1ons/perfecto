@@ -20,7 +20,6 @@ import { IPopularGood } from "@/types/popularGoods";
 //! Импорт библиотеки
 import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
-import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 
 //! Используем библиотеку ky для fetch запросов

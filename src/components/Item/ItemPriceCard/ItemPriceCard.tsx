@@ -24,7 +24,10 @@ import clsx from "clsx";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
-import { postBasketProduct } from "@/api/clientRequest";
+import {
+  postBasketProduct,
+  postBasketProductAuthed,
+} from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
@@ -45,7 +48,15 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const product = cart.find((item) => item.id === data.items.id);
 
   const addToCart = () => {
-    postBasketProduct(data.items.minQty, data.items.id_tov);
+    if (token) {
+      postBasketProductAuthed(
+        token,
+        `${data.items.minQty}`,
+        `${data.items.id_tov}`
+      );
+    } else {
+      postBasketProduct(data.items.minQty, data.items.id_tov);
+    }
     setAdded(true);
   };
 

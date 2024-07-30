@@ -12,6 +12,7 @@ import ReactPaginate from "react-paginate";
 import {
   deleteBasketProduct,
   deleteBasketProductAll,
+  deleteBasketProductAuthed,
 } from "@/api/clientRequest";
 
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
@@ -68,15 +69,27 @@ const Basket = ({
     event.stopPropagation();
     event.preventDefault();
 
-    deleteBasketProduct(cartId, item.id_tov)
-      .then(() => {
-        setItems((prevItems) =>
-          prevItems.filter((i) => i.id_tov !== item.id_tov)
-        );
-      })
-      .catch((error) => {
-        console.error("Failed to remove item from cart:", error);
-      });
+    if (authToken) {
+      deleteBasketProductAuthed(authToken, item.id_box, item.id_tov)
+        .then(() => {
+          setItems((prevItems) =>
+            prevItems.filter((i) => i.id_tov !== item.id_tov)
+          );
+        })
+        .catch((error) => {
+          console.error("Failed to remove item from cart:", error);
+        });
+    } else {
+      deleteBasketProduct(cartId, item.id_tov)
+        .then(() => {
+          setItems((prevItems) =>
+            prevItems.filter((i) => i.id_tov !== item.id_tov)
+          );
+        })
+        .catch((error) => {
+          console.error("Failed to remove item from cart:", error);
+        });
+    }
   };
 
   const handleSelectAllToggle = () => {
@@ -238,6 +251,7 @@ const Basket = ({
               selected={selected}
               setSelected={setSelected}
               deleteItem={removeFromCart}
+              setItems={setItems}
             />
             <BasketOrder
               deliveryCity={deliveryCity}
