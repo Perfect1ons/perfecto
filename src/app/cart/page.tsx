@@ -18,16 +18,19 @@ export default async function Page() {
   const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
   const cartId = match && match[1];
 
-  const cartProducts = await getProductBasket(1, cartId);
+  let cartData: any;
+
+  if (!authToken) {
+    cartData = (await getProductBasket(1, cartId)).model;
+  }
+
+  if (authToken) {
+    cartData = await getBasketAuthed(authToken, 1);
+  }
 
   const paymentMethod = await getPaymentMethod(userId);
   const deliveryMehod = await getDeliveryMethod(userId);
   const deliveryCity = await getSelectCity();
-
-  if (authToken) {
-    const cartAuth = await getBasketAuthed(authToken, 1);
-    console.log(cartAuth);
-  }
 
   return (
     <Basket
@@ -35,7 +38,7 @@ export default async function Page() {
       paymentMethod={paymentMethod}
       deliveryMethod={deliveryMehod}
       authToken={authToken}
-      cart={cartProducts}
+      cart={cartData}
       cartId={cartId}
     />
   );

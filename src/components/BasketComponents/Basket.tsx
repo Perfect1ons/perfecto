@@ -9,23 +9,23 @@ import { TrashIcon, XMark } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import ReactPaginate from "react-paginate";
-import { PaymentMethod } from "@/types/Basket/PaymentMethod";
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { SelectCityType } from "@/types/Basket/SelectCity";
-import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import {
   deleteBasketProduct,
   deleteBasketProductAll,
 } from "@/api/clientRequest";
+
+import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { SelectCityType } from "@/types/Basket/SelectCity";
+import { Model } from "@/types/Basket/getBasketProduct";
 import { ICard } from "@/types/Card/card";
-import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
   deliveryCity: SelectCityType;
-  cart: getBasketProductsType;
+  cart: any;
   cartId: string | null | undefined;
 }
 
@@ -39,15 +39,23 @@ const Basket = ({
 }: IBasketProps) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [items, setItems] = useState(cart.model);
+  const [items, setItems] = useState<Model[]>([]);
   const [allItemsSelected, setAllItemsSelected] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 20; // Показывать по 20 товаров на странице
+  const itemsPerPage = 20; // Show 20 items per page
 
   const isMobile = useMediaQuery("(max-width: 480px)");
 
   const [selected, setSelected] = useState<number[]>([]);
+
+  useEffect(() => {
+    if ("model" in cart) {
+      setItems(cart.model);
+    } else {
+      setItems(cart);
+    }
+  }, [cart]);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -73,13 +81,14 @@ const Basket = ({
 
   const handleSelectAllToggle = () => {
     if (!selectAll) {
-      const allIds = cart.model.map((product) => product.id_tov);
+      const allIds = items.map((product) => product.id_tov);
       setSelected(allIds);
     } else {
       setSelected([]);
     }
     setSelectAll(!selectAll);
   };
+
   const handleClearCart = () => {
     deleteBasketProductAll(cartId, selected)
       .then(() => {
@@ -94,22 +103,21 @@ const Basket = ({
         console.error("Failed to clear cart:", error);
       });
   };
+
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
       window.innerWidth - document.documentElement.clientWidth;
 
     if (isModalVisible) {
-      // Устанавливаем стили, чтобы скрыть прокрутку и фиксировать позицию
       body.style.paddingRight = `${scrollBarWidth}px`;
       body.style.overflow = "hidden";
-      body.style.top = `-${window.scrollY}px`; // Запоминаем текущую позицию скролла
+      body.style.top = `-${window.scrollY}px`; // Remember the current scroll position
     } else {
-      // Восстанавливаем нормальные стили для прокрутки
       const scrollY = body.style.top;
       body.style.paddingRight = "";
       body.style.overflow = "auto";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1); // Возвращаемся на прежнюю позицию скролла
+      window.scrollTo(0, parseInt(scrollY || "0") * -1); // Return to the previous scroll position
       body.style.top = "";
     }
   }, [isModalVisible]);
@@ -126,7 +134,8 @@ const Basket = ({
   };
 
   // Calculate total pages based on cart length and itemsPerPage
-  const pageCount = Math.ceil(cart.count / itemsPerPage);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
   return (
     <div className="container">
       <>

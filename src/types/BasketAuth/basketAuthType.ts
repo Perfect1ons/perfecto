@@ -1,4 +1,4 @@
-export type Root = BasketAuth[];
+export type Basket = BasketAuth[];
 
 export interface BasketAuth {
   id: number;

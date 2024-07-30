@@ -1,9 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import useMediaQuery from "@/hooks/useMediaQuery";
-import { deleteBasketProduct, postBasketProduct } from "@/api/clientRequest";
+import {
+  deleteBasketProduct,
+  deleteBasketProductAuthed,
+  patchBasketProductAuthed,
+  postBasketProduct,
+} from "@/api/clientRequest";
+import { AuthContext } from "@/context/AuthContext";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -18,6 +25,7 @@ const CartReducerBtn = ({
   shouldFocusInput,
   onFocusHandled,
 }: ICartReducerBtnProps) => {
+  const { isAuthed, token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -61,12 +69,20 @@ const CartReducerBtn = ({
     event.preventDefault();
     if (quantity <= data.minQty) {
       setQuantity(0);
-      await deleteBasketProduct("162138", data.id_tov);
+      if (token) {
+        await deleteBasketProductAuthed(token, data.id, data.id_tov);
+      } else {
+        await deleteBasketProduct("162138", data.id_tov);
+      }
       onCartEmpty();
     } else {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      await deleteBasketProduct("162138", data.id_tov);
+      if (token) {
+        await patchBasketProductAuthed(token, data.id, quantity);
+      } else {
+        await deleteBasketProduct("162138", data.id_tov);
+      }
     }
   };
 
