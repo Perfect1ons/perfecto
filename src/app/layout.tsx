@@ -50,12 +50,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const searchHistory: string[] = JSON.parse(
-    cookieStore.get("searchHistory")?.value || "[]"
-  );
-  const isAuthed = cookieStore.get("identify")?.value;
-  const favoriteData = await getFavorites(isAuthed);
+  // const cookieStore = cookies();
+  // const searchHistory: string[] = JSON.parse(
+    // cookieStore.get("searchHistory")?.value || "[]"
+  // );
+  // const isAuthed = cookieStore.get("identify")?.value;
+  // const favoriteData = await getFavorites(isAuthed);
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
@@ -63,11 +63,11 @@ export default async function RootLayout({
         <div id="__next">
           <AuthProvider>
             <ReactProvider>
-              <HeaderWrap
+              {/* <HeaderWrap
                 favorites={favoriteData.model.length}
                 isAuthed={isAuthed}
                 searchHistory={searchHistory}
-              />
+              /> */}
               <DownloadAppMobile />
               <Provider>
                 <main id="main">{children}</main>

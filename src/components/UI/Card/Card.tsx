@@ -109,11 +109,9 @@ const Card = ({
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
+    } else {
+      postFavorites(1, cardData.id_tov, token);
     }
-
-    postFavorites(1, cardData.id_tov, token);
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
 
     showModal(message);
   };

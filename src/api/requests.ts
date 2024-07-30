@@ -369,3 +369,12 @@ export const getFavorites = (token: string | undefined): Promise<IFavorites> => 
     })
     .json();
 };
+
+
+export const getResents = (): Promise<any[]> => {
+  return maxkg.get("naltovarok/getresent").json();
+}
+
+export const postResents = (): Promise<any[]> => {
+  return maxkg.post("naltovarok/getresent").json();
+};

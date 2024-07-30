@@ -24,6 +24,6 @@ export default async function Favorites() {
   }
 
   return (
-    <h1>Авторизуйся </h1>
+    <h1>Авторизуйся  как ты попал сюда мой мидл ваер тебя пропустил </h1>
   )
 }

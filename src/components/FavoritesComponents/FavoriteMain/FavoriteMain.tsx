@@ -10,11 +10,10 @@ import { IFavoritesModel } from "@/types/Favorites/favorites";
 import FavoritesIsEmpty from "./FavoritesIsEmpty";
 import Card from "@/components/UI/Card/Card";
 import { AuthContext } from "@/context/AuthContext";
-import { postFavorites, removeFavorite } from "@/api/clientRequest";
+import { removeFavorite } from "@/api/clientRequest";
 const FavoritesPagination = dynamic(
   () => import("../FavoritesPagination/FavoritesPagination")
 );
-
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
 }
@@ -24,11 +23,9 @@ export default function FavoriteMain({ favoriteData }: IFavoritesProps) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 100; // Показывать по 100 товаров на странице
+  const itemsPerPage = 100; 
   const { token } = useContext(AuthContext);
-
   const isMobile = useMediaQuery("(max-width: 480px)");
-
   const offset = currentPage * itemsPerPage;
   const currentItems: any[] = favorites.slice(offset, offset + itemsPerPage);
 
@@ -42,7 +39,6 @@ export default function FavoriteMain({ favoriteData }: IFavoritesProps) {
     removeFavorite(id_tov, token);
     const updatedFavorites = favorites.filter((fav) => fav.id_tov !== id_tov);
     setFavorites(updatedFavorites);
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
     setModalMessage("Товар удален из избранного.");
     setModalVisible(true);
     window.dispatchEvent(new Event("favoritesUpdated"));
