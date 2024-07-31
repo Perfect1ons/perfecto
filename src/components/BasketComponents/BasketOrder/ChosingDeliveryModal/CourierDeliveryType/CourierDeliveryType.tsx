@@ -12,7 +12,7 @@ import { getSelectRegion } from "@/api/clientRequest";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 
 interface ICourierDeliveryTypeProps {
-  variableBuyer: { payment: string; delivery: string };
+  variableBuyer: { payment: string | number; delivery: string | number };
   variants: DeliveryMethod;
   selectDelivery: (value: string) => void;
   deliveryCity: SelectCityType;
@@ -223,25 +223,25 @@ const CourierDeliveryType = ({
       {Object.entries(variants).map(([key, variant]) => (
         <div key={key}>
           <button
-            onClick={() => selectDelivery(variant.name)}
+            onClick={() => selectDelivery(variant.id)}
             aria-label="choose delivery point"
             className={cn(
               styles.wrap_courier_point,
-              variableBuyer.delivery === variant.name &&
+              variableBuyer.delivery === variant.id &&
                 styles.wrap_courier_point_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_courier_point_radio,
-                variableBuyer.delivery === variant.name &&
+                variableBuyer.delivery === variant.id &&
                   styles.wrap_courier_point_radio_active
               )}
             >
               <span
                 className={cn(
                   styles.wrap_courier_point_radio_dot,
-                  variableBuyer.delivery === variant.name &&
+                  variableBuyer.delivery === variant.id &&
                     styles.wrap_courier_point_radio_dot_active
                 )}
               ></span>
@@ -251,7 +251,7 @@ const CourierDeliveryType = ({
           <div
             className={cn(
               styles.wrap_courier_desc,
-              variableBuyer.delivery === variant.name &&
+              variableBuyer.delivery === variant.id &&
                 styles.wrap_courier_desc_active
             )}
           >

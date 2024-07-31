@@ -17,16 +17,16 @@ import AuthModal from "@/components/AuthModal/AuthModal";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
+import { postBoxOrder } from "@/api/clientRequest";
 
 export interface Buyer {
   tel: string;
-  vid_dost: string;
-  id_vopl: string;
+  vid_dost: number | string;
+  id_vopl: number | string;
   fio: string;
   name: string;
   org?: string;
   org_inn?: string;
-  id_bank?: number | null;
   id_city?: number | null;
   id_city2?: number | null;
   directory?: string;
@@ -69,7 +69,10 @@ const BasketOrder = ({
     setRegVisible(false);
   };
 
-  const [variableBuyer, setVariableBuyer] = useState({
+  const [variableBuyer, setVariableBuyer] = useState<{
+    payment: string | number;
+    delivery: string | number;
+  }>({
     payment: "",
     delivery: "",
   });
@@ -83,13 +86,10 @@ const BasketOrder = ({
     name: "",
     org: "",
     org_inn: "",
-    id_bank: null,
     id_city: null,
     id_city2: null,
     directory: "",
   });
-
-  console.log(buyer);
 
   const [paymentWarning, setPaymentWarning] = useState("");
   const [deliveryWarning, setDeliveryWarning] = useState("");
@@ -165,7 +165,7 @@ const BasketOrder = ({
     }));
   };
 
-  const selectDelivery = (value: string) => {
+  const selectDelivery = (value: string | number) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
       delivery: value,
@@ -176,7 +176,7 @@ const BasketOrder = ({
     if (variableBuyer.payment) {
       setBuyer((prevBuyer) => ({
         ...prevBuyer,
-        payment: variableBuyer.payment,
+        id_vopl: variableBuyer.payment,
       }));
       activeModalToggle("");
       setPaymentWarning("");
@@ -187,7 +187,7 @@ const BasketOrder = ({
     if (variableBuyer.delivery) {
       setBuyer((prevBuyer) => ({
         ...prevBuyer,
-        delivery: variableBuyer.delivery,
+        vid_dost: variableBuyer.delivery,
       }));
       activeModalToggle("");
       setDeliveryWarning("");
@@ -275,7 +275,14 @@ const BasketOrder = ({
       if (!authToken) {
         setRegVisible(true);
       } else {
-        //order logic here
+        postBoxOrder(
+          authToken,
+          buyer.tel.replace(/\D/g, ""),
+          buyer.vid_dost,
+          buyer.id_vopl,
+          buyer.fio,
+          buyer.name
+        );
       }
     }
   };
@@ -366,9 +373,7 @@ const BasketOrder = ({
         >
           <DeliveryIcon />
           <p className={styles.wrap_delivery_title}>
-            {buyer.vid_dost.length === 0
-              ? "Выберите способ доставки"
-              : buyer.vid_dost}
+            {!buyer.vid_dost ? "Выберите способ доставки" : buyer.vid_dost}
           </p>
           <span
             className={cn(
@@ -396,9 +401,7 @@ const BasketOrder = ({
             alt="pay icon"
           />
           <p className={styles.wrap_payment_title}>
-            {buyer.id_vopl.length === 0
-              ? "Выберите способ оплаты"
-              : buyer.id_vopl}
+            {!buyer.id_vopl ? "Выберите способ оплаты" : buyer.id_vopl}
           </p>
           <span
             className={cn(
