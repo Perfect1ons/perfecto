@@ -53,7 +53,8 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const addToFavorite = () => setAuthVisible(false);
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("cart") || "[]");
+    // const cartCount = Object.keys(cartItems).length;
 
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
@@ -64,7 +65,8 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
           return { ...link, count: notif };
         }
         if (link.href === "/cart") {
-          return { ...link, count: baskets.length };
+          // return { ...link, count: cartItems.length };
+          return { ...link, count: cartCount.length };
         }
         return link;
       })
@@ -85,7 +87,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notif, cart, authStatus]);
+  }, [notif, authStatus]);
 
   return (
     <nav className={styles.nav}>
