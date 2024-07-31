@@ -41,7 +41,7 @@ const ChosingPaymentModal = ({
           Object.entries(variants).map(([key, variant]) => (
             <div key={key}>
               <button
-                onClick={() => selectPayment(variant.name)}
+                onClick={() => selectPayment(variant)}
                 aria-label="choose payment method"
                 className={cn(
                   styles.wrap_payment_point,

@@ -15,15 +15,21 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { SelectCityType } from "@/types/Basket/SelectCity";
-import UserGeoModal from "@/components/UI/UserGeoModal/UserGeoModal";
 import { Model } from "@/types/Basket/getBasketProduct";
+import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 
 export interface Buyer {
-  phone: string;
-  surname: string;
+  tel: string;
+  vid_dost: string;
+  id_vopl: string;
+  fio: string;
   name: string;
-  payment: string;
-  delivery: string;
+  org?: string;
+  org_inn?: string;
+  id_bank?: number | null;
+  id_city?: number | null;
+  id_city2?: number | null;
+  directory?: string;
 }
 
 interface Country {
@@ -70,12 +76,20 @@ const BasketOrder = ({
 
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
-    phone: `${codesCountry.kg.code}`,
-    surname: "",
+    tel: `${codesCountry.kg.code}`,
+    vid_dost: variableBuyer.delivery,
+    id_vopl: variableBuyer.payment,
+    fio: "",
     name: "",
-    payment: variableBuyer.payment,
-    delivery: variableBuyer.delivery,
+    org: "",
+    org_inn: "",
+    id_bank: null,
+    id_city: null,
+    id_city2: null,
+    directory: "",
   });
+
+  console.log(buyer);
 
   const [paymentWarning, setPaymentWarning] = useState("");
   const [deliveryWarning, setDeliveryWarning] = useState("");
@@ -129,12 +143,12 @@ const BasketOrder = ({
 
   const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
 
-  const visibleHandler = useCallback((current: string) => {
+  const visibleHandler = (current: string) => {
     setVisible((prevVisible) => (prevVisible !== current ? current : ""));
-  }, []);
-  const ndsHandler = useCallback(() => {
+  };
+  const ndsHandler = () => {
     setNds((prevNds) => !prevNds);
-  }, []);
+  };
 
   const handleBuyerChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -197,7 +211,7 @@ const BasketOrder = ({
     let isValid = true;
 
     // Delivery validation
-    if (!buyer.delivery) {
+    if (!buyer.vid_dost) {
       setDeliveryWarning("Пожалуйста выберите способ доставки");
       isValid = false;
     } else {
@@ -205,7 +219,7 @@ const BasketOrder = ({
     }
 
     // Payment validation
-    if (!buyer.payment) {
+    if (!buyer.id_vopl) {
       setPaymentWarning("Пожалуйста выберите способ оплаты");
       isValid = false;
     } else {
@@ -213,7 +227,7 @@ const BasketOrder = ({
     }
 
     // Phone number validation
-    const numericPhoneNumber = buyer.phone.replace(/\D/g, "");
+    const numericPhoneNumber = buyer.tel.replace(/\D/g, "");
     let expectedLength = 0;
     switch (currentCodeCountry.code) {
       case 996:
@@ -238,7 +252,7 @@ const BasketOrder = ({
     }
 
     // Surname validation
-    if (!buyer.surname) {
+    if (!buyer.fio) {
       setSurnameWarning("Пожалуйста укажите вашу фамилию");
       isValid = false;
     } else {
@@ -307,8 +321,8 @@ const BasketOrder = ({
       )}
       {activeModal === "delivery" && (
         <>
-          <UserGeoModal visible={true} close={activeModalToggle} />
-          {/* <ChosingDeliveryModal
+          {/* <UserGeoModal visible={true} close={activeModalToggle} /> */}
+          <ChosingDeliveryModal
             authToken={authToken}
             deliveryCity={deliveryCity}
             variableBuyer={variableBuyer}
@@ -318,7 +332,7 @@ const BasketOrder = ({
             selectDelivery={selectDelivery}
             saveDelivery={saveDelivery}
             warning={deliveryWarning}
-          /> */}
+          />
           <div
             onClick={() => activeModalToggle("")}
             className={styles.backdrop}
@@ -347,22 +361,22 @@ const BasketOrder = ({
           onClick={() => activeModalToggle("delivery")}
           className={cn(
             styles.wrap_delivery,
-            buyer.delivery && styles.wrap_delivery_success
+            buyer.vid_dost && styles.wrap_delivery_success
           )}
         >
           <DeliveryIcon />
           <p className={styles.wrap_delivery_title}>
-            {buyer.delivery.length === 0
+            {buyer.vid_dost.length === 0
               ? "Выберите способ доставки"
-              : buyer.delivery}
+              : buyer.vid_dost}
           </p>
           <span
             className={cn(
               styles.wrap_delivery_expoint,
-              buyer.delivery && styles.wrap_delivery_approve
+              buyer.vid_dost && styles.wrap_delivery_approve
             )}
           >
-            {buyer.delivery ? <ApproveIcon /> : <ExPoint />}
+            {buyer.vid_dost ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
         {deliveryWarning && (
@@ -372,7 +386,7 @@ const BasketOrder = ({
           onClick={() => activeModalToggle("payment")}
           className={cn(
             styles.wrap_payment,
-            buyer.payment && styles.wrap_payment_success
+            buyer.id_vopl && styles.wrap_payment_success
           )}
         >
           <Image
@@ -382,17 +396,17 @@ const BasketOrder = ({
             alt="pay icon"
           />
           <p className={styles.wrap_payment_title}>
-            {buyer.payment.length === 0
+            {buyer.id_vopl.length === 0
               ? "Выберите способ оплаты"
-              : buyer.payment}
+              : buyer.id_vopl}
           </p>
           <span
             className={cn(
               styles.wrap_payment_expoint,
-              buyer.payment && styles.wrap_payment_approve
+              buyer.id_vopl && styles.wrap_payment_approve
             )}
           >
-            {buyer.payment ? <ApproveIcon /> : <ExPoint />}
+            {buyer.id_vopl ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
         {paymentWarning && (
@@ -403,7 +417,7 @@ const BasketOrder = ({
             <div className={styles.wrap_phone_control}>
               <InputMask
                 mask={mask}
-                value={buyer.phone}
+                value={buyer.tel}
                 onChange={handleBuyerChange}
                 className={styles.auth__input}
               >
@@ -411,7 +425,7 @@ const BasketOrder = ({
                   <input
                     autoComplete="off"
                     {...inputProps}
-                    name="phone"
+                    name="tel"
                     placeholder="Телефон ( Обязательно )"
                     type="text"
                     required
@@ -455,8 +469,8 @@ const BasketOrder = ({
             <div className="mail__label">
               <input
                 className="mail__inputField"
-                value={buyer.surname}
-                name="surname"
+                value={buyer.fio}
+                name="fio"
                 type="text"
                 onChange={handleBuyerChange}
                 required
@@ -509,13 +523,25 @@ const BasketOrder = ({
           >
             <div className="allContainerInput">
               <div className="mail__label">
-                <input className="mail__inputField" required type="text" />
+                <input
+                  value={buyer.org}
+                  name="org"
+                  className="mail__inputField"
+                  required
+                  type="text"
+                />
                 <label className="mail__inputLabel">
                   Название организации:
                 </label>
               </div>
               <div className="mail__label">
-                <input className="mail__inputField" required type="text" />
+                <input
+                  value={buyer.org_inn}
+                  name="org_inn"
+                  className="mail__inputField"
+                  required
+                  type="text"
+                />
                 <label className="mail__inputLabel">ИНН:</label>
               </div>
             </div>
