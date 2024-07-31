@@ -297,12 +297,6 @@ const BasketOrder = ({
 
   const activeModalToggle = (value: string) => {
     setActiveModal(value);
-    // if (authToken) {
-    //   setActiveModal(value);
-    // } else {
-    //   setActiveModal("");
-    //   setRegVisible(true);
-    // }
   };
 
   const countryOptions = useMemo(() => {
