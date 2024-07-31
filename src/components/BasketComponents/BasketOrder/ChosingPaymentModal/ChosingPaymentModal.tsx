@@ -10,7 +10,7 @@ interface IChosingPayModalProps {
   variants: PaymentMethod;
   selectPayment: (value: string) => void;
   savePayment: () => void;
-  variableBuyer: { payment: string; delivery: string };
+  variableBuyer: { payment: string | number; delivery: string | number };
   warning: string;
 }
 
@@ -37,48 +37,47 @@ const ChosingPaymentModal = ({
       </div>
       {warning.length >= 0 && <p className={styles.wrap_warning}>{warning}</p>}
       <div className={styles.wrap_payment}>
-        {variants &&
-          Object.entries(variants).map(([key, variant]) => (
-            <div key={key}>
-              <button
-                onClick={() => selectPayment(variant.name)}
-                aria-label="choose payment method"
+        {Object.entries(variants).map(([key, variant]) => (
+          <div key={key}>
+            <button
+              onClick={() => selectPayment(variant.id)}
+              aria-label="choose payment method"
+              className={cn(
+                styles.wrap_payment_point,
+                variableBuyer.payment === variant.id &&
+                  styles.wrap_payment_point_active
+              )}
+            >
+              <span
                 className={cn(
-                  styles.wrap_payment_point,
-                  variableBuyer.payment === variant.name &&
-                    styles.wrap_payment_point_active
+                  styles.wrap_payment_point_radio,
+                  variableBuyer.payment === variant.id &&
+                    styles.wrap_payment_point_radio_active
                 )}
               >
                 <span
                   className={cn(
-                    styles.wrap_payment_point_radio,
-                    variableBuyer.payment === variant.name &&
-                      styles.wrap_payment_point_radio_active
+                    styles.wrap_payment_point_radio_dot,
+                    variableBuyer.payment === variant.id &&
+                      styles.wrap_payment_point_radio_dot_active
                   )}
-                >
-                  <span
-                    className={cn(
-                      styles.wrap_payment_point_radio_dot,
-                      variableBuyer.payment === variant.name &&
-                        styles.wrap_payment_point_radio_dot_active
-                    )}
-                  ></span>
-                </span>
-                {variant.name}
-              </button>
-              <div
-                className={cn(
-                  styles.wrap_payment_desc,
-                  variableBuyer.payment === variant.name &&
-                    styles.wrap_payment_desc_active
-                )}
-              >
-                <p className={styles.wrap_payment_desc_workdays}>
-                  {variant.desc}
-                </p>
-              </div>
+                ></span>
+              </span>
+              {variant.name}
+            </button>
+            <div
+              className={cn(
+                styles.wrap_payment_desc,
+                variableBuyer.payment === variant.id &&
+                  styles.wrap_payment_desc_active
+              )}
+            >
+              <p className={styles.wrap_payment_desc_workdays}>
+                {variant.desc}
+              </p>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
       <button
         onClick={() => {

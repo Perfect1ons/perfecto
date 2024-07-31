@@ -310,7 +310,7 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
 export const getPaymentMethod = (
   idUser: string | undefined
 ): Promise<PaymentMethod> => {
-  return maxkg.get(`naltovarok/vopl?idUser=${idUser}`).json();
+  return maxkg.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
 export const getCurrentOrder = (
@@ -330,7 +330,7 @@ export const getCurrentOrder = (
 export const getDeliveryMethod = (
   idUser: string | undefined
 ): Promise<DeliveryMethod> => {
-  return maxkg.get(`naltovarok/viddost?idUser=${idUser}`).json();
+  return maxkg.get(`naltovarok/viddostfront?idUser=${idUser}`).json();
 };
 export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
@@ -375,16 +375,15 @@ export const getBasketAuthed = (
     .json();
 };
 
-
 export const getResents = (): Promise<any[]> => {
   return maxkg.get("naltovarok/getresent").json();
-}
+};
 
 export const postResents = (): Promise<any[]> => {
   return maxkg.post("naltovarok/getresent").json();
 };
 
-export const getFavorites = (token: string ): Promise<IFavorites> => {
+export const getFavorites = (token: string): Promise<IFavorites> => {
   return maxkgnocache
     .get("izb", {
       headers: {

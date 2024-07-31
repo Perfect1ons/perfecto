@@ -358,29 +358,37 @@ export const checkUser = (tel: number): Promise<number> => {
 
 export const postBoxOrder = (
   token: string,
-  tel: number,
-  vid_dost: string,
-  id_vopl: string,
+  tel: string,
+  vid_dost: any,
+  id_vopl: any,
   fio: string,
   name: string,
-  org: string,
-  org_inn: string,
-  id_bank: number,
-  id_city: number,
-  id_city2: number,
-  directory: string
+  org?: string,
+  org_inn?: string,
+  id_city?: string,
+  id_city2?: string,
+  directory?: string
 ) => {
   const params = new URLSearchParams();
-  return maxkg.post(
-    `box/zakaz?tel=${tel}&vid_dost=${vid_dost}&id_vopl=${id_vopl}&fio=${fio}&name=${name}&org=${org}&org_inn=${org_inn}&id_bank=${id_bank}&id_city=${id_city}&id_city2=${id_city2}&directory=${directory}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
-    }
-  );
+  params.append("tel", tel);
+  params.append("vid_dost", vid_dost);
+  params.append("id_vopl", id_vopl);
+  params.append("fio", fio);
+  params.append("name", name);
+
+  if (org) params.append("org", org);
+  if (org_inn) params.append("org_inn", org_inn);
+  if (id_city) params.append("id_city", id_city);
+  if (id_city2) params.append("id_city2", id_city2);
+  if (directory) params.append("directory", directory);
+
+  return maxkg.post(`box/zakaz`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
 };
 
 export const getSelectRegion = async (

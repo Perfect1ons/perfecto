@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
 import {
@@ -12,7 +12,7 @@ import { getSelectRegion } from "@/api/clientRequest";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 
 interface ICourierDeliveryTypeProps {
-  variableBuyer: { payment: string; delivery: string };
+  variableBuyer: { payment: string | number; delivery: string | number };
   variants: DeliveryMethod;
   selectDelivery: (value: string) => void;
   deliveryCity: SelectCityType;
@@ -70,26 +70,40 @@ const CourierDeliveryType = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [region, setRegion] = useState<SelectRegionType>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [location, setLocation] = useState({
-    city: "",
-    region: "",
+  const [location, setLocation] = useState<{
+    id_city: number | null;
+    id_city2: number | null;
+    directory: string;
+  }>({
+    id_city: null,
+    id_city2: null,
+    directory: "",
   });
 
   // Функция для обновления значения city
-  const updateCity = (newCity: string) => {
+  const updateCity = (newCity: number) => {
     setLocation((prevState) => ({
       ...prevState,
-      city: newCity,
+      id_city: newCity,
     }));
   };
 
   // Функция для обновления значения region
-  const updateRegion = (newRegion: string) => {
+  const updateRegion = (newRegion: number) => {
     setLocation((prevState) => ({
       ...prevState,
-      region: newRegion,
+      id_city2: newRegion,
     }));
   };
+
+  const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLocation((prevLocation) => ({
+      ...prevLocation,
+      [name]: value,
+    }));
+  };
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -145,7 +159,7 @@ const CourierDeliveryType = ({
           onClick={() => toggleFilter("city")}
         >
           <button className={styles.cityContainer}>
-            {location.city || "Область/Город"}
+            {location.id_city || "Область/Город"}
             <span
               className={cn(
                 "filterNavItemArrowIsActive",
@@ -166,7 +180,7 @@ const CourierDeliveryType = ({
                 className={styles.dropdownItem}
                 onClick={() => {
                   getRegions(city.id);
-                  updateCity(city.naim);
+                  updateCity(city.id);
                 }}
               >
                 {city.naim}
@@ -181,7 +195,7 @@ const CourierDeliveryType = ({
             onClick={() => toggleFilter("region")}
           >
             <button className={styles.cityContainer}>
-              {location.region ||
+              {location.id_city2 ||
                 (region.length > 0 ? region[0].naim : "Не выбран")}
               <span
                 className={cn(
@@ -202,7 +216,7 @@ const CourierDeliveryType = ({
                   key={region.id}
                   className={styles.dropdownItem}
                   onClick={() => {
-                    updateRegion(region.naim);
+                    updateRegion(region.id);
                   }}
                 >
                   {region.naim}
@@ -217,31 +231,34 @@ const CourierDeliveryType = ({
           placeholder="Введите: улица, дом, квартира"
           type="text"
           className={styles.wrap_courier_selectAddress_input}
+          value={location.directory}
+          name="directory"
+          onChange={changeAdress}
         />
       </div>
 
       {Object.entries(variants).map(([key, variant]) => (
         <div key={key}>
           <button
-            onClick={() => selectDelivery(variant.name)}
+            onClick={() => selectDelivery(variant.id)}
             aria-label="choose delivery point"
             className={cn(
               styles.wrap_courier_point,
-              variableBuyer.delivery === variant.name &&
+              variableBuyer.delivery === variant.id &&
                 styles.wrap_courier_point_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_courier_point_radio,
-                variableBuyer.delivery === variant.name &&
+                variableBuyer.delivery === variant.id &&
                   styles.wrap_courier_point_radio_active
               )}
             >
               <span
                 className={cn(
                   styles.wrap_courier_point_radio_dot,
-                  variableBuyer.delivery === variant.name &&
+                  variableBuyer.delivery === variant.id &&
                     styles.wrap_courier_point_radio_dot_active
                 )}
               ></span>
@@ -251,7 +268,7 @@ const CourierDeliveryType = ({
           <div
             className={cn(
               styles.wrap_courier_desc,
-              variableBuyer.delivery === variant.name &&
+              variableBuyer.delivery === variant.id &&
                 styles.wrap_courier_desc_active
             )}
           >

@@ -10,11 +10,11 @@ import { SelectCityType } from "@/types/Basket/SelectCity";
 import Image from "next/image";
 
 interface IChosingDeliveryModalProps {
-  variableBuyer: { payment: string; delivery: string };
+  variableBuyer: { payment: string | number; delivery: string | number };
   visible: string;
   close: (value: string) => void;
   variants: DeliveryMethod;
-  selectDelivery: (value: string) => void;
+  selectDelivery: (value: string | number) => void;
   saveDelivery: () => void;
   warning: string;
   deliveryCity: SelectCityType;

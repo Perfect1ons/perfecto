@@ -9,24 +9,29 @@ export interface DeliveryMethod {
 export interface N1 {
   name: string;
   desc: string;
+  id: number;
 }
 
 export interface N8 {
   name: string;
   desc: string;
+  id: number;
 }
 
 export interface N10 {
   name: string;
   desc: string;
+  id: number;
 }
 
 export interface N12 {
   name: string;
   desc: string;
+  id: number;
 }
 
 export interface N13 {
   name: string;
   desc: string;
+  id: number;
 }
