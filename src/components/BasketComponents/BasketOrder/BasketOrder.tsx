@@ -7,7 +7,7 @@ import {
   ExPoint,
 } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import { useState, ChangeEvent, useCallback, useMemo } from "react";
+import { useState, ChangeEvent, useCallback, useMemo, useEffect } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
@@ -282,6 +282,7 @@ const BasketOrder = ({
           buyer.id_vopl,
           buyer.fio,
           buyer.name,
+          nds,
           buyer.org,
           buyer.org_inn,
           buyer.id_city?.toString(),

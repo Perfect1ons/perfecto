@@ -363,6 +363,7 @@ export const postBoxOrder = (
   id_vopl: any,
   fio: string,
   name: string,
+  nds: boolean,
   org?: string,
   org_inn?: string,
   id_city?: string,
@@ -375,9 +376,10 @@ export const postBoxOrder = (
   params.append("id_vopl", id_vopl);
   params.append("fio", fio);
   params.append("name", name);
-
-  if (org) params.append("org", org);
-  if (org_inn) params.append("org_inn", org_inn);
+  if (nds === true) {
+    if (org) params.append("org", org);
+    if (org_inn) params.append("org_inn", org_inn);
+  }
   if (id_city) params.append("id_city", id_city);
   if (id_city2) params.append("id_city2", id_city2);
   if (directory) params.append("directory", directory);
