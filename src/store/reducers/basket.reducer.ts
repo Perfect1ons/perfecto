@@ -28,6 +28,35 @@ const basketSlice = createSlice({
         (item) => !action.payload.includes(item.id_tov)
       );
     },
+    addProductQuantity: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const product = state.basket.find((p) => p.id_tov === id);
+
+      if (product) {
+        const quantity = product.quantity || 0;
+        const balance = Number(product.balance) || 0;
+        const minQty = product.minQty || 1; // Убедитесь, что minQty существует и имеет значение по умолчанию
+
+        if (quantity < balance) {
+          product.quantity = Math.max(quantity + 1, minQty); // Убедитесь, что количество не меньше минимального
+          localStorage.setItem("basket", JSON.stringify(state.basket));
+        }
+      }
+    },
+
+    deleteProductQuantity: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      const product = state.basket.find((p) => p.id_tov === id);
+      if (product && product.quantity) {
+        const minQty = product.minQty || 1;
+        if (product.quantity > minQty) {
+          product.quantity -= 1;
+        } else if (product.quantity === minQty) {
+          state.basket = state.basket.filter((p) => p.id !== id);
+        }
+        localStorage.setItem("basket", JSON.stringify(state.basket));
+      }
+    },
     toggleProductSelection: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.basket.find((p) => p.id === id);
@@ -52,5 +81,7 @@ export const {
   removeItem,
   toggleProductSelection,
   toggleSelectAllProducts,
+  addProductQuantity,
+  deleteProductQuantity,
 } = basketSlice.actions;
 export default basketSlice.reducer;

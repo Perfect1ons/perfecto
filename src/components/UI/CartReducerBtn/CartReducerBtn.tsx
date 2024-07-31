@@ -14,7 +14,11 @@ import { AuthContext } from "@/context/AuthContext";
 import { Model } from "@/types/Basket/getBasketProduct";
 import { RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
-import { removeItem } from "@/store/reducers/basket.reducer";
+import {
+  deleteProductQuantity,
+  removeItem,
+} from "@/store/reducers/basket.reducer";
+import { addProductQuantity } from "@/store/reducers/basket.reducer";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -93,10 +97,12 @@ const CartReducerBtn = ({
     setQuantity(newQuantity);
     if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
+      dispatch(addProductQuantity(data.id_tov));
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
+      dispatch(addProductQuantity(data.id_tov));
     }
-    updateLocalStorageCart(data.id_tov, newQuantity);
+    // updateLocalStorageCart(data.id_tov, newQuantity);
   };
   const removeFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -110,8 +116,10 @@ const CartReducerBtn = ({
       try {
         if (token && data.id_box) {
           await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
+          dispatch(deleteProductQuantity(data.id_tov));
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
+          dispatch(deleteProductQuantity(data.id_tov));
         }
         dispatch(removeItem(data.id_tov));
         updateLocalStorageCart(data.id_tov, 0);
@@ -143,7 +151,6 @@ const CartReducerBtn = ({
       onFocusHandled();
     }
   }, [shouldFocusInput, onFocusHandled, isDesktop]);
-
   return (
     <div className={styles.btn}>
       <button
@@ -165,7 +172,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity === 0 ? "" : quantity}
+        // value={basket.find((i) => i.kol !== data.id_tov)}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}

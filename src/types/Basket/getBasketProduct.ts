@@ -90,6 +90,7 @@ export interface Model {
   ocenka: number;
   timer?: number;
   selected?: boolean;
+  quantity?: number;
 }
 
 export interface Photo {
