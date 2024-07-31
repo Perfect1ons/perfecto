@@ -281,7 +281,12 @@ const BasketOrder = ({
           buyer.vid_dost,
           buyer.id_vopl,
           buyer.fio,
-          buyer.name
+          buyer.name,
+          buyer.org,
+          buyer.org_inn,
+          buyer.id_city?.toString(),
+          buyer.id_city2?.toString(),
+          buyer.directory
         );
       }
     }
@@ -532,6 +537,7 @@ const BasketOrder = ({
                   className="mail__inputField"
                   required
                   type="text"
+                  onChange={handleBuyerChange}
                 />
                 <label className="mail__inputLabel">
                   Название организации:
@@ -544,6 +550,7 @@ const BasketOrder = ({
                   className="mail__inputField"
                   required
                   type="text"
+                  onChange={handleBuyerChange}
                 />
                 <label className="mail__inputLabel">ИНН:</label>
               </div>
