@@ -79,6 +79,24 @@ const Card = ({
       setModalVisible(true);
     }
   };
+  useEffect(() => {
+    // Функция загрузки количества из localStorage
+    const loadQuantityFromLocalStorage = () => {
+      let carts: { id_tov: number; kol: number }[] = JSON.parse(
+        localStorage.getItem("cart") || "[]"
+      );
+      const cartItem = carts.find((item) => item.id_tov === cardData.id_tov);
+      if (cartItem) {
+        setQuantity(cartItem.kol);
+        setAdded(cartItem.kol > 0); // Установите состояние added в зависимости от количества
+      } else {
+        setQuantity(0);
+        setAdded(false);
+      }
+    };
+
+    loadQuantityFromLocalStorage();
+  }, [cardData.id_tov]);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
@@ -128,21 +146,21 @@ const Card = ({
   const handleCardClick = async () => {
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
-  const removeFromCart = (id_tov: number) => {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const updatedCart = cart.filter(
-      (item: { id_tov: number }) => item.id_tov !== id_tov
-    );
-    localStorage.setItem("cart", JSON.stringify(updatedCart));
-  };
 
   const handleCartEmpty = () => {
     setAdded(false);
-    removeFromCart(cardData.id_tov);
     setQuantity(0);
   };
+  // Функция обновления корзины в localStorage
 
   const addToCart = async () => {
+    let carts: { id_tov: number; kol: number }[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
+    const basketData = {
+      id_tov: cardData.id_tov,
+      kol: cardData.minQty,
+    };
     if (token) {
       await postBasketProductAuthed(
         token,
@@ -152,37 +170,18 @@ const Card = ({
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingItemIndex = cart.findIndex(
-      (item: any) => item.id_tov === cardData.id_tov
+    const existingItemIndex = carts.findIndex(
+      (item) => item.id_tov === basketData.id_tov
     );
     if (existingItemIndex > -1) {
-      cart[existingItemIndex].minQty = cardData.minQty;
+      carts[existingItemIndex].kol += basketData.kol;
     } else {
-      const basketData = {
-        id_tov: cardData.id_tov,
-        minQty: cardData.minQty,
-      };
-      cart.push(basketData);
+      carts.push(basketData);
     }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
+    localStorage.setItem("cart", JSON.stringify(carts));
     setAdded(true);
+    setQuantity(basketData.kol);
   };
-  useEffect(() => {
-    const getQuantityFromCart = (id_tov: number): number => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const item = cart.find(
-        (item: { id_tov: number }) => item.id_tov === id_tov
-      );
-      return item ? item.minQty : 0;
-    };
-    const qty = getQuantityFromCart(cardData.id_tov);
-
-    setQuantity(qty);
-    setAdded(qty > 0);
-  }, [cardData.id_tov]);
-
   const handleAddToCart = async () => {
     await addToCart();
     setShouldFocusInput(true);
@@ -204,7 +203,6 @@ const Card = ({
       setIsHomePage(window.location.pathname === "/");
     }
   }, []);
-
   return (
     <>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
@@ -329,7 +327,7 @@ const Card = ({
               </button>
             </div>
           )}
-          {!isHomePage && added && id_cart && (
+          {!isHomePage && added && id_cart && quantity >= 0 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"

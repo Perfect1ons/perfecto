@@ -89,6 +89,7 @@ export interface Model {
   photos: Photo[];
   ocenka: number;
   timer?: number;
+  selected?: boolean;
 }
 
 export interface Photo {

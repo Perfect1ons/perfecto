@@ -11,13 +11,11 @@ import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Model } from "@/types/Basket/getBasketProduct";
-
+import { toggleProductSelection } from "@/store/reducers/basket.reducer";
+import { useDispatch } from "react-redux";
 interface IBasketCardProps {
   item: any;
   imageUrl: string;
-  handleToggleSelection: () => void;
   isFavorite: boolean;
   rating: number;
   handleFavoriteClick: (e: any) => void;
@@ -25,15 +23,13 @@ interface IBasketCardProps {
   handleCartEmpty: () => void;
   shouldFocusInput: boolean;
   setShouldFocusInput: () => void;
-  selected: boolean;
+  selected: boolean | undefined;
   id_cart: string | null | undefined;
-  setItems: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const BasketCard = ({
   item,
   imageUrl,
-  handleToggleSelection,
   isFavorite,
   rating,
   handleFavoriteClick,
@@ -43,7 +39,6 @@ const BasketCard = ({
   setShouldFocusInput,
   selected,
   id_cart,
-  setItems,
 }: IBasketCardProps) => {
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
@@ -57,6 +52,12 @@ const BasketCard = ({
   const totalPrice = item.cenaok * item.kol;
   const formattedPrice = formatNumber(totalPrice);
   const formattedQuantity = formatNumber(item.kol);
+  const dispatch = useDispatch();
+
+  const handleSelectionToggle = () => {
+    dispatch(toggleProductSelection(item.id));
+  };
+
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
@@ -72,7 +73,7 @@ const BasketCard = ({
           />
           <div className={styles.checkBoxPosition}>
             <span
-              onClick={handleToggleSelection}
+              onClick={handleSelectionToggle}
               className={cn("showFiltersUlContainer__check", {
                 ["showFiltersUlContainer__checkActive"]: selected,
               })}
@@ -207,7 +208,6 @@ const BasketCard = ({
             shouldFocusInput={shouldFocusInput}
             onFocusHandled={setShouldFocusInput}
             id_cart={id_cart}
-            setItems={setItems}
           />
         </div>
       </div>

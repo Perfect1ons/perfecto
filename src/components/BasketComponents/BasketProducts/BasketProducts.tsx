@@ -11,22 +11,16 @@ import Link from "next/link";
 interface IBasketProductsProps {
   items: any;
   cartId: string | null | undefined;
-  selected: number[];
-  setSelected: React.Dispatch<SetStateAction<number[]>>;
   deleteItem: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
   ) => void;
-  setItems: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const BasketProducts = ({
   items,
   cartId,
-  selected,
-  setSelected,
   deleteItem,
-  setItems,
 }: IBasketProductsProps) => {
   // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
@@ -116,22 +110,12 @@ const BasketProducts = ({
     setModalVisible(false);
   };
 
-  const handleToggleSelection = (id: number) => {
-    setSelected((prevSelected) => {
-      if (prevSelected.includes(id)) {
-        return prevSelected.filter((selectedId) => selectedId !== id);
-      } else {
-        return [...prevSelected, id];
-      }
-    });
-  };
-
   return (
     <div className={styles.cardsAllContainer}>
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
       </InformationModal>
-      {items.map((item: any) => {
+      {items.map((item: Model) => {
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")
@@ -146,7 +130,6 @@ const BasketProducts = ({
             key={item.id_tov}
             item={item}
             imageUrl={imageUrl}
-            handleToggleSelection={() => handleToggleSelection(item.id_tov)}
             isFavorite={isFavorite}
             rating={Math.floor(item.ocenka)}
             handleFavoriteClick={(e: React.MouseEvent) =>
@@ -158,9 +141,8 @@ const BasketProducts = ({
             handleCartEmpty={handleCartEmpty}
             shouldFocusInput={shouldFocusInput}
             setShouldFocusInput={() => setShouldFocusInput(false)}
-            selected={selected.includes(item.id_tov)}
+            selected={item.selected}
             id_cart={cartId}
-            setItems={setItems}
           />
         );
       })}

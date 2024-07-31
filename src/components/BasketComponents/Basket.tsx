@@ -21,7 +21,14 @@ import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { Model } from "@/types/Basket/getBasketProduct";
 import { ICard } from "@/types/Card/card";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setBasket } from "@/store/reducers/basket.reducer";
+import {
+  removeItem,
+  clearBasket,
+  toggleSelectAllProducts,
+} from "@/store/reducers/basket.reducer";
+import { RootState } from "@/store";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
@@ -41,27 +48,25 @@ const Basket = ({
 }: IBasketProps) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [items, setItems] = useState<Model[]>([]);
   const [allItemsSelected, setAllItemsSelected] = useState(false);
-
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20; // Show 20 items per page
 
   const isMobile = useMediaQuery("(max-width: 480px)");
-
-  const [selected, setSelected] = useState<number[]>([]);
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    if ("model" in cart) {
-      setItems(cart.model);
+    if (cart) {
+      dispatch(setBasket(cart));
     } else {
-      setItems(cart);
+      dispatch(setBasket(cart));
     }
-  }, [cart]);
+    dispatch(setBasket(cart));
+  }, [cart, dispatch]);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+  const basket = useSelector((state: RootState) => state.basket.basket);
 
   const removeFromCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -73,9 +78,8 @@ const Basket = ({
     if (authToken && item.id_box) {
       deleteBasketProductAuthed(authToken, item.id_box, item.id_tov)
         .then(() => {
-          setItems((prevItems) =>
-            prevItems.filter((i) => i.id_tov !== item.id_tov)
-          );
+          // Обновите корзину в Redux после удаления
+          dispatch(removeItem(item.id_tov));
         })
         .catch((error) => {
           console.error("Failed to remove item from cart:", error);
@@ -83,35 +87,27 @@ const Basket = ({
     } else {
       deleteBasketProduct(cartId, item.id_tov)
         .then(() => {
-          setItems((prevItems) =>
-            prevItems.filter((i) => i.id_tov !== item.id_tov)
-          );
+          // Обновите корзину в Redux после удаления
+          dispatch(removeItem(item.id_tov));
         })
         .catch((error) => {
           console.error("Failed to remove item from cart:", error);
         });
     }
   };
-
   const handleSelectAllToggle = () => {
-    if (!selectAll) {
-      const allIds = items.map((product) => product.id_tov);
-      setSelected(allIds);
-    } else {
-      setSelected([]);
-    }
-    setSelectAll(!selectAll);
+    dispatch(toggleSelectAllProducts()); // Dispatch the action to select/deselect all products
+    setSelectAll(!selectAll); // Update local state
   };
 
   const handleClearCart = () => {
     if (authToken) {
       deleteBasketProductAllAuthed(authToken, selected)
         .then(() => {
-          setItems((prevItems) =>
-            prevItems.filter((i) => !selected.includes(i.id_tov))
-          );
+          // Обновите корзину в Redux после очистки
+          dispatch(clearBasket(selected));
           setSelected([]);
-          setAllItemsSelected(false); // Reset the state after clearing selected items
+          setAllItemsSelected(false);
           openModal();
         })
         .catch((error) => {
@@ -120,11 +116,10 @@ const Basket = ({
     } else {
       deleteBasketProductAll(cartId, selected)
         .then(() => {
-          setItems((prevItems) =>
-            prevItems.filter((i) => !selected.includes(i.id_tov))
-          );
+          // Обновите корзину в Redux после очистки
+          dispatch(clearBasket(selected));
           setSelected([]);
-          setAllItemsSelected(false); // Reset the state after clearing selected items
+          setAllItemsSelected(false);
           openModal();
         })
         .catch((error) => {
@@ -132,7 +127,6 @@ const Basket = ({
         });
     }
   };
-
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -163,7 +157,7 @@ const Basket = ({
   };
 
   // Calculate total pages based on cart length and itemsPerPage
-  const pageCount = Math.ceil(items.length / itemsPerPage);
+  const pageCount = Math.ceil(basket?.length / itemsPerPage);
 
   return (
     <div className="container">
@@ -198,7 +192,7 @@ const Basket = ({
         )}
       </>
 
-      {items.length <= 0 ? (
+      {basket.length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
@@ -254,7 +248,7 @@ const Basket = ({
             <button
               aria-label="delete products"
               onClick={openModal}
-              disabled={selected.length === 0}
+              disabled={!basket.some((item) => item.selected)}
               className={styles.trashButton}
             >
               <TrashIcon />
@@ -262,19 +256,16 @@ const Basket = ({
           </div>
           <div className={styles.cardContainer}>
             <BasketProducts
-              items={items}
+              items={basket}
               cartId={cartId}
-              selected={selected}
-              setSelected={setSelected}
               deleteItem={removeFromCart}
-              setItems={setItems}
             />
             <BasketOrder
               deliveryCity={deliveryCity}
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
               authToken={authToken}
-              currentItems={items}
+              currentItems={basket}
             />
           </div>
         </div>

@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./reducers/cart.reducer";
 import authSlice from "./reducers/login.reducer";
+import basketReducer from "./reducers/basket.reducer";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer, // Предполагая, что cartReducer - это ваш редюсер корзины
     auth: authSlice,
+    basket: basketReducer,
     // Другие редюсеры, если есть
   },
 });

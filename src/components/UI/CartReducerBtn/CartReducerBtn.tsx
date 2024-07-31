@@ -12,6 +12,9 @@ import {
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import { Model } from "@/types/Basket/getBasketProduct";
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem } from "@/store/reducers/basket.reducer";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -20,7 +23,6 @@ interface ICartReducerBtnProps {
   onFocusHandled: () => void;
   id_cart?: string | null | undefined;
   price?: string;
-  setItems?: React.Dispatch<React.SetStateAction<Model[]>>;
 }
 
 const CartReducerBtn = ({
@@ -30,12 +32,26 @@ const CartReducerBtn = ({
   onFocusHandled,
   id_cart,
   price,
-  setItems,
 }: ICartReducerBtnProps) => {
+  const dispatch = useDispatch();
+  const basket = useSelector((state: RootState) => state.basket.basket);
   const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
+  const loadQuantityFromLocalStorage = () => {
+    const carts: { id_tov: number; kol: number }[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
+    const cartItem = carts.find((item) => item.id_tov === data.id_tov);
+    if (cartItem) {
+      setQuantity(cartItem.kol);
+    }
+  };
+
+  useEffect(() => {
+    loadQuantityFromLocalStorage();
+  }, [data.id_tov]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -46,23 +62,28 @@ const CartReducerBtn = ({
       setQuantity(parsedValue);
     }
   };
-  useEffect(() => {
-    const getQuantityFromCart = (id_tov: number): number => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const item = cart.find(
-        (item: { id_tov: number }) => item.id_tov === id_tov
-      );
-      return item ? item.minQty : data.minQty;
-    };
-
-    const qty = getQuantityFromCart(data.id_tov);
-    setQuantity(qty);
-  }, [data.id_tov, data.minQty]);
-
   const handleBlur = async () => {
     setQuantity(data.minQty);
   };
+  const updateLocalStorageCart = (itemId: number, newQuantity: number) => {
+    let carts: { id_tov: number; kol: number }[] = JSON.parse(
+      localStorage.getItem("cart") || "[]"
+    );
 
+    const existingItemIndex = carts.findIndex((item) => item.id_tov === itemId);
+
+    if (existingItemIndex > -1) {
+      if (newQuantity <= 0) {
+        carts.splice(existingItemIndex, 1);
+      } else {
+        carts[existingItemIndex].kol = newQuantity;
+      }
+    } else if (newQuantity > 0) {
+      carts.push({ id_tov: itemId, kol: newQuantity });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(carts));
+  };
   const addToCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -75,78 +96,43 @@ const CartReducerBtn = ({
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
     }
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    // Проверяем, существует ли товар в корзине
-    const existingItemIndex = cart.findIndex(
-      (item: { id_tov: number }) => item.id_tov === data.id_tov
-    );
-    if (existingItemIndex > -1) {
-      cart[existingItemIndex].minQty = newQuantity;
-    } else {
-      const newItem = {
-        id_tov: data.id_tov,
-        minQty: newQuantity,
-      };
-      cart.push(newItem);
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
+    updateLocalStorageCart(data.id_tov, newQuantity);
   };
-
   const removeFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
     event.preventDefault();
+
     if (quantity <= data.minQty) {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const updatedCart = cart.filter(
-        (item: { id_tov: number }) => item.id_tov !== data.id_tov
-      );
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
       setQuantity(0);
-      if (token) {
-        if (setItems && data.id_box) {
-          await deleteBasketProductAuthed(token, data.id_box, data.id_tov)
-            .then(() => {
-              setItems((prevItems) =>
-                prevItems.filter((i) => i.id_tov !== data.id_tov)
-              );
-            })
-            .catch((error) => {
-              console.error("Failed to remove item from cart:", error);
-            });
+
+      try {
+        if (token && data.id_box) {
+          await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
+        } else {
+          await deleteBasketProduct(id_cart, data.id_tov);
         }
-      } else {
-        if (setItems) {
-          await deleteBasketProduct(id_cart, data.id_tov)
-            .then(() => {
-              setItems((prevItems) =>
-                prevItems.filter((i) => i.id_tov !== data.id_tov)
-              );
-            })
-            .catch((error) => {
-              console.error("Failed to remove item from cart:", error);
-            });
-        }
+        dispatch(removeItem(data.id_tov));
+        updateLocalStorageCart(data.id_tov, 0);
+        onCartEmpty();
+      } catch (error) {
+        console.error("Failed to remove item from cart:", error);
       }
-      onCartEmpty();
     } else {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
 
-      if (token && data.id_box) {
-        await patchBasketProductAuthed(token, data.id_box, newQuantity);
-      } else {
-        await postBasketProduct(newQuantity, data.id_tov);
-      }
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existingItemIndex = cart.findIndex(
-        (item: { id_tov: number }) => item.id_tov === data.id_tov
-      );
-      if (existingItemIndex > -1) {
-        cart[existingItemIndex].minQty = newQuantity;
-        localStorage.setItem("cart", JSON.stringify(cart));
+      try {
+        if (token && data.id_box) {
+          await patchBasketProductAuthed(token, data.id_box, newQuantity);
+        } else {
+          await postBasketProduct(newQuantity, data.id_tov);
+        }
+
+        updateLocalStorageCart(data.id_tov, newQuantity);
+      } catch (error) {
+        console.error("Failed to update item quantity in cart:", error);
       }
     }
   };
