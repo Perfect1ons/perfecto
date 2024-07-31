@@ -402,7 +402,6 @@ const BasketOrder = ({
       )}
       {activeModal === "delivery" && (
         <>
-          {/* <UserGeoModal visible={true} close={activeModalToggle} /> */}
           <ChosingDeliveryModal
             authToken={authToken}
             deliveryCity={deliveryCity}
