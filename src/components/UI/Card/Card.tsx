@@ -47,6 +47,7 @@ const Card = ({
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [quantity, setQuantity] = useState(0);
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
@@ -127,9 +128,21 @@ const Card = ({
   const handleCardClick = async () => {
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
+  const removeFromCart = (id_tov: number) => {
+    // Получаем текущие данные корзины
+    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+    // Удаляем товар из корзины
+    delete cart[id_tov];
+
+    // Сохраняем обновленную корзину
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
 
   const handleCartEmpty = () => {
     setAdded(false);
+    removeFromCart(cardData.id_tov);
+    setQuantity(0);
   };
 
   const addToCart = async () => {
@@ -142,8 +155,28 @@ const Card = ({
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
+    // localStorage.setItem(`cart-${cardData.id_tov}`, JSON.stringify(true));
+    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+    // Обновляем количество товара
+    cart[cardData.id_tov] = (cart[cardData.id_tov] || 0) + cardData.minQty;
+
+    // Сохраняем обновленную корзину обратно в localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
     setAdded(true);
   };
+  const getQuantityFromCart = (id_tov: number) => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+    return cart[id_tov] || 0;
+  };
+
+  useEffect(() => {
+    // Получаем количество товара из localStorage при монтировании
+    const qty = getQuantityFromCart(cardData.id_tov);
+    setQuantity(qty);
+    setAdded(qty > 0);
+  }, [cardData.id_tov]);
 
   const handleAddToCart = async () => {
     await addToCart();
