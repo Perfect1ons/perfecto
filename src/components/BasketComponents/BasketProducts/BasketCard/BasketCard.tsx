@@ -13,8 +13,9 @@ import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
 import { useDispatch } from "react-redux";
+import { Model } from "@/types/Basket/getBasketProduct";
 interface IBasketCardProps {
-  item: any;
+  item: Model;
   imageUrl: string;
   isFavorite: boolean;
   rating: number;

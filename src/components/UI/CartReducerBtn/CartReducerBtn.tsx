@@ -52,10 +52,18 @@ const CartReducerBtn = ({
       setQuantity(cartItem.kol);
     }
   };
-
   useEffect(() => {
-    loadQuantityFromLocalStorage();
-  }, [data.id_tov]);
+    const item = basket.find((item) => item.id_tov === data.id_tov);
+    if (item) {
+      setQuantity(item.kol);
+    } else {
+      setQuantity(data.minQty); // Fallback to minQty if item is not found
+    }
+  }, [basket, data.id_tov, data.minQty]);
+
+  // useEffect(() => {
+  //   loadQuantityFromLocalStorage();
+  // }, [data.id_tov]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -172,7 +180,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        // value={basket.find((i) => i.kol !== data.id_tov)}
+        value={quantity}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}
