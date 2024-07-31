@@ -238,8 +238,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #fff;
-            border: 1px solid #adb5bd;
+            background-color: var(
+              --dark-blue
+            ); /* Изменить фоновый цвет на активный по умолчанию */
+            border: 1px solid var(--dark-blue); /* Обновить цвет границы на активный по умолчанию */
             transition: 0.2s;
             border-radius: 30px;
 
@@ -251,14 +253,17 @@
               border-radius: 20px;
               left: 3px;
               bottom: 2px;
-              background-color: #adb5bd;
+              background-color: #fff;
               transition: 0.2s;
+              transform: translateX(
+                21px
+              ); /* Переместить ползунок в положение "включено" */
             }
           }
 
           input:checked + &__slider {
-            background-color: var(--dark-blue);
-            border: 1px solid var(--dark-blue);
+            background-color: #fff; /* Цвет фона для состояния включено */
+            border: 1px solid #adb5bd; /* Цвет границы для состояния включено */
           }
 
           input:focus + &__slider {
@@ -266,8 +271,12 @@
           }
 
           input:checked + &__slider::before {
-            transform: translateX(21px);
-            background-color: #fff;
+            transform: translateX(
+              0
+            ); /* Ползунок в начальное положение "выключено" */
+            background-color: var(
+              --dark-blue
+            ); /* Обновить цвет ползунка при включении */
           }
         }
       }

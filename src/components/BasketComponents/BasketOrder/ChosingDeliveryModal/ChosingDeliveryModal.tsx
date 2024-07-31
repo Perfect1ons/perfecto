@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Cross, SalesmanIcon } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
@@ -10,15 +10,38 @@ import { SelectCityType } from "@/types/Basket/SelectCity";
 import Image from "next/image";
 
 interface IChosingDeliveryModalProps {
-  variableBuyer: { payment: string | number; delivery: string | number };
+  variableBuyer: {
+    payment: {
+      name: string;
+      id: number | string;
+    };
+    delivery: {
+      name: string;
+      id: number | string;
+    };
+  };
   visible: string;
   close: (value: string) => void;
   variants: DeliveryMethod;
-  selectDelivery: (value: string | number) => void;
+  selectDelivery: (delivery: { name: string; id: string | number }) => void;
   saveDelivery: () => void;
   warning: string;
   deliveryCity: SelectCityType;
   authToken: string | undefined;
+  location: {
+    id_city: {
+      name: string;
+      id: number | null;
+    };
+    id_city2: {
+      name: string;
+      id: number | null;
+    };
+    directory: string;
+  };
+  cityChange: (newCity: { name: string; id: number }) => void;
+  regionChange: (newRegion: { name: string; id: number }) => void;
+  adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const ChosingDeliveryModal = ({
@@ -31,6 +54,10 @@ const ChosingDeliveryModal = ({
   warning,
   deliveryCity,
   authToken,
+  location,
+  cityChange,
+  regionChange,
+  adressChange,
 }: IChosingDeliveryModalProps) => {
   const [deliveryType, setDeliveryType] = useState("point");
 
@@ -72,6 +99,10 @@ const ChosingDeliveryModal = ({
           variableBuyer={variableBuyer}
           variants={variants}
           selectDelivery={selectDelivery}
+          location={location}
+          cityChange={cityChange}
+          regionChange={regionChange}
+          adressChange={adressChange}
         />
       )}
       <div className={styles.wrap_typeDelivery}>

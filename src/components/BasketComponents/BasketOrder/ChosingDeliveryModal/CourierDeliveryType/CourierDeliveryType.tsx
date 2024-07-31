@@ -12,11 +12,34 @@ import { getSelectRegion } from "@/api/clientRequest";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 
 interface ICourierDeliveryTypeProps {
-  variableBuyer: { payment: string | number; delivery: string | number };
+  variableBuyer: {
+    payment: {
+      name: string;
+      id: number | string;
+    };
+    delivery: {
+      name: string;
+      id: number | string;
+    };
+  };
   variants: DeliveryMethod;
-  selectDelivery: (value: string) => void;
+  selectDelivery: (delivery: { name: string; id: string | number }) => void;
   deliveryCity: SelectCityType;
   authToken: string | undefined;
+  location: {
+    id_city: {
+      name: string;
+      id: number | null;
+    };
+    id_city2: {
+      name: string;
+      id: number | null;
+    };
+    directory: string;
+  };
+  cityChange: (newCity: { name: string; id: number }) => void;
+  regionChange: (newRegion: { name: string; id: number }) => void;
+  adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const times = [
@@ -61,6 +84,10 @@ const CourierDeliveryType = ({
   variableBuyer,
   deliveryCity,
   authToken,
+  location,
+  cityChange,
+  regionChange,
+  adressChange,
 }: ICourierDeliveryTypeProps) => {
   const [openTime, setOpenTime] = useState(false);
 
@@ -70,39 +97,6 @@ const CourierDeliveryType = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [region, setRegion] = useState<SelectRegionType>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [location, setLocation] = useState<{
-    id_city: number | null;
-    id_city2: number | null;
-    directory: string;
-  }>({
-    id_city: null,
-    id_city2: null,
-    directory: "",
-  });
-
-  // Функция для обновления значения city
-  const updateCity = (newCity: number) => {
-    setLocation((prevState) => ({
-      ...prevState,
-      id_city: newCity,
-    }));
-  };
-
-  // Функция для обновления значения region
-  const updateRegion = (newRegion: number) => {
-    setLocation((prevState) => ({
-      ...prevState,
-      id_city2: newRegion,
-    }));
-  };
-
-  const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setLocation((prevLocation) => ({
-      ...prevLocation,
-      [name]: value,
-    }));
-  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -159,7 +153,7 @@ const CourierDeliveryType = ({
           onClick={() => toggleFilter("city")}
         >
           <button className={styles.cityContainer}>
-            {location.id_city || "Область/Город"}
+            {location.id_city.name || "Область/Город"}
             <span
               className={cn(
                 "filterNavItemArrowIsActive",
@@ -180,7 +174,10 @@ const CourierDeliveryType = ({
                 className={styles.dropdownItem}
                 onClick={() => {
                   getRegions(city.id);
-                  updateCity(city.id);
+                  cityChange({
+                    name: city.naim,
+                    id: city.id,
+                  });
                 }}
               >
                 {city.naim}
@@ -195,7 +192,7 @@ const CourierDeliveryType = ({
             onClick={() => toggleFilter("region")}
           >
             <button className={styles.cityContainer}>
-              {location.id_city2 ||
+              {location.id_city2.name ||
                 (region.length > 0 ? region[0].naim : "Не выбран")}
               <span
                 className={cn(
@@ -216,7 +213,10 @@ const CourierDeliveryType = ({
                   key={region.id}
                   className={styles.dropdownItem}
                   onClick={() => {
-                    updateRegion(region.id);
+                    regionChange({
+                      name: region.naim,
+                      id: region.id,
+                    });
                   }}
                 >
                   {region.naim}
@@ -233,32 +233,37 @@ const CourierDeliveryType = ({
           className={styles.wrap_courier_selectAddress_input}
           value={location.directory}
           name="directory"
-          onChange={changeAdress}
+          onChange={adressChange}
         />
       </div>
 
       {Object.entries(variants).map(([key, variant]) => (
         <div key={key}>
           <button
-            onClick={() => selectDelivery(variant.id)}
+            onClick={() =>
+              selectDelivery({
+                name: variant.name,
+                id: variant.id,
+              })
+            }
             aria-label="choose delivery point"
             className={cn(
               styles.wrap_courier_point,
-              variableBuyer.delivery === variant.id &&
+              variableBuyer.delivery.id === variant.id &&
                 styles.wrap_courier_point_active
             )}
           >
             <span
               className={cn(
                 styles.wrap_courier_point_radio,
-                variableBuyer.delivery === variant.id &&
+                variableBuyer.delivery.id === variant.id &&
                   styles.wrap_courier_point_radio_active
               )}
             >
               <span
                 className={cn(
                   styles.wrap_courier_point_radio_dot,
-                  variableBuyer.delivery === variant.id &&
+                  variableBuyer.delivery.id === variant.id &&
                     styles.wrap_courier_point_radio_dot_active
                 )}
               ></span>
@@ -268,7 +273,7 @@ const CourierDeliveryType = ({
           <div
             className={cn(
               styles.wrap_courier_desc,
-              variableBuyer.delivery === variant.id &&
+              variableBuyer.delivery.id === variant.id &&
                 styles.wrap_courier_desc_active
             )}
           >

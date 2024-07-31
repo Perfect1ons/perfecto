@@ -66,6 +66,11 @@
       cursor: pointer;
       @include mixin.font(14px, 400, null, var(--gray));
 
+      &:disabled {
+        opacity: 0.5;
+        cursor: default;
+      }
+
       &_active {
         border: 2px solid var(--dark-blue);
       }
