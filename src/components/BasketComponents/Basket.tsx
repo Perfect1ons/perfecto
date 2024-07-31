@@ -102,11 +102,13 @@ const Basket = ({
 
   const handleClearCart = () => {
     if (authToken) {
-      deleteBasketProductAllAuthed(authToken, selected)
+      deleteBasketProductAllAuthed(
+        authToken,
+        basket.map((item) => item.id_tov)
+      )
         .then(() => {
           // Обновите корзину в Redux после очистки
-          dispatch(clearBasket(selected));
-          setSelected([]);
+          dispatch(clearBasket(basket.map((item) => item.id_tov)));
           setAllItemsSelected(false);
           openModal();
         })
@@ -114,11 +116,13 @@ const Basket = ({
           console.error("Failed to clear cart:", error);
         });
     } else {
-      deleteBasketProductAll(cartId, selected)
+      deleteBasketProductAll(
+        cartId,
+        basket.map((item) => item.id_tov)
+      )
         .then(() => {
           // Обновите корзину в Redux после очистки
-          dispatch(clearBasket(selected));
-          setSelected([]);
+          dispatch(clearBasket(basket.map((item) => item.id_tov)));
           setAllItemsSelected(false);
           openModal();
         })

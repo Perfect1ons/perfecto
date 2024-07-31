@@ -1,5 +1,5 @@
 "use client";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./style.module.scss";
 import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
