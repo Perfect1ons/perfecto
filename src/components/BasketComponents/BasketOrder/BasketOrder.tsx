@@ -121,9 +121,9 @@ const BasketOrder = ({
     name: "",
     org: "",
     org_inn: "",
-    id_city: location.id_city.id,
-    id_city2: location.id_city2.id,
-    directory: location.directory,
+    id_city: null,
+    id_city2: null,
+    directory: "",
   });
 
   const router = useRouter();
@@ -132,6 +132,15 @@ const BasketOrder = ({
   const [phoneWarning, setPhoneWarning] = useState("");
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
+
+  useEffect(() => {
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
+      id_city: location.id_city.id,
+      id_city2: location.id_city2.id,
+      directory: location.directory,
+    }));
+  }, [location]);
 
   // Функция для обновления значения city
   const updateCity = (newCity: { name: string; id: number }) => {
