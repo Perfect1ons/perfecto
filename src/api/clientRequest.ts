@@ -21,6 +21,7 @@ import { IPopularGood } from "@/types/popularGoods";
 import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
+import { PostOrderResponse } from "@/types/Basket/PostOrderResponse";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -356,7 +357,44 @@ export const checkUser = (tel: number): Promise<number> => {
   return maxkg.get(`prof/exists-user?tel=${tel}`).json();
 };
 
-export const postBoxOrder = (
+// export const postBoxOrder = (
+//   token: string,
+//   tel: string,
+//   vid_dost: any,
+//   id_vopl: any,
+//   fio: string,
+//   name: string,
+//   nds: boolean,
+//   org?: string,
+//   org_inn?: string,
+//   id_city?: string,
+//   id_city2?: string,
+//   directory?: string
+// ) => {
+//   const params = new URLSearchParams();
+//   params.append("tel", tel);
+//   params.append("vid_dost", vid_dost);
+//   params.append("id_vopl", id_vopl);
+//   params.append("fio", fio);
+//   params.append("name", name);
+//   if (nds === true) {
+//     if (org) params.append("org", org);
+//     if (org_inn) params.append("org_inn", org_inn);
+//   }
+//   if (id_city) params.append("id_city", id_city);
+//   if (id_city2) params.append("id_city2", id_city2);
+//   if (directory) params.append("directory", directory);
+
+//   return maxkgnocache.post(`box/zakaz`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//       "Content-Type": "application/x-www-form-urlencoded",
+//     },
+//     body: params.toString(),
+//   });
+// };
+
+export const postBoxOrder = async (
   token: string,
   tel: string,
   vid_dost: any,
@@ -369,7 +407,7 @@ export const postBoxOrder = (
   id_city?: string,
   id_city2?: string,
   directory?: string
-) => {
+): Promise<PostOrderResponse> => {
   const params = new URLSearchParams();
   params.append("tel", tel);
   params.append("vid_dost", vid_dost);
@@ -384,13 +422,19 @@ export const postBoxOrder = (
   if (id_city2) params.append("id_city2", id_city2);
   if (directory) params.append("directory", directory);
 
-  return maxkg.post(`box/zakaz`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: params.toString(),
-  });
+  try {
+    const response = await maxkg.post(`box/zakaz`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    });
+    return response.json(); // Возвращаем данные из ответа
+  } catch (error) {
+    console.error("Ошибка при отправке запроса:", error);
+    throw error; // Пробрасываем ошибку для дальнейшей обработки
+  }
 };
 
 export const getSelectRegion = async (

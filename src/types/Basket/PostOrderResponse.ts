@@ -1,0 +1,31 @@
+export interface PostOrderResponse {
+  id_city: number;
+  fio: string;
+  name: string;
+  tel: string;
+  adres: string;
+  email: string;
+  org: string;
+  prim: string;
+  naim_city: string;
+  id_city2: number;
+  naim_city2: string;
+  supply_period: number;
+  ref: string;
+  vid_dost: string;
+  id_vopl: string;
+  id_user: number;
+  status: number;
+  idses: string;
+  type: number;
+  dat1: string;
+  dat_dos: string;
+  dat_dos2: string;
+  summa_zakaza: number;
+  summa_men: number;
+  service_info: string;
+  summa_bonus: number;
+  nds: number;
+  second_name: string;
+  id: number;
+}

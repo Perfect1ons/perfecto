@@ -46,18 +46,18 @@ const CartReducerBtn = ({
       setQuantity(parsedValue);
     }
   };
-  useEffect(() => {
-    const getQuantityFromCart = (id_tov: number): number => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const item = cart.find(
-        (item: { id_tov: number }) => item.id_tov === id_tov
-      );
-      return item ? item.minQty : data.minQty;
-    };
+  // useEffect(() => {
+  //   const getQuantityFromCart = (id_tov: number): number => {
+  //     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  //     const item = cart.find(
+  //       (item: { id_tov: number }) => item.id_tov === id_tov
+  //     );
+  //     return item ? item.minQty : data.minQty;
+  //   };
 
-    const qty = getQuantityFromCart(data.id_tov);
-    setQuantity(qty);
-  }, [data.id_tov, data.minQty]);
+  //   const qty = getQuantityFromCart(data.id_tov);
+  //   setQuantity(qty);
+  // }, [data.id_tov, data.minQty]);
 
   const handleBlur = async () => {
     setQuantity(data.minQty);

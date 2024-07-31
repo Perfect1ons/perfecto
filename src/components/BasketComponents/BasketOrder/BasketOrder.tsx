@@ -18,6 +18,7 @@ import { SelectCityType } from "@/types/Basket/SelectCity";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { postBoxOrder } from "@/api/clientRequest";
+import { useRouter } from "next/navigation";
 
 export interface Buyer {
   tel: string;
@@ -70,32 +71,91 @@ const BasketOrder = ({
   };
 
   const [variableBuyer, setVariableBuyer] = useState<{
-    payment: string | number;
-    delivery: string | number;
+    payment: {
+      name: string;
+      id: number | string;
+    };
+    delivery: {
+      name: string;
+      id: number | string;
+    };
   }>({
-    payment: "",
-    delivery: "",
+    payment: {
+      name: "",
+      id: "",
+    },
+    delivery: {
+      name: "",
+      id: "",
+    },
+  });
+
+  const [location, setLocation] = useState<{
+    id_city: {
+      name: string;
+      id: number | null;
+    };
+    id_city2: {
+      name: string;
+      id: number | null;
+    };
+    directory: string;
+  }>({
+    id_city: {
+      name: "",
+      id: null,
+    },
+    id_city2: {
+      name: "",
+      id: null,
+    },
+    directory: "",
   });
 
   const [nds, setNds] = useState<boolean>(false);
   const [buyer, setBuyer] = useState<Buyer>({
     tel: `${codesCountry.kg.code}`,
-    vid_dost: variableBuyer.delivery,
-    id_vopl: variableBuyer.payment,
+    vid_dost: variableBuyer.delivery.id,
+    id_vopl: variableBuyer.payment.id,
     fio: "",
     name: "",
     org: "",
     org_inn: "",
-    id_city: null,
-    id_city2: null,
-    directory: "",
+    id_city: location.id_city.id,
+    id_city2: location.id_city2.id,
+    directory: location.directory,
   });
 
+  const router = useRouter();
   const [paymentWarning, setPaymentWarning] = useState("");
   const [deliveryWarning, setDeliveryWarning] = useState("");
   const [phoneWarning, setPhoneWarning] = useState("");
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
+
+  // Функция для обновления значения city
+  const updateCity = (newCity: { name: string; id: number }) => {
+    setLocation((prevState) => ({
+      ...prevState,
+      id_city: newCity,
+    }));
+  };
+
+  // Функция для обновления значения region
+  const updateRegion = (newRegion: { name: string; id: number }) => {
+    setLocation((prevState) => ({
+      ...prevState,
+      id_city2: newRegion,
+    }));
+  };
+
+  const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLocation((prevLocation) => ({
+      ...prevLocation,
+      [name]: value,
+    }));
+  };
 
   const { totalQuantity, formattedTotalPrice } = useMemo(() => {
     const result = currentItems.reduce(
@@ -158,17 +218,17 @@ const BasketOrder = ({
     }));
   };
 
-  const selectPayment = (value: string) => {
+  const selectPayment = (payment: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
-      payment: value,
+      payment: payment,
     }));
   };
 
-  const selectDelivery = (value: string | number) => {
+  const selectDelivery = (delivery: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
-      delivery: value,
+      delivery: delivery,
     }));
   };
 
@@ -176,7 +236,7 @@ const BasketOrder = ({
     if (variableBuyer.payment) {
       setBuyer((prevBuyer) => ({
         ...prevBuyer,
-        id_vopl: variableBuyer.payment,
+        id_vopl: variableBuyer.payment.id,
       }));
       activeModalToggle("");
       setPaymentWarning("");
@@ -187,7 +247,7 @@ const BasketOrder = ({
     if (variableBuyer.delivery) {
       setBuyer((prevBuyer) => ({
         ...prevBuyer,
-        vid_dost: variableBuyer.delivery,
+        vid_dost: variableBuyer.delivery.id,
       }));
       activeModalToggle("");
       setDeliveryWarning("");
@@ -270,25 +330,30 @@ const BasketOrder = ({
     return isValid;
   };
 
-  const orderHandler = () => {
+  const orderHandler = async () => {
     if (validateBuyerInfo()) {
       if (!authToken) {
         setRegVisible(true);
       } else {
-        postBoxOrder(
-          authToken,
-          buyer.tel.replace(/\D/g, ""),
-          buyer.vid_dost,
-          buyer.id_vopl,
-          buyer.fio,
-          buyer.name,
-          nds,
-          buyer.org,
-          buyer.org_inn,
-          buyer.id_city?.toString(),
-          buyer.id_city2?.toString(),
-          buyer.directory
-        );
+        try {
+          const data = await postBoxOrder(
+            authToken,
+            buyer.tel.replace(/\D/g, ""),
+            buyer.vid_dost,
+            buyer.id_vopl,
+            buyer.fio,
+            buyer.name,
+            nds,
+            buyer.org,
+            buyer.org_inn,
+            buyer.id_city?.toString(),
+            buyer.id_city2?.toString(),
+            buyer.directory
+          );
+          router.push(`/profile/orders/${data.id}`);
+        } catch (error) {
+          console.error("Не удалось получить данные:", error);
+        }
       }
     }
   };
@@ -339,6 +404,10 @@ const BasketOrder = ({
             selectDelivery={selectDelivery}
             saveDelivery={saveDelivery}
             warning={deliveryWarning}
+            location={location}
+            cityChange={updateCity}
+            regionChange={updateRegion}
+            adressChange={changeAdress}
           />
           <div
             onClick={() => activeModalToggle("")}
@@ -373,7 +442,9 @@ const BasketOrder = ({
         >
           <DeliveryIcon />
           <p className={styles.wrap_delivery_title}>
-            {!buyer.vid_dost ? "Выберите способ доставки" : buyer.vid_dost}
+            {!buyer.vid_dost
+              ? "Выберите способ доставки"
+              : variableBuyer.delivery.name}
           </p>
           <span
             className={cn(
@@ -401,7 +472,9 @@ const BasketOrder = ({
             alt="pay icon"
           />
           <p className={styles.wrap_payment_title}>
-            {!buyer.id_vopl ? "Выберите способ оплаты" : buyer.id_vopl}
+            {!buyer.id_vopl
+              ? "Выберите способ оплаты"
+              : variableBuyer.payment.name}
           </p>
           <span
             className={cn(

@@ -169,19 +169,19 @@ const Card = ({
     localStorage.setItem("cart", JSON.stringify(cart));
     setAdded(true);
   };
-  useEffect(() => {
-    const getQuantityFromCart = (id_tov: number): number => {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const item = cart.find(
-        (item: { id_tov: number }) => item.id_tov === id_tov
-      );
-      return item ? item.minQty : 0;
-    };
-    const qty = getQuantityFromCart(cardData.id_tov);
+  // useEffect(() => {
+  //   const getQuantityFromCart = (id_tov: number): number => {
+  //     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  //     const item = cart.find(
+  //       (item: { id_tov: number }) => item.id_tov === id_tov
+  //     );
+  //     return item ? item.minQty : 0;
+  //   };
+  //   const qty = getQuantityFromCart(cardData.id_tov);
 
-    setQuantity(qty);
-    setAdded(qty > 0);
-  }, [cardData.id_tov]);
+  //   setQuantity(qty);
+  //   setAdded(qty > 0);
+  // }, [cardData.id_tov]);
 
   const handleAddToCart = async () => {
     await addToCart();
