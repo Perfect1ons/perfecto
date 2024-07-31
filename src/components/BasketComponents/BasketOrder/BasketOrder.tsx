@@ -112,7 +112,7 @@ const BasketOrder = ({
     directory: "",
   });
 
-  const [nds, setNds] = useState<boolean>(false);
+  const [nds, setNds] = useState<boolean>(true);
   const [buyer, setBuyer] = useState<Buyer>({
     tel: `${codesCountry.kg.code}`,
     vid_dost: variableBuyer.delivery.id,

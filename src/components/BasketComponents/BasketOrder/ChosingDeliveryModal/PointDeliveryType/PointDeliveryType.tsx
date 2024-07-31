@@ -19,6 +19,7 @@ interface IPointDeliveryTypeProps {
 }
 
 const PointDeliveryType = ({
+
   variants,
   selectDelivery,
   variableBuyer,
@@ -26,10 +27,12 @@ const PointDeliveryType = ({
   return (
     <div className={styles.wrap_delivery}>
       <button
-        onClick={() => selectDelivery({
-          name:variants[1].name,
-          id:variants[1].id
-        })}
+        onClick={() =>
+          selectDelivery({
+            name: variants[1].name,
+            id: variants[1].id,
+          })
+        }
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_delivery_point,

@@ -357,43 +357,6 @@ export const checkUser = (tel: number): Promise<number> => {
   return maxkg.get(`prof/exists-user?tel=${tel}`).json();
 };
 
-// export const postBoxOrder = (
-//   token: string,
-//   tel: string,
-//   vid_dost: any,
-//   id_vopl: any,
-//   fio: string,
-//   name: string,
-//   nds: boolean,
-//   org?: string,
-//   org_inn?: string,
-//   id_city?: string,
-//   id_city2?: string,
-//   directory?: string
-// ) => {
-//   const params = new URLSearchParams();
-//   params.append("tel", tel);
-//   params.append("vid_dost", vid_dost);
-//   params.append("id_vopl", id_vopl);
-//   params.append("fio", fio);
-//   params.append("name", name);
-//   if (nds === true) {
-//     if (org) params.append("org", org);
-//     if (org_inn) params.append("org_inn", org_inn);
-//   }
-//   if (id_city) params.append("id_city", id_city);
-//   if (id_city2) params.append("id_city2", id_city2);
-//   if (directory) params.append("directory", directory);
-
-//   return maxkgnocache.post(`box/zakaz`, {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       "Content-Type": "application/x-www-form-urlencoded",
-//     },
-//     body: params.toString(),
-//   });
-// };
-
 export const postBoxOrder = async (
   token: string,
   tel: string,
@@ -414,9 +377,9 @@ export const postBoxOrder = async (
   params.append("id_vopl", id_vopl);
   params.append("fio", fio);
   params.append("name", name);
-  if (nds === true) {
-    if (org) params.append("org", org);
-    if (org_inn) params.append("org_inn", org_inn);
+  if (org && org_inn && nds === true) {
+    params.append("org", org);
+    params.append("org_inn", org_inn);
   }
   if (id_city) params.append("id_city", id_city);
   if (id_city2) params.append("id_city2", id_city2);
