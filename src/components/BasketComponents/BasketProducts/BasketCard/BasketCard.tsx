@@ -54,7 +54,6 @@ const BasketCard = ({
       return number.toLocaleString("ru-RU");
     }
   };
-
   const totalPrice = item.cenaok * item.kol;
   const formattedPrice = formatNumber(totalPrice);
   const formattedQuantity = formatNumber(item.kol);

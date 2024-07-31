@@ -129,14 +129,11 @@ const Card = ({
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
   const removeFromCart = (id_tov: number) => {
-    // Получаем текущие данные корзины
-    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-
-    // Удаляем товар из корзины
-    delete cart[id_tov];
-
-    // Сохраняем обновленную корзину
-    localStorage.setItem("cart", JSON.stringify(cart));
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const updatedCart = cart.filter(
+      (item: { id_tov: number }) => item.id_tov !== id_tov
+    );
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
   const handleCartEmpty = () => {
@@ -155,25 +152,33 @@ const Card = ({
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
-    // localStorage.setItem(`cart-${cardData.id_tov}`, JSON.stringify(true));
-    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const existingItemIndex = cart.findIndex(
+      (item: any) => item.id_tov === cardData.id_tov
+    );
+    if (existingItemIndex > -1) {
+      cart[existingItemIndex].minQty = cardData.minQty;
+    } else {
+      const basketData = {
+        id_tov: cardData.id_tov,
+        minQty: cardData.minQty,
+      };
+      cart.push(basketData);
+    }
 
-    // Обновляем количество товара
-    cart[cardData.id_tov] = (cart[cardData.id_tov] || 0) + cardData.minQty;
-
-    // Сохраняем обновленную корзину обратно в localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
     setAdded(true);
   };
-  const getQuantityFromCart = (id_tov: number) => {
-    const cart = JSON.parse(localStorage.getItem("cart") || "{}");
-
-    return cart[id_tov] || 0;
-  };
-
   useEffect(() => {
-    // Получаем количество товара из localStorage при монтировании
+    const getQuantityFromCart = (id_tov: number): number => {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      const item = cart.find(
+        (item: { id_tov: number }) => item.id_tov === id_tov
+      );
+      return item ? item.minQty : 0;
+    };
     const qty = getQuantityFromCart(cardData.id_tov);
+
     setQuantity(qty);
     setAdded(qty > 0);
   }, [cardData.id_tov]);
