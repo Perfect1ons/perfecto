@@ -172,14 +172,6 @@ const BasketOrder = ({
     }));
   };
 
-  // Функция для обновления значения region
-  const updateRegion = (newRegion: { name: string; id: number }) => {
-    setLocation((prevState) => ({
-      ...prevState,
-      id_city2: newRegion,
-    }));
-  };
-
   //location.directory values changer function
   const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -493,7 +485,6 @@ const BasketOrder = ({
             warning={deliveryWarning}
             location={location}
             cityChange={updateCity}
-            regionChange={updateRegion}
             adressChange={changeAdress}
           />
           <div

@@ -37,7 +37,6 @@ interface ICourierDeliveryTypeProps {
     };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
-  regionChange: (newRegion: { name: string; id: number }) => void;
   adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
