@@ -107,6 +107,7 @@ const Card = ({
         )
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.ocenka, favoritesData]);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -292,7 +293,7 @@ const Card = ({
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!isHomePage && !added && (
+          {!isHomePage && quantity < 0 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -311,7 +312,7 @@ const Card = ({
               </button>
             </div>
           )}
-          {!isHomePage && added && id_cart && quantity >= 1 && (
+          {!isHomePage && id_cart && quantity > 0 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
