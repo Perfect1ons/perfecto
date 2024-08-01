@@ -29,6 +29,7 @@ import {
 import { RootState } from "@/store";
 import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
@@ -36,6 +37,7 @@ interface IBasketProps {
   deliveryCity: CityFront;
   cart: any;
   cartId: string | null | undefined;
+  user: UserPersonalDataType;
 }
 
 const Basket = ({
@@ -45,6 +47,7 @@ const Basket = ({
   deliveryCity,
   cart,
   cartId,
+  user,
 }: IBasketProps) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -269,6 +272,7 @@ const Basket = ({
               deliveryMethod={deliveryMethod}
               authToken={authToken}
               currentItems={basket}
+              user={user}
             />
           </div>
         </div>

@@ -16,9 +16,10 @@ import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
-import { postBoxOrder } from "@/api/clientRequest";
+import { getExitsUser, postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 
 export interface Buyer {
   tel: string;
@@ -53,6 +54,7 @@ interface IBasketOrderProps {
   authToken: string | undefined;
   deliveryCity: CityFront;
   currentItems: Model[];
+  user: UserPersonalDataType;
 }
 
 const BasketOrder = ({
@@ -61,8 +63,11 @@ const BasketOrder = ({
   authToken,
   deliveryCity,
   currentItems,
+  user,
 }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
+
+  const [anotherVisible, setAnotherVisible] = useState(false);
 
   const [regVisible, setRegVisible] = useState(false);
 
@@ -120,13 +125,21 @@ const BasketOrder = ({
     },
   });
 
-  const [nds, setNds] = useState<boolean>(true);
-  const [buyer, setBuyer] = useState<Buyer>({
+  const [anotherRecipient, setAnotherRecipient] = useState({
     tel: `${codesCountry.kg.code}`,
-    vid_dost: variableBuyer.delivery.id,
-    id_vopl: variableBuyer.payment.id,
     fio: "",
     name: "",
+  });
+
+  const [anotherStatus, setAnotherStatus] = useState("");
+
+  const [nds, setNds] = useState<boolean>(true);
+  const [buyer, setBuyer] = useState<Buyer>({
+    tel: user.tel ? user.tel : "",
+    vid_dost: variableBuyer.delivery.id,
+    id_vopl: variableBuyer.payment.id,
+    fio: user.fio ? user.fio : "",
+    name: user.name ? user.name : "",
     org: "",
     org_inn: "",
     id_city: null,
@@ -240,6 +253,44 @@ const BasketOrder = ({
     }));
   };
 
+  const handleAnotherRecipientChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAnotherRecipient((prevAnother) => ({
+      ...prevAnother,
+      [name]: value,
+    }));
+  };
+
+  const handleAnotherRecipientBlur = async () => {
+    try {
+      const cleanedTel = anotherRecipient.tel.replace(/\D/g, "");
+      const response = await getExitsUser(cleanedTel);
+
+      if (response) {
+        const data = response;
+        setBuyer((prevBuyer) => ({
+          ...prevBuyer,
+          tel: data.tel,
+          fio: data.fio,
+          name: data.name,
+        }));
+
+        setAnotherRecipient((prevAnother) => ({
+          ...prevAnother,
+          tel: data.tel,
+          fio: data.fio,
+          name: data.name,
+        }));
+
+        setAnotherStatus("Пользователь найден");
+      } else {
+        setAnotherStatus("Пользователь не найден.");
+      }
+    } catch (error) {
+      console.error("Error making request:", error);
+      setAnotherStatus("Ошибка при запросе.");
+    }
+  };
   const selectPayment = (payment: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
@@ -602,15 +653,18 @@ const BasketOrder = ({
             </div>
           </div>
         )}
+        {anotherStatus && (
+          <p className={styles.wrap_anotherStatus}>{anotherStatus}</p>
+        )}
         {authToken && (
           <div className={styles.wrap_organization}>
             <button
-              onClick={() => visibleHandler("another")}
+              onClick={() => setAnotherVisible(!anotherVisible)}
               className={styles.wrap_organization_dropdownToggler}
             >
               <span
                 className={cn(
-                  visible === "another"
+                  anotherVisible
                     ? styles.wrap_organization_dropdownToggler_arrow__active
                     : styles.wrap_organization_dropdownToggler_arrow
                 )}
@@ -621,7 +675,7 @@ const BasketOrder = ({
             </button>
             <div
               className={cn(
-                visible === "another"
+                anotherVisible
                   ? styles.wrap_organization_dropdown__active
                   : styles.wrap_organization_dropdown
               )}
@@ -631,9 +685,10 @@ const BasketOrder = ({
                   <div className={styles.wrap_phone_control}>
                     <InputMask
                       mask={mask}
-                      value={buyer.tel}
-                      onChange={handleBuyerChange}
+                      value={anotherRecipient.tel}
+                      onChange={handleAnotherRecipientChange}
                       className={styles.auth__input}
+                      onBlur={handleAnotherRecipientBlur}
                     >
                       {(
                         inputProps: React.InputHTMLAttributes<HTMLInputElement>
@@ -674,9 +729,6 @@ const BasketOrder = ({
                       />
                     </button>
                   </div>
-                  {phoneWarning && (
-                    <p className={styles.wrap_warning}>{phoneWarning}</p>
-                  )}
                   {visible === "country" && (
                     <div className={styles.wrap_phone_dropdown}>
                       {countryOptions}
@@ -687,10 +739,10 @@ const BasketOrder = ({
                   <div className="mail__label">
                     <input
                       className="mail__inputField"
-                      value={buyer.fio}
+                      value={anotherRecipient.fio}
                       name="fio"
                       type="text"
-                      onChange={handleBuyerChange}
+                      onChange={handleAnotherRecipientChange}
                       required
                     />
                     <label className="mail__inputLabel">Фамилия</label>
@@ -703,10 +755,10 @@ const BasketOrder = ({
                   <div className="mail__label">
                     <input
                       className="mail__inputField"
-                      value={buyer.name}
+                      value={anotherRecipient.name}
                       name="name"
                       type="text"
-                      onChange={handleBuyerChange}
+                      onChange={handleAnotherRecipientChange}
                       required
                     />
                     <label className="mail__inputLabel">Имя</label>
