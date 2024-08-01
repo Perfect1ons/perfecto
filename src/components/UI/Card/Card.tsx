@@ -79,27 +79,14 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       setQuantity(0);
     }
   }, [basket, cardData.id_tov, cardData.minQty]);
-  const getFavoritesFromLocalStorage = () => {
-    const favorites = localStorage.getItem("favorites");
-    return favorites ? JSON.parse(favorites) : [];
-  };
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    const favoritesData = getFavoritesFromLocalStorage();
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
-      favoritesData.some(
-        (fav: IFavoritesModel) => fav.id_tov === cardData.id_tov
-      )
+      favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
-  }, [cardData]);
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-
-    if (!isAuthed) {
-      openAuthModal();
-      return;
-    }
+  }, [cardData.ocenka, cardData.id_tov]);
+  const handleFavoriteClick = () => {
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message: string | JSX.Element = "";
     const favoriteData = {
@@ -117,14 +104,18 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       status: cardData.status,
       minQty: cardData.minQty,
     };
+    if (!isAuthed) {
+      openAuthModal();
+      return;
+    }
     if (isFavorite) {
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
       message = "Товар удален из избранного.";
-      if (removeFromFavorites) {
-        removeFromFavorites(cardData.id_tov);
-      }
     } else {
-      favorites.push(favoriteData);
       postFavorite(cardData.id_tov, 1, token);
+      favorites.push(favoriteData);
       message = (
         <>
           Товар добавлен в избранное.{" "}
@@ -134,11 +125,10 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         </>
       );
     }
-
     localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
     setModalMessage(message);
-    setIsFavorite(!isFavorite);
     setModalVisible(true);
   };
 
