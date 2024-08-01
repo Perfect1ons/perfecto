@@ -22,6 +22,9 @@ import {
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setBasket } from "@/store/reducers/basket.reducer";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -51,6 +54,9 @@ const Card = ({
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
+  const basket = useSelector((state: RootState) => state.basket.basket);
+  const dispatch = useDispatch();
+
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -80,23 +86,17 @@ const Card = ({
     }
   };
   useEffect(() => {
-    // Функция загрузки количества из localStorage
-    const loadQuantityFromLocalStorage = () => {
-      let carts: { id_tov: number; kol: number }[] = JSON.parse(
-        localStorage.getItem("cart") || "[]"
+    const kolCard = basket.find((res) => res.id_tov === cardData.id_tov);
+    if (kolCard) {
+      setQuantity(
+        kolCard.kol !== undefined
+          ? Math.max(kolCard.kol, kolCard.quantity || 0)
+          : kolCard.quantity || 0
       );
-      const cartItem = carts.find((item) => item.id_tov === cardData.id_tov);
-      if (cartItem) {
-        setQuantity(cartItem.kol);
-        setAdded(cartItem.kol > 0); // Установите состояние added в зависимости от количества
-      } else {
-        setQuantity(0);
-        setAdded(false);
-      }
-    };
-
-    loadQuantityFromLocalStorage();
-  }, [cardData.id_tov]);
+    } else {
+      setQuantity(cardData.minQty);
+    }
+  }, [basket, cardData.id_tov, cardData.minQty]);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
@@ -107,7 +107,7 @@ const Card = ({
         )
       );
     }
-  }, [cardData.ocenka, cardData.id_tov, favoritesData]);
+  }, [cardData.ocenka, favoritesData]);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -154,13 +154,6 @@ const Card = ({
   // Функция обновления корзины в localStorage
 
   const addToCart = async () => {
-    let carts: { id_tov: number; kol: number }[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
-    const basketData = {
-      id_tov: cardData.id_tov,
-      kol: cardData.minQty,
-    };
     if (token) {
       await postBasketProductAuthed(
         token,
@@ -170,19 +163,10 @@ const Card = ({
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
-    const existingItemIndex = carts.findIndex(
-      (item) => item.id_tov === basketData.id_tov
-    );
-    if (existingItemIndex > -1) {
-      carts[existingItemIndex].kol += basketData.kol;
-    } else {
-      carts.push(basketData);
-    }
-    localStorage.setItem("cart", JSON.stringify(carts));
     setAdded(true);
-    setQuantity(basketData.kol);
   };
   const handleAddToCart = async () => {
+    dispatch(setBasket(cardData));
     await addToCart();
     setShouldFocusInput(true);
     setModalMessage(
@@ -327,7 +311,7 @@ const Card = ({
               </button>
             </div>
           )}
-          {!isHomePage && added && id_cart && quantity >= 0 && (
+          {!isHomePage && added && id_cart && quantity >= 1 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"

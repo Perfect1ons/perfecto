@@ -115,37 +115,38 @@ const BasketProducts = ({
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
       </InformationModal>
-      {items.map((item: Model) => {
-        const imageUrl =
-          item.photos.length > 0
-            ? item.photos[0]?.url_part.startsWith("https://goods")
-              ? `${item.photos[0]?.url_part}280.jpg`
-              : item.photos[0]?.url_part.startsWith("https://")
-              ? item.photos[0]?.url_part
-              : `${url}nal/img/${item.id_post}/l_${item.photos[0]?.url_part}`
-            : "/img/noPhoto.svg";
-        const isFavorite = favoriteItems[item.id_tov] || false;
-        return (
-          <BasketCard
-            key={item.id_tov}
-            item={item}
-            imageUrl={imageUrl}
-            isFavorite={isFavorite}
-            rating={Math.floor(item.ocenka)}
-            handleFavoriteClick={(e: React.MouseEvent) =>
-              handleFavoriteClick(e, item)
-            }
-            removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
-              deleteItem(e, item)
-            }
-            handleCartEmpty={handleCartEmpty}
-            shouldFocusInput={shouldFocusInput}
-            setShouldFocusInput={() => setShouldFocusInput(false)}
-            selected={item.selected}
-            id_cart={cartId}
-          />
-        );
-      })}
+      {items &&
+        items.map((item: Model) => {
+          const imageUrl =
+            item.photos.length > 0
+              ? item.photos[0]?.url_part.startsWith("https://goods")
+                ? `${item.photos[0]?.url_part}280.jpg`
+                : item.photos[0]?.url_part.startsWith("https://")
+                ? item.photos[0]?.url_part
+                : `${url}nal/img/${item.id_post}/l_${item.photos[0]?.url_part}`
+              : "/img/noPhoto.svg";
+          const isFavorite = favoriteItems[item.id_tov] || false;
+          return (
+            <BasketCard
+              key={item.id_tov}
+              item={item}
+              imageUrl={imageUrl}
+              isFavorite={isFavorite}
+              rating={Math.floor(item.ocenka)}
+              handleFavoriteClick={(e: React.MouseEvent) =>
+                handleFavoriteClick(e, item)
+              }
+              removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
+                deleteItem(e, item)
+              }
+              handleCartEmpty={handleCartEmpty}
+              shouldFocusInput={shouldFocusInput}
+              setShouldFocusInput={() => setShouldFocusInput(false)}
+              selected={item.selected}
+              id_cart={cartId}
+            />
+          );
+        })}
     </div>
   );
 };
