@@ -18,8 +18,6 @@ import {
 
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { SelectCityType } from "@/types/Basket/SelectCity";
-import { Model } from "@/types/Basket/getBasketProduct";
 import { ICard } from "@/types/Card/card";
 import { useDispatch, useSelector } from "react-redux";
 import { setBasket } from "@/store/reducers/basket.reducer";
@@ -30,11 +28,12 @@ import {
 } from "@/store/reducers/basket.reducer";
 import { RootState } from "@/store";
 import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
+import { CityFront } from "@/types/Basket/cityfrontType";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
-  deliveryCity: SelectCityType;
+  deliveryCity: CityFront;
   cart: any;
   cartId: string | null | undefined;
 }

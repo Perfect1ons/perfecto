@@ -56,6 +56,7 @@
   }
   &_payment {
     margin-top: 15px;
+    margin-bottom: 15px;
     @include mixin.flex(center, space-between, null, null);
     width: 100%;
     padding: 5px 10px;
@@ -80,7 +81,6 @@
     }
   }
   &_phone {
-    margin-top: 15px;
     position: relative;
     @include mixin.flex(center, center, column, null);
     width: 100%;
@@ -200,6 +200,7 @@
       &__active {
         width: 100%;
         margin-top: 15px;
+        margin-bottom: 15px;
         height: 150px;
         transition: 0.3s all;
       }

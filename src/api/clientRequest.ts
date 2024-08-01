@@ -368,7 +368,7 @@ export const postBoxOrder = async (
   org?: string,
   org_inn?: string,
   id_city?: string,
-  id_city2?: string,
+
   directory?: string
 ): Promise<PostOrderResponse> => {
   const params = new URLSearchParams();
@@ -382,7 +382,7 @@ export const postBoxOrder = async (
     params.append("org_inn", org_inn);
   }
   if (id_city) params.append("id_city", id_city);
-  if (id_city2) params.append("id_city2", id_city2);
+  params.append("id_city2", "0");
   if (directory) params.append("directory", directory);
 
   try {
