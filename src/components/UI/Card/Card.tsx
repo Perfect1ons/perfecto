@@ -28,17 +28,11 @@ import { setBasket } from "@/store/reducers/basket.reducer";
 
 interface IcardDataProps {
   cardData: ICard;
-  favoritesData?: IFavoritesModel[];
   removeFromFavorites?: (id_tov: number) => void;
   id_cart?: string | null | undefined;
 }
 
-const Card = ({
-  cardData,
-  removeFromFavorites,
-  id_cart,
-  favoritesData,
-}: IcardDataProps) => {
+const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const maxLength = 40;
   const maxLengthDdos = 32;
@@ -73,71 +67,66 @@ const Card = ({
     return newImages;
   });
 
-  const showModal = (message: React.ReactNode) => {
-    if (isModalVisible) {
-      setModalVisible(false);
-      setTimeout(() => {
-        setModalMessage(message);
-        setModalVisible(true);
-      }, 300);
-    } else {
-      setModalMessage(message);
-      setModalVisible(true);
-    }
-  };
   useEffect(() => {
     const kolCard = basket.find((res) => res.id_tov === cardData.id_tov);
     if (kolCard) {
-      setQuantity(
-        kolCard.kol !== undefined
-          ? Math.max(kolCard.kol, kolCard.quantity || 0)
-          : kolCard.quantity || 0
-      );
+      setQuantity(kolCard.quantity || kolCard.kol);
     } else {
-      setQuantity(cardData.minQty);
+      setQuantity(0);
     }
   }, [basket, cardData.id_tov, cardData.minQty]);
-
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    if (favoritesData) {
-      setIsFavorite(
-        favoritesData.some(
-          (fav: IFavoritesModel) => fav.id_tov === cardData.id_tov
-        )
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.ocenka, favoritesData]);
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(
+      favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
+    );
+  }, [cardData.ocenka, cardData.id_tov]);
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
-
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message: string | JSX.Element = "";
+    const favoriteData = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+      minQty: cardData.minQty,
+    };
     if (!isAuthed) {
       openAuthModal();
       return;
     }
-
-    const message = isFavorite ? (
-      "Товар удален из избранного."
-    ) : (
-      <>
-        Товар добавлен в избранное.
-        <Link className="linkCart" href={"/favorites"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-
     if (isFavorite) {
-      if (removeFromFavorites) {
-        removeFromFavorites(cardData.id_tov);
-      }
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
     } else {
       postFavorite(cardData.id_tov, 1, token);
+      favorites.push(favoriteData);
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
     }
-
-    showModal(message);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+    setModalMessage(message);
+    setModalVisible(true);
   };
 
   const handleModalClose = () => {

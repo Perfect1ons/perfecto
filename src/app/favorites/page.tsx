@@ -4,8 +4,6 @@ import FavoritesIsEmpty from "@/components/FavoritesComponents/FavoriteMain/Favo
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
-export const revalidate = 0.05;
-
 export const metadata: Metadata = {
   title: "Избранное",
   description:
@@ -13,8 +11,13 @@ export const metadata: Metadata = {
   keywords:
     "Оптом Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
+interface FavoritesProps {
+  searchParams: {
+    page?: string;
+  };
+}
 
-export default async function Favorites() {
+export default async function Favorites({ searchParams }: FavoritesProps) {
   const cookieStore = cookies();
   const authToken = cookieStore.get("identify")?.value;
   if (authToken) {

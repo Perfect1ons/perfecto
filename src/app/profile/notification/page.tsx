@@ -1,6 +1,5 @@
-import { getNotification, getPersonalDataProfileServer } from "@/api/requests";
+import { getNotification } from "@/api/requests";
 import NotFound from "@/app/not-found";
-import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import NotificationPage from "@/components/Profile/UserNotification/NotificationPage";
 import NotificationSettings from "@/components/Profile/UserNotification/NotificationSettings/NotificationSettings";
 import { Metadata } from "next";
@@ -15,6 +14,8 @@ export const metadata: Metadata = {
     "Оптом Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
+export const revalidate = 1;
+
 interface NotificationProps {
   searchParams: {
     type?: string;
@@ -22,39 +23,25 @@ interface NotificationProps {
 }
 
 export default async function page({ searchParams }: NotificationProps) {
-  const cookieAuth = cookies();
+  const cookieStore = cookies();
   const settingsPage = searchParams?.type;
-  const isAuthed = cookieAuth.get("identify")?.value;
+  const isAuthed = cookieStore.get("identify")?.value;
+  const userId = cookieStore.get("userId")?.value;
 
-
-  if (isAuthed) {
+  if (isAuthed && userId) {
     try {
-      const userInfo = await getPersonalDataProfileServer(isAuthed);
-      const userId = userInfo.id;
-      const notification = await getNotification(userId);
-
-        if (!settingsPage) {
-    return (
-      <div>
-        <ProfileTabs />
-        <NotificationPage notifications={notification} />
-      </div>
-    );
-  }
+      const notification = await getNotification(parseInt(userId));
+      if (!settingsPage) {
+        return <NotificationPage notifications={notification} />;
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
-
   if (settingsPage !== "notification") {
     return <NotFound />;
   }
 
-  return (
-    <div>
-      <ProfileTabs />
-      <NotificationSettings />
-    </div>
-  );
+  return <NotificationSettings />;
 }

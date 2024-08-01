@@ -1,19 +1,17 @@
-import { ISeekItem } from "@/types/Search/seek";
-import dynamic from "next/dynamic";
+import Card from "../UI/Card/Card";
 
-const SeekCards = dynamic(() => import("@/components/Seek/SeekCard"));
 
 interface ProductListProps {
-  items: ISeekItem[];
+  items: any[];
 }
 
 const ProductList: React.FC<ProductListProps> = ({ items }) => {
   return (
     <div
-      className={"main__news_cards"}
+      className={"cards"}
     >
       {items.map((item, index) =>
-        <SeekCards key={index} cardData={item} />
+        <Card key={index} cardData={item} />
       )}
     </div>
   );

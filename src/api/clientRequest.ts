@@ -6,7 +6,7 @@ import { ICategoryFilter } from "@/types/Catalog/catalogFilters";
 import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
-import { Notifications } from "@/types/Profile/Notifications/notifications";
+import { INotifications } from "@/types/Profile/Notifications/notifications";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
 import { settingsNotificationUpdateType } from "@/types/Profile/settingsNotificationUpdaet";
@@ -279,7 +279,7 @@ export const postPesonalDataProfileOrg = (
   });
 };
 
-export const getNotificationCount = (id: number): Promise<Notifications> => {
+export const getNotificationCount = (id: number): Promise<INotifications> => {
   return maxkg.get(`site/notification?idUser=${id}`).json();
 };
 

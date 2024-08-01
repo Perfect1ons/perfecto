@@ -45,13 +45,9 @@ const CartReducerBtn = ({
   useEffect(() => {
     const item = basket.find((item) => item.id_tov === data.id_tov);
     if (item) {
-      setQuantity(
-        item.kol !== undefined
-          ? Math.max(item.kol, item.quantity || 0)
-          : item.quantity || 0
-      );
+      setQuantity(item.kol || item.quantity);
     } else {
-      setQuantity(data.minQty);
+      setQuantity(0);
     }
   }, [basket, data.id_tov, data.minQty]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

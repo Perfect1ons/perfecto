@@ -1,0 +1,41 @@
+@use "../common/mixins" as mixin;
+
+.showMore__button {
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  margin-top: 20px;
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+  user-select: none;
+  @include mixin.flex(center, center);
+  @include mixin.button(
+    10px 25px,
+    null,
+    2px solid var(--dark-blue),
+    5px,
+    var(--bg-white),
+    18px,
+    600,
+    var(--dark-blue)
+  );
+  transition: 0.2s ease-out;
+  &:hover {
+    background: var(--bg-darkblue);
+    color: var(--white);
+  }
+
+  &_skeleton {
+    width: 179.08px !important;
+    height: 49.19px !important;
+    margin-top: 0 !important;
+  }
+}
+
+.showMore__buttons {
+  @include mixin.flex(center, center);
+
+  span {
+    @include mixin.flex(center, center);
+    max-height: 49.19px;
+    margin-top: 20px;
+  }
+}

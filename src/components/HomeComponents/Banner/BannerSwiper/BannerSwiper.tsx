@@ -10,12 +10,11 @@ import "swiper/css/navigation";
 import Image from "next/image";
 import { IIntro } from "@/types/Home/banner";
 import Link from "next/link";
-import clsx from "clsx";
+import cn from "clsx";
 import {
   SwiperNextArrow,
   SwiperPrevArrow,
 } from "../../../../../public/Icons/Icons";
-
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -44,16 +43,12 @@ const BannerSwiper = ({ slides }: ISlide) => {
         nextEl: ".swiper-button-next_card",
         disabledClass: "swiper-button-disabled",
       }}
-      className={clsx("customSwiper", styles.swiper)}
-      loop={isLoop} // Условное включение режима loop
+      style={isLoop ? { paddingBottom: "40px" } : {}}
+      className={styles.swiper}
+      loop={isLoop}
     >
       {slides.map((slide) => (
-        <SwiperSlide
-          key={slide.id}
-          className={`${styles.swiper__slide} ${
-            slides.length === 2 ? "slideWithPadding" : "notmorethentwo"
-          }`}
-        >
+        <SwiperSlide key={slide.id} className={`${styles.swiper__slide}`}>
           <Link href={slide.url.replace("https://max.kg/", "")}>
             {imageLoaded ? (
               <Skeleton className={styles.swiper__slide_img_skeleton} />
@@ -78,7 +73,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
         <>
           <button
             aria-label="prev swiper slide"
-            className={clsx(
+            className={cn(
               styles.sliderArrow,
               styles.sliderArrow_left,
               "swiper-button-prev_card"
@@ -88,7 +83,7 @@ const BannerSwiper = ({ slides }: ISlide) => {
           </button>
           <button
             aria-label="next swiper slide"
-            className={clsx(
+            className={cn(
               styles.sliderArrow,
               styles.sliderArrow_right,
               "swiper-button-next_card"

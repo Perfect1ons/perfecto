@@ -1,4 +1,4 @@
-export type Notifications = Notification[];
+export type INotifications = Notification[];
 
 export interface Notification {
   id: number;

@@ -3,9 +3,9 @@ import { useState } from "react";
 import Image from "next/image";
 import styles from "./style.module.scss";
 
-interface IImageProps{
-    images: string[];
-    name: string;
+interface IImageProps {
+  images: string[];
+  name: string;
 }
 
 const ImageSlider = ({ images, name }: IImageProps) => {
