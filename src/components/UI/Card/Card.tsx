@@ -86,7 +86,8 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message: string | JSX.Element = "";
     const favoriteData = {
