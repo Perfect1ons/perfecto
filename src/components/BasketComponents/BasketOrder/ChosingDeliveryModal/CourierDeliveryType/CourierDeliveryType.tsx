@@ -2,10 +2,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
-import {
-  ArrowDropdown,
-  СhevronDownIcon,
-} from "../../../../../../public/Icons/Icons";
+import { СhevronDownIcon } from "../../../../../../public/Icons/Icons";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { getSelectRegion } from "@/api/clientRequest";
@@ -46,42 +43,6 @@ interface ICourierDeliveryTypeProps {
   adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const times = [
-  {
-    value: "Не выбрано",
-  },
-  {
-    value: "с 9.00 до 10.00",
-  },
-  {
-    value: "с 10.00 до 11.00",
-  },
-  {
-    value: "с 11.00 до 12.00",
-  },
-  {
-    value: "с 12.00 до 13.00",
-  },
-  {
-    value: "с 14.00 до 15.00",
-  },
-  {
-    value: "с 15.00 до 16.00",
-  },
-  {
-    value: "с 16.00 до 17.00",
-  },
-  {
-    value: "с 17.00 до 18.00",
-  },
-  {
-    value: "с 18.00 до 19.00",
-  },
-  {
-    value: "с 19.00 до 20.00",
-  },
-];
-
 const CourierDeliveryType = ({
   variants,
   selectDelivery,
@@ -93,11 +54,6 @@ const CourierDeliveryType = ({
   regionChange,
   adressChange,
 }: ICourierDeliveryTypeProps) => {
-  const [openTime, setOpenTime] = useState(false);
-
-  const [openSelect, setOpenSelect] = useState(false);
-
-  const [selectedTime, setSelectedTime] = useState("Не выбрано");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [region, setRegion] = useState<SelectRegionType>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -120,19 +76,6 @@ const CourierDeliveryType = ({
       document.removeEventListener("click", handleClickOutside);
     };
   }, [dropdownOpen]);
-  const selectHandler = () => {
-    setOpenSelect(!openSelect);
-  };
-
-  const openTimeHandler = () => {
-    setOpenTime(!openTime);
-    setOpenSelect(false);
-  };
-
-  const selectTime = (value: string) => {
-    setSelectedTime(value);
-    setOpenSelect(false);
-  };
 
   const getRegions = async (id: number) => {
     if (authToken && (id < 10 || id > 99)) {
@@ -306,68 +249,6 @@ const CourierDeliveryType = ({
           </div>
         </div>
       ))}
-      <div className={styles.wrap_courier_selectTime}>
-        <button
-          onClick={openTimeHandler}
-          className={cn(
-            styles.wrap_courier_selectTime_button,
-            openTime && styles.wrap_courier_selectTime_button_active
-          )}
-        >
-          Указать время{" "}
-          <span
-            className={cn(
-              styles.wrap_courier_selectTime_button_arrow,
-              openTime && styles.wrap_courier_selectTime_button_arrow_active
-            )}
-          >
-            <ArrowDropdown />
-          </span>
-        </button>
-        <div
-          className={cn(
-            styles.wrap_courier_selectTime_dropdown,
-            openTime && styles.wrap_courier_selectTime_dropdown_active
-          )}
-        >
-          <button
-            onClick={selectHandler}
-            className={cn(
-              styles.wrap_courier_selectTime_dropdown_toggler,
-              openSelect &&
-                styles.wrap_courier_selectTime_dropdown_toggler_active
-            )}
-          >
-            {selectedTime}
-            <span
-              className={cn(
-                styles.wrap_courier_selectTime_dropdown_toggler_arrow,
-                openSelect &&
-                  styles.wrap_courier_selectTime_dropdown_toggler_arrow_active
-              )}
-            >
-              <ArrowDropdown />
-            </span>
-          </button>
-          {openSelect && (
-            <ul
-              className={cn(styles.dropdownContainer, {
-                [styles.dropdownContainerActive]: openSelect,
-              })}
-            >
-              {times.map((time, index) => (
-                <li
-                  key={index}
-                  className={styles.dropdownItem}
-                  onClick={() => selectTime(time.value)}
-                >
-                  {time.value}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
     </div>
   );
 };
