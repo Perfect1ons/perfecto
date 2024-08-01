@@ -173,36 +173,47 @@ const CourierDeliveryType = ({
           </div>
         )}
       </div>
-      <div className={styles.wrap_courier_selectAddress}>
-        <input
-          placeholder="Введите: улица"
-          type="text"
-          className={styles.wrap_courier_selectAddress_input}
-          value={location.directory.street}
-          name="street"
-          onChange={adressChange}
-        />
-      </div>
-      <div className={styles.wrap_courier_selectAddress}>
-        <input
-          placeholder="Введите: дом"
-          type="text"
-          className={styles.wrap_courier_selectAddress_input}
-          value={location.directory.house}
-          name="house"
-          onChange={adressChange}
-        />
+
+      <div style={{ marginTop: "15px" }} className="containerInputLabel">
+        <div className="mail__label">
+          <input
+            className="mail__inputField"
+            value={location.directory.street}
+            name="street"
+            type="text"
+            onChange={adressChange}
+            required
+          />
+          <label className="mail__inputLabel">Улица</label>
+        </div>
       </div>
 
-      <div className={styles.wrap_courier_selectAddress}>
-        <input
-          placeholder="Введите: квартира"
-          type="text"
-          className={styles.wrap_courier_selectAddress_input}
-          value={location.directory.apartament}
-          name="apartament"
-          onChange={adressChange}
-        />
+      <div style={{ marginTop: "15px" }} className="containerInputLabel">
+        <div className="mail__label">
+          <input
+            className="mail__inputField"
+            value={location.directory.house}
+            name="house"
+            type="text"
+            onChange={adressChange}
+            required
+          />
+          <label className="mail__inputLabel">Дом</label>
+        </div>
+      </div>
+
+      <div style={{ marginTop: "15px" }} className="containerInputLabel">
+        <div className="mail__label">
+          <input
+            className="mail__inputField"
+            value={location.directory.apartament}
+            name="apartament"
+            type="text"
+            onChange={adressChange}
+            required
+          />
+          <label className="mail__inputLabel">Квартира</label>
+        </div>
       </div>
 
       {Object.entries(variants).map(([key, variant]) => (
