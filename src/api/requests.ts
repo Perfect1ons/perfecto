@@ -25,7 +25,7 @@ import { BrandsAll } from "@/types/bannerAll";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
-import { Notifications } from "@/types/Profile/Notifications/notifications";
+import { INotifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
@@ -272,8 +272,8 @@ export const getPersonalDataProfileServer = (
     .json();
 };
 
-export const getNotification = (id: number): Promise<Notifications> => {
-  return maxkg.get(`site/notification?idUser=${id}`).json();
+export const getNotification = (id: number): Promise<INotifications> => {
+  return maxkgnocache.get(`site/notification?idUser=${id}`).json();
 };
 
 export const getOrdersHistory = (token: string): Promise<IOrderHistory> => {

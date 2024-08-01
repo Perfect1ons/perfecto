@@ -17,21 +17,6 @@ table {
   cursor: not-allowed !important;
 }
 
-.icon-favorites {
-  fill: var(--white);
-  stroke: #7a7a7a;
-  transition: transform 0.3s ease-in-out, fill 0.3s ease-in-out,
-    stroke 0.3s ease-in-out;
-
-  @media screen and (min-width: 768px) {
-    &:hover {
-      fill: var(--red);
-      stroke: var(--red);
-      transform: scale(1.2);
-    }
-  }
-}
-
 td {
   border: 1px solid var(--light-gray);
 }
@@ -54,60 +39,6 @@ body {
   @media screen and (max-width: 40rem) {
     padding: 0 8px;
   }
-}
-
-//! Показать больше - Показать все кнопки
-
-
-.default__buttons_showMore {
-  -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
-  margin-top: 20px;
-  user-select: none;
-  @include mixin.flex(center, center);
-  @include mixin.button(
-    10px 25px,
-    null,
-    2px solid var(--dark-blue),
-    5px,
-    var(--bg-white),
-    18px,
-    600,
-    var(--dark-blue)
-  );
-  transition: 0.2s ease-out;
-  &:hover {
-    background: var(--bg-darkblue);
-    color: var(--white);
-  }
-}
-
-
-.showMore__button {
-  -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
-  margin-top: 20px;
-  user-select: none;
-  @include mixin.flex(center, center);
-  @include mixin.button(
-    10px 25px,
-    null,
-    2px solid var(--dark-blue),
-    5px,
-    var(--bg-white),
-    18px,
-    600,
-    var(--dark-blue)
-  );
-  transition: 0.2s ease-out;
-  &:hover {
-    background: var(--bg-darkblue);
-    color: var(--white);
-  }
-}
-
-.showMore__buttons {
-  @include mixin.flex(center, center);
 }
 
 //! Названия категорий которые указываем в секциях
@@ -153,20 +84,6 @@ body {
   }
 }
 
-//! стили пагинации
-.swiper-pagination-bullet {
-  cursor: pointer;
-  background: var(--bg-darkblue) !important;
-  padding: 5px 10px;
-  border-radius: 50px !important;
-
-  @media screen and (max-width: 640px) {
-    padding: 3px 7px;
-  }
-}
-
-
-
 
 //! Стиль тайтла страниц когда нажимаешь показать все
 .default__showMore_title {
@@ -179,7 +96,7 @@ body {
 
 //! Стиль тайтла карточки новости на странице новости
 .allNews__content_title {
-  @include mixin.font(18px, 600, 120%, var(--gray-dark));
+  @include mixin.font(18px, 600, 120%, var(--red));
   @include mixin.flex(flex-start, flex-start);
   width: 100%;
   cursor: pointer;
@@ -187,65 +104,7 @@ body {
     color: var(--violet);
   }
 }
-
-//! Стили направлений для страниц показать все
-.all__directions {
-  @include mixin.flex(center, flex-start, null, 10px);
-  margin-top: 10px;
-  padding-bottom: 10px;
-  overflow-x: auto; /* Добавлено для горизонтального скролла */
-  overflow-y: hidden; /* Скрытие вертикального скроллбара, если он не нужен */
-  user-select: none;
-  &_link {
-    @include mixin.font(14px, 400, 150%, var(--gray-dark));
-    @include mixin.flex(center, null, null, 3px);
-
-    cursor: pointer;
-    background: var(--light-white);
-    padding: 2px 7px;
-    border-radius: 5px;
-    transition: 0.2s ease-in;
-    text-decoration: none;
-    white-space: nowrap; /* Запрет переноса строк для ссылок */
-    &:hover {
-      color: var(--white);
-      background: var(--dark-blue);
-      .all__directions_arrow {
-        color: var(--white);
-      }
-    }
-  }
-  &_arrow {
-    display: block;
-    width: 9px;
-    height: 9px;
-    color: var(--dark-blue);
-  }
-
-  &_linkActive {
-    color: var(--dark-blue);
-    font-weight: 500;
-  }
-  &::-webkit-scrollbar {
-    opacity: 0;
-    height: 0;
-  }
-
-  &::-webkit-scrollbar-track {
-    opacity: 0;
-    background: var(--light-gray); /* Цвет фона скроллбара */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    opacity: 0;
-    background: var(--dark-blue); /* Красный цвет ползунка скроллбара */
-    border-radius: 5px; /* Закругленные края ползунка */
-  }
-  // Устанавливаем стили для прокрутки
-}
-
 //! стили страницы поиска
-
 .sort__buttons {
   position: relative;
   margin: 5px 0;
@@ -456,49 +315,7 @@ body {
   font-size: 24px;
 }
 
-// !Для swiperrrrrrrrrrrrrrrrrrrrrrrrr
-.swiper-button-prev_card,
-.swiper-button-next_card {
-  transition: all 0.2s linear;
-  user-select: none !important;
-}
 
-.swiper-button-prev_card:active,
-.swiper-button-next_card:active {
-  scale: 0.8;
-}
-
-.swiper-button-disabled {
-  display: none;
-}
-
-.customSwiper {
-  padding: 0 15px !important;
-
-  @media screen and (max-width: 768px) {
-    padding: 0 !important;
-  }
-}
-
-.swiper-pagination-fraction {
-  position: absolute !important;
-  left: 0 !important;
-  bottom: 0 !important;
-  z-index: 2;
-  max-width: 60px;
-  margin: 0 0 10px 10px;
-  padding: 5px 10px;
-
-  font-size: 12px;
-  color: #fff !important;
-  border-radius: 32px;
-
-  background: rgba(0, 0, 0, 0.25);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6.4px);
-  -webkit-backdrop-filter: blur(6.4px);
-  border: 1px solid rgba(255, 255, 255, 0.53);
-}
 
 .toptwenty {
   margin-top: 20px;
@@ -523,12 +340,7 @@ body {
   height: auto;
 }
 
-.mySwiper .swiper-slide-thumb-active {
-  .thumb-actived {
-    border: 2px solid var(--violet);
-    border-radius: 5px;
-  }
-}
+
 
 .biggg {
   font-size: 70px;
@@ -547,7 +359,8 @@ body {
 }
 
 
-//! Карточки новостей, скидок
+//! Страница новостей и скидок
+//Стили для карточек
 .info__cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

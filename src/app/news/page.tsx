@@ -1,4 +1,3 @@
-import React from "react";
 import { getMetaNewsPage, getNews, getNewsPagination } from "@/api/requests";
 import AllNews from "@/components/HomeComponents/News/AllNews/AllNews";
 import NewsPagination from "@/components/HomeComponents/News/NewsPaginate/NewsPaginate";

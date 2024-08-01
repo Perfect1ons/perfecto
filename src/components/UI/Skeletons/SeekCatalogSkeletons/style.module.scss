@@ -1,0 +1,12 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+
+.cards{
+    @include mixin.flex(center,space-between,null, 17px);
+    max-width: 100%;
+    overflow: hidden;
+    &__skeleton{
+        width: 188px;
+        height: 150px;
+    }
+}

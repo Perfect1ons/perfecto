@@ -1,13 +1,20 @@
-"use client"; // Add this line
+"use client";
 import { deleteNotification } from "@/api/clientRequest";
 import { XMark } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import { Notification } from "@/types/Profile/Notifications/notifications";
 
-const UserNotification = ({ notification }: { notification: Notification }) => {
+interface UserNotificationProps {
+  notification: Notification;
+  onDelete: (id: number) => void;
+}
+
+const UserNotification = ({
+  notification,
+  onDelete,
+}: UserNotificationProps) => {
   const date = notification.date ? new Date(notification.date * 1000) : null;
 
-  // Функция для форматирования даты
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = {
       day: "2-digit",
@@ -16,7 +23,6 @@ const UserNotification = ({ notification }: { notification: Notification }) => {
     };
     const formattedDate = date.toLocaleDateString("ru-RU", options);
 
-    // Приводим первую букву месяца к заглавной
     return (
       formattedDate.charAt(0) +
       formattedDate
@@ -28,9 +34,10 @@ const UserNotification = ({ notification }: { notification: Notification }) => {
     );
   };
 
-  const closeNotif = (id: number) => {
+  const closeNotif = async (id: number) => {
     try {
-      deleteNotification(id);
+      await deleteNotification(id);
+      onDelete(id); // Trigger deletion in parent component
     } catch (error) {
       console.log(error);
     }

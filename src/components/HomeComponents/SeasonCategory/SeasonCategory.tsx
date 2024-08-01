@@ -78,7 +78,7 @@ const SeasonCategory = memo(({ seasonItems }: ISeasonCategorySwiperProps) => {
                     loading="lazy"
                     blurDataURL={imageUrl}
                   />
-                  <h2 className="category__item_title">{item.name}</h2>
+                  <h2 className="swiper__item_title">{item.name}</h2>
                 </Link>
               </SwiperSlide>
             );
