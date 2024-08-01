@@ -22,6 +22,7 @@ import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { PostOrderResponse } from "@/types/Basket/PostOrderResponse";
+import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -478,7 +479,7 @@ export const postBasketProductAuthed = (
   token: string,
   kol: string,
   id_tov: string
-): Promise<ResponsePostBasket> => {
+): Promise<postProductAuthResponse> => {
   const params = new URLSearchParams();
   params.set("id_tov", id_tov);
   params.set("kol", kol);
