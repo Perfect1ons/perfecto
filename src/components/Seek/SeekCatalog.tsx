@@ -1,41 +1,22 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ArrowLeftIcon, ArrowRightIcon } from "../../../public/Icons/Icons";
 import { ISeekCatalog } from "@/types/Search/seek";
 import styles from "./style.module.scss";
-import SeekCatalogLoader from "../UI/Loader/SeekCatalogLoader";
 import clsx from "clsx";
+import Link from "next/link";
 
 interface ISeekCatalogProps {
   catalog: ISeekCatalog[];
 }
 
 const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const swiperRef = useRef(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (isLoading) {
-    return <SeekCatalogLoader />;
-  }
-
   return (
     <Swiper
-      ref={swiperRef}
       slidesPerView={7}
       slidesPerGroup={7}
       spaceBetween={15}
@@ -82,20 +63,20 @@ const SeekCatalog = ({ catalog }: ISeekCatalogProps) => {
           : "https://megabike74.ru/wp-content/themes/chlzuniversal/assets/images/placeholder/placeholder-250x250.jpg";
 
         return (
-          <SwiperSlide
-            onClick={() => router.push(`/catalog/${item.full_slug}`)}
-            key={index}
-            className={styles.seek__catalog_card}
-          >
-            <Image
-              className={styles.seek__catalog_card_image}
-              src={iconSrc}
-              width={65}
-              height={65}
-              alt={item.name}
-            />
-            <h1 className={styles.seek__catalog_card_title}>{item.name}</h1>
-          </SwiperSlide>
+          <Link key={index} href={`/catalog/${item.full_slug}`}>
+            <SwiperSlide
+              className={styles.seek__catalog_card}
+            >
+              <Image
+                className={styles.seek__catalog_card_image}
+                src={iconSrc}
+                width={65}
+                height={65}
+                alt={item.name}
+              />
+              <h1 className={styles.seek__catalog_card_title}>{item.name}</h1>
+            </SwiperSlide>
+          </Link>
         );
       })}
       <button

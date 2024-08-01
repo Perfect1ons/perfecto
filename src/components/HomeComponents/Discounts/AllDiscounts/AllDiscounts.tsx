@@ -1,5 +1,5 @@
-"use client"
-import { usePathname} from "next/navigation";
+"use client";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useRef } from "react";
 import clsx from "clsx";
@@ -11,8 +11,7 @@ interface IDiscountsProps {
   discounts: IDiscounts[];
 }
 
-const AllDiscounts = ({ discounts}: IDiscountsProps) => {
-
+const AllDiscounts = ({ discounts }: IDiscountsProps) => {
   const pathname = usePathname();
   const topRef = useRef<HTMLDivElement>(null);
 
@@ -33,20 +32,17 @@ const AllDiscounts = ({ discounts}: IDiscountsProps) => {
             Скидки
           </Link>
         </div>
-
-        <div className={styles.all__discounts_container}>
-          <h1 className="default__showMore_title">Скидки</h1>
-          <div className={styles.discount__container}>
-            {discounts.map((item, index) => (
-              <Link
-                className="link"
-                href={`discount/${item.promotion_id}`}
-                key={index}
-              >
-                <DiscountCard item={item} />
-              </Link>
-            ))}
-          </div>
+        <h1 className="default__showMore_title">Скидки</h1>
+        <div className={styles.discount__container}>
+          {discounts.map((item, index) => (
+            <Link
+              className="link"
+              href={`discount/${item.promotion_id}`}
+              key={index}
+            >
+              <DiscountCard item={item} />
+            </Link>
+          ))}
         </div>
       </div>
     </section>
@@ -54,7 +50,3 @@ const AllDiscounts = ({ discounts}: IDiscountsProps) => {
 };
 
 export default AllDiscounts;
-
-
-
-

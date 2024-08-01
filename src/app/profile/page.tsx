@@ -20,10 +20,7 @@ const page = async () => {
     const orders = await getCurrentOrders(isAuthed);
 
     return (
-      <>
-        <ProfileTabs />
         <Profile data={profileData} history={ordersHistory.items} orders={orders} />
-      </>
     );
   }
 };

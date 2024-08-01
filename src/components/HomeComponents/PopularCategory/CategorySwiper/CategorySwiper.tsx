@@ -90,7 +90,7 @@ const CategorySwiper = memo(function CategorySwiper({ category }: ICategory) {
                   alt={item.name}
                   loading="lazy"
                 />
-                <h2 className="category__item_title">{item.name}</h2>
+                <h2 className="swiper__item_title">{item.name}</h2>
               </Link>
             </SwiperSlide>
           );

@@ -1,13 +1,23 @@
+"use client"
+import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import UserNotification from "./UserNotification";
-import { Notifications } from "@/types/Profile/Notifications/notifications";
+import { INotifications } from "@/types/Profile/Notifications/notifications";
 
-interface INotifications {
-  notifications: Notifications;
+interface INotificationsProps {
+  notifications: INotifications;
 }
 
-const NotificationPage = ({ notifications }: INotifications) => {
+const NotificationPage = ({
+  notifications: initialNotifications,
+}: INotificationsProps) => {
+  const [notifications, setNotifications] = useState(initialNotifications);
+
+  const handleDelete = (id: number) => {
+    setNotifications((prev) => prev.filter((notif) => notif.id !== id));
+  };
+
   const hasNotifications = notifications.length > 0;
 
   return (
@@ -15,14 +25,13 @@ const NotificationPage = ({ notifications }: INotifications) => {
       <div className="container">
         {hasNotifications ? (
           <div>
-            {notifications.map((notification) => {
-              return (
-                <UserNotification
-                  notification={notification}
-                  key={notification.id}
-                />
-              );
-            })}
+            {notifications.map((notification) => (
+              <UserNotification
+                key={notification.id}
+                notification={notification}
+                onDelete={handleDelete}
+              />
+            ))}
           </div>
         ) : (
           <div className={styles.isEmpty}>

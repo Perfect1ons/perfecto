@@ -1,6 +1,5 @@
 import { getCurrentOrders, getStatusDetails } from "@/api/requests";
 import Orders from "@/components/Profile/Orders/Orders";
-import ProfileTabs from "@/components/Profile/ProfileTabs/ProfileTabs";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
@@ -15,14 +14,11 @@ const page = async () => {
     const currentOrders = await getCurrentOrders(isAuthed);
     const details = await getStatusDetails(isAuthed);
     return (
-      <div>
-        <ProfileTabs />
-        <Orders
-          isAuthed={isAuthed}
-          details={details}
-          currentOrders={currentOrders}
-        />
-      </div>
+      <Orders
+        isAuthed={isAuthed}
+        details={details}
+        currentOrders={currentOrders}
+      />
     );
   }
 };

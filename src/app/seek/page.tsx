@@ -1,11 +1,25 @@
 import { getPopularGoods, getSearchItem } from "@/api/requests";
-import Seek from "@/components/Seek/Seek";
 import SeekPagination from "@/components/Seek/SeekPagination/SeekPagination";
 import dynamic from "next/dynamic";
 import NotFound from "../not-found";
+import SeekCatalogSkeletons from "@/components/UI/Skeletons/SeekCatalogSkeletons/SeekCatalogSkeletons";
+
+const DynamicSeekCatalog = dynamic(
+  () => import("@/components/Seek/SeekCatalog"),
+  {
+    loading: () => <SeekCatalogSkeletons count={7}/>,
+    ssr: false,
+  }
+);
+
+const DynamicProductList = dynamic(
+  () => import("@/components/Seek/ProductList"),
+);
+
 
 const SeekNotFound = dynamic(
-  () => import("@/components/NotFound/SeekNotFound"), {
+  () => import("@/components/NotFound/SeekNotFound"),
+  {
     ssr: false,
   }
 );
@@ -45,8 +59,21 @@ export default async function page({ searchParams }: NewsProps) {
   }
 
   return (
-    <>
-      <Seek catalog={dataInit.catalog} product={data.model.items} />
+    <section className="seek">
+      {dataInit.catalog.length > 0 && (
+        <div className="container">
+          <h1 className="seek__catalog_title">Найдено в категориях</h1>
+          <DynamicSeekCatalog catalog={dataInit.catalog} />
+        </div>
+      )}
+      {dataInit.model.items.length > 0 && (
+        <>
+          <div className="container">
+            <h1 className="seek__catalog_title">По вашему запросу найдено</h1>
+          </div>
+          <DynamicProductList items={data.model.items} />
+        </>
+      )}
       {pageCount > 1 && (
         <SeekPagination
           path={decodedSearch}
@@ -54,7 +81,7 @@ export default async function page({ searchParams }: NewsProps) {
           currentPage={currentPage}
         />
       )}
-    </>
+    </section>
   );
 }
 

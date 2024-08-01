@@ -7,12 +7,16 @@ import HeaderWrap from "@/components/Header/HeaderWrap/HeaderWrap";
 import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
-
-const Application = dynamic(
-  () => import("@/components/HomeComponents/Application/Application"),
+import { ModalProvider } from "@/context/ModalContext/ModalContext";
+import { getNotification } from "@/api/requests";
+const DynamicMessageModal = dynamic(
+  () => import("@/components/UI/MessageModal/MessageModal"),
   {
     ssr: false,
   }
+);
+const Application = dynamic(
+  () => import("@/components/HomeComponents/Application/Application")
 );
 const DownloadAppMobile = dynamic(
   () => import("@/components/DownloadAppMobile/DownloadAppMobile"),
@@ -54,18 +58,26 @@ export default async function RootLayout({
     cookieStore.get("searchHistory")?.value || "[]"
   );
   const isAuthed = cookieStore.get("identify")?.value;
+  const userId = cookieStore.get("userId")?.value;
+
+  if (isAuthed && userId) {
+    const notifications = await getNotification(parseInt(userId));
+  }
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
-          <AuthProvider>
+          <AuthProvider >
             <ReactProvider>
               <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
               <DownloadAppMobile />
               <Provider>
-                <main id="main">{children}</main>
-                <ScrollToTopButton />
+                <ModalProvider>
+                  <main id="main">{children}</main>
+                  <DynamicMessageModal />
+                  <ScrollToTopButton />
+                </ModalProvider>
               </Provider>
               <Application />
               <Footer />
