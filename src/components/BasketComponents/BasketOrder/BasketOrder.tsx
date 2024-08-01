@@ -99,7 +99,11 @@ const BasketOrder = ({
       name: string;
       id: number | null;
     };
-    directory: string;
+    directory: {
+      street: string;
+      house: string;
+      apartament: string;
+    };
   }>({
     id_city: {
       name: "",
@@ -109,7 +113,11 @@ const BasketOrder = ({
       name: "",
       id: null,
     },
-    directory: "",
+    directory: {
+      street: "",
+      house: "",
+      apartament: "",
+    },
   });
 
   const [nds, setNds] = useState<boolean>(true);
@@ -133,12 +141,13 @@ const BasketOrder = ({
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
 
+  //следит за location и при изменении location обновляет buyer.id_city, id_city2, directory
   useEffect(() => {
     setBuyer((prevBuyer) => ({
       ...prevBuyer,
       id_city: location.id_city.id,
       id_city2: location.id_city2.id,
-      directory: location.directory,
+      directory: `${location.directory.street} ${location.directory.house} ${location.directory.apartament}`,
     }));
   }, [location]);
 
@@ -158,11 +167,15 @@ const BasketOrder = ({
     }));
   };
 
+  //location.directory values changer function
   const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLocation((prevLocation) => ({
       ...prevLocation,
-      [name]: value,
+      directory: {
+        ...prevLocation.directory,
+        [name]: value,
+      },
     }));
   };
 

@@ -35,7 +35,11 @@ interface ICourierDeliveryTypeProps {
       name: string;
       id: number | null;
     };
-    directory: string;
+    directory: {
+      street: string;
+      house: string;
+      apartament: string;
+    };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
   regionChange: (newRegion: { name: string; id: number }) => void;
@@ -228,11 +232,32 @@ const CourierDeliveryType = ({
       </div>
       <div className={styles.wrap_courier_selectAddress}>
         <input
-          placeholder="Введите: улица, дом, квартира"
+          placeholder="Введите: улица"
           type="text"
           className={styles.wrap_courier_selectAddress_input}
-          value={location.directory}
-          name="directory"
+          value={location.directory.street}
+          name="street"
+          onChange={adressChange}
+        />
+      </div>
+      <div className={styles.wrap_courier_selectAddress}>
+        <input
+          placeholder="Введите: дом"
+          type="text"
+          className={styles.wrap_courier_selectAddress_input}
+          value={location.directory.house}
+          name="house"
+          onChange={adressChange}
+        />
+      </div>
+
+      <div className={styles.wrap_courier_selectAddress}>
+        <input
+          placeholder="Введите: квартира"
+          type="text"
+          className={styles.wrap_courier_selectAddress_input}
+          value={location.directory.apartament}
+          name="apartament"
           onChange={adressChange}
         />
       </div>

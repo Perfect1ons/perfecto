@@ -37,7 +37,11 @@ interface IChosingDeliveryModalProps {
       name: string;
       id: number | null;
     };
-    directory: string;
+    directory: {
+      street: string;
+      house: string;
+      apartament: string;
+    };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
   regionChange: (newRegion: { name: string; id: number }) => void;
