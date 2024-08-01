@@ -1,0 +1,144 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.buttons {
+  @include mixin.flex(center, center, null, 5px);
+  padding: 5px;
+  background: var(--bg-graylight);
+  border-radius: 5px;
+}
+
+.button {
+  @include mixin.button(
+    10px 15px,
+    null,
+    null,
+    3px,
+    var(--bg-graylight),
+    16px,
+    500,
+    var(--dark)
+  );
+  @include mixin.flex(center, center, null, 5px);
+  cursor: pointer;
+  width: 100%;
+
+  &:hover {
+    background: var(--bg-darklight);
+    color: var(--dark-blue);
+    svg {
+      path {
+        fill: var(--bg-darkblue);
+      }
+    }
+  }
+}
+
+.active {
+  background: var(--bg-violet);
+  color: var(--white);
+
+  svg {
+    path {
+      fill: var(--bg-white);
+    }
+  }
+
+  &:hover {
+    background: var(--bg-violet) !important;
+    color: var(--white) !important;
+
+    svg {
+      path {
+        fill: var(--bg-white) !important;
+      }
+    }
+  }
+}
+
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.delivery__ways {
+  margin-top: 15px;
+  @include mixin.flex(flex-start, center, column, 15px);
+}
+
+.wrap_courier {
+  @include mixin.flex(flex-start, center, column, null);
+  width: 100%;
+
+  &_point {
+    @include mixin.flex(center, flex-start, null, 8px);
+    border: 2px solid var(--secondary);
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px 5px;
+    cursor: pointer;
+    @include mixin.font(14px, 400, null, var(--gray));
+
+    &_active {
+      border: 2px solid var(--dark-blue);
+    }
+
+    &_radio {
+      content: " ";
+      width: 14px;
+      @include mixin.flex(center, center, null, null);
+      height: 14px;
+      border-radius: 50%;
+      background: none;
+      border: 1px solid var(--gray);
+
+      &_active {
+        border: 1px solid var(--dark-blue);
+      }
+
+      &_dot {
+        display: none;
+
+        &_active {
+          content: " ";
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          display: inline-block;
+          background: var(--dark-blue);
+        }
+      }
+    }
+  }
+
+  &_desc {
+    width: 100%;
+    display: none;
+    background: var(--light);
+    border-radius: 5px;
+    padding: 0px 20px;
+    overflow: hidden;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: all 0.3s ease;
+
+    &_active {
+    margin-top: 5px;
+      display: block;
+      padding: 20px;
+      animation: fadeInScale 0.3s ease forwards;
+    }
+
+    &_workdays {
+      @include mixin.font(0.875rem, 400, null, var(--dark));
+    }
+  }
+}
+

@@ -1,4 +1,4 @@
-export interface DeliveryMethod {
+export interface IDeliveryMethod {
   "1": N1;
   "8": N8;
   "10": N10;

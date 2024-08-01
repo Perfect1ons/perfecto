@@ -14,8 +14,6 @@ export const metadata: Metadata = {
     "Оптом Кыргызстан дешево цена розница доставка на заказ интернет магазин Бишкек max.kg характеристики фото",
 };
 
-export const revalidate = 1;
-
 interface NotificationProps {
   searchParams: {
     type?: string;

@@ -29,42 +29,42 @@ const PointDeliveryType = ({
       <button
         onClick={() =>
           selectDelivery({
-            name: variants[1].name,
-            id: variants[1].id,
+            name: variants[1]?.name,
+            id: variants[1]?.id,
           })
         }
         aria-label="choose delivery point"
         className={cn(
           styles.wrap_delivery_point,
-          variableBuyer.delivery.id === variants[1].id &&
+          variableBuyer.delivery.id === variants[1]?.id &&
             styles.wrap_delivery_point_active
         )}
       >
         <span
           className={cn(
             styles.wrap_delivery_point_radio,
-            variableBuyer.delivery.id === variants[1].id &&
+            variableBuyer.delivery.id === variants[1]?.id &&
               styles.wrap_delivery_point_radio_active
           )}
         >
           <span
             className={cn(
               styles.wrap_delivery_point_radio_dot,
-              variableBuyer.delivery.id === variants[1].id &&
+              variableBuyer.delivery.id === variants[1]?.id &&
                 styles.wrap_delivery_point_radio_dot_active
             )}
           ></span>
         </span>
-        {variants[1].name}
+        {variants[1]?.name}
       </button>
       <div
         className={cn(
           styles.wrap_delivery_desc,
-          variableBuyer.delivery.id === variants[1].id &&
+          variableBuyer.delivery.id === variants[1]?.id &&
             styles.wrap_delivery_desc_active
         )}
       >
-        <p className={styles.wrap_delivery_desc_workdays}>{variants[1].desc}</p>
+        <p className={styles.wrap_delivery_desc_workdays}>{variants[1]?.desc}</p>
       </div>
     </div>
   );

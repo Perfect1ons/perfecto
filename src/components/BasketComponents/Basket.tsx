@@ -17,7 +17,7 @@ import {
 } from "@/api/clientRequest";
 
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { ICard } from "@/types/Card/card";
 import { useDispatch, useSelector } from "react-redux";
 import { setBasket } from "@/store/reducers/basket.reducer";
@@ -30,7 +30,7 @@ import { RootState } from "@/store";
 import { CityFront } from "@/types/Basket/cityfrontType";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
-  deliveryMethod: DeliveryMethod;
+  deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
   deliveryCity: CityFront;
   cart: any;
