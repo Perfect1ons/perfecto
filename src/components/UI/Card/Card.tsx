@@ -118,22 +118,22 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       minQty: cardData.minQty,
     };
     if (isFavorite) {
+      message = "Товар удален из избранного.";
       if (removeFromFavorites) {
         removeFromFavorites(cardData.id_tov);
       }
-      message = "Товар удален из избранного.";
     } else {
       favorites.push(favoriteData);
       postFavorite(cardData.id_tov, 1, token);
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
     }
-    message = (
-      <>
-        Товар добавлен в избранное.{" "}
-        <Link className="linkCart" href="/favorites">
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
     window.dispatchEvent(new Event("favoritesUpdated"));
