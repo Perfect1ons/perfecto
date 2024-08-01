@@ -94,7 +94,7 @@ const Card = ({
           : kolCard.quantity || 0
       );
     } else {
-      setQuantity(cardData.minQty);
+      setQuantity(0);
     }
   }, [basket, cardData.id_tov, cardData.minQty]);
 
