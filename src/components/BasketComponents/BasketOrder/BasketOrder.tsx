@@ -14,11 +14,11 @@ import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
-import { SelectCityType } from "@/types/Basket/SelectCity";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
+import { CityFront } from "@/types/Basket/cityfrontType";
 
 export interface Buyer {
   tel: string;
@@ -51,7 +51,7 @@ interface IBasketOrderProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
-  deliveryCity: SelectCityType;
+  deliveryCity: CityFront;
   currentItems: Model[];
 }
 
@@ -99,7 +99,11 @@ const BasketOrder = ({
       name: string;
       id: number | null;
     };
-    directory: string;
+    directory: {
+      street: string;
+      house: string;
+      apartament: string;
+    };
   }>({
     id_city: {
       name: "",
@@ -109,7 +113,11 @@ const BasketOrder = ({
       name: "",
       id: null,
     },
-    directory: "",
+    directory: {
+      street: "",
+      house: "",
+      apartament: "",
+    },
   });
 
   const [nds, setNds] = useState<boolean>(true);
@@ -122,7 +130,7 @@ const BasketOrder = ({
     org: "",
     org_inn: "",
     id_city: null,
-    id_city2: null,
+    id_city2: 0,
     directory: "",
   });
 
@@ -133,12 +141,13 @@ const BasketOrder = ({
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
 
+  //следит за location и при изменении location обновляет buyer.id_city, id_city2, directory
   useEffect(() => {
     setBuyer((prevBuyer) => ({
       ...prevBuyer,
       id_city: location.id_city.id,
       id_city2: location.id_city2.id,
-      directory: location.directory,
+      directory: `${location.directory.street} ${location.directory.house} ${location.directory.apartament}`,
     }));
   }, [location]);
 
@@ -158,11 +167,15 @@ const BasketOrder = ({
     }));
   };
 
+  //location.directory values changer function
   const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLocation((prevLocation) => ({
       ...prevLocation,
-      [name]: value,
+      directory: {
+        ...prevLocation.directory,
+        [name]: value,
+      },
     }));
   };
 
@@ -310,18 +323,20 @@ const BasketOrder = ({
         break;
     }
 
-    if (!numericPhoneNumber) {
-      setPhoneWarning("Это поле не может быть пустым.");
-      isValid = false;
-    } else if (numericPhoneNumber.length !== expectedLength) {
-      setPhoneWarning("Номер введен не полностью.");
-      isValid = false;
-    } else {
-      setPhoneWarning("");
+    if (!authToken) {
+      if (!numericPhoneNumber) {
+        setPhoneWarning("Это поле не может быть пустым.");
+        isValid = false;
+      } else if (numericPhoneNumber.length !== expectedLength) {
+        setPhoneWarning("Номер введен не полностью.");
+        isValid = false;
+      } else {
+        setPhoneWarning("");
+      }
     }
 
     // Surname validation
-    if (!buyer.fio) {
+    if (!buyer.fio && !authToken) {
       setSurnameWarning("Пожалуйста укажите вашу фамилию");
       isValid = false;
     } else {
@@ -329,7 +344,7 @@ const BasketOrder = ({
     }
 
     // Name validation
-    if (!buyer.name) {
+    if (!buyer.name && !authToken) {
       setNameWarning("Пожалуйста укажите ваше имя");
       isValid = false;
     } else {
@@ -356,7 +371,6 @@ const BasketOrder = ({
             buyer.org,
             buyer.org_inn,
             buyer.id_city?.toString(),
-            buyer.id_city2?.toString(),
             buyer.directory
           );
           router.push(`/profile/orders/${data.id}`);
@@ -496,92 +510,215 @@ const BasketOrder = ({
         {paymentWarning && (
           <p className={styles.wrap_warning}>{paymentWarning}</p>
         )}
-        <div className="allContainerInput">
-          <div className={styles.wrap_phone}>
-            <div className={styles.wrap_phone_control}>
-              <InputMask
-                mask={mask}
-                value={buyer.tel}
-                onChange={handleBuyerChange}
-                className={styles.auth__input}
-              >
-                {(inputProps: React.InputHTMLAttributes<HTMLInputElement>) => (
-                  <input
-                    autoComplete="off"
-                    {...inputProps}
-                    name="tel"
-                    placeholder="Телефон ( Обязательно )"
-                    type="text"
-                    required
-                  />
-                )}
-              </InputMask>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  visibleHandler("country");
-                }}
-                className={styles.select__country}
-              >
-                <span
-                  className={cn(
-                    visible === "country"
-                      ? styles.select__country_arrow__active
-                      : styles.select__country_arrow
-                  )}
+        {!authToken && (
+          <div className="allContainerInput">
+            <div className={styles.wrap_phone}>
+              <div className={styles.wrap_phone_control}>
+                <InputMask
+                  mask={mask}
+                  value={buyer.tel}
+                  onChange={handleBuyerChange}
+                  className={styles.auth__input}
                 >
-                  <ArrowDropdown />
-                </span>
-                <Image
-                  className={styles.select__country_img}
-                  src={currentCodeCountry.img}
-                  width={30}
-                  height={30}
-                  alt={currentCodeCountry.name}
+                  {(
+                    inputProps: React.InputHTMLAttributes<HTMLInputElement>
+                  ) => (
+                    <input
+                      autoComplete="off"
+                      {...inputProps}
+                      name="tel"
+                      placeholder="Телефон ( Обязательно )"
+                      type="text"
+                      required
+                    />
+                  )}
+                </InputMask>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    visibleHandler("country");
+                  }}
+                  className={styles.select__country}
+                >
+                  <span
+                    className={cn(
+                      visible === "country"
+                        ? styles.select__country_arrow__active
+                        : styles.select__country_arrow
+                    )}
+                  >
+                    <ArrowDropdown />
+                  </span>
+                  <Image
+                    className={styles.select__country_img}
+                    src={currentCodeCountry.img}
+                    width={30}
+                    height={30}
+                    alt={currentCodeCountry.name}
+                  />
+                </button>
+              </div>
+              {phoneWarning && (
+                <p className={styles.wrap_warning}>{phoneWarning}</p>
+              )}
+              {visible === "country" && (
+                <div className={styles.wrap_phone_dropdown}>
+                  {countryOptions}
+                </div>
+              )}
+            </div>
+            <div className="containerInputLabel">
+              <div className="mail__label">
+                <input
+                  className="mail__inputField"
+                  value={buyer.fio}
+                  name="fio"
+                  type="text"
+                  onChange={handleBuyerChange}
+                  required
                 />
-              </button>
+                <label className="mail__inputLabel">Фамилия</label>
+              </div>
+              {surnameWarning && (
+                <p className={styles.wrap_warning}>{surnameWarning}</p>
+              )}
             </div>
-            {phoneWarning && (
-              <p className={styles.wrap_warning}>{phoneWarning}</p>
-            )}
-            {visible === "country" && (
-              <div className={styles.wrap_phone_dropdown}>{countryOptions}</div>
-            )}
-          </div>
-          <div className="containerInputLabel">
-            <div className="mail__label">
-              <input
-                className="mail__inputField"
-                value={buyer.fio}
-                name="fio"
-                type="text"
-                onChange={handleBuyerChange}
-                required
-              />
-              <label className="mail__inputLabel">Фамилия</label>
+            <div className="containerInputLabel">
+              <div className="mail__label">
+                <input
+                  className="mail__inputField"
+                  value={buyer.name}
+                  name="name"
+                  type="text"
+                  onChange={handleBuyerChange}
+                  required
+                />
+                <label className="mail__inputLabel">Имя</label>
+              </div>
+              {nameWarning && (
+                <p className={styles.wrap_warning}>{nameWarning}</p>
+              )}
             </div>
-            {surnameWarning && (
-              <p className={styles.wrap_warning}>{surnameWarning}</p>
-            )}
           </div>
-          <div className="containerInputLabel">
-            <div className="mail__label">
-              <input
-                className="mail__inputField"
-                value={buyer.name}
-                name="name"
-                type="text"
-                onChange={handleBuyerChange}
-                required
-              />
-              <label className="mail__inputLabel">Имя</label>
+        )}
+        {authToken && (
+          <div className={styles.wrap_organization}>
+            <button
+              onClick={() => visibleHandler("another")}
+              className={styles.wrap_organization_dropdownToggler}
+            >
+              <span
+                className={cn(
+                  visible === "another"
+                    ? styles.wrap_organization_dropdownToggler_arrow__active
+                    : styles.wrap_organization_dropdownToggler_arrow
+                )}
+              >
+                <ArrowDropdown />
+              </span>
+              Другой получатель
+            </button>
+            <div
+              className={cn(
+                visible === "another"
+                  ? styles.wrap_organization_dropdown__active
+                  : styles.wrap_organization_dropdown
+              )}
+            >
+              <div className="allContainerInput">
+                <div className={styles.wrap_phone}>
+                  <div className={styles.wrap_phone_control}>
+                    <InputMask
+                      mask={mask}
+                      value={buyer.tel}
+                      onChange={handleBuyerChange}
+                      className={styles.auth__input}
+                    >
+                      {(
+                        inputProps: React.InputHTMLAttributes<HTMLInputElement>
+                      ) => (
+                        <input
+                          autoComplete="off"
+                          {...inputProps}
+                          name="tel"
+                          placeholder="Телефон ( Обязательно )"
+                          type="text"
+                          required
+                        />
+                      )}
+                    </InputMask>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        visibleHandler("country");
+                      }}
+                      className={styles.select__country}
+                    >
+                      <span
+                        className={cn(
+                          visible === "country"
+                            ? styles.select__country_arrow__active
+                            : styles.select__country_arrow
+                        )}
+                      >
+                        <ArrowDropdown />
+                      </span>
+                      <Image
+                        className={styles.select__country_img}
+                        src={currentCodeCountry.img}
+                        width={30}
+                        height={30}
+                        alt={currentCodeCountry.name}
+                      />
+                    </button>
+                  </div>
+                  {phoneWarning && (
+                    <p className={styles.wrap_warning}>{phoneWarning}</p>
+                  )}
+                  {visible === "country" && (
+                    <div className={styles.wrap_phone_dropdown}>
+                      {countryOptions}
+                    </div>
+                  )}
+                </div>
+                <div className="containerInputLabel">
+                  <div className="mail__label">
+                    <input
+                      className="mail__inputField"
+                      value={buyer.fio}
+                      name="fio"
+                      type="text"
+                      onChange={handleBuyerChange}
+                      required
+                    />
+                    <label className="mail__inputLabel">Фамилия</label>
+                  </div>
+                  {surnameWarning && (
+                    <p className={styles.wrap_warning}>{surnameWarning}</p>
+                  )}
+                </div>
+                <div className="containerInputLabel">
+                  <div className="mail__label">
+                    <input
+                      className="mail__inputField"
+                      value={buyer.name}
+                      name="name"
+                      type="text"
+                      onChange={handleBuyerChange}
+                      required
+                    />
+                    <label className="mail__inputLabel">Имя</label>
+                  </div>
+                  {nameWarning && (
+                    <p className={styles.wrap_warning}>{nameWarning}</p>
+                  )}
+                </div>
+              </div>
             </div>
-            {nameWarning && (
-              <p className={styles.wrap_warning}>{nameWarning}</p>
-            )}
           </div>
-        </div>
+        )}
         <div className={styles.wrap_organization}>
           <button
             onClick={() => visibleHandler("organization")}

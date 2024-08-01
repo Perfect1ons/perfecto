@@ -44,6 +44,53 @@
     }
   }
 
+  &_typeDelivery {
+    margin-top: 15px;
+    padding: 5px;
+    border-radius: 10px;
+    @include mixin.flex(center, space-between, null, 5px);
+    width: 100%;
+    background: var(--bg-graylight);
+    &_typePoint {
+      width: 100%;
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+      text-wrap: nowrap;
+      @include mixin.font(1rem, 400, null, var(--dark-blue));
+      @include mixin.flex(flex-end, center, null, 5px);
+      background: var(--white);
+
+      &_disable {
+        color: var(--dark);
+        cursor: pointer;
+        background: var(--bg-graylight);
+        &:hover {
+          background: var(--light);
+        }
+      }
+    }
+    &_typeCourier {
+      width: 100%;
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+
+      background: var(--white);
+      @include mixin.font(1rem, 400, null, var(--dark-blue));
+      @include mixin.flex(center, center, null, 5px);
+
+      &_disable {
+        cursor: pointer;
+        color: var(--dark);
+        background: var(--bg-graylight);
+        &:hover {
+          background: var(--light);
+        }
+      }
+    }
+  }
+
   &_warning {
     margin-top: 15px;
     @include mixin.font(1rem, 400, null, var(--red));
@@ -62,7 +109,7 @@
       border: 2px solid var(--secondary);
       border-radius: 5px;
       width: 100%;
-      padding: 8px;
+      padding: 10px 5px;
       cursor: pointer;
       @include mixin.font(14px, 400, null, var(--gray));
 
@@ -128,46 +175,13 @@
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
 
-    &_selectAddress {
-      @include mixin.flex(center, flex-start, null, null);
-      margin-top: 15px;
-      width: 100%;
-      border: 2px solid var(--secondary);
-      border-radius: 5px;
-
-      &_dropdown {
-        border-radius: 3px 0px 0px 3px;
-        background: var(--dark-blue);
-        @include mixin.font(1rem, 400, null, var(--white));
-        padding: 8px 10px;
-        padding-right: 20px;
-        cursor: pointer;
-        transition: 0.2s all;
-        position: relative;
-        @include mixin.flex(center, center, null, null);
-
-        &_arrow {
-          position: absolute;
-          top: 10px;
-          right: 0;
-          color: var(--white);
-        }
-      }
-      &_input {
-        border-radius: 5px;
-        padding: 8px 5px;
-        width: 100%;
-        @include mixin.font(1rem 400, null, var(--dark));
-      }
-    }
-
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
       margin-top: 15px;
       border: 2px solid var(--secondary);
       border-radius: 5px;
       width: 100%;
-      padding: 8px;
+      padding: 10px 5px;
       cursor: pointer;
       @include mixin.font(14px, 400, null, var(--gray));
 
@@ -230,137 +244,9 @@
       }
     }
 
-    &_selectTime {
-      margin-top: 15px;
-      @include mixin.flex(center, flex-start, null, 25px);
+    &_housing {
+      @include mixin.flex(center, space-between, null, 15px);
       width: 100%;
-
-      &_button {
-        text-wrap: nowrap;
-        cursor: pointer;
-        position: relative;
-        @include mixin.flex(center, center, null, null);
-        @include mixin.font(1rem, 400, null, var(--gray));
-        transition: 0.2s all;
-        &_active {
-          color: var(--violet);
-        }
-        &:hover {
-          color: var(--violet);
-        }
-
-        &_arrow {
-          position: absolute;
-          right: -25px;
-          top: 1px;
-          transition: 0.2s all;
-          &_active {
-            transition: 0.2s all;
-            transform: rotate(-90deg);
-            top: -3px;
-          }
-        }
-      }
-      &_dropdown {
-        @include mixin.flex(center, center, column, null);
-        max-width: 250px;
-        opacity: 0;
-        visibility: hidden;
-        transition: 0.2s ease-in-out;
-        position: relative;
-
-        &_active {
-          position: relative;
-          cursor: pointer;
-          opacity: 1;
-          visibility: inherit;
-          transition: 0.2s ease-in-out;
-        }
-
-        &_toggler {
-          position: relative;
-          @include mixin.flex(center, center, null, null);
-          width: 100%;
-          cursor: pointer;
-          border: 2px solid var(--gray);
-          padding: 0px 20px;
-          border-radius: 5px;
-          &_active {
-            border: 2px solid var(--violet);
-          }
-          &_arrow {
-            position: relative;
-            top: 6px;
-            right: -5px;
-            scale: 1.2;
-            color: var(--gray);
-            &_active {
-              top: -4px;
-              color: var(--violet);
-              transform: rotate(180deg);
-            }
-          }
-        }
-        &_time {
-          position: absolute;
-          top: 40px;
-          left: 0;
-          width: 100%;
-          padding: 2px;
-          border-radius: 5px;
-
-          text-align: start;
-          border: 2px solid var(--gray);
-          @include mixin.flex(flex-start, center, column, null);
-          background: var(--white);
-          &_item {
-            text-align: center;
-            border-radius: 4px;
-            width: 100%;
-            cursor: pointer;
-            @include mixin.font(1rem, 400, null, var(--dark));
-            &:hover {
-              background: var(--secondary);
-            }
-          }
-        }
-      }
-    }
-  }
-
-  &_typeDelivery {
-    margin-top: 15px;
-    @include mixin.flex(center, center, null, 15px);
-    width: 100%;
-    &_typePoint {
-      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
-      padding: 15px 40px;
-      border-radius: 5px;
-      border: none;
-      @include mixin.font(0.875rem, 400, null, #555);
-      @include mixin.flex(flex-end, center, null, 5px);
-      cursor: pointer;
-      background: #eee;
-
-      &_disactive {
-        background: var(--white);
-        color: var(--dark-blue);
-      }
-    }
-    &_typeCourier {
-      cursor: pointer;
-      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
-      padding: 15px 40px;
-      border-radius: 5px;
-      border: none;
-      background: var(--white);
-      @include mixin.font(0.875rem, 400, null, var(--dark-blue));
-      @include mixin.flex(center, center, null, 5px);
-      &_active {
-        color: #555;
-        background: #eee;
-        @include mixin.font(0.875rem, 400, null, var(--gray));
-      }
     }
   }
   &_save {
@@ -386,13 +272,12 @@
   animation: scaleUp 0.3s ease-out forwards;
 }
 .inputsContainerCity {
-  @include mixin.flex(center, flex-start, null, 10px);
+  @include mixin.flex(center, center, null, 10px);
   width: 100%;
 }
 .inputContainer {
   position: relative;
   width: 100%;
-  max-width: 225px;
 }
 .dropdownContainer {
   @include mixin.flex(null, null, column, null);

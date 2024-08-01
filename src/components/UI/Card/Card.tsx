@@ -79,24 +79,6 @@ const Card = ({
       setModalVisible(true);
     }
   };
-  useEffect(() => {
-    // Функция загрузки количества из localStorage
-    const loadQuantityFromLocalStorage = () => {
-      let carts: { id_tov: number; kol: number }[] = JSON.parse(
-        localStorage.getItem("cart") || "[]"
-      );
-      const cartItem = carts.find((item) => item.id_tov === cardData.id_tov);
-      if (cartItem) {
-        setQuantity(cartItem.kol);
-        setAdded(cartItem.kol > 0); // Установите состояние added в зависимости от количества
-      } else {
-        setQuantity(0);
-        setAdded(false);
-      }
-    };
-
-    loadQuantityFromLocalStorage();
-  }, [cardData.id_tov]);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));

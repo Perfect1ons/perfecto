@@ -1,13 +1,13 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Cross, SalesmanIcon } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { SelectCityType } from "@/types/Basket/SelectCity";
 import Image from "next/image";
+import { CityFront } from "@/types/Basket/cityfrontType";
 
 interface IChosingDeliveryModalProps {
   variableBuyer: {
@@ -26,7 +26,7 @@ interface IChosingDeliveryModalProps {
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   saveDelivery: () => void;
   warning: string;
-  deliveryCity: SelectCityType;
+  deliveryCity: CityFront;
   authToken: string | undefined;
   location: {
     id_city: {
@@ -37,7 +37,11 @@ interface IChosingDeliveryModalProps {
       name: string;
       id: number | null;
     };
-    directory: string;
+    directory: {
+      street: string;
+      house: string;
+      apartament: string;
+    };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
   regionChange: (newRegion: { name: string; id: number }) => void;
@@ -84,6 +88,41 @@ const ChosingDeliveryModal = ({
           <Cross />
         </button>
       </div>
+      <div className={styles.wrap_typeDelivery}>
+        <button
+          onClick={() => deliveryTypeChanger("point")}
+          aria-label="choose type delivery"
+          className={cn(
+            styles.wrap_typeDelivery_typePoint,
+            deliveryType !== "point" &&
+              styles.wrap_typeDelivery_typePoint_disable
+          )}
+        >
+          <SalesmanIcon />
+          Пункты выдачи
+        </button>
+        <button
+          onClick={() => deliveryTypeChanger("courier")}
+          aria-label="choose type delivery"
+          className={cn(
+            styles.wrap_typeDelivery_typeCourier,
+            deliveryType !== "courier" &&
+              styles.wrap_typeDelivery_typeCourier_disable
+          )}
+        >
+          <Image
+            src={
+              deliveryType === "courier"
+                ? "/img/delivery_icon.svg"
+                : "/img/delivery_icon_dark.svg"
+            }
+            width={22}
+            height={22}
+            alt="delivery icon"
+          ></Image>
+          Курьер
+        </button>
+      </div>
       {warning.length > 0 && <p className={styles.wrap_warning}>{warning}</p>}
       {deliveryType === "point" && (
         <PointDeliveryType
@@ -105,41 +144,6 @@ const ChosingDeliveryModal = ({
           adressChange={adressChange}
         />
       )}
-      <div className={styles.wrap_typeDelivery}>
-        <button
-          onClick={() => deliveryTypeChanger("point")}
-          aria-label="choose type delivery"
-          className={cn(
-            styles.wrap_typeDelivery_typePoint,
-            deliveryType !== "point" &&
-              styles.wrap_typeDelivery_typePoint_disactive
-          )}
-        >
-          <SalesmanIcon />
-          Пункты выдачи
-        </button>
-        <button
-          onClick={() => deliveryTypeChanger("courier")}
-          aria-label="choose type delivery"
-          className={cn(
-            styles.wrap_typeDelivery_typeCourier,
-            deliveryType === "courier" &&
-              styles.wrap_typeDelivery_typeCourier_active
-          )}
-        >
-          <Image
-            src={
-              deliveryType === "courier"
-                ? "/img/delivery_icon_dark.svg"
-                : "/img/delivery_icon.svg"
-            }
-            width={22}
-            height={22}
-            alt="delivery icon"
-          ></Image>
-          Курьер
-        </button>
-      </div>
       <button
         onClick={() => {
           saveDelivery();

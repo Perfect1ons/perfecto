@@ -40,6 +40,7 @@ import { IMainPageBrands } from "@/types/HomeTypes/brands";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { IFavorites } from "@/types/Favorites/favorites";
 import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
+import { CityFront } from "@/types/Basket/cityfrontType";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -392,4 +393,8 @@ export const getFavorites = (token: string): Promise<IFavorites> => {
       },
     })
     .json();
+};
+
+export const getCity = (): Promise<CityFront> => {
+  return maxkgnocache.get("naltovarok/cityfront").json();
 };
