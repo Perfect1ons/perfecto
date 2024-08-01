@@ -25,7 +25,7 @@ const FavoritesCard = ({ favoritesCount, favorites }: IFavoritesCardProps) => {
   }, [favoritesCount]);
 
   const imageUrl = (data: ICard) => {
-    if (data.photos.length > 0) {
+    if (data?.photos?.length > 0) {
       const urlPart = data.photos[0]?.url_part;
       if (urlPart.startsWith("https://goods")) return `${urlPart}280.jpg`;
       if (urlPart.startsWith("https://")) return urlPart;

@@ -1,0 +1,137 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+@keyframes scaleUp {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.button{
+  margin-top: 15px;
+    @include mixin.button(
+    10px 15px,
+    null,
+    2px solid var(--bg-darkblue),
+    5px,
+    var(--bg-darkblue),
+    16px,
+    500,
+    var(--white)
+  );
+  @include mixin.flex(center, center, null, 5px);
+  cursor: pointer;
+  width: 100%; 
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: var(--bg-white);
+    color: var(--dark-blue);
+    svg {
+      path {
+        fill: var(--bg-darkblue);
+      }
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  max-width: 500px;
+  padding: 20px;
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+  z-index: 100;
+  box-shadow: 0 0 10px -6px rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  transition: visibility 0.3s, opacity 0.3s;
+  opacity: 0;
+
+  &__form {
+    &_phone {
+      @include mixin.flex(center, center, column, null);
+      position: relative;
+      width: 100%;
+
+      &_control {
+        position: relative;
+        width: 100%;
+        @include mixin.flex(center, center, null, null);
+      }
+      &_dropdown {
+        border-radius: 5px;
+        padding: 5px;
+        background: var(--white);
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        @include mixin.flex(flex-start, center, column, 5px);
+        position: absolute;
+        z-index: 10;
+        left: 0;
+        bottom: -165px;
+
+        &_button {
+          @include mixin.flex(center, flex-start, null, 0.875rem);
+          cursor: pointer;
+          width: 100%;
+          border-radius: 5px;
+          padding: 8px 8px;
+
+          &_img {
+            border-radius: 5px;
+          }
+          &_code {
+            padding-top: 2px;
+            @include mixin.font(14px, 400, null, var(--secondary));
+          }
+          &:hover {
+            background: #f6f6f6;
+          }
+        }
+      }
+    }
+  }
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  animation: scaleUp 0.3s ease-out forwards;
+}
+
+.modal__exit {
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0.6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal__exit:hover {
+  opacity: 1;
+}
+
+.modal__intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal__title {
+  @include mixin.font(20px, 500, 100%, var(--dark));
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+@media screen and (max-width: 768px) {
+  .modal__title {
+    font-size: 18px;
+  }
+}

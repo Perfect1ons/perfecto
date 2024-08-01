@@ -31,7 +31,7 @@ import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { IOrderById } from "@/types/OrderById/orderbyid";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
@@ -330,7 +330,7 @@ export const getCurrentOrder = (
 
 export const getDeliveryMethod = (
   idUser: string | undefined
-): Promise<DeliveryMethod> => {
+): Promise<IDeliveryMethod> => {
   return maxkg.get(`naltovarok/viddostfront?idUser=${idUser}`).json();
 };
 export const getSelectCity = (): Promise<SelectCityType> => {

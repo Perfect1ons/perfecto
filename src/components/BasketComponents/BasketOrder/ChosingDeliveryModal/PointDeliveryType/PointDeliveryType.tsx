@@ -1,4 +1,4 @@
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import styles from "../style.module.scss";
 import cn from "clsx";
 
@@ -14,7 +14,7 @@ interface IPointDeliveryTypeProps {
     };
   };
 
-  variants: DeliveryMethod;
+  variants: IDeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
 }
 

@@ -3,8 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
 import { СhevronDownIcon } from "../../../../../../public/Icons/Icons";
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface ICourierDeliveryTypeProps {
   variableBuyer: {
@@ -17,7 +17,7 @@ interface ICourierDeliveryTypeProps {
       id: number | string;
     };
   };
-  variants: DeliveryMethod;
+  variants: IDeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   deliveryCity: CityFront;
   authToken: string | undefined;

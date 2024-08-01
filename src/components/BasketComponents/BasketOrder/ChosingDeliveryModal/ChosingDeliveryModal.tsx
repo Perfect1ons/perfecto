@@ -5,9 +5,9 @@ import styles from "./style.module.scss";
 import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import Image from "next/image";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface IChosingDeliveryModalProps {
   variableBuyer: {
@@ -22,7 +22,7 @@ interface IChosingDeliveryModalProps {
   };
   visible: string;
   close: (value: string) => void;
-  variants: DeliveryMethod;
+  variants: IDeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   saveDelivery: () => void;
   warning: string;

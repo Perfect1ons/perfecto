@@ -1,0 +1,5 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+
+.inputs{
+    @include mixin.flex(center,null,null,10px)
+}
