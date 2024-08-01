@@ -22,21 +22,21 @@ export default async function Page() {
 
   if (!authToken) {
     cartData = (await getProductBasket(1, cartId)).model;
-  }
-
-  if (authToken) {
+  } else {
     cartData = await getBasketAuthed(authToken, 1);
   }
 
-  const paymentMethod = await getPaymentMethod(userId);
-  const deliveryMehod = await getDeliveryMethod(userId);
-  const deliveryCity = await getSelectCity();
+  const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
+    getPaymentMethod(userId),
+    getDeliveryMethod(userId),
+    getSelectCity(),
+  ]);
 
   return (
     <Basket
       deliveryCity={deliveryCity}
       paymentMethod={paymentMethod}
-      deliveryMethod={deliveryMehod}
+      deliveryMethod={deliveryMethod}
       authToken={authToken}
       cart={cartData}
       cartId={cartId}
