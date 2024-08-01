@@ -67,8 +67,8 @@ export default function Favorites({ favoriteData }: IFavoritesProps) {
                   removeFromFavorites={removeFromFavorites}
                   cardData={item}
                   key={index}
-                  selectedIds={selectedIds}
-                  setSelectedIds={setSelectedIds}
+                  // selectedIds={selectedIds}
+                  // setSelectedIds={setSelectedIds}
                 />
               );
             })}

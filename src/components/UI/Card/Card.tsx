@@ -70,11 +70,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   useEffect(() => {
     const kolCard = basket.find((res) => res.id_tov === cardData.id_tov);
     if (kolCard) {
-      setQuantity(
-        kolCard.kol !== undefined
-          ? Math.max(kolCard.kol, kolCard.quantity || 0)
-          : kolCard.quantity || 0
-      );
+      setQuantity(kolCard.quantity || kolCard.kol);
     } else {
       setQuantity(0);
     }
