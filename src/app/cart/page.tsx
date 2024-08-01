@@ -1,10 +1,10 @@
 import {
   getBasketAuthed,
+  getCity,
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
   getProductBasket,
-  getSelectCity,
 } from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
 import { generatePageMetadata } from "@/utils/metadata";
@@ -29,7 +29,7 @@ export default async function Page() {
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
     getPaymentMethod(userId),
     getDeliveryMethod(userId),
-    getSelectCity(),
+    getCity(),
   ]);
 
   return (

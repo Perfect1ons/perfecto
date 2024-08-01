@@ -44,6 +44,52 @@
     }
   }
 
+  &_typeDelivery {
+    margin-top: 15px;
+    padding: 5px;
+    border-radius: 10px;
+    @include mixin.flex(center, space-between, null, 5px);
+    width: 100%;
+    background: var(--bg-graylight);
+    &_typePoint {
+      width: 100%;
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+      @include mixin.font(0.875rem, 400, null, var(--dark-blue));
+      @include mixin.flex(flex-end, center, null, 5px);
+      background: var(--white);
+
+      &_disable {
+        color: var(--dark);
+        cursor: pointer;
+        background: var(--bg-graylight);
+        &:hover {
+          background: var(--light);
+        }
+      }
+    }
+    &_typeCourier {
+      width: 100%;
+      padding: 15px 40px;
+      border-radius: 5px;
+      border: none;
+
+      background: var(--white);
+      @include mixin.font(0.875rem, 400, null, var(--dark-blue));
+      @include mixin.flex(center, center, null, 5px);
+
+      &_disable {
+        cursor: pointer;
+        color: var(--dark);
+        background: var(--bg-graylight);
+        &:hover {
+          background: var(--light);
+        }
+      }
+    }
+  }
+
   &_warning {
     margin-top: 15px;
     @include mixin.font(1rem, 400, null, var(--red));
@@ -128,39 +174,6 @@
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
 
-    &_selectAddress {
-      @include mixin.flex(center, flex-start, null, null);
-      margin-top: 15px;
-      width: 100%;
-      border: 2px solid var(--secondary);
-      border-radius: 5px;
-
-      &_dropdown {
-        border-radius: 3px 0px 0px 3px;
-        background: var(--dark-blue);
-        @include mixin.font(1rem, 400, null, var(--white));
-        padding: 8px 10px;
-        padding-right: 20px;
-        cursor: pointer;
-        transition: 0.2s all;
-        position: relative;
-        @include mixin.flex(center, center, null, null);
-
-        &_arrow {
-          position: absolute;
-          top: 10px;
-          right: 0;
-          color: var(--white);
-        }
-      }
-      &_input {
-        border-radius: 5px;
-        padding: 8px 5px;
-        width: 100%;
-        @include mixin.font(1rem 400, null, var(--dark));
-      }
-    }
-
     &_point {
       @include mixin.flex(center, flex-start, null, 8px);
       margin-top: 15px;
@@ -229,41 +242,10 @@
         @include mixin.font(0.875rem, 400, null, var(--dark));
       }
     }
-  }
 
-  &_typeDelivery {
-    margin-top: 15px;
-    @include mixin.flex(center, center, null, 15px);
-    width: 100%;
-    &_typePoint {
-      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
-      padding: 15px 40px;
-      border-radius: 5px;
-      border: none;
-      @include mixin.font(0.875rem, 400, null, #555);
-      @include mixin.flex(flex-end, center, null, 5px);
-      cursor: pointer;
-      background: #eee;
-
-      &_disactive {
-        background: var(--white);
-        color: var(--dark-blue);
-      }
-    }
-    &_typeCourier {
-      cursor: pointer;
-      box-shadow: 0px 3px 7px 0px rgba(34, 60, 80, 0.2);
-      padding: 15px 40px;
-      border-radius: 5px;
-      border: none;
-      background: var(--white);
-      @include mixin.font(0.875rem, 400, null, var(--dark-blue));
-      @include mixin.flex(center, center, null, 5px);
-      &_active {
-        color: #555;
-        background: #eee;
-        @include mixin.font(0.875rem, 400, null, var(--gray));
-      }
+    &_housing {
+      @include mixin.flex(center, space-between, null, 15px);
+      width: 100%;
     }
   }
   &_save {
@@ -289,13 +271,12 @@
   animation: scaleUp 0.3s ease-out forwards;
 }
 .inputsContainerCity {
-  @include mixin.flex(center, flex-start, null, 10px);
+  @include mixin.flex(center, center, null, 10px);
   width: 100%;
 }
 .inputContainer {
   position: relative;
   width: 100%;
-  max-width: 225px;
 }
 .dropdownContainer {
   @include mixin.flex(null, null, column, null);

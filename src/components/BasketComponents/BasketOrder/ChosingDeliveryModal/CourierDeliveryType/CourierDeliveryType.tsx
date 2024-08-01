@@ -4,9 +4,9 @@ import styles from "../style.module.scss";
 import cn from "clsx";
 import { СhevronDownIcon } from "../../../../../../public/Icons/Icons";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { SelectCityType } from "@/types/Basket/SelectCity";
 import { getSelectRegion } from "@/api/clientRequest";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
+import { CityFront } from "@/types/Basket/cityfrontType";
 
 interface ICourierDeliveryTypeProps {
   variableBuyer: {
@@ -21,7 +21,7 @@ interface ICourierDeliveryTypeProps {
   };
   variants: DeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
-  deliveryCity: SelectCityType;
+  deliveryCity: CityFront;
   authToken: string | undefined;
   location: {
     id_city: {
@@ -51,11 +51,9 @@ const CourierDeliveryType = ({
   authToken,
   location,
   cityChange,
-  regionChange,
   adressChange,
 }: ICourierDeliveryTypeProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [region, setRegion] = useState<SelectRegionType>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -77,14 +75,6 @@ const CourierDeliveryType = ({
     };
   }, [dropdownOpen]);
 
-  const getRegions = async (id: number) => {
-    if (authToken && (id < 10 || id > 99)) {
-      const data = await getSelectRegion(authToken, id);
-      setRegion(data);
-    } else {
-      setRegion(region);
-    }
-  };
   const [visibleDropdown, setVisibleDropdown] = useState<string | null>(null);
 
   const toggleFilter = (name: string) => {
@@ -117,61 +107,20 @@ const CourierDeliveryType = ({
           >
             {deliveryCity.map((city) => (
               <li
-                key={city.id}
+                key={city.city_id}
                 className={styles.dropdownItem}
                 onClick={() => {
-                  getRegions(city.id);
                   cityChange({
-                    name: city.naim,
-                    id: city.id,
+                    name: city.name,
+                    id: city.city_id,
                   });
                 }}
               >
-                {city.naim}
+                {city.name}
               </li>
             ))}
           </ul>
         </div>
-        {region && (
-          <div
-            className={styles.inputContainer}
-            ref={dropdownRef}
-            onClick={() => toggleFilter("region")}
-          >
-            <button className={styles.cityContainer}>
-              {location.id_city2.name ||
-                (region.length > 0 ? region[0].naim : "Не выбран")}
-              <span
-                className={cn(
-                  "filterNavItemArrowIsActive",
-                  styles.iconChewronDown
-                )}
-              >
-                <СhevronDownIcon />
-              </span>
-            </button>
-            <ul
-              className={cn(styles.dropdownContainer, {
-                [styles.dropdownContainerActive]: visibleDropdown === "region",
-              })}
-            >
-              {region.map((region) => (
-                <li
-                  key={region.id}
-                  className={styles.dropdownItem}
-                  onClick={() => {
-                    regionChange({
-                      name: region.naim,
-                      id: region.id,
-                    });
-                  }}
-                >
-                  {region.naim}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
 
       <div style={{ marginTop: "15px" }} className="containerInputLabel">
@@ -188,31 +137,33 @@ const CourierDeliveryType = ({
         </div>
       </div>
 
-      <div style={{ marginTop: "15px" }} className="containerInputLabel">
-        <div className="mail__label">
-          <input
-            className="mail__inputField"
-            value={location.directory.house}
-            name="house"
-            type="text"
-            onChange={adressChange}
-            required
-          />
-          <label className="mail__inputLabel">Дом</label>
+      <div className={styles.wrap_courier_housing}>
+        <div style={{ marginTop: "15px" }} className="containerInputLabel">
+          <div className="mail__label">
+            <input
+              className="mail__inputField"
+              value={location.directory.house}
+              name="house"
+              type="text"
+              onChange={adressChange}
+              required
+            />
+            <label className="mail__inputLabel">Дом</label>
+          </div>
         </div>
-      </div>
 
-      <div style={{ marginTop: "15px" }} className="containerInputLabel">
-        <div className="mail__label">
-          <input
-            className="mail__inputField"
-            value={location.directory.apartament}
-            name="apartament"
-            type="text"
-            onChange={adressChange}
-            required
-          />
-          <label className="mail__inputLabel">Квартира</label>
+        <div style={{ marginTop: "15px" }} className="containerInputLabel">
+          <div className="mail__label">
+            <input
+              className="mail__inputField"
+              value={location.directory.apartament}
+              name="apartament"
+              type="text"
+              onChange={adressChange}
+              required
+            />
+            <label className="mail__inputLabel">Квартира</label>
+          </div>
         </div>
       </div>
 

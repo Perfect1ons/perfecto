@@ -14,11 +14,11 @@ import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
-import { SelectCityType } from "@/types/Basket/SelectCity";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
+import { CityFront } from "@/types/Basket/cityfrontType";
 
 export interface Buyer {
   tel: string;
@@ -51,7 +51,7 @@ interface IBasketOrderProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: DeliveryMethod;
   authToken: string | undefined;
-  deliveryCity: SelectCityType;
+  deliveryCity: CityFront;
   currentItems: Model[];
 }
 
@@ -130,7 +130,7 @@ const BasketOrder = ({
     org: "",
     org_inn: "",
     id_city: null,
-    id_city2: null,
+    id_city2: 0,
     directory: "",
   });
 
@@ -369,7 +369,6 @@ const BasketOrder = ({
             buyer.org,
             buyer.org_inn,
             buyer.id_city?.toString(),
-            buyer.id_city2?.toString(),
             buyer.directory
           );
           router.push(`/profile/orders/${data.id}`);
