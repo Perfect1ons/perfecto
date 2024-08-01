@@ -29,6 +29,10 @@
     @include mixin.font(1rem, 400, null, var(--violet));
     width: 100%;
   }
+  &_anotherStatus {
+    margin-top: 15px;
+    align-self: flex-start;
+  }
   &_delivery {
     @include mixin.flex(center, space-between, null, 5px);
     padding: 5px 10px;
@@ -56,7 +60,6 @@
   }
   &_payment {
     margin-top: 15px;
-    margin-bottom: 15px;
     @include mixin.flex(center, space-between, null, null);
     width: 100%;
     padding: 5px 10px;
@@ -157,7 +160,7 @@
     }
   }
   &_organization {
-    margin-top: 15px;
+    // margin-top: 20px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
     &_dropdownToggler {

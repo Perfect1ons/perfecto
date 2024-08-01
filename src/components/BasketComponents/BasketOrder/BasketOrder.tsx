@@ -402,6 +402,20 @@ const BasketOrder = ({
       setNameWarning("");
     }
 
+    if (!anotherRecipient.fio) {
+      setSurnameWarning("Фамилия получателя не может быть пустой.");
+      isValid = false;
+    } else {
+      setSurnameWarning("");
+    }
+
+    if (!anotherRecipient.name) {
+      setNameWarning("Имя получателя не может быть пустым.");
+      isValid = false;
+    } else {
+      setNameWarning("");
+    }
+
     return isValid;
   };
 
@@ -558,6 +572,7 @@ const BasketOrder = ({
             {buyer.id_vopl ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
+        <br />
         {paymentWarning && (
           <p className={styles.wrap_warning}>{paymentWarning}</p>
         )}
@@ -771,6 +786,7 @@ const BasketOrder = ({
             </div>
           </div>
         )}
+        <br />
         <div className={styles.wrap_organization}>
           <button
             onClick={() => visibleHandler("organization")}
