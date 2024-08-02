@@ -51,11 +51,9 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
+  const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
   const updateCounts = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    // const cartCount = Object.keys(cartItems).length;
-
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
@@ -87,7 +85,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notif, authStatus, basket]);
+  }, [notif, authStatus]);
 
   return (
     <nav className={styles.nav}>
