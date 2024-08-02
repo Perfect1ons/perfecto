@@ -23,7 +23,9 @@ export default async function Favorites({ searchParams }: FavoritesProps) {
   if (authToken) {
     const favoriteData = await getFavorites(authToken);
     if (favoriteData !== null) {
-      return <FavoriteMain favoriteData={favoriteData.model} />;
+      return (
+        <FavoriteMain authToken={authToken} favoriteData={favoriteData.model} />
+      );
     } else {
       return <FavoritesIsEmpty />;
     }

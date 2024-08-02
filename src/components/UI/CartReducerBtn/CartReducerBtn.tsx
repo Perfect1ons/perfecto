@@ -7,8 +7,10 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import {
   deleteBasketProduct,
   deleteBasketProductAuthed,
+  deleteBasketProductAuthedIdTov,
   patchBasketProductAuthed,
   postBasketProduct,
+  postBasketProductAuthedIdTov,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import { RootState } from "@/store";
@@ -43,13 +45,14 @@ const CartReducerBtn = ({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    const item = basket.find((item) => item.id_tov === data.id_tov);
-    if (item) {
-      setQuantity(item.kol || item.quantity);
+    const storedBasket = JSON.parse(localStorage.getItem("basket") || "[]");
+    const kolCard = storedBasket.find((res: any) => res.id_tov === data.id_tov);
+    if (kolCard) {
+      setQuantity(kolCard.quantity || kolCard.kol || 0);
     } else {
       setQuantity(0);
     }
-  }, [basket, data.id_tov, data.minQty]);
+  }, [data.id_tov, data.minQty]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -74,6 +77,9 @@ const CartReducerBtn = ({
     if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
       dispatch(addProductQuantity(data.id_tov));
+    } else if (token && data.id_tov) {
+      await postBasketProductAuthedIdTov(token, data.id_tov, newQuantity);
+      dispatch(addProductQuantity(data.id_tov));
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
       dispatch(addProductQuantity(data.id_tov));
@@ -91,6 +97,9 @@ const CartReducerBtn = ({
       try {
         if (token && data.id_box) {
           await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
+          dispatch(deleteProductQuantity(data.id_tov));
+        } else if (token && data.id_tov) {
+          await deleteBasketProductAuthedIdTov(token, data.id_tov);
           dispatch(deleteProductQuantity(data.id_tov));
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);

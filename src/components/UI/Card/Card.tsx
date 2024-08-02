@@ -16,6 +16,7 @@ import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
 import {
+  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
   postFavorite,
@@ -68,13 +69,19 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   });
 
   useEffect(() => {
-    const kolCard = basket.find((res) => res.id_tov === cardData.id_tov);
+    const storedBasket = JSON.parse(localStorage.getItem("basket") || "[]");
+    const kolCard = storedBasket.find(
+      (res: any) => res.id_tov === cardData.id_tov
+    );
     if (kolCard) {
-      setQuantity(kolCard.quantity || kolCard.kol);
+      setQuantity(kolCard.quantity || kolCard.kol || 0);
+      setAdded(true);
     } else {
       setQuantity(0);
+      setAdded(false);
     }
-  }, [basket, cardData.id_tov, cardData.minQty]);
+  }, [cardData.id_tov, cardData.minQty]);
+
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -110,6 +117,9 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
       message = "Товар удален из избранного.";
+      if (removeFromFavorites) {
+        removeFromFavorites(cardData.id_tov);
+      }
     } else {
       postFavorite(cardData.id_tov, 1, token);
       favorites.push(favoriteData);
@@ -282,7 +292,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!isHomePage && quantity < 0 && (
+          {!isHomePage && !added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -301,7 +311,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
               </button>
             </div>
           )}
-          {!isHomePage && id_cart && quantity > 0 && (
+          {!isHomePage && id_cart && added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
