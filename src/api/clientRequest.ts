@@ -24,7 +24,6 @@ import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { PostOrderResponse } from "@/types/Basket/PostOrderResponse";
 import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 import { IExitsUser } from "@/types/Basket/ExitsUser";
-import { postBasketProductType } from "@/types/Basket/postBasketProduct";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)

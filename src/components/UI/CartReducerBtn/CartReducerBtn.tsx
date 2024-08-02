@@ -55,6 +55,7 @@ const CartReducerBtn = ({
     } else {
       setQuantity(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.id_tov, data.minQty]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
