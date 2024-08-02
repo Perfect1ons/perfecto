@@ -7,8 +7,10 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import {
   deleteBasketProduct,
   deleteBasketProductAuthed,
+  deleteBasketProductAuthedIdTov,
   patchBasketProductAuthed,
   postBasketProduct,
+  postBasketProductAuthedIdTov,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import { RootState } from "@/store";
@@ -18,6 +20,7 @@ import {
   removeItem,
 } from "@/store/reducers/basket.reducer";
 import { addProductQuantity } from "@/store/reducers/basket.reducer";
+import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -42,14 +45,18 @@ const CartReducerBtn = ({
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
   useEffect(() => {
-    const item = basket.find((item) => item.id_tov === data.id_tov);
-    if (item) {
-      setQuantity(item.kol || item.quantity);
+    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const kolCard = storedBasket.find((res: any) => res.id_tov === data.id_tov);
+    if (kolCard) {
+      setQuantity(kolCard.quantity || kolCard.kol || 0);
     } else {
       setQuantity(0);
     }
-  }, [basket, data.id_tov, data.minQty]);
+  }, [data.id_tov, data.minQty]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -71,49 +78,103 @@ const CartReducerBtn = ({
     event.preventDefault();
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
+
     if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
-      dispatch(addProductQuantity(data.id_tov));
+    } else if (token && data.id_tov) {
+      const item = await postBasketProductAuthedIdTov(
+        token,
+        data.id_tov,
+        newQuantity
+      );
+      if (item) {
+        const itemIndex = cartItems.findIndex(
+          (cartItem: postProductAuthResponse) => cartItem.id_tov === item.id_tov
+        );
+
+        if (itemIndex !== -1) {
+          cartItems[itemIndex] = item;
+        }
+
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      }
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
-      dispatch(addProductQuantity(data.id_tov));
     }
   };
-  const removeFromCart = async (
+
+  const removeItemFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
     event.preventDefault();
 
-    if (quantity <= data.minQty) {
+    if (quantity >= data.minQty) {
       setQuantity(0);
 
       try {
-        if (token && data.id_box) {
-          await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
+        if (token && data.id_tov) {
+          const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
+          if (item) {
+            cartItems = cartItems.filter(
+              (dataLocal: any) => dataLocal.id_tov !== data.id_tov
+            );
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          }
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
         }
-        dispatch(removeItem(data.id_tov));
+
         onCartEmpty();
       } catch (error) {
         console.error("Failed to remove item from cart:", error);
       }
-    } else {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
+    }
+  };
 
-      try {
-        if (token && data.id_box) {
-          await patchBasketProductAuthed(token, data.id_box, newQuantity);
-        } else {
-          await postBasketProduct(newQuantity, data.id_tov);
+  const updateItemQuantityInCart = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const newQuantity = quantity - 1;
+    setQuantity(newQuantity);
+
+    try {
+      if (token && data.id_box) {
+        await postBasketProduct(newQuantity, data.id_tov);
+      } else {
+        const item = await postBasketProductAuthedIdTov(
+          token,
+          data.id_tov,
+          newQuantity
+        );
+        if (item) {
+          const itemIndex = cartItems.findIndex(
+            (cartItem: postProductAuthResponse) =>
+              cartItem.id_tov === item.id_tov
+          );
+
+          if (itemIndex !== -1) {
+            cartItems[itemIndex] = item;
+          }
+
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
         }
-      } catch (error) {
-        console.error("Failed to update item quantity in cart:", error);
       }
+    } catch (error) {
+      console.error("Failed to update item quantity in cart:", error);
+    }
+  };
+
+  const handleCartAction = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (quantity <= data.minQty) {
+      await removeItemFromCart(event);
+    } else {
+      await updateItemQuantityInCart(event);
     }
   };
 
@@ -136,7 +197,7 @@ const CartReducerBtn = ({
             ? "removing an item from the cart"
             : "decreasing items in cart"
         }
-        onClick={removeFromCart}
+        onClick={handleCartAction}
         className={styles.btn_left}
       >
         {quantity <= data.minQty ? <TrashIcon /> : <MinusIcon />}
