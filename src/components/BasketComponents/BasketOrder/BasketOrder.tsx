@@ -289,7 +289,7 @@ const BasketOrder = ({
           fio: "",
           name: "",
         });
-        setAnotherStatus("Пользователь не найден.");
+        setAnotherStatus("Пользователь не найден");
       }
     } catch (error) {
       console.error("Error making request:", error);
@@ -658,20 +658,18 @@ const BasketOrder = ({
             </div>
           </div>
         )}
-        {anotherStatus && (
-          <p className={styles.wrap_anotherStatus}>{anotherStatus}</p>
-        )}
+
         {authToken && (
-          <div className={styles.wrap_organization}>
+          <div className={styles.wrap_anotherRecipient}>
             <button
               onClick={() => setAnotherVisible(!anotherVisible)}
-              className={styles.wrap_organization_dropdownToggler}
+              className={styles.wrap_anotherRecipient_dropdownToggler}
             >
               <span
                 className={cn(
                   anotherVisible
-                    ? styles.wrap_organization_dropdownToggler_arrow__active
-                    : styles.wrap_organization_dropdownToggler_arrow
+                    ? styles.wrap_anotherRecipient_dropdownToggler_arrow__active
+                    : styles.wrap_anotherRecipient_dropdownToggler_arrow
                 )}
               >
                 <ArrowDropdown />
@@ -681,10 +679,24 @@ const BasketOrder = ({
             <div
               className={cn(
                 anotherVisible
-                  ? styles.wrap_organization_dropdown__active
-                  : styles.wrap_organization_dropdown
+                  ? styles.wrap_anotherRecipient_dropdown__active
+                  : styles.wrap_anotherRecipient_dropdown
               )}
             >
+              {anotherVisible && (
+                <p
+                  className={cn(
+                    styles.wrap_anotherRecipient_dropdown__active_anotherStatus,
+                    anotherStatus &&
+                      styles.wrap_anotherRecipient_dropdown__active_anotherStatus_active,
+                    anotherStatus === "Пользователь не найден" &&
+                      styles.wrap_anotherRecipient_dropdown__active_anotherStatus_active_bad
+                  )}
+                >
+                  {anotherStatus}
+                </p>
+              )}
+
               <div className="allContainerInput">
                 <div className={styles.wrap_phone}>
                   <div className={styles.wrap_phone_control}>
