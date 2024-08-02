@@ -18,5 +18,5 @@ export default async function page() {
   
 
 
-  return <Abdu deliveryMethod={deliveryMethod}/>;
+  return <Abdu deliveryMethod={deliveryMethod} paymentMethod={paymentMethod}/>;
 }

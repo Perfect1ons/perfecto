@@ -11,7 +11,6 @@ import { useState, ChangeEvent, useCallback, useMemo, useEffect } from "react";
 import cn from "clsx";
 import InputMask from "react-input-mask";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
-import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
@@ -20,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { CityFront } from "@/types/Basket/cityfrontType";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 
 export interface Buyer {
   tel: string;
@@ -49,7 +49,7 @@ const codesCountry: Record<string, Country> = {
 type CountryKey = keyof typeof codesCountry;
 
 interface IBasketOrderProps {
-  paymentMethod: PaymentMethod;
+  paymentMethod: IPaymentMethod;
   deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
   deliveryCity: CityFront;

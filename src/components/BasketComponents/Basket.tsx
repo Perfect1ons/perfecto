@@ -15,23 +15,21 @@ import {
   deleteBasketProductAllAuthed,
   deleteBasketProductAuthed,
 } from "@/api/clientRequest";
-
-import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { ICard } from "@/types/Card/card";
 import { useDispatch, useSelector } from "react-redux";
 import { setBasket } from "@/store/reducers/basket.reducer";
 import {
   removeItem,
-  clearBasket,
   toggleSelectAllProducts,
 } from "@/store/reducers/basket.reducer";
 import { RootState } from "@/store";
 import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
 import { CityFront } from "@/types/Basket/cityfrontType";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 interface IBasketProps {
-  paymentMethod: PaymentMethod;
+  paymentMethod: IPaymentMethod;
   deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
   deliveryCity: CityFront;

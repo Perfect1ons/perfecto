@@ -2,6 +2,7 @@ import cn from "clsx";
 import styles from "./style.module.scss";
 import DeliveryToggler from "./DeliveryToggler";
 import { IVariableBuyer } from "../Abdu";
+import { ReactNode } from "react";
 
 interface ICurierModalProps {
   setView: (view: "delivery" | "curier") => void;
@@ -11,7 +12,13 @@ interface ICurierModalProps {
   variableBuyer: IVariableBuyer;
 }
 
-const deliveryPlace = [
+interface IDeliveryPlace{
+  id: number;
+  title: string;
+  desc: ReactNode;
+}
+
+const deliveryPlace: IDeliveryPlace[] = [
   {
     id: 1,
     title: "ПВЗ г. Бишкек, Медерова 8\\2",
@@ -84,20 +91,24 @@ const DeliveryModal = ({
                 </span>
                 {item.title}
               </button>
-              <div
-                className={cn(
-                  styles.wrap_courier_desc,
-                  variableBuyer.delivery.id === item.id &&
-                    styles.wrap_courier_desc_active
-                )}
-              >
-                <p className={styles.schedule}>График работы:</p>
-                <p className={styles.wrap_courier_desc_workdays}>{item.desc}</p>
-                <p className={styles.wrap_courier_desc_workdays}>
-                  Предварительно свяжитесь с вашим менеджером для подвержения о
-                  готовности выдачи заказа.
-                </p>
-              </div>
+              {item.desc && item.desc.toString().length > 0 && (
+                <div
+                  className={cn(
+                    styles.wrap_courier_desc,
+                    variableBuyer.delivery.id === item.id &&
+                      styles.wrap_courier_desc_active
+                  )}
+                >
+                  <p className={styles.schedule}>График работы:</p>
+                  <p className={styles.wrap_courier_desc_workdays}>
+                    {item.desc}
+                  </p>
+                  <p className={styles.wrap_courier_desc_workdays}>
+                    Предварительно свяжитесь с вашим менеджером для подвержения
+                    о готовности выдачи заказа.
+                  </p>
+                </div>
+              )}
             </div>
           );
         })}

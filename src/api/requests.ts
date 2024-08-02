@@ -30,7 +30,7 @@ import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { IOrderById } from "@/types/OrderById/orderbyid";
-import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
@@ -310,7 +310,7 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
 
 export const getPaymentMethod = (
   idUser: string | undefined
-): Promise<PaymentMethod> => {
+): Promise<IPaymentMethod> => {
   return maxkg.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 

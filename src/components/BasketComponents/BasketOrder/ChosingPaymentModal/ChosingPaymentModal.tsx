@@ -2,12 +2,12 @@
 import { Cross } from "../../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 
 interface IChosingPayModalProps {
   visible: string;
   close: (value: string) => void;
-  variants: PaymentMethod;
+  variants: IPaymentMethod;
   selectPayment: (payment: { name: string; id: string | number }) => void;
   savePayment: () => void;
   variableBuyer: {

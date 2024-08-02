@@ -6,27 +6,40 @@ import styles from "./styles.module.scss";
 import cn from "clsx";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { IVariableBuyer } from "../Abdu";
-import CurierModal from "../DeliveryCase/CurierModal";
-import DeliveryModal from "../DeliveryCase/DeliveryModal";
+import CurierModal from "../ModalCase/CurierModal";
+import DeliveryModal from "../ModalCase/DeliveryModal";
+import PaymentModal from "../ModalCase/PaymentModal";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 
 interface ModalProps {
-  variableBuyer: IVariableBuyer
+  variableBuyer: IVariableBuyer;
   isVisible: boolean;
+  paymentMethod: IPaymentMethod;
   close: () => void;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   deliveryMethod: IDeliveryMethod;
   saveDelivery: () => void;
+  setView: React.Dispatch<
+    React.SetStateAction<"delivery" | "curier" | "oplata">
+  >;
+  view: string;
+  selectPayment: (payment: { name: string; id: string | number }) => void;
+  savePayment: () => void;
 }
 
 const AbduModal = ({
   variableBuyer,
   saveDelivery,
+  savePayment,
   deliveryMethod,
+  paymentMethod,
   isVisible,
   selectDelivery,
   close,
+  setView,
+  view,
+  selectPayment,
 }: ModalProps) => {
-  const [view, setView] = useState<"delivery" | "curier">("curier");
   const renderFormContent = () => {
     switch (view) {
       case "curier":
@@ -55,6 +68,17 @@ const AbduModal = ({
             />
           ),
         };
+      case "oplata":
+        return {
+          title: "Способы оплаты",
+          content: (
+            <PaymentModal
+              variableBuyer={variableBuyer}
+              selectPayment={selectPayment}
+              paymentMethod={paymentMethod}
+            />
+          ),
+        };
 
       default:
         return { title: "", content: null };
@@ -76,7 +100,11 @@ const AbduModal = ({
         {content}
         <button
           onClick={() => {
-            saveDelivery();
+            if (view !== "oplata") {
+              saveDelivery();
+            } else {
+              savePayment();
+            }
           }}
           aria-label="save"
           className={styles.button}

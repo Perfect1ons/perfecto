@@ -23,6 +23,7 @@
 }
 
 .order_box {
+  @include mixin.flex(flex-start,center,column,15px);
   max-width: 400px;
   background: var(--light);
   padding: 15px;

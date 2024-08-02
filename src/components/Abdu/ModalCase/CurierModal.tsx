@@ -59,15 +59,19 @@ const CurierModal = ({
                 </span>
                 {item.name}
               </button>
-              <div
-                className={cn(
-                  styles.wrap_courier_desc,
-                  variableBuyer.delivery.id === item.id &&
-                    styles.wrap_courier_desc_active
-                )}
-              >
-                <p className={styles.wrap_courier_desc_workdays}>{item.desc}</p>
-              </div>
+              {item.desc && item.desc.length > 0 && (
+                <div
+                  className={cn(
+                    styles.wrap_courier_desc,
+                    variableBuyer.delivery.id === item.id &&
+                      styles.wrap_courier_desc_active
+                  )}
+                >
+                  <p className={styles.wrap_courier_desc_workdays}>
+                    {item.desc}
+                  </p>
+                </div>
+              )}
             </div>
           );
         })}
