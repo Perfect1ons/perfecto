@@ -91,6 +91,7 @@ export interface Model {
   timer?: number;
   selected?: boolean;
   quantity?: number;
+  id_box?: number;
 }
 
 export interface Photo {

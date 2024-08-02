@@ -44,7 +44,6 @@ interface IChosingDeliveryModalProps {
     };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
-  regionChange: (newRegion: { name: string; id: number }) => void;
   adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -60,7 +59,6 @@ const ChosingDeliveryModal = ({
   authToken,
   location,
   cityChange,
-  regionChange,
   adressChange,
 }: IChosingDeliveryModalProps) => {
   const [deliveryType, setDeliveryType] = useState("point");
@@ -140,7 +138,6 @@ const ChosingDeliveryModal = ({
           selectDelivery={selectDelivery}
           location={location}
           cityChange={cityChange}
-          regionChange={regionChange}
           adressChange={adressChange}
         />
       )}

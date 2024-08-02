@@ -31,6 +31,7 @@ import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { StatusDetailsType } from "@/types/Profile/statusDetails";
 import { IOrderById } from "@/types/OrderById/orderbyid";
 import { PaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { SelectCityType } from "@/types/Basket/SelectCity";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { IMainPageSeasonCategory } from "@/types/HomeTypes/season";
@@ -40,7 +41,6 @@ import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { IFavorites } from "@/types/Favorites/favorites";
 import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 import { CityFront } from "@/types/Basket/cityfrontType";
-import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,

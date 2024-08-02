@@ -12,8 +12,10 @@ import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
+import { RootState } from "@/store";
+import { useEffect, useState } from "react";
 interface IBasketCardProps {
   item: Model;
   imageUrl: string;
@@ -41,6 +43,21 @@ const BasketCard = ({
   selected,
   id_cart,
 }: IBasketCardProps) => {
+  const basket = useSelector((state: RootState) => state.basket.basket);
+
+  const [quantity, setQuantity] = useState<number>(item.kol || item.minQty);
+  useEffect(() => {
+    const kolCard = basket.find((res) => res.id_tov === item.id_tov);
+    if (kolCard) {
+      setQuantity(
+        kolCard.kol !== undefined
+          ? Math.max(kolCard.kol, kolCard.quantity || 0)
+          : kolCard.quantity || 0
+      );
+    } else {
+      setQuantity(kolCard.minQty);
+    }
+  }, [basket, item.id_tov, item.minQty]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + " млрд";
@@ -50,9 +67,9 @@ const BasketCard = ({
       return number.toLocaleString("ru-RU");
     }
   };
-  const totalPrice = item.cenaok * item.kol;
+  const totalPrice = item.cenaok * quantity;
   const formattedPrice = formatNumber(totalPrice);
-  const formattedQuantity = formatNumber(item.kol);
+  const formattedQuantity = formatNumber(quantity);
   const dispatch = useDispatch();
 
   const handleSelectionToggle = () => {

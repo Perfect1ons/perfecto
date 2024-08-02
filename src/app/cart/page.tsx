@@ -4,9 +4,11 @@ import {
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
+  getPersonalDataProfileServer,
   getProductBasket,
 } from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
 
@@ -19,11 +21,13 @@ export default async function Page() {
   const cartId = match && match[1];
 
   let cartData: any;
+  let profileData: any;
 
   if (!authToken) {
     cartData = (await getProductBasket(1, cartId)).model;
   } else {
     cartData = await getBasketAuthed(authToken, 1);
+    profileData = await getPersonalDataProfileServer(authToken);
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
@@ -40,6 +44,7 @@ export default async function Page() {
       authToken={authToken}
       cart={cartData}
       cartId={cartId}
+      user={profileData}
     />
   );
 }

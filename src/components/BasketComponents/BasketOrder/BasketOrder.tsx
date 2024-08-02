@@ -15,9 +15,10 @@ import { PaymentMethod } from "@/types/Basket/PaymentMethod";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
-import { postBoxOrder } from "@/api/clientRequest";
+import { getExitsUser, postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 export interface Buyer {
@@ -53,6 +54,7 @@ interface IBasketOrderProps {
   authToken: string | undefined;
   deliveryCity: CityFront;
   currentItems: Model[];
+  user: UserPersonalDataType;
 }
 
 const BasketOrder = ({
@@ -61,8 +63,11 @@ const BasketOrder = ({
   authToken,
   deliveryCity,
   currentItems,
+  user,
 }: IBasketOrderProps) => {
   const [visible, setVisible] = useState<string>("");
+
+  const [anotherVisible, setAnotherVisible] = useState(false);
 
   const [regVisible, setRegVisible] = useState(false);
 
@@ -120,13 +125,21 @@ const BasketOrder = ({
     },
   });
 
-  const [nds, setNds] = useState<boolean>(true);
-  const [buyer, setBuyer] = useState<Buyer>({
+  const [anotherRecipient, setAnotherRecipient] = useState({
     tel: `${codesCountry.kg.code}`,
-    vid_dost: variableBuyer.delivery.id,
-    id_vopl: variableBuyer.payment.id,
     fio: "",
     name: "",
+  });
+
+  const [anotherStatus, setAnotherStatus] = useState("");
+
+  const [nds, setNds] = useState<boolean>(true);
+  const [buyer, setBuyer] = useState<Buyer>({
+    tel: user.tel ? user.tel : "",
+    vid_dost: variableBuyer.delivery.id,
+    id_vopl: variableBuyer.payment.id,
+    fio: user.fio ? user.fio : "",
+    name: user.name ? user.name : "",
     org: "",
     org_inn: "",
     id_city: null,
@@ -156,14 +169,6 @@ const BasketOrder = ({
     setLocation((prevState) => ({
       ...prevState,
       id_city: newCity,
-    }));
-  };
-
-  // Функция для обновления значения region
-  const updateRegion = (newRegion: { name: string; id: number }) => {
-    setLocation((prevState) => ({
-      ...prevState,
-      id_city2: newRegion,
     }));
   };
 
@@ -240,6 +245,57 @@ const BasketOrder = ({
     }));
   };
 
+  const handleAnotherRecipientChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAnotherRecipient((prevAnother) => ({
+      ...prevAnother,
+      [name]: value,
+    }));
+  };
+
+  console.log(buyer);
+
+  const handleAnotherRecipientBlur = async () => {
+    try {
+      const cleanedTel = anotherRecipient.tel.replace(/\D/g, "");
+      const response = await getExitsUser(cleanedTel);
+
+      if (response) {
+        const data = response;
+        setBuyer((prevBuyer) => ({
+          ...prevBuyer,
+          tel: data.tel,
+          fio: data.fio,
+          name: data.name,
+        }));
+
+        setAnotherRecipient((prevAnother) => ({
+          ...prevAnother,
+          tel: data.tel,
+          fio: data.fio,
+          name: data.name,
+        }));
+
+        setAnotherStatus("Пользователь найден");
+      } else {
+        setBuyer((prevBuyer) => ({
+          ...prevBuyer,
+          tel: user.tel,
+          fio: user.fio,
+          name: user.name,
+        }));
+        setAnotherRecipient({
+          tel: "",
+          fio: "",
+          name: "",
+        });
+        setAnotherStatus("Пользователь не найден");
+      }
+    } catch (error) {
+      console.error("Error making request:", error);
+      setAnotherStatus("Ошибка при запросе.");
+    }
+  };
   const selectPayment = (payment: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
@@ -428,7 +484,6 @@ const BasketOrder = ({
             warning={deliveryWarning}
             location={location}
             cityChange={updateCity}
-            regionChange={updateRegion}
             adressChange={changeAdress}
           />
           <div
@@ -510,6 +565,7 @@ const BasketOrder = ({
         {paymentWarning && (
           <p className={styles.wrap_warning}>{paymentWarning}</p>
         )}
+        <br />
         {!authToken && (
           <div className="allContainerInput">
             <div className={styles.wrap_phone}>
@@ -602,17 +658,18 @@ const BasketOrder = ({
             </div>
           </div>
         )}
+
         {authToken && (
-          <div className={styles.wrap_organization}>
+          <div className={styles.wrap_anotherRecipient}>
             <button
-              onClick={() => visibleHandler("another")}
-              className={styles.wrap_organization_dropdownToggler}
+              onClick={() => setAnotherVisible(!anotherVisible)}
+              className={styles.wrap_anotherRecipient_dropdownToggler}
             >
               <span
                 className={cn(
-                  visible === "another"
-                    ? styles.wrap_organization_dropdownToggler_arrow__active
-                    : styles.wrap_organization_dropdownToggler_arrow
+                  anotherVisible
+                    ? styles.wrap_anotherRecipient_dropdownToggler_arrow__active
+                    : styles.wrap_anotherRecipient_dropdownToggler_arrow
                 )}
               >
                 <ArrowDropdown />
@@ -621,19 +678,34 @@ const BasketOrder = ({
             </button>
             <div
               className={cn(
-                visible === "another"
-                  ? styles.wrap_organization_dropdown__active
-                  : styles.wrap_organization_dropdown
+                anotherVisible
+                  ? styles.wrap_anotherRecipient_dropdown__active
+                  : styles.wrap_anotherRecipient_dropdown
               )}
             >
+              {anotherVisible && (
+                <p
+                  className={cn(
+                    styles.wrap_anotherRecipient_dropdown__active_anotherStatus,
+                    anotherStatus &&
+                      styles.wrap_anotherRecipient_dropdown__active_anotherStatus_active,
+                    anotherStatus === "Пользователь не найден" &&
+                      styles.wrap_anotherRecipient_dropdown__active_anotherStatus_active_bad
+                  )}
+                >
+                  {anotherStatus}
+                </p>
+              )}
+
               <div className="allContainerInput">
                 <div className={styles.wrap_phone}>
                   <div className={styles.wrap_phone_control}>
                     <InputMask
                       mask={mask}
-                      value={buyer.tel}
-                      onChange={handleBuyerChange}
+                      value={anotherRecipient.tel}
+                      onChange={handleAnotherRecipientChange}
                       className={styles.auth__input}
+                      onBlur={handleAnotherRecipientBlur}
                     >
                       {(
                         inputProps: React.InputHTMLAttributes<HTMLInputElement>
@@ -674,9 +746,6 @@ const BasketOrder = ({
                       />
                     </button>
                   </div>
-                  {phoneWarning && (
-                    <p className={styles.wrap_warning}>{phoneWarning}</p>
-                  )}
                   {visible === "country" && (
                     <div className={styles.wrap_phone_dropdown}>
                       {countryOptions}
@@ -687,10 +756,10 @@ const BasketOrder = ({
                   <div className="mail__label">
                     <input
                       className="mail__inputField"
-                      value={buyer.fio}
+                      value={anotherRecipient.fio}
                       name="fio"
                       type="text"
-                      onChange={handleBuyerChange}
+                      onChange={handleAnotherRecipientChange}
                       required
                     />
                     <label className="mail__inputLabel">Фамилия</label>
@@ -703,10 +772,10 @@ const BasketOrder = ({
                   <div className="mail__label">
                     <input
                       className="mail__inputField"
-                      value={buyer.name}
+                      value={anotherRecipient.name}
                       name="name"
                       type="text"
-                      onChange={handleBuyerChange}
+                      onChange={handleAnotherRecipientChange}
                       required
                     />
                     <label className="mail__inputLabel">Имя</label>
@@ -719,6 +788,7 @@ const BasketOrder = ({
             </div>
           </div>
         )}
+        <br />
         <div className={styles.wrap_organization}>
           <button
             onClick={() => visibleHandler("organization")}

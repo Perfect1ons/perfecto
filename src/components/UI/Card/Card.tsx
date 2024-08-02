@@ -22,20 +22,17 @@ import {
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
+import { RootState } from "@/store";
+import { useDispatch, useSelector } from "react-redux";
+import { setBasket } from "@/store/reducers/basket.reducer";
 
 interface IcardDataProps {
   cardData: ICard;
-  favoritesData?: IFavoritesModel[];
   removeFromFavorites?: (id_tov: number) => void;
   id_cart?: string | null | undefined;
 }
 
-const Card = ({
-  cardData,
-  removeFromFavorites,
-  id_cart,
-  favoritesData,
-}: IcardDataProps) => {
+const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const { isAuthed, token } = useContext(AuthContext);
   const maxLength = 40;
   const maxLengthDdos = 32;
@@ -51,6 +48,9 @@ const Card = ({
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
+  const basket = useSelector((state: RootState) => state.basket.basket);
+  const dispatch = useDispatch();
+
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -67,58 +67,66 @@ const Card = ({
     return newImages;
   });
 
-  const showModal = (message: React.ReactNode) => {
-    if (isModalVisible) {
-      setModalVisible(false);
-      setTimeout(() => {
-        setModalMessage(message);
-        setModalVisible(true);
-      }, 300);
+  useEffect(() => {
+    const kolCard = basket.find((res) => res.id_tov === cardData.id_tov);
+    if (kolCard) {
+      setQuantity(kolCard.quantity || kolCard.kol);
     } else {
-      setModalMessage(message);
-      setModalVisible(true);
+      setQuantity(0);
     }
-  };
-
+  }, [basket, cardData.id_tov, cardData.minQty]);
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
-    if (favoritesData) {
-      setIsFavorite(
-        favoritesData.some(
-          (fav: IFavoritesModel) => fav.id_tov === cardData.id_tov
-        )
-      );
-    }
-  }, [cardData.ocenka, cardData.id_tov, favoritesData]);
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setIsFavorite(
+      favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
+    );
+  }, [cardData.ocenka, cardData.id_tov]);
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
-
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message: string | JSX.Element = "";
+    const favoriteData = {
+      id: cardData.id,
+      id_tov: cardData.id_tov,
+      id_post: cardData.id_post,
+      old_price: cardData.old_price,
+      discount_prc: cardData.discount_prc,
+      naim: cardData.naim,
+      ddos: cardData.ddos,
+      cenaok: cardData.cenaok,
+      url: cardData.url,
+      photos: cardData.photos,
+      ocenka: cardData.ocenka,
+      status: cardData.status,
+      minQty: cardData.minQty,
+    };
     if (!isAuthed) {
       openAuthModal();
       return;
     }
-
-    const message = isFavorite ? (
-      "Товар удален из избранного."
-    ) : (
-      <>
-        Товар добавлен в избранное.
-        <Link className="linkCart" href={"/favorites"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-
     if (isFavorite) {
-      if (removeFromFavorites) {
-        removeFromFavorites(cardData.id_tov);
-      }
+      favorites = favorites.filter(
+        (fav: ICard) => fav.id_tov !== cardData.id_tov
+      );
+      message = "Товар удален из избранного.";
     } else {
       postFavorite(cardData.id_tov, 1, token);
+      favorites.push(favoriteData);
+      message = (
+        <>
+          Товар добавлен в избранное.{" "}
+          <Link className="linkCart" href="/favorites">
+            Нажмите, чтобы перейти к списку.
+          </Link>
+        </>
+      );
     }
-
-    showModal(message);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    setIsFavorite(!isFavorite);
+    window.dispatchEvent(new Event("favoritesUpdated"));
+    setModalMessage(message);
+    setModalVisible(true);
   };
 
   const handleModalClose = () => {
@@ -136,13 +144,6 @@ const Card = ({
   // Функция обновления корзины в localStorage
 
   const addToCart = async () => {
-    let carts: { id_tov: number; kol: number }[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
-    const basketData = {
-      id_tov: cardData.id_tov,
-      kol: cardData.minQty,
-    };
     if (token) {
       await postBasketProductAuthed(
         token,
@@ -152,19 +153,10 @@ const Card = ({
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
-    const existingItemIndex = carts.findIndex(
-      (item) => item.id_tov === basketData.id_tov
-    );
-    if (existingItemIndex > -1) {
-      carts[existingItemIndex].kol += basketData.kol;
-    } else {
-      carts.push(basketData);
-    }
-    localStorage.setItem("cart", JSON.stringify(carts));
     setAdded(true);
-    setQuantity(basketData.kol);
   };
   const handleAddToCart = async () => {
+    dispatch(setBasket(cardData));
     await addToCart();
     setShouldFocusInput(true);
     setModalMessage(
@@ -290,7 +282,7 @@ const Card = ({
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!isHomePage && !added && (
+          {!isHomePage && quantity < 0 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -309,7 +301,7 @@ const Card = ({
               </button>
             </div>
           )}
-          {!isHomePage && added && id_cart && quantity >= 0 && (
+          {!isHomePage && id_cart && quantity > 0 && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"

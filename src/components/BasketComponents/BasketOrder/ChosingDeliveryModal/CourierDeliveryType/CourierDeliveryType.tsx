@@ -3,8 +3,6 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
 import { СhevronDownIcon } from "../../../../../../public/Icons/Icons";
-import { getSelectRegion } from "@/api/clientRequest";
-import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { CityFront } from "@/types/Basket/cityfrontType";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
@@ -39,7 +37,6 @@ interface ICourierDeliveryTypeProps {
     };
   };
   cityChange: (newCity: { name: string; id: number }) => void;
-  regionChange: (newRegion: { name: string; id: number }) => void;
   adressChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -167,50 +164,54 @@ const CourierDeliveryType = ({
         </div>
       </div>
 
-      {Object.entries(variants).map(([key, variant]) => (
-        <div key={key}>
-          <button
-            onClick={() =>
-              selectDelivery({
-                name: variant.name,
-                id: variant.id,
-              })
-            }
-            aria-label="choose delivery point"
-            className={cn(
-              styles.wrap_courier_point,
-              variableBuyer.delivery.id === variant.id &&
-                styles.wrap_courier_point_active
-            )}
-          >
-            <span
+      {Object.entries(variants)
+        .slice(1)
+        .map(([key, variant]) => (
+          <div key={key}>
+            <button
+              onClick={() =>
+                selectDelivery({
+                  name: variant.name,
+                  id: variant.id,
+                })
+              }
+              aria-label="choose delivery point"
               className={cn(
-                styles.wrap_courier_point_radio,
+                styles.wrap_courier_point,
                 variableBuyer.delivery.id === variant.id &&
-                  styles.wrap_courier_point_radio_active
+                  styles.wrap_courier_point_active
               )}
             >
               <span
                 className={cn(
-                  styles.wrap_courier_point_radio_dot,
+                  styles.wrap_courier_point_radio,
                   variableBuyer.delivery.id === variant.id &&
-                    styles.wrap_courier_point_radio_dot_active
+                    styles.wrap_courier_point_radio_active
                 )}
-              ></span>
-            </span>
-            {variant.name}
-          </button>
-          <div
-            className={cn(
-              styles.wrap_courier_desc,
-              variableBuyer.delivery.id === variant.id &&
-                styles.wrap_courier_desc_active
-            )}
-          >
-            <p className={styles.wrap_courier_desc_workdays}>{variant.desc}</p>
+              >
+                <span
+                  className={cn(
+                    styles.wrap_courier_point_radio_dot,
+                    variableBuyer.delivery.id === variant.id &&
+                      styles.wrap_courier_point_radio_dot_active
+                  )}
+                ></span>
+              </span>
+              {variant.name}
+            </button>
+            <div
+              className={cn(
+                styles.wrap_courier_desc,
+                variableBuyer.delivery.id === variant.id &&
+                  styles.wrap_courier_desc_active
+              )}
+            >
+              <p className={styles.wrap_courier_desc_workdays}>
+                {variant.desc}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };

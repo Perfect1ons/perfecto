@@ -27,7 +27,9 @@ import {
   toggleSelectAllProducts,
 } from "@/store/reducers/basket.reducer";
 import { RootState } from "@/store";
+import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
 import { CityFront } from "@/types/Basket/cityfrontType";
+import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 interface IBasketProps {
   paymentMethod: PaymentMethod;
   deliveryMethod: IDeliveryMethod;
@@ -35,6 +37,7 @@ interface IBasketProps {
   deliveryCity: CityFront;
   cart: any;
   cartId: string | null | undefined;
+  user: UserPersonalDataType;
 }
 
 const Basket = ({
@@ -44,6 +47,7 @@ const Basket = ({
   deliveryCity,
   cart,
   cartId,
+  user,
 }: IBasketProps) => {
   const [selectAll, setSelectAll] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -55,11 +59,10 @@ const Basket = ({
   const dispatch = useDispatch();
   useEffect(() => {
     if (cart) {
-      dispatch(setBasket(cart));
-    } else {
-      dispatch(setBasket(cart));
+      cart.forEach((product: any) => {
+        dispatch(setBasket(product));
+      });
     }
-    dispatch(setBasket(cart));
   }, [cart, dispatch]);
 
   const openModal = () => {
@@ -103,11 +106,11 @@ const Basket = ({
     if (authToken) {
       deleteBasketProductAllAuthed(
         authToken,
-        basket.map((item) => item.id_tov)
+        basket.filter((item) => item.selected).map((item) => item.id_tov)
       )
         .then(() => {
           // Обновите корзину в Redux после очистки
-          dispatch(clearBasket(basket.map((item) => item.id_tov)));
+          dispatch(clearSelectedProducts());
           setAllItemsSelected(false);
           openModal();
         })
@@ -117,11 +120,11 @@ const Basket = ({
     } else {
       deleteBasketProductAll(
         cartId,
-        basket.map((item) => item.id_tov)
+        basket.filter((item) => item.selected).map((item) => item.id_tov)
       )
         .then(() => {
           // Обновите корзину в Redux после очистки
-          dispatch(clearBasket(basket.map((item) => item.id_tov)));
+          dispatch(clearSelectedProducts());
           setAllItemsSelected(false);
           openModal();
         })
@@ -269,6 +272,7 @@ const Basket = ({
               deliveryMethod={deliveryMethod}
               authToken={authToken}
               currentItems={basket}
+              user={user}
             />
           </div>
         </div>

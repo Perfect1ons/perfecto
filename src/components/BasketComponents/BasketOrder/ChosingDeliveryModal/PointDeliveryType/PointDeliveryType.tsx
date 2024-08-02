@@ -1,4 +1,4 @@
-import { DeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import styles from "../style.module.scss";
 import cn from "clsx";
 
@@ -14,58 +14,65 @@ interface IPointDeliveryTypeProps {
     };
   };
 
-  variants: DeliveryMethod;
+  variants: IDeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
 }
 
 const PointDeliveryType = ({
-
   variants,
   selectDelivery,
   variableBuyer,
 }: IPointDeliveryTypeProps) => {
   return (
     <div className={styles.wrap_delivery}>
-      <button
-        onClick={() =>
-          selectDelivery({
-            name: variants[1]?.name,
-            id: variants[1]?.id,
-          })
-        }
-        aria-label="choose delivery point"
-        className={cn(
-          styles.wrap_delivery_point,
-          variableBuyer.delivery.id === variants[1]?.id &&
-            styles.wrap_delivery_point_active
-        )}
-      >
-        <span
-          className={cn(
-            styles.wrap_delivery_point_radio,
-            variableBuyer.delivery.id === variants[1]?.id &&
-              styles.wrap_delivery_point_radio_active
-          )}
-        >
-          <span
-            className={cn(
-              styles.wrap_delivery_point_radio_dot,
-              variableBuyer.delivery.id === variants[1]?.id &&
-                styles.wrap_delivery_point_radio_dot_active
-            )}
-          ></span>
-        </span>
-        {variants[1]?.name}
-      </button>
-      <div
-        className={cn(
-          styles.wrap_delivery_desc,
-          variableBuyer.delivery.id === variants[1]?.id &&
-            styles.wrap_delivery_desc_active
-        )}
-      >
-        <p className={styles.wrap_delivery_desc_workdays}>{variants[1]?.desc}</p>
-      </div>
+      {Object.entries(variants)
+        .slice(0, 1)
+        .map(([key, variant]) => (
+          <div key={key}>
+            <button
+              onClick={() =>
+                selectDelivery({
+                  name: variant.name,
+                  id: variant.id,
+                })
+              }
+              aria-label="choose delivery point"
+              className={cn(
+                styles.wrap_courier_point,
+                variableBuyer.delivery.id === variant.id &&
+                  styles.wrap_courier_point_active
+              )}
+            >
+              <span
+                className={cn(
+                  styles.wrap_courier_point_radio,
+                  variableBuyer.delivery.id === variant.id &&
+                    styles.wrap_courier_point_radio_active
+                )}
+              >
+                <span
+                  className={cn(
+                    styles.wrap_courier_point_radio_dot,
+                    variableBuyer.delivery.id === variant.id &&
+                      styles.wrap_courier_point_radio_dot_active
+                  )}
+                ></span>
+              </span>
+              {variant.name}
+            </button>
+            <div
+              className={cn(
+                styles.wrap_courier_desc,
+                variableBuyer.delivery.id === variant.id &&
+                  styles.wrap_courier_desc_active
+              )}
+            >
+              <p className={styles.wrap_courier_desc_workdays}>
+                {variant.desc}
+              </p>
+            </div>
+          </div>
+        ))}
     </div>
   );
 };

@@ -11,7 +11,6 @@ import {
   postBasketProduct,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
-import { Model } from "@/types/Basket/getBasketProduct";
 import { RootState } from "@/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -43,27 +42,14 @@ const CartReducerBtn = ({
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
-  const loadQuantityFromLocalStorage = () => {
-    const carts: { id_tov: number; kol: number }[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
-    const cartItem = carts.find((item) => item.id_tov === data.id_tov);
-    if (cartItem) {
-      setQuantity(cartItem.kol);
-    }
-  };
   useEffect(() => {
     const item = basket.find((item) => item.id_tov === data.id_tov);
     if (item) {
-      setQuantity(item.kol);
+      setQuantity(item.kol || item.quantity);
     } else {
-      setQuantity(data.minQty); // Fallback to minQty if item is not found
+      setQuantity(0);
     }
   }, [basket, data.id_tov, data.minQty]);
-
-  // useEffect(() => {
-  //   loadQuantityFromLocalStorage();
-  // }, [data.id_tov]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
@@ -77,25 +63,7 @@ const CartReducerBtn = ({
   const handleBlur = async () => {
     setQuantity(data.minQty);
   };
-  const updateLocalStorageCart = (itemId: number, newQuantity: number) => {
-    let carts: { id_tov: number; kol: number }[] = JSON.parse(
-      localStorage.getItem("cart") || "[]"
-    );
 
-    const existingItemIndex = carts.findIndex((item) => item.id_tov === itemId);
-
-    if (existingItemIndex > -1) {
-      if (newQuantity <= 0) {
-        carts.splice(existingItemIndex, 1);
-      } else {
-        carts[existingItemIndex].kol = newQuantity;
-      }
-    } else if (newQuantity > 0) {
-      carts.push({ id_tov: itemId, kol: newQuantity });
-    }
-
-    localStorage.setItem("cart", JSON.stringify(carts));
-  };
   const addToCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -110,7 +78,6 @@ const CartReducerBtn = ({
       await postBasketProduct(newQuantity, data.id_tov);
       dispatch(addProductQuantity(data.id_tov));
     }
-    // updateLocalStorageCart(data.id_tov, newQuantity);
   };
   const removeFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -130,7 +97,6 @@ const CartReducerBtn = ({
           dispatch(deleteProductQuantity(data.id_tov));
         }
         dispatch(removeItem(data.id_tov));
-        updateLocalStorageCart(data.id_tov, 0);
         onCartEmpty();
       } catch (error) {
         console.error("Failed to remove item from cart:", error);
@@ -145,8 +111,6 @@ const CartReducerBtn = ({
         } else {
           await postBasketProduct(newQuantity, data.id_tov);
         }
-
-        updateLocalStorageCart(data.id_tov, newQuantity);
       } catch (error) {
         console.error("Failed to update item quantity in cart:", error);
       }

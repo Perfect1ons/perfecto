@@ -45,7 +45,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
-  const cart = useSelector((state: RootState) => state.cart.cart);
+  const basket = useSelector((state: RootState) => state.basket.basket);
   const { notif } = useContext(AuthContext);
 
   const openAuthModal = () => setAuthVisible(true);
@@ -53,7 +53,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const addToFavorite = () => setAuthVisible(false);
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cart") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("basket") || "[]");
     // const cartCount = Object.keys(cartItems).length;
 
     setLinks((prevLinks) =>
@@ -87,7 +87,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notif, authStatus]);
+  }, [notif, authStatus, basket]);
 
   return (
     <nav className={styles.nav}>
