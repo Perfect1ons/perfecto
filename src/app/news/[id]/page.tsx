@@ -6,11 +6,6 @@ import {
 } from "@/api/requests";
 import NewsById from "@/components/HomeComponents/News/NewsById/NewsById";
 
-export async function generateStaticParams() {
-  const news = await getNews();
-  return news.map((newItem) => ({ id: newItem.id.toString() }));
-}
-
 export async function generateMetadata({ params: { id } }: any) {
   const data = await getNewsByIdOne(id);
   const title = data.news.naim;

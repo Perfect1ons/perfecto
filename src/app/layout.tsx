@@ -8,7 +8,7 @@ import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
 import { ModalProvider } from "@/context/ModalContext/ModalContext";
-import { getNotification } from "@/api/requests";
+import { getCurrentOrders, getNotification } from "@/api/requests";
 const DynamicMessageModal = dynamic(
   () => import("@/components/UI/MessageModal/MessageModal"),
   {
@@ -60,15 +60,24 @@ export default async function RootLayout({
   const isAuthed = cookieStore.get("identify")?.value;
   const userId = cookieStore.get("userId")?.value;
 
+  let notifications;
+  let orders;
+
   if (isAuthed && userId) {
-    const notifications = await getNotification(parseInt(userId));
+    notifications = await getNotification(parseInt(userId));
+    orders = await getCurrentOrders(isAuthed);
   }
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
-          <AuthProvider >
+          <AuthProvider
+            notifCount={notifications}
+            ordersCount={orders}
+            isAuthed={isAuthed}
+            personId={userId}
+          >
             <ReactProvider>
               <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
               <DownloadAppMobile />

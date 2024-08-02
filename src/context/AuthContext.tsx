@@ -1,14 +1,23 @@
 "use client";
-import { getCurrentOrdersClient, getNotificationCount } from "@/api/clientRequest";
-import React, { createContext, useEffect, useState } from "react";
+import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
+import { INotifications } from "@/types/Profile/Notifications/notifications";
+import React, { createContext, useState, ReactNode } from "react";
 
 interface AuthContextProps {
   orders: number;
   notif: number;
   token: string;
   userId: number;
-  isAuthed: boolean;
-  setIsAuthed: (authStatus: boolean) => void;
+  isAuth: boolean;
+  setIsAuth: (authStatus: boolean) => void;
+}
+
+interface AuthProviderProps {
+  children: ReactNode;
+  notifCount?: INotifications;
+  ordersCount?: CurrentOrdersType;
+  isAuthed?: any;
+  personId?: any;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
@@ -16,52 +25,26 @@ export const AuthContext = createContext<AuthContextProps>({
   notif: 0,
   token: "",
   userId: 0,
-  isAuthed: false,
-  setIsAuthed: () => {},
+  isAuth: false,
+  setIsAuth: () => {},
 });
 
-const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+const AuthProvider: React.FC<AuthProviderProps> = ({
   children,
+  notifCount,
+  ordersCount,
+  isAuthed,
+  personId,
 }) => {
-  const [isAuthed, setIsAuthed] = useState(false);
-  const [userId, setUserId] = useState(0);
-  const [token, setToken] = useState("");
-  const [notif, setNotif] = useState(0)
-  const [orders, setOrders] = useState(0);
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await fetch("/api/auth", {
-          method: "GET",
-        });
-        
-        const data = await response.json()
-        const notif = await getNotificationCount(data.userId.value);
-        const ordersCount = await getCurrentOrdersClient(
-          data.accessToken.value
-        );
-
-        if (response.ok) {
-          setNotif(notif.length)
-          setUserId(data.userId.value);
-          setToken(data.accessToken.value);
-          setOrders(ordersCount.items.length)
-          setIsAuthed(true);
-        } else {
-          setIsAuthed(false);
-        }
-      } catch (error) {
-        console.error("Ошибка при проверке авторизации:", error);
-      }
-    };
-
-    checkAuthStatus();
-  }, []);
+  const [isAuth, setIsAuth] = useState(isAuthed);
+  const [userId, setUserId] = useState(personId);
+  const [token, setToken] = useState(isAuthed);
+  const [notif, setNotif] = useState(notifCount?.length || 0);
+  const [orders, setOrders] = useState(ordersCount?.items.length || 0);
 
   return (
     <AuthContext.Provider
-      value={{ isAuthed, setIsAuthed, userId, token, notif, orders }}
+      value={{ isAuth, setIsAuth, userId, token, notif, orders }}
     >
       {children}
     </AuthContext.Provider>

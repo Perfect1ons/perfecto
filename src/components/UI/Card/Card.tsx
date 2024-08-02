@@ -33,7 +33,7 @@ interface IcardDataProps {
 }
 
 const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
-  const { isAuthed, token } = useContext(AuthContext);
+  const { isAuth, token } = useContext(AuthContext);
   const maxLength = 40;
   const maxLengthDdos = 32;
   const truncatedTitle = truncateText(cardData.naim, maxLength);
@@ -107,7 +107,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       status: cardData.status,
       minQty: cardData.minQty,
     };
-    if (!isAuthed) {
+    if (!isAuth) {
       openAuthModal();
       return;
     }
@@ -223,12 +223,12 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
           </Link>
           <span
             title={
-              isAuthed && isFavorite
+              isAuth && isFavorite
                 ? "Удалить из избранного"
                 : "Добавить в избранное"
             }
             className={`card__info_addFavorites ${
-              isAuthed && isFavorite ? "card__info_addedFavorites" : ""
+              isAuth && isFavorite ? "card__info_addedFavorites" : ""
             }`}
             onClick={handleFavoriteClick}
           >
