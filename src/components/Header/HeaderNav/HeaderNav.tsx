@@ -53,7 +53,7 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const addToFavorite = () => setAuthVisible(false);
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("basket") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
     // const cartCount = Object.keys(cartItems).length;
 
     setLinks((prevLinks) =>

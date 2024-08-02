@@ -45,19 +45,16 @@ const BasketCard = ({
 }: IBasketCardProps) => {
   const basket = useSelector((state: RootState) => state.basket.basket);
 
-  const [quantity, setQuantity] = useState<number>(item.kol || item.minQty);
+  const [quantity, setQuantity] = useState<number>(0);
   useEffect(() => {
-    const kolCard = basket.find((res) => res.id_tov === item.id_tov);
+    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const kolCard = storedBasket.find((res: any) => res.id_tov === item.id_tov);
     if (kolCard) {
-      setQuantity(
-        kolCard.kol !== undefined
-          ? Math.max(kolCard.kol, kolCard.quantity || 0)
-          : kolCard.quantity || 0
-      );
+      setQuantity(kolCard.quantity || kolCard.kol || 0);
     } else {
-      setQuantity(kolCard.minQty);
+      setQuantity(0);
     }
-  }, [basket, item.id_tov, item.minQty]);
+  }, [item.id_tov, item.minQty]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + " млрд";
