@@ -102,7 +102,7 @@ const CartReducerBtn = ({
     }
   };
 
-  const removeFromCart = async (
+  const removeItemFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
@@ -140,19 +140,54 @@ const CartReducerBtn = ({
       } catch (error) {
         console.error("Failed to remove item from cart:", error);
       }
-    } else {
-      const newQuantity = quantity - 1;
-      setQuantity(newQuantity);
+    }
+  };
 
-      try {
-        if (token && data.id_box) {
-          await patchBasketProductAuthed(token, data.id_box, newQuantity);
-        } else {
-          await postBasketProduct(newQuantity, data.id_tov);
+  const updateItemQuantityInCart = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+
+    const newQuantity = quantity - 1;
+    setQuantity(newQuantity);
+
+    try {
+      if (token && data.id_box) {
+        await postBasketProduct(newQuantity, data.id_tov);
+      } else {
+        const item = await postBasketProductAuthedIdTov(
+          token,
+          data.id_tov,
+          newQuantity
+        );
+        if (item) {
+          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+          const itemIndex = cartItems.findIndex(
+            (cartItem: postProductAuthResponse) =>
+              cartItem.id_tov === item.id_tov
+          );
+
+          if (itemIndex !== -1) {
+            cartItems[itemIndex] = item;
+          }
+
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
         }
-      } catch (error) {
-        console.error("Failed to update item quantity in cart:", error);
       }
+    } catch (error) {
+      console.error("Failed to update item quantity in cart:", error);
+    }
+  };
+
+  const handleCartAction = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (quantity <= data.minQty) {
+      await removeItemFromCart(event);
+    } else {
+      await updateItemQuantityInCart(event);
     }
   };
 
@@ -175,7 +210,7 @@ const CartReducerBtn = ({
             ? "removing an item from the cart"
             : "decreasing items in cart"
         }
-        onClick={removeFromCart}
+        onClick={handleCartAction}
         className={styles.btn_left}
       >
         {quantity <= data.minQty ? <TrashIcon /> : <MinusIcon />}
