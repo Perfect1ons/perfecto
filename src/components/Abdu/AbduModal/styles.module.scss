@@ -40,10 +40,12 @@
 .modal {
   user-select: none;
   position: fixed;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   max-width: 500px;
+  overflow-y: auto;
+  max-height: 75vh;
   padding: 20px;
   width: 90%;
   background: #fff;
@@ -54,6 +56,25 @@
   transition: visibility 0.3s, opacity 0.3s;
   opacity: 0;
 
+  &__hidden{
+    overflow: hidden !important;
+    // padding-right: 26px;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #888;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   &__form {
     &_phone {
       @include mixin.flex(center, center, column, null);

@@ -1,4 +1,4 @@
-export type CityFront = CityFrontArray[];
+export type ICityFront = CityFrontArray[];
 
 export interface CityFrontArray {
   city_id: number;

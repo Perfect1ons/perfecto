@@ -1,18 +1,14 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
-import DeliveryToggler from "./DeliveryToggler";
 import { IVariableBuyer } from "../Abdu";
 import { ReactNode } from "react";
 
 interface ICurierModalProps {
-  setView: (view: "delivery" | "curier") => void;
-  close: () => void;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
-  view: string;
   variableBuyer: IVariableBuyer;
 }
 
-interface IDeliveryPlace{
+interface IDeliveryPlace {
   id: number;
   title: string;
   desc: ReactNode;
@@ -43,19 +39,12 @@ const deliveryPlace: IDeliveryPlace[] = [
   },
 ];
 
-
-
-
 const DeliveryModal = ({
   variableBuyer,
-  setView,
   selectDelivery,
-  close,
-  view,
 }: ICurierModalProps) => {
   return (
     <div>
-      <DeliveryToggler setView={setView} view={view} />
       <div className={styles.delivery__ways}>
         {deliveryPlace.map((item) => {
           return (

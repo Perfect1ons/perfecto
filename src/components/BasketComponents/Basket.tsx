@@ -25,14 +25,14 @@ import {
 } from "@/store/reducers/basket.reducer";
 import { RootState } from "@/store";
 import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
-import { CityFront } from "@/types/Basket/cityfrontType";
+import { ICityFront } from "@/types/Basket/cityfrontType";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 interface IBasketProps {
   paymentMethod: IPaymentMethod;
   deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
-  deliveryCity: CityFront;
+  deliveryCity: ICityFront;
   cart: any;
   cartId: string | null | undefined;
   user: UserPersonalDataType;

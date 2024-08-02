@@ -16,7 +16,7 @@ import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { getExitsUser, postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
-import { CityFront } from "@/types/Basket/cityfrontType";
+import { ICityFront } from "@/types/Basket/cityfrontType";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
@@ -52,7 +52,7 @@ interface IBasketOrderProps {
   paymentMethod: IPaymentMethod;
   deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
-  deliveryCity: CityFront;
+  deliveryCity: ICityFront;
   currentItems: Model[];
   user: UserPersonalDataType;
 }
@@ -96,14 +96,17 @@ const BasketOrder = ({
   });
 
   const [location, setLocation] = useState<{
+    //gorod
     id_city: {
       name: string;
       id: number | null;
     };
+    //region
     id_city2: {
       name: string;
       id: number | null;
     };
+    // street
     directory: {
       street: string;
       house: string;
@@ -132,20 +135,30 @@ const BasketOrder = ({
   });
 
   const [anotherStatus, setAnotherStatus] = useState("");
-
   const [nds, setNds] = useState<boolean>(true);
   const [buyer, setBuyer] = useState<Buyer>({
-    tel: user.tel ? user.tel : "",
+    tel: "",
     vid_dost: variableBuyer.delivery.id,
     id_vopl: variableBuyer.payment.id,
-    fio: user.fio ? user.fio : "",
-    name: user.name ? user.name : "",
+    fio: "",
+    name: "",
     org: "",
     org_inn: "",
     id_city: null,
     id_city2: 0,
     directory: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setBuyer((prevBuyer) => ({
+        ...prevBuyer,
+        tel: user.tel,
+        fio: user.fio,
+        name: user.name,
+      }));
+    }
+  }, [user]);
 
   const router = useRouter();
   const [paymentWarning, setPaymentWarning] = useState("");
@@ -252,8 +265,6 @@ const BasketOrder = ({
       [name]: value,
     }));
   };
-
-  console.log(buyer);
 
   const handleAnotherRecipientBlur = async () => {
     try {
@@ -440,7 +451,11 @@ const BasketOrder = ({
   const [activeModal, setActiveModal] = useState("");
 
   const activeModalToggle = (value: string) => {
-    setActiveModal(value);
+    if (!authToken) {
+      setRegVisible(true);
+    } else {
+      setActiveModal(value);
+    }
   };
 
   const countryOptions = useMemo(() => {
@@ -633,6 +648,7 @@ const BasketOrder = ({
                   type="text"
                   onChange={handleBuyerChange}
                   required
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">Фамилия</label>
               </div>
@@ -649,6 +665,7 @@ const BasketOrder = ({
                   type="text"
                   onChange={handleBuyerChange}
                   required
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">Имя</label>
               </div>
@@ -761,12 +778,10 @@ const BasketOrder = ({
                       type="text"
                       onChange={handleAnotherRecipientChange}
                       required
+                      autoComplete="off"
                     />
                     <label className="mail__inputLabel">Фамилия</label>
                   </div>
-                  {surnameWarning && (
-                    <p className={styles.wrap_warning}>{surnameWarning}</p>
-                  )}
                 </div>
                 <div className="containerInputLabel">
                   <div className="mail__label">
@@ -777,18 +792,16 @@ const BasketOrder = ({
                       type="text"
                       onChange={handleAnotherRecipientChange}
                       required
+                      autoComplete="off"
                     />
                     <label className="mail__inputLabel">Имя</label>
                   </div>
-                  {nameWarning && (
-                    <p className={styles.wrap_warning}>{nameWarning}</p>
-                  )}
                 </div>
               </div>
             </div>
           </div>
         )}
-        <br />
+
         <div className={styles.wrap_organization}>
           <button
             onClick={() => visibleHandler("organization")}
@@ -821,6 +834,7 @@ const BasketOrder = ({
                   required
                   type="text"
                   onChange={handleBuyerChange}
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">
                   Название организации:
@@ -834,6 +848,7 @@ const BasketOrder = ({
                   required
                   type="text"
                   onChange={handleBuyerChange}
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">ИНН:</label>
               </div>

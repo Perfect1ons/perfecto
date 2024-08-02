@@ -1,28 +1,90 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
-import DeliveryToggler from "./DeliveryToggler";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { IVariableBuyer } from "../Abdu";
+import { IBuyer, ICityBuyer, IVariableBuyer } from "../Abdu";
 import DeliveryInputs from "./DeliveryInputs/DeliveryInputs";
+import { ICityFront } from "@/types/Basket/cityfrontType";
+import { DeliveryArrowIcon } from "../../../../public/Icons/Icons";
+import dynamic from "next/dynamic";
+const CurierCitiesModal = dynamic(
+  () => import("./CurierCitiesModal/CurierCitiesModal"),
+  {
+    ssr: false,
+  }
+);
 
 interface IDeliveryModalProps {
+  buyer: IBuyer;
+  location: ICityBuyer;
+  setCity: (newCity: { name: string; id: number }) => void;
   variableBuyer: IVariableBuyer;
-  setView: (view: "delivery" | "curier") => void;
-  view: string;
+  cities: ICityFront;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   deliveryMethod: IDeliveryMethod;
+  isCityModalVisible: boolean;
+  closeCityModal: () => void;
+  openCityModal: () => void;
+  saveCity: () => void;
 }
 
 const CurierModal = ({
+  buyer,
+  saveCity,
+  location,
+  setCity,
+  openCityModal,
+  closeCityModal,
+  isCityModalVisible,
   variableBuyer,
   selectDelivery,
-  setView,
-  view,
+  cities,
   deliveryMethod,
 }: IDeliveryModalProps) => {
   return (
-    <div>
-      <DeliveryToggler setView={setView} view={view} />
+    <>
+      <div className={styles.city}>
+        <div className="containerInputLabel">
+          <div
+            style={{ cursor: "pointer" }}
+            className="mail__label"
+            onClick={() => openCityModal()}
+          >
+            <input
+              className="mail__inputField"
+              autoComplete="off"
+              name="street"
+              style={{ cursor: "pointer" }}
+              value={
+                buyer.id_city !== 0
+                  ? buyer.city
+                  : buyer.id_city !== location.id_city.id
+                  ? buyer.city
+                  : "Не выбрано"
+              }
+              type="text"
+              required
+            />
+            <label className="mail__inputLabel">Город</label>
+            <span
+              className={cn(
+                styles.arrow,
+                isCityModalVisible && styles.arrow__active
+              )}
+            >
+              <DeliveryArrowIcon />
+            </span>
+          </div>
+        </div>
+      </div>
+      <CurierCitiesModal
+        buyer={buyer}
+        saveCity={saveCity}
+        location={location}
+        setCity={setCity}
+        close={closeCityModal}
+        isVisible={isCityModalVisible}
+        cities={cities}
+      />
       <DeliveryInputs />
       <div className={styles.delivery__ways}>
         {Object.values(deliveryMethod).map((item) => {
@@ -76,7 +138,7 @@ const CurierModal = ({
           );
         })}
       </div>
-    </div>
+    </>
   );
 };
 

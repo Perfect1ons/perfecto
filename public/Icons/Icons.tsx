@@ -1671,3 +1671,18 @@ export const PaymentIcon = () => {
     </svg>
   );
 };
+
+
+export const DeliveryArrowIcon = () => {
+  return (
+    <svg
+      width="16"
+      height="9"
+      viewBox="0 0 16 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1 1L8 7L15 1" stroke="black" strokeWidth="2" />
+    </svg>
+  );
+};

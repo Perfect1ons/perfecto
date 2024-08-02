@@ -16,7 +16,11 @@ export default async function page() {
     getCity(),
   ]);
   
-
-
-  return <Abdu deliveryMethod={deliveryMethod} paymentMethod={paymentMethod}/>;
+  return (
+    <Abdu
+      cities={deliveryCity}
+      deliveryMethod={deliveryMethod}
+      paymentMethod={paymentMethod}
+    />
+  );
 }
