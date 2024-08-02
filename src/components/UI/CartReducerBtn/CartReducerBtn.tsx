@@ -116,19 +116,9 @@ const CartReducerBtn = ({
         if (token && data.id_tov) {
           const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
           if (item) {
-            let cartItems = JSON.parse(
-              localStorage.getItem("cartItems") || "[]"
+            cartItems = cartItems.filter(
+              (dataLocal: any) => dataLocal.id_tov !== data.id_tov
             );
-
-            const itemIndex = cartItems.findIndex(
-              (cartItem: postProductAuthResponse) =>
-                cartItem.id_tov === item.id_tov
-            );
-
-            if (itemIndex !== -1) {
-              cartItems[itemIndex] = item;
-            }
-
             localStorage.setItem("cartItems", JSON.stringify(cartItems));
           }
         } else {
