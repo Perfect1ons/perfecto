@@ -117,8 +117,10 @@ const CartReducerBtn = ({
       try {
         if (token && data.id_box) {
           await patchBasketProductAuthed(token, data.id_box, newQuantity);
+          dispatch(deleteProductQuantity(data.id_tov));
         } else {
           await postBasketProduct(newQuantity, data.id_tov);
+          dispatch(deleteProductQuantity(data.id_tov));
         }
       } catch (error) {
         console.error("Failed to update item quantity in cart:", error);
