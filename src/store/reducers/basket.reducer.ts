@@ -10,11 +10,7 @@ const initialState: CartState = {
   basket: [], // Initialize cart state from local storage
   selected: false,
 };
-interface localStorageTypeCart {
-  id_tov: number;
-  selected: boolean;
-  qunatity: number;
-}
+const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
 const basketSlice = createSlice({
   name: "basket",
@@ -25,7 +21,6 @@ const basketSlice = createSlice({
       const existingProduct = state.basket.find(
         (p) => p.id_tov === product.id_tov
       );
-
       if (existingProduct) {
         if (product.kol !== undefined) {
           existingProduct.quantity = product.kol;
@@ -39,19 +34,20 @@ const basketSlice = createSlice({
           quantity: product.minQty || 1,
         });
       }
-      updateLocalStorage(state.basket);
     },
     removeItem: (state, action: PayloadAction<number>) => {
       state.basket = state.basket.filter(
         (item) => item.id_tov !== action.payload
       );
-      updateLocalStorage(state.basket);
+      const cartDelete = cartItems.filter(
+        (dataLocal: any) => dataLocal.id_tov !== action.payload
+      );
+      localStorage.setItem("cartItems", JSON.stringify(cartDelete));
     },
     clearBasket: (state, action: PayloadAction<number[]>) => {
       state.basket = state.basket.filter(
         (item) => !action.payload.includes(item.id_tov)
       );
-      updateLocalStorage(state.basket);
     },
     addProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
@@ -64,8 +60,6 @@ const basketSlice = createSlice({
 
         if (quantity < balance) {
           product.quantity = Math.max(quantity + 1, minQty);
-          updateLocalStorage(state.basket);
-          // Убедитесь, что количество не меньше минимального
         }
       }
     },
@@ -77,25 +71,19 @@ const basketSlice = createSlice({
         const minQty = product.minQty || 1;
         if (product.quantity > minQty) {
           product.quantity -= 1;
-          console.log("Updating basket:", state.basket);
-          updateLocalStorage(state.basket);
         } else if (product.quantity === minQty) {
           state.basket = state.basket.filter((p) => p.id !== id);
-          console.log("Updating basket:", state.basket);
-          updateLocalStorage(state.basket);
         }
       }
     },
     clearSelectedProducts: (state) => {
       state.basket = state.basket.filter((product) => !product.selected);
-      updateLocalStorage(state.basket);
     },
     toggleProductSelection: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.basket.find((p) => p.id === id);
       if (product) {
         product.selected = !product.selected;
-        updateLocalStorage(state.basket); // Toggle selected state
       }
     },
     toggleSelectAllProducts: (state) => {
@@ -103,22 +91,10 @@ const basketSlice = createSlice({
       state.basket.forEach((product) => {
         product.selected = !allSelected;
       });
-      updateLocalStorage(state.basket);
     },
   },
 });
-const updateLocalStorage = (basket: any) => {
-  localStorage.setItem(
-    "basket",
-    JSON.stringify(
-      basket.map((p: any) => ({
-        id_tov: p.id_tov,
-        quantity: p.kol !== undefined ? p.kol : p.quantity,
-        selected: p.selected || false,
-      }))
-    )
-  );
-};
+
 export const {
   setBasket,
   clearBasket,

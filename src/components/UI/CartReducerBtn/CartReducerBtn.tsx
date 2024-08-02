@@ -42,15 +42,14 @@ const CartReducerBtn = ({
   const dispatch = useDispatch();
   const basket = useSelector((state: RootState) => state.basket.basket);
   const { token } = useContext(AuthContext);
-  const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
+  const [quantity, setQuantity] = useState<number>(0);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
   let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const kolCard = storedBasket.find((res: any) => res.id_tov === data.id_tov);
+    const kolCard = cartItems.find((res: any) => res.id_tov === data.id_tov);
     if (kolCard) {
       setQuantity(kolCard.quantity || kolCard.kol || 0);
     } else {
@@ -116,10 +115,10 @@ const CartReducerBtn = ({
         if (token && data.id_tov) {
           const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
           if (item) {
-            cartItems = cartItems.filter(
+            const deleteCartItem = cartItems.filter(
               (dataLocal: any) => dataLocal.id_tov !== data.id_tov
             );
-            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+            localStorage.setItem("cartItems", JSON.stringify(deleteCartItem));
           }
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
