@@ -780,9 +780,6 @@ const BasketOrder = ({
                     />
                     <label className="mail__inputLabel">Фамилия</label>
                   </div>
-                  {surnameWarning && (
-                    <p className={styles.wrap_warning}>{surnameWarning}</p>
-                  )}
                 </div>
                 <div className="containerInputLabel">
                   <div className="mail__label">
@@ -797,15 +794,12 @@ const BasketOrder = ({
                     />
                     <label className="mail__inputLabel">Имя</label>
                   </div>
-                  {nameWarning && (
-                    <p className={styles.wrap_warning}>{nameWarning}</p>
-                  )}
                 </div>
               </div>
             </div>
           </div>
         )}
-        <br />
+
         <div className={styles.wrap_organization}>
           <button
             onClick={() => visibleHandler("organization")}

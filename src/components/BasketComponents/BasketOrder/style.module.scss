@@ -235,6 +235,7 @@
   }
 
   &_organization {
+    margin-top: 15px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
     &_dropdownToggler {
