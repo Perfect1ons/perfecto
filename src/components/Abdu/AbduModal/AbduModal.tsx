@@ -4,10 +4,10 @@ import AbduBackdrop from "../AbduBackdrop/AbduBackdrop";
 import { XMark } from "../../../../public/Icons/Icons";
 import styles from "./styles.module.scss";
 import cn from "clsx";
-import DeliveryModal from "../DeliveryCase/DeliveryModal";
-import CurierModal from "../DeliveryCase/CurierModal";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { IVariableBuyer } from "../Abdu";
+import CurierModal from "../DeliveryCase/CurierModal";
+import DeliveryModal from "../DeliveryCase/DeliveryModal";
 
 interface ModalProps {
   variableBuyer: IVariableBuyer
@@ -32,7 +32,15 @@ const AbduModal = ({
       case "curier":
         return {
           title: "Способы доставки",
-          content: <CurierModal close={close} setView={setView} view={view} />,
+          content: (
+            <CurierModal
+              variableBuyer={variableBuyer}
+              deliveryMethod={deliveryMethod}
+              selectDelivery={selectDelivery}
+              setView={setView}
+              view={view}
+            />
+          ),
         };
       case "delivery":
         return {
@@ -40,9 +48,7 @@ const AbduModal = ({
           content: (
             <DeliveryModal
               variableBuyer={variableBuyer}
-              saveDelivery={saveDelivery}
               selectDelivery={selectDelivery}
-              deliveryMethod={deliveryMethod}
               close={close}
               setView={setView}
               view={view}
