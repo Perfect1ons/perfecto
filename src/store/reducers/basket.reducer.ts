@@ -77,9 +77,11 @@ const basketSlice = createSlice({
         const minQty = product.minQty || 1;
         if (product.quantity > minQty) {
           product.quantity -= 1;
+          console.log("Updating basket:", state.basket);
           updateLocalStorage(state.basket);
         } else if (product.quantity === minQty) {
           state.basket = state.basket.filter((p) => p.id !== id);
+          console.log("Updating basket:", state.basket);
           updateLocalStorage(state.basket);
         }
       }
@@ -88,10 +90,6 @@ const basketSlice = createSlice({
       state.basket = state.basket.filter((product) => !product.selected);
       updateLocalStorage(state.basket);
     },
-    // clearSelectedProducts: (state) => {
-    //   state.basket = state.basket.filter((product) => !product.selected);
-    //   updateLocalStorage(state.basket);
-    // },
     toggleProductSelection: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.basket.find((p) => p.id === id);
