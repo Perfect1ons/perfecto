@@ -30,12 +30,12 @@ const CurierCitiesModal = ({
   const onClose = () => {
     close();
     setSearchTerm("");
-  }
+  };
 
   const onSave = () => {
-    setCity;
+    saveCity();
     setSearchTerm("");
-  }
+  };
 
   const normalizeString = (str: any) => {
     return str.toLowerCase().replace(/[^a-zа-яё0-9]/gi, "");
