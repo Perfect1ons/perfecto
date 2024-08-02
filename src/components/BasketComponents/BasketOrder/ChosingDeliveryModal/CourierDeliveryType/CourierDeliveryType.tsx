@@ -3,7 +3,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styles from "../style.module.scss";
 import cn from "clsx";
 import { СhevronDownIcon } from "../../../../../../public/Icons/Icons";
-import { CityFront } from "@/types/Basket/cityfrontType";
+import { ICityFront } from "@/types/Basket/cityfrontType";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface ICourierDeliveryTypeProps {
@@ -19,7 +19,7 @@ interface ICourierDeliveryTypeProps {
   };
   variants: IDeliveryMethod;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
-  deliveryCity: CityFront;
+  deliveryCity: ICityFront;
   authToken: string | undefined;
   location: {
     id_city: {

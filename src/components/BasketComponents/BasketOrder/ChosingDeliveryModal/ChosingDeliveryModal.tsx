@@ -6,7 +6,7 @@ import cn from "clsx";
 import CourierDeliveryType from "./CourierDeliveryType/CourierDeliveryType";
 import PointDeliveryType from "./PointDeliveryType/PointDeliveryType";
 import Image from "next/image";
-import { CityFront } from "@/types/Basket/cityfrontType";
+import { ICityFront } from "@/types/Basket/cityfrontType";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 interface IChosingDeliveryModalProps {
@@ -26,7 +26,7 @@ interface IChosingDeliveryModalProps {
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
   saveDelivery: () => void;
   warning: string;
-  deliveryCity: CityFront;
+  deliveryCity: ICityFront;
   authToken: string | undefined;
   location: {
     id_city: {

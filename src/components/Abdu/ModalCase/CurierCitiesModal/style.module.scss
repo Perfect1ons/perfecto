@@ -1,0 +1,221 @@
+@use "../../../../assets/scss/common/mixins" as mixin;
+
+@keyframes scaleUp {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.button {
+  margin-top: 15px;
+  @include mixin.button(
+    10px 15px,
+    null,
+    2px solid var(--bg-darkblue),
+    5px,
+    var(--bg-darkblue),
+    16px,
+    500,
+    var(--white)
+  );
+  @include mixin.flex(center, center, null, 5px);
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: var(--bg-white);
+    color: var(--dark-blue);
+    svg {
+      path {
+        fill: var(--bg-darkblue);
+      }
+    }
+  }
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.modal {
+  user-select: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  max-width: 500px;
+  padding: 20px;
+  width: 90%;
+  background: #fff;
+  border-radius: 10px;
+  z-index: 100;
+  box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
+  visibility: hidden;
+  transition: visibility 0.3s, opacity 0.3s;
+  opacity: 0;
+  overflow: hidden;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__content {
+  overflow-y: auto; /* Добавляем вертикальную прокрутку при необходимости */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Два столбика */
+  gap: 10px; /* Отступы между элементами */
+  padding-right: 5px;
+  margin-top: 15px;
+
+  @media screen and (max-width: 640px) {
+    margin-top: 10px;
+  }
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    transition: 0.5s;
+    background: #888;
+    border-radius: 6px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  animation: scaleUp 0.3s ease-out forwards;
+}
+
+.modal__exit {
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  opacity: 0.6;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal__exit:hover {
+  opacity: 1;
+}
+
+.modal__intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.modal__title {
+  @include mixin.font(20px, 500, 100%, var(--dark));
+  font-family: var(--font-rubik), Arial, Helvetica, sans-serif;
+}
+@media screen and (max-width: 768px) {
+  .modal__title {
+    font-size: 18px;
+  }
+}
+
+.wrap_courier {
+  @include mixin.flex(flex-start, center, column, null);
+  width: 100%;
+
+  &_point {
+    max-height: 37.6px;
+    @include mixin.flex(center, flex-start, null, 8px);
+    border: 2px solid var(--secondary);
+    border-radius: 5px;
+    width: 100%;
+    padding: 7px 5px;
+    cursor: pointer;
+    @include mixin.font(14px, 400, null, var(--gray));
+
+    &_active {
+      border: 2px solid var(--dark-blue);
+    }
+
+    &_radio {
+      content: " ";
+      width: 14px;
+      @include mixin.flex(center, center, null, null);
+      height: 14px;
+      border-radius: 50%;
+      background: none;
+      border: 1px solid var(--gray);
+
+      &_active {
+        border: 1px solid var(--dark-blue);
+      }
+
+      &_dot {
+        display: none;
+
+        &_active {
+          content: " ";
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          display: inline-block;
+          background: var(--dark-blue);
+        }
+      }
+    }
+  }
+
+  &_desc {
+    width: 100%;
+    display: none;
+    background: var(--light);
+    border-radius: 5px;
+    padding: 0px 20px;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: all 0.3s ease;
+
+    &_active {
+      margin-top: 15px;
+      @include mixin.flex(flex-start, center, column, 5px);
+      padding: 20px;
+      animation: fadeInScale 0.3s ease forwards;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: 30px; // Положение относительно левого края блока
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid var(--light); // Цвет фона стрелочки должен совпадать с цветом фона блока
+      }
+    }
+
+    &_workdays {
+      @include mixin.font(0.875rem, 400, null, var(--dark));
+    }
+  }
+}

@@ -1,6 +1,7 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
 .choose__delivery {
+  max-height: 58px;
   @include mixin.flex(center, space-between, null, 10px);
   width: 100%;
   border: 2px solid var(--violet);
@@ -23,9 +24,22 @@
 }
 
 .order_box {
+  @include mixin.flex(flex-start, center, column, 15px);
   max-width: 400px;
   background: var(--light);
   padding: 15px;
   border-radius: 5px;
   margin-top: 100px;
+}
+
+.delivery__info {
+  @include mixin.flex(center, center, column,3px);
+
+  &_dostavka {
+    @include mixin.font(16px, 400, 100%, var(--dark));
+  }
+
+  &_address {
+    @include mixin.font(13px, 400, 100%, var(--gray));
+  }
 }

@@ -7,6 +7,28 @@
   border-radius: 5px;
 }
 
+.arrow {
+  position: absolute;
+  top: 27%;
+  right: 3%;
+
+  svg {
+    path {
+      stroke: var(--secondary);
+    }
+  }
+  transition: all 0.3s ease;
+  &__active {
+    transform: rotate(180deg);
+    svg {
+      path {
+        stroke: var(--dark-blue) !important;
+      }
+    }
+  }
+}
+//! toggler
+
 .button {
   @include mixin.button(
     10px 15px,
@@ -21,6 +43,7 @@
   @include mixin.flex(center, center, null, 5px);
   cursor: pointer;
   width: 100%;
+  height: 100%;
 
   &:hover {
     background: var(--bg-darklight);
@@ -29,6 +52,21 @@
       path {
         fill: var(--bg-darkblue);
       }
+    }
+  }
+
+  @media screen and (max-width: 640px) {
+    @include mixin.font(14px);
+    gap: 2px;
+    padding: 5px 10px;
+    svg {
+      transform: scale(0.7);
+    }
+  }
+
+  @media screen and (max-width: 420px) {
+    svg {
+      display: none;
     }
   }
 }
@@ -69,6 +107,18 @@
 .delivery__ways {
   margin-top: 15px;
   @include mixin.flex(flex-start, center, column, 15px);
+
+  @media screen and (max-width: 640px) {
+    gap: 10px;
+    margin-top: 10px;
+  }
+}
+
+.city {
+  margin-top: 15px;
+  @media screen and (max-width: 640px) {
+    margin-top: 10px;
+  }
 }
 
 .wrap_courier {
@@ -129,21 +179,21 @@
 
     &_active {
       margin-top: 15px;
-      @include mixin.flex(flex-start,center,column,5px);
+      @include mixin.flex(flex-start, center, column, 5px);
       padding: 20px;
       animation: fadeInScale 0.3s ease forwards;
-      
+
       &::before {
-      content: "";
-      position: absolute;
-      top: -9px;
-      left: 30px; // Положение относительно левого края блока
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 10px solid var(--light); // Цвет фона стрелочки должен совпадать с цветом фона блока
-    }
+        content: "";
+        position: absolute;
+        top: -9px;
+        left: 30px; // Положение относительно левого края блока
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid var(--light); // Цвет фона стрелочки должен совпадать с цветом фона блока
+      }
     }
 
     &_workdays {
@@ -152,7 +202,6 @@
   }
 }
 
-
-.schedule{
-  @include mixin.font(14px,500,100%,var(--dark));
+.schedule {
+  @include mixin.font(14px, 500, 100%, var(--dark));
 }

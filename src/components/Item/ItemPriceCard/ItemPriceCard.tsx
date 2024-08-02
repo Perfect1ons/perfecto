@@ -39,7 +39,7 @@ interface IPriceProps {
 
 const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const dispatch = useDispatch();
-  const { isAuthed, token } = useContext(AuthContext);
+  const { isAuth, token } = useContext(AuthContext);
 
   const isMobile = useMediaQuery("(max-width: 992px)");
 
@@ -104,7 +104,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    if (!isAuthed) {
+    if (!isAuth) {
       openAuthModal();
       return;
     }

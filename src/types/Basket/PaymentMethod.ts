@@ -1,4 +1,4 @@
-export interface PaymentMethod {
+export interface IPaymentMethod {
   "1": N1;
   "2": N2;
   "4": N4;
