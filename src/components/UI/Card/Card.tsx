@@ -177,7 +177,6 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
     setAdded(true);
   };
   const handleAddToCart = async () => {
-    dispatch(setBasket(cardData));
     await addToCart();
     setShouldFocusInput(true);
     setModalMessage(

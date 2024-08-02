@@ -523,18 +523,22 @@ export const deleteFavoritesProductAuthed = (token: string, id_tov: number) => {
     })
     .json();
 };
-export const deleteBasketProductAuthedIdTov = (
+export const deleteBasketProductAuthedIdTov = async (
   token: string,
   id_tov: number
-) => {
-  return maxkgnocache
-    .delete(`box/del?id_tov=${id_tov}`, {
+): Promise<any> => {
+  try {
+    const response = await maxkgnocache.delete(`box/del?id_tov=${id_tov}`, {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
       },
-    })
-    .json();
+    });
+
+    return response.json();
+  } catch (error) {
+    console.error("Error during delete request:", error);
+    throw error;
+  }
 };
 export const patchBasketProductAuthed = (
   token: string,

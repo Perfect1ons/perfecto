@@ -46,7 +46,7 @@ const CartReducerBtn = ({
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("basket") || "[]");
+    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const kolCard = storedBasket.find((res: any) => res.id_tov === data.id_tov);
     if (kolCard) {
       setQuantity(kolCard.quantity || kolCard.kol || 0);
@@ -78,7 +78,6 @@ const CartReducerBtn = ({
 
     if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
-      dispatch(addProductQuantity(data.id_tov));
     } else if (token && data.id_tov) {
       const item = await postBasketProductAuthedIdTov(
         token,
@@ -98,13 +97,11 @@ const CartReducerBtn = ({
 
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
       }
-
-      dispatch(addProductQuantity(data.id_tov));
     } else {
       await postBasketProduct(newQuantity, data.id_tov);
-      dispatch(addProductQuantity(data.id_tov));
     }
   };
+
   const removeFromCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -117,15 +114,28 @@ const CartReducerBtn = ({
       try {
         if (token && data.id_box) {
           await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
         } else if (token && data.id_tov) {
-          await deleteBasketProductAuthedIdTov(token, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
+          const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
+          if (item) {
+            let cartItems = JSON.parse(
+              localStorage.getItem("cartItems") || "[]"
+            );
+
+            const itemIndex = cartItems.findIndex(
+              (cartItem: postProductAuthResponse) =>
+                cartItem.id_tov === item.id_tov
+            );
+
+            if (itemIndex !== -1) {
+              cartItems[itemIndex] = item;
+            }
+
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          }
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
         }
-        dispatch(removeItem(data.id_tov));
+
         onCartEmpty();
       } catch (error) {
         console.error("Failed to remove item from cart:", error);
@@ -137,10 +147,8 @@ const CartReducerBtn = ({
       try {
         if (token && data.id_box) {
           await patchBasketProductAuthed(token, data.id_box, newQuantity);
-          dispatch(deleteProductQuantity(data.id_tov));
         } else {
           await postBasketProduct(newQuantity, data.id_tov);
-          dispatch(deleteProductQuantity(data.id_tov));
         }
       } catch (error) {
         console.error("Failed to update item quantity in cart:", error);
