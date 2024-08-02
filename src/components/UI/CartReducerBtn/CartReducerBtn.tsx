@@ -45,6 +45,9 @@ const CartReducerBtn = ({
   const [quantity, setQuantity] = useState<number>(data.kol || data.minQty);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
   useEffect(() => {
     const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const kolCard = storedBasket.find((res: any) => res.id_tov === data.id_tov);
@@ -85,8 +88,6 @@ const CartReducerBtn = ({
         newQuantity
       );
       if (item) {
-        let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
         const itemIndex = cartItems.findIndex(
           (cartItem: postProductAuthResponse) => cartItem.id_tov === item.id_tov
         );
@@ -112,9 +113,7 @@ const CartReducerBtn = ({
       setQuantity(0);
 
       try {
-        if (token && data.id_box) {
-          await deleteBasketProductAuthed(token, data.id_box, data.id_tov);
-        } else if (token && data.id_tov) {
+        if (token && data.id_tov) {
           const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
           if (item) {
             let cartItems = JSON.parse(
@@ -162,8 +161,6 @@ const CartReducerBtn = ({
           newQuantity
         );
         if (item) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
               cartItem.id_tov === item.id_tov
