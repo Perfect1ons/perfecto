@@ -143,6 +143,7 @@ const CartReducerBtn = ({
       </button>
       <input
         type="text"
+        id="quantity"
         className={styles.btn_screen}
         value={quantity}
         onChange={handleChange}
@@ -150,6 +151,7 @@ const CartReducerBtn = ({
         min={0}
         ref={inputRef}
       />
+      <label htmlFor="quantity"></label>
       <button
         aria-label="increasing items in cart"
         title="увеличить количество товара"

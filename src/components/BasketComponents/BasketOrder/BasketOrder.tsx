@@ -644,11 +644,14 @@ const BasketOrder = ({
                   value={buyer.fio}
                   name="fio"
                   type="text"
+                  id="fio"
                   onChange={handleBuyerChange}
                   required
                   autoComplete="off"
                 />
-                <label className="mail__inputLabel">Фамилия</label>
+                <label htmlFor="fio" className="mail__inputLabel">
+                  Фамилия
+                </label>
               </div>
               {surnameWarning && (
                 <p className={styles.wrap_warning}>{surnameWarning}</p>
@@ -661,11 +664,14 @@ const BasketOrder = ({
                   value={buyer.name}
                   name="name"
                   type="text"
+                  id="name"
                   onChange={handleBuyerChange}
                   required
                   autoComplete="off"
                 />
-                <label className="mail__inputLabel">Имя</label>
+                <label htmlFor="name" className="mail__inputLabel">
+                  Имя
+                </label>
               </div>
               {nameWarning && (
                 <p className={styles.wrap_warning}>{nameWarning}</p>
@@ -774,11 +780,14 @@ const BasketOrder = ({
                       value={anotherRecipient.fio}
                       name="fio"
                       type="text"
+                      id="fio"
                       onChange={handleAnotherRecipientChange}
                       required
                       autoComplete="off"
                     />
-                    <label className="mail__inputLabel">Фамилия</label>
+                    <label htmlFor="fio" className="mail__inputLabel">
+                      Фамилия
+                    </label>
                   </div>
                 </div>
                 <div className="containerInputLabel">
@@ -788,11 +797,14 @@ const BasketOrder = ({
                       value={anotherRecipient.name}
                       name="name"
                       type="text"
+                      id="name"
                       onChange={handleAnotherRecipientChange}
                       required
                       autoComplete="off"
                     />
-                    <label className="mail__inputLabel">Имя</label>
+                    <label htmlFor="name" className="mail__inputLabel">
+                      Имя
+                    </label>
                   </div>
                 </div>
               </div>
@@ -830,11 +842,12 @@ const BasketOrder = ({
                   name="org"
                   className="mail__inputField"
                   required
+                  id="org"
                   type="text"
                   onChange={handleBuyerChange}
                   autoComplete="off"
                 />
-                <label className="mail__inputLabel">
+                <label htmlFor="org" className="mail__inputLabel">
                   Название организации:
                 </label>
               </div>
@@ -844,16 +857,22 @@ const BasketOrder = ({
                   name="org_inn"
                   className="mail__inputField"
                   required
+                  id="org_inn"
                   type="text"
                   onChange={handleBuyerChange}
                   autoComplete="off"
                 />
-                <label className="mail__inputLabel">ИНН:</label>
+                <label htmlFor="org_inn" className="mail__inputLabel">
+                  ИНН:
+                </label>
               </div>
             </div>
             <div className={styles.wrap_organization_dropdown_nds}>
-              <label className={styles.wrap_organization_dropdown_nds_switch}>
-                <input onClick={ndsHandler} type="checkbox" />
+              <label
+                htmlFor="nds"
+                className={styles.wrap_organization_dropdown_nds_switch}
+              >
+                <input id="nds" onClick={ndsHandler} type="checkbox" />
                 <span
                   className={
                     styles.wrap_organization_dropdown_nds_switch__slider
