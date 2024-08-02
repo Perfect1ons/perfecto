@@ -253,6 +253,8 @@ const BasketOrder = ({
     }));
   };
 
+  console.log(buyer);
+
   const handleAnotherRecipientBlur = async () => {
     try {
       const cleanedTel = anotherRecipient.tel.replace(/\D/g, "");
@@ -276,6 +278,17 @@ const BasketOrder = ({
 
         setAnotherStatus("Пользователь найден");
       } else {
+        setBuyer((prevBuyer) => ({
+          ...prevBuyer,
+          tel: user.tel,
+          fio: user.fio,
+          name: user.name,
+        }));
+        setAnotherRecipient({
+          tel: "",
+          fio: "",
+          name: "",
+        });
         setAnotherStatus("Пользователь не найден.");
       }
     } catch (error) {
@@ -389,20 +402,6 @@ const BasketOrder = ({
     // Name validation
     if (!buyer.name && !authToken) {
       setNameWarning("Пожалуйста укажите ваше имя");
-      isValid = false;
-    } else {
-      setNameWarning("");
-    }
-
-    if (!anotherRecipient.fio) {
-      setSurnameWarning("Фамилия получателя не может быть пустой.");
-      isValid = false;
-    } else {
-      setSurnameWarning("");
-    }
-
-    if (!anotherRecipient.name) {
-      setNameWarning("Имя получателя не может быть пустым.");
       isValid = false;
     } else {
       setNameWarning("");
@@ -563,10 +562,10 @@ const BasketOrder = ({
             {buyer.id_vopl ? <ApproveIcon /> : <ExPoint />}
           </span>
         </button>
-        <br />
         {paymentWarning && (
           <p className={styles.wrap_warning}>{paymentWarning}</p>
         )}
+        <br />
         {!authToken && (
           <div className="allContainerInput">
             <div className={styles.wrap_phone}>

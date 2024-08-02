@@ -30,8 +30,8 @@
     width: 100%;
   }
   &_anotherStatus {
-    margin-top: 15px;
     align-self: flex-start;
+    margin-bottom: 5px;
   }
   &_delivery {
     @include mixin.flex(center, space-between, null, 5px);
@@ -160,7 +160,6 @@
     }
   }
   &_organization {
-    // margin-top: 20px;
     @include mixin.flex(flex-start, center, column, null);
     width: 100%;
     &_dropdownToggler {
