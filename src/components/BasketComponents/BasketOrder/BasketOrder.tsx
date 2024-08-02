@@ -135,17 +135,28 @@ const BasketOrder = ({
 
   const [nds, setNds] = useState<boolean>(true);
   const [buyer, setBuyer] = useState<Buyer>({
-    tel: user.tel ? user.tel : "",
+    tel: "",
     vid_dost: variableBuyer.delivery.id,
     id_vopl: variableBuyer.payment.id,
-    fio: user.fio ? user.fio : "",
-    name: user.name ? user.name : "",
+    fio: "",
+    name: "",
     org: "",
     org_inn: "",
     id_city: null,
     id_city2: 0,
     directory: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setBuyer((prevBuyer) => ({
+        ...prevBuyer,
+        tel: user.tel,
+        fio: user.fio,
+        name: user.name,
+      }));
+    }
+  }, [user]);
 
   const router = useRouter();
   const [paymentWarning, setPaymentWarning] = useState("");
@@ -252,8 +263,6 @@ const BasketOrder = ({
       [name]: value,
     }));
   };
-
-  console.log(buyer);
 
   const handleAnotherRecipientBlur = async () => {
     try {
@@ -440,7 +449,11 @@ const BasketOrder = ({
   const [activeModal, setActiveModal] = useState("");
 
   const activeModalToggle = (value: string) => {
-    setActiveModal(value);
+    if (!authToken) {
+      setRegVisible(true);
+    } else {
+      setActiveModal(value);
+    }
   };
 
   const countryOptions = useMemo(() => {
@@ -633,6 +646,7 @@ const BasketOrder = ({
                   type="text"
                   onChange={handleBuyerChange}
                   required
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">Фамилия</label>
               </div>
@@ -649,6 +663,7 @@ const BasketOrder = ({
                   type="text"
                   onChange={handleBuyerChange}
                   required
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">Имя</label>
               </div>
@@ -761,6 +776,7 @@ const BasketOrder = ({
                       type="text"
                       onChange={handleAnotherRecipientChange}
                       required
+                      autoComplete="off"
                     />
                     <label className="mail__inputLabel">Фамилия</label>
                   </div>
@@ -777,6 +793,7 @@ const BasketOrder = ({
                       type="text"
                       onChange={handleAnotherRecipientChange}
                       required
+                      autoComplete="off"
                     />
                     <label className="mail__inputLabel">Имя</label>
                   </div>
@@ -821,6 +838,7 @@ const BasketOrder = ({
                   required
                   type="text"
                   onChange={handleBuyerChange}
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">
                   Название организации:
@@ -834,6 +852,7 @@ const BasketOrder = ({
                   required
                   type="text"
                   onChange={handleBuyerChange}
+                  autoComplete="off"
                 />
                 <label className="mail__inputLabel">ИНН:</label>
               </div>
