@@ -68,7 +68,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   });
 
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("basket") || "[]");
+    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const kolCard = storedBasket.find(
       (res: any) => res.id_tov === cardData.id_tov
     );

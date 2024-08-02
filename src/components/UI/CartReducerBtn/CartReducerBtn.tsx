@@ -108,7 +108,7 @@ const CartReducerBtn = ({
     event.stopPropagation();
     event.preventDefault();
 
-    if (quantity <= data.minQty) {
+    if (quantity >= data.minQty) {
       setQuantity(0);
 
       try {
