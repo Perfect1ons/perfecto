@@ -8,7 +8,6 @@ import {
   getProductBasket,
 } from "@/api/requests";
 import Basket from "@/components/BasketComponents/Basket";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
 
