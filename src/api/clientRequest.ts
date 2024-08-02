@@ -669,13 +669,7 @@ export const postBasketProductAuthedIdTov = async (
       body: formData,
     });
 
-    if (response.ok) {
-      return true;
-    } else {
-      const error = await response.json();
-      console.error("Server error:", error);
-      return false;
-    }
+    return response.json();
   } catch (error) {
     console.error("Network error:", error);
     return false;

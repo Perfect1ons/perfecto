@@ -20,6 +20,7 @@ import {
   removeItem,
 } from "@/store/reducers/basket.reducer";
 import { addProductQuantity } from "@/store/reducers/basket.reducer";
+import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -74,11 +75,30 @@ const CartReducerBtn = ({
     event.preventDefault();
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
+
     if (token && data.id_box) {
       await patchBasketProductAuthed(token, data.id_box, newQuantity);
       dispatch(addProductQuantity(data.id_tov));
     } else if (token && data.id_tov) {
-      await postBasketProductAuthedIdTov(token, data.id_tov, newQuantity);
+      const item = await postBasketProductAuthedIdTov(
+        token,
+        data.id_tov,
+        newQuantity
+      );
+      if (item) {
+        let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+        const itemIndex = cartItems.findIndex(
+          (cartItem: postProductAuthResponse) => cartItem.id_tov === item.id_tov
+        );
+
+        if (itemIndex !== -1) {
+          cartItems[itemIndex] = item;
+        }
+
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      }
+
       dispatch(addProductQuantity(data.id_tov));
     } else {
       await postBasketProduct(newQuantity, data.id_tov);

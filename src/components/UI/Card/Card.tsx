@@ -154,11 +154,23 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
 
   const addToCart = async () => {
     if (token) {
-      await postBasketProductAuthed(
-        token,
-        `${cardData.minQty}`,
-        `${cardData.id_tov}`
-      );
+      try {
+        const data = await postBasketProductAuthed(
+          token,
+          `${cardData.minQty}`,
+          `${cardData.id_tov}`
+        );
+
+        if (data) {
+          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+          cartItems.push(data);
+
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
     } else {
       await postBasketProduct(cardData.minQty, cardData.id_tov);
     }
