@@ -33,9 +33,8 @@ const CurierCitiesModal = ({
   }
 
   const onSave = () => {
-    saveCity();
+    setCity;
     setSearchTerm("");
-
   }
 
   const normalizeString = (str: any) => {
@@ -77,7 +76,6 @@ const CurierCitiesModal = ({
           <label className="mail__inputLabel">Поиск города...</label>
         </div>
       </div>
-
 
       <div className={styles.modal__content}>
         {hasResults ? (
@@ -121,7 +119,11 @@ const CurierCitiesModal = ({
         )}
       </div>
 
-      <button onClick={onSave} aria-label="save" className={styles.button}>
+      <button
+        onClick={() => onSave()}
+        aria-label="save"
+        className={styles.button}
+      >
         Выбрать
       </button>
     </div>
