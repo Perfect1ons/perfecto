@@ -16,7 +16,6 @@ import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
 import {
-  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
   postFavorite,
