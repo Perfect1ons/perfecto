@@ -1,45 +1,62 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
-import {
-  DeliveryCurierIcon,
-  DeliveryPlaceIcon,
-} from "../../../../public/Icons/Icons";
 import DeliveryToggler from "./DeliveryToggler";
-import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { IVariableBuyer } from "../Abdu";
-import DeliveryInputs from "./DeliveryInputs/DeliveryInputs";
 
-interface IDeliveryModalProps {
-  variableBuyer: IVariableBuyer;
+interface ICurierModalProps {
   setView: (view: "delivery" | "curier") => void;
   close: () => void;
-  view: string;
   selectDelivery: (delivery: { name: string; id: string | number }) => void;
-  saveDelivery: () => void;
-  deliveryMethod: IDeliveryMethod;
+  view: string;
+  variableBuyer: IVariableBuyer;
 }
+
+const deliveryPlace = [
+  {
+    id: 1,
+    title: "ПВЗ г. Бишкек, Медерова 8\\2",
+    desc: (
+      <>
+        В будние дни: с 9:00 до 18:00, без перерыва
+        <br />
+        Воскресенье: с 9:00 до 18:00, обеденный перерыв: с 13:00 до 14:00
+      </>
+    ),
+  },
+  {
+    id: 2,
+    title: "ПВЗ г. Бишкек, Матыева 148",
+    desc: (
+      <>
+        В будние дни: с 9:00 до 18:00, без перерыва
+        <br />
+        Воскресенье: Выходной
+      </>
+    ),
+  },
+];
+
+
+
 
 const DeliveryModal = ({
   variableBuyer,
-  selectDelivery,
   setView,
+  selectDelivery,
   close,
-  saveDelivery,
   view,
-  deliveryMethod,
-}: IDeliveryModalProps) => {
+}: ICurierModalProps) => {
   return (
     <div>
       <DeliveryToggler setView={setView} view={view} />
-      <DeliveryInputs/>
       <div className={styles.delivery__ways}>
-        {Object.values(deliveryMethod).map((item) => {
+        {deliveryPlace.map((item) => {
           return (
             <div key={item.id} style={{ width: "100%" }}>
               <button
                 onClick={() =>
                   selectDelivery({
-                    name: item.name,
+                    name: item.title,
                     id: item.id,
                   })
                 }
@@ -65,7 +82,7 @@ const DeliveryModal = ({
                     )}
                   ></span>
                 </span>
-                {item.name}
+                {item.title}
               </button>
               <div
                 className={cn(
@@ -74,7 +91,12 @@ const DeliveryModal = ({
                     styles.wrap_courier_desc_active
                 )}
               >
+                <p className={styles.schedule}>График работы:</p>
                 <p className={styles.wrap_courier_desc_workdays}>{item.desc}</p>
+                <p className={styles.wrap_courier_desc_workdays}>
+                  Предварительно свяжитесь с вашим менеджером для подвержения о
+                  готовности выдачи заказа.
+                </p>
               </div>
             </div>
           );

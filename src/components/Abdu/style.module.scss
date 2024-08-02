@@ -1,1 +1,31 @@
-@use '../../assets/scss/common/mixins' as mixin;
+@use "../../assets/scss/common/mixins" as mixin;
+
+.choose__delivery {
+  @include mixin.flex(center, space-between, null, 10px);
+  width: 100%;
+  border: 2px solid var(--violet);
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.expoint {
+  max-height: 24px;
+  svg {
+    path {
+      fill: var(--bg-darkblue);
+    }
+  }
+}
+
+.choosed__delivery {
+  border-color: var(--green) !important;
+}
+
+.order_box {
+  max-width: 400px;
+  background: var(--light);
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 100px;
+}

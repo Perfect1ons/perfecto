@@ -2,6 +2,13 @@
 import { useState } from "react";
 import AbduModal from "./AbduModal/AbduModal";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import {
+  DeliverExPointIcons,
+  DeliveryApproveIcon,
+  DeliveryCurierIcon,
+} from "../../../public/Icons/Icons";
+import styles from "./style.module.scss";
+import clsx from "clsx";
 
 interface IBasketProps {
   deliveryMethod: IDeliveryMethod;
@@ -36,7 +43,7 @@ const Abdu = ({ deliveryMethod }: IBasketProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
   const closeModal = () => setModalVisible(false);
-  
+
   const [variableBuyer, setVariableBuyer] = useState<IVariableBuyer>({
     payment: {
       name: "",
@@ -74,7 +81,7 @@ const Abdu = ({ deliveryMethod }: IBasketProps) => {
       setBuyer((prevBuyer) => ({
         ...prevBuyer,
         vid_dost: variableBuyer.delivery.id,
-        dost: variableBuyer.delivery.name
+        dost: variableBuyer.delivery.name,
       }));
       closeModal();
     } else {
@@ -94,9 +101,26 @@ const Abdu = ({ deliveryMethod }: IBasketProps) => {
         isVisible={isModalVisible}
         close={closeModal}
       />
-      <button className="showMore__button" onClick={openModal}>
-        {buyer.vid_dost != 0 ? buyer.dost : "open modal dostavka v2"}
-      </button>
+      <div className={styles.order_box}>
+        <button
+          className={clsx(
+            styles.choose__delivery,
+            buyer.vid_dost != 0 && styles.choosed__delivery
+          )}
+          onClick={openModal}
+        >
+          <span className={styles.expoint}>
+            <DeliveryCurierIcon />
+          </span>
+          {buyer.vid_dost != 0 ? buyer.dost : "Выбрать способ доставки"}
+
+          {buyer.vid_dost != 0 ? (
+            <DeliveryApproveIcon />
+          ) : (
+            <DeliverExPointIcons />
+          )}
+        </button>
+      </div>
     </div>
   );
 };
