@@ -512,7 +512,29 @@ export const deleteBasketProductAuthed = (
     })
     .json();
 };
-
+export const deleteFavoritesProductAuthed = (token: string, id_tov: number) => {
+  return maxkgnocache
+    .delete(`izb/del?id_tov=${id_tov}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+export const deleteBasketProductAuthedIdTov = (
+  token: string,
+  id_tov: number
+) => {
+  return maxkgnocache
+    .delete(`box/del?id_tov=${id_tov}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
 export const patchBasketProductAuthed = (
   token: string,
   id_box: number,
@@ -557,7 +579,32 @@ export const deleteBasketProductAllAuthed = async (
     return false;
   }
 };
+export const deleteFavoritesProductAllAuthed = async (
+  token: string,
+  ids_tov: number[]
+): Promise<boolean> => {
+  const formData = new FormData();
+  formData.append("id_tov", ids_tov.join(","));
+  try {
+    const response = await maxkgnocache.post(`izb/del-izb-all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};
 export const removeFavorite = async (
   id_tov: number,
   token: string
@@ -603,4 +650,33 @@ export const postFavorite = async (
 
 export const getExitsUser = (tel: string): Promise<IExitsUser> => {
   return maxkgnocache.get(`prof/exists-user?tel=${tel}`).json();
+};
+export const postBasketProductAuthedIdTov = async (
+  token: string,
+  id_tov: number,
+  kol: number
+): Promise<any> => {
+  const formData = new FormData();
+  formData.append("id_tov", id_tov.toString());
+  formData.append("kol", kol.toString());
+
+  try {
+    const response = await maxkgnocache.post(`box`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
 };
