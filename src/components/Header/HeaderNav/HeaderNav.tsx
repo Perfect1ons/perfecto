@@ -51,12 +51,13 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
-  const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-  const cartCountGuest = JSON.parse(
-    localStorage.getItem("cartItemsGuest") || "[]"
-  );
+
   const updateCounts = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const cartCountGuest = JSON.parse(
+      localStorage.getItem("cartItemsGuest") || "[]"
+    );
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
