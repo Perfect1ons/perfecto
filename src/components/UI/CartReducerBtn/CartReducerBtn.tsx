@@ -154,9 +154,7 @@ const CartReducerBtn = ({
     setQuantity(newQuantity);
 
     try {
-      if (token && data.id_box) {
-        await patchBasketProductAuthed(token, data.id_box, newQuantity);
-      } else if (token && data.id_tov) {
+      if (token && data.id_tov) {
         const item = await postBasketProductAuthedIdTov(
           token,
           data.id_tov,
@@ -247,9 +245,7 @@ const CartReducerBtn = ({
     setQuantity(newQuantity);
 
     try {
-      if (token && data.id_box) {
-        await postBasketProduct(newQuantity, data.id_tov);
-      } else if (token && data.id_tov) {
+      if (token && data.id_tov) {
         const item = await postBasketProductAuthedIdTov(
           token,
           data.id_tov,
