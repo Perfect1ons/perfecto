@@ -63,17 +63,36 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   });
 
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const kolCard = storedBasket.find(
-      (res: any) => res.id_tov === cardData.id_tov
-    );
-    if (kolCard) {
-      setQuantity(kolCard.quantity || kolCard.kol || 0);
-      setAdded(true);
+    if (token) {
+      const storedBasket = JSON.parse(
+        localStorage.getItem("cartItems") || "[]"
+      );
+      const kolCard = storedBasket.find(
+        (res: any) => res.id_tov === cardData.id_tov
+      );
+      if (kolCard) {
+        setQuantity(kolCard.quantity || kolCard.kol || 0);
+        setAdded(true);
+      } else {
+        setQuantity(0);
+        setAdded(false);
+      }
     } else {
-      setQuantity(0);
-      setAdded(false);
+      const storedBasket = JSON.parse(
+        localStorage.getItem("cartItemsGuest") || "[]"
+      );
+      const kolCard = storedBasket.find(
+        (res: any) => res.id_tov === cardData.id_tov
+      );
+      if (kolCard) {
+        setQuantity(kolCard.quantity || kolCard.kol || 0);
+        setAdded(true);
+      } else {
+        setQuantity(0);
+        setAdded(false);
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardData.id_tov, cardData.minQty]);
 
   useEffect(() => {
@@ -171,13 +190,16 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         const data = await postBasketProduct(cardData.minQty, cardData.id_tov);
 
         if (data) {
-          let cartItems = JSON.parse(
+          let cartItemsGuest = JSON.parse(
             localStorage.getItem("cartItemsGuest") || "[]"
           );
 
-          cartItems.push(data);
+          cartItemsGuest.push(data);
 
-          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
+          localStorage.setItem(
+            "cartItemsGuest",
+            JSON.stringify(cartItemsGuest)
+          );
         }
       } catch (error) {
         console.log("error", error);
