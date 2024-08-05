@@ -203,7 +203,9 @@ const BasketOrder = ({
     const result = currentItems.reduce(
       (acc: any, item: any) => {
         const quantity = parseFloat(item.kol) || 0;
-        const price = parseFloat(item.cenaok) || 0;
+        const price = authToken
+          ? parseFloat(item.cenaok)
+          : parseInt(item.cena) || 0;
         acc.totalQuantity += quantity;
         acc.totalPrice += quantity * price;
         return acc;
@@ -223,6 +225,7 @@ const BasketOrder = ({
 
     setTotalQuantity(result.totalQuantity);
     setFormattedTotalPrice(formatNumber(result.totalPrice));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentItems]);
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
