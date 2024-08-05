@@ -47,14 +47,10 @@ const BasketCard = ({
 
   const [quantity, setQuantity] = useState<number>(0);
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const kolCard = storedBasket.find((res: any) => res.id_tov === item.id_tov);
-    if (kolCard) {
-      setQuantity(kolCard.quantity || kolCard.kol || 0);
-    } else {
-      setQuantity(0);
-    }
-  }, [item.id_tov, item.minQty]);
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const count = cartItems.find((res: any) => res.id_tov === item.id_tov);
+    setQuantity(count ? count.quantity || count.kol || 0 : 0);
+  }, [item.id_tov]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + " млрд";

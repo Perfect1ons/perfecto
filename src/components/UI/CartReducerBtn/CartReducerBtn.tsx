@@ -6,20 +6,12 @@ import styles from "./style.module.scss";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import {
   deleteBasketProduct,
-  deleteBasketProductAuthed,
   deleteBasketProductAuthedIdTov,
   patchBasketProductAuthed,
   postBasketProduct,
   postBasketProductAuthedIdTov,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
-import { RootState } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteProductQuantity,
-  removeItem,
-} from "@/store/reducers/basket.reducer";
-import { addProductQuantity } from "@/store/reducers/basket.reducer";
 import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 
 interface ICartReducerBtnProps {
@@ -39,10 +31,9 @@ const CartReducerBtn = ({
   id_cart,
   price,
 }: ICartReducerBtnProps) => {
-  const dispatch = useDispatch();
-  const basket = useSelector((state: RootState) => state.basket.basket);
   const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<number>(0);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,7 +41,11 @@ const CartReducerBtn = ({
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const item = cartItems.find((res: any) => res.id_tov === data.id_tov);
-    setQuantity(item ? item.quantity || item.kol || 0 : 0);
+    const initialQuantity = item
+      ? parseInt(item.quantity) || parseInt(item.kol) || 0
+      : 0;
+    setQuantity(initialQuantity);
+    setInputValue(initialQuantity);
   }, [data.id_tov]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,12 +55,28 @@ const CartReducerBtn = ({
     const parsedValue = value ? parseInt(value) : 0;
 
     if (!isNaN(parsedValue)) {
-      setQuantity(parsedValue);
+      setInputValue(parsedValue);
     }
   };
 
   const handleBlur = () => {
-    setQuantity(data.minQty);
+    if (inputValue < data.minQty) {
+      setInputValue(data.minQty);
+    }
+
+    // Update the quantity state and local storage
+    if (inputValue !== quantity) {
+      setQuantity(inputValue);
+      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      const itemIndex = cartItems.findIndex(
+        (cartItem: any) => cartItem.id_tov === data.id_tov
+      );
+      if (itemIndex !== -1) {
+        cartItems[itemIndex].quantity = inputValue;
+        cartItems[itemIndex].kol = inputValue.toString();
+        updateLocalStorage(cartItems);
+      }
+    }
   };
 
   const updateLocalStorage = (updatedItems: any[]) => {
@@ -224,7 +235,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity}
+        value={inputValue}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}

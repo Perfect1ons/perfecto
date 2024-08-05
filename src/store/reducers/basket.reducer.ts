@@ -10,7 +10,10 @@ const initialState: CartState = {
   basket: [], // Initialize cart state from local storage
   selected: false,
 };
-const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+const cartItems =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("cartItems") || "[]")
+    : [];
 
 const basketSlice = createSlice({
   name: "basket",
