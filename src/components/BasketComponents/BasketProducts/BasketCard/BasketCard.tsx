@@ -12,9 +12,8 @@ import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
-import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 interface IBasketCardProps {
   item: Model;
@@ -43,13 +42,13 @@ const BasketCard = ({
   selected,
   id_cart,
 }: IBasketCardProps) => {
-  const basket = useSelector((state: RootState) => state.basket.basket);
-
   const [quantity, setQuantity] = useState<number>(0);
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const count = cartItems.find((res: any) => res.id_tov === item.id_tov);
-    setQuantity(count ? count.quantity || count.kol || 0 : 0);
+    setQuantity(
+      count ? parseInt(count.quantity) || parseInt(count.kol) || 0 : 0
+    );
   }, [item.id_tov]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {

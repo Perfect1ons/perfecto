@@ -57,24 +57,6 @@ const CartReducerBtn = ({
     }
   };
 
-  // const handleBlur = () => {
-  //   if (inputValue < data.minQty) {
-  //     setInputValue(data.minQty);
-  //   }
-
-  //   if (inputValue !== quantity) {
-  //     setQuantity(inputValue);
-  //     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-  //     const itemIndex = cartItems.findIndex(
-  //       (cartItem: any) => cartItem.id_tov === data.id_tov
-  //     );
-  //     if (itemIndex !== -1) {
-  //       cartItems[itemIndex].quantity = inputValue;
-  //       cartItems[itemIndex].kol = inputValue.toString();
-  //       updateLocalStorage(cartItems);
-  //     }
-  //   }
-  // };
   const handleBlur = async () => {
     const updatedQuantity = Math.max(quantity, data.minQty);
 
