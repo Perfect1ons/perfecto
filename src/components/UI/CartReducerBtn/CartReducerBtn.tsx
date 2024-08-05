@@ -33,6 +33,7 @@ const CartReducerBtn = ({
 }: ICartReducerBtnProps) => {
   const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(0);
+  const [inputValue, setInputValue] = useState<number>(0);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -40,7 +41,11 @@ const CartReducerBtn = ({
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const item = cartItems.find((res: any) => res.id_tov === data.id_tov);
-    setQuantity(item ? item.quantity || item.kol || 0 : 0);
+    const initialQuantity = item
+      ? parseInt(item.quantity) || parseInt(item.kol) || 0
+      : 0;
+    setQuantity(initialQuantity);
+    setInputValue(initialQuantity);
   }, [data.id_tov]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,24 +55,27 @@ const CartReducerBtn = ({
     const parsedValue = value ? parseInt(value) : 0;
 
     if (!isNaN(parsedValue)) {
-      setQuantity(parsedValue);
-      // Обновление данных в localStorage
+      setInputValue(parsedValue);
+    }
+  };
+
+  const handleBlur = () => {
+    if (inputValue < data.minQty) {
+      setInputValue(data.minQty);
+    }
+
+    // Update the quantity state and local storage
+    if (inputValue !== quantity) {
+      setQuantity(inputValue);
       const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
       const itemIndex = cartItems.findIndex(
         (cartItem: any) => cartItem.id_tov === data.id_tov
       );
       if (itemIndex !== -1) {
-        cartItems[itemIndex].quantity = parsedValue;
-        cartItems[itemIndex].kol = parsedValue.toString();
+        cartItems[itemIndex].quantity = inputValue;
+        cartItems[itemIndex].kol = inputValue.toString();
         updateLocalStorage(cartItems);
       }
-    }
-  };
-
-  const handleBlur = () => {
-    // Убедитесь, что `data.minQty` не устанавливается ненароком
-    if (quantity < data.minQty) {
-      setQuantity(data.minQty);
     }
   };
 
@@ -75,54 +83,12 @@ const CartReducerBtn = ({
     localStorage.setItem("cartItems", JSON.stringify(updatedItems));
   };
 
-  // const addToCart = async (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  // ) => {
-  //   event.stopPropagation();
-  //   event.preventDefault();
-  //   const newQuantity = quantity + 1;
-  //   setQuantity(newQuantity);
-
-  //   try {
-  //     if (token && data.id_box) {
-  //       await patchBasketProductAuthed(token, data.id_box, newQuantity);
-  //     } else if (token && data.id_tov) {
-  //       const item = await postBasketProductAuthedIdTov(
-  //         token,
-  //         data.id_tov,
-  //         newQuantity
-  //       );
-  //       if (item) {
-  //         const cartItems = JSON.parse(
-  //           localStorage.getItem("cartItems") || "[]"
-  //         );
-  //         const itemIndex = cartItems.findIndex(
-  //           (cartItem: postProductAuthResponse) =>
-  //             cartItem.id_tov === item.id_tov
-  //         );
-  //         if (itemIndex !== -1) {
-  //           cartItems[itemIndex] = item;
-  //         } else {
-  //           cartItems.push(item);
-  //         }
-  //         updateLocalStorage(cartItems);
-  //       }
-  //     } else {
-  //       await postBasketProduct(newQuantity, data.id_tov);
-  //     }
-  //   } catch (error) {
-  //     console.error("Failed to add item to cart:", error);
-  //   }
-  // };
   const addToCart = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.stopPropagation();
     event.preventDefault();
-
-    // Считываем текущие данные из localStorage внутри функции
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const newQuantity = Math.max(0, quantity + 1);
+    const newQuantity = quantity + 1;
     setQuantity(newQuantity);
 
     try {
@@ -135,6 +101,9 @@ const CartReducerBtn = ({
           newQuantity
         );
         if (item) {
+          const cartItems = JSON.parse(
+            localStorage.getItem("cartItems") || "[]"
+          );
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
               cartItem.id_tov === item.id_tov
@@ -266,9 +235,9 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={quantity}
-        // onChange={handleChange}
-        // onBlur={handleBlur}
+        value={inputValue}
+        onChange={handleChange}
+        onBlur={handleBlur}
         min={0}
         ref={inputRef}
       />
