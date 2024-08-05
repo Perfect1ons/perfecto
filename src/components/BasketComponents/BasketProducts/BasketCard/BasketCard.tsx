@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
 import { useEffect, useState } from "react";
 interface IBasketCardProps {
-  item: Model;
+  item: any;
   imageUrl: string;
   isFavorite: boolean;
   rating: number;
@@ -27,6 +27,7 @@ interface IBasketCardProps {
   setShouldFocusInput: () => void;
   selected: boolean | undefined;
   id_cart: string | null | undefined;
+  authToken: string | undefined;
 }
 
 const BasketCard = ({
@@ -41,6 +42,7 @@ const BasketCard = ({
   setShouldFocusInput,
   selected,
   id_cart,
+  authToken,
 }: IBasketCardProps) => {
   const [quantity, setQuantity] = useState<number>(0);
   useEffect(() => {
@@ -59,7 +61,7 @@ const BasketCard = ({
       return number.toLocaleString("ru-RU");
     }
   };
-  const totalPrice = item.cenaok * quantity;
+  const totalPrice = authToken ? item.cenaok * quantity : item.cena * quantity;
   const formattedPrice = formatNumber(totalPrice);
   const formattedQuantity = formatNumber(quantity);
   const dispatch = useDispatch();
@@ -160,7 +162,7 @@ const BasketCard = ({
           ) : (
             <div className={styles.ItemPriceCard__cost}>
               <span className={styles.ItemPriceCard__price}>
-                {item.cenaok?.toLocaleString("ru-RU")}
+                {authToken ? item.cenaok?.toLocaleString("ru-RU") : item.cena}
                 <span className={styles.ItemPriceCard__price_custom}>с</span>
               </span>
             </div>

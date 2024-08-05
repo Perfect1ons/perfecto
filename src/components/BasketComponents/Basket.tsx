@@ -401,9 +401,9 @@ const Basket = ({
             <div className={styles.cardContainer}>
               <BasketProducts
                 items={authToken ? cartItems : cartItemsGuest}
-                // items={cartItems}
                 cartId={cartId}
                 deleteItem={removeFromCart}
+                authToken={authToken}
               />
               <BasketOrder
                 deliveryCity={deliveryCity}

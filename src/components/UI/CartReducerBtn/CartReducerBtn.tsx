@@ -13,6 +13,7 @@ import {
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
+import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 
 interface ICartReducerBtnProps {
   data: Items;
@@ -20,7 +21,6 @@ interface ICartReducerBtnProps {
   shouldFocusInput: boolean;
   onFocusHandled: () => void;
   id_cart?: string | null | undefined;
-  price?: string;
 }
 
 const CartReducerBtn = ({
@@ -29,21 +29,33 @@ const CartReducerBtn = ({
   shouldFocusInput,
   onFocusHandled,
   id_cart,
-  price,
 }: ICartReducerBtnProps) => {
   const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(0);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  const cartItemsGuest = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
   // Fetch and set the quantity from localStorage or basket
   useEffect(() => {
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const item = cartItems.find((res: any) => res.id_tov === data.id_tov);
-    const initialQuantity = item
-      ? parseInt(item.quantity) || parseInt(item.kol) || 0
-      : 0;
-    setQuantity(initialQuantity);
+    if (token) {
+      const item = cartItems.find((res: any) => res.id_tov === data.id_tov);
+      const initialQuantity = item
+        ? parseInt(item.quantity) || parseInt(item.kol) || 0
+        : 0;
+      setQuantity(initialQuantity);
+    } else {
+      const item = cartItemsGuest.find(
+        (res: any) => res.id_tov === data.id_tov
+      );
+      const initialQuantity = item
+        ? parseInt(item.quantity) || parseInt(item.kol) || 0
+        : 0;
+      setQuantity(initialQuantity);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.id_tov]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +77,6 @@ const CartReducerBtn = ({
       setQuantity(updatedQuantity);
     }
     // Update localStorage and server
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const itemIndex = cartItems.findIndex(
       (cartItem: any) => cartItem.id_tov === data.id_tov
     );
@@ -86,9 +97,6 @@ const CartReducerBtn = ({
           updatedQuantity
         );
         if (item) {
-          const cartItems = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-          );
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
               cartItem.id_tov === item.id_tov
@@ -101,7 +109,16 @@ const CartReducerBtn = ({
           updateLocalStorage(cartItems);
         }
       } else {
-        await postBasketProduct(updatedQuantity, data.id_tov);
+        const item = await postBasketProduct(updatedQuantity, data.id_tov);
+        const itemIndex = cartItemsGuest.findIndex(
+          (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
+        );
+        if (itemIndex !== -1) {
+          cartItemsGuest[itemIndex] = item;
+        } else {
+          cartItemsGuest.push(item);
+        }
+        updateLocalStorage(cartItemsGuest);
       }
     } catch (error) {
       console.error("Failed to update item quantity:", error);
@@ -130,9 +147,6 @@ const CartReducerBtn = ({
           newQuantity
         );
         if (item) {
-          const cartItems = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-          );
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
               cartItem.id_tov === item.id_tov
@@ -145,7 +159,16 @@ const CartReducerBtn = ({
           updateLocalStorage(cartItems);
         }
       } else {
-        await postBasketProduct(newQuantity, data.id_tov);
+        const item = await postBasketProduct(newQuantity, data.id_tov);
+        const itemIndex = cartItemsGuest.findIndex(
+          (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
+        );
+        if (itemIndex !== -1) {
+          cartItemsGuest[itemIndex] = item;
+        } else {
+          cartItemsGuest.push(item);
+        }
+        updateLocalStorage(cartItemsGuest);
       }
     } catch (error) {
       console.error("Failed to add item to cart:", error);
@@ -166,9 +189,6 @@ const CartReducerBtn = ({
         if (token && data.id_tov) {
           const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
           if (item) {
-            const cartItems = JSON.parse(
-              localStorage.getItem("cartItems") || "[]"
-            );
             const updatedItems = cartItems.filter(
               (cartItem: any) => cartItem.id_tov !== data.id_tov
             );
@@ -176,6 +196,10 @@ const CartReducerBtn = ({
           }
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
+          const updatedItems = cartItemsGuest.filter(
+            (cartItem: any) => cartItem.id_tov !== data.id_tov
+          );
+          updateLocalStorage(updatedItems);
         }
 
         if (newQuantity === 0) {
@@ -216,9 +240,6 @@ const CartReducerBtn = ({
           newQuantity
         );
         if (item) {
-          const cartItems = JSON.parse(
-            localStorage.getItem("cartItems") || "[]"
-          );
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
               cartItem.id_tov === item.id_tov
@@ -229,7 +250,14 @@ const CartReducerBtn = ({
           updateLocalStorage(cartItems);
         }
       } else {
-        await postBasketProduct(newQuantity, data.id_tov);
+        const item = await postBasketProduct(newQuantity, data.id_tov);
+        const itemIndex = cartItemsGuest.findIndex(
+          (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
+        );
+        if (itemIndex !== -1) {
+          cartItemsGuest[itemIndex] = item;
+        }
+        updateLocalStorage(cartItemsGuest);
       }
     } catch (error) {
       console.error("Failed to update item quantity in cart:", error);
