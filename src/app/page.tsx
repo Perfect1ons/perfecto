@@ -92,56 +92,51 @@ const DynamicBrands = dynamic(
 );
 
 export default async function Home() {
-  try {
-    const [
-      mobileData,
-      desktopData,
-      popularCategoryData,
-      goodsData,
-      newsData,
-      discounts,
-      secondBanner,
-      promotionData,
-      seasonCategoryData,
-      brandsData,
-    ] = await Promise.all([
-      getMobileData(),
-      getDekstopData(),
-      getPopularCategory(),
-      getPopularGoods(1),
-      getNewsByLimit(),
-      getDiscounts(1),
-      getSecondBanner(),
-      getPromotion(),
-      getSeasonCategory(),
-      getBrands(),
-    ]);
+  const [
+    mobileData,
+    desktopData,
+    popularCategoryData,
+    goodsData,
+    newsData,
+    discounts,
+    secondBanner,
+    promotionData,
+    seasonCategoryData,
+    brandsData,
+  ] = await Promise.all([
+    getMobileData(),
+    getDekstopData(),
+    getPopularCategory(),
+    getPopularGoods(1),
+    getNewsByLimit(),
+    getDiscounts(1),
+    getSecondBanner(),
+    getPromotion(),
+    getSeasonCategory(),
+    getBrands(),
+  ]);
 
-    const [todayBoughtsData, thirdBanner] = await Promise.all([
-      getBoughts(1),
-      getThirdBanner(),
-    ]);
+  const [todayBoughtsData, thirdBanner] = await Promise.all([
+    getBoughts(1),
+    getThirdBanner(),
+  ]);
 
-    return (
-      <>
-        <Banner mobileData={mobileData} deskstopData={desktopData} />
-        <DynamicPopularCategory category={popularCategoryData} />
-        <LazyPopularGoods goods={goodsData} />
-        <DynamicNews news={newsData} />
-        <DynamicDiscounts discounts={discounts} />
-        <LazySecondBanner banner={secondBanner.baner} />
-        <DynamicPromotions promotions={promotionData} />
-        <DynamicSeasonCategory seasonItems={seasonCategoryData} />
-        <DynamicBrands brands={brandsData} />
-        <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
-        <LazyThirdBanner banner={thirdBanner.baner} />
-        <MainPageJsonLd />
-      </>
-    );
-  } catch (error) {
-    console.error("Error fetching other data:", error);
-    return <ErrorPage />;
-  }
+  return (
+    <>
+      <Banner mobileData={mobileData} deskstopData={desktopData} />
+      <DynamicPopularCategory category={popularCategoryData} />
+      <LazyPopularGoods goods={goodsData} />
+      <DynamicNews news={newsData} />
+      <DynamicDiscounts discounts={discounts} />
+      <LazySecondBanner banner={secondBanner.baner} />
+      <DynamicPromotions promotions={promotionData} />
+      <DynamicSeasonCategory seasonItems={seasonCategoryData} />
+      <DynamicBrands brands={brandsData} />
+      <LazyTodaysBoughts boughts={todayBoughtsData.lastz} />
+      <LazyThirdBanner banner={thirdBanner.baner} />
+      <MainPageJsonLd />
+    </>
+  );
 }
 
 export async function generateMetadata() {

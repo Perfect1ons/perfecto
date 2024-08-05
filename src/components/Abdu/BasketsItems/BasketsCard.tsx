@@ -4,15 +4,13 @@ import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
-import { GrayFavoritesIcon, GrayStar, TrashIcon, VioletFavoritesIcon, YellowStar } from "../../../../public/Icons/Icons";
+import { GrayStar,  YellowStar } from "../../../../public/Icons/Icons";
 
 interface IBasketCardProps {
   item: any;
   imageUrl: string;
   handleToggleSelection: () => void;
-  // isFavorite: boolean;
   rating: number;
-  // handleFavoriteClick: (e: any) => void;
   removeFromCart: (e: any) => void;
   handleCartEmpty: () => void;
   shouldFocusInput: boolean;
@@ -23,9 +21,7 @@ const BasketsCard = ({
   item,
   imageUrl,
   handleToggleSelection,
-  // isFavorite,
   rating,
-  // handleFavoriteClick,
   removeFromCart,
   handleCartEmpty,
   shouldFocusInput,

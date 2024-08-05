@@ -27,7 +27,6 @@ import {
   clearSelectedProducts,
   toggleSelectAllProducts,
 } from "@/store/reducers/cart.reducer";
-import Image from "next/image";
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
@@ -248,8 +247,7 @@ const Abdu = ({
     setPrice((prevPrice) => {
       const newPrice = prevPrice + 1000;
       if (price >= 0) {
-        // Обновляем только если значение больше или равно 0
-        animatePrice(price, newPrice); // Запуск анимации с предыдущего значения
+        animatePrice(price, newPrice); 
       }
       return newPrice;
     });
@@ -258,11 +256,11 @@ const Abdu = ({
   const handleDecrease = () => {
     setPrice((prevPrice) => {
       if (prevPrice > 0) {
-        const newPrice = Math.max(prevPrice - 1000, 0); // Устанавливаем минимальное значение 0
-        animatePrice(price, newPrice); // Запуск анимации с предыдущего значения
+        const newPrice = Math.max(prevPrice - 1000, 0); 
+        animatePrice(price, newPrice); 
         return newPrice;
       }
-      return prevPrice; // Возвращаем текущее значение, если меньше или равно 0
+      return prevPrice; 
     });
   };
 
