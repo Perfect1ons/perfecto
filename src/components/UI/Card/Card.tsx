@@ -63,37 +63,26 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   });
 
   useEffect(() => {
-    if (token) {
-      const storedBasket = JSON.parse(
-        localStorage.getItem("cartItems") || "[]"
-      );
-      const kolCard = storedBasket.find(
-        (res: any) => res.id_tov === cardData.id_tov
-      );
-      if (kolCard) {
-        setQuantity(kolCard.quantity || kolCard.kol || 0);
-        setAdded(true);
-      } else {
-        setQuantity(0);
-        setAdded(false);
-      }
+    const getStoredBasket = (key: string) => {
+      return JSON.parse(localStorage.getItem(key) || "[]");
+    };
+    const findCardInBasket = (basket: any[], id: number) => {
+      return basket.find((item: any) => item.id_tov === id);
+    };
+    const storedBasket = token
+      ? getStoredBasket("cartItems")
+      : getStoredBasket("cartItemsGuest");
+    const kolCard = findCardInBasket(storedBasket, cardData.id_tov);
+    if (kolCard) {
+      setQuantity(kolCard.quantity || kolCard.kol || 0);
+      setAdded(true);
     } else {
-      const storedBasket = JSON.parse(
-        localStorage.getItem("cartItemsGuest") || "[]"
-      );
-      const kolCard = storedBasket.find(
-        (res: any) => res.id_tov === cardData.id_tov
-      );
-      if (kolCard) {
-        setQuantity(kolCard.quantity || kolCard.kol || 0);
-        setAdded(true);
-      } else {
-        setQuantity(0);
-        setAdded(false);
-      }
+      setQuantity(0);
+      setAdded(false);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.id_tov, cardData.minQty]);
+  }, [cardData.id_tov, cardData.minQty, token]);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
