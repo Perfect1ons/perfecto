@@ -69,7 +69,6 @@ const Basket = ({
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-  const basket = useSelector((state: RootState) => state.basket.basket);
 
   const removeFromCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -195,7 +194,7 @@ const Basket = ({
   };
 
   // Calculate total pages based on cart length and itemsPerPage
-  const pageCount = Math.ceil(basket?.length / itemsPerPage);
+  const pageCount = Math.ceil(cartItems?.length / itemsPerPage);
 
   return (
     <div className="container">
@@ -286,7 +285,7 @@ const Basket = ({
             <button
               aria-label="delete products"
               onClick={openModal}
-              disabled={!basket.some((item) => item.selected)}
+              disabled={!cartItems.some((item) => item.selected)}
               className={styles.trashButton}
             >
               <TrashIcon />
