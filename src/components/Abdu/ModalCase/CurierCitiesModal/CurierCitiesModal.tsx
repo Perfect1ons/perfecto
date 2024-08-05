@@ -4,7 +4,7 @@ import { ICityFront } from "@/types/Basket/cityfrontType";
 import { XMark } from "../../../../../public/Icons/Icons";
 import clsx from "clsx";
 import styles from "./style.module.scss";
-import { IBuyer, ICityBuyer } from "../../Abdu";
+import { IBuyer, ICityBuyer } from "@/interfaces/baskets/basketModal";
 
 interface ICurierCitiesModalProps {
   buyer: IBuyer;

@@ -1,17 +1,25 @@
-import AbduBackdrop from "../AbduBackdrop/AbduBackdrop";
 import { XMark } from "../../../../public/Icons/Icons";
 import styles from "./styles.module.scss";
 import cn from "clsx";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { IBuyer, ICityBuyer, IVariableBuyer } from "../Abdu";
 import CurierModal from "../ModalCase/CurierModal";
 import DeliveryModal from "../ModalCase/DeliveryModal";
 import PaymentModal from "../ModalCase/PaymentModal";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { ICityFront } from "@/types/Basket/cityfrontType";
 import DeliveryToggler from "../ModalCase/DeliveryToggler";
+import { ChangeEvent } from "react";
+import {
+  IBuyer,
+  ICityBuyer,
+  IVariableBuyer,
+} from "@/interfaces/baskets/basketModal";
+import BasketBackdrop from "../BasketBackdrop/AbduBackdrop";
+import BasketConfirmModal from "../ModalCase/BasketConfirmModal/BasketConfirmModal";
 
 interface ModalProps {
+  handleClearCart: () => void;
+
   buyer: IBuyer;
   location: ICityBuyer;
   setCity: (newCity: { name: string; id: number }) => void;
@@ -23,7 +31,7 @@ interface ModalProps {
   deliveryMethod: IDeliveryMethod;
   saveDelivery: () => void;
   setView: React.Dispatch<
-    React.SetStateAction<"delivery" | "curier" | "oplata">
+    React.SetStateAction<"delivery" | "curier" | "oplata" | "confirm">
   >;
   view: string;
   selectPayment: (payment: { name: string; id: string | number }) => void;
@@ -33,9 +41,12 @@ interface ModalProps {
   closeCityModal: () => void;
   openCityModal: () => void;
   saveCity: () => void;
+  changeAdress: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const AbduModal = ({
+  handleClearCart,
+  changeAdress,
   buyer,
   saveCity,
   location,
@@ -63,6 +74,7 @@ const AbduModal = ({
           title: "Способы доставки",
           content: (
             <CurierModal
+              changeAdress={changeAdress}
               buyer={buyer}
               saveCity={saveCity}
               location={location}
@@ -98,6 +110,14 @@ const AbduModal = ({
             />
           ),
         };
+      case "confirm":
+        return {
+          title: "Удалить товары",
+          content: (
+            <BasketConfirmModal
+            />
+          ),
+        };
 
       default:
         return { title: "", content: null };
@@ -113,31 +133,54 @@ const AbduModal = ({
 
   return (
     <>
-      <AbduBackdrop isVisible={isVisible} close={closeModals} />
+      <BasketBackdrop isVisible={isVisible} close={closeModals} />
 
-      <div className={cn(styles.modal, isVisible && styles.show, isCityModalVisible && styles.modal__hidden )}>
+      <div
+        className={cn(
+          styles.modal,
+          isVisible && styles.show,
+          isCityModalVisible && styles.modal__hidden
+        )}
+      >
         <div className={styles.modal__intro}>
           <p className={styles.modal__title}>{title}</p>
           <button className={styles.modal__exit} onClick={close}>
             <XMark />
           </button>
         </div>
-        {view !== "oplata" && <DeliveryToggler close={closeCityModal} setView={setView} view={view} />}
+        {view == "delivery" ||
+          (view == "curier" && (
+            <DeliveryToggler
+              close={closeCityModal}
+              setView={setView}
+              view={view}
+            />
+          ))}
 
         {content}
-        <button
-          onClick={() => {
-            if (view !== "oplata") {
-              saveDelivery();
-            } else {
-              savePayment();
-            }
-          }}
-          aria-label="save"
-          className={styles.button}
-        >
-          Сохранить
-        </button>
+        {view == "confirm" ? (
+          <button
+            onClick={handleClearCart}
+            aria-label="remove from cart"
+            className={styles.button}
+          >
+            Удалить
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              if (view == "delivery" || view == "curier") {
+                saveDelivery();
+              } else {
+                savePayment();
+              }
+            }}
+            aria-label="save"
+            className={styles.button}
+          >
+            Сохранить
+          </button>
+        )}
       </div>
     </>
   );

@@ -52,18 +52,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  max-width: 500px;
+  max-width: 1280px;
   padding: 20px;
   width: 90%;
   background: #fff;
   border-radius: 10px;
-  z-index: 100;
+  z-index: 101;
   box-shadow: 0px 0px 6px 3px rgba(22, 24, 26, 0.2);
   visibility: hidden;
   transition: visibility 0.3s, opacity 0.3s;
   opacity: 0;
   overflow: hidden;
-  max-height: 400px;
+  max-height: 500px;
   display: flex;
   flex-direction: column;
 }
@@ -71,13 +71,21 @@
 .modal__content {
   overflow-y: auto; /* Добавляем вертикальную прокрутку при необходимости */
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Два столбика */
+  grid-template-columns: repeat(5, 1fr); /* Два столбика */
   gap: 10px; /* Отступы между элементами */
   padding-right: 5px;
-  margin-top: 15px;
+  margin-top: 13px;
 
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: repeat(4, 1fr); /* Два столбика */
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(3, 1fr); /* Два столбика */
+  }
   @media screen and (max-width: 640px) {
     margin-top: 10px;
+    grid-template-columns: repeat(2, 1fr); /* Два столбика */
   }
   @media screen and (max-width: 480px) {
     grid-template-columns: repeat(1, 1fr);
@@ -145,12 +153,13 @@
   &_point {
     max-height: 37.6px;
     @include mixin.flex(center, flex-start, null, 8px);
-    border: 2px solid var(--secondary);
     border-radius: 5px;
     width: 100%;
     padding: 7px 5px;
     cursor: pointer;
     @include mixin.font(14px, 400, null, var(--gray));
+
+    border: 2px solid var(--white);
 
     &_active {
       border: 2px solid var(--dark-blue);

@@ -1686,3 +1686,24 @@ export const DeliveryArrowIcon = () => {
     </svg>
   );
 };
+
+
+export const CheckIcons = () => {
+  return (
+    <svg
+      width="14"
+      height="12"
+      viewBox="0 0 14 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2 6.44444L6 10L12 2"
+        stroke="white"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  );
+}

@@ -1,17 +1,12 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import { IBuyer, ICityBuyer, IVariableBuyer } from "../Abdu";
 import DeliveryInputs from "./DeliveryInputs/DeliveryInputs";
 import { ICityFront } from "@/types/Basket/cityfrontType";
 import { DeliveryArrowIcon } from "../../../../public/Icons/Icons";
-import dynamic from "next/dynamic";
-const CurierCitiesModal = dynamic(
-  () => import("./CurierCitiesModal/CurierCitiesModal"),
-  {
-    ssr: false,
-  }
-);
+import { ChangeEvent } from "react";
+import { IBuyer, ICityBuyer, IVariableBuyer } from "@/interfaces/baskets/basketModal";
+
 
 interface IDeliveryModalProps {
   buyer: IBuyer;
@@ -25,9 +20,11 @@ interface IDeliveryModalProps {
   closeCityModal: () => void;
   openCityModal: () => void;
   saveCity: () => void;
+  changeAdress: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const CurierModal = ({
+  changeAdress,
   buyer,
   saveCity,
   location,
@@ -76,16 +73,7 @@ const CurierModal = ({
           </div>
         </div>
       </div>
-      <CurierCitiesModal
-        buyer={buyer}
-        saveCity={saveCity}
-        location={location}
-        setCity={setCity}
-        close={closeCityModal}
-        isVisible={isCityModalVisible}
-        cities={cities}
-      />
-      <DeliveryInputs />
+      <DeliveryInputs location={location} changeAdress={changeAdress} />
       <div className={styles.delivery__ways}>
         {Object.values(deliveryMethod).map((item) => {
           return (

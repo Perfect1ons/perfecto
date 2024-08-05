@@ -16,9 +16,9 @@ import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { getExitsUser, postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
 import { ICityFront } from "@/types/Basket/cityfrontType";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IProfileData } from "@/types/Profile/PersonalData";
 
 export interface Buyer {
   tel: string;
@@ -53,7 +53,7 @@ interface IBasketOrderProps {
   authToken: string | undefined;
   deliveryCity: ICityFront;
   currentItems: any;
-  user: UserPersonalDataType;
+  user: IProfileData;
 }
 
 const BasketOrder = ({

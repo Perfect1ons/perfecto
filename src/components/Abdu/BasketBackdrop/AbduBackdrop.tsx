@@ -5,8 +5,8 @@ interface BackdropProps {
   close: () => void;
 }
 
-const AbduBackdrop = ({ isVisible, close }: BackdropProps) => {
+const BasketBackdrop = ({ isVisible, close }: BackdropProps) => {
   return isVisible ? <div className={styles.backDrop} onClick={close} /> : null;
 };
 
-export default AbduBackdrop;
+export default BasketBackdrop;

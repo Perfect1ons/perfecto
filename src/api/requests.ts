@@ -24,7 +24,7 @@ import { IBreadCrumbs } from "@/types/BreadCrums/breadCrums";
 import { BrandsAll } from "@/types/bannerAll";
 import { IFiltersBrandByAbdulaziz } from "@/components/temporary/data";
 import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IProfileData } from "@/types/Profile/PersonalData";
 import { INotifications } from "@/types/Profile/Notifications/notifications";
 import { IOrderHistory } from "@/types/OrdersHistory/OrdersHistory";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
@@ -41,6 +41,7 @@ import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { IFavorites } from "@/types/Favorites/favorites";
 import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 import { ICityFront } from "@/types/Basket/cityfrontType";
+import { IBasketItems } from "@/interfaces/baskets/basket";
 
 const maxkg = ky.create({
   prefixUrl: process.env.PUBLIC_NEXT_API,
@@ -260,9 +261,7 @@ export const getCatalogProductsFiltersServer = (
   return maxkg.get(`catalog/cat-product/${path}?page=${page}`).json();
 };
 
-export const getPersonalDataProfileServer = (
-  token: string
-): Promise<UserPersonalDataType> => {
+export const getPersonalDataProfileServer = (token: string): Promise<IProfileData> => {
   return maxkg
     .get("prof", {
       headers: {
@@ -311,7 +310,7 @@ export const getStatusDetails = (token: string): Promise<StatusDetailsType> => {
 export const getPaymentMethod = (
   idUser: string | undefined
 ): Promise<IPaymentMethod> => {
-  return maxkg.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
 export const getCurrentOrder = (
@@ -331,7 +330,7 @@ export const getCurrentOrder = (
 export const getDeliveryMethod = (
   idUser: string | undefined
 ): Promise<IDeliveryMethod> => {
-  return maxkg.get(`naltovarok/viddostfront?idUser=${idUser}`).json();
+  return maxkgnocache.get(`naltovarok/viddostfront?idUser=${idUser}`).json();
 };
 export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
@@ -361,6 +360,20 @@ export const getOrderHistoryOrderRating = (
 };
 
 //получение корзины для зареганных юзеров
+
+export const getBasket = (
+  token: string,
+  page: number
+): Promise<IBasketItems[]> => {
+  return maxkgnocache
+    .get(`box?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
 
 export const getBasketAuthed = (
   token: string,
@@ -397,4 +410,16 @@ export const getFavorites = (token: string): Promise<IFavorites> => {
 
 export const getCity = (): Promise<ICityFront> => {
   return maxkgnocache.get("naltovarok/cityfront").json();
+};
+
+
+export const getUserInfo = (token: string): Promise<IProfileData> => {
+  return maxkg
+    .get("prof", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
