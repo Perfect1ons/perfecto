@@ -67,14 +67,14 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       return JSON.parse(localStorage.getItem(key) || "[]");
     };
     const findCardInBasket = (basket: any[], id: number) => {
-      return basket.find((item: any) => item.id_tov === id);
+      return basket.find((item: any) => parseInt(item.id_tov) === id);
     };
     const storedBasket = token
       ? getStoredBasket("cartItems")
       : getStoredBasket("cartItemsGuest");
     const kolCard = findCardInBasket(storedBasket, cardData.id_tov);
     if (kolCard) {
-      setQuantity(kolCard.quantity || kolCard.kol || 0);
+      setQuantity(parseInt(kolCard.quantity) || parseInt(kolCard.kol) || 0);
       setAdded(true);
     } else {
       setQuantity(0);
