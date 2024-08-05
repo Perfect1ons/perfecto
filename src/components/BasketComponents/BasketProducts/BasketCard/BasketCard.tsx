@@ -14,7 +14,8 @@ import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
 import { useDispatch } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "@/context/AuthContext";
 interface IBasketCardProps {
   item: any;
   imageUrl: string;
@@ -45,13 +46,27 @@ const BasketCard = ({
   authToken,
 }: IBasketCardProps) => {
   const [quantity, setQuantity] = useState<number>(0);
+  const { token } = useContext(AuthContext);
+
   useEffect(() => {
-    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const count = cartItems.find((res: any) => res.id_tov === item.id_tov);
-    setQuantity(
-      count ? parseInt(count.quantity) || parseInt(count.kol) || 0 : 0
-    );
-  }, [item.id_tov]);
+    const getStoredBasket = (key: string) => {
+      return JSON.parse(localStorage.getItem(key) || "[]");
+    };
+    const findCardInBasket = (basket: any[], id: number) => {
+      return basket.find((res: any) => parseInt(res.id_tov) === id);
+    };
+    const storedBasket = token
+      ? getStoredBasket("cartItems")
+      : getStoredBasket("cartItemsGuest");
+    const kolCard = findCardInBasket(storedBasket, parseInt(item.id_tov));
+    if (kolCard) {
+      setQuantity(parseInt(kolCard.quantity) || parseInt(kolCard.kol) || 0);
+    } else {
+      setQuantity(0);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [item.id_tov, item.minQty, token]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + " млрд";
