@@ -26,10 +26,10 @@
 .order_box {
   @include mixin.flex(flex-start, center, column, 15px);
   max-width: 400px;
+  width: 100%;
   background: var(--light);
   padding: 15px;
   border-radius: 5px;
-  margin-top: 100px;
 }
 
 .delivery__info {
@@ -42,4 +42,40 @@
   &_address {
     @include mixin.font(13px, 400, 100%, var(--gray));
   }
+}
+
+
+.basket__container{
+  @include mixin.flex(flex-start,space-between,null,15px);
+}
+
+.checkBoxContainer {
+  @include mixin.flex(center, null, null, 4px);
+  @include mixin.font(14px, 400, null, null);
+  background: var(--super-light-white);
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controlContainer {
+  @include mixin.flex(center, null, null, 10px);
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.trashButton {
+  cursor: pointer;
+  @include mixin.flex(center, center, null, null);
+  color: var(--light-gray);
+  background: var(--super-light-white);
+  border-radius: 5px;
+  padding: 7px 7px;
+
+  &:disabled {
+    cursor: not-allowed;
+    // opacity: 0.5;
+  }
+}
+.basketTilte {
+  @include mixin.font(18px, 600, null, var(--dark));
 }

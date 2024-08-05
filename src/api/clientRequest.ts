@@ -7,7 +7,6 @@ import { ICatalogMenu } from "@/types/Catalog/catalogMenu";
 import { CurrentOrdersType } from "@/types/Profile/CurrentOrders";
 import { IRatingOrderHistoryCard } from "@/types/OrdersHistory/RatingOrderHistoryCard";
 import { INotifications } from "@/types/Profile/Notifications/notifications";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { settingsNotificationType } from "@/types/Profile/settingsNotification";
 import { settingsNotificationUpdateType } from "@/types/Profile/settingsNotificationUpdaet";
 import { ISearch } from "@/types/Search/search";
@@ -24,6 +23,9 @@ import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { PostOrderResponse } from "@/types/Basket/PostOrderResponse";
 import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 import { IExitsUser } from "@/types/Basket/ExitsUser";
+import { IProfileData } from "@/types/Profile/PersonalData";
+import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -169,7 +171,7 @@ export const postConfirmCode = (tel: string, code: string) => {
 
 export const getPersonalDataProfile = (
   token: string
-): Promise<UserPersonalDataType> => {
+): Promise<IProfileData> => {
   return maxkg
     .get("prof", {
       headers: {
@@ -302,7 +304,7 @@ export const deleteNotification = (id: number) => {
 
 export const getPersonalDataProfileClient = (
   token: string
-): Promise<UserPersonalDataType> => {
+): Promise<IProfileData> => {
   return maxkg
     .get("prof", {
       headers: {
@@ -370,7 +372,6 @@ export const postBoxOrder = async (
   org?: string,
   org_inn?: string,
   id_city?: string,
-
   directory?: string
 ): Promise<PostOrderResponse> => {
   const params = new URLSearchParams();
@@ -677,4 +678,16 @@ export const postBasketProductAuthedIdTov = async (
     console.error("Network error:", error);
     return false;
   }
+};
+
+
+
+//!
+
+export const getPaymentMethodClient = (idUser: any): Promise<IPaymentMethod> => {
+  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+};
+
+export const getDeliveryMethodClient = (idUser: any): Promise<IDeliveryMethod> => {
+  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };

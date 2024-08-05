@@ -1,4 +1,4 @@
-export interface UserPersonalDataType {
+export interface IProfileData {
   id: number;
   username: string;
   email: string;
