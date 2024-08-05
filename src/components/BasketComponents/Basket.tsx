@@ -53,15 +53,18 @@ const Basket = ({
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 20; // Show 20 items per page
 
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
+  const storedCartItems = localStorage.getItem("cartItems");
+
   const isMobile = useMediaQuery("(max-width: 480px)");
-  const dispatch = useDispatch();
   useEffect(() => {
-    if (cart) {
-      cart.forEach((product: any) => {
-        dispatch(setBasket(product));
-      });
+    // Get cartItems from localStorage
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
     }
-  }, [cart, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -75,60 +78,91 @@ const Basket = ({
     event.stopPropagation();
     event.preventDefault();
 
-    if (authToken && item.id_box) {
-      deleteBasketProductAuthed(authToken, item.id_box, item.id_tov)
-        .then(() => {
-          // Обновите корзину в Redux после удаления
-          dispatch(removeItem(item.id_tov));
-        })
-        .catch((error) => {
-          console.error("Failed to remove item from cart:", error);
-        });
-    } else {
-      deleteBasketProduct(cartId, item.id_tov)
-        .then(() => {
-          // Обновите корзину в Redux после удаления
-          dispatch(removeItem(item.id_tov));
-        })
-        .catch((error) => {
-          console.error("Failed to remove item from cart:", error);
-        });
+    // Удаляем товар из localStorage
+    if (storedCartItems) {
+      const cartItems = JSON.parse(storedCartItems);
+      const updatedCartItems = cartItems.filter(
+        (cartItem: ICard) => cartItem.id_tov !== item.id_tov
+      );
+
+      // Обновляем localStorage
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+      // Обновляем локальное состояние
+      setCartItems(updatedCartItems);
     }
   };
   const handleSelectAllToggle = () => {
-    dispatch(toggleSelectAllProducts()); // Dispatch the action to select/deselect all products
-    setSelectAll(!selectAll); // Update local state
+    // Получаем текущие данные корзины из localStorage
+    if (storedCartItems) {
+      const cartItems = JSON.parse(storedCartItems);
+
+      // Определяем, следует ли установить все товары как выбранные или невыбранные
+      const allSelected = !selectAll;
+      const updatedCartItems = cartItems.map((item: ICard) => ({
+        ...item,
+        selected: allSelected,
+      }));
+
+      // Сохраняем обновленные данные в localStorage
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+      // Обновляем локальное состояние
+      setCartItems(updatedCartItems);
+      setSelectAll(allSelected); // Обновляем состояние выбора всех товаров
+    }
   };
 
   const handleClearCart = () => {
-    if (authToken) {
-      deleteBasketProductAllAuthed(
-        authToken,
-        basket.filter((item) => item.selected).map((item) => item.id_tov)
-      )
-        .then(() => {
-          // Обновите корзину в Redux после очистки
-          dispatch(clearSelectedProducts());
-          setAllItemsSelected(false);
-          openModal();
-        })
-        .catch((error) => {
-          console.error("Failed to clear cart:", error);
-        });
-    } else {
-      deleteBasketProductAll(
-        cartId,
-        basket.filter((item) => item.selected).map((item) => item.id_tov)
-      )
-        .then(() => {
-          // Обновите корзину в Redux после очистки
-          dispatch(clearSelectedProducts());
-          setAllItemsSelected(false);
-          openModal();
-        })
-        .catch((error) => {
-          console.error("Failed to clear cart:", error);
-        });
+    // Получаем текущие данные корзины из localStorage
+    if (storedCartItems) {
+      const cartItems = JSON.parse(storedCartItems);
+
+      // Фильтруем только выбранные элементы
+      const itemsToRemove = cartItems.filter((item: any) => item.selected);
+      const itemsToKeep = cartItems.filter((item: any) => !item.selected);
+
+      // Если есть что удалять
+      if (itemsToRemove.length > 0) {
+        // Если авторизован, отправляем запрос на сервер
+        if (authToken) {
+          deleteBasketProductAllAuthed(
+            authToken,
+            itemsToRemove.map((item: ICard) => item.id_tov)
+          )
+            .then(() => {
+              // Обновляем localStorage с оставшимися элементами
+              localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
+              // Обновляем локальное состояние
+              setCartItems(itemsToKeep);
+              setAllItemsSelected(false);
+              openModal();
+            })
+            .catch((error) => {
+              console.error("Failed to clear cart:", error);
+            });
+        } else {
+          // Отправляем запрос на сервер, если не авторизован
+          deleteBasketProductAll(
+            cartId,
+            itemsToRemove.map((item: ICard) => item.id_tov)
+          )
+            .then(() => {
+              // Обновляем localStorage с оставшимися элементами
+              localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
+              // Обновляем локальное состояние
+              setCartItems(itemsToKeep);
+              setAllItemsSelected(false);
+              openModal();
+            })
+            .catch((error) => {
+              console.error("Failed to clear cart:", error);
+            });
+        }
+      } else {
+        // Если нет выбранных элементов, просто закрываем модальное окно
+        openModal();
+      }
     }
   };
   useEffect(() => {
@@ -196,7 +230,7 @@ const Basket = ({
         )}
       </>
 
-      {basket.length <= 0 ? (
+      {cartItems.length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
@@ -260,7 +294,7 @@ const Basket = ({
           </div>
           <div className={styles.cardContainer}>
             <BasketProducts
-              items={basket}
+              items={cartItems}
               cartId={cartId}
               deleteItem={removeFromCart}
             />
@@ -269,7 +303,7 @@ const Basket = ({
               paymentMethod={paymentMethod}
               deliveryMethod={deliveryMethod}
               authToken={authToken}
-              currentItems={basket}
+              currentItems={cartItems}
               user={user}
             />
           </div>

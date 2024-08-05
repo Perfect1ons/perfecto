@@ -118,7 +118,7 @@ const BasketProducts = ({
       {items &&
         items.map((item: Model) => {
           const imageUrl =
-            item.photos.length > 0
+            item.photos?.length > 0
               ? item.photos[0]?.url_part.startsWith("https://goods")
                 ? `${item.photos[0]?.url_part}280.jpg`
                 : item.photos[0]?.url_part.startsWith("https://")

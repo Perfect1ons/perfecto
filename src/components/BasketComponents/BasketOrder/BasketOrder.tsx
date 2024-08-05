@@ -53,7 +53,7 @@ interface IBasketOrderProps {
   deliveryMethod: IDeliveryMethod;
   authToken: string | undefined;
   deliveryCity: ICityFront;
-  currentItems: Model[];
+  currentItems: any;
   user: UserPersonalDataType;
 }
 
@@ -167,6 +167,9 @@ const BasketOrder = ({
   const [surnameWarning, setSurnameWarning] = useState("");
   const [nameWarning, setNameWarning] = useState("");
 
+  const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [formattedTotalPrice, setFormattedTotalPrice] = useState<string>("");
+
   //следит за location и при изменении location обновляет buyer.id_city, id_city2, directory
   useEffect(() => {
     setBuyer((prevBuyer) => ({
@@ -197,11 +200,11 @@ const BasketOrder = ({
     }));
   };
 
-  const { totalQuantity, formattedTotalPrice } = useMemo(() => {
+  useEffect(() => {
     const result = currentItems.reduce(
-      (acc, item) => {
-        const quantity = item.kol || 0;
-        const price = item.price || 0;
+      (acc: any, item: any) => {
+        const quantity = parseFloat(item.kol) || 0;
+        const price = parseFloat(item.price) || 0;
         acc.totalQuantity += quantity;
         acc.totalPrice += quantity * price;
         return acc;
@@ -219,11 +222,8 @@ const BasketOrder = ({
       }
     };
 
-    return {
-      totalQuantity: formatNumber(result.totalQuantity),
-      formattedTotalPrice: formatNumber(result.totalPrice),
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTotalQuantity(result.totalQuantity);
+    setFormattedTotalPrice(formatNumber(result.totalPrice));
   }, [currentItems]);
 
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
