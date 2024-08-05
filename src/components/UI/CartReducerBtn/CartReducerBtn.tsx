@@ -73,18 +73,34 @@ const CartReducerBtn = ({
     const updatedQuantity = Math.max(quantity, data.minQty);
 
     // Update the local state if needed
-    if (quantity !== updatedQuantity) {
-      setQuantity(updatedQuantity);
-    }
-    // Update localStorage and server
-    const itemIndex = cartItems.findIndex(
-      (cartItem: any) => cartItem.id_tov === data.id_tov
-    );
+    if (token) {
+      if (quantity !== updatedQuantity) {
+        setQuantity(updatedQuantity);
+      }
+      // Update localStorage and server
+      const itemIndex = cartItems.findIndex(
+        (cartItem: any) => cartItem.id_tov === data.id_tov
+      );
 
-    if (itemIndex !== -1) {
-      cartItems[itemIndex].quantity = updatedQuantity;
-      cartItems[itemIndex].kol = updatedQuantity.toString();
-      updateLocalStorage(cartItems);
+      if (itemIndex !== -1) {
+        cartItems[itemIndex].quantity = updatedQuantity;
+        cartItems[itemIndex].kol = updatedQuantity.toString();
+        updateLocalStorage(cartItems);
+      }
+    } else {
+      if (quantity !== updatedQuantity) {
+        setQuantity(updatedQuantity);
+      }
+      // Update localStorage and server
+      const itemIndex = cartItemsGuest.findIndex(
+        (cartItem: any) => cartItem.id_tov === data.id_tov
+      );
+
+      if (itemIndex !== -1) {
+        cartItemsGuest[itemIndex].quantity = updatedQuantity;
+        cartItemsGuest[itemIndex].kol = updatedQuantity.toString();
+        updateLocalStorage(cartItemsGuest);
+      }
     }
 
     try {
