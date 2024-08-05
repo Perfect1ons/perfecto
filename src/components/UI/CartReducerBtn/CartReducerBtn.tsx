@@ -208,13 +208,11 @@ const CartReducerBtn = ({
 
       try {
         if (token && data.id_tov) {
-          const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
-          if (item) {
-            const updatedItems = cartItems.filter(
-              (cartItem: any) => cartItem.id_tov !== data.id_tov
-            );
-            updateLocalStorage(updatedItems);
-          }
+          await deleteBasketProductAuthedIdTov(token, data.id_tov);
+          const updatedItems = cartItems.filter(
+            (cartItem: any) => cartItem.id_tov !== data.id_tov
+          );
+          updateLocalStorage(updatedItems);
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
           const updatedItems = cartItemsGuest.filter(
