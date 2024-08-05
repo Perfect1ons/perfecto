@@ -18,8 +18,8 @@ import {
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { ICard } from "@/types/Card/card";
 import { ICityFront } from "@/types/Basket/cityfrontType";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
+import { IProfileData } from "@/types/Profile/PersonalData";
 interface IBasketProps {
   paymentMethod: IPaymentMethod;
   deliveryMethod: IDeliveryMethod;
@@ -27,7 +27,7 @@ interface IBasketProps {
   deliveryCity: ICityFront;
   cart: any;
   cartId: string | null | undefined;
-  user: UserPersonalDataType;
+  user: IProfileData;
 }
 
 const Basket = ({

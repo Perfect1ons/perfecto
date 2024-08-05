@@ -8,7 +8,7 @@ import {
   postPesonalDataProfileFio,
   postPesonalDataProfileOrg,
 } from "@/api/clientRequest";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IProfileData } from "@/types/Profile/PersonalData";
 import { СhevronDownIcon } from "../../../../../public/Icons/Icons";
 const UserPersonalData = () => {
   const cities = [
@@ -24,8 +24,8 @@ const UserPersonalData = () => {
     { id: 10, name: "Другое" },
   ];
 
-  const [data, setData] = useState<UserPersonalDataType>();
-  const [initialData, setInitialData] = useState<UserPersonalDataType>();
+  const [data, setData] = useState<IProfileData>();
+  const [initialData, setInitialData] = useState<IProfileData>();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
@@ -91,8 +91,8 @@ const UserPersonalData = () => {
     // Проверяем, изменились ли данные относительно начальных значений
     return Object.keys(data).some(
       (key) =>
-        data[key as keyof UserPersonalDataType] !==
-        initialData[key as keyof UserPersonalDataType]
+        data[key as keyof IProfileData] !==
+        initialData[key as keyof IProfileData]
     );
   };
 

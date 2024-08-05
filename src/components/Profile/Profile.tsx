@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { ICard } from "@/types/Card/card";
 import { Item } from "@/types/OrdersHistory/OrdersHistory";
-import { UserPersonalDataType } from "@/types/Profile/PersonalData";
+import { IProfileData } from "@/types/Profile/PersonalData";
 import OrderHistoryCard from "./ProfileCards/OrderHistoryCard";
 import FavoritesCard from "./ProfileCards/FavoritesCard";
 import BasketCard from "./ProfileCards/BasketCard";
@@ -18,8 +18,8 @@ import { AuthContext } from "@/context/AuthContext";
 
 interface IProfileProps {
   history: Item[];
-  data: UserPersonalDataType;
-  orders: CurrentOrdersType
+  data: IProfileData;
+  orders: CurrentOrdersType;
 }
 
 

@@ -1,0 +1,6 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+
+.confirm{
+    @include mixin.font(16px,400,125%,var(--dark));
+}

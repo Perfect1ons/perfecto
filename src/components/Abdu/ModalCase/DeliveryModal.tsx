@@ -1,7 +1,7 @@
 import cn from "clsx";
 import styles from "./style.module.scss";
-import { IVariableBuyer } from "../Abdu";
 import { ReactNode } from "react";
+import { IVariableBuyer } from "@/interfaces/baskets/basketModal";
 
 interface ICurierModalProps {
   selectDelivery: (delivery: { name: string; id: string | number }) => void;

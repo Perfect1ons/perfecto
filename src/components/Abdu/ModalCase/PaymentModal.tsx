@@ -1,7 +1,7 @@
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { IVariableBuyer } from "../Abdu";
+import { IVariableBuyer } from "@/interfaces/baskets/basketModal";
 
 interface IDeliveryModalProps {
   paymentMethod: IPaymentMethod;
