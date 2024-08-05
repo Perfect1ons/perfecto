@@ -82,8 +82,15 @@ export default function MobileNav({
   };
 
   const updateCartItemCount = () => {
-    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
-    setCartItemCount(baskets.length);
+    if (isAuthed) {
+      const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      setCartItemCount(cartCount.length);
+    } else {
+      const cartCountGuest = JSON.parse(
+        localStorage.getItem("cartItemsGuest") || "[]"
+      );
+      setCartItemCount(cartCountGuest.length);
+    }
   };
 
   useEffect(() => {
