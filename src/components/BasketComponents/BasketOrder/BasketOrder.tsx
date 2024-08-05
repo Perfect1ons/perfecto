@@ -204,7 +204,7 @@ const BasketOrder = ({
     const result = currentItems.reduce(
       (acc: any, item: any) => {
         const quantity = parseFloat(item.kol) || 0;
-        const price = parseFloat(item.price) || 0;
+        const price = parseFloat(item.cenaok) || 0;
         acc.totalQuantity += quantity;
         acc.totalPrice += quantity * price;
         return acc;
