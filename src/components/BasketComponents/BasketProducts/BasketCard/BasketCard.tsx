@@ -143,7 +143,7 @@ const BasketCard = ({
           {item?.discount_prc > 0 ? (
             <div className={styles.ItemPriceCard__cost}>
               <span className={styles.ItemPriceCard__price_new}>
-                {item.cenaok.toLocaleString("ru-RU")}
+                {item.cenaok?.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__price_new_custom}>
                   с
                 </span>
@@ -161,7 +161,7 @@ const BasketCard = ({
           ) : (
             <div className={styles.ItemPriceCard__cost}>
               <span className={styles.ItemPriceCard__price}>
-                {item?.cenaok.toLocaleString("ru-RU")}
+                {item.cenaok?.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__price_custom}>с</span>
               </span>
             </div>
