@@ -46,8 +46,10 @@ const Basket = ({
   const itemsPerPage = 20; // Show 20 items per page
 
   const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItemsGuest, setCartItemsGuest] = useState<any[]>([]);
 
   const storedCartItems = localStorage.getItem("cartItems");
+  const storedCartItemsGuest = localStorage.getItem("cartItemsGuest");
 
   const isMobile = useMediaQuery("(max-width: 480px)");
   useEffect(() => {
@@ -55,13 +57,19 @@ const Basket = ({
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));
     }
+    if (storedCartItemsGuest) {
+      setCartItemsGuest(JSON.parse(storedCartItemsGuest));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  const which = authToken ? cartItems : cartItemsGuest;
+  const updateLocalStorage = (items: ICard[], isGuest: boolean) => {
+    const key = isGuest ? "cartItemsGuest" : "cartItems";
+    localStorage.setItem(key, JSON.stringify(items));
+  };
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-
   const removeFromCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
@@ -69,106 +77,197 @@ const Basket = ({
     event.stopPropagation();
     event.preventDefault();
 
-    // Удаляем товар из localStorage
-    if (authToken && storedCartItems) {
-      const cartItems = JSON.parse(storedCartItems);
-      const updatedCartItems = cartItems.filter(
-        (cartItem: ICard) => cartItem.id_tov !== item.id_tov
-      );
+    const isGuest = !authToken;
+    const key = isGuest ? "cartItemsGuest" : "cartItems";
+    const storedCartItems = localStorage.getItem(key);
 
-      // Обновляем localStorage
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-      // Обновляем локальное состояние
-      setCartItems(updatedCartItems);
-      deleteBasketProductAuthedIdTov(authToken, item.id_tov);
-    } else if (!authToken && storedCartItems) {
-      const cartItems = JSON.parse(storedCartItems);
-      const updatedCartItems = cartItems.filter(
-        (cartItem: ICard) => cartItem.id_tov !== item.id_tov
-      );
-
-      // Обновляем localStorage
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-      // Обновляем локальное состояние
-      setCartItems(updatedCartItems);
-      deleteBasketProduct(cartId, item.id_tov);
-    }
-  };
-  const handleSelectAllToggle = () => {
-    // Получаем текущие данные корзины из localStorage
     if (storedCartItems) {
       const cartItems = JSON.parse(storedCartItems);
+      const updatedCartItems = cartItems.filter(
+        (cartItem: ICard) => cartItem.id_tov !== item.id_tov
+      );
 
-      // Определяем, следует ли установить все товары как выбранные или невыбранные
+      // Обновляем localStorage и состояние
+      updateLocalStorage(updatedCartItems, isGuest);
+      if (isGuest) {
+        setCartItemsGuest(updatedCartItems);
+        deleteBasketProduct(cartId, item.id_tov);
+      } else {
+        setCartItems(updatedCartItems);
+        deleteBasketProductAuthedIdTov(authToken, item.id_tov);
+      }
+    }
+  };
+
+  const handleSelectAllToggle = () => {
+    const isGuest = !authToken;
+    const key = isGuest ? "cartItemsGuest" : "cartItems";
+    const storedCartItems = localStorage.getItem(key);
+
+    if (storedCartItems) {
+      const cartItems = JSON.parse(storedCartItems);
       const allSelected = !selectAll;
       const updatedCartItems = cartItems.map((item: ICard) => ({
         ...item,
         selected: allSelected,
       }));
 
-      // Сохраняем обновленные данные в localStorage
-      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-      // Обновляем локальное состояние
+      // Обновляем localStorage и состояние
+      updateLocalStorage(updatedCartItems, isGuest);
       setCartItems(updatedCartItems);
-      setSelectAll(allSelected); // Обновляем состояние выбора всех товаров
+      setSelectAll(allSelected);
     }
   };
 
   const handleClearCart = () => {
-    // Получаем текущие данные корзины из localStorage
+    const isGuest = !authToken;
+    const key = isGuest ? "cartItemsGuest" : "cartItems";
+    const storedCartItems = localStorage.getItem(key);
+
     if (storedCartItems) {
       const cartItems = JSON.parse(storedCartItems);
+      const itemsToRemove = cartItems.filter((item: ICard) => item.selected);
+      const itemsToKeep = cartItems.filter((item: ICard) => !item.selected);
 
-      // Фильтруем только выбранные элементы
-      const itemsToRemove = cartItems.filter((item: any) => item.selected);
-      const itemsToKeep = cartItems.filter((item: any) => !item.selected);
-
-      // Если есть что удалять
       if (itemsToRemove.length > 0) {
-        // Если авторизован, отправляем запрос на сервер
         if (authToken) {
           deleteBasketProductAllAuthed(
             authToken,
             itemsToRemove.map((item: ICard) => item.id_tov)
           )
             .then(() => {
-              // Обновляем localStorage с оставшимися элементами
-              localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
-              // Обновляем локальное состояние
+              updateLocalStorage(itemsToKeep, isGuest);
               setCartItems(itemsToKeep);
               setAllItemsSelected(false);
               openModal();
             })
-            .catch((error) => {
-              console.error("Failed to clear cart:", error);
-            });
+            .catch((error) => console.error("Failed to clear cart:", error));
         } else {
-          // Отправляем запрос на сервер, если не авторизован
           deleteBasketProductAll(
             cartId,
             itemsToRemove.map((item: ICard) => item.id_tov)
           )
             .then(() => {
-              // Обновляем localStorage с оставшимися элементами
-              localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
-              // Обновляем локальное состояние
+              updateLocalStorage(itemsToKeep, isGuest);
               setCartItems(itemsToKeep);
               setAllItemsSelected(false);
               openModal();
             })
-            .catch((error) => {
-              console.error("Failed to clear cart:", error);
-            });
+            .catch((error) => console.error("Failed to clear cart:", error));
         }
       } else {
-        // Если нет выбранных элементов, просто закрываем модальное окно
         openModal();
       }
     }
   };
+
+  // const removeFromCart = (
+  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  //   item: ICard
+  // ) => {
+  //   event.stopPropagation();
+  //   event.preventDefault();
+
+  //   // Удаляем товар из localStorage
+  //   if (authToken && storedCartItems) {
+  //     const cartItems = JSON.parse(storedCartItems);
+  //     const updatedCartItems = cartItems.filter(
+  //       (cartItem: ICard) => cartItem.id_tov !== item.id_tov
+  //     );
+
+  //     // Обновляем localStorage
+  //     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+  //     // Обновляем локальное состояние
+  //     setCartItems(updatedCartItems);
+  //     deleteBasketProductAuthedIdTov(authToken, item.id_tov);
+  //   } else if (!authToken && storedCartItems) {
+  //     const cartItems = JSON.parse(storedCartItems);
+  //     const updatedCartItems = cartItems.filter(
+  //       (cartItem: ICard) => cartItem.id_tov !== item.id_tov
+  //     );
+
+  //     // Обновляем localStorage
+  //     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+  //     // Обновляем локальное состояние
+  //     setCartItems(updatedCartItems);
+  //     deleteBasketProduct(cartId, item.id_tov);
+  //   }
+  // };
+  // const handleSelectAllToggle = () => {
+  //   // Получаем текущие данные корзины из localStorage
+  //   if (storedCartItems) {
+  //     const cartItems = JSON.parse(storedCartItems);
+
+  //     // Определяем, следует ли установить все товары как выбранные или невыбранные
+  //     const allSelected = !selectAll;
+  //     const updatedCartItems = cartItems.map((item: ICard) => ({
+  //       ...item,
+  //       selected: allSelected,
+  //     }));
+
+  //     // Сохраняем обновленные данные в localStorage
+  //     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+  //     // Обновляем локальное состояние
+  //     setCartItems(updatedCartItems);
+  //     setSelectAll(allSelected); // Обновляем состояние выбора всех товаров
+  //   }
+  // };
+
+  // const handleClearCart = () => {
+  //   // Получаем текущие данные корзины из localStorage
+  //   if (storedCartItems) {
+  //     const cartItems = JSON.parse(storedCartItems);
+
+  //     // Фильтруем только выбранные элементы
+  //     const itemsToRemove = cartItems.filter((item: any) => item.selected);
+  //     const itemsToKeep = cartItems.filter((item: any) => !item.selected);
+
+  //     // Если есть что удалять
+  //     if (itemsToRemove.length > 0) {
+  //       // Если авторизован, отправляем запрос на сервер
+  //       if (authToken) {
+  //         deleteBasketProductAllAuthed(
+  //           authToken,
+  //           itemsToRemove.map((item: ICard) => item.id_tov)
+  //         )
+  //           .then(() => {
+  //             // Обновляем localStorage с оставшимися элементами
+  //             localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
+  //             // Обновляем локальное состояние
+  //             setCartItems(itemsToKeep);
+  //             setAllItemsSelected(false);
+  //             openModal();
+  //           })
+  //           .catch((error) => {
+  //             console.error("Failed to clear cart:", error);
+  //           });
+  //       } else {
+  //         // Отправляем запрос на сервер, если не авторизован
+  //         deleteBasketProductAll(
+  //           cartId,
+  //           itemsToRemove.map((item: ICard) => item.id_tov)
+  //         )
+  //           .then(() => {
+  //             // Обновляем localStorage с оставшимися элементами
+  //             localStorage.setItem("cartItems", JSON.stringify(itemsToKeep));
+  //             // Обновляем локальное состояние
+  //             setCartItems(itemsToKeep);
+  //             setAllItemsSelected(false);
+  //             openModal();
+  //           })
+  //           .catch((error) => {
+  //             console.error("Failed to clear cart:", error);
+  //           });
+  //       }
+  //     } else {
+  //       // Если нет выбранных элементов, просто закрываем модальное окно
+  //       openModal();
+  //     }
+  //   }
+  // };
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -199,8 +298,10 @@ const Basket = ({
   };
 
   // Calculate total pages based on cart length and itemsPerPage
-  const pageCount = Math.ceil(cartItems?.length / itemsPerPage);
+  const currentCartItems = authToken ? cartItems : cartItemsGuest;
 
+  // Количество страниц
+  const pageCount = Math.ceil(currentCartItems.length / itemsPerPage);
   return (
     <div className="container">
       <>
@@ -234,7 +335,7 @@ const Basket = ({
         )}
       </>
 
-      {cartItems.length <= 0 ? (
+      {(authToken ? cartItems : cartItemsGuest).length <= 0 ? (
         <section className={cn(styles.section)}>
           <div className={styles.content}>
             <div
@@ -256,63 +357,65 @@ const Basket = ({
           </Link>
         </section>
       ) : (
-        <div className={styles.basketAllContainer}>
-          <div className={styles.controlContainer}>
-            <h1 className={styles.basketTilte}>Корзина - {`#${cartId}`}</h1>
-            <button
-              aria-label="select all products"
-              className={styles.checkBoxContainer}
-              onClick={handleSelectAllToggle}
-            >
-              <span
-                className={cn("showFiltersUlContainer__check", {
-                  ["showFiltersUlContainer__checkActive"]: selectAll,
-                })}
+        <>
+          <div className={styles.basketAllContainer}>
+            <div className={styles.controlContainer}>
+              <h1 className={styles.basketTilte}>Корзина - {`#${cartId}`}</h1>
+              <button
+                aria-label="select all products"
+                className={styles.checkBoxContainer}
+                onClick={handleSelectAllToggle}
               >
-                {selectAll ? (
-                  <Image
-                    src="/img/checkIconWhite.svg"
-                    width={15}
-                    height={15}
-                    alt="check"
-                  />
-                ) : (
-                  <Image
-                    src="/img/checkIconWhite.svg"
-                    width={15}
-                    height={15}
-                    alt="check"
-                  />
-                )}
-              </span>
-              Выбрать все товары
-            </button>
-            <button
-              aria-label="delete products"
-              onClick={openModal}
-              disabled={!cartItems.some((item) => item.selected)}
-              className={styles.trashButton}
-            >
-              <TrashIcon />
-            </button>
+                <span
+                  className={cn("showFiltersUlContainer__check", {
+                    ["showFiltersUlContainer__checkActive"]: selectAll,
+                  })}
+                >
+                  {selectAll ? (
+                    <Image
+                      src="/img/checkIconWhite.svg"
+                      width={15}
+                      height={15}
+                      alt="check"
+                    />
+                  ) : (
+                    <Image
+                      src="/img/checkIconWhite.svg"
+                      width={15}
+                      height={15}
+                      alt="check"
+                    />
+                  )}
+                </span>
+                Выбрать все товары
+              </button>
+              <button
+                aria-label="delete products"
+                onClick={openModal}
+                disabled={!cartItems.some((item) => item.selected)}
+                className={styles.trashButton}
+              >
+                <TrashIcon />
+              </button>
+            </div>
+            <div className={styles.cardContainer}>
+              <BasketProducts
+                items={authToken ? cartItems : cartItemsGuest}
+                cartId={cartId}
+                deleteItem={removeFromCart}
+                authToken={authToken}
+              />
+              <BasketOrder
+                deliveryCity={deliveryCity}
+                paymentMethod={paymentMethod}
+                deliveryMethod={deliveryMethod}
+                authToken={authToken}
+                currentItems={cartItems}
+                user={user}
+              />
+            </div>
           </div>
-          <div className={styles.cardContainer}>
-            <BasketProducts
-              items={cartItems}
-              cartId={cartId}
-              deleteItem={removeFromCart}
-              authToken={authToken}
-            />
-            <BasketOrder
-              deliveryCity={deliveryCity}
-              paymentMethod={paymentMethod}
-              deliveryMethod={deliveryMethod}
-              authToken={authToken}
-              currentItems={cartItems}
-              user={user}
-            />
-          </div>
-        </div>
+        </>
       )}
       {pageCount > 1 && (
         <ReactPaginate

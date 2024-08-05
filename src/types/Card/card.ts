@@ -84,6 +84,7 @@ export interface ICard {
   ocenka: number;
   timer?: number;
   id_box?: number;
+  selected?: boolean;
 }
 
 export interface Photo {
