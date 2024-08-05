@@ -301,6 +301,7 @@ const Basket = ({
               items={cartItems}
               cartId={cartId}
               deleteItem={removeFromCart}
+              authToken={authToken}
             />
             <BasketOrder
               deliveryCity={deliveryCity}

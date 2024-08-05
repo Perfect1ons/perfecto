@@ -15,12 +15,14 @@ interface IBasketProductsProps {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
   ) => void;
+  authToken: string | undefined;
 }
 
 const BasketProducts = ({
   items,
   cartId,
   deleteItem,
+  authToken,
 }: IBasketProductsProps) => {
   // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
@@ -144,6 +146,7 @@ const BasketProducts = ({
               setShouldFocusInput={() => setShouldFocusInput(false)}
               selected={item.selected}
               id_cart={cartId}
+              authToken={authToken}
             />
           );
         })}
