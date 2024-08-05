@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import styles from "./style.module.scss";
 import { ISimilarItem } from "@/types/SimilarProduct/similarProduct";
 import Link from "next/link";
-import ItemSlider from "./ItemSlider/ItemSlider";
 import ItemDesc from "./ItemDesc/ItemDesc";
 import ItemOcenka from "./ItemOcenka/ItemOcenka";
 import ProductReview from "./ProductReview/ProductReview";
@@ -18,6 +17,10 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
+import ItemSliderSkeleton from "./ItemSlider/ItemSliderSkeleton/ItemSliderSkeleton";
+import ItemSlider from "./ItemSlider/ItemSlider";
+
+
 
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts"),

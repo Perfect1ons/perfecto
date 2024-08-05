@@ -3,10 +3,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "./style.module.scss";
 import clsx from "clsx";
-
 import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
 import "swiper/scss/navigation";
@@ -32,7 +30,6 @@ import {
 import DOMPurify from "isomorphic-dompurify";
 import ItemSliderModal from "./ItemSliderModal/ItemSliderModal";
 import useMediaQuery from "@/hooks/useMediaQuery";
-
 import "react-loading-skeleton/dist/skeleton.css";
 
 interface IPhotosProps {
@@ -134,7 +131,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
       )}
 
       <div className={styles.product__swipers}>
-        {/* Боковой слайдер */}
         <Swiper
           onSwiper={setThumbsSwiper}
           slidesPerView={6}
@@ -246,7 +242,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               key={photo.url_part ? index + 1 : index}
               className={styles.activeSlide}
             >
-              {isZoomEnabled ? (
+              {/* {isZoomEnabled ? (
                 <InnerImageZoom
                   width={500}
                   height={500}
@@ -269,7 +265,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                   zoomScale={1.6}
                   className={styles.product_img}
                 />
-              ) : (
+              ) : ( */}
                 <Image
                   width={500}
                   height={500}
@@ -285,7 +281,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                   onClick={modalSliderOpenOrClose}
                   loading="lazy"
                 />
-              )}
+              {/* )} */}
             </SwiperSlide>
           ))}
           {paginationEnabled && (
@@ -313,9 +309,6 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
           </button>
         </Swiper>
       </div>
-      {/* <div className={styles.banner}>
-        <ItemBanner />
-      </div> */}
     </>
   );
 };

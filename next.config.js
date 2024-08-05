@@ -2,10 +2,7 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true,
   reactStrictMode: true,
-  optimizeFonts: true,
-  compress: true,
   experimental: {
     optimizePackageImports: ["swiper", "clsx", "react-loading-skeleton"],
   },
@@ -87,9 +84,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        headers: [
-          { key: "Content-Type", value: "application/json" },
-        ],
+        headers: [{ key: "Content-Type", value: "application/json" }],
       },
     ];
   },

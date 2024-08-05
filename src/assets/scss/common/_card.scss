@@ -200,6 +200,8 @@
 
     &_title {
       @include mixin.font(14px, 400, 1.1, var(--gray-dark));
+      text-wrap: wrap;
+      word-break: break-all;
       opacity: 0.8;
       padding: 2px 0 0 0;
       height: 34.1px;

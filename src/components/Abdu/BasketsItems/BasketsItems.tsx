@@ -5,6 +5,7 @@ import BasketsCard from "./BasketsCard";
 import { url } from "@/utils/url";
 import { removeProductFromCart, toggleProductSelection } from "@/store/reducers/cart.reducer";
 import { useDispatch } from "react-redux";
+import styles from './style.module.scss'
 
 interface IBasketItemsProps {
   cartData: IBasketItems[];
@@ -64,7 +65,7 @@ const BasketsItems = ({ cartData }: IBasketItemsProps) => {
     dispatch(toggleProductSelection(id));
   };
   return (
-    <div>
+    <div className={styles.cards}>
       {cartData.map((item) => {
         const imageUrl =
           item.photos.length > 0
