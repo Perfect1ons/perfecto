@@ -42,23 +42,24 @@ const CartReducerBtn = ({
 
   // Fetch and set the quantity from localStorage or basket
   useEffect(() => {
-    if (token) {
-      const item = cartItems.find((res: any) => res.id_tov === data.id_tov);
-      const initialQuantity = item
-        ? parseInt(item.quantity) || parseInt(item.kol) || 0
-        : 0;
-      setQuantity(initialQuantity);
+    const getStoredBasket = (key: string) => {
+      return JSON.parse(localStorage.getItem(key) || "[]");
+    };
+    const findCardInBasket = (basket: any[], id: number) => {
+      return basket.find((res: any) => parseInt(res.id_tov) === id);
+    };
+    const storedBasket = token
+      ? getStoredBasket("cartItems")
+      : getStoredBasket("cartItemsGuest");
+    const kolCard = findCardInBasket(storedBasket, data.id_tov);
+    if (kolCard) {
+      setQuantity(parseInt(kolCard.quantity) || parseInt(kolCard.kol) || 0);
     } else {
-      const item = cartItemsGuest.find(
-        (res: any) => res.id_tov === data.id_tov
-      );
-      const initialQuantity = item
-        ? parseInt(item.quantity) || parseInt(item.kol) || 0
-        : 0;
-      setQuantity(initialQuantity);
+      setQuantity(0);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.id_tov]);
+  }, [data.id_tov, data.minQty, token]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
@@ -207,13 +208,11 @@ const CartReducerBtn = ({
 
       try {
         if (token && data.id_tov) {
-          const item = await deleteBasketProductAuthedIdTov(token, data.id_tov);
-          if (item) {
-            const updatedItems = cartItems.filter(
-              (cartItem: any) => cartItem.id_tov !== data.id_tov
-            );
-            updateLocalStorage(updatedItems);
-          }
+          await deleteBasketProductAuthedIdTov(token, data.id_tov);
+          const updatedItems = cartItems.filter(
+            (cartItem: any) => cartItem.id_tov !== data.id_tov
+          );
+          updateLocalStorage(updatedItems);
         } else {
           await deleteBasketProduct(id_cart, data.id_tov);
           const updatedItems = cartItemsGuest.filter(
