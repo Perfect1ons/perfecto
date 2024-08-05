@@ -74,11 +74,13 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
         );
 
         if (item) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+          let cartItems = JSON.parse(
+            localStorage.getItem("cartItemsGuest") || "[]"
+          );
 
           cartItems.push(item);
 
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
         }
       } catch (error) {
         console.log("error", error);

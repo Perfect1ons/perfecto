@@ -12,7 +12,6 @@ import cn from "clsx";
 import InputMask from "react-input-mask";
 import ChosingPaymentModal from "./ChosingPaymentModal/ChosingPaymentModal";
 import AuthModal from "@/components/AuthModal/AuthModal";
-import { Model } from "@/types/Basket/getBasketProduct";
 import ChosingDeliveryModal from "./ChosingDeliveryModal/ChosingDeliveryModal";
 import { getExitsUser, postBoxOrder } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";

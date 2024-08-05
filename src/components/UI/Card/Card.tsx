@@ -22,9 +22,6 @@ import {
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
-import { RootState } from "@/store";
-import { useDispatch, useSelector } from "react-redux";
-import { setBasket } from "@/store/reducers/basket.reducer";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -48,8 +45,6 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
-  const basket = useSelector((state: RootState) => state.basket.basket);
-  const dispatch = useDispatch();
 
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>

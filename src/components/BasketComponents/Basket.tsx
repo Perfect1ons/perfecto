@@ -13,19 +13,10 @@ import {
   deleteBasketProduct,
   deleteBasketProductAll,
   deleteBasketProductAllAuthed,
-  deleteBasketProductAuthed,
   deleteBasketProductAuthedIdTov,
 } from "@/api/clientRequest";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { ICard } from "@/types/Card/card";
-import { useDispatch, useSelector } from "react-redux";
-import { setBasket } from "@/store/reducers/basket.reducer";
-import {
-  removeItem,
-  toggleSelectAllProducts,
-} from "@/store/reducers/basket.reducer";
-import { RootState } from "@/store";
-import { clearSelectedProducts } from "@/store/reducers/basket.reducer";
 import { ICityFront } from "@/types/Basket/cityfrontType";
 import { UserPersonalDataType } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
