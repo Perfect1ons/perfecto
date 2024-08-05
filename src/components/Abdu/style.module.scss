@@ -1,5 +1,20 @@
 @use "../../assets/scss/common/mixins" as mixin;
 
+.price_container {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.price {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.spin {
+  transform: rotateX(360deg);
+}
+
+
 .choose__delivery {
   max-height: 58px;
   @include mixin.flex(center, space-between, null, 10px);
@@ -34,7 +49,6 @@
 
 .delivery__info {
   @include mixin.flex(center, center, column,3px);
-
   &_dostavka {
     @include mixin.font(16px, 400, 100%, var(--dark));
   }

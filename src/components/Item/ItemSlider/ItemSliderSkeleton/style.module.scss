@@ -1,0 +1,9 @@
+@use '../../../../assets/scss/common/mixins' as mixin;
+
+.slider__skeleton{
+    @include mixin.flex(flex-start,null,null,15px);
+}
+
+.leftPart{
+    @include mixin.flex(flex-start,null,column,13px)
+}

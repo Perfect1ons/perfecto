@@ -50,6 +50,33 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
+  const addToFavorite = () => setAuthVisible(false);
+
+  const updateCounts = () => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const cartCountGuest = JSON.parse(
+      localStorage.getItem("cartItemsGuest") || "[]"
+    );
+    setLinks((prevLinks) =>
+      prevLinks.map((link) => {
+        if (link.href === "/favorites") {
+          return { ...link, count: authStatus ? favorites.length : 0 };
+        }
+        if (link.href === "/profile") {
+          return { ...link, count: notif };
+        }
+        if (link.href === "/cart") {
+          if (isAuthed) {
+            return { ...link, count: cartCount.length };
+          } else {
+            return { ...link, count: cartCountGuest.length };
+          }
+        }
+        return link;
+      })
+    );
+  };
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");

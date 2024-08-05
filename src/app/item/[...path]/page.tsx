@@ -3,15 +3,13 @@ import {
   getCardProduct,
   getSimilarProduct,
 } from "@/api/requests";
+import ItemPage from "@/components/Item/Item";
 import ItemMainSkeleton from "@/components/Item/ItemMainSkeleton/ItemMainSkeleton";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 
 const DynamicJsonLd = dynamic(() => import("@/utils/jsonld"));
-const DynamicItemPage = dynamic(() => import("@/components/Item/Item"), {
-  loading: () => <ItemMainSkeleton/>
-})
 
 interface Params {
   params: { path: string };
@@ -32,7 +30,7 @@ export default async function item({ params: { path } }: Params) {
     return (
       <>
         <DynamicJsonLd meta={data.meta} data={data.items} />
-        <DynamicItemPage
+        <ItemPage
           authToken={authToken}
           data={data}
           similar={similarData}
@@ -47,7 +45,7 @@ export default async function item({ params: { path } }: Params) {
   return (
     <>
       <DynamicJsonLd meta={data.meta} data={data.items} />
-      <DynamicItemPage authToken={authToken} data={data} />
+      <ItemPage authToken={authToken} data={data} />
     </>
   );
 }

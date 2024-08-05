@@ -48,11 +48,10 @@ const Basket = ({
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [cartItemsGuest, setCartItemsGuest] = useState<any[]>([]);
 
-  const storedCartItems = localStorage.getItem("cartItems");
-  const storedCartItemsGuest = localStorage.getItem("cartItemsGuest");
-
   const isMobile = useMediaQuery("(max-width: 480px)");
   useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    const storedCartItemsGuest = localStorage.getItem("cartItemsGuest");
     // Get cartItems from localStorage
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems));

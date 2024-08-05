@@ -3,12 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image"; // Assuming you're using Next.js Image component
 import styles from "./style.module.scss";
 import { XMark, chevronDownIcon } from "../../../../../public/Icons/Icons";
-import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import { url } from "@/components/temporary/data";
 import InnerImageZoom from "react-inner-image-zoom";
-import clsx from "clsx";
 import ItemPriceCard from "../../ItemPriceCard/ItemPriceCard";
-
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.css";
 interface IReviewModal {
   photos: ICardProductItems; // Accessing the photos property from Items
   isOpen: boolean;
@@ -74,24 +74,21 @@ const ItemSliderModal = ({
         {zoom ? (
           <div className={styles.photos}>
             {photos.items.photos.map((photo, index) => {
+              const imageUrl = photo.url_part.startsWith("https://goods")
+                ? `${photo.url_part}700-nw.jpg`
+                : photo.url_part.startsWith("https://")
+                ? photo.url_part
+                : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`;
               return (
                 <InnerImageZoom
                   key={index}
                   width={750}
                   height={750}
                   src={
-                    photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}700-nw.jpg`
-                      : photo.url_part.startsWith("https://")
-                      ? photo.url_part
-                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+                   imageUrl
                   }
                   zoomSrc={
-                    photo.url_part.startsWith("https://goods")
-                      ? `${photo.url_part}700-nw.jpg`
-                      : photo.url_part.startsWith("https://")
-                      ? photo.url_part
-                      : `${url}nal/img/${photos.items.id_post}/b_${photo.url_part}`
+                    imageUrl
                   }
                   zoomType="hover"
                   hideHint={true}

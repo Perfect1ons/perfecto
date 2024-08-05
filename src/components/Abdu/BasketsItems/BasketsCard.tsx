@@ -35,6 +35,7 @@ const BasketsCard = ({
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
+
         <div className={styles.leftPart__imageContainer}>
           <Image
             className={styles.leftPart__imageContainer__image}
@@ -70,6 +71,7 @@ const BasketsCard = ({
             </span>
           </div>
         </div>
+
         <div className={styles.leftPart__informationContainer}>
           <Link className="link" href={`/item/${item.id_tov}/${item.url}`}>
             <h2 className={styles.leftPart__informationContainer__title}>
@@ -100,7 +102,9 @@ const BasketsCard = ({
             </p>
           </div>
         </div>
+
       </div>
+
       <div className={styles.rigthPart}>
         <div className={styles.rigthPart__priceContainer}>
           {item?.discount_prc > 0 ? (
@@ -155,7 +159,7 @@ const BasketsCard = ({
           </div> */}
           <div className={styles.quantityContainer}>
             <span className={styles.priceCustomContainer}>
-              кол-во: {item.quantity} шт =
+              кол-во: {item.kol} шт =
             </span>
             <span className={styles.priceCustomContainer}>
               {totalPrice.toLocaleString("ru-RU")}

@@ -36,7 +36,9 @@ const CartReducerBtn = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-  const cartItemsGuest = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  const cartItemsGuest = JSON.parse(
+    localStorage.getItem("cartItemsGuest") || "[]"
+  );
 
   // Fetch and set the quantity from localStorage or basket
   useEffect(() => {
@@ -142,7 +144,11 @@ const CartReducerBtn = ({
   };
 
   const updateLocalStorage = (updatedItems: any[]) => {
-    localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+    if (token) {
+      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+    } else {
+      localStorage.setItem("cartItemsGuest", JSON.stringify(updatedItems));
+    }
   };
 
   const addToCart = async (
