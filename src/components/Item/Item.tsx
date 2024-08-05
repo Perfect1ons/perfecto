@@ -18,14 +18,9 @@ import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
 import ItemSliderSkeleton from "./ItemSlider/ItemSliderSkeleton/ItemSliderSkeleton";
+import ItemSlider from "./ItemSlider/ItemSlider";
 
-const ItemSlider = dynamic(
-  () => import("./ItemSlider/ItemSlider"),
-  {
-    ssr: false,
-    loading: () => <ItemSliderSkeleton/>
-  }
-);
+
 
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts"),
