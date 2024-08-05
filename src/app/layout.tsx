@@ -38,6 +38,7 @@ const ScrollToTopButton = dynamic(
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
+  display: "swap"
 });
 
 export const metadata: Metadata = {

@@ -1,12 +1,6 @@
 "use client";
-import styles from "./style.module.scss";
-import {
-  AuthIcon,
-  BellIcon,
-  CartIcon,
-  FavoritesIcon,
-} from "../../../../public/Icons/Icons";
 import { useState, useEffect, useContext } from "react";
+import styles from "./style.module.scss";
 import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -14,6 +8,12 @@ import AuthModal from "@/components/AuthModal/AuthModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { AuthContext } from "@/context/AuthContext";
+import {
+  AuthIcon,
+  BellIcon,
+  CartIcon,
+  FavoritesIcon,
+} from "../../../../public/Icons/Icons";
 
 interface ILinks {
   href: string;
@@ -50,29 +50,30 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-  const addToFavorite = () => setAuthVisible(false);
-  const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-  const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-  const updateCounts = () => {
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => {
-        if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
-        }
-        if (link.href === "/profile") {
-          return { ...link, count: notif };
-        }
-        if (link.href === "/cart") {
-          // return { ...link, count: cartItems.length };
-          return { ...link, count: cartCount.length };
-        }
-        return link;
-      })
-    );
-  };
 
   useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+    const updateCounts = () => {
+      setLinks((prevLinks) =>
+        prevLinks.map((link) => {
+          if (link.href === "/favorites") {
+            return { ...link, count: authStatus ? favorites.length : 0 };
+          }
+          if (link.href === "/profile") {
+            return { ...link, count: notif };
+          }
+          if (link.href === "/cart") {
+            return { ...link, count: cartCount.length };
+          }
+          return link;
+        })
+      );
+    };
+
     updateCounts();
+
     const favoritesListener = () => updateCounts();
     const cartListener = () => updateCounts();
 
@@ -83,8 +84,6 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
       window.removeEventListener("favoritesUpdated", favoritesListener);
       window.removeEventListener("cartUpdated", cartListener);
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notif, authStatus]);
 
   return (
@@ -192,3 +191,4 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 };
 
 export default HeaderNav;
+
