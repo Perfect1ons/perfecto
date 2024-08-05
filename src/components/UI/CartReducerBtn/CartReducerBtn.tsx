@@ -269,7 +269,8 @@ const CartReducerBtn = ({
       } else {
         const item = await postBasketProduct(newQuantity, data.id_tov);
         const itemIndex = cartItemsGuest.findIndex(
-          (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
+          (cartItem: ResponsePostBasket) =>
+            cartItem.id_tov === item.id_tov.toString()
         );
         if (itemIndex !== -1) {
           cartItemsGuest[itemIndex] = item;
