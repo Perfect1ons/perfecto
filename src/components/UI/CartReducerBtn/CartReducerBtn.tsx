@@ -33,7 +33,6 @@ const CartReducerBtn = ({
 }: ICartReducerBtnProps) => {
   const { token } = useContext(AuthContext);
   const [quantity, setQuantity] = useState<number>(0);
-  const [inputValue, setInputValue] = useState<number>(0);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -45,7 +44,6 @@ const CartReducerBtn = ({
       ? parseInt(item.quantity) || parseInt(item.kol) || 0
       : 0;
     setQuantity(initialQuantity);
-    setInputValue(initialQuantity);
   }, [data.id_tov]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,27 +53,76 @@ const CartReducerBtn = ({
     const parsedValue = value ? parseInt(value) : 0;
 
     if (!isNaN(parsedValue)) {
-      setInputValue(parsedValue);
+      setQuantity(parsedValue);
     }
   };
 
-  const handleBlur = () => {
-    if (inputValue < data.minQty) {
-      setInputValue(data.minQty);
+  // const handleBlur = () => {
+  //   if (inputValue < data.minQty) {
+  //     setInputValue(data.minQty);
+  //   }
+
+  //   if (inputValue !== quantity) {
+  //     setQuantity(inputValue);
+  //     const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  //     const itemIndex = cartItems.findIndex(
+  //       (cartItem: any) => cartItem.id_tov === data.id_tov
+  //     );
+  //     if (itemIndex !== -1) {
+  //       cartItems[itemIndex].quantity = inputValue;
+  //       cartItems[itemIndex].kol = inputValue.toString();
+  //       updateLocalStorage(cartItems);
+  //     }
+  //   }
+  // };
+  const handleBlur = async () => {
+    const updatedQuantity = Math.max(quantity, data.minQty);
+
+    // Update the local state if needed
+    if (quantity !== updatedQuantity) {
+      setQuantity(updatedQuantity);
+    }
+    // Update localStorage and server
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const itemIndex = cartItems.findIndex(
+      (cartItem: any) => cartItem.id_tov === data.id_tov
+    );
+
+    if (itemIndex !== -1) {
+      cartItems[itemIndex].quantity = updatedQuantity;
+      cartItems[itemIndex].kol = updatedQuantity.toString();
+      updateLocalStorage(cartItems);
     }
 
-    // Update the quantity state and local storage
-    if (inputValue !== quantity) {
-      setQuantity(inputValue);
-      const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-      const itemIndex = cartItems.findIndex(
-        (cartItem: any) => cartItem.id_tov === data.id_tov
-      );
-      if (itemIndex !== -1) {
-        cartItems[itemIndex].quantity = inputValue;
-        cartItems[itemIndex].kol = inputValue.toString();
-        updateLocalStorage(cartItems);
+    try {
+      if (token && data.id_box) {
+        await patchBasketProductAuthed(token, data.id_box, updatedQuantity);
+      } else if (token && data.id_tov) {
+        const item = await postBasketProductAuthedIdTov(
+          token,
+          data.id_tov,
+          updatedQuantity
+        );
+        if (item) {
+          const cartItems = JSON.parse(
+            localStorage.getItem("cartItems") || "[]"
+          );
+          const itemIndex = cartItems.findIndex(
+            (cartItem: postProductAuthResponse) =>
+              cartItem.id_tov === item.id_tov
+          );
+          if (itemIndex !== -1) {
+            cartItems[itemIndex] = item;
+          } else {
+            cartItems.push(item);
+          }
+          updateLocalStorage(cartItems);
+        }
+      } else {
+        await postBasketProduct(updatedQuantity, data.id_tov);
       }
+    } catch (error) {
+      console.error("Failed to update item quantity:", error);
     }
   };
 
@@ -235,7 +282,7 @@ const CartReducerBtn = ({
       <input
         type="text"
         className={styles.btn_screen}
-        value={inputValue}
+        value={quantity}
         onChange={handleChange}
         onBlur={handleBlur}
         min={0}
