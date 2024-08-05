@@ -176,11 +176,13 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         const data = await postBasketProduct(cardData.minQty, cardData.id_tov);
 
         if (data) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+          let cartItems = JSON.parse(
+            localStorage.getItem("cartItemsGuest") || "[]"
+          );
 
           cartItems.push(data);
 
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
         }
       } catch (error) {
         console.log("error", error);
