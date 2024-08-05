@@ -172,7 +172,19 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         console.log("error", error);
       }
     } else {
-      await postBasketProduct(cardData.minQty, cardData.id_tov);
+      try {
+        const data = await postBasketProduct(cardData.minQty, cardData.id_tov);
+
+        if (data) {
+          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+          cartItems.push(data);
+
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
     }
     setAdded(true);
   };

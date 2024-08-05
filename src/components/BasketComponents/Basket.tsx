@@ -14,6 +14,7 @@ import {
   deleteBasketProductAll,
   deleteBasketProductAllAuthed,
   deleteBasketProductAuthed,
+  deleteBasketProductAuthedIdTov,
 } from "@/api/clientRequest";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { ICard } from "@/types/Card/card";
@@ -78,7 +79,7 @@ const Basket = ({
     event.preventDefault();
 
     // Удаляем товар из localStorage
-    if (storedCartItems) {
+    if (authToken && storedCartItems) {
       const cartItems = JSON.parse(storedCartItems);
       const updatedCartItems = cartItems.filter(
         (cartItem: ICard) => cartItem.id_tov !== item.id_tov
@@ -89,6 +90,19 @@ const Basket = ({
 
       // Обновляем локальное состояние
       setCartItems(updatedCartItems);
+      deleteBasketProductAuthedIdTov(authToken, item.id_tov);
+    } else if (!authToken && storedCartItems) {
+      const cartItems = JSON.parse(storedCartItems);
+      const updatedCartItems = cartItems.filter(
+        (cartItem: ICard) => cartItem.id_tov !== item.id_tov
+      );
+
+      // Обновляем localStorage
+      localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+      // Обновляем локальное состояние
+      setCartItems(updatedCartItems);
+      deleteBasketProduct(cartId, item.id_tov);
     }
   };
   const handleSelectAllToggle = () => {
