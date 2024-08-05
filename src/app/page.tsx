@@ -25,7 +25,7 @@ import dynamic from "next/dynamic";
 const DynamicPopularCategory = dynamic(
   () => import("@/components/HomeComponents/PopularCategory/PopularCategory"),
   {
-    ssr: false,
+    ssr: true,
     loading: () => <CategorySkeleton title="Популярные категории" />,
   }
 );
