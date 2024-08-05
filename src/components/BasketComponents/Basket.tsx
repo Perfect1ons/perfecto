@@ -61,7 +61,6 @@ const Basket = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const which = authToken ? cartItems : cartItemsGuest;
   const updateLocalStorage = (items: ICard[], isGuest: boolean) => {
     const key = isGuest ? "cartItemsGuest" : "cartItems";
     localStorage.setItem(key, JSON.stringify(items));
