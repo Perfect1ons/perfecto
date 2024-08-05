@@ -15,12 +15,14 @@ interface IBasketProductsProps {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
   ) => void;
+  authToken: string | undefined;
 }
 
 const BasketProducts = ({
   items,
   cartId,
   deleteItem,
+  authToken,
 }: IBasketProductsProps) => {
   // Initialize with currentItems
   const [isModalVisible, setModalVisible] = useState(false);
@@ -118,7 +120,7 @@ const BasketProducts = ({
       {items &&
         items.map((item: Model) => {
           const imageUrl =
-            item.photos.length > 0
+            item.photos?.length > 0
               ? item.photos[0]?.url_part.startsWith("https://goods")
                 ? `${item.photos[0]?.url_part}280.jpg`
                 : item.photos[0]?.url_part.startsWith("https://")
@@ -144,6 +146,7 @@ const BasketProducts = ({
               setShouldFocusInput={() => setShouldFocusInput(false)}
               selected={item.selected}
               id_cart={cartId}
+              authToken={authToken}
             />
           );
         })}

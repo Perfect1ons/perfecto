@@ -47,19 +47,47 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.items.id);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     if (token) {
-      postBasketProductAuthed(
-        token,
-        `${data.items.minQty}`,
-        `${data.items.id_tov}`
-      );
+      try {
+        const item = await postBasketProductAuthed(
+          token,
+          `${data.items.minQty}`,
+          `${data.items.id_tov}`
+        );
+
+        if (item) {
+          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+          cartItems.push(item);
+
+          localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
     } else {
-      postBasketProduct(data.items.minQty, data.items.id_tov);
+      try {
+        const item = await postBasketProduct(
+          data.items.minQty,
+          data.items.id_tov
+        );
+
+        if (item) {
+          let cartItems = JSON.parse(
+            localStorage.getItem("cartItemsGuest") || "[]"
+          );
+
+          cartItems.push(item);
+
+          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
     }
     setAdded(true);
   };
-
   // копирования ссылки
   const [copy, setCopy] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);

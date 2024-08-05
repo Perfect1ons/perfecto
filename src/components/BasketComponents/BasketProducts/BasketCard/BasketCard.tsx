@@ -12,12 +12,11 @@ import { url } from "@/components/temporary/data";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
-import { RootState } from "@/store";
 import { useEffect, useState } from "react";
 interface IBasketCardProps {
-  item: Model;
+  item: any;
   imageUrl: string;
   isFavorite: boolean;
   rating: number;
@@ -28,6 +27,7 @@ interface IBasketCardProps {
   setShouldFocusInput: () => void;
   selected: boolean | undefined;
   id_cart: string | null | undefined;
+  authToken: string | undefined;
 }
 
 const BasketCard = ({
@@ -42,19 +42,16 @@ const BasketCard = ({
   setShouldFocusInput,
   selected,
   id_cart,
+  authToken,
 }: IBasketCardProps) => {
-  const basket = useSelector((state: RootState) => state.basket.basket);
-
   const [quantity, setQuantity] = useState<number>(0);
   useEffect(() => {
-    const storedBasket = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const kolCard = storedBasket.find((res: any) => res.id_tov === item.id_tov);
-    if (kolCard) {
-      setQuantity(kolCard.quantity || kolCard.kol || 0);
-    } else {
-      setQuantity(0);
-    }
-  }, [item.id_tov, item.minQty]);
+    const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const count = cartItems.find((res: any) => res.id_tov === item.id_tov);
+    setQuantity(
+      count ? parseInt(count.quantity) || parseInt(count.kol) || 0 : 0
+    );
+  }, [item.id_tov]);
   const formatNumber = (number: number) => {
     if (number >= 1e9) {
       return (number / 1e9).toFixed(2) + " млрд";
@@ -64,7 +61,7 @@ const BasketCard = ({
       return number.toLocaleString("ru-RU");
     }
   };
-  const totalPrice = item.cenaok * quantity;
+  const totalPrice = authToken ? item.cenaok * quantity : item.cena * quantity;
   const formattedPrice = formatNumber(totalPrice);
   const formattedQuantity = formatNumber(quantity);
   const dispatch = useDispatch();
@@ -147,7 +144,7 @@ const BasketCard = ({
           {item?.discount_prc > 0 ? (
             <div className={styles.ItemPriceCard__cost}>
               <span className={styles.ItemPriceCard__price_new}>
-                {item.cenaok.toLocaleString("ru-RU")}
+                {item.cenaok?.toLocaleString("ru-RU")}
                 <span className={styles.ItemPriceCard__price_new_custom}>
                   с
                 </span>
@@ -165,7 +162,7 @@ const BasketCard = ({
           ) : (
             <div className={styles.ItemPriceCard__cost}>
               <span className={styles.ItemPriceCard__price}>
-                {item?.cenaok.toLocaleString("ru-RU")}
+                {authToken ? item.cenaok?.toLocaleString("ru-RU") : item.cena}
                 <span className={styles.ItemPriceCard__price_custom}>с</span>
               </span>
             </div>
