@@ -53,6 +53,9 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const addToFavorite = () => setAuthVisible(false);
   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
   const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  const cartCountGuest = JSON.parse(
+    localStorage.getItem("cartItemsGuest") || "[]"
+  );
   const updateCounts = () => {
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
@@ -63,8 +66,11 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
           return { ...link, count: notif };
         }
         if (link.href === "/cart") {
-          // return { ...link, count: cartItems.length };
-          return { ...link, count: cartCount.length };
+          if (isAuthed) {
+            return { ...link, count: cartCount.length };
+          } else {
+            return { ...link, count: cartCountGuest.length };
+          }
         }
         return link;
       })

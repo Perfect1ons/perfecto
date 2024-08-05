@@ -303,7 +303,7 @@ const Basket = ({
                 paymentMethod={paymentMethod}
                 deliveryMethod={deliveryMethod}
                 authToken={authToken}
-                currentItems={cartItems}
+                currentItems={authToken ? cartItems : cartItemsGuest}
                 user={user}
               />
             </div>
