@@ -7,10 +7,7 @@ import Card from "@/components/UI/Card/Card";
 import FavoritesIsEmpty from "./FavoritesIsEmpty";
 import Image from "next/image";
 import { TrashIcon, XMark } from "../../../../public/Icons/Icons";
-import {
-  deleteFavoritesProductAllAuthed,
-  deleteFavoritesProductAuthed,
-} from "@/api/clientRequest";
+import { deleteFavoritesProductAllAuthed } from "@/api/clientRequest";
 
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
@@ -22,44 +19,47 @@ export default function Favorites({
   authToken,
 }: IFavoritesProps) {
   const [favorites, setFavorites] = useState<any[]>(favoriteData);
-  const [selectedIds, setSelectedIds] = useState<string>("");
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
-  const removeFromFavorites = (id_tov: number) => {
-    const updatedFavorites = favorites.filter((fav) => fav.id_tov !== id_tov);
-    setFavorites(updatedFavorites);
-    if (authToken) {
-      deleteFavoritesProductAuthed(authToken, id_tov);
-    }
-  };
 
   const handleSelectAll = () => {
-    if (selectedIds.split(",").length === favorites.length) {
-      // Если все элементы уже выбраны, то снимаем выделение со всех
-      setSelectedIds("");
+    if (selectedIds.length === favorites.length) {
+      setSelectedIds([]);
     } else {
-      // Иначе выбираем все элементы
-      const allIds = favorites.map((item) => item.id_tov.toString()).join(",");
+      const allIds = favorites.map((item) => item.id_tov);
       setSelectedIds(allIds);
     }
   };
+
+  const handleSelectionToggle = (id_tov: number) => {
+    const newSelectedIds = selectedIds.includes(id_tov)
+      ? selectedIds.filter((id) => id !== id_tov)
+      : [...selectedIds, id_tov];
+    setSelectedIds(newSelectedIds);
+  };
+
   const deleteFavoritesProductSelected = () => {
     if (authToken) {
-      const selectedIdsArray: number[] = selectedIds
-        .split(",")
-        .map((id) => parseInt(id, 10));
-      deleteFavoritesProductAllAuthed(authToken, selectedIdsArray)
+      deleteFavoritesProductAllAuthed(authToken, selectedIds)
         .then(() => {
+          let updatedFavorites = favorites.filter(
+            (item) => !selectedIds.includes(item.id_tov)
+          );
+          setFavorites(updatedFavorites);
+          setSelectedIds([]);
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           openModal();
         })
         .catch((error) => {
-          console.error("Failed to clear cart:", error);
+          console.error("Failed to clear favorites:", error);
         });
     }
   };
+
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -135,10 +135,11 @@ export default function Favorites({
             >
               <span
                 className={cn("showFiltersUlContainer__check", {
-                  ["showFiltersUlContainer__checkActive"]: selectedIds,
+                  ["showFiltersUlContainer__checkActive"]:
+                    selectedIds.length === favorites.length,
                 })}
               >
-                {selectedIds ? (
+                {selectedIds.length === favorites.length ? (
                   <Image
                     src="/img/checkIconWhite.svg"
                     width={15}
@@ -170,16 +171,15 @@ export default function Favorites({
             {favorites.map((item, index) => {
               return (
                 <Card
-                  removeFromFavorites={removeFromFavorites}
                   cardData={item}
                   key={index}
-                  // selectedIds={selectedIds}
-                  // setSelectedIds={setSelectedIds}
+                  selectedIds={selectedIds}
+                  isSelected={true}
+                  handleSelectionToggle={handleSelectionToggle}
                 />
               );
             })}
           </div>
-          <h1>{selectedIds}</h1>
         </>
       ) : (
         <FavoritesIsEmpty />
