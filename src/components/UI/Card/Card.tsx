@@ -16,20 +16,30 @@ import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
 import {
+  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
   postFavorite,
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
+import cn from "clsx";
 
 interface IcardDataProps {
   cardData: ICard;
-  removeFromFavorites?: (id_tov: number) => void;
   id_cart?: string | null | undefined;
+  selectedIds?: number[];
+  isSelected?: boolean;
+  handleSelectionToggle?: (id_tov: number) => void;
 }
 
-const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
+const Card = ({
+  cardData,
+  id_cart,
+  isSelected,
+  selectedIds,
+  handleSelectionToggle,
+}: IcardDataProps) => {
   const { isAuth, token } = useContext(AuthContext);
   const maxLength = 40;
   const maxLengthDdos = 32;
@@ -45,7 +55,13 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
+  const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
 
+    if (handleSelectionToggle) {
+      handleSelectionToggle(cardData.id_tov);
+    }
+  };
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -119,8 +135,8 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
       message = "Товар удален из избранного.";
-      if (removeFromFavorites) {
-        removeFromFavorites(cardData.id_tov);
+      if (token) {
+        deleteFavoritesProductAuthed(token, cardData.id_tov);
       }
     } else {
       postFavorite(cardData.id_tov, 1, token);
@@ -140,7 +156,6 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
     setModalMessage(message);
     setModalVisible(true);
   };
-
   const handleModalClose = () => {
     setModalVisible(false);
   };
@@ -255,6 +270,33 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
           >
             <CardFavoritesIcon />
           </span>
+          {isSelected && (
+            <div className="checkBoxPosition">
+              <span
+                onClick={handleSelectedToggle}
+                className={cn("showFiltersUlContainer__check", {
+                  ["showFiltersUlContainer__checkActive"]:
+                    selectedIds?.includes(cardData.id_tov),
+                })}
+              >
+                {selectedIds?.includes(cardData.id_tov) ? (
+                  <Image
+                    src="/img/checkIconWhite.svg"
+                    width={15}
+                    height={15}
+                    alt="check"
+                  />
+                ) : (
+                  <Image
+                    src="/img/checkIconWhite.svg"
+                    width={15}
+                    height={15}
+                    alt="check"
+                  />
+                )}
+              </span>
+            </div>
+          )}
         </div>
         <div className="card__info">
           <Link
