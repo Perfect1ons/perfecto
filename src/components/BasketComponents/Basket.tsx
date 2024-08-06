@@ -49,6 +49,7 @@ const Basket = ({
   const [cartItemsGuest, setCartItemsGuest] = useState<any[]>([]);
 
   const isMobile = useMediaQuery("(max-width: 480px)");
+
   useEffect(() => {
     const storedCartItems = localStorage.getItem("cartItems");
     const storedCartItemsGuest = localStorage.getItem("cartItemsGuest");
@@ -66,9 +67,11 @@ const Basket = ({
     const key = isGuest ? "cartItemsGuest" : "cartItems";
     localStorage.setItem(key, JSON.stringify(items));
   };
+
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
   const removeFromCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     item: ICard
@@ -194,6 +197,7 @@ const Basket = ({
 
   // Количество страниц
   const pageCount = Math.ceil(currentCartItems.length / itemsPerPage);
+
   return (
     <div className="container">
       <>
