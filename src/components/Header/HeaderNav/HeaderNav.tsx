@@ -51,13 +51,14 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
-
+useEffect(() => {
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
     const cartCountGuest = JSON.parse(
       localStorage.getItem("cartItemsGuest") || "[]"
     );
+
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
@@ -78,40 +79,20 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
     );
   };
 
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+  updateCounts();
 
-    const updateCounts = () => {
-      setLinks((prevLinks) =>
-        prevLinks.map((link) => {
-          if (link.href === "/favorites") {
-            return { ...link, count: authStatus ? favorites.length : 0 };
-          }
-          if (link.href === "/profile") {
-            return { ...link, count: notif };
-          }
-          if (link.href === "/cart") {
-            return { ...link, count: cartCount.length };
-          }
-          return link;
-        })
-      );
-    };
+  const favoritesListener = () => updateCounts();
+  const cartListener = () => updateCounts();
 
-    updateCounts();
+  window.addEventListener("favoritesUpdated", favoritesListener);
+  window.addEventListener("cartUpdated", cartListener);
 
-    const favoritesListener = () => updateCounts();
-    const cartListener = () => updateCounts();
+  return () => {
+    window.removeEventListener("favoritesUpdated", favoritesListener);
+    window.removeEventListener("cartUpdated", cartListener);
+  };
+}, [notif, authStatus, isAuthed]);
 
-    window.addEventListener("favoritesUpdated", favoritesListener);
-    window.addEventListener("cartUpdated", cartListener);
-
-    return () => {
-      window.removeEventListener("favoritesUpdated", favoritesListener);
-      window.removeEventListener("cartUpdated", cartListener);
-    };
-  }, [notif, authStatus]);
 
   return (
     <nav className={styles.nav}>
@@ -218,4 +199,3 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 };
 
 export default HeaderNav;
-

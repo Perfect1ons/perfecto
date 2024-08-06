@@ -43,14 +43,14 @@ const AllFiltersMobile = ({
   handleSortChange,
 }: IPropsMobileFilter) => {
   const searchParams = useSearchParams();
-  const initialBrand = searchParams.get("brand")?.split(",") || [];
+  const initialBrand = searchParams?.get("brand")?.split(",") || [];
   const initialPriceMin =
-    parseInt(searchParams.get("priceMin") || "", 10) || null;
+    parseInt(searchParams?.get("priceMin") || "", 10) || null;
   const initialPriceMax =
-    parseInt(searchParams.get("priceMax") || "", 10) || null;
-  const initialDost = searchParams.get("dost")?.split(",") || [];
+    parseInt(searchParams?.get("priceMax") || "", 10) || null;
+  const initialDost = searchParams?.get("dost")?.split(",") || [];
   const initialAdditionalFilter =
-    searchParams.get("additional_filter")?.split(",") || [];
+    searchParams?.get("additional_filter")?.split(",") || [];
 
   const [visibleFilter, setVisibleFilter] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string[]>(initialBrand);

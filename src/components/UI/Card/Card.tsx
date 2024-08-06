@@ -168,8 +168,8 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
           let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
 
           cartItems.push(data);
-
           localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
         }
       } catch (error) {
         console.log("error", error);
@@ -184,11 +184,11 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
           );
 
           cartItemsGuest.push(data);
-
           localStorage.setItem(
             "cartItemsGuest",
             JSON.stringify(cartItemsGuest)
           );
+          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
         }
       } catch (error) {
         console.log("error", error);
@@ -196,6 +196,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
     }
     setAdded(true);
   };
+
   const handleAddToCart = async () => {
     await addToCart();
     setShouldFocusInput(true);
@@ -322,7 +323,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!isHomePage && !added && (
+          {!added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
@@ -341,7 +342,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
               </button>
             </div>
           )}
-          {!isHomePage && id_cart && added && (
+          {added && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
