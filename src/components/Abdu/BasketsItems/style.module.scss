@@ -5,6 +5,22 @@
   width: 100%;
 }
 
+.cards__skeleton{
+  @include mixin.flex(null,null,column,10px);
+}
+
+.card_skeleton{
+  width: 100%;
+  height: 176px;
+}
+
+.checkBoxContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+}
+
 .cardsContainer {
   @include mixin.flex(flex-start, space-between, null, 15px);
   border-radius: 5px;
@@ -21,6 +37,7 @@
 }
 .leftPart {
   width: 100%;
+  position: relative;
   @include mixin.flex(flex-start, null, null, 10px);
   &__imageContainer {
     position: relative;
@@ -36,6 +53,7 @@
   }
   &__informationContainer {
     @include mixin.flex(flex-start, null, column, 10px);
+    width: 100%;
     &__title {
       max-width: 380px;
       @include mixin.font(14px, 400, null, #112b66);
@@ -54,7 +72,7 @@
   width: 100%;
   @include mixin.flex(center, space-between, null, 5px);
   &__priceContainer {
-    @include mixin.flex(null, null, column, 5px);
+    @include mixin.flex(flex-start, null, column, 5px);
     &__buttons {
       // opacity: 0;
       // visibility: hidden;
@@ -185,4 +203,17 @@
   line-height: 100%;
   color: var(--dark);
   border-bottom: 1px solid var(--dark);
+}
+
+.iconBasket {
+  cursor: pointer;
+  @include mixin.flex(center, center, null, null);
+  color: var(--light-gray);
+  background: var(--super-light-white);
+  border-radius: 5px;
+  padding: 7px 7px;
+  cursor: pointer;
+  &:hover {
+    color: var(--secondary-gray);
+  }
 }

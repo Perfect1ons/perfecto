@@ -172,7 +172,7 @@
     margin-bottom: 15px;
 
     width: 100%;
-    @include mixin.flex(center, null, column, null);
+    @include mixin.flex(center, null, column, 20px);
     @media screen and (max-width: 576px) {
       margin: 0;
     }

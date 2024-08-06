@@ -495,7 +495,6 @@ export const postBasketProductAuthed = (
     })
     .json();
 };
-
 export const deleteBasketProductAuthed = (
   token: string,
   id_box: number,
@@ -557,7 +556,6 @@ export const patchBasketProductAuthed = (
     })
     .json();
 };
-
 export const deleteBasketProductAllAuthed = async (
   token: string,
   ids_tov: number[]
@@ -622,7 +620,6 @@ export const removeFavorite = async (
     })
     .json();
 };
-
 export const postFavorite = async (
   id_tov: number,
   kol: number,
@@ -652,7 +649,6 @@ export const postFavorite = async (
     return false;
   }
 };
-
 export const getExitsUser = (tel: string): Promise<IExitsUser> => {
   return maxkgnocache.get(`prof/exists-user?tel=${tel}`).json();
 };
@@ -680,14 +676,43 @@ export const postBasketProductAuthedIdTov = async (
   }
 };
 
+//! abdu
 
-
-//!
-
-export const getPaymentMethodClient = (idUser: any): Promise<IPaymentMethod> => {
+export const getPaymentMethodClient = (
+  idUser: any
+): Promise<IPaymentMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
-export const getDeliveryMethodClient = (idUser: any): Promise<IDeliveryMethod> => {
+export const getDeliveryMethodClient = (
+  idUser: any
+): Promise<IDeliveryMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+};
+
+export const deleteAuthedTovars = async (
+  token: any,
+  ids_tov: string
+): Promise<boolean> => {
+  const formData = new FormData();
+  formData.append("id_tov", ids_tov);
+  try {
+    const response = await maxkgnocache.post(`box/del-box-all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
 };

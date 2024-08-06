@@ -261,7 +261,13 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                     onChange={ChangeHandler}
                     required
                   />
-                  <label className="mail__inputLabel"> Ваше имя</label>
+                  <label
+                    style={{ background: "white" }}
+                    className="mail__inputLabel"
+                  >
+                    {" "}
+                    Ваше имя
+                  </label>
                 </div>
                 {errors.name && <p className="warningInput">{errors.name}</p>}
               </div>
@@ -275,7 +281,12 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                   className={cn("mail__textareaField")}
                   required
                 ></textarea>
-                <label className="mail__inputLabel">Достоинства</label>
+                <label
+                  style={{ background: "white" }}
+                  className="mail__inputLabel"
+                >
+                  Достоинства
+                </label>
               </div>
               <div className="mail__label">
                 <textarea
@@ -287,7 +298,13 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                   className="mail__textareaField"
                   required
                 ></textarea>
-                <label className="mail__inputLabel"> Недостатки</label>
+                <label
+                  style={{ background: "white" }}
+                  className="mail__inputLabel"
+                >
+                  {" "}
+                  Недостатки
+                </label>
               </div>
               <div className="mail__label">
                 <textarea
@@ -299,7 +316,12 @@ const ReviewModal = ({ func, data }: IReviewModal) => {
                   className="mail__textareaField"
                   required
                 ></textarea>
-                <label className="mail__inputLabel">Добавить комментарий</label>
+                <label
+                  style={{ background: "white" }}
+                  className="mail__inputLabel"
+                >
+                  Добавить комментарий
+                </label>
               </div>
             </div>
             <div className={styles.container_selectMedia}>

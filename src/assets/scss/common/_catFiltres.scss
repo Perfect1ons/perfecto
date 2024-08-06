@@ -141,6 +141,7 @@
   }
   &__check {
     @include mixin.flex(center, center, null, null);
+    cursor: pointer;
     width: 22px;
     height: 22px;
     background: var(--white);

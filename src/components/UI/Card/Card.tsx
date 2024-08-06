@@ -145,10 +145,6 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
     setModalVisible(false);
   };
 
-  const handleCardClick = async () => {
-    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
-  };
-
   const handleCartEmpty = () => {
     setAdded(false);
     setQuantity(0);
@@ -224,7 +220,7 @@ const Card = ({ cardData, removeFromFavorites, id_cart }: IcardDataProps) => {
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
       </InformationModal>
-      <div className="card" onClick={handleCardClick}>
+      <div className="card" >
         {cardData.status !== 6 && (
           <div className="card__notAvailable">
             <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>

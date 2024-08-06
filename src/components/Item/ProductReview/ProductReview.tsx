@@ -117,7 +117,7 @@ const ProductReview = ({ data, func, authToken }: IProductReviewProps) => {
             disabled={data.status !== 6}
             onClick={handleOtz}
             className={cn(
-              "default__buttons_showMore",
+              "showMore__button",
               data.status !== 6 && "notallowed"
             )}
           >

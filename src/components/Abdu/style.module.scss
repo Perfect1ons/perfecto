@@ -61,6 +61,7 @@
 
 .basket__container{
   @include mixin.flex(flex-start,space-between,null,15px);
+  width: 100%;
 }
 
 .checkBoxContainer {
