@@ -61,6 +61,18 @@ const Basket = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const storedCartItems = localStorage.getItem("cartItems");
+    const storedCartItemsGuest = localStorage.getItem("cartItemsGuest");
+    if (storedCartItems) {
+      setCartItems(JSON.parse(storedCartItems));
+    }
+    if (storedCartItemsGuest) {
+      setCartItemsGuest(JSON.parse(storedCartItemsGuest));
+    }
+    window.dispatchEvent(new Event("cartUpdated"));
+  }, [cartItems, cartItemsGuest]);
   const updateLocalStorage = (items: ICard[], isGuest: boolean) => {
     const key = isGuest ? "cartItemsGuest" : "cartItems";
     localStorage.setItem(key, JSON.stringify(items));
