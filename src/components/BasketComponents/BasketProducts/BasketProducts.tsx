@@ -36,10 +36,6 @@ const BasketProducts = ({
     updateFavoriteItems();
   }, []);
 
-  useEffect(() => {
-    window.dispatchEvent(new Event("cartUpdated"));
-  }, []);
-
   const updateFavoriteItems = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     const updatedFavorites = favorites.reduce(

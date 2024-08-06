@@ -13,7 +13,6 @@ import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
 import { toggleProductSelection } from "@/store/reducers/basket.reducer";
 import { useDispatch } from "react-redux";
-import { Model } from "@/types/Basket/getBasketProduct";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 interface IBasketCardProps {
