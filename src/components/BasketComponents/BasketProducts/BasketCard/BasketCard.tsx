@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { Model } from "@/types/Basket/getBasketProduct";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
+import useLocalStorage from "@/hooks/useLocalStorage";
 interface IBasketCardProps {
   item: any;
   imageUrl: string;
@@ -46,6 +47,8 @@ const BasketCard = ({
   authToken,
 }: IBasketCardProps) => {
   const [quantity, setQuantity] = useState<number>(0);
+  // const [quantity, setQuantity] = useLocalStorage(`quantity_${item.id_tov}`, 0);
+
   const { token } = useContext(AuthContext);
 
   useEffect(() => {
