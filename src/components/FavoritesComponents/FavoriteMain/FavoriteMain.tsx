@@ -22,6 +22,11 @@ export default function Favorites({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    window.dispatchEvent(new Event("favoritesUpdated"));
+  }, [favorites]);
+
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -51,7 +56,6 @@ export default function Favorites({
           );
           setFavorites(updatedFavorites);
           setSelectedIds([]);
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           openModal();
         })
         .catch((error) => {
