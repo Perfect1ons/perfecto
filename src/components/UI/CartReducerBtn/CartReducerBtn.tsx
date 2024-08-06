@@ -75,83 +75,83 @@ const CartReducerBtn = ({
     }
   };
 
-  const handleBlur = async () => {
-    const updatedQuantity = Math.max(quantity, data.minQty);
-
-    // Update the local state if needed
-    if (token) {
-      if (quantity !== updatedQuantity) {
-        setQuantity(updatedQuantity);
-      }
-      // Update localStorage and server
-      const itemIndex = cartItems.findIndex(
-        (cartItem: any) => cartItem.id_tov === data.id_tov
-      );
-
-      if (itemIndex !== -1) {
-        cartItems[itemIndex].quantity = updatedQuantity;
-        cartItems[itemIndex].kol = updatedQuantity.toString();
-        updateLocalStorage(cartItems);
-      }
-    } else {
-      if (quantity !== updatedQuantity) {
-        setQuantity(updatedQuantity);
-      }
-      // Update localStorage and server
-      const itemIndex = cartItemsGuest.findIndex(
-        (cartItem: any) => cartItem.id_tov === data.id_tov
-      );
-
-      if (itemIndex !== -1) {
-        cartItemsGuest[itemIndex].quantity = updatedQuantity;
-        cartItemsGuest[itemIndex].kol = updatedQuantity.toString();
-        updateLocalStorage(cartItemsGuest);
-      }
-    }
-
-    try {
-      if (token && data.id_box) {
-        await patchBasketProductAuthed(token, data.id_box, updatedQuantity);
-      } else if (token && data.id_tov) {
-        const item = await postBasketProductAuthedIdTov(
-          token,
-          data.id_tov,
-          updatedQuantity
-        );
-        if (item) {
-          const itemIndex = cartItems.findIndex(
-            (cartItem: postProductAuthResponse) =>
-              cartItem.id_tov === item.id_tov
-          );
-          if (itemIndex !== -1) {
-            cartItems[itemIndex] = item;
-          } else {
-            cartItems.push(item);
-          }
-          updateLocalStorage(cartItems);
-        }
-      } else {
-        const item = await postBasketProduct(updatedQuantity, data.id_tov);
-        const itemIndex = cartItemsGuest.findIndex(
-          (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
-        );
-        if (itemIndex !== -1) {
-          cartItemsGuest[itemIndex] = item;
-        } else {
-          cartItemsGuest.push(item);
-        }
-        updateLocalStorage(cartItemsGuest);
-      }
-    } catch (error) {
-      console.error("Failed to update item quantity:", error);
-    }
-  };
-
   const updateLocalStorage = (updatedItems: any[]) => {
     if (token) {
       localStorage.setItem("cartItems", JSON.stringify(updatedItems));
     } else {
       localStorage.setItem("cartItemsGuest", JSON.stringify(updatedItems));
+    }
+  };
+  const handleBlur = async () => {
+    let updatedQuantity = quantity <= 0 ? data.minQty : quantity;
+
+    if (quantity !== updatedQuantity) {
+      setQuantity(updatedQuantity);
+    }
+
+    try {
+      if (token) {
+        // Update cart items and local storage for authenticated users
+        const cartItemsToUpdate = [...cartItems];
+        const itemIndex = cartItemsToUpdate.findIndex(
+          (cartItem: any) => cartItem.id_tov === data.id_tov
+        );
+
+        if (itemIndex !== -1) {
+          cartItemsToUpdate[itemIndex].quantity = updatedQuantity;
+          cartItemsToUpdate[itemIndex].kol = updatedQuantity.toString();
+          updateLocalStorage(cartItemsToUpdate);
+        }
+
+        if (data.id_box) {
+          await patchBasketProductAuthed(token, data.id_box, updatedQuantity);
+        } else if (data.id_tov) {
+          const item = await postBasketProductAuthedIdTov(
+            token,
+            data.id_tov,
+            updatedQuantity
+          );
+          if (item) {
+            const itemIndex = cartItemsToUpdate.findIndex(
+              (cartItem: postProductAuthResponse) =>
+                cartItem.id_tov === item.id_tov
+            );
+            if (itemIndex !== -1) {
+              cartItemsToUpdate[itemIndex] = item;
+            } else {
+              cartItemsToUpdate.push(item);
+            }
+            updateLocalStorage(cartItemsToUpdate);
+          }
+        }
+      } else {
+        // Update cart items and local storage for guest users
+        const cartItemsToUpdate = [...cartItemsGuest];
+        const itemIndex = cartItemsToUpdate.findIndex(
+          (cartItem: any) => cartItem.id_tov === data.id_tov
+        );
+
+        if (itemIndex !== -1) {
+          cartItemsToUpdate[itemIndex].quantity = updatedQuantity;
+          cartItemsToUpdate[itemIndex].kol = updatedQuantity.toString();
+          updateLocalStorage(cartItemsToUpdate);
+        }
+
+        const item = await postBasketProduct(updatedQuantity, data.id_tov);
+        if (item) {
+          const itemIndex = cartItemsToUpdate.findIndex(
+            (cartItem: ResponsePostBasket) => cartItem.id_tov === item.id_tov
+          );
+          if (itemIndex !== -1) {
+            cartItemsToUpdate[itemIndex] = item;
+          } else {
+            cartItemsToUpdate.push(item);
+          }
+          updateLocalStorage(cartItemsToUpdate);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to update item quantity:", error);
     }
   };
 
