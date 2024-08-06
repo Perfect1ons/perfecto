@@ -34,6 +34,7 @@ export default function Favorites({
       setSelectedIds(allIds);
     }
   };
+
   const handleSelectionToggle = (id_tov: number) => {
     const newSelectedIds = selectedIds.includes(id_tov)
       ? selectedIds.filter((id) => id !== id_tov)
@@ -45,14 +46,14 @@ export default function Favorites({
     if (authToken) {
       deleteFavoritesProductAllAuthed(authToken, selectedIds)
         .then(() => {
-          let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-          favorites = favorites.filter(
-            (item: IFavoritesModel) => !selectedIds.includes(item.id_tov)
+          let updatedFavorites = favorites.filter(
+            (item) => !selectedIds.includes(item.id_tov)
           );
-          localStorage.setItem("favorites", JSON.stringify(favorites));
+          setFavorites(updatedFavorites);
+          setSelectedIds([]);
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           openModal();
         })
-
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
         });
@@ -179,7 +180,6 @@ export default function Favorites({
               );
             })}
           </div>
-          <h1>{selectedIds}</h1>
         </>
       ) : (
         <FavoritesIsEmpty />
