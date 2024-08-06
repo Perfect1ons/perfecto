@@ -107,55 +107,53 @@ const Card = ({
       favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+  const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
+
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message: string | JSX.Element = "";
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
     if (!isAuth) {
       openAuthModal();
       return;
     }
-    if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
-      message = "Товар удален из избранного.";
-      if (token) {
-        deleteFavoritesProductAuthed(token, cardData.id_tov);
+    try {
+      if (isFavorite) {
+        favorites = favorites.filter(
+          (fav: ICard) => fav.id_tov !== cardData.id_tov
+        );
+        message = "Товар удален из избранного.";
+        if (token) {
+          await deleteFavoritesProductAuthed(token, cardData.id_tov);
+        }
+      } else {
+        // Добавляем товар в избранное
+        const response = await postFavorite(cardData.id_tov, 1, token);
+        if (response) {
+          favorites.push(response);
+          message = (
+            <>
+              Товар добавлен в избранное.{" "}
+              <Link className="linkCart" href="/favorites">
+                Нажмите, чтобы перейти к списку.
+              </Link>
+            </>
+          );
+        } else {
+          message = "Не удалось добавить товар в избранное.";
+        }
       }
-    } else {
-      postFavorite(cardData.id_tov, 1, token);
-      favorites.push(favoriteData);
-      message = (
-        <>
-          Товар добавлен в избранное.{" "}
-          <Link className="linkCart" href="/favorites">
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      setIsFavorite(!isFavorite);
+      window.dispatchEvent(new Event("favoritesUpdated"));
+      setModalMessage(message);
+      setModalVisible(true);
+    } catch (error) {
+      console.error("Error handling favorite click:", error);
+      setModalMessage("Произошла ошибка при обработке запроса.");
+      setModalVisible(true);
     }
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-    setModalMessage(message);
-    setModalVisible(true);
   };
+
   const handleModalClose = () => {
     setModalVisible(false);
   };
