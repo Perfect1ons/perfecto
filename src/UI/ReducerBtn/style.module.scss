@@ -1,0 +1,48 @@
+@use "../../assets/scss/common/mixins" as mixin;
+
+.btn {
+  @include mixin.flex(center, space-between, null, null);
+  background: var(--dark-blue);
+  padding: 7.1px 8px;
+  min-width: 150px;
+  width: 100%;
+  color: var(--white);
+  border-radius: 5px;
+  transition: all 0.3 ease-in;
+  &:hover {
+    background: #203e79;
+  }
+
+  &_left {
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
+    padding: 2px;
+    background: var(--white);
+    border-radius: 5px;
+    color: var(--dark-blue);
+
+    &:active {
+      background: var(--light-gray);
+    }
+  }
+  &_screen {
+    @include mixin.font(null, 700, null, var(--white));
+    text-align: center;
+    width: 45px;
+    border-radius: 5px;
+    &:focus {
+      border: 1px solid var(--white);
+    }
+  }
+  &_right {
+    cursor: pointer;
+    @include mixin.flex(center, center, null, null);
+    padding: 2px;
+    background: var(--white);
+    border-radius: 5px;
+    color: var(--dark-blue);
+    &:active {
+      background: var(--light-gray);
+    }
+  }
+}

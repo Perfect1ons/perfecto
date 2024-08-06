@@ -60,14 +60,14 @@ export default function CatalogProducts({
   const isMobile = useMediaQuery("(max-width: 768px)");
   const isSMobile = useMediaQuery("(max-width: 480px)");
   const searchParams = useSearchParams();
-  const initialPage = parseInt(searchParams.get("page") || "1", 10);
-  const initialBrand = searchParams.get("brand")?.split(",") || [];
-  const initialPriceMin = parseInt(searchParams.get("priceMin") || "0", 10);
-  const initialPriceMax = parseInt(searchParams.get("priceMax") || "0", 10);
-  const initialDost = searchParams.get("dost")?.split(",") || [];
+  const initialPage = parseInt(searchParams?.get("page") || "1", 10);
+  const initialBrand = searchParams?.get("brand")?.split(",") || [];
+  const initialPriceMin = parseInt(searchParams?.get("priceMin") || "0", 10);
+  const initialPriceMax = parseInt(searchParams?.get("priceMax") || "0", 10);
+  const initialDost = searchParams?.get("dost")?.split(",") || [];
   const initialAdditionalFilter =
-    searchParams.get("additional_filter")?.split(",") || [];
-  const initialSortName = searchParams.get("sort") || "id";
+    searchParams?.get("additional_filter")?.split(",") || [];
+  const initialSortName = searchParams?.get("sort") || "id";
   const [items, setItems] = useState<ICategoryModel[] | Tov[]>([]);
   const [count, setCount] = useState<number>(0);
   const [defSelectFilter, setDefSelectFilter] = useState({

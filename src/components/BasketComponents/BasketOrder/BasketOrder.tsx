@@ -225,6 +225,8 @@ const BasketOrder = ({
 
     setTotalQuantity(result.totalQuantity);
     setFormattedTotalPrice(formatNumber(result.totalPrice));
+
+    window.dispatchEvent(new Event("cartUpdated"));
   }, [currentItems, authToken]);
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
