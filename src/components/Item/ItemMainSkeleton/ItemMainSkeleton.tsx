@@ -2,7 +2,6 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 import styles from "./style.module.scss";
-import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 
 export default function ItemMainSkeleton() {
   const skeletonArray6 = new Array(6).fill(null);

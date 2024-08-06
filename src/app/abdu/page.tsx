@@ -34,13 +34,13 @@ export default async function page() {
 
   if (cartData.length > 0) {
     return (
-        <Abdu
-          // userInfo={userInfo}
-          cities={deliveryCity}
-          deliveryMethod={deliveryMethod}
-          paymentMethod={paymentMethod}
-          items={cartData}
-        />
+      <Abdu
+        // userInfo={userInfo}
+        cities={deliveryCity}
+        deliveryMethod={deliveryMethod}
+        paymentMethod={paymentMethod}
+        items={cartData}
+      />
     );
   }
 

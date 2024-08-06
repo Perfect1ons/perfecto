@@ -1,16 +1,16 @@
-@use '../../../assets/scss/common/mixins' as mixin;
-// for empty
-.cardsAllContainer {
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.cards {
+  @include mixin.flex(flex-start, flex-start, column, 15px);
   width: 100%;
-  @include mixin.flex(null, null, column, 15px);
-  user-select: none;
 }
+
 .cardsContainer {
   @include mixin.flex(flex-start, space-between, null, 15px);
   border-radius: 5px;
   padding: 10px;
   box-shadow: 0 0 5px #d7d7d7;
-  max-width: 1057px;
+  width: 100%;
   &:hover .rigthPart__priceContainer__buttons {
     opacity: 1;
     visibility: visible;

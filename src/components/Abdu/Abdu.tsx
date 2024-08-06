@@ -27,7 +27,6 @@ import {
   clearSelectedProducts,
   toggleSelectAllProducts,
 } from "@/store/reducers/cart.reducer";
-import Image from "next/image";
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
@@ -218,9 +217,55 @@ const Abdu = ({
       body.style.top = "";
     }
   }, [isModalVisible]);
+  const [price, setPrice] = useState<number>(1000);
+
+  const animatePrice = (startValue: number, endValue: number) => {
+    const priceElement = document.getElementById("price");
+    if (priceElement) {
+      const duration = 200; // Длительность анимации в миллисекундах
+      const start = performance.now();
+
+      const update = (currentTime: number) => {
+        const elapsed = currentTime - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const newValue = Math.round(
+          startValue + (endValue - startValue) * progress
+        );
+
+        priceElement.textContent = newValue.toString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      };
+
+      requestAnimationFrame(update);
+    }
+  };
+
+  const handleIncrease = () => {
+    setPrice((prevPrice) => {
+      const newPrice = prevPrice + 1000;
+      if (price >= 0) {
+        animatePrice(price, newPrice); 
+      }
+      return newPrice;
+    });
+  };
+
+  const handleDecrease = () => {
+    setPrice((prevPrice) => {
+      if (prevPrice > 0) {
+        const newPrice = Math.max(prevPrice - 1000, 0); 
+        animatePrice(price, newPrice); 
+        return newPrice;
+      }
+      return prevPrice; 
+    });
+  };
 
   return (
-    <div className="container" >
+    <div className="container">
       <CurierCitiesModal
         buyer={buyer}
         saveCity={saveCity}
@@ -264,11 +309,7 @@ const Abdu = ({
               ["showFiltersUlContainer__checkActive"]: selectAll,
             })}
           >
-            {selectAll ? (
-              <CheckIcons/>
-            ) : (
-              null
-            )}
+            {selectAll ? <CheckIcons /> : null}
           </span>
           Выбрать все товары
         </div>
@@ -307,6 +348,7 @@ const Abdu = ({
                   buyer.vid_dost !== 1 &&
                   buyer.vid_dost !== 2 && (
                     <p className={styles.delivery__info_address}>
+                      Адрес:{" "}
                       {buyer.city}
                       {location.directory.street &&
                         "," + location.directory.street}
@@ -349,16 +391,18 @@ const Abdu = ({
           </button>
         </div>
       </div>
-      {}
-      <div>
-        <h1>1:{buyer.directory}</h1>
-        <h1>2:{buyer.city}</h1>
-        <h1>2:{buyer.id_city}</h1>
-        <h1>3:{buyer.oplata}</h1>
-        <h1>4:{buyer.dost}</h1>
-        <h1>5:{buyer.id_vopl}</h1>
-        <h1>6:{buyer.vid_dost}</h1>
+      <div className={styles.price_container}>
+        <span id="price" className={styles.price}>
+          {price}
+        </span>{" "}
+        ₽
       </div>
+      <button className="showMore__button" onClick={handleIncrease}>
+        Увеличить
+      </button>
+      <button className="showMore__button" onClick={handleDecrease}>
+        Уменьшить
+      </button>
     </div>
   );
 };

@@ -225,9 +225,7 @@ const BasketOrder = ({
 
     setTotalQuantity(result.totalQuantity);
     setFormattedTotalPrice(formatNumber(result.totalPrice));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentItems]);
-
+  }, [currentItems, authToken]);
   const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
     codesCountry.kg
   );

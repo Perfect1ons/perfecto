@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { ICityFront } from "@/types/Basket/cityfrontType";
-import { XMark } from "../../../../../public/Icons/Icons";
+import { CheckIcons, XMark } from "../../../../../public/Icons/Icons";
 import clsx from "clsx";
 import styles from "./style.module.scss";
 import { IBuyer, ICityBuyer } from "@/interfaces/baskets/basketModal";
+import Image from "next/image";
 
 interface ICurierCitiesModalProps {
   buyer: IBuyer;
@@ -80,39 +81,31 @@ const CurierCitiesModal = ({
       <div className={styles.modal__content}>
         {hasResults ? (
           filteredCities.map((city) => (
-            <>
-              <button
-                onClick={() =>
-                  setCity({
-                    name: city.name,
-                    id: city.city_id,
-                  })
-                }
-                aria-label="choose delivery point"
+            <ul
+              onClick={() =>
+                setCity({
+                  name: city.name,
+                  id: city.city_id,
+                })
+              }
+              key={city.city_id}
+              className={styles.wrap_courier_point}
+            >
+              <span
                 className={clsx(
-                  styles.wrap_courier_point,
+                  "showFiltersUlContainer__check",
                   location.id_city.id === city.city_id &&
-                    styles.wrap_courier_point_active
+                    "showFiltersUlContainer__checkActive"
                 )}
               >
-                <span
-                  className={clsx(
-                    styles.wrap_courier_point_radio,
-                    location.id_city.id === city.city_id &&
-                      styles.wrap_courier_point_radio_active
-                  )}
-                >
-                  <span
-                    className={clsx(
-                      styles.wrap_courier_point_radio_dot,
-                      location.id_city.id === city.city_id &&
-                        styles.wrap_courier_point_radio_dot_active
-                    )}
-                  ></span>
-                </span>
-                {city.name}
-              </button>
-            </>
+                {location.id_city.id === city.city_id ? (
+                  <CheckIcons/>
+                ) : (
+                  null
+                )}
+              </span>
+              <li>{city.name}</li>
+            </ul>
           ))
         ) : (
           <span>Такого города нет</span>
