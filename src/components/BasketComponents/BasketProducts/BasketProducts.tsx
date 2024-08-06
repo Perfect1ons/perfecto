@@ -5,13 +5,6 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import BasketCard from "./BasketCard/BasketCard";
 import { Model } from "@/types/Basket/getBasketProduct";
-import InformationModal from "@/components/UI/InformationModal/InformationModal";
-import Link from "next/link";
-import {
-  deleteFavoritesProductAuthed,
-  postFavorite,
-} from "@/api/clientRequest";
-import AuthModal from "@/components/AuthModal/AuthModal";
 
 interface IBasketProductsProps {
   items: any;
@@ -29,9 +22,6 @@ const BasketProducts = ({
   deleteItem,
   authToken,
 }: IBasketProductsProps) => {
-  // Initialize with currentItems
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [isRedirect, setIsRedirect] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
@@ -60,73 +50,12 @@ const BasketProducts = ({
   };
   const [isAuthVisible, setAuthVisible] = useState(false);
 
-  const openAuthModal = () => setAuthVisible(!isAuthVisible);
-
-  const handleFavoriteClick = async (
-    e: React.MouseEvent<HTMLButtonElement>,
-    item: ICard
-  ) => {
-    e.stopPropagation();
-
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message: string | JSX.Element = "";
-    if (!authToken) {
-      openAuthModal();
-      return;
-    }
-    try {
-      if (favoriteItems[item.id_tov]) {
-        favorites = favorites.filter(
-          (fav: ICard) => fav.id_tov !== item.id_tov
-        );
-        message = "Товар удален из избранного.";
-        if (authToken) {
-          await deleteFavoritesProductAuthed(authToken, item.id_tov);
-          setFavoriteItems((prev) => ({ ...prev, [item.id_tov]: false }));
-        }
-      } else {
-        // Добавляем товар в избранное
-        const response = await postFavorite(item.id_tov, 1, authToken);
-        if (response) {
-          favorites.push(response);
-          message = (
-            <>
-              Товар добавлен в избранное.{" "}
-              <Link className="linkCart" href="/favorites">
-                Нажмите, чтобы перейти к списку.
-              </Link>
-            </>
-          );
-          setFavoriteItems((prev) => ({ ...prev, [item.id_tov]: true }));
-        } else {
-          message = "Не удалось добавить товар в избранное.";
-        }
-      }
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-      window.dispatchEvent(new Event("favoritesUpdated"));
-      setModalMessage(message);
-      setModalVisible(true);
-    } catch (error) {
-      console.error("Error handling favorite click:", error);
-      setModalMessage("Произошла ошибка при обработке запроса.");
-      setModalVisible(true);
-    }
-  };
-
   const handleCartEmpty = () => {
     setAdded(false);
   };
 
-  const handleModalClose = () => {
-    setModalVisible(false);
-  };
-
   return (
     <div className={styles.cardsAllContainer}>
-      <AuthModal isVisible={isAuthVisible} close={openAuthModal} />
-      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
-        {modalMessage}
-      </InformationModal>
       {items &&
         items.map((item: Model) => {
           const imageUrl =
@@ -143,11 +72,7 @@ const BasketProducts = ({
               key={item.id_tov}
               item={item}
               imageUrl={imageUrl}
-              isFavorite={isFavorite}
               rating={Math.floor(item.ocenka)}
-              handleFavoriteClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-                handleFavoriteClick(e, item)
-              }
               removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
                 deleteItem(e, item)
               }

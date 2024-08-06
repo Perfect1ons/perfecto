@@ -3,14 +3,11 @@ import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
-import { useDispatch, useSelector } from "react-redux";
-import { addProductToCart } from "@/store/reducers/cart.reducer";
+import { useSelector } from "react-redux";
 import {
   ArrowDropdown,
   CardFavoritesIcon,
   CartIcon,
-  HeartIconShare,
-  HeartIconShareFill,
   SalesmanIcon,
   ShareIcon,
 } from "../../../../public/Icons/Icons";
@@ -25,8 +22,10 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
 import {
+  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
+  postFavorite,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
@@ -38,7 +37,6 @@ interface IPriceProps {
 }
 
 const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
-  const dispatch = useDispatch();
   const { isAuth, token } = useContext(AuthContext);
 
   const isMobile = useMediaQuery("(max-width: 992px)");
@@ -129,61 +127,51 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       favorites.some((fav: ICard) => fav.id_tov === data.items.id_tov)
     );
   }, [data.items.ocenka, data.items.id_tov]);
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
 
+    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    let message: string | JSX.Element = "";
     if (!isAuth) {
       openAuthModal();
       return;
     }
-
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message: string | JSX.Element = "";
-
-    const favoriteData = {
-      id: data.items.id,
-      id_tov: data.items.id_tov,
-      id_post: data.items.id_post,
-      old_price: data.items.old_price,
-      discount_prc: data.items.discount_prc,
-      naim: data.items.naim,
-      ddos: data.items.ddos,
-      cenaok: data.items.cenaok,
-      url: data.items.url,
-      photos: data.items.photos,
-      ocenka: data.items.ocenka,
-      status: data.items.status,
-      minQty: data.items.minQty,
-    };
-
-    if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== data.items.id_tov
-      );
-      message = "Товар удален из избранного.";
-
-      // if (removeFromFavorites) {
-      //   removeFromFavorites(data.items.id_tov);
-      // }
-    } else {
-      favorites.push(favoriteData);
-      message = (
-        <>
-          Товар добавлен в избранное.{" "}
-          <Link className="linkCart" href="/favorites">
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
+    try {
+      if (isFavorite) {
+        favorites = favorites.filter(
+          (fav: ICard) => fav.id_tov !== data.items.id_tov
+        );
+        message = "Товар удален из избранного.";
+        if (token) {
+          await deleteFavoritesProductAuthed(token, data.items.id_tov);
+        }
+      } else {
+        // Добавляем товар в избранное
+        const response = await postFavorite(data.items.id_tov, 1, token);
+        if (response) {
+          favorites.push(response);
+          message = (
+            <>
+              Товар добавлен в избранное.{" "}
+              <Link className="linkCart" href="/favorites">
+                Нажмите, чтобы перейти к списку.
+              </Link>
+            </>
+          );
+        } else {
+          message = "Не удалось добавить товар в избранное.";
+        }
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      setIsFavorite(!isFavorite);
+      window.dispatchEvent(new Event("favoritesUpdated"));
+      setModalMessage(message);
+      setModalVisible(true);
+    } catch (error) {
+      console.error("Error handling favorite click:", error);
+      setModalMessage("Произошла ошибка при обработке запроса.");
+      setModalVisible(true);
     }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    setModalMessage(message);
-    setModalVisible(true);
-    setIsRedirect(!isFavorite);
   };
   const handleCartEmpty = () => {
     setAdded(false);
