@@ -7,6 +7,11 @@ import BasketCard from "./BasketCard/BasketCard";
 import { Model } from "@/types/Basket/getBasketProduct";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
 import Link from "next/link";
+import {
+  deleteFavoritesProductAuthed,
+  postFavorite,
+} from "@/api/clientRequest";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 interface IBasketProductsProps {
   items: any;
@@ -31,7 +36,6 @@ const BasketProducts = ({
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
   }>({});
-
   useEffect(() => {
     updateFavoriteItems();
   }, []);
@@ -54,54 +58,59 @@ const BasketProducts = ({
   const handleToggleAllItems = () => {
     setAllItemsSelected(!allItemsSelected);
   };
+  const [isAuthVisible, setAuthVisible] = useState(false);
 
-  const handleFavoriteClick = (e: React.MouseEvent, cardData: ICard) => {
+  const openAuthModal = () => setAuthVisible(!isAuthVisible);
+
+  const handleFavoriteClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+    item: ICard
+  ) => {
     e.stopPropagation();
+
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message: string | JSX.Element = "";
-
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
-
-    if (favoriteItems[cardData.id_tov]) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
-      message = "Товар удален из избранного.";
-      setFavoriteItems((prev) => ({ ...prev, [cardData.id_tov]: false }));
-      setIsRedirect(false);
-    } else {
-      favorites.push(favoriteData);
-      message = (
-        <>
-          Товар добавлен в избранное.{" "}
-          <Link className="linkCart" href="/favorites">
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
-      setFavoriteItems((prev) => ({ ...prev, [cardData.id_tov]: true }));
-      setIsRedirect(true);
+    if (!authToken) {
+      openAuthModal();
+      return;
     }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    setModalMessage(message);
-    setModalVisible(true);
+    try {
+      if (favoriteItems[item.id_tov]) {
+        favorites = favorites.filter(
+          (fav: ICard) => fav.id_tov !== item.id_tov
+        );
+        message = "Товар удален из избранного.";
+        if (authToken) {
+          await deleteFavoritesProductAuthed(authToken, item.id_tov);
+          setFavoriteItems((prev) => ({ ...prev, [item.id_tov]: false }));
+        }
+      } else {
+        // Добавляем товар в избранное
+        const response = await postFavorite(item.id_tov, 1, authToken);
+        if (response) {
+          favorites.push(response);
+          message = (
+            <>
+              Товар добавлен в избранное.{" "}
+              <Link className="linkCart" href="/favorites">
+                Нажмите, чтобы перейти к списку.
+              </Link>
+            </>
+          );
+          setFavoriteItems((prev) => ({ ...prev, [item.id_tov]: true }));
+        } else {
+          message = "Не удалось добавить товар в избранное.";
+        }
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      window.dispatchEvent(new Event("favoritesUpdated"));
+      setModalMessage(message);
+      setModalVisible(true);
+    } catch (error) {
+      console.error("Error handling favorite click:", error);
+      setModalMessage("Произошла ошибка при обработке запроса.");
+      setModalVisible(true);
+    }
   };
 
   const handleCartEmpty = () => {
@@ -114,6 +123,7 @@ const BasketProducts = ({
 
   return (
     <div className={styles.cardsAllContainer}>
+      <AuthModal isVisible={isAuthVisible} close={openAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
       </InformationModal>
@@ -135,7 +145,7 @@ const BasketProducts = ({
               imageUrl={imageUrl}
               isFavorite={isFavorite}
               rating={Math.floor(item.ocenka)}
-              handleFavoriteClick={(e: React.MouseEvent) =>
+              handleFavoriteClick={(e: React.MouseEvent<HTMLButtonElement>) =>
                 handleFavoriteClick(e, item)
               }
               removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
