@@ -5,8 +5,6 @@ import { url } from "@/components/temporary/data";
 import { ICard } from "@/types/Card/card";
 import BasketCard from "./BasketCard/BasketCard";
 import { Model } from "@/types/Basket/getBasketProduct";
-import InformationModal from "@/components/UI/InformationModal/InformationModal";
-import Link from "next/link";
 
 interface IBasketProductsProps {
   items: any;
@@ -24,9 +22,6 @@ const BasketProducts = ({
   deleteItem,
   authToken,
 }: IBasketProductsProps) => {
-  // Initialize with currentItems
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [isRedirect, setIsRedirect] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState<{
     [key: string]: boolean;
@@ -55,68 +50,12 @@ const BasketProducts = ({
     setAllItemsSelected(!allItemsSelected);
   };
 
-  const handleFavoriteClick = (e: React.MouseEvent, cardData: ICard) => {
-    e.stopPropagation();
-    let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message: string | JSX.Element = "";
-
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
-
-    if (favoriteItems[cardData.id_tov]) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
-      message = "Товар удален из избранного.";
-      setFavoriteItems((prev) => ({ ...prev, [cardData.id_tov]: false }));
-      setIsRedirect(false);
-    } else {
-      favorites.push(favoriteData);
-      message = (
-        <>
-          Товар добавлен в избранное.{" "}
-          <Link className="linkCart" href="/favorites">
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
-      setFavoriteItems((prev) => ({ ...prev, [cardData.id_tov]: true }));
-      setIsRedirect(true);
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    setModalMessage(message);
-    setModalVisible(true);
-  };
-
   const handleCartEmpty = () => {
     setAdded(false);
   };
 
-  const handleModalClose = () => {
-    setModalVisible(false);
-  };
-
   return (
     <div className={styles.cardsAllContainer}>
-      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
-        {modalMessage}
-      </InformationModal>
       {items &&
         items.map((item: Model) => {
           const imageUrl =
@@ -133,11 +72,7 @@ const BasketProducts = ({
               key={item.id_tov}
               item={item}
               imageUrl={imageUrl}
-              isFavorite={isFavorite}
               rating={Math.floor(item.ocenka)}
-              handleFavoriteClick={(e: React.MouseEvent) =>
-                handleFavoriteClick(e, item)
-              }
               removeFromCart={(e: React.MouseEvent<HTMLButtonElement>) =>
                 deleteItem(e, item)
               }
