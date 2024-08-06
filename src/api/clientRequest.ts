@@ -641,7 +641,8 @@ export const postFavorite = async (
     });
 
     if (response.ok) {
-      return true;
+      const jsonResponse = await response.json();
+      return jsonResponse;
     } else {
       const error = await response.json();
       console.error("Server error:", error);
@@ -680,14 +681,16 @@ export const postBasketProductAuthedIdTov = async (
   }
 };
 
-
-
 //!
 
-export const getPaymentMethodClient = (idUser: any): Promise<IPaymentMethod> => {
+export const getPaymentMethodClient = (
+  idUser: any
+): Promise<IPaymentMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
-export const getDeliveryMethodClient = (idUser: any): Promise<IDeliveryMethod> => {
+export const getDeliveryMethodClient = (
+  idUser: any
+): Promise<IDeliveryMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
