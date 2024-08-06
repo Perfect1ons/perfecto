@@ -5,8 +5,6 @@ import cn from "clsx";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import AuthModal from "@/components/AuthModal/AuthModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { AuthContext } from "@/context/AuthContext";
 import {
   AuthIcon,
@@ -45,7 +43,6 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
-  const basket = useSelector((state: RootState) => state.basket.basket);
   const { notif } = useContext(AuthContext);
 
   const openAuthModal = () => setAuthVisible(true);
@@ -218,4 +215,3 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
 };
 
 export default HeaderNav;
-
