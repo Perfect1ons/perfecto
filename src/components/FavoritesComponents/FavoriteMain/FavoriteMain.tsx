@@ -28,10 +28,7 @@ export default function Favorites({
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const pageCount = favorites.length / 19;
-
-  const isMobile = useMediaQuery("(max-width:768px)");
-  console.log(favCount);
+  const pageCount = favCount / 20;
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
