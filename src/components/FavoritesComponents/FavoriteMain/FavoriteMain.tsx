@@ -64,6 +64,21 @@ export default function Favorites({
     }
   };
 
+  const deleteFav = (id_tov: number[]) => {
+    if (authToken) {
+      deleteFavoritesProductAllAuthed(authToken, id_tov)
+        .then(() => {
+          const updatedFavorites = favorites.filter(
+            (item) => !id_tov.includes(item.id_tov)
+          );
+          setFavorites(updatedFavorites);
+        })
+        .catch((error) => {
+          console.error("Failed to clear favorites:", error);
+        });
+    }
+  };
+
   useEffect(() => {
     const body = document.body;
     const scrollBarWidth =
@@ -180,6 +195,7 @@ export default function Favorites({
                   selectedIds={selectedIds}
                   isSelected={true}
                   handleSelectionToggle={handleSelectionToggle}
+                  deleteFav={deleteFav}
                 />
               );
             })}

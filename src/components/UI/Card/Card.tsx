@@ -31,6 +31,7 @@ interface IcardDataProps {
   selectedIds?: number[];
   isSelected?: boolean;
   handleSelectionToggle?: (id_tov: number) => void;
+  deleteFav?: (id_tov: number[]) => void;
 }
 
 const Card = ({
@@ -39,6 +40,7 @@ const Card = ({
   isSelected,
   selectedIds,
   handleSelectionToggle,
+  deleteFav,
 }: IcardDataProps) => {
   const { isAuth, token } = useContext(AuthContext);
   const maxLength = 40;
@@ -124,6 +126,9 @@ const Card = ({
         message = "Товар удален из избранного.";
         if (token) {
           await deleteFavoritesProductAuthed(token, cardData.id_tov);
+          if (deleteFav) {
+            deleteFav([cardData.id_tov]);
+          }
         }
       } else {
         // Добавляем товар в избранное
