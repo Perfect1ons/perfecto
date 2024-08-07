@@ -1,5 +1,6 @@
 export interface IFavorites {
   model: IFavoritesModel[];
+  count: number;
 }
 
 export interface IFavoritesModel {

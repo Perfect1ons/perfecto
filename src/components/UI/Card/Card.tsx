@@ -34,7 +34,6 @@ interface ICardDataProps {
 
 
 const Card = ({ cardData }: ICardDataProps) => {
-  const { token } = useContext(AuthContext);
   const imageUrl =
     cardData.photos.length > 0
       ? cardData.photos[0].url_part.startsWith("https://goods-photos")
@@ -43,7 +42,7 @@ const Card = ({ cardData }: ICardDataProps) => {
         ? cardData.photos[0].url_part
         : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
       : "/img/noPhoto.svg";
-
+  const { isAuth, token } = useContext(AuthContext);
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -57,9 +56,9 @@ const Card = ({ cardData }: ICardDataProps) => {
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
-
-  const handleFavoriteClick = (e: React.MouseEvent) => {
+  const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
+
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     let message = "";
 

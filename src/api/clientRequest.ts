@@ -600,7 +600,8 @@ export const postFavorite = async (
     });
 
     if (response.ok) {
-      return true;
+      const jsonResponse = await response.json();
+      return jsonResponse;
     } else {
       const error = await response.json();
       console.error("Server error:", error);

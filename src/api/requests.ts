@@ -261,7 +261,9 @@ export const getCatalogProductsFiltersServer = (
   return maxkg.get(`catalog/cat-product/${path}?page=${page}`).json();
 };
 
-export const getPersonalDataProfileServer = (token: string): Promise<IProfileData> => {
+export const getPersonalDataProfileServer = (
+  token: string
+): Promise<IProfileData> => {
   return maxkg
     .get("prof", {
       headers: {
@@ -397,9 +399,12 @@ export const postResents = (): Promise<any[]> => {
   return maxkg.post("naltovarok/getresent").json();
 };
 
-export const getFavorites = (token: string): Promise<IFavorites> => {
+export const getFavorites = (
+  token: string,
+  page: string | undefined
+): Promise<IFavorites> => {
   return maxkgnocache
-    .get("izb", {
+    .get(`izb?page=${page}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
@@ -411,7 +416,6 @@ export const getFavorites = (token: string): Promise<IFavorites> => {
 export const getCity = (): Promise<ICityFront> => {
   return maxkgnocache.get("naltovarok/cityfront").json();
 };
-
 
 export const getUserInfo = (token: string): Promise<IProfileData> => {
   return maxkg

@@ -21,10 +21,17 @@ export default async function Favorites({ searchParams }: FavoritesProps) {
   const cookieStore = cookies();
   const authToken = cookieStore.get("identify")?.value;
   if (authToken) {
-    const favoriteData = await getFavorites(authToken);
+    const favoriteData = await getFavorites(
+      authToken,
+      searchParams.page && searchParams.page > "1" ? searchParams.page : "1"
+    );
     if (favoriteData !== null) {
       return (
-        <FavoriteMain authToken={authToken} favoriteData={favoriteData.model} />
+        <FavoriteMain
+          authToken={authToken}
+          favoriteData={favoriteData.model}
+          favCount={favoriteData.count}
+        />
       );
     } else {
       return <FavoritesIsEmpty />;

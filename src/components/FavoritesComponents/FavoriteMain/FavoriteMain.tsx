@@ -8,19 +8,37 @@ import FavoritesIsEmpty from "./FavoritesIsEmpty";
 import Image from "next/image";
 import { TrashIcon, XMark } from "../../../../public/Icons/Icons";
 import { deleteFavoritesProductAllAuthed } from "@/api/clientRequest";
+import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { useSearchParams } from "next/navigation";
 
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
   authToken: string | undefined;
+  favCount: number;
 }
 
 export default function Favorites({
   favoriteData,
   authToken,
+  favCount,
 }: IFavoritesProps) {
   const [favorites, setFavorites] = useState<any[]>(favoriteData);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const searchParams = useSearchParams();
+  const initialPage = parseInt(searchParams?.get("page") || "1", 10);
+
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const pageCount = favCount / 20;
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    window.dispatchEvent(new Event("favoritesUpdated"));
+  }, [favorites]);
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -46,13 +64,37 @@ export default function Favorites({
     if (authToken) {
       deleteFavoritesProductAllAuthed(authToken, selectedIds)
         .then(() => {
-          let updatedFavorites = favorites.filter(
+          const updatedFavorites = favorites.filter(
             (item) => !selectedIds.includes(item.id_tov)
           );
           setFavorites(updatedFavorites);
           setSelectedIds([]);
-          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           openModal();
+          if (updatedFavorites.length <= 0 && currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+            updateUrl(currentPage - 1);
+            window.location.reload();
+          }
+        })
+        .catch((error) => {
+          console.error("Failed to clear favorites:", error);
+        });
+    }
+  };
+
+  const deleteFav = (id_tov: number[]) => {
+    if (authToken) {
+      deleteFavoritesProductAllAuthed(authToken, id_tov)
+        .then(() => {
+          const updatedFavorites = favorites.filter(
+            (item) => !id_tov.includes(item.id_tov)
+          );
+          setFavorites(updatedFavorites);
+          if (updatedFavorites.length <= 0 && currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+            updateUrl(currentPage - 1);
+            window.location.reload();
+          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
@@ -77,6 +119,21 @@ export default function Favorites({
       body.style.top = "";
     }
   }, [isModalVisible]);
+
+  const updateUrl = (selected: number) => {
+    const params = new URLSearchParams();
+
+    params.set("page", selected.toString());
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.history.replaceState({ path: newUrl }, "", newUrl);
+  };
+
+  const pageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected);
+    updateUrl(selected + 1);
+    window.location.reload();
+  };
 
   return (
     <section className={styles.favorites}>
@@ -176,10 +233,19 @@ export default function Favorites({
                   selectedIds={selectedIds}
                   isSelected={true}
                   handleSelectionToggle={handleSelectionToggle}
+                  deleteFav={deleteFav}
                 />
               );
             })}
           </div>
+          {favCount > 20 && (
+            <FavoritesPagination
+              isMobile={isMobile}
+              handlePageClick={pageClick}
+              currentPage={currentPage - 1}
+              pageCount={pageCount}
+            />
+          )}
         </>
       ) : (
         <FavoritesIsEmpty />
