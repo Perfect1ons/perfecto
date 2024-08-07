@@ -89,6 +89,8 @@ export default function Favorites({
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
+          } else if (currentPage === 1) {
+            window.location.reload();
           }
         })
         .catch((error) => {
@@ -109,6 +111,8 @@ export default function Favorites({
           if (updatedFavorites.length <= 0 && currentPage !== 1) {
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
+            window.location.reload();
+          } else if (currentPage === 1) {
             window.location.reload();
           }
         })
