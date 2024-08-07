@@ -14,21 +14,24 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
   authToken: string | undefined;
+  favCount: number;
 }
 
 export default function Favorites({
   favoriteData,
   authToken,
+  favCount,
 }: IFavoritesProps) {
   const [favorites, setFavorites] = useState<any[]>(favoriteData);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const pageCount = favorites.length / 19;
 
   const isMobile = useMediaQuery("(max-width:768px)");
+  console.log(favCount);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -222,10 +225,8 @@ export default function Favorites({
             })}
           </div>
           <FavoritesPagination
-            isMobile={isMobile}
             currentPage={currentPage}
             pageCount={pageCount}
-            handlePageClick={pageClick}
           />
         </>
       ) : (
