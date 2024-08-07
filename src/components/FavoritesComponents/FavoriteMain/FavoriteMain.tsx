@@ -8,6 +8,8 @@ import FavoritesIsEmpty from "./FavoritesIsEmpty";
 import Image from "next/image";
 import { TrashIcon, XMark } from "../../../../public/Icons/Icons";
 import { deleteFavoritesProductAllAuthed } from "@/api/clientRequest";
+import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
@@ -21,6 +23,12 @@ export default function Favorites({
   const [favorites, setFavorites] = useState<any[]>(favoriteData);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const pageCount = favorites.length / 19;
+
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -96,6 +104,19 @@ export default function Favorites({
       body.style.top = "";
     }
   }, [isModalVisible]);
+
+  const updateUrl = (page: number) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", page.toString());
+    window.history.replaceState({}, "", url.toString());
+  };
+
+  const pageClick = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected + 1);
+    updateUrl(selected + 1);
+    window.location.reload();
+    window.scrollTo({ top: 300, behavior: "auto" });
+  };
 
   return (
     <section className={styles.favorites}>
@@ -200,6 +221,12 @@ export default function Favorites({
               );
             })}
           </div>
+          <FavoritesPagination
+            isMobile={isMobile}
+            currentPage={currentPage}
+            pageCount={pageCount}
+            handlePageClick={pageClick}
+          />
         </>
       ) : (
         <FavoritesIsEmpty />
