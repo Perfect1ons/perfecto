@@ -36,7 +36,21 @@ export default function Favorites({
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    const storedFavorites = JSON.parse(
+      localStorage.getItem("favorites") || "[]"
+    );
+
+    const newFavorites = favorites.filter(
+      (favorite) =>
+        !storedFavorites.some(
+          (storedFavorite: any) => storedFavorite.id_tov === favorite.id_tov
+        )
+    );
+
+    const updatedFavorites = [...storedFavorites, ...newFavorites];
+
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+
     window.dispatchEvent(new Event("favoritesUpdated"));
   }, [favorites]);
 
@@ -70,6 +84,7 @@ export default function Favorites({
           setFavorites(updatedFavorites);
           setSelectedIds([]);
           openModal();
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           if (updatedFavorites.length <= 0 && currentPage !== 1) {
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
@@ -90,6 +105,7 @@ export default function Favorites({
             (item) => !id_tov.includes(item.id_tov)
           );
           setFavorites(updatedFavorites);
+          localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
           if (updatedFavorites.length <= 0 && currentPage !== 1) {
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
