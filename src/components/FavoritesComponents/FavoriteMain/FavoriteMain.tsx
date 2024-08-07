@@ -90,6 +90,11 @@ export default function Favorites({
             (item) => !id_tov.includes(item.id_tov)
           );
           setFavorites(updatedFavorites);
+          if (updatedFavorites.length <= 0) {
+            setCurrentPage(currentPage - 1);
+            updateUrl(currentPage - 1);
+            window.location.reload();
+          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
@@ -233,12 +238,14 @@ export default function Favorites({
               );
             })}
           </div>
-          <FavoritesPagination
-            isMobile={isMobile}
-            handlePageClick={pageClick}
-            currentPage={currentPage - 1}
-            pageCount={pageCount}
-          />
+          {favCount > 20 && (
+            <FavoritesPagination
+              isMobile={isMobile}
+              handlePageClick={pageClick}
+              currentPage={currentPage - 1}
+              pageCount={pageCount}
+            />
+          )}
         </>
       ) : (
         <FavoritesIsEmpty />
