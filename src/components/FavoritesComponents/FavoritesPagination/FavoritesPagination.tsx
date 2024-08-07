@@ -1,34 +1,29 @@
-import { useRouter } from "next/navigation";
 import ReactPaginate from "react-paginate";
 
 interface IFavoritesPaginationProps {
+  isMobile: boolean;
   pageCount: number;
   currentPage: number;
+  handlePageClick: ({ selected }: { selected: number }) => void;
 }
 
 const FavoritesPagination = ({
+  isMobile,
   pageCount,
   currentPage,
+  handlePageClick,
 }: IFavoritesPaginationProps) => {
-  const router = useRouter();
-
-  const handlePageClick = (selectedItem: { selected: number }) => {
-    const selectedPage = selectedItem.selected + 1;
-    router.push(`/favorites?page=${selectedPage}`);
-  };
-
   return (
     <ReactPaginate
-      initialPage={currentPage - 1}
-      pageCount={pageCount}
-      pageRangeDisplayed={3}
-      marginPagesDisplayed={1}
-      onPageChange={handlePageClick}
-      containerClassName={"pagination"}
-      activeClassName={"active"}
       previousLabel={"<"}
       nextLabel={">"}
-      breakLabel={"..."}
+      forcePage={currentPage}
+      breakLabel={isMobile ? ".." : "..."}
+      pageCount={pageCount}
+      marginPagesDisplayed={1}
+      pageRangeDisplayed={isMobile ? 2 : 3}
+      onPageChange={handlePageClick}
+      containerClassName={"pagination"}
       pageClassName={"page-item"}
       pageLinkClassName={"page-link"}
       previousClassName={"page-item-btn"}
@@ -37,6 +32,7 @@ const FavoritesPagination = ({
       nextLinkClassName={"page-link-next"}
       breakClassName={"page-item"}
       breakLinkClassName={"page-link"}
+      activeClassName={"active"}
     />
   );
 };

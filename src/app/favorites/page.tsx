@@ -20,8 +20,11 @@ interface FavoritesProps {
 export default async function Favorites({ searchParams }: FavoritesProps) {
   const cookieStore = cookies();
   const authToken = cookieStore.get("identify")?.value;
-  if (authToken && searchParams.page) {
-    const favoriteData = await getFavorites(authToken, searchParams.page);
+  if (authToken) {
+    const favoriteData = await getFavorites(
+      authToken,
+      searchParams.page && searchParams.page > "1" ? searchParams.page : "1"
+    );
     if (favoriteData !== null) {
       return (
         <FavoriteMain
