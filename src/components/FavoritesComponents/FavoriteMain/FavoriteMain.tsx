@@ -70,7 +70,7 @@ export default function Favorites({
           setFavorites(updatedFavorites);
           setSelectedIds([]);
           openModal();
-          if (updatedFavorites.length <= 0) {
+          if (updatedFavorites.length <= 0 && currentPage !== 1) {
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
@@ -90,7 +90,7 @@ export default function Favorites({
             (item) => !id_tov.includes(item.id_tov)
           );
           setFavorites(updatedFavorites);
-          if (updatedFavorites.length <= 0) {
+          if (updatedFavorites.length <= 0 && currentPage !== 1) {
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
