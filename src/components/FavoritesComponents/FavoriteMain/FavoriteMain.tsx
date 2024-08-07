@@ -70,6 +70,11 @@ export default function Favorites({
           setFavorites(updatedFavorites);
           setSelectedIds([]);
           openModal();
+          if (updatedFavorites.length <= 0) {
+            setCurrentPage(currentPage - 1);
+            updateUrl(currentPage - 1);
+            window.location.reload();
+          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
