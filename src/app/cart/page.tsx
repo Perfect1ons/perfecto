@@ -4,11 +4,11 @@ import {
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
-  getProductBasket,
   getUserInfo,
 } from "@/api/requests";
 import Abdu from "@/components/Abdu/Abdu";
 import BasketEmpty from "@/components/Abdu/BasketEmpty/BasketEmpty";
+import { IBasketItems } from "@/interfaces/baskets/basket";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
 
@@ -16,15 +16,10 @@ export default async function Page() {
   const cookieStore = cookies();
   const userId = cookieStore.get("userId")?.value;
   const authToken = cookieStore.get("identify")?.value;
-  const cart = cookieStore.get("cart")?.value;
-  const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
-  const cartId = match && match[1];
-
-  let cartData: any;
-
-  if (!authToken) {
-    cartData = await getProductBasket(1, cartId);
-  } else {
+  let userInfo: any;
+  let cartData: IBasketItems[] = [];
+  if (authToken) {
+    userInfo = await getUserInfo(authToken);
     cartData = await getBasket(authToken, 1);
   }
 
@@ -48,6 +43,7 @@ export default async function Page() {
 
   return <BasketEmpty />;
 }
+
 
 export async function generateMetadata() {
   return generatePageMetadata(getMetaKorzinaPage);

@@ -25,8 +25,8 @@ import { useDispatch } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
-  loading: () => <h1>loading...</h1>,
-});
+  loading: () => <h1>loading...</h1>
+})
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
