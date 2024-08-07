@@ -51,7 +51,7 @@ export default function Favorites({
     if (authToken) {
       deleteFavoritesProductAllAuthed(authToken, selectedIds)
         .then(() => {
-          let updatedFavorites = favorites.filter(
+          const updatedFavorites = favorites.filter(
             (item) => !selectedIds.includes(item.id_tov)
           );
           setFavorites(updatedFavorites);
