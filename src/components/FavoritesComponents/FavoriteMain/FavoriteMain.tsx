@@ -89,7 +89,7 @@ export default function Favorites({
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
-          } else if (currentPage === 1) {
+          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
             window.location.reload();
           }
         })
@@ -112,7 +112,7 @@ export default function Favorites({
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
-          } else if (currentPage === 1) {
+          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
             window.location.reload();
           }
         })
