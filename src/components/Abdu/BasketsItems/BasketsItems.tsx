@@ -2,8 +2,10 @@ import { IBasketItems } from "@/interfaces/baskets/basket";
 import BasketsCard from "./BasketsCard";
 import { url } from "@/utils/url";
 import styles from './style.module.scss'
+import { useState } from "react";
 
 interface IBasketItemsProps {
+  token?: any;
   cartData: IBasketItems[];
   removeFromCart: (id_tov: number) => void; 
   selectedIds: string;
@@ -11,11 +13,14 @@ interface IBasketItemsProps {
 }
 
 const BasketsItems = ({
+  token,
   cartData,
   removeFromCart,
   selectedIds,
   onCheckboxChange,
 }: IBasketItemsProps) => {
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
   return (
     <div className={styles.cards}>
       {cartData.map((item) => {
@@ -30,6 +35,9 @@ const BasketsItems = ({
             : "/img/noPhoto.svg";
         return (
           <BasketsCard
+            token={token}
+            setShouldFocusInput={() => setShouldFocusInput(false)}
+            shouldFocusInput={shouldFocusInput}
             removeFromCart={removeFromCart}
             isChecked={isChecked}
             onCheckboxChange={onCheckboxChange}

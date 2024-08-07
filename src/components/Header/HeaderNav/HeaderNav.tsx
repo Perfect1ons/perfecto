@@ -12,6 +12,8 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 interface ILinks {
   href: string;
@@ -44,14 +46,14 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const { notif } = useContext(AuthContext);
-
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
-useEffect(() => {
+
   const updateCounts = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
     const cartCountGuest = JSON.parse(
       localStorage.getItem("cartItemsGuest") || "[]"
     );
@@ -66,7 +68,7 @@ useEffect(() => {
         }
         if (link.href === "/cart") {
           if (isAuthed) {
-            return { ...link, count: cartCount.length };
+            return { ...link, count: baskets.length };
           } else {
             return { ...link, count: cartCountGuest.length };
           }
@@ -76,20 +78,21 @@ useEffect(() => {
     );
   };
 
-  updateCounts();
+  useEffect(() => {
+    updateCounts();
 
-  const favoritesListener = () => updateCounts();
-  const cartListener = () => updateCounts();
+    const favoritesListener = () => updateCounts();
+    const cartListener = () => updateCounts();
 
-  window.addEventListener("favoritesUpdated", favoritesListener);
-  window.addEventListener("cartUpdated", cartListener);
+    window.addEventListener("favoritesUpdated", favoritesListener);
+    window.addEventListener("cartUpdated", cartListener);
 
-  return () => {
-    window.removeEventListener("favoritesUpdated", favoritesListener);
-    window.removeEventListener("cartUpdated", cartListener);
-  };
-}, [notif, authStatus, isAuthed]);
-
+    return () => {
+      window.removeEventListener("favoritesUpdated", favoritesListener);
+      window.removeEventListener("cartUpdated", cartListener);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notif, authStatus, isAuthed, cart]);
 
   return (
     <nav className={styles.nav}>

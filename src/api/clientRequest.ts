@@ -26,6 +26,8 @@ import { IExitsUser } from "@/types/Basket/ExitsUser";
 import { IProfileData } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -418,28 +420,6 @@ export const getSelectRegion = async (
 
   return data as SelectRegionType;
 };
-export const postBasketProduct = async (
-  kol: number,
-  id_tov: number
-): Promise<ResponsePostBasket> => {
-  const formData = new FormData();
-  formData.append("kol", kol.toString());
-  formData.append("id_tov", id_tov.toString());
-
-  try {
-    const response: ResponsePostBasket = await maxkgnocache
-      .post("box/set-box-guest", {
-        body: formData,
-      })
-      .json();
-
-    // Return the response directly, since it matches the ResponsePostBasket type
-    return response;
-  } catch (error) {
-    console.error("Error posting basket product:", error);
-    throw error; // Optionally re-throw the error for further handling
-  }
-};
 
 export const deleteBasketProduct = (
   cart_id: string | null | undefined,
@@ -477,24 +457,6 @@ export const deleteBasketProductAll = async (
 
 //запросы корзины для зареганных юзеров
 
-export const postBasketProductAuthed = (
-  token: string,
-  kol: string,
-  id_tov: string
-): Promise<postProductAuthResponse> => {
-  const params = new URLSearchParams();
-  params.set("id_tov", id_tov);
-  params.set("kol", kol);
-  return maxkgnocache
-    .post(`box/create`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
-    })
-    .json();
-};
 export const deleteBasketProductAuthed = (
   token: string,
   id_box: number,
@@ -652,44 +614,68 @@ export const postFavorite = async (
 export const getExitsUser = (tel: string): Promise<IExitsUser> => {
   return maxkgnocache.get(`prof/exists-user?tel=${tel}`).json();
 };
-export const postBasketProductAuthedIdTov = async (
-  token: string,
-  id_tov: number,
-  kol: number
-): Promise<any> => {
+
+export const postBasketProduct = async (
+  kol: number,
+  id_tov: number
+): Promise<ResponsePostBasket> => {
   const formData = new FormData();
-  formData.append("id_tov", id_tov.toString());
   formData.append("kol", kol.toString());
+  formData.append("id_tov", id_tov.toString());
 
   try {
-    const response = await maxkgnocache.post(`box`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response: ResponsePostBasket = await maxkgnocache
+      .post("box/set-box-guest", {
+        body: formData,
+      })
+      .json();
 
-    return response.json();
+    // Return the response directly, since it matches the ResponsePostBasket type
+    return response;
   } catch (error) {
-    console.error("Network error:", error);
-    return false;
+    console.error("Error posting basket product:", error);
+    throw error; // Optionally re-throw the error for further handling
   }
 };
 
-//! abdu
 
+
+//! abdu
+// Для получения методов оплаты
 export const getPaymentMethodClient = (
   idUser: any
 ): Promise<IPaymentMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
+// Для получения методов доставки
 export const getDeliveryMethodClient = (
   idUser: any
 ): Promise<IDeliveryMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
 };
 
+// Для добавления товаров в корзину
+export const postBasketProductAuthed = (
+  token: string,
+  kol: string,
+  id_tov: string
+): Promise<postProductAuthResponse> => {
+  const params = new URLSearchParams();
+  params.set("id_tov", id_tov);
+  params.set("kol", kol);
+  return maxkgnocache
+    .post(`box/create`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    })
+    .json();
+};
+
+// Для удаления товаров зареганного юзера
 export const deleteAuthedTovars = async (
   token: any,
   ids_tov: string
@@ -711,6 +697,54 @@ export const deleteAuthedTovars = async (
       console.error("Server error:", error);
       return false;
     }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};
+
+export const getProductBasketClient = (
+  page: number,
+  cart_id: string | null | undefined
+): Promise<getBasketProductsType> => {
+  return maxkg
+    .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
+    .json();
+};
+
+export const getBasketAuthedClient = (
+  token: string,
+  page: number
+): Promise<BasketAuth[]> => {
+  return maxkgnocache
+    .get(`box?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
+
+export const postAuthedTovar = async (
+  token: string,
+  id_tov: number,
+  kol: number
+): Promise<any> => {
+  const formData = new FormData();
+  formData.append("id_tov", id_tov.toString());
+  formData.append("kol", kol.toString());
+
+  try {
+    const response = await maxkgnocache.post(`box`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    return response.json();
   } catch (error) {
     console.error("Network error:", error);
     return false;

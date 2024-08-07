@@ -1,10 +1,10 @@
 export interface ICardProductItems {
-  items: Items;
+  items: IItemItems;
   seller: Seller;
   meta: Meta;
 }
 
-export interface Items {
+export interface IItemItems {
   id: number;
   art3: any;
   art: number;

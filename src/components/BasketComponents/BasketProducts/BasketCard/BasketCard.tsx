@@ -45,7 +45,6 @@ const BasketCard = ({
   authToken,
 }: IBasketCardProps) => {
   const [quantity, setQuantity] = useState<number>(0);
-
   const { token } = useContext(AuthContext);
 
   useEffect(() => {

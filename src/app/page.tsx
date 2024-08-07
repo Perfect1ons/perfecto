@@ -13,7 +13,6 @@ import {
   getSecondBanner,
   getThirdBanner,
 } from "@/api/requests";
-import ErrorPage from "@/components/ErrorPage/ErrorPage";
 import Banner from "@/components/HomeComponents/Banner/Banner";
 import BrandsSkeleton from "@/components/HomeComponents/Brands/BrandsSkeleton";
 import DiscountsSkeleton from "@/components/HomeComponents/Discounts/DiscountsSkeleton";
@@ -25,7 +24,7 @@ import dynamic from "next/dynamic";
 const DynamicPopularCategory = dynamic(
   () => import("@/components/HomeComponents/PopularCategory/PopularCategory"),
   {
-    ssr: true,
+    ssr: false,
     loading: () => <CategorySkeleton title="Популярные категории" />,
   }
 );

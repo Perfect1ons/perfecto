@@ -1,9 +1,9 @@
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import { GrayStar, YellowStar } from "../../../../public/Icons/Icons";
 import Link from "next/link";
 interface IOcenkaProps {
-  data: Items;
+  data: IItemItems;
 }
 
 const ItemOcenka = ({ data }: IOcenkaProps) => {

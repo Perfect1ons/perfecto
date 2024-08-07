@@ -1,17 +1,18 @@
 "use client";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import cn from "clsx";
-import { CartIcon, CopyIcon, Cross } from "../../../../public/Icons/Icons";
+import { CartIcon, Cross } from "../../../../public/Icons/Icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useEffect, useRef, useState } from "react";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import { RootState } from "@/store";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IProductReviewProps {
-  data: Items;
+  data: IItemItems;
   func: () => void;
   visible: boolean;
 }
@@ -243,9 +244,8 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
                 </button>
               )}
               {product?.quantity && (
-                <CartReducerBtn
+                <ReducerBtn
                   data={data}
-                  onCartEmpty={handleCartEmpty}
                   shouldFocusInput={shouldFocusInput}
                   onFocusHandled={() => setShouldFocusInput(false)}
                 />

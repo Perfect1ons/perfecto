@@ -1,13 +1,14 @@
 import {
-  getBasketAuthed,
+  getBasket,
   getCity,
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
-  getPersonalDataProfileServer,
   getProductBasket,
+  getUserInfo,
 } from "@/api/requests";
-import Basket from "@/components/BasketComponents/Basket";
+import Abdu from "@/components/Abdu/Abdu";
+import BasketEmpty from "@/components/Abdu/BasketEmpty/BasketEmpty";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
 
@@ -20,13 +21,11 @@ export default async function Page() {
   const cartId = match && match[1];
 
   let cartData: any;
-  let profileData: any;
 
   if (!authToken) {
-    cartData = (await getProductBasket(1, cartId)).model;
+    cartData = await getProductBasket(1, cartId);
   } else {
-    cartData = await getBasketAuthed(authToken, 1);
-    profileData = await getPersonalDataProfileServer(authToken);
+    cartData = await getBasket(authToken, 1);
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
@@ -35,17 +34,19 @@ export default async function Page() {
     getCity(),
   ]);
 
-  return (
-    <Basket
-      deliveryCity={deliveryCity}
-      paymentMethod={paymentMethod}
-      deliveryMethod={deliveryMethod}
-      authToken={authToken}
-      cart={cartData}
-      cartId={cartId}
-      user={profileData}
-    />
-  );
+  if (cartData.length > 0) {
+    return (
+      <Abdu
+        authToken={authToken}
+        cities={deliveryCity}
+        deliveryMethod={deliveryMethod}
+        paymentMethod={paymentMethod}
+        items={cartData}
+      />
+    );
+  }
+
+  return <BasketEmpty />;
 }
 
 export async function generateMetadata() {

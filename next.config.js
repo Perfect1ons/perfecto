@@ -4,7 +4,7 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ["swiper", "clsx", "react-loading-skeleton"],
+    optimizePackageImports: ["swiper", "clsx", "react-loading-skeleton","lodash"],
   },
   images: {
     formats: ["image/webp"],

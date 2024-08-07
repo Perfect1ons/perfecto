@@ -1,9 +1,9 @@
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import { IMetaData } from "@/types/MetaData/MetaData";
 
 interface IMetaProps {
   meta: IMetaData;
-  data: Items;
+  data: IItemItems;
 }
 
 const DynamicJsonLd = ({ meta, data }: IMetaProps) => {

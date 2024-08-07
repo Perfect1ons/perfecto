@@ -242,7 +242,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
               key={photo.url_part ? index + 1 : index}
               className={styles.activeSlide}
             >
-              {/* {isZoomEnabled ? (
+              {isZoomEnabled ? (
                 <InnerImageZoom
                   width={500}
                   height={500}
@@ -265,7 +265,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                   zoomScale={1.6}
                   className={styles.product_img}
                 />
-              ) : ( */}
+              ) : (
                 <Image
                   width={500}
                   height={500}
@@ -281,7 +281,7 @@ const ItemSlider = ({ photos, toggleScrollLock }: IPhotosProps) => {
                   onClick={modalSliderOpenOrClose}
                   loading="lazy"
                 />
-              {/* )} */}
+               )} 
             </SwiperSlide>
           ))}
           {paginationEnabled && (

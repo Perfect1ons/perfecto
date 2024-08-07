@@ -33,11 +33,18 @@ const BasketHeader = ({
     }
   };
 
-
-
   return (
     <div className={styles.controlContainer}>
-      <h1 className={styles.basketTilte}>В корзине - {count} товаров </h1>
+      <h1 className={styles.basketTilte}>
+        В корзине - {count} {" "}
+        {count % 10 === 1 && count % 100 !== 11
+          ? "товар"
+          : count % 10 >= 2 &&
+            count % 10 <= 4 &&
+            !(count % 100 >= 12 && count % 100 <= 14)
+          ? "товара"
+          : "товаров"}{" "}
+      </h1>
 
       <div onClick={handleSelectAllClick} className={styles.checkBoxContainer}>
         <span

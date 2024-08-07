@@ -2,10 +2,10 @@
 import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 
 interface IDescProps {
-  data: Items;
+  data: IItemItems;
   openItemModalDescription: () => void;
 }
 

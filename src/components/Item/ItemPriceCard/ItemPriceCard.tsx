@@ -31,6 +31,7 @@ import {
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -44,25 +45,21 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const isMobile = useMediaQuery("(max-width: 992px)");
 
   // логика добавления в корзину в редакс
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item) => item.id === data.items.id);
+const cart = useSelector((state: RootState) => state.cart.cart);
+const product = cart.find((item) => item.id === data.items.id);
 
   const addToCart = async () => {
     if (token) {
       try {
+        dispatch(addProductToCart(data.items));
+        setCartModal(true);
+        setTimeout(() => setCartModal(false), 5000);
         const item = await postBasketProductAuthed(
           token,
           `${data.items.minQty}`,
           `${data.items.id_tov}`
         );
 
-        if (item) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
-          cartItems.push(item);
-
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        }
       } catch (error) {
         console.log("error", error);
       }
@@ -79,16 +76,14 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
           );
 
           cartItems.push(item);
-
+          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
           localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
         }
       } catch (error) {
         console.log("error", error);
       }
     }
-    setAdded(true);
   };
-  // копирования ссылки
   const [copy, setCopy] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
@@ -118,7 +113,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const [isRedirect, setIsRedirect] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
-  const [added, setAdded] = useState(false);
 
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
@@ -161,10 +155,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
         (fav: ICard) => fav.id_tov !== data.items.id_tov
       );
       message = "Товар удален из избранного.";
-
-      // if (removeFromFavorites) {
-      //   removeFromFavorites(data.items.id_tov);
-      // }
     } else {
       favorites.push(favoriteData);
       message = (
@@ -185,9 +175,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     setModalVisible(true);
     setIsRedirect(!isFavorite);
   };
-  const handleCartEmpty = () => {
-    setAdded(false);
-  };
+
 
   // для открытия модалки ИП (не айпи)
   const [ipOpen, setIpOpen] = useState(false);
@@ -202,24 +190,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     setIpOpen(!ipOpen);
   };
 
-  // для перевода фокуса на инпут
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-
-  const handleAddToCart = () => {
-    addToCart();
-    setShouldFocusInput(true);
-    setModalMessage(
-      <>
-        Товар добавлен в корзину.{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-    setModalVisible(true);
-  };
-
-  // для отображения MobileBuyBtn на мобильных устройствах
   const sectionRef = useRef(null);
   const [isSectionVisible, setIsSectionVisible] = useState(true);
 
@@ -249,16 +220,33 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     setModalVisible(false);
   };
 
+    const [cartModal, setCartModal] = useState(false);
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
+
+  const closeModalCart = () => {
+    setCartModal(false);
+  };
+
   return (
     <>
       {!isSectionVisible && (
         <MobileBuyBtn
           data={data}
-          handleCartEmpty={handleCartEmpty}
           product={product}
           addToCart={addToCart}
         />
       )}
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
@@ -320,7 +308,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
             <span className={styles.ItemPriceCard__minQty_none}></span>
           )}
           <div className={styles.ItemPriceCard__buttons}>
-            {!added && (
+            {!product?.quantity && (
               <button
                 title="Добавить в корзину"
                 aria-label="add to cart"
@@ -333,10 +321,10 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
                 В корзину
               </button>
             )}
-            {added && (
-              <CartReducerBtn
+            {product?.quantity && (
+              <ReducerBtn
+                token={token}
                 data={data.items}
-                onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
                 id_cart={id_cart}

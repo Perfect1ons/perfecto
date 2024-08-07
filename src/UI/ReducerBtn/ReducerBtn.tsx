@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
-import { Items } from "@/types/CardProduct/cardProduct";
+import React, { useEffect, useMemo, useRef } from "react";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,46 +12,60 @@ import {
 } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 import useMediaQuery from "@/hooks/useMediaQuery";
-
+import { IItemItems } from "@/types/CardProduct/cardProduct";
+import debounce from "lodash.debounce";
+import { deleteAuthedTovars, postAuthedTovar } from "@/api/clientRequest";
 interface ICartReducerBtnProps {
-  data: Items;
-  onCartEmpty: () => void;
-  shouldFocusInput: boolean; // Changed from function to boolean
-  onFocusHandled: () => void; // Callback to reset focus state
+  removeItem?: () => void;
+  token?: any;
+  data: IItemItems;
+  shouldFocusInput: boolean;
+  onFocusHandled: () => void;
 }
 
 const ReducerBtn = ({
+  removeItem,
   data,
-  onCartEmpty,
+  token,
   shouldFocusInput,
   onFocusHandled,
 }: ICartReducerBtnProps) => {
-  // логика добавления в корзину
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const quantity = product?.quantity ?? data.minQty;
-
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  const debouncedUpdateTovar = useMemo(
+    () =>
+      debounce(async (id_tov: number, value: number) => {
+        if (token) {
+          await postAuthedTovar(token, id_tov, value);
+        }
+      }, 300),
+    [token] // Здесь все зависимости, от которых зависит функция
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
     e.preventDefault();
-    const value = e.target.value;
-    const parsedValue = value ? parseInt(value) : 0;
 
-    // Если инпут пустой, устанавливаем значение в 0
-    if (value === "" && product) {
-      dispatch(updateProductQuantity({ id: data.id, quantity: 0 }));
-    } else if (!isNaN(parsedValue) && parsedValue >= data.minQty) {
+    const value = e.target.value === "" ? 0 : parseInt(e.target.value); // Обрабатываем пустую строку как 0
+
+    if (isNaN(value) || value < 0) return;
+
+    if (value >= data.minQty) {
       if (product) {
-        dispatch(updateProductQuantity({ id: data.id, quantity: parsedValue }));
+        dispatch(updateProductQuantity({ id: data.id, quantity: value }));
+        debouncedUpdateTovar(data.id_tov, value);
       } else {
-        const newProduct = { ...data, quantity: parsedValue };
+        const newProduct = { ...data, quantity: value };
         dispatch(addProductToCart(newProduct));
+        debouncedUpdateTovar(data.id_tov, value);
       }
     }
   };
+
   const handleBlur = () => {
     if (product && product.quantity === 0) {
       dispatch(updateProductQuantity({ id: data.id, quantity: data.minQty }));
@@ -65,25 +78,26 @@ const ReducerBtn = ({
     event.stopPropagation();
     event.preventDefault();
     if (product) {
+      const newQuantity = (product.quantity ?? 0) + 1;
       dispatch(addProductQuantity(data.id));
+      debouncedUpdateTovar(data.id_tov, newQuantity);
     } else {
       const newProduct = { ...data, quantity: data.minQty };
       dispatch(addProductToCart(newProduct));
+      debouncedUpdateTovar(data.id_tov, data.minQty);
     }
   };
 
   // remove from redux cart storage function
-  const removeFromCart = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const removeFromCart = async () => {
     if (product) {
-      if (product.quantity && product.quantity <= data.minQty) {
+      const currentQuantity = product.quantity ?? 0;
+      if (currentQuantity <= data.minQty) {
         dispatch(removeProductFromCart(data.id));
-        onCartEmpty();
+        await deleteAuthedTovars(token, data.id_tov.toString());
       } else {
         dispatch(deleteProductQuantity(data.id));
+        debouncedUpdateTovar(data.id_tov, currentQuantity - 1);
       }
     }
   };

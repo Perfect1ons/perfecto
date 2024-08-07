@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { url } from "@/components/temporary/data";
 import {
   CardFavoritesIcon,
@@ -11,177 +11,112 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
-import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
-import AuthModal from "@/components/AuthModal/AuthModal";
+import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
+import { useDispatch, useSelector } from "react-redux";
+import UserInfoModal from "../UserInfoModal/UserInfoModal";
+import { RootState } from "@/store";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { AuthContext } from "@/context/AuthContext";
 import {
-  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
-  postFavorite,
 } from "@/api/clientRequest";
-import InformationModal from "../InformationModal/InformationModal";
-import { IFavoritesModel } from "@/types/Favorites/favorites";
-import cn from "clsx";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
 
-interface IcardDataProps {
+interface ICardDataProps {
   cardData: ICard;
   id_cart?: string | null | undefined;
   selectedIds?: number[];
   isSelected?: boolean;
   handleSelectionToggle?: (id_tov: number) => void;
+  deleteFav?: (id_tov: number[]) => void;
 }
 
-const Card = ({
-  cardData,
-  id_cart,
-  isSelected,
-  selectedIds,
-  handleSelectionToggle,
-}: IcardDataProps) => {
-  const { isAuth, token } = useContext(AuthContext);
-  const maxLength = 40;
-  const maxLengthDdos = 32;
-  const truncatedTitle = truncateText(cardData.naim, maxLength);
-  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
-  const [added, setAdded] = useState(false);
-  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+const Card = ({ cardData }: ICardDataProps) => {
+  const { token } = useContext(AuthContext);
+  const imageUrl =
+    cardData.photos.length > 0
+      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
+        ? `${cardData.photos[0].url_part}280.jpg`
+        : cardData.photos[0].url_part.startsWith("https://")
+        ? cardData.photos[0].url_part
+        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
+      : "/img/noPhoto.svg";
+
   const [rating, setRating] = useState(0);
-  const [isAuthVisible, setAuthVisible] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [quantity, setQuantity] = useState(0);
-  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
-  const openAuthModal = () => setAuthVisible(true);
-  const closeAuthModal = () => setAuthVisible(false);
-  const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation();
-
-    if (handleSelectionToggle) {
-      handleSelectionToggle(cardData.id_tov);
-    }
-  };
-  const [images, setImages] = useState<string[]>(() => {
-    const newImages = cardData.photos.map((photo) =>
-      photo.url_part.startsWith("https://goods-photos")
-        ? `${photo.url_part}280.jpg`
-        : photo.url_part.startsWith("https://")
-        ? photo.url_part
-        : `${url}nal/img/${cardData.id_post}/l_${photo.url_part}`
-    );
-
-    if (newImages.length === 0) {
-      newImages.push("/img/noPhoto.svg");
-    }
-
-    return newImages;
-  });
-
-  useEffect(() => {
-    const getStoredBasket = (key: string) => {
-      return JSON.parse(localStorage.getItem(key) || "[]");
-    };
-    const findCardInBasket = (basket: any[], id: number) => {
-      return basket.find((item: any) => parseInt(item.id_tov) === id);
-    };
-    const storedBasket = token
-      ? getStoredBasket("cartItems")
-      : getStoredBasket("cartItemsGuest");
-    const kolCard = findCardInBasket(storedBasket, cardData.id_tov);
-    if (kolCard) {
-      setQuantity(parseInt(kolCard.quantity) || parseInt(kolCard.kol) || 0);
-      setAdded(true);
-    } else {
-      setQuantity(0);
-      setAdded(false);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.id_tov, cardData.minQty, token]);
+  const [modalMessage, setModalMessage] = useState("");
+  const [isRedirect, setIsRedirect] = useState(false);
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
-      favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
+      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message: string | JSX.Element = "";
-    const favoriteData = {
-      id: cardData.id,
-      id_tov: cardData.id_tov,
-      id_post: cardData.id_post,
-      old_price: cardData.old_price,
-      discount_prc: cardData.discount_prc,
-      naim: cardData.naim,
-      ddos: cardData.ddos,
-      cenaok: cardData.cenaok,
-      url: cardData.url,
-      photos: cardData.photos,
-      ocenka: cardData.ocenka,
-      status: cardData.status,
-      minQty: cardData.minQty,
-    };
-    if (!isAuth) {
-      openAuthModal();
-      return;
-    }
+    let message = "";
+
     if (isFavorite) {
       favorites = favorites.filter(
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
       message = "Товар удален из избранного.";
-      if (token) {
-        deleteFavoritesProductAuthed(token, cardData.id_tov);
-      }
+      setIsRedirect(false);
     } else {
-      postFavorite(cardData.id_tov, 1, token);
-      favorites.push(favoriteData);
-      message = (
-        <>
-          Товар добавлен в избранное.{" "}
-          <Link className="linkCart" href="/favorites">
-            Нажмите, чтобы перейти к списку.
-          </Link>
-        </>
-      );
+      favorites.push(cardData);
+      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
+      setIsRedirect(true);
     }
+
     localStorage.setItem("favorites", JSON.stringify(favorites));
     setIsFavorite(!isFavorite);
     window.dispatchEvent(new Event("favoritesUpdated"));
+
+    // Показываем модалку с соответствующим сообщением
     setModalMessage(message);
     setModalVisible(true);
   };
+
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Ваша логика добавления в корзину
+  };
+
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
-  const handleCartEmpty = () => {
-    setAdded(false);
-    setQuantity(0);
+  const handleCardClick = () => {
+    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
-  // Функция обновления корзины в localStorage
 
+  const maxLength = 40;
+  const maxLengthDdos = 32;
+  const truncatedTitle = truncateText(cardData.naim, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
+
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+
+  const [cartModal, setCartModal] = useState(false);
+  const dispatch = useDispatch();
   const addToCart = async () => {
     if (token) {
       try {
+        setCartModal(true);
+        dispatch(addProductToCart(cardData));
+        setTimeout(() => setCartModal(false), 5000);
         const data = await postBasketProductAuthed(
           token,
           `${cardData.minQty}`,
           `${cardData.id_tov}`
         );
-
-        if (data) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
-          cartItems.push(data);
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
-        }
       } catch (error) {
         console.log("error", error);
       }
@@ -205,48 +140,49 @@ const Card = ({
         console.log("error", error);
       }
     }
-    setAdded(true);
   };
 
-  const handleAddToCart = async () => {
-    await addToCart();
+  const handleAddToCart = () => {
+    addToCart();
     setShouldFocusInput(true);
-    setModalMessage(
-      <>
-        Товар добавлен в корзину.{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-    setModalVisible(true);
   };
 
-  const [isHomePage, setIsHomePage] = useState(false);
+  const closeModalCart = () => {
+    setCartModal(false);
+  };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsHomePage(window.location.pathname === "/");
-    }
-  }, []);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === cardData.id);
+
   return (
     <>
-      <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
-      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
-        {modalMessage}
-      </InformationModal>
-      <div className="card" >
-        {cardData.status !== 6 && (
-          <div className="card__notAvailable">
-            <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>
-          </div>
-        )}
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
+      <FavoriteModal
+        isVisible={isModalVisible}
+        message={modalMessage}
+        isRedirect={isRedirect}
+        onClose={handleModalClose}
+      />
+      <div className="card" onClick={handleCardClick}>
         <div className="card__images">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <ImageSlider images={images} name={cardData.naim} />
+            <Image
+              className="card__image"
+              src={imageUrl}
+              width={300}
+              height={250}
+              alt={cardData.naim}
+              priority
+            />
             {cardData.discount_prc > 0 ? (
               <div className="card__info_skidkapercent">
                 {cardData.discount_prc}%
@@ -255,44 +191,15 @@ const Card = ({
           </Link>
           <span
             title={
-              isAuth && isFavorite
-                ? "Удалить из избранного"
-                : "Добавить в избранное"
+              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
             }
             className={`card__info_addFavorites ${
-              isAuth && isFavorite ? "card__info_addedFavorites" : ""
+              isFavorite ? "card__info_addedFavorites" : ""
             }`}
             onClick={handleFavoriteClick}
           >
             <CardFavoritesIcon />
           </span>
-          {isSelected && (
-            <div className="checkBoxPosition">
-              <span
-                onClick={handleSelectedToggle}
-                className={cn("showFiltersUlContainer__check", {
-                  ["showFiltersUlContainer__checkActive"]:
-                    selectedIds?.includes(cardData.id_tov),
-                })}
-              >
-                {selectedIds?.includes(cardData.id_tov) ? (
-                  <Image
-                    src="/img/checkIconWhite.svg"
-                    width={15}
-                    height={15}
-                    alt="check"
-                  />
-                ) : (
-                  <Image
-                    src="/img/checkIconWhite.svg"
-                    width={15}
-                    height={15}
-                    alt="check"
-                  />
-                )}
-              </span>
-            </div>
-          )}
         </div>
         <div className="card__info">
           <Link
@@ -331,12 +238,11 @@ const Card = ({
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <p className="card__info_title">{truncatedTitle}</p>
+            <h1 className="card__info_title">{truncatedTitle}</h1>
           </Link>
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
-            aria-label="check item rating"
           >
             <div className="card__info_rating">
               {[...Array(5)].map((_, index) => (
@@ -361,13 +267,12 @@ const Card = ({
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!added && (
+          {!product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
             >
               <button
-                disabled={cardData.status !== 6}
                 title="Добавить в корзину"
                 aria-label="add to cart"
                 className="card__info_addproduct"
@@ -380,17 +285,16 @@ const Card = ({
               </button>
             </div>
           )}
-          {added && (
+          {product?.quantity  && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
             >
-              <CartReducerBtn
+              <ReducerBtn
+                token={token}
                 data={cardData}
-                onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                id_cart={id_cart}
               />
             </div>
           )}

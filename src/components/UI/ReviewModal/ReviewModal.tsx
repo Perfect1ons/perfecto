@@ -11,14 +11,14 @@ import {
   XMark,
   YellowStar,
 } from "../../../../public/Icons/Icons";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
 import { postOtz } from "@/api/clientRequest";
 
 interface IReviewModal {
   func: () => void;
-  data: Items;
+  data: IItemItems;
 }
 
 export interface IUser {

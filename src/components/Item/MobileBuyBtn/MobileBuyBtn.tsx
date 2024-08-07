@@ -1,20 +1,19 @@
-import { ICardProductItems, Items } from "@/types/CardProduct/cardProduct";
+import { ICardProductItems,  } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { CartIcon } from "../../../../public/Icons/Icons";
 import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IBuyBtnProps {
   data: ICardProductItems;
-  handleCartEmpty: () => void;
   product: any;
   addToCart: () => void;
 }
 
 const MobileBuyBtn = ({
   data,
-  handleCartEmpty,
   product,
   addToCart,
 }: IBuyBtnProps) => {
@@ -68,9 +67,8 @@ const MobileBuyBtn = ({
             </div>
           </button>
         ) : (
-          <CartReducerBtn
+          <ReducerBtn
             data={data.items}
-            onCartEmpty={handleCartEmpty}
             shouldFocusInput={shouldFocusInput}
             onFocusHandled={() => setShouldFocusInput(false)}
           />

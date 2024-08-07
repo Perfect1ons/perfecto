@@ -21,10 +21,12 @@ import { IBasketItems } from "@/interfaces/baskets/basket";
 import BasketHeader from "./BasketHeader/BasketHeader";
 import { deleteAuthedTovars } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
+import { useDispatch } from "react-redux";
+import { removeProductFromCart } from "@/store/reducers/cart.reducer";
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
-  loading: () => <h1>loading...</h1>
-})
+  loading: () => <h1>loading...</h1>,
+});
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
@@ -49,6 +51,7 @@ const Abdu = ({
   cities,
   items: initialItems,
 }: IBasketProps) => {
+  const dispatch = useDispatch();
   const [items, setItems] = useState<IBasketItems[]>(initialItems);
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
@@ -116,9 +119,11 @@ const Abdu = ({
     setChoosedModal(true);
     setChoosed(id_tov);
   };
+
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       closeModal();
+      dispatch(removeProductFromCart(choosed));
       const response = await deleteAuthedTovars(authToken, choosed.toString());
       if (response) {
         setItems((prevItems) =>
@@ -251,50 +256,6 @@ const Abdu = ({
   }, [isModalVisible]);
   const [price, setPrice] = useState<number>(1000);
 
-  const animatePrice = (startValue: number, endValue: number) => {
-    const priceElement = document.getElementById("price");
-    if (priceElement) {
-      const duration = 200; // Длительность анимации в миллисекундах
-      const start = performance.now();
-
-      const update = (currentTime: number) => {
-        const elapsed = currentTime - start;
-        const progress = Math.min(elapsed / duration, 1);
-        const newValue = Math.round(
-          startValue + (endValue - startValue) * progress
-        );
-
-        priceElement.textContent = newValue.toString();
-
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
-      };
-
-      requestAnimationFrame(update);
-    }
-  };
-
-  const handleIncrease = () => {
-    setPrice((prevPrice) => {
-      const newPrice = prevPrice + 1000;
-      if (price >= 0) {
-        animatePrice(price, newPrice);
-      }
-      return newPrice;
-    });
-  };
-
-  const handleDecrease = () => {
-    setPrice((prevPrice) => {
-      if (prevPrice > 0) {
-        const newPrice = Math.max(prevPrice - 1000, 0);
-        animatePrice(price, newPrice);
-        return newPrice;
-      }
-      return prevPrice;
-    });
-  };
   const isAllSelected =
     selectedIds.split(",").filter(Boolean).length === items.length;
 
@@ -348,6 +309,7 @@ const Abdu = ({
           />
           <div className={styles.basket__container}>
             <BasketsItems
+              token={authToken}
               removeFromCart={removeFromCart}
               selectedIds={selectedIds}
               onCheckboxChange={handleCheckboxChange}
@@ -418,18 +380,6 @@ const Abdu = ({
               </button>
             </div>
           </div>
-          <div className={styles.price_container}>
-            <span id="price" className={styles.price}>
-              {price}
-            </span>{" "}
-            ₽
-          </div>
-          <button className="showMore__button" onClick={handleIncrease}>
-            Увеличить
-          </button>
-          <button className="showMore__button" onClick={handleDecrease}>
-            Уменьшить
-          </button>
         </div>
       ) : (
         <BasketEmpty />

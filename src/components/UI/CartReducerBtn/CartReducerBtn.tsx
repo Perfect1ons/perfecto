@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Items } from "@/types/CardProduct/cardProduct";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import useMediaQuery from "@/hooks/useMediaQuery";
@@ -9,14 +8,15 @@ import {
   deleteBasketProductAuthedIdTov,
   patchBasketProductAuthed,
   postBasketProduct,
-  postBasketProductAuthedIdTov,
+  postAuthedTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import { postProductAuthResponse } from "@/types/Basket/postProductAuthResponse";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 
 interface ICartReducerBtnProps {
-  data: Items;
+  data: IItemItems;
   onCartEmpty: () => void;
   shouldFocusInput: boolean;
   onFocusHandled: () => void;
@@ -106,7 +106,7 @@ const CartReducerBtn = ({
         if (data.id_box) {
           await patchBasketProductAuthed(token, data.id_box, updatedQuantity);
         } else if (data.id_tov) {
-          const item = await postBasketProductAuthedIdTov(
+          const item = await postAuthedTovar(
             token,
             data.id_tov,
             updatedQuantity
@@ -165,11 +165,7 @@ const CartReducerBtn = ({
 
     try {
       if (token && data.id_tov) {
-        const item = await postBasketProductAuthedIdTov(
-          token,
-          data.id_tov,
-          newQuantity
-        );
+        const item = await postAuthedTovar(token, data.id_tov, newQuantity);
         if (item) {
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
@@ -256,11 +252,7 @@ const CartReducerBtn = ({
 
     try {
       if (token && data.id_tov) {
-        const item = await postBasketProductAuthedIdTov(
-          token,
-          data.id_tov,
-          newQuantity
-        );
+        const item = await postAuthedTovar(token, data.id_tov, newQuantity);
         if (item) {
           const itemIndex = cartItems.findIndex(
             (cartItem: postProductAuthResponse) =>
