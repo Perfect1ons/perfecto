@@ -10,6 +10,7 @@ import { TrashIcon, XMark } from "../../../../public/Icons/Icons";
 import { deleteFavoritesProductAllAuthed } from "@/api/clientRequest";
 import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useSearchParams } from "next/navigation";
 
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
@@ -25,8 +26,10 @@ export default function Favorites({
   const [favorites, setFavorites] = useState<any[]>(favoriteData);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const searchParams = useSearchParams();
+  const initialPage = parseInt(searchParams?.get("page") || "1", 10);
 
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   const pageCount = favCount / 20;
 
@@ -228,7 +231,7 @@ export default function Favorites({
           <FavoritesPagination
             isMobile={isMobile}
             handlePageClick={pageClick}
-            currentPage={currentPage}
+            currentPage={currentPage - 1}
             pageCount={pageCount}
           />
         </>
