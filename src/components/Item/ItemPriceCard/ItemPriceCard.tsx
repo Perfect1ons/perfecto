@@ -32,6 +32,7 @@ import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
+import useFavorites from "@/hooks/useFavorites";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -74,6 +75,8 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const [isRedirect, setIsRedirect] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
+  const [added, setAdded] = useState(false);
+  const { postFav, deleteFav } = useFavorites();
 
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
@@ -100,27 +103,31 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
         );
         message = "Товар удален из избранного.";
         if (token) {
-          await deleteFavoritesProductAuthed(token, data.items.id_tov);
+          deleteFav(data.items.id_tov);
         }
+        setIsFavorite(!isFavorite);
       } else {
-        // Добавляем товар в избранное
-        const response = await postFavorite(data.items.id_tov, 1, token);
-        if (response) {
-          favorites.push(response);
-          message = (
-            <>
-              Товар добавлен в избранное.{" "}
-              <Link className="linkCart" href="/favorites">
-                Нажмите, чтобы перейти к списку.
-              </Link>
-            </>
-          );
-        } else {
-          message = "Не удалось добавить товар в избранное.";
+        try {
+          const response = await postFav(data.items.id_tov, 1);
+          if (response) {
+            favorites.push(response);
+            message = (
+              <>
+                Товар добавлен в избранное.{" "}
+                <Link className="linkCart" href="/favorites">
+                  Нажмите, чтобы перейти к списку.
+                </Link>
+              </>
+            );
+            setIsFavorite(!isFavorite);
+          } else {
+            message = <p>Не удалось добавить товар в избранное.</p>;
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
       localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsFavorite(!isFavorite);
       window.dispatchEvent(new Event("favoritesUpdated"));
       setModalMessage(message);
       setModalVisible(true);

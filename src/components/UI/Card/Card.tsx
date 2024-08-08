@@ -107,6 +107,7 @@ const Card = ({
           if (deleteFavorites) {
             deleteFavorites([cardData.id_tov]);
           }
+          setIsFavorite(!isFavorite);
         }
       } else {
         try {

@@ -79,11 +79,11 @@ export default async function RootLayout({
       cartData = await getBasket(isAuthed, 1);
     } else if (cart) {
       const response = await getProductBasket(1, cartId ?? 0);
-      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
+      cartData = response?.model ?? []; 
     }
   } catch (error) {
     console.error("Ошибка при получении данных корзины:", error);
-    cartData = []; // Default to an empty array if there's an error
+    cartData = []; 
   }
 
 
