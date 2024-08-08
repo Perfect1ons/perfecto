@@ -25,6 +25,7 @@ import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
 import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
+import { IFavorites } from "@/types/Favorites/favorites";
 
 //! Импорт библиотеки
 import ky from "ky";
@@ -699,6 +700,21 @@ export const postAuthedTovar = async (
     return false;
   }
 };
+
+export const getFavorites = (
+  token: string,
+  page: string | undefined
+): Promise<IFavorites> => {
+  return maxkgnocache
+    .get(`izb?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+
 
 //! Запросы для  корзины НЕАВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
 

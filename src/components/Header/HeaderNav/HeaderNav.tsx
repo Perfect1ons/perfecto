@@ -14,6 +14,7 @@ import {
 } from "../../../../public/Icons/Icons";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import useFavorites from "@/hooks/useFavorites";
 
 interface ILinks {
   href: string;
@@ -50,15 +51,16 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
+  useEffect(() => {
+    const updateCounts = () => {
+      const favCount = localStorage.getItem("favCount");
 
-  const updateCounts = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+          const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
     setLinks((prevLinks) =>
       prevLinks.map((link) => {
         if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
+          return { ...link, count: authStatus ? favCount : 0 };
         }
         if (link.href === "/profile") {
           return { ...link, count: notif };
@@ -69,9 +71,8 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
         return link;
       })
     );
-  };
+    };
 
-  useEffect(() => {
     updateCounts();
 
     const favoritesListener = () => updateCounts();
@@ -84,7 +85,6 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
       window.removeEventListener("favoritesUpdated", favoritesListener);
       window.removeEventListener("cartUpdated", cartListener);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [notif, authStatus, isAuthed, cart]);
 
   return (

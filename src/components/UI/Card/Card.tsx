@@ -29,7 +29,7 @@ interface ICardDataProps {
   selectedIds?: number[];
   isSelected?: boolean;
   handleSelectionToggle?: (id_tov: number) => void;
-  deleteFav?: (id_tov: number[]) => void;
+  deleteFavorites?: (id_tov: number[]) => void;
 }
 
 const Card = ({ cardData }: ICardDataProps) => {

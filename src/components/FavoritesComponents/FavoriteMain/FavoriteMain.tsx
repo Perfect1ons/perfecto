@@ -7,10 +7,10 @@ import Card from "@/components/UI/Card/Card";
 import FavoritesIsEmpty from "./FavoritesIsEmpty";
 import Image from "next/image";
 import { TrashIcon, XMark } from "../../../../public/Icons/Icons";
-import { deleteFavoritesProductAllAuthed } from "@/api/clientRequest";
 import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useSearchParams } from "next/navigation";
+import useFavorites from "@/hooks/useFavorites";
 
 interface IFavoritesProps {
   favoriteData: IFavoritesModel[];
@@ -28,6 +28,8 @@ export default function Favorites({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams?.get("page") || "1", 10);
+  const { deleteFavAll } = useFavorites();
+  const favCountStorage = localStorage.getItem("favCount");
 
   const [currentPage, setCurrentPage] = useState(initialPage);
 
@@ -35,28 +37,41 @@ export default function Favorites({
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  useEffect(() => {
-    const storedFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
-
-    const newFavorites = favorites.filter(
-      (favorite) =>
-        !storedFavorites.some(
-          (storedFavorite: any) => storedFavorite.id_tov === favorite.id_tov
-        )
-    );
-
-    const updatedFavorites = [...storedFavorites, ...newFavorites];
-
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-
-    window.dispatchEvent(new Event("favoritesUpdated"));
-  }, [favorites]);
+  const { refreshFav } = useFavorites();
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+
+  useEffect(() => {
+    if (favCount) {
+      localStorage.setItem("favCount", JSON.stringify(favCount));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favoriteData));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const fetchFav = async () => {
+      try {
+        const response = await refreshFav(initialPage);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (response) {
+          setFavorites(response.model);
+          localStorage.setItem("favorites", JSON.stringify(response.model));
+        }
+      } catch (e) {
+        console.log("favorite fetching error:", e);
+      }
+    };
+    fetchFav();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPage]);
 
   const handleSelectAll = () => {
     if (selectedIds.length === favorites.length) {
@@ -76,7 +91,7 @@ export default function Favorites({
 
   const deleteFavoritesProductSelected = () => {
     if (authToken) {
-      deleteFavoritesProductAllAuthed(authToken, selectedIds)
+      deleteFavAll(selectedIds)
         .then(() => {
           const updatedFavorites = favorites.filter(
             (item) => !selectedIds.includes(item.id_tov)
@@ -89,7 +104,7 @@ export default function Favorites({
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
-          } else if (currentPage === 1) {
+          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
             window.location.reload();
           }
         })
@@ -99,9 +114,9 @@ export default function Favorites({
     }
   };
 
-  const deleteFav = (id_tov: number[]) => {
+  const deleteFavorites = (id_tov: number[]) => {
     if (authToken) {
-      deleteFavoritesProductAllAuthed(authToken, id_tov)
+      deleteFavAll(id_tov)
         .then(() => {
           const updatedFavorites = favorites.filter(
             (item) => !id_tov.includes(item.id_tov)
@@ -112,7 +127,7 @@ export default function Favorites({
             setCurrentPage(currentPage - 1);
             updateUrl(currentPage - 1);
             window.location.reload();
-          } else if (currentPage === 1) {
+          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
             window.location.reload();
           }
         })
@@ -152,7 +167,7 @@ export default function Favorites({
   const pageClick = ({ selected }: { selected: number }) => {
     setCurrentPage(selected);
     updateUrl(selected + 1);
-    window.location.reload();
+    window.scrollTo({ top: 500, behavior: "auto" });
   };
 
   return (
@@ -193,7 +208,7 @@ export default function Favorites({
             <h1 className={styles.favorites__card_title}>
               В избранном{" "}
               <span className={styles.favorites__card_count}>
-                {favorites.length}
+                {favCountStorage}
               </span>{" "}
               {favorites.length % 10 === 1 && favorites.length % 100 !== 11
                 ? "товар"
@@ -253,16 +268,16 @@ export default function Favorites({
                   selectedIds={selectedIds}
                   isSelected={true}
                   handleSelectionToggle={handleSelectionToggle}
-                  deleteFav={deleteFav}
+                  deleteFavorites={deleteFavorites}
                 />
               );
             })}
           </div>
-          {favCount > 20 && (
+          {favCountStorage && parseInt(favCountStorage) > 20 && (
             <FavoritesPagination
               isMobile={isMobile}
               handlePageClick={pageClick}
-              currentPage={currentPage - 1}
+              currentPage={initialPage - 1}
               pageCount={pageCount}
             />
           )}
