@@ -11,19 +11,20 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import { useDispatch, useSelector } from "react-redux";
-import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { AuthContext } from "@/context/AuthContext";
-import {
-  postBasketProductAuthed,
-  postTovar,
-} from "@/api/clientRequest";
+import { postBasketProductAuthed, postTovar } from "@/api/clientRequest";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
+import useFavorites from "@/hooks/useFavorites";
+import { IFavoritesModel } from "@/types/Favorites/favorites";
+import InformationModal from "../InformationModal/InformationModal";
+import ImageSlider from "./ImageSlider/ImageSlider";
+import cn from "clsx";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
-interface ICardDataProps {
+interface IcardDataProps {
   cardData: ICard;
   id_cart?: string | null | undefined;
   selectedIds?: number[];
@@ -32,32 +33,57 @@ interface ICardDataProps {
   deleteFavorites?: (id_tov: number[]) => void;
 }
 
-const Card = ({ cardData }: ICardDataProps) => {
-  const imageUrl =
-    cardData.photos.length > 0
-      ? cardData.photos[0].url_part.startsWith("https://goods-photos")
-        ? `${cardData.photos[0].url_part}280.jpg`
-        : cardData.photos[0].url_part.startsWith("https://")
-        ? cardData.photos[0].url_part
-        : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
-      : "/img/noPhoto.svg";
+const Card = ({
+  cardData,
+  id_cart,
+  isSelected,
+  selectedIds,
+  handleSelectionToggle,
+  deleteFavorites,
+}: IcardDataProps) => {
   const { isAuth, token, cartId } = useContext(AuthContext);
-  const [rating, setRating] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
-  const [isRedirect, setIsRedirect] = useState(false);
   const maxLength = 40;
   const maxLengthDdos = 32;
   const truncatedTitle = truncateText(cardData.naim, maxLength);
   const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-  
+  const [isAuthVisible, setAuthVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const [rating, setRating] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const openAuthModal = () => setAuthVisible(true);
+  const closeAuthModal = () => setAuthVisible(false);
+  const { postFav, deleteFav } = useFavorites();
+  const [images, setImages] = useState<string[]>(() => {
+    const newImages = cardData.photos.map((photo) =>
+      photo.url_part.startsWith("https://goods-photos")
+        ? `${photo.url_part}280.jpg`
+        : photo.url_part.startsWith("https://")
+        ? photo.url_part
+        : `${url}nal/img/${cardData.id_post}/l_${photo.url_part}`
+    );
+
+    if (newImages.length === 0) {
+      newImages.push("/img/noPhoto.svg");
+    }
+
+    return newImages;
+  });
+
+  const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
+
+    if (handleSelectionToggle) {
+      handleSelectionToggle(cardData.id_tov);
+    }
+  };
+
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
     setIsFavorite(
-      favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
+      favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
 
@@ -65,56 +91,76 @@ const Card = ({ cardData }: ICardDataProps) => {
     e.stopPropagation();
 
     let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let message = "";
-
-    if (isFavorite) {
-      favorites = favorites.filter(
-        (fav: ICard) => fav.id_tov !== cardData.id_tov
-      );
-      message = "Товар удален из избранного.";
-      setIsRedirect(false);
-    } else {
-      favorites.push(cardData);
-      message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-      setIsRedirect(true);
+    let message: string | JSX.Element = "";
+    if (!isAuth) {
+      openAuthModal();
+      return;
     }
-
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-    setIsFavorite(!isFavorite);
-    window.dispatchEvent(new Event("favoritesUpdated"));
-
-    // Показываем модалку с соответствующим сообщением
-    setModalMessage(message);
-    setModalVisible(true);
+    try {
+      if (isFavorite) {
+        favorites = favorites.filter(
+          (fav: ICard) => fav.id_tov !== cardData.id_tov
+        );
+        message = "Товар удален из избранного.";
+        if (token) {
+          deleteFav(cardData.id_tov);
+          if (deleteFavorites) {
+            deleteFavorites([cardData.id_tov]);
+          }
+        }
+      } else {
+        try {
+          const response = await postFav(cardData.id_tov, 1);
+          if (response) {
+            favorites.push(response);
+            message = (
+              <>
+                Товар добавлен в избранное.{" "}
+                <Link className="linkCart" href="/favorites">
+                  Нажмите, чтобы перейти к списку.
+                </Link>
+              </>
+            );
+            setIsFavorite(!isFavorite);
+          } else {
+            message = <p>Не удалось добавить товар в избранное.</p>;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      window.dispatchEvent(new Event("favoritesUpdated"));
+      setModalMessage(message);
+      setModalVisible(true);
+    } catch (error) {
+      console.error("Error handling favorite click:", error);
+      setModalMessage("Произошла ошибка при обработке запроса.");
+      setModalVisible(true);
+    }
   };
 
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
-  const [cartModal, setCartModal] = useState(false);
   const dispatch = useDispatch();
 
   const addToCart = async () => {
     if (token) {
       try {
-        setCartModal(true);
         dispatch(addProductToCart(cardData));
-        setTimeout(() => setCartModal(false), 3000);
         await postBasketProductAuthed(
           token,
           `${cardData.minQty}`,
           `${cardData.id_tov}`
         );
-
       } catch (error) {
         console.log("error", error);
       }
     } else {
       try {
-        setCartModal(true);
         dispatch(addProductToCart(cardData));
-        setTimeout(() => setCartModal(false), 3000);
         await postTovar(cardData.id_tov, cardData.minQty);
       } catch (error) {
         console.log("error", error);
@@ -125,10 +171,15 @@ const Card = ({ cardData }: ICardDataProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
-  };
-
-  const closeModalCart = () => {
-    setCartModal(false);
+    setModalMessage(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+    setModalVisible(true);
   };
 
   const cart = useSelector((state: RootState) => state.cart.cart);
@@ -136,33 +187,17 @@ const Card = ({ cardData }: ICardDataProps) => {
 
   return (
     <>
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
-      <FavoriteModal
-        isVisible={isModalVisible}
-        message={modalMessage}
-        isRedirect={isRedirect}
-        onClose={handleModalClose}
-      />
+      <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
       <div className="card">
         <div className="card__images">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <Image
-              className="card__image"
-              src={imageUrl}
-              width={300}
-              height={250}
-              alt={cardData.naim}
-              priority
-            />
+            <ImageSlider images={images} name={cardData.naim} />
             {cardData.discount_prc > 0 ? (
               <div className="card__info_skidkapercent">
                 {cardData.discount_prc}%
@@ -171,16 +206,46 @@ const Card = ({ cardData }: ICardDataProps) => {
           </Link>
           <span
             title={
-              isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+              isAuth && isFavorite
+                ? "Удалить из избранного"
+                : "Добавить в избранное"
             }
             className={`card__info_addFavorites ${
-              isFavorite ? "card__info_addedFavorites" : ""
+              isAuth && isFavorite ? "card__info_addedFavorites" : ""
             }`}
             onClick={handleFavoriteClick}
           >
             <CardFavoritesIcon />
           </span>
+          {isSelected && (
+            <div className="checkBoxPosition">
+              <span
+                onClick={handleSelectedToggle}
+                className={cn("showFiltersUlContainer__check", {
+                  ["showFiltersUlContainer__checkActive"]:
+                    selectedIds?.includes(cardData.id_tov),
+                })}
+              >
+                {selectedIds?.includes(cardData.id_tov) ? (
+                  <Image
+                    src="/img/checkIconWhite.svg"
+                    width={15}
+                    height={15}
+                    alt="check"
+                  />
+                ) : (
+                  <Image
+                    src="/img/checkIconWhite.svg"
+                    width={15}
+                    height={15}
+                    alt="check"
+                  />
+                )}
+              </span>
+            </div>
+          )}
         </div>
+
         <div className="card__info">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
