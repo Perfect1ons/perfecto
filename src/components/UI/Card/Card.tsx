@@ -16,14 +16,13 @@ import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import { AuthContext } from "@/context/AuthContext";
 import {
-  deleteFavoritesProductAuthed,
   postBasketProduct,
   postBasketProductAuthed,
-  postFavorite,
 } from "@/api/clientRequest";
 import InformationModal from "../InformationModal/InformationModal";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
 import cn from "clsx";
+import useFavorites from "@/hooks/useFavorites";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -31,7 +30,7 @@ interface IcardDataProps {
   selectedIds?: number[];
   isSelected?: boolean;
   handleSelectionToggle?: (id_tov: number) => void;
-  deleteFav?: (id_tov: number[]) => void;
+  deleteFavorites?: (id_tov: number[]) => void;
 }
 
 const Card = ({
@@ -40,7 +39,7 @@ const Card = ({
   isSelected,
   selectedIds,
   handleSelectionToggle,
-  deleteFav,
+  deleteFavorites,
 }: IcardDataProps) => {
   const { isAuth, token } = useContext(AuthContext);
   const maxLength = 40;
@@ -57,6 +56,8 @@ const Card = ({
   const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
+
+  const { postFav, deleteFav } = useFavorites();
   const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
 
@@ -109,6 +110,7 @@ const Card = ({
       favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
+
   const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
 
@@ -125,30 +127,33 @@ const Card = ({
         );
         message = "Товар удален из избранного.";
         if (token) {
-          await deleteFavoritesProductAuthed(token, cardData.id_tov);
-          if (deleteFav) {
-            deleteFav([cardData.id_tov]);
+          deleteFav(cardData.id_tov);
+          if (deleteFavorites) {
+            deleteFavorites([cardData.id_tov]);
           }
         }
       } else {
-        // Добавляем товар в избранное
-        const response = await postFavorite(cardData.id_tov, 1, token);
-        if (response) {
-          favorites.push(response);
-          message = (
-            <>
-              Товар добавлен в избранное.{" "}
-              <Link className="linkCart" href="/favorites">
-                Нажмите, чтобы перейти к списку.
-              </Link>
-            </>
-          );
-        } else {
-          message = "Не удалось добавить товар в избранное.";
+        try {
+          const response = await postFav(cardData.id_tov, 1);
+          if (response) {
+            favorites.push(response);
+            message = (
+              <>
+                Товар добавлен в избранное.{" "}
+                <Link className="linkCart" href="/favorites">
+                  Нажмите, чтобы перейти к списку.
+                </Link>
+              </>
+            );
+            setIsFavorite(!isFavorite);
+          } else {
+            message = <p>Не удалось добавить товар в избранное.</p>;
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
       localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsFavorite(!isFavorite);
       window.dispatchEvent(new Event("favoritesUpdated"));
       setModalMessage(message);
       setModalVisible(true);

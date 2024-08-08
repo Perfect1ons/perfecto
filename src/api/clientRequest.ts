@@ -26,6 +26,7 @@ import { IExitsUser } from "@/types/Basket/ExitsUser";
 import { IProfileData } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { IFavorites } from "@/types/Favorites/favorites";
 
 //! Используем библиотеку ky для fetch запросов
 //  Как им пользоваться вам расскажет ютуб :)
@@ -693,4 +694,18 @@ export const getDeliveryMethodClient = (
   idUser: any
 ): Promise<IDeliveryMethod> => {
   return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+};
+
+export const getFavorites = (
+  token: string,
+  page: string | undefined
+): Promise<IFavorites> => {
+  return maxkgnocache
+    .get(`izb?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };

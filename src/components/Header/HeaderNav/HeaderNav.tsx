@@ -12,6 +12,7 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
+import useFavorites from "@/hooks/useFavorites";
 
 interface ILinks {
   href: string;
@@ -48,48 +49,48 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
   const addToFavorite = () => setAuthVisible(false);
-useEffect(() => {
-  const updateCounts = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const cartCountGuest = JSON.parse(
-      localStorage.getItem("cartItemsGuest") || "[]"
-    );
+  useEffect(() => {
+    const updateCounts = () => {
+      const favCount = localStorage.getItem("favCount");
 
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => {
-        if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
-        }
-        if (link.href === "/profile") {
-          return { ...link, count: notif };
-        }
-        if (link.href === "/cart") {
-          if (isAuthed) {
-            return { ...link, count: cartCount.length };
-          } else {
-            return { ...link, count: cartCountGuest.length };
+      const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
+      const cartCountGuest = JSON.parse(
+        localStorage.getItem("cartItemsGuest") || "[]"
+      );
+
+      setLinks((prevLinks) =>
+        prevLinks.map((link) => {
+          if (link.href === "/favorites") {
+            return { ...link, count: authStatus ? favCount : 0 };
           }
-        }
-        return link;
-      })
-    );
-  };
+          if (link.href === "/profile") {
+            return { ...link, count: notif };
+          }
+          if (link.href === "/cart") {
+            if (isAuthed) {
+              return { ...link, count: cartCount.length };
+            } else {
+              return { ...link, count: cartCountGuest.length };
+            }
+          }
+          return link;
+        })
+      );
+    };
 
-  updateCounts();
+    updateCounts();
 
-  const favoritesListener = () => updateCounts();
-  const cartListener = () => updateCounts();
+    const favoritesListener = () => updateCounts();
+    const cartListener = () => updateCounts();
 
-  window.addEventListener("favoritesUpdated", favoritesListener);
-  window.addEventListener("cartUpdated", cartListener);
+    window.addEventListener("favoritesUpdated", favoritesListener);
+    window.addEventListener("cartUpdated", cartListener);
 
-  return () => {
-    window.removeEventListener("favoritesUpdated", favoritesListener);
-    window.removeEventListener("cartUpdated", cartListener);
-  };
-}, [notif, authStatus, isAuthed]);
-
+    return () => {
+      window.removeEventListener("favoritesUpdated", favoritesListener);
+      window.removeEventListener("cartUpdated", cartListener);
+    };
+  }, [notif, authStatus, isAuthed]);
 
   return (
     <nav className={styles.nav}>
