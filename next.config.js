@@ -4,7 +4,12 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    optimizePackageImports: ["swiper", "clsx", "react-loading-skeleton","lodash"],
+    optimizePackageImports: [
+      "swiper",
+      "clsx",
+      "react-loading-skeleton",
+      "lodash",
+    ],
   },
   images: {
     formats: ["image/webp"],
@@ -86,6 +91,15 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [{ key: "Content-Type", value: "application/json" }],
       },
+      {
+        source: "/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "private, max-age=3600, must-revalidate",
+          },
+        ],
+      },
     ];
   },
   async rewrites() {
@@ -105,6 +119,5 @@ const nextConfig = {
     ];
   },
 };
-
 
 module.exports = nextConfig;

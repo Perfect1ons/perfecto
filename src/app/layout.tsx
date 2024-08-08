@@ -8,7 +8,12 @@ import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
 import { ModalProvider } from "@/context/ModalContext/ModalContext";
-import { getBasket, getCurrentOrders, getNotification, getProductBasket } from "@/api/requests";
+import {
+  getBasket,
+  getCurrentOrders,
+  getNotification,
+  getProductBasket,
+} from "@/api/requests";
 const DynamicMessageModal = dynamic(
   () => import("@/components/UI/MessageModal/MessageModal"),
   {
@@ -67,13 +72,20 @@ export default async function RootLayout({
   let orders;
   let cartData: any;
 
-  if (isAuthed && userId) {
-    notifications = await getNotification(parseInt(userId));
-    orders = await getCurrentOrders(isAuthed);
-    cartData = await getBasket(isAuthed, 1);
-  } else {
-    cartData = (await getProductBasket(1, cartId ?? 0)).model;
+  try {
+    if (isAuthed && userId) {
+      notifications = await getNotification(parseInt(userId));
+      orders = await getCurrentOrders(isAuthed);
+      cartData = await getBasket(isAuthed, 1);
+    } else if (cart) {
+      const response = await getProductBasket(1, cartId ?? 0);
+      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных корзины:", error);
+    cartData = []; // Default to an empty array if there's an error
   }
+
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>

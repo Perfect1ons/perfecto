@@ -13,7 +13,6 @@ import {
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import Link from "next/link";

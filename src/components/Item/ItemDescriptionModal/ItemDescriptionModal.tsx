@@ -7,7 +7,6 @@ import DOMPurify from "isomorphic-dompurify";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import { useEffect, useRef, useState } from "react";
-import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import { RootState } from "@/store";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 

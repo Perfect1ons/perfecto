@@ -14,7 +14,6 @@ import {
 } from "../../../../public/Icons/Icons";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
-import useFavorites from "@/hooks/useFavorites";
 
 interface ILinks {
   href: string;
@@ -50,27 +49,27 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-  const addToFavorite = () => setAuthVisible(false);
+  
   useEffect(() => {
     const updateCounts = () => {
       const favCount = localStorage.getItem("favCount");
 
-          const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+      const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
 
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => {
-        if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favCount : 0 };
-        }
-        if (link.href === "/profile") {
-          return { ...link, count: notif };
-        }
-        if (link.href === "/cart") {
-          return { ...link, count: baskets.length };
-        }
-        return link;
-      })
-    );
+      setLinks((prevLinks) =>
+        prevLinks.map((link) => {
+          if (link.href === "/favorites") {
+            return { ...link, count: authStatus ? favCount : 0 };
+          }
+          if (link.href === "/profile") {
+            return { ...link, count: notif };
+          }
+          if (link.href === "/cart") {
+            return { ...link, count: baskets.length };
+          }
+          return link;
+        })
+      );
     };
 
     updateCounts();

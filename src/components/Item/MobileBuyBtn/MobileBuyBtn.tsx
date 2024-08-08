@@ -3,7 +3,6 @@ import styles from "./style.module.scss";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { CartIcon } from "../../../../public/Icons/Icons";
-import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IBuyBtnProps {

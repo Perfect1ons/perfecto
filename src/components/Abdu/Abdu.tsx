@@ -59,7 +59,6 @@ const Abdu = ({
 }: IBasketProps) => {
   const dispatch = useDispatch();
   const [items, setItems] = useState<IBasketItems[]>(initialItems);
-  // const {} = useContext( Auth )
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
@@ -120,47 +119,50 @@ const Abdu = ({
   });
 
   //! для удаления
-  const removeFromCart = (id_tov: number) => {
-    openModal();
-    setView("confirm");
-    setChoosedModal(true);
-    setChoosed(id_tov);
-  };
+const removeFromCart = (id_tov: number) => {
+  openModal();
+  setView("confirm");
+  setChoosedModal(true);
+  setChoosed(id_tov);
+};
 
-  const removeTovars = async () => {
-    if (choosedModal && choosed) {
-      closeModal();
-      dispatch(removeProductFromCart(choosed));
+const removeTovars = async () => {
+  if (choosedModal && choosed) {
+    dispatch(removeProductFromCart(choosed)); 
+    closeModal();
+      window.dispatchEvent(new Event("cartUpdated"));
 
-      let response;
-      if (authToken) {
-        response = await deleteAuthedTovars(authToken, choosed.toString());
-      } else {
-        response = await deleteTovar(cartId, choosed);
-      }
-
-      if (response) {
-        setItems((prevItems) =>
-          prevItems.filter((item) => item.id_tov !== choosed)
-        );
-      }
-      setChoosed(undefined);
+    let response;
+    if (authToken) {
+      response = await deleteAuthedTovars(authToken, choosed.toString());
     } else {
-      let response;
-      if (authToken) {
-        response = await deleteAuthedTovars(authToken, selectedIds);
-      } else {
-        response = await deleteAllTovars(cartId, selectedIds);
-      }
-
-      const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
-      setItems((prevItems) =>
-        prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
-      );
-      closeModal();
-      setSelectedIds("");
+      response = await deleteTovar(cartId, choosed);
     }
-  };
+
+    if (response) {
+      setItems((prevItems) =>
+        prevItems.filter((item) => item.id_tov !== choosed)
+      );
+    }
+    setChoosed(undefined);
+  } else {
+
+    let response;
+    if (authToken) {
+      response = await deleteAuthedTovars(authToken, selectedIds);
+    } else {
+      response = await deleteAllTovars(cartId, selectedIds);
+    }
+
+    const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
+    setItems((prevItems) =>
+      prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
+    );
+    closeModal();
+    setSelectedIds("");
+  }
+};
+
 
   //! для выбранных товаров
   const handleCheckboxChange = (id_tov: number, isChecked: boolean) => {
@@ -274,7 +276,6 @@ const Abdu = ({
       body.style.top = "";
     }
   }, [isModalVisible]);
-  const [price, setPrice] = useState<number>(1000);
 
   const isAllSelected =
     selectedIds.split(",").filter(Boolean).length === items.length;

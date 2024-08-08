@@ -23,12 +23,15 @@ export default async function Page() {
   try {
     if (authToken) {
       cartData = await getBasket(authToken, 1);
-    } else {
-      cartData = (await getProductBasket(1, cartId ?? 0)).model;
+    } else if (cart) {
+      const response = await getProductBasket(1, cartId ?? 0);
+      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
+    } else{
+      cartData = [];
     }
   } catch (error) {
     console.error("Ошибка при получении данных корзины:", error);
-    cartData = null;
+    cartData = []; // Default to an empty array if there's an error
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
@@ -40,7 +43,7 @@ export default async function Page() {
   if (cartData && cartData.length > 0) {
     return (
       <Abdu
-      cartId={cartId}
+        cartId={cartId}
         authToken={authToken}
         cities={deliveryCity}
         deliveryMethod={deliveryMethod}
