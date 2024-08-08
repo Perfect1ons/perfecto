@@ -29,7 +29,6 @@ export default function Favorites({
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams?.get("page") || "1", 10);
   const { deleteFavAll } = useFavorites();
-  const favCountStorage = localStorage.getItem("favCount");
 
   const [currentPage, setCurrentPage] = useState(initialPage);
 
@@ -207,9 +206,7 @@ export default function Favorites({
           <div className={cn(styles.favorites__card_header, "container")}>
             <h1 className={styles.favorites__card_title}>
               В избранном{" "}
-              <span className={styles.favorites__card_count}>
-                {favCountStorage}
-              </span>{" "}
+              <span className={styles.favorites__card_count}>{favCount}</span>{" "}
               {favorites.length % 10 === 1 && favorites.length % 100 !== 11
                 ? "товар"
                 : favorites.length % 10 >= 2 &&
@@ -273,7 +270,7 @@ export default function Favorites({
               );
             })}
           </div>
-          {favCountStorage && parseInt(favCountStorage) > 20 && (
+          {favCount > 20 && (
             <FavoritesPagination
               isMobile={isMobile}
               handlePageClick={pageClick}
