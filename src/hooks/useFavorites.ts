@@ -9,10 +9,11 @@ import {
 import { AuthContext } from "@/context/AuthContext";
 import { useContext } from "react";
 
-// Хук для управления избранными товарами
+// hook for control favorite products
 const useFavorites = () => {
   const { token } = useContext(AuthContext);
 
+  //favorite refresh count function
   const refreshFav = async (page: number) => {
     try {
       const response = await getFavorites(token, page.toString());
@@ -28,6 +29,7 @@ const useFavorites = () => {
     }
   };
 
+  //add product to favorite function
   const postFav = async (id_tov: number, kol: number) => {
     try {
       const data = await postFavorite(id_tov, kol, token);
@@ -40,6 +42,7 @@ const useFavorites = () => {
     }
   };
 
+  //delete product from favorite function
   const deleteFav = async (id_tov: number) => {
     try {
       await deleteFavoritesProductAuthed(token, id_tov);
@@ -49,6 +52,7 @@ const useFavorites = () => {
     }
   };
 
+  //delete products by array fuction
   const deleteFavAll = async (id_tov: number[]) => {
     try {
       await deleteFavoritesProductAllAuthed(token, id_tov);
