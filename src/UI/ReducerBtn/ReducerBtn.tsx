@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { MinusIcon, PlusIcon, TrashIcon } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import {
   postAuthedTovar,
   postTovar,
 } from "@/api/clientRequest";
+import { AuthContext } from "@/context/AuthContext";
 
 interface ICartReducerBtnProps {
   removeItem?: () => void;
@@ -32,13 +33,14 @@ interface ICartReducerBtnProps {
 
 const ReducerBtn = ({
   removeItem,
-  cartId,
+  cartId: idCart,
   data,
   token,
   shouldFocusInput,
   onFocusHandled,
 }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
+  const { cartId } = useContext(AuthContext)
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [inputValue, setInputValue] = useState<string>(
