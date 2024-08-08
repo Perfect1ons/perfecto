@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import {
   DeliverExPointIcons,
@@ -19,14 +19,18 @@ import {
 } from "@/interfaces/baskets/basketModal";
 import { IBasketItems } from "@/interfaces/baskets/basket";
 import BasketHeader from "./BasketHeader/BasketHeader";
-import { deleteAuthedTovars } from "@/api/clientRequest";
+import {
+  deleteAllTovars,
+  deleteAuthedTovars,
+  deleteTovar,
+} from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
-  loading: () => <h1>loading...</h1>
-})
+  loading: () => <h1>loading...</h1>,
+});
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
@@ -37,6 +41,7 @@ const CurierCitiesModal = dynamic(
   }
 );
 interface IBasketProps {
+  cartId: any;
   authToken?: string;
   cities: ICityFront;
   deliveryMethod: IDeliveryMethod;
@@ -45,6 +50,7 @@ interface IBasketProps {
 }
 
 const Abdu = ({
+  cartId,
   authToken,
   deliveryMethod,
   paymentMethod,
@@ -53,6 +59,7 @@ const Abdu = ({
 }: IBasketProps) => {
   const dispatch = useDispatch();
   const [items, setItems] = useState<IBasketItems[]>(initialItems);
+  // const {} = useContext( Auth )
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
@@ -124,7 +131,14 @@ const Abdu = ({
     if (choosedModal && choosed) {
       closeModal();
       dispatch(removeProductFromCart(choosed));
-      const response = await deleteAuthedTovars(authToken, choosed.toString());
+
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, choosed.toString());
+      } else {
+        response = await deleteTovar(cartId, choosed);
+      }
+
       if (response) {
         setItems((prevItems) =>
           prevItems.filter((item) => item.id_tov !== choosed)
@@ -132,7 +146,13 @@ const Abdu = ({
       }
       setChoosed(undefined);
     } else {
-      await deleteAuthedTovars(authToken, selectedIds);
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, selectedIds);
+      } else {
+        response = await deleteAllTovars(cartId, selectedIds);
+      }
+
       const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
       setItems((prevItems) =>
         prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))

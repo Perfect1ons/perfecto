@@ -54,30 +54,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
   const [token, setToken] = useState<string>(isAuthed || "");
   const [notif, setNotif] = useState<number>(notifCount?.length || 0);
   const [orders, setOrders] = useState<number>(ordersCount?.items.length || 0);
-  const dispatch = useDispatch();
+ const dispatch = useDispatch();
 
   useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("basket") || "[]");
-
-    const updatedCart = savedCart.map((savedItem: IBasketItems) => {
-      const cartItem = cartData.find(
-        (item) => item.id_tov === savedItem.id_tov
-      );
-
-      if (cartItem) {
-        const updatedQuantity = Math.max(Number(cartItem.kol), cartItem.minQty);
-        return { ...savedItem, kol: updatedQuantity.toString() };
-      }
-      return savedItem;
-    });
-
-    if (JSON.stringify(savedCart) !== JSON.stringify(updatedCart)) {
-      localStorage.setItem("basket", JSON.stringify(updatedCart));
-      setCartCount(updatedCart);
-    }
-
-    dispatch(updateCartFromLocalStorage(updatedCart));
-  }, [cartData, dispatch]);
+    dispatch(updateCartFromLocalStorage(cartCount));
+  }, [cartCount, dispatch]);
 
   return (
     <AuthContext.Provider

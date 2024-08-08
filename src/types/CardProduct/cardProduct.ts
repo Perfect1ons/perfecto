@@ -20,6 +20,7 @@ export interface IItemItems {
   url: string;
   prim?: string;
   img: string;
+  cart_id?: number;
   idt?: any;
   notfound: number;
   id_city: number;

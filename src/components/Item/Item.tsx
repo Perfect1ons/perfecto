@@ -17,10 +17,7 @@ import UserInfoModal from "../UI/UserInfoModal/UserInfoModal";
 import ItemPriceCardWrap from "./ItemPriceCardWrap/ItemPriceCardWrap";
 import ItemAccordion from "./ItemAccordion/ItemAccordion";
 import ItemDescriptionModal from "./ItemDescriptionModal/ItemDescriptionModal";
-import ItemSliderSkeleton from "./ItemSlider/ItemSliderSkeleton/ItemSliderSkeleton";
 import ItemSlider from "./ItemSlider/ItemSlider";
-
-
 
 const SimilarProducts = dynamic(
   () => import("../UI/SimilarProducts/SimilarProducts"),
@@ -50,7 +47,6 @@ const ItemPage = ({
   const [copiedCode, setCopiedCode] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
-  // Общий блок для блокировки скролла
   const scrollLockBlock = (open: boolean) => {
     const body = document.body;
     if (body) {

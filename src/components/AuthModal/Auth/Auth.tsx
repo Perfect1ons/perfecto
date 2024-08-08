@@ -39,7 +39,6 @@ const AuthForm = ({
   const phoneInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    // Focus on the phone input when the modal opens
     if (phoneInputRef.current) {
       phoneInputRef.current.focus();
     }

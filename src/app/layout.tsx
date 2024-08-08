@@ -8,7 +8,7 @@ import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
 import { ModalProvider } from "@/context/ModalContext/ModalContext";
-import { getBasket, getCurrentOrders, getNotification } from "@/api/requests";
+import { getBasket, getCurrentOrders, getNotification, getProductBasket } from "@/api/requests";
 const DynamicMessageModal = dynamic(
   () => import("@/components/UI/MessageModal/MessageModal"),
   {
@@ -62,15 +62,17 @@ export default async function RootLayout({
   const userId = cookieStore.get("userId")?.value;
   const cart = cookieStore.get("cart")?.value;
   const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
-  const cartId = match && match[1];
+  const cartId = match && match[1] ? parseInt(match[1], 10) : undefined;
   let notifications;
   let orders;
-  let cartData;
+  let cartData: any;
 
   if (isAuthed && userId) {
     notifications = await getNotification(parseInt(userId));
     orders = await getCurrentOrders(isAuthed);
     cartData = await getBasket(isAuthed, 1);
+  } else {
+    cartData = (await getProductBasket(1, cartId ?? 0)).model;
   }
 
   return (

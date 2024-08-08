@@ -18,8 +18,8 @@ import { RootState } from "@/store";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { AuthContext } from "@/context/AuthContext";
 import {
-  postBasketProduct,
   postBasketProductAuthed,
+  postTovar,
 } from "@/api/clientRequest";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 
@@ -32,7 +32,6 @@ interface ICardDataProps {
   deleteFav?: (id_tov: number[]) => void;
 }
 
-
 const Card = ({ cardData }: ICardDataProps) => {
   const imageUrl =
     cardData.photos.length > 0
@@ -42,13 +41,18 @@ const Card = ({ cardData }: ICardDataProps) => {
         ? cardData.photos[0].url_part
         : `${url}nal/img/${cardData.id_post}/l_${cardData.photos[0].url_part}`
       : "/img/noPhoto.svg";
-  const { isAuth, token } = useContext(AuthContext);
+  const { isAuth, token, cartId } = useContext(AuthContext);
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [isRedirect, setIsRedirect] = useState(false);
-
+  const maxLength = 40;
+  const maxLengthDdos = 32;
+  const truncatedTitle = truncateText(cardData.naim, maxLength);
+  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
+  const [shouldFocusInput, setShouldFocusInput] = useState(false);
+  
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
     const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -56,6 +60,7 @@ const Card = ({ cardData }: ICardDataProps) => {
       favorites.some((fav: ICard) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
+
   const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
 
@@ -83,58 +88,34 @@ const Card = ({ cardData }: ICardDataProps) => {
     setModalVisible(true);
   };
 
-  const handleAddToCartClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    // Ваша логика добавления в корзину
-  };
-
   const handleModalClose = () => {
     setModalVisible(false);
   };
 
-  const handleCardClick = () => {
-    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
-  };
-
-  const maxLength = 40;
-  const maxLengthDdos = 32;
-  const truncatedTitle = truncateText(cardData.naim, maxLength);
-  const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
-
-  const [shouldFocusInput, setShouldFocusInput] = useState(false);
-
   const [cartModal, setCartModal] = useState(false);
   const dispatch = useDispatch();
+
   const addToCart = async () => {
     if (token) {
       try {
         setCartModal(true);
         dispatch(addProductToCart(cardData));
-        setTimeout(() => setCartModal(false), 5000);
-        const data = await postBasketProductAuthed(
+        setTimeout(() => setCartModal(false), 3000);
+        await postBasketProductAuthed(
           token,
           `${cardData.minQty}`,
           `${cardData.id_tov}`
         );
+
       } catch (error) {
         console.log("error", error);
       }
     } else {
       try {
-        const data = await postBasketProduct(cardData.minQty, cardData.id_tov);
-
-        if (data) {
-          let cartItemsGuest = JSON.parse(
-            localStorage.getItem("cartItemsGuest") || "[]"
-          );
-
-          cartItemsGuest.push(data);
-          localStorage.setItem(
-            "cartItemsGuest",
-            JSON.stringify(cartItemsGuest)
-          );
-          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
-        }
+        setCartModal(true);
+        dispatch(addProductToCart(cardData));
+        setTimeout(() => setCartModal(false), 3000);
+        await postTovar(cardData.id_tov, cardData.minQty);
       } catch (error) {
         console.log("error", error);
       }
@@ -168,7 +149,7 @@ const Card = ({ cardData }: ICardDataProps) => {
         isRedirect={isRedirect}
         onClose={handleModalClose}
       />
-      <div className="card" onClick={handleCardClick}>
+      <div className="card">
         <div className="card__images">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
@@ -284,12 +265,13 @@ const Card = ({ cardData }: ICardDataProps) => {
               </button>
             </div>
           )}
-          {product?.quantity  && (
+          {product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
             >
               <ReducerBtn
+                cartId={cartId}
                 token={token}
                 data={cardData}
                 shouldFocusInput={shouldFocusInput}

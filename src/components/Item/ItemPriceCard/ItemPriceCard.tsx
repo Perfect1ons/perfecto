@@ -26,6 +26,7 @@ import {
   postBasketProduct,
   postBasketProductAuthed,
   postFavorite,
+  postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
@@ -39,50 +40,12 @@ interface IPriceProps {
 }
 
 const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
-  const { isAuth, token } = useContext(AuthContext);
-  const dispatch = useDispatch()
+  const { isAuth, token, cartId } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 992px)");
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === data.items.id);
 
-  // логика добавления в корзину в редакс
-const cart = useSelector((state: RootState) => state.cart.cart);
-const product = cart.find((item) => item.id === data.items.id);
-
-  const addToCart = async () => {
-    if (token) {
-      try {
-        dispatch(addProductToCart(data.items));
-        setCartModal(true);
-        setTimeout(() => setCartModal(false), 5000);
-        const item = await postBasketProductAuthed(
-          token,
-          `${data.items.minQty}`,
-          `${data.items.id_tov}`
-        );
-
-      } catch (error) {
-        console.log("error", error);
-      }
-    } else {
-      try {
-        const item = await postBasketProduct(
-          data.items.minQty,
-          data.items.id_tov
-        );
-
-        if (item) {
-          let cartItems = JSON.parse(
-            localStorage.getItem("cartItemsGuest") || "[]"
-          );
-
-          cartItems.push(item);
-          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
-          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
-  };
   const [copy, setCopy] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
@@ -169,7 +132,6 @@ const product = cart.find((item) => item.id === data.items.id);
     }
   };
 
-
   // для открытия модалки ИП (не айпи)
   const [ipOpen, setIpOpen] = useState(false);
 
@@ -213,7 +175,33 @@ const product = cart.find((item) => item.id === data.items.id);
     setModalVisible(false);
   };
 
-    const [cartModal, setCartModal] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
+
+  const addToCart = async () => {
+    if (token) {
+      try {
+        setCartModal(true);
+        dispatch(addProductToCart(data.items));
+        setTimeout(() => setCartModal(false), 3000);
+        await postBasketProductAuthed(
+          token,
+          `${data.items.minQty}`,
+          `${data.items.id_tov}`
+        );
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      try {
+        setCartModal(true);
+        dispatch(addProductToCart(data.items));
+        setTimeout(() => setCartModal(false), 3000);
+        await postTovar(data.items.id_tov, data.items.minQty);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  };
 
   const handleAddToCart = () => {
     addToCart();
@@ -227,11 +215,7 @@ const product = cart.find((item) => item.id === data.items.id);
   return (
     <>
       {!isSectionVisible && (
-        <MobileBuyBtn
-          data={data}
-          product={product}
-          addToCart={addToCart}
-        />
+        <MobileBuyBtn data={data} product={product} addToCart={addToCart} />
       )}
       <UserInfoModal visible={cartModal} onClose={closeModalCart}>
         Ваш товар добавлен в корзину. <br />
@@ -316,6 +300,7 @@ const product = cart.find((item) => item.id === data.items.id);
             )}
             {product?.quantity && (
               <ReducerBtn
+                cartId={cartId}
                 token={token}
                 data={data.items}
                 shouldFocusInput={shouldFocusInput}
