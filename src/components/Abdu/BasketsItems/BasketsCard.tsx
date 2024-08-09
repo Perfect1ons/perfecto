@@ -213,7 +213,7 @@ const BasketsCard = ({
       </div>
       <div className={styles.add__to_cart_column}>
         <ReducerBtn
-          removeItem={() => removeFromCart(item.id_tov)}
+          removeItem={removeFromCart}
           token={token}
           data={item}
           shouldFocusInput={shouldFocusInput}

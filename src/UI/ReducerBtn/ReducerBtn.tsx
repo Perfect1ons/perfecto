@@ -21,9 +21,10 @@ import {
   postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
+import { usePathname } from "next/navigation";
 
 interface ICartReducerBtnProps {
-  removeItem?: () => void;
+  removeItem?: (id_tov: number) => void;
   token?: any;
   cartId?: any;
   data: IItemItems;
@@ -41,6 +42,7 @@ const ReducerBtn = ({
 }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
   const { cartId } = useContext(AuthContext);
+  const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [inputValue, setInputValue] = useState<string>(
@@ -166,36 +168,37 @@ const ReducerBtn = ({
     }
   };
 
-const removeFromCart = async () => {
-  try {
-    if (product) {
-      const currentQuantity = product.quantity ?? 0;
-      if (currentQuantity <= data.minQty) {
-        dispatch(removeProductFromCart(data.id)); 
-        if (removeItem) {
-          removeItem(); 
+  const removeFromCart = async () => {
+    try {
+      if (product) {
+        const currentQuantity = product.quantity ?? 0;
+        if (pathname !== "/cart") {
+          dispatch(removeProductFromCart(product.id_tov));
         }
-        if (token) {
-          await deleteAuthedTovars(token, data.id_tov.toString());
+        if (currentQuantity <= data.minQty) {
+          if (removeItem) {
+            removeItem(product.id_tov);
+          }
+          if (token) {
+            await deleteAuthedTovars(token, data.id_tov.toString());
+          } else {
+            await deleteTovar(cartId, data.id_tov);
+          }
         } else {
-          await deleteTovar(cartId, data.id_tov);
-        }
-      } else {
-        const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-        dispatch(deleteProductQuantity(data.id)); 
-        setInputValue(newQuantity.toString()); 
-        if (token) {
-          debouncedUpdateTovar(data.id_tov, newQuantity);
-        } else {
-          debounceUpdateTovar(data.id_tov, newQuantity);
+          const newQuantity = Math.max(currentQuantity - 1, data.minQty);
+          dispatch(deleteProductQuantity(data.id_tov));
+          setInputValue(newQuantity.toString());
+          if (token) {
+            debouncedUpdateTovar(data.id_tov, newQuantity);
+          } else {
+            debounceUpdateTovar(data.id_tov, newQuantity);
+          }
         }
       }
+    } catch (error) {
+      console.error("Ошибка при удалении из корзины:", error);
     }
-  } catch (error) {
-    console.error("Ошибка при удалении из корзины:", error);
-  }
-};
-
+  };
 
   const inputRef = useRef<HTMLInputElement>(null);
 

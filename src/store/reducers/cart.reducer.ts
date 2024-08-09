@@ -38,8 +38,8 @@ const cartSlice = createSlice({
 
     removeProductFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      state.cart = state.cart.filter((product) => product.id !== id); // Фильтруем и удаляем товар
-      localStorage.setItem("basket", JSON.stringify(state.cart)); // Сохраняем новое состояние в localStorage
+      state.cart = state.cart.filter((product) => product.id_tov !== id); 
+      localStorage.setItem("basket", JSON.stringify(state.cart)); 
     },
 
     addProductQuantity: (state, action: PayloadAction<number>) => {

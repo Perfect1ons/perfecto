@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface IBasketItemsProps {
   token?: any;
-  cartData: IBasketItems[];
+  cartData: any[];
   removeFromCart: (id_tov: number) => void; 
   selectedIds: string;
   onCheckboxChange: (id_tov: number, isChecked: boolean) => void;

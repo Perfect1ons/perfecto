@@ -6,10 +6,17 @@ import {
   getPaymentMethod,
   getProductBasket,
 } from "@/api/requests";
-import Abdu from "@/components/Abdu/Abdu";
 import BasketEmpty from "@/components/Abdu/BasketEmpty/BasketEmpty";
+import MainLoader from "@/components/UI/Loader/MainLoader";
 import { generatePageMetadata } from "@/utils/metadata";
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
+const Abdu = dynamic(() => import("@/components/Abdu/Abdu"), {
+  ssr: false,
+  loading: () => <MainLoader/>,
+});
+
+
 
 export default async function Page() {
   const cookieStore = cookies();

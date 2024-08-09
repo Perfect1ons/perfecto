@@ -91,15 +91,6 @@ const nextConfig = {
         source: "/api/:path*",
         headers: [{ key: "Content-Type", value: "application/json" }],
       },
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "private, max-age=3600, must-revalidate",
-          },
-        ],
-      },
     ];
   },
   async rewrites() {

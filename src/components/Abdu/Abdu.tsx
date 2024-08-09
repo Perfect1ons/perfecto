@@ -25,14 +25,11 @@ import {
   deleteTovar,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+import { RootState } from "@/store";
+import BasketsItems from "./BasketsItems/BasketsItems";
 
-// Динамическая загрузка компонентов
-const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
-  ssr: false,
-  loading: () => <h1>Загрузка...</h1>,
-});
 
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
@@ -64,7 +61,17 @@ const Abdu = ({
   items: initialItems,
 }: IBasketProps) => {
   const dispatch = useDispatch();
-  const [items, setItems] = useState<IBasketItems[]>(initialItems);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const [items, setItems] = useState<any[]>(cart);
+  useEffect(() => {
+    if (cart.length === initialItems.length) {
+      setItems(initialItems);
+    } else {
+      const reversedCart = [...cart].reverse();
+      setItems(reversedCart);
+    }
+  }, [cart, initialItems]);
+
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
@@ -135,11 +142,11 @@ const Abdu = ({
     setChoosed(id_tov);
   };
 
+
   // Функция для подтверждения удаления товаров
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       dispatch(removeProductFromCart(choosed));
-
       closeModal();
 
       let response;
