@@ -301,7 +301,7 @@ const Abdu = ({
       if (!numericPhoneNumber) {
         newWarnings.phone = "Это поле не может быть пустым.";
         isValid = false;
-      } else if (numericPhoneNumber.length !== expectedLength) {
+      } else if (numericPhoneNumber !== expectedLength) {
         newWarnings.phone = "Номер введен не полностью.";
         isValid = false;
       } else {

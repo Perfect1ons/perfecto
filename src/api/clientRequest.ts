@@ -357,7 +357,7 @@ export const checkUser = (tel: number): Promise<number> => {
 
 export const postBoxOrder = async (
   token: string,
-  tel: string,
+  tel: any,
   vid_dost: any,
   id_vopl: any,
   fio: string,
