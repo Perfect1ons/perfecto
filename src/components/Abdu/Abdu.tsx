@@ -25,8 +25,9 @@ import {
   deleteTovar,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+import { RootState } from "@/store";
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
   loading: () => <h1>loading...</h1>,
@@ -58,7 +59,17 @@ const Abdu = ({
   items: initialItems,
 }: IBasketProps) => {
   const dispatch = useDispatch();
-  const [items, setItems] = useState<IBasketItems[]>(initialItems);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const [items, setItems] = useState<any[]>([]);
+  useEffect(() => {
+    if (cart.length === initialItems.length) {
+      setItems(initialItems);
+    } else {
+      const reversedCart = [...cart].reverse();
+      setItems(reversedCart);
+    }
+  }, [cart, initialItems]);
+
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
@@ -119,50 +130,48 @@ const Abdu = ({
   });
 
   //! для удаления
-const removeFromCart = (id_tov: number) => {
-  openModal();
-  setView("confirm");
-  setChoosedModal(true);
-  setChoosed(id_tov);
-};
+  const removeFromCart = (id_tov: number) => {
+    openModal();
+    setView("confirm");
+    setChoosedModal(true);
+    setChoosed(id_tov);
+  };
 
-const removeTovars = async () => {
-  if (choosedModal && choosed) {
-    dispatch(removeProductFromCart(choosed)); 
-    closeModal();
+  const removeTovars = async () => {
+    if (choosedModal && choosed) {
+      dispatch(removeProductFromCart(choosed));
+      closeModal();
       window.dispatchEvent(new Event("cartUpdated"));
 
-    let response;
-    if (authToken) {
-      response = await deleteAuthedTovars(authToken, choosed.toString());
-    } else {
-      response = await deleteTovar(cartId, choosed);
-    }
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, choosed.toString());
+      } else {
+        response = await deleteTovar(cartId, choosed);
+      }
 
-    if (response) {
+      if (response) {
+        setItems((prevItems) =>
+          prevItems.filter((item) => item.id_tov !== choosed)
+        );
+      }
+      setChoosed(undefined);
+    } else {
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, selectedIds);
+      } else {
+        response = await deleteAllTovars(cartId, selectedIds);
+      }
+
+      const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
       setItems((prevItems) =>
-        prevItems.filter((item) => item.id_tov !== choosed)
+        prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
       );
+      closeModal();
+      setSelectedIds("");
     }
-    setChoosed(undefined);
-  } else {
-
-    let response;
-    if (authToken) {
-      response = await deleteAuthedTovars(authToken, selectedIds);
-    } else {
-      response = await deleteAllTovars(cartId, selectedIds);
-    }
-
-    const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
-    setItems((prevItems) =>
-      prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
-    );
-    closeModal();
-    setSelectedIds("");
-  }
-};
-
+  };
 
   //! для выбранных товаров
   const handleCheckboxChange = (id_tov: number, isChecked: boolean) => {
