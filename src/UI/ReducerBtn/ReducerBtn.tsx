@@ -186,7 +186,7 @@ const ReducerBtn = ({
           }
         } else {
           const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-          dispatch(deleteProductQuantity(data.id_tov));
+          dispatch(deleteProductQuantity(product.id));
           setInputValue(newQuantity.toString());
           if (token) {
             debouncedUpdateTovar(data.id_tov, newQuantity);

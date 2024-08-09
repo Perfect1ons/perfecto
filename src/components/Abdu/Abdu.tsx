@@ -147,7 +147,6 @@ const Abdu = ({
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       dispatch(removeProductFromCart(choosed));
-      console.log(choosed);
 
       closeModal();
 
@@ -165,6 +164,7 @@ const Abdu = ({
       }
       setChoosed(undefined);
     } else {
+      dispatch(removeProductFromCart(parseInt(selectedIds)));
       let response;
       if (authToken) {
         response = await deleteAuthedTovars(authToken, selectedIds);

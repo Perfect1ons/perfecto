@@ -194,12 +194,6 @@ const BasketsCard = ({
             </span>
           </div>
           <div className={styles.rigthPart__priceContainer__buttons}>
-            <button
-              className={styles.iconBasket}
-              onClick={() => removeFromCart(item.id_tov)}
-            >
-              <TrashIcon />
-            </button>
             <button className={styles.faviconBasket}>
               <FavoritesIcons />
             </button>

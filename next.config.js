@@ -3,6 +3,7 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   experimental: {
     optimizePackageImports: [
       "swiper",
