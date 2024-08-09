@@ -23,10 +23,14 @@ import {
   deleteAllTovars,
   deleteAuthedTovars,
   deleteTovar,
+  postBasketProductAuthed,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch } from "react-redux";
-import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from "@/store/reducers/cart.reducer";
 
 // Динамическая загрузка компонентов
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
@@ -71,6 +75,34 @@ const Abdu = ({
   const [isModalVisible, setModalVisible] = useState(false);
   const [choosed, setChoosed] = useState<number | undefined>();
   const [choosedModal, setChoosedModal] = useState<boolean>(false);
+  const migrateCartItemsToAuth = async (token: string) => {
+    const unauthCartItems = JSON.parse(localStorage.getItem("basket") || "[]");
+    for (const item of unauthCartItems) {
+      try {
+        await postBasketProductAuthed(
+          token,
+          item.quantity.toString(),
+          item.id_tov.toString()
+        );
+        dispatch(addProductToCart(unauthCartItems));
+      } catch (error) {
+        console.error(
+          `Failed to add item ${item.id_tov} to authenticated basket`,
+          error
+        );
+      }
+    }
+    deleteAllTovars(
+      cartId,
+      unauthCartItems.map((item: any) => item.id_tov)
+    );
+    localStorage.removeItem("cartItems");
+  };
+  useEffect(() => {
+    if (authToken) {
+      migrateCartItemsToAuth(authToken);
+    }
+  }, []);
 
   const closeModal = () => {
     setModalVisible(false);
