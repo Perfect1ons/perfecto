@@ -21,9 +21,10 @@ import {
   postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
+import { usePathname } from "next/navigation";
 
 interface ICartReducerBtnProps {
-  removeItem?: () => void;
+  removeItem?: (id_tov: number) => void;
   token?: any;
   cartId?: any;
   data: IItemItems;
@@ -47,6 +48,7 @@ const ReducerBtn = ({
     product?.quantity?.toString() ?? data.minQty.toString()
   );
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const pathname = usePathname();
 
   const debouncedUpdateTovar = useMemo(
     () =>
@@ -170,18 +172,22 @@ const ReducerBtn = ({
     try {
       if (product) {
         const currentQuantity = product.quantity ?? 0;
+        if (pathname !== "/cart") {
+          dispatch(removeProductFromCart(product.id_tov));
+        }
         if (currentQuantity <= data.minQty) {
-          dispatch(removeProductFromCart(data.id));
+          if (removeItem) {
+            removeItem(product.id_tov);
+          }
           if (token) {
             await deleteAuthedTovars(token, data.id_tov.toString());
           } else {
             await deleteTovar(cartId, data.id_tov);
           }
-          setInputValue(data.minQty.toString()); // Устанавливаем значение инпута в минимальное количество
         } else {
           const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-          dispatch(deleteProductQuantity(data.id));
-          setInputValue(newQuantity.toString()); // Обновляем значение инпута после уменьшения количества
+          dispatch(deleteProductQuantity(data.id_tov));
+          setInputValue(newQuantity.toString());
           if (token) {
             debouncedUpdateTovar(data.id_tov, newQuantity);
           } else {
@@ -190,7 +196,7 @@ const ReducerBtn = ({
         }
       }
     } catch (error) {
-      console.error("Error removing from cart:", error);
+      console.error("Ошибка при удалении из корзины:", error);
     }
   };
 

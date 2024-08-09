@@ -1,5 +1,5 @@
 "use client";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
 import {
   DeliverExPointIcons,
@@ -27,19 +27,25 @@ import {
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+
+// Динамическая загрузка компонентов
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
-  loading: () => <h1>loading...</h1>,
+  loading: () => <h1>Загрузка...</h1>,
 });
+
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
+
 const CurierCitiesModal = dynamic(
   () => import("./ModalCase/CurierCitiesModal/CurierCitiesModal"),
   {
     ssr: false,
   }
 );
+
+// Интерфейс для корзины
 interface IBasketProps {
   cartId: any;
   authToken?: string;
@@ -63,17 +69,20 @@ const Abdu = ({
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [choosed, setChoosed] = useState<number>();
+  const [choosed, setChoosed] = useState<number | undefined>();
   const [choosedModal, setChoosedModal] = useState<boolean>(false);
+
   const closeModal = () => {
     setModalVisible(false);
   };
   const openModal = () => {
     setModalVisible(true);
   };
+
   const [isCityModalVisible, setCityModalVisible] = useState(false);
   const openCityModal = () => setCityModalVisible(true);
   const closeCityModal = () => setCityModalVisible(false);
+
   const [selectedIds, setSelectedIds] = useState<string>("");
   const [location, setLocation] = useState<ICityBuyer>({
     id_city: {
@@ -118,7 +127,7 @@ const Abdu = ({
     city: "",
   });
 
-  //! для удаления
+  // Функция удаления товара
   const removeFromCart = (id_tov: number) => {
     openModal();
     setView("confirm");
@@ -126,13 +135,12 @@ const Abdu = ({
     setChoosed(id_tov);
   };
 
+  // Функция для подтверждения удаления товаров
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       dispatch(removeProductFromCart(choosed));
-      console.log(choosed);
 
       closeModal();
-      window.dispatchEvent(new Event("cartUpdated"));
 
       let response;
       if (authToken) {
@@ -164,7 +172,7 @@ const Abdu = ({
     }
   };
 
-  //! для выбранных товаров
+  // Обработчик изменений в чекбоксах товаров
   const handleCheckboxChange = (id_tov: number, isChecked: boolean) => {
     setSelectedIds((prevSelectedIds) => {
       const idsArray = prevSelectedIds.split(",").filter(Boolean);
@@ -176,17 +184,17 @@ const Abdu = ({
     });
   };
 
+  // Функции для выбора/снятия всех товаров
   const handleSelectAll = () => {
     const allIds = items.map((item) => item.id_tov.toString()).join(",");
     setSelectedIds(allIds);
   };
 
-  // Функция для снятия выбора со всех карточек
   const handleDeselectAll = () => {
     setSelectedIds("");
   };
 
-  //! для адресса
+  // Функция для изменения адреса
   const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLocation((prevLocation) => ({
@@ -198,13 +206,14 @@ const Abdu = ({
     }));
   };
 
-  //! для выбора способов
+  // Функции для выбора и сохранения методов доставки и оплаты
   const selectDelivery = (delivery: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
       delivery: delivery,
     }));
   };
+
   const selectPayment = (payment: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
@@ -212,7 +221,6 @@ const Abdu = ({
     }));
   };
 
-  //! для сохранения споособов
   const saveDelivery = () => {
     if (variableBuyer.delivery) {
       setBuyer((prevBuyer) => ({
@@ -223,9 +231,10 @@ const Abdu = ({
       }));
       closeModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран способ доставки");
     }
   };
+
   const savePayment = () => {
     if (variableBuyer.payment) {
       setBuyer((prevBuyer) => ({
@@ -235,10 +244,11 @@ const Abdu = ({
       }));
       closeModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран способ оплаты");
     }
   };
-  //! для выбора города
+
+  // Функции для выбора и сохранения города
   const saveCity = () => {
     if (location.id_city) {
       setBuyer((prevState) => ({
@@ -248,7 +258,7 @@ const Abdu = ({
       }));
       closeCityModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран город");
     }
   };
 
@@ -279,7 +289,6 @@ const Abdu = ({
 
   const isAllSelected =
     selectedIds.split(",").filter(Boolean).length === items.length;
-
   return (
     <>
       {items.length > 0 ? (
