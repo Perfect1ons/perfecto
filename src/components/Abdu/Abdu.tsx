@@ -176,12 +176,12 @@ const Abdu = ({
 
       if (response) {
         const data = response;
-        // setBuyer((prevBuyer) => ({
-        //   ...prevBuyer,
-        //   tel: data.tel,
-        //   fio: data.fio,
-        //   name: data.name,
-        // }));
+        setBuyer((prevBuyer) => ({
+          ...prevBuyer,
+          tel: parseInt(data.tel),
+          fio: data.fio,
+          name: data.name,
+        }));
 
         setAnotherRecipient((prevAnother) => ({
           ...prevAnother,

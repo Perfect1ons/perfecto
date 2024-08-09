@@ -1,9 +1,10 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./style.module.scss";
 import UserNotification from "./UserNotification";
 import { INotifications } from "@/types/Profile/Notifications/notifications";
+import Image from "next/image";
 
 interface INotificationsProps {
   notifications: INotifications;
@@ -37,7 +38,12 @@ const NotificationPage = ({
           <div className={styles.isEmpty}>
             <div className={styles.isEmpty__content}>
               <div className={styles.icon}>
-                <span>icon</span>
+                <Image
+                  src={"/img/ordernotif.svg"}
+                  width={60}
+                  height={60}
+                  alt="clipboard"
+                />
               </div>
 
               <div className={styles.isEmpty__desc}>

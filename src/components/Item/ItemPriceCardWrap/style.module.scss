@@ -3,6 +3,7 @@
 .priceCard_wrap {
   @include mixin.flex(flex-start, flex-start, column, 15px);
   max-width: 344px;
+  width: 100%;
 
   @media screen and (max-width: 1410px) {
     max-width: 100%;

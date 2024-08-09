@@ -22,7 +22,6 @@ interface IProfileProps {
   orders: CurrentOrdersType;
 }
 
-
 const Profile = ({ history, data, orders }: IProfileProps) => {
   const handleLogout = async () => {
     try {
@@ -60,50 +59,46 @@ const Profile = ({ history, data, orders }: IProfileProps) => {
     <section className={styles.profile}>
       <div className="container">
         <div className={styles.profile__cards}>
-            <div className={styles.profile__userInfo}>
-              <div className={styles.profile__userInfo_header}>
-                <div className={styles.profile__userInfo_icon}>
-                  <Image
-                    className={styles.profile__img}
-                    src={"/img/userPhoto.png"}
-                    width={60}
-                    height={60}
-                    alt="clipboard"
-                    quality={100}
-                  />
-                </div>
-                <div>
-                  <p className={styles.profile__userInfo_name}>
-                    {data.fio} {data.name}
-                  </p>
-                  <p className={styles.phone}>
-                    <span>т.</span>
-                    <span
-                      className={styles.phone__number}
-                    >{`+${data.tel}`}</span>
-                  </p>
-                  <p className={styles.city}>
-                    <span>г.</span>
-                    <span className={styles.city__name}>
-                      {data.id_city}, {data.adres} {data.org}
-                    </span>
-                  </p>
-                </div>
+          <div className={styles.profile__userInfo}>
+            <div className={styles.profile__userInfo_header}>
+              <div className={styles.profile__userInfo_icon}>
+                <Image
+                  src={"/img/userCircle.svg"}
+                  width={45}
+                  height={45}
+                  alt="clipboard"
+                />
               </div>
-
-              <div className={styles.profile__userInfo_footer}>
-                <button onClick={handleLogout} className={styles.profile__exit}>
-                  Выйти
-                </button>
-                <Link
-                  className={clsx("link", styles.profile__settings)}
-                  href={"/profile/lk"}
-                >
-                  <SettingsIcons />
-                  <span>Личные данные</span>
-                </Link>
+              <div>
+                <p className={styles.profile__userInfo_name}>
+                  {data.fio} {data.name}
+                </p>
+                <p className={styles.phone}>
+                  <span>т.</span>
+                  <span className={styles.phone__number}>{`+${data.tel}`}</span>
+                </p>
+                <p className={styles.city}>
+                  <span>г.</span>
+                  <span className={styles.city__name}>
+                    {data.id_city}, {data.adres} {data.org}
+                  </span>
+                </p>
               </div>
             </div>
+
+            <div className={styles.profile__userInfo_footer}>
+              <button onClick={handleLogout} className={styles.profile__exit}>
+                Выйти
+              </button>
+              <Link
+                className={clsx("link", styles.profile__settings)}
+                href={"/profile/lk"}
+              >
+                <SettingsIcons />
+                <span>Личные данные</span>
+              </Link>
+            </div>
+          </div>
           <OrderCard orders={orders} />
           <OrderHistoryCard history={history} />
           <NotificationCard notif={notif} />

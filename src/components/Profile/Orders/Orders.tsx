@@ -27,8 +27,8 @@ const Orders = ({ currentOrders, details, isAuthed }: ICurrentOrdersProps) => {
               <div className={styles.icon}>
                 <Image
                   src={"/img/orderclipboard.svg"}
-                  width={70}
-                  height={70}
+                  width={60}
+                  height={60}
                   alt="clipboard"
                 />
               </div>
