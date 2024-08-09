@@ -6,7 +6,7 @@ import { useState } from "react";
 
 interface IBasketItemsProps {
   token?: any;
-  cartData: IBasketItems[];
+  cartData: any[];
   removeFromCart: (id_tov: number) => void; 
   selectedIds: string;
   onCheckboxChange: (id_tov: number, isChecked: boolean) => void;
@@ -24,7 +24,7 @@ const BasketsItems = ({
   return (
     <div className={styles.cards}>
       {cartData.map((item) => {
-        const isChecked = selectedIds.includes(item.id_tov.toString());
+        const isChecked = selectedIds.includes(item.id_tov);
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")

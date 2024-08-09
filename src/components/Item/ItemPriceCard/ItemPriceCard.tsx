@@ -21,18 +21,15 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
 import {
-  deleteFavoritesProductAuthed,
-  postBasketProduct,
   postBasketProductAuthed,
-  postFavorite,
   postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
-import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import useFavorites from "@/hooks/useFavorites";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -212,6 +209,15 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
+    setModalMessage(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+    setModalVisible(true);
   };
 
   const closeModalCart = () => {
@@ -223,13 +229,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       {!isSectionVisible && (
         <MobileBuyBtn data={data} product={product} addToCart={addToCart} />
       )}
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
@@ -467,12 +466,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
             className={styles.share_btnControl}
             onClick={handleFavoriteClick}
           >
-            {/* <FavoriteModal
-              isVisible={isModalVisible}
-              message={modalMessage}
-              isRedirect={isRedirect}
-              onClose={handleModalClose}
-            /> */}
             <button
               aria-label="add to favorites"
               title={

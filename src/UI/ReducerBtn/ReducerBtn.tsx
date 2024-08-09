@@ -21,9 +21,10 @@ import {
   postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
+import { usePathname } from "next/navigation";
 
 interface ICartReducerBtnProps {
-  removeItem?: () => void;
+  removeItem?: (id_tov: number) => void;
   token?: any;
   cartId?: any;
   data: IItemItems;
@@ -40,18 +41,20 @@ const ReducerBtn = ({
   onFocusHandled,
 }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
-  const { cartId } = useContext(AuthContext)
+  const { cartId } = useContext(AuthContext);
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [inputValue, setInputValue] = useState<string>(
     product?.quantity?.toString() ?? data.minQty.toString()
   );
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const pathname = usePathname();
 
   const debouncedUpdateTovar = useMemo(
     () =>
       debounce(async (id_tov: number, value: number) => {
         try {
+          console.log(`Updating tovar ${id_tov} with value ${value}`);
           if (token) {
             await postAuthedTovar(token, id_tov, value);
           } else {
@@ -59,7 +62,6 @@ const ReducerBtn = ({
           }
         } catch (error) {
           console.error("Error updating tovar:", error);
-          // Можно добавить обработку ошибок, например, уведомления пользователю
         }
       }, 300),
     [token]
@@ -93,48 +95,37 @@ const ReducerBtn = ({
     setInputValue(e.target.value);
 
     if (value >= data.minQty) {
-      if (product) {
-        dispatch(
-          updateProductQuantity({ id: data.id, quantity: finalQuantity })
-        );
-        debouncedUpdateTovar(data.id_tov, finalQuantity);
-      } else {
-        const newProduct = { ...data, quantity: finalQuantity };
-        dispatch(addProductToCart(newProduct));
-        debouncedUpdateTovar(data.id_tov, finalQuantity);
-      }
+      // Убедитесь, что обновление состояния корректно
+      dispatch(updateProductQuantity({ id: data.id, quantity: finalQuantity }));
+      debouncedUpdateTovar(data.id_tov, finalQuantity);
     }
   };
 
-  const handleBlur = useMemo(
-    () =>
-      debounce(() => {
-        const numericInputValue = Number(inputValue);
-        let finalQuantity: number;
+  const handleBlur = () => {
+    const numericInputValue = Number(inputValue);
+    let finalQuantity: number;
 
-        if (product) {
-          finalQuantity = Math.min(
-            Number(product.balance) || 0,
-            Math.max(numericInputValue, data.minQty)
-          );
-          if (product.quantity !== finalQuantity) {
-            dispatch(
-              updateProductQuantity({ id: data.id, quantity: finalQuantity })
-            );
-          }
-        } else {
-          finalQuantity = Math.min(Number(data.balance) || 0, data.minQty);
-          if (numericInputValue !== finalQuantity) {
-            dispatch(
-              updateProductQuantity({ id: data.id, quantity: finalQuantity })
-            );
-          }
-        }
+    if (product) {
+      finalQuantity = Math.min(
+        Number(product.balance) || 0,
+        Math.max(numericInputValue, data.minQty)
+      );
+      if (product.quantity !== finalQuantity) {
+        dispatch(
+          updateProductQuantity({ id: data.id, quantity: finalQuantity })
+        );
+      }
+    } else {
+      finalQuantity = Math.min(Number(data.balance) || 0, data.minQty);
+      if (numericInputValue !== finalQuantity) {
+        dispatch(
+          updateProductQuantity({ id: data.id, quantity: finalQuantity })
+        );
+      }
+    }
 
-        setInputValue(finalQuantity.toString());
-      }, 500),
-    [product, data.minQty, inputValue, dispatch, data.id, data.balance]
-  );
+    setInputValue(finalQuantity.toString());
+  };
 
   const addToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -166,34 +157,41 @@ const ReducerBtn = ({
     }
   };
 
-const removeFromCart = async () => {
-  try {
-    if (product) {
-      const currentQuantity = product.quantity ?? 0;
-      if (currentQuantity <= data.minQty) {
-        dispatch(removeProductFromCart(data.id));
-        if (token) {
-          await deleteAuthedTovars(token, data.id_tov.toString());
+  const removeFromCart = async () => {
+    try {
+      if (product) {
+        const currentQuantity = product.quantity ?? 0;
+
+        if (currentQuantity <= data.minQty) {
+          if (pathname !== "/cart") {
+            dispatch(removeProductFromCart([product.id_tov]));
+          }
+
+          if (removeItem) {
+            removeItem(product.id_tov);
+          }
+          if (token) {
+            await deleteAuthedTovars(token, data.id_tov.toString());
+          } else {
+            await deleteTovar(cartId, data.id_tov);
+          }
         } else {
-          await deleteTovar(cartId, data.id_tov);
-        }
-        setInputValue(data.minQty.toString()); // Устанавливаем значение инпута в минимальное количество
-      } else {
-        const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-        dispatch(deleteProductQuantity(data.id));
-        setInputValue(newQuantity.toString()); // Обновляем значение инпута после уменьшения количества
-        if (token) {
-          debouncedUpdateTovar(data.id_tov, newQuantity);
-        } else {
-          debounceUpdateTovar(data.id_tov, newQuantity);
+          const newQuantity = Math.max(currentQuantity - 1, data.minQty);
+          dispatch(
+            updateProductQuantity({ id: product.id, quantity: newQuantity })
+          );
+          setInputValue(newQuantity.toString());
+          if (token) {
+            debouncedUpdateTovar(data.id_tov, newQuantity);
+          } else {
+            debounceUpdateTovar(data.id_tov, newQuantity);
+          }
         }
       }
+    } catch (error) {
+      console.error("Ошибка при удалении из корзины:", error);
     }
-  } catch (error) {
-    console.error("Error removing from cart:", error);
-  }
-};
-
+  };
 
   const inputRef = useRef<HTMLInputElement>(null);
 

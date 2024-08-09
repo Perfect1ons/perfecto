@@ -13,7 +13,7 @@ interface IOrder {
   order: Item;
   isAuthed: string | undefined;
   details: StatusDetailsType;
-  ratingsData: IRatingOrderHistoryCard[];
+  ratingsData: number | undefined;
 }
 
 const OrderHistoryCard = ({

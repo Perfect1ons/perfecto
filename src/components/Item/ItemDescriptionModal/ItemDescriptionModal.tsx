@@ -6,9 +6,13 @@ import { CartIcon, Cross } from "../../../../public/Icons/Icons";
 import DOMPurify from "isomorphic-dompurify";
 import { useDispatch, useSelector } from "react-redux";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { RootState } from "@/store";
 import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
+import { postBasketProductAuthed, postTovar } from "@/api/clientRequest";
+import Link from "next/link";
+import { AuthContext } from "@/context/AuthContext";
+import InformationModal from "@/components/UI/InformationModal/InformationModal";
 
 interface IProductReviewProps {
   data: IItemItems;
@@ -23,9 +27,13 @@ interface ITogglerProps {
 }
 
 const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
+  const { token, cartId } = useContext(AuthContext);
   const dispatch = useDispatch();
   const [cleanHTML, setCleanHTML] = useState<string>("");
   const cart = useSelector((state: RootState) => state.cart.cart);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const product = cart.find((item) => item.id === data.id);
   const [toggler, setToggler] = useState<ITogglerProps>({
     about: true,
@@ -34,7 +42,6 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   });
   const aboutProductContainerRef = useRef<HTMLDivElement>(null);
   const [hasScroll, setHasScroll] = useState(true); // состояние для отслеживания наличия скролла
-  const [added, setAdded] = useState(false);
 
   const handleScroll = (section: keyof ITogglerProps) => {
     const targetSection = document.getElementById(section);
@@ -60,13 +67,44 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
     }
   }, [data, visible]);
 
-  const addToCart = () => {
-    dispatch(addProductToCart(data));
-    setAdded(true);
+  const addToCart = async () => {
+    if (token) {
+      try {
+        dispatch(addProductToCart(data));
+        await postBasketProductAuthed(
+          token,
+          `${data.minQty}`,
+          `${data.id_tov}`
+        );
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      try {
+        dispatch(addProductToCart(data));
+        await postTovar(data.id_tov, data.minQty);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
   };
 
-  const handleCartEmpty = () => {
-    setAdded(false);
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+    setModalMessage(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
   };
 
   useEffect(() => {
@@ -110,154 +148,161 @@ const ItemDescriptionModal = ({ data, func, visible }: IProductReviewProps) => {
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <div
-        onClick={func}
-        className={cn(styles.backdrop, {
-          [styles.activeBackdrop]: visible,
-        })}
-      ></div>
-      <div className={cn(styles.wrapper, { [styles.visible]: visible })}>
-        <div className={styles.wrapper__container}>
-          <div className={styles.wrapper__container__header}>
-            {data.description && (
-              <button
-                onClick={() => handleScroll("about")}
-                className={cn(styles.wrapper__container__header__button, {
-                  [styles.activeH2]: toggler.about,
-                })}
-              >
-                О товаре
-              </button>
-            )}
-            {data.specification && hasScroll && (
-              <button
-                onClick={() => handleScroll("characteristics")}
-                className={cn(
-                  styles.wrapper__container__header__button,
-                  styles.characteristics,
-                  {
-                    [styles.activeH2]: toggler.characteristics,
-                  }
-                )}
-              >
-                Характеристики
-              </button>
-            )}
-            {data.video && hasScroll && (
-              <button
-                onClick={() => handleScroll("video")}
-                className={cn(
-                  styles.wrapper__container__header__button,
-                  styles.characteristics,
-                  {
-                    [styles.activeH2]: toggler.video,
-                  }
-                )}
-              >
-                Видео
-              </button>
-            )}
-          </div>
-          <button
-            onClick={func}
-            className={styles.wrapper__container__header__btn}
-          >
-            <Cross />
-          </button>
-        </div>
-        <div className={styles.product_info__ddos}></div>
-        <div className={styles.aboutProductContainer}>
-          {data.description && (
-            <div id="about" className={styles.aboutProduct}>
-              <h3 className={styles.aboutProduct__h3}>О товаре</h3>
-              <p
-                className={styles.aboutProduct__description_p}
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.description),
-                }}
-              />
-            </div>
-          )}
-          {data.specification && (
-            <div id="characteristics" className={styles.aboutProduct}>
-              <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(data.specification),
-                }}
-                className={styles.aboutProduct__description_p}
-              />
-            </div>
-          )}
-          {data.video && (
-            <div id="video" className={styles.aboutProduct}>
-              <h3 className={styles.aboutProduct__h3}>Видео</h3>
-              <div
-                className={styles.aboutProduct__video}
-                dangerouslySetInnerHTML={{
-                  __html: cleanHTML,
-                }}
-              />
-            </div>
-          )}
-        </div>
-        <div className={styles.wrapper__containerFooter}>
-          {data?.discount_prc > 0 ? (
-            <div className={styles.ItemPriceCard__cost}>
-              <span className={styles.ItemPriceCard__price_new}>
-                {data.cenaok.toLocaleString("ru-RU")}
-                <span className={styles.ItemPriceCard__price_new_custom}>
-                  с
-                </span>
-              </span>
-              <span className={styles.ItemPriceCard__price_discount}>
-                -{data.discount_prc}%
-              </span>
-              <span className={styles.ItemPriceCard__old_price}>
-                {data.old_price.toLocaleString("ru-RU")}
-                <span className={styles.ItemPriceCard__old_price_custom}>
-                  с
-                </span>
-              </span>
-            </div>
-          ) : (
-            <div className={styles.ItemPriceCard__cost}>
-              <span className={styles.ItemPriceCard__price}>
-                {data?.cenaok.toLocaleString("ru-RU")}
-                <span className={styles.ItemPriceCard__price_custom}>с</span>
-              </span>
-            </div>
-          )}
-          <div className={styles.buttonsContainer}>
-            <div className={styles.buttonsContainer__carts}>
-              {!product?.quantity && (
+    <>
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
+      <div className={styles.container}>
+        <div
+          onClick={func}
+          className={cn(styles.backdrop, {
+            [styles.activeBackdrop]: visible,
+          })}
+        ></div>
+        <div className={cn(styles.wrapper, { [styles.visible]: visible })}>
+          <div className={styles.wrapper__container}>
+            <div className={styles.wrapper__container__header}>
+              {data.description && (
                 <button
-                  onClick={addToCart}
-                  className={styles.buttonsContainer__carts__cart}
+                  onClick={() => handleScroll("about")}
+                  className={cn(styles.wrapper__container__header__button, {
+                    [styles.activeH2]: toggler.about,
+                  })}
                 >
-                  <span className="add__to_cart_icon">
-                    <CartIcon />
-                  </span>
-                  В корзину
+                  О товаре
                 </button>
               )}
-              {product?.quantity && (
-                <ReducerBtn
-                  data={data}
-                  shouldFocusInput={shouldFocusInput}
-                  onFocusHandled={() => setShouldFocusInput(false)}
-                />
+              {data.specification && hasScroll && (
+                <button
+                  onClick={() => handleScroll("characteristics")}
+                  className={cn(
+                    styles.wrapper__container__header__button,
+                    styles.characteristics,
+                    {
+                      [styles.activeH2]: toggler.characteristics,
+                    }
+                  )}
+                >
+                  Характеристики
+                </button>
+              )}
+              {data.video && hasScroll && (
+                <button
+                  onClick={() => handleScroll("video")}
+                  className={cn(
+                    styles.wrapper__container__header__button,
+                    styles.characteristics,
+                    {
+                      [styles.activeH2]: toggler.video,
+                    }
+                  )}
+                >
+                  Видео
+                </button>
               )}
             </div>
-
-            {data.cenaok < 1000 ? null : (
-              <button className={styles.buttonsContainer__buy}>Купить</button>
+            <button
+              onClick={func}
+              className={styles.wrapper__container__header__btn}
+            >
+              <Cross />
+            </button>
+          </div>
+          <div className={styles.product_info__ddos}></div>
+          <div className={styles.aboutProductContainer}>
+            {data.description && (
+              <div id="about" className={styles.aboutProduct}>
+                <h3 className={styles.aboutProduct__h3}>О товаре</h3>
+                <p
+                  className={styles.aboutProduct__description_p}
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(data.description),
+                  }}
+                />
+              </div>
             )}
+            {data.specification && (
+              <div id="characteristics" className={styles.aboutProduct}>
+                <h3 className={styles.aboutProduct__h3}>Характеристики</h3>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(data.specification),
+                  }}
+                  className={styles.aboutProduct__description_p}
+                />
+              </div>
+            )}
+            {data.video && (
+              <div id="video" className={styles.aboutProduct}>
+                <h3 className={styles.aboutProduct__h3}>Видео</h3>
+                <div
+                  className={styles.aboutProduct__video}
+                  dangerouslySetInnerHTML={{
+                    __html: cleanHTML,
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <div className={styles.wrapper__containerFooter}>
+            {data?.discount_prc > 0 ? (
+              <div className={styles.ItemPriceCard__cost}>
+                <span className={styles.ItemPriceCard__price_new}>
+                  {data.cenaok.toLocaleString("ru-RU")}
+                  <span className={styles.ItemPriceCard__price_new_custom}>
+                    с
+                  </span>
+                </span>
+                <span className={styles.ItemPriceCard__price_discount}>
+                  -{data.discount_prc}%
+                </span>
+                <span className={styles.ItemPriceCard__old_price}>
+                  {data.old_price.toLocaleString("ru-RU")}
+                  <span className={styles.ItemPriceCard__old_price_custom}>
+                    с
+                  </span>
+                </span>
+              </div>
+            ) : (
+              <div className={styles.ItemPriceCard__cost}>
+                <span className={styles.ItemPriceCard__price}>
+                  {data?.cenaok.toLocaleString("ru-RU")}
+                  <span className={styles.ItemPriceCard__price_custom}>с</span>
+                </span>
+              </div>
+            )}
+            <div className={styles.buttonsContainer}>
+              <div className={styles.buttonsContainer__carts}>
+                {!product?.quantity && (
+                  <button
+                    onClick={handleAddToCart}
+                    className={styles.buttonsContainer__carts__cart}
+                  >
+                    <span className="add__to_cart_icon">
+                      <CartIcon />
+                    </span>
+                    В корзину
+                  </button>
+                )}
+                {product?.quantity && (
+                  <ReducerBtn
+                    data={data}
+                    cartId={cartId}
+                    token={token}
+                    shouldFocusInput={shouldFocusInput}
+                    onFocusHandled={() => setShouldFocusInput(false)}
+                  />
+                )}
+              </div>
+
+              {data.cenaok < 1000 ? null : (
+                <button className={styles.buttonsContainer__buy}>Купить</button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

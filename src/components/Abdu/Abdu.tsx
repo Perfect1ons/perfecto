@@ -1,14 +1,7 @@
 "use client";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import {
-  DeliverExPointIcons,
-  DeliveryApproveIcon,
-  DeliveryCurierIcon,
-  PaymentIcon,
-} from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import clsx from "clsx";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import dynamic from "next/dynamic";
 import { ICityFront } from "@/types/Basket/cityfrontType";
@@ -25,21 +18,25 @@ import {
   deleteTovar,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
-const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
-  ssr: false,
-  loading: () => <h1>loading...</h1>,
-});
+import { RootState } from "@/store";
+import BasketsItems from "./BasketsItems/BasketsItems";
+import { useRouter } from "next/navigation";
+import BasketOrderAuth from "./BasketOrder/BasketOrderAuth";
+import BasketOrder from "./BasketOrder/BasketOrder";
+
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
+
 const CurierCitiesModal = dynamic(
   () => import("./ModalCase/CurierCitiesModal/CurierCitiesModal"),
   {
     ssr: false,
   }
 );
+
 interface IBasketProps {
   cartId: any;
   authToken?: string;
@@ -58,12 +55,35 @@ const Abdu = ({
   items: initialItems,
 }: IBasketProps) => {
   const dispatch = useDispatch();
-  const [items, setItems] = useState<IBasketItems[]>(initialItems);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const [items, setItems] = useState<any[]>(cart);
+  useEffect(() => {
+    if (cart.length === initialItems.length) {
+      setItems(initialItems);
+    } else {
+      updateCartItems(cart);
+    }
+  }, [cart, dispatch, initialItems]);
+
+  const updateCartItems = (newItems: any[]) => {
+    setItems((prevItems) => {
+      const itemsMap = new Map<number, any>();
+
+      newItems.forEach((item) => {
+        itemsMap.set(item.id_tov, item);
+      });
+
+      const updatedItems = Array.from(itemsMap.values());
+
+      return updatedItems;
+    });
+  };
+
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
   const [isModalVisible, setModalVisible] = useState(false);
-  const [choosed, setChoosed] = useState<number>();
+  const [choosed, setChoosed] = useState<number | undefined>();
   const [choosedModal, setChoosedModal] = useState<boolean>(false);
   const closeModal = () => {
     setModalVisible(false);
@@ -74,23 +94,6 @@ const Abdu = ({
   const [isCityModalVisible, setCityModalVisible] = useState(false);
   const openCityModal = () => setCityModalVisible(true);
   const closeCityModal = () => setCityModalVisible(false);
-  const [selectedIds, setSelectedIds] = useState<string>("");
-  const [location, setLocation] = useState<ICityBuyer>({
-    id_city: {
-      name: "",
-      id: null,
-    },
-    id_city2: {
-      name: "",
-      id: null,
-    },
-    directory: {
-      street: "",
-      house: "",
-      apartament: "",
-    },
-  });
-
   const [variableBuyer, setVariableBuyer] = useState<IVariableBuyer>({
     payment: {
       name: "",
@@ -101,7 +104,19 @@ const Abdu = ({
       id: "",
     },
   });
-
+  const [selectedIds, setSelectedIds] = useState<string>("");
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
+  const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  useEffect(() => {
+    const total = cart.reduce((sum, item) => sum + item.quantity!, 0);
+    const totalPrice = cart.reduce(
+      (sum, item) => sum + item.cenaok * item.quantity!,
+      0
+    );
+    setTotalQuantity(total);
+    setTotalPrice(totalPrice);
+  }, [cart]);
   const [buyer, setBuyer] = useState<IBuyer>({
     tel: 0,
     vid_dost: variableBuyer.delivery.id,
@@ -118,53 +133,69 @@ const Abdu = ({
     city: "",
   });
 
-  //! для удаления
-const removeFromCart = (id_tov: number) => {
-  openModal();
-  setView("confirm");
-  setChoosedModal(true);
-  setChoosed(id_tov);
-};
+  const [location, setLocation] = useState<ICityBuyer>({
+    id_city: {
+      name: "",
+      id: null,
+    },
+    id_city2: {
+      name: "",
+      id: null,
+    },
+    directory: {
+      street: "",
+      house: "",
+      apartament: "",
+    },
+  });
 
-const removeTovars = async () => {
-  if (choosedModal && choosed) {
-    dispatch(removeProductFromCart(choosed)); 
-    closeModal();
-      window.dispatchEvent(new Event("cartUpdated"));
+  // Функция удаления товара
+  const removeFromCart = (id_tov: number) => {
+    openModal();
+    setView("confirm");
+    setChoosedModal(true);
+    setChoosed(id_tov);
+  };
 
-    let response;
-    if (authToken) {
-      response = await deleteAuthedTovars(authToken, choosed.toString());
+  // Функция для подтверждения удаления товаров
+  const removeTovars = async () => {
+    if (choosedModal && choosed) {
+      dispatch(removeProductFromCart([choosed]));
+
+      closeModal();
+
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, choosed.toString());
+      } else {
+        response = await deleteTovar(cartId, choosed);
+      }
+
+      if (response) {
+        setItems((prevItems) =>
+          prevItems.filter((item) => item.id_tov !== choosed)
+        );
+      }
+      setChoosed(undefined);
     } else {
-      response = await deleteTovar(cartId, choosed);
-    }
+      let response;
+      if (authToken) {
+        response = await deleteAuthedTovars(authToken, selectedIds);
+      } else {
+        response = await deleteAllTovars(cartId, selectedIds);
+      }
 
-    if (response) {
+      const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
+      dispatch(removeProductFromCart(selectedIdsArray));
       setItems((prevItems) =>
-        prevItems.filter((item) => item.id_tov !== choosed)
+        prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
       );
+      closeModal();
+      setSelectedIds("");
     }
-    setChoosed(undefined);
-  } else {
+  };
 
-    let response;
-    if (authToken) {
-      response = await deleteAuthedTovars(authToken, selectedIds);
-    } else {
-      response = await deleteAllTovars(cartId, selectedIds);
-    }
-
-    const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
-    setItems((prevItems) =>
-      prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
-    );
-    closeModal();
-    setSelectedIds("");
-  }
-};
-
-
-  //! для выбранных товаров
+  // Обработчик изменений в чекбоксах товаров
   const handleCheckboxChange = (id_tov: number, isChecked: boolean) => {
     setSelectedIds((prevSelectedIds) => {
       const idsArray = prevSelectedIds.split(",").filter(Boolean);
@@ -176,17 +207,17 @@ const removeTovars = async () => {
     });
   };
 
+  // Функции для выбора/снятия всех товаров
   const handleSelectAll = () => {
     const allIds = items.map((item) => item.id_tov.toString()).join(",");
     setSelectedIds(allIds);
   };
 
-  // Функция для снятия выбора со всех карточек
   const handleDeselectAll = () => {
     setSelectedIds("");
   };
 
-  //! для адресса
+  // Функция для изменения адреса
   const changeAdress = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLocation((prevLocation) => ({
@@ -198,13 +229,14 @@ const removeTovars = async () => {
     }));
   };
 
-  //! для выбора способов
+  // Функции для выбора и сохранения методов доставки и оплаты
   const selectDelivery = (delivery: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
       delivery: delivery,
     }));
   };
+
   const selectPayment = (payment: { name: string; id: string | number }) => {
     setVariableBuyer((prevVariableBuyer) => ({
       ...prevVariableBuyer,
@@ -212,7 +244,6 @@ const removeTovars = async () => {
     }));
   };
 
-  //! для сохранения споособов
   const saveDelivery = () => {
     if (variableBuyer.delivery) {
       setBuyer((prevBuyer) => ({
@@ -223,9 +254,10 @@ const removeTovars = async () => {
       }));
       closeModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран способ доставки");
     }
   };
+
   const savePayment = () => {
     if (variableBuyer.payment) {
       setBuyer((prevBuyer) => ({
@@ -235,10 +267,11 @@ const removeTovars = async () => {
       }));
       closeModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран способ оплаты");
     }
   };
-  //! для выбора города
+
+  // Функции для выбора и сохранения города
   const saveCity = () => {
     if (location.id_city) {
       setBuyer((prevState) => ({
@@ -248,7 +281,7 @@ const removeTovars = async () => {
       }));
       closeCityModal();
     } else {
-      console.log("error");
+      console.log("Ошибка: не выбран город");
     }
   };
 
@@ -279,7 +312,6 @@ const removeTovars = async () => {
 
   const isAllSelected =
     selectedIds.split(",").filter(Boolean).length === items.length;
-
   return (
     <>
       {items.length > 0 ? (
@@ -336,70 +368,14 @@ const removeTovars = async () => {
               onCheckboxChange={handleCheckboxChange}
               cartData={items}
             />
-            <div className={styles.order_box}>
-              <button
-                className={clsx(
-                  styles.choose__delivery,
-                  buyer.vid_dost != 0 && styles.choosed__delivery
-                )}
-                onClick={() => {
-                  setView("curier"); // Устанавливаем вид для "curier"
-                  openModal();
-                }}
-              >
-                <span className={styles.expoint}>
-                  <DeliveryCurierIcon />
-                </span>
-                {buyer.vid_dost != 0 ? (
-                  <div className={styles.delivery__info}>
-                    <p className={styles.delivery__info_dostavka}>
-                      {buyer.dost}
-                    </p>
-                    {buyer.id_city !== null &&
-                      buyer.vid_dost !== 1 &&
-                      buyer.vid_dost !== 2 && (
-                        <p className={styles.delivery__info_address}>
-                          Адрес: {buyer.city}
-                          {location.directory.street &&
-                            "," + location.directory.street}
-                          {location.directory.house &&
-                            "," + location.directory.house}
-                          {location.directory.apartament &&
-                            "," + location.directory.apartament}
-                        </p>
-                      )}
-                  </div>
-                ) : (
-                  "Выберите способ доставки"
-                )}
-
-                {buyer.vid_dost != 0 ? (
-                  <DeliveryApproveIcon />
-                ) : (
-                  <DeliverExPointIcons />
-                )}
-              </button>
-              <button
-                className={clsx(
-                  styles.choose__delivery,
-                  buyer.id_vopl != 0 && styles.choosed__delivery
-                )}
-                onClick={() => {
-                  setView("oplata");
-                  openModal();
-                }}
-              >
-                <span className={styles.expoint}>
-                  <PaymentIcon />
-                </span>
-                {buyer.id_vopl != 0 ? buyer.oplata : "Выберите способ оплаты"}
-                {buyer.id_vopl != 0 ? (
-                  <DeliveryApproveIcon />
-                ) : (
-                  <DeliverExPointIcons />
-                )}
-              </button>
-            </div>
+            {authToken ? (
+              <BasketOrder />
+            ) : (
+              <BasketOrderAuth
+                totalPrice={totalPrice}
+                totalQuantity={totalQuantity}
+              />
+            )}
           </div>
         </div>
       ) : (

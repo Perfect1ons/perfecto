@@ -19,6 +19,10 @@ const OrdersHistory = ({
 }: IOrdersHistoryProps) => {
   const cookieStore = cookies();
   const isAuthed = cookieStore.get("identify")?.value;
+  const getRatingForOrder = (orderId: number) => {
+    const rating = ratingsData.find((rating) => rating.id_zakaz === orderId);
+    return rating?.ocenka;
+  };
 
   return (
     <section className={styles.OrdersHistory}>
@@ -26,9 +30,10 @@ const OrdersHistory = ({
         <div>
           {orders.length > 0 ? (
             orders.map((order) => {
+              const orderOcenka = getRatingForOrder(order.id);
               return (
                 <OrderHistoryCard
-                  ratingsData={ratingsData}
+                  ratingsData={orderOcenka}
                   details={details}
                   order={order}
                   key={order.id}

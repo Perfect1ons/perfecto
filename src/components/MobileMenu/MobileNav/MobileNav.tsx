@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
-// импорты стилей и иконок
 import styles from "./style.module.scss";
 import cn from "clsx";
 import {
@@ -82,15 +81,8 @@ export default function MobileNav({
   };
 
   const updateCartItemCount = () => {
-    if (isAuthed) {
-      const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-      setCartItemCount(cartCount.length);
-    } else {
-      const cartCountGuest = JSON.parse(
-        localStorage.getItem("cartItemsGuest") || "[]"
-      );
-      setCartItemCount(cartCountGuest.length);
-    }
+    const cartCount = JSON.parse(localStorage.getItem("basket") || "[]");
+    setCartItemCount(cartCount.length);
   };
 
   useEffect(() => {

@@ -3,6 +3,7 @@ const MAXKG = process.env.NEXT_PUBLIC_API;
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
   experimental: {
     optimizePackageImports: [
       "swiper",
@@ -90,15 +91,6 @@ const nextConfig = {
       {
         source: "/api/:path*",
         headers: [{ key: "Content-Type", value: "application/json" }],
-      },
-      {
-        source: "/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "private, max-age=3600, must-revalidate",
-          },
-        ],
       },
     ];
   },

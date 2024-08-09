@@ -6,10 +6,15 @@ import {
   getPaymentMethod,
   getProductBasket,
 } from "@/api/requests";
-import Abdu from "@/components/Abdu/Abdu";
 import BasketEmpty from "@/components/Abdu/BasketEmpty/BasketEmpty";
+import MainLoader from "@/components/UI/Loader/MainLoader";
 import { generatePageMetadata } from "@/utils/metadata";
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
+const Abdu = dynamic(() => import("@/components/Abdu/Abdu"), {
+  ssr: false,
+  loading: () => <MainLoader />,
+});
 
 export default async function Page() {
   const cookieStore = cookies();
@@ -25,13 +30,12 @@ export default async function Page() {
       cartData = await getBasket(authToken, 1);
     } else if (cart) {
       const response = await getProductBasket(1, cartId ?? 0);
-      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
+      cartData = response?.model ?? []; 
     } else{
       cartData = [];
     }
   } catch (error) {
-    console.error("Ошибка при получении данных корзины:", error);
-    cartData = []; // Default to an empty array if there's an error
+    cartData = [];
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([

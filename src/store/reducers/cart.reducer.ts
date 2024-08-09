@@ -6,7 +6,9 @@ interface CartState {
   selected?: boolean;
 }
 
-const loadCartFromLocalStorage = (cartData: IItemItems[] = []): IItemItems[] => {
+const loadCartFromLocalStorage = (
+  cartData: IItemItems[] = []
+): IItemItems[] => {
   if (typeof window === "undefined") {
     return [];
   }
@@ -14,12 +16,10 @@ const loadCartFromLocalStorage = (cartData: IItemItems[] = []): IItemItems[] => 
   return savedCart ? JSON.parse(savedCart) : cartData;
 };
 
-
 const initialState: CartState = {
   cart: loadCartFromLocalStorage(), // Без аргумента
   selected: false,
 };
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -36,9 +36,11 @@ const cartSlice = createSlice({
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 
-    removeProductFromCart: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      state.cart = state.cart.filter((product) => product.id !== id);
+    removeProductFromCart: (state, action: PayloadAction<number[]>) => {
+      const ids = action.payload;
+      state.cart = state.cart.filter(
+        (product) => !ids.includes(product.id_tov)
+      );
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 
@@ -64,19 +66,20 @@ const cartSlice = createSlice({
         if (product.quantity > minQty) {
           product.quantity -= 1;
         } else if (product.quantity === minQty) {
-          state.cart = state.cart.filter((p) => p.id !== id);
+          // Не удаляем продукт, а устанавливаем его количество на минимальное значение
+          product.quantity = minQty;
         }
         localStorage.setItem("basket", JSON.stringify(state.cart));
       }
     },
-
     clearCart: (state) => {
       state.cart = [];
       localStorage.removeItem("basket");
     },
 
-    clearSelectedProducts: (state) => {
-      state.cart = state.cart.filter((product) => !product.selected);
+    clearSelectedProducts: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      state.cart = state.cart.filter((product) => product.id_tov !== id);
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 
