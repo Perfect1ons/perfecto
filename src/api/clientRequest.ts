@@ -699,7 +699,7 @@ export const postAuthedTovar = async (
 
 export const getFavorites = (
   token: string,
-  page: number | undefined
+  page: string
 ): Promise<IFavorites> => {
   return maxkgnocache
     .get(`izb?page=${page}`, {

@@ -24,8 +24,8 @@ export default async function Favorites({ searchParams }: FavoritesProps) {
     const favoriteData = await getFavorites(
       authToken,
       searchParams.page && parseInt(searchParams.page) > 1
-        ? parseInt(searchParams.page)
-        : 1
+        ? searchParams.page
+        : "1"
     );
     if (favoriteData !== null) {
       return (
