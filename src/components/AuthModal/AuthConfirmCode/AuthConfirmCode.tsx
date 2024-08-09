@@ -1,15 +1,20 @@
 "use client";
 import styles from "./style.module.scss";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import cn from "clsx";
 import {
   checkUser,
+  deleteAllTovars,
   getPersonalDataProfileClient,
+  postAuthedTovar,
   postConfirmCode,
   postLoginCode,
 } from "@/api/clientRequest";
 import { useRouter } from "next/navigation";
 import { Country } from "../AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { AuthContext } from "@/context/AuthContext";
 interface FormProps {
   setView: (view: "registration" | "confirm" | "captcha") => void;
   close: () => void;
@@ -22,6 +27,29 @@ const AuthConfirmCode = ({
   phoneNumber,
   currentCodeCountry,
 }: FormProps) => {
+  const dispatch = useDispatch();
+
+  const { cartId } = useContext(AuthContext);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const [items, setItems] = useState<any[]>(cart);
+  useEffect(() => {
+    updateCartItems(cart);
+  }, [cart, dispatch]);
+
+  const updateCartItems = (newItems: any[]) => {
+    setItems((prevItems) => {
+      const itemsMap = new Map<number, any>();
+
+      newItems.forEach((item) => {
+        itemsMap.set(item.id_tov, item);
+      });
+
+      const updatedItems = Array.from(itemsMap.values());
+
+      return updatedItems;
+    });
+  };
+
   const [code, setCode] = useState(["", "", "", ""]);
   const [warning, setWarning] = useState("");
   const [attemptCount, setAttemptCount] = useState(0);
@@ -59,6 +87,7 @@ const AuthConfirmCode = ({
       return () => clearInterval(interval);
     }
   }, [isButtonDisabled]);
+
   const handleResendCode = async () => {
     setCanResend(false);
     setIsButtonDisabled(false);
@@ -171,6 +200,16 @@ const AuthConfirmCode = ({
           const userInfo = await getPersonalDataProfileClient(
             data.access_token
           );
+          for (const tovar of items) {
+            await postAuthedTovar(
+              data.access_token,
+              tovar.id_tov,
+              tovar.quantity
+            );
+          }
+
+          await new Promise((resolve) => setTimeout(resolve, 30000));
+          deleteAllTovars(cartId, cart.map((item) => item.id_tov).join(","));
 
           if (data.access_token && userInfo.id) {
             const accessToken = data.access_token;
@@ -180,7 +219,7 @@ const AuthConfirmCode = ({
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ accessToken, userId }), // Send both accessToken and userId
+              body: JSON.stringify({ accessToken, userId }),
             });
             setLoading(false);
             close();

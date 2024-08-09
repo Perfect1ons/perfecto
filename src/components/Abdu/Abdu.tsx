@@ -28,7 +28,10 @@ import {
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch, useSelector } from "react-redux";
-import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+import {
+  addProductToCart,
+  removeProductFromCart,
+} from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 import BasketsItems from "./BasketsItems/BasketsItems";
 import BasketOrder from "./BasketOrder/BasketOrder";
@@ -46,7 +49,6 @@ const CurierCitiesModal = dynamic(
   }
 );
 
-// Интерфейс для корзины
 interface IBasketProps {
   cartId: any;
   authToken?: string;
@@ -81,8 +83,13 @@ const Abdu = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [items, setItems] = useState<any[]>(cart);
   useEffect(() => {
-    updateCartItems(cart);
-  }, [cart]);
+    if (cart.length === initialItems.length) {
+      setItems(initialItems.reverse());
+    } else {
+      updateCartItems(cart);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart, dispatch, addProductToCart]);
 
   const updateCartItems = (newItems: any[]) => {
     setItems((prevItems) => {
@@ -94,7 +101,7 @@ const Abdu = ({
 
       const updatedItems = Array.from(itemsMap.values());
 
-      return updatedItems;
+      return updatedItems.reverse();
     });
   };
 
@@ -301,7 +308,7 @@ const Abdu = ({
       if (!numericPhoneNumber) {
         newWarnings.phone = "Это поле не может быть пустым.";
         isValid = false;
-      } else if (numericPhoneNumber !== expectedLength) {
+      } else if (numericPhoneNumber.toString().length !== expectedLength) {
         newWarnings.phone = "Номер введен не полностью.";
         isValid = false;
       } else {
@@ -337,7 +344,7 @@ const Abdu = ({
         try {
           const data = await postBoxOrder(
             authToken,
-            buyer.tel,
+            buyer.tel.toString(),
             buyer.vid_dost,
             buyer.id_vopl,
             buyer.fio,

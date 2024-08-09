@@ -469,7 +469,7 @@ export default function CatalogProducts({
 
     observerRef.current = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: "300px",
+      rootMargin: "500px",
       threshold: 0,
     });
 

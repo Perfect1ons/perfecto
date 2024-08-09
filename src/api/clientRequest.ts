@@ -357,7 +357,7 @@ export const checkUser = (tel: number): Promise<number> => {
 
 export const postBoxOrder = async (
   token: string,
-  tel: any,
+  tel: string,
   vid_dost: any,
   id_vopl: any,
   fio: string,
@@ -699,7 +699,7 @@ export const postAuthedTovar = async (
 
 export const getFavorites = (
   token: string,
-  page: number | undefined
+  page: string
 ): Promise<IFavorites> => {
   return maxkgnocache
     .get(`izb?page=${page}`, {

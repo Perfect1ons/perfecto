@@ -30,13 +30,12 @@ export default async function Page() {
       cartData = await getBasket(authToken, 1);
     } else if (cart) {
       const response = await getProductBasket(1, cartId ?? 0);
-      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
-    } else {
+      cartData = response?.model ?? []; 
+    } else{
       cartData = [];
     }
   } catch (error) {
-    console.error("Ошибка при получении данных корзины:", error);
-    cartData = []; // Default to an empty array if there's an error
+    cartData = [];
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
