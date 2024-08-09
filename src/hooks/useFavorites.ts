@@ -16,7 +16,7 @@ const useFavorites = () => {
   //favorite refresh count function
   const refreshFav = async (page: number) => {
     try {
-      const response = await getFavorites(token, page.toString());
+      const response = await getFavorites(token, page);
       if (response === null) {
         localStorage.removeItem("favCount");
       } else if (response.count) {

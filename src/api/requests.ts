@@ -338,7 +338,6 @@ export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
 };
 
-
 export const getOrderHistoryOrderRating = (
   token: string | undefined,
   id_zakaz: number
@@ -369,7 +368,7 @@ export const getBasket = (
 
 export const getFavorites = (
   token: string,
-  page: string | undefined
+  page: number
 ): Promise<IFavorites> => {
   return maxkgnocache
     .get(`izb?page=${page}`, {
@@ -396,7 +395,6 @@ export const getUserInfo = (token: string): Promise<IProfileData> => {
     .json();
 };
 
-
 //! Запросы для корзины неавторизованного пользователя
 
 export const getProductBasket = (
@@ -407,4 +405,3 @@ export const getProductBasket = (
     .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
     .json();
 };
-
