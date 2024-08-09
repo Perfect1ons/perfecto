@@ -1,18 +1,18 @@
 "use client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
-import {
-  DeliverExPointIcons,
-  DeliveryApproveIcon,
-  DeliveryCurierIcon,
-  PaymentIcon,
-} from "../../../public/Icons/Icons";
+// import {
+//   DeliverExPointIcons,
+//   DeliveryApproveIcon,
+//   DeliveryCurierIcon,
+//   PaymentIcon,
+// } from "../../../public/Icons/Icons";
 import styles from "./style.module.scss";
-import clsx from "clsx";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import dynamic from "next/dynamic";
 import { ICityFront } from "@/types/Basket/cityfrontType";
 import {
+  BasketOrdersWarnings,
   IBuyer,
   ICityBuyer,
   IVariableBuyer,
@@ -23,12 +23,17 @@ import {
   deleteAllTovars,
   deleteAuthedTovars,
   deleteTovar,
+  getExitsUser,
+  postBoxOrder,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch, useSelector } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 import BasketsItems from "./BasketsItems/BasketsItems";
+import BasketOrder from "./BasketOrder/BasketOrder";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
@@ -50,6 +55,19 @@ interface IBasketProps {
   paymentMethod: IPaymentMethod;
   items: IBasketItems[];
 }
+interface Country {
+  code: number;
+  img: string;
+  name: string;
+}
+
+const codesCountry: Record<string, Country> = {
+  kg: { code: 996, img: "/img/kgFlag.svg", name: "Кыргызстан" },
+  ru: { code: 7, img: "/img/ruFlag.svg", name: "Россия" },
+  kz: { code: 7, img: "/img/kzFlag.svg", name: "Казахстан" },
+};
+
+type CountryKey = keyof typeof codesCountry;
 
 const Abdu = ({
   cartId,
@@ -66,19 +84,19 @@ const Abdu = ({
     updateCartItems(cart);
   }, [cart]);
 
-const updateCartItems = (newItems: any[]) => {
-  setItems((prevItems) => {
-    const itemsMap = new Map<number, any>();
+  const updateCartItems = (newItems: any[]) => {
+    setItems((prevItems) => {
+      const itemsMap = new Map<number, any>();
 
-    newItems.forEach((item) => {
-      itemsMap.set(item.id_tov, item);
+      newItems.forEach((item) => {
+        itemsMap.set(item.id_tov, item);
+      });
+
+      const updatedItems = Array.from(itemsMap.values());
+
+      return updatedItems;
     });
-
-    const updatedItems = Array.from(itemsMap.values());
-
-    return updatedItems;
-  });
-};
+  };
 
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
@@ -97,7 +115,123 @@ const updateCartItems = (newItems: any[]) => {
   const [isCityModalVisible, setCityModalVisible] = useState(false);
   const openCityModal = () => setCityModalVisible(true);
   const closeCityModal = () => setCityModalVisible(false);
+  const [variableBuyer, setVariableBuyer] = useState<IVariableBuyer>({
+    payment: {
+      name: "",
+      id: "",
+    },
+    delivery: {
+      name: "",
+      id: "",
+    },
+  });
+  const [totalQuantity, setTotalQuantity] = useState<number>(0);
+  const [totalDiscount, setTotalDiscount] = useState<number>(0);
+  const [formattedTotalPrice, setFormattedTotalPrice] = useState<string>("");
+  const [anotherRecipient, setAnotherRecipient] = useState({
+    tel: `${codesCountry.kg.code}`,
+    fio: "",
+    name: "",
+  });
+  const [nds, setNds] = useState<boolean>(true);
+  const router = useRouter();
+  const ndsHandler = () => {
+    setNds((prevNds) => !prevNds);
+  };
 
+  const handleAnotherRecipientChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setAnotherRecipient((prevAnother) => ({
+      ...prevAnother,
+      [name]: value,
+    }));
+  };
+  const [buyer, setBuyer] = useState<IBuyer>({
+    tel: 0,
+    vid_dost: variableBuyer.delivery.id,
+    id_vopl: variableBuyer.payment.id,
+    fio: "",
+    name: "",
+    org: "",
+    org_inn: "",
+    id_city: null,
+    id_city2: 0,
+    directory: "",
+    dost: "",
+    oplata: "",
+    city: "",
+  });
+  const [anotherStatus, setAnotherStatus] = useState("");
+  const handleAnotherRecipientBlur = async () => {
+    try {
+      const cleanedTel = anotherRecipient.tel.replace(/\D/g, "");
+      const response = await getExitsUser(cleanedTel);
+
+      if (response) {
+        const data = response;
+        // setBuyer((prevBuyer) => ({
+        //   ...prevBuyer,
+        //   tel: data.tel,
+        //   fio: data.fio,
+        //   name: data.name,
+        // }));
+
+        setAnotherRecipient((prevAnother) => ({
+          ...prevAnother,
+          tel: data.tel,
+          fio: data.fio,
+          name: data.name,
+        }));
+
+        setAnotherStatus("Пользователь найден");
+      } else {
+        // setBuyer((prevBuyer) => ({
+        //   ...prevBuyer,
+        //   tel: user.tel,
+        //   fio: user.fio,
+        //   name: user.name,
+        // }));
+        setAnotherRecipient({
+          tel: "",
+          fio: "",
+          name: "",
+        });
+        setAnotherStatus("Пользователь не найден");
+      }
+    } catch (error) {
+      console.error("Error making request:", error);
+      setAnotherStatus("Ошибка при запросе.");
+    }
+  };
+  useEffect(() => {
+    const result = items.reduce(
+      (acc: any, item: any) => {
+        const quantity = parseInt(item.kol) || 0;
+        const discount = item.discount || 0;
+        const price = authToken
+          ? parseInt(item.cenaok)
+          : parseInt(item.cena) || 0;
+        acc.totalQuantity += quantity;
+        acc.totalPrice += quantity * price;
+        acc.totalDiscount += quantity * discount;
+        return acc;
+      },
+      { totalQuantity: 0, totalPrice: 0, totalDiscount: 0 }
+    );
+
+    const formatNumber = (number: number) => {
+      if (number >= 1e9) {
+        return (number / 1e9).toFixed(2) + " млрд";
+      } else if (number >= 1e6) {
+        return (number / 1e6).toFixed(2) + " млн";
+      } else {
+        return number.toLocaleString("ru-RU");
+      }
+    };
+    setTotalDiscount(result.totalDiscount);
+    setTotalQuantity(result.totalQuantity);
+    setFormattedTotalPrice(formatNumber(result.totalPrice));
+  }, [items, authToken]);
   const [selectedIds, setSelectedIds] = useState<string>("");
   const [location, setLocation] = useState<ICityBuyer>({
     id_city: {
@@ -114,34 +248,120 @@ const updateCartItems = (newItems: any[]) => {
       apartament: "",
     },
   });
+  const [regVisible, setRegVisible] = useState(false);
 
-  const [variableBuyer, setVariableBuyer] = useState<IVariableBuyer>({
-    payment: {
-      name: "",
-      id: "",
-    },
-    delivery: {
-      name: "",
-      id: "",
-    },
-  });
+  const regVisibleHandle = () => {
+    setRegVisible(false);
+  };
 
-  const [buyer, setBuyer] = useState<IBuyer>({
-    tel: 0,
-    vid_dost: variableBuyer.delivery.id,
-    id_vopl: variableBuyer.payment.id,
-    fio: "",
+  const [warnings, setWarnings] = useState<BasketOrdersWarnings>({
+    delivery: "",
+    payment: "",
+    phone: "",
+    surname: "",
     name: "",
-    org: "",
-    org_inn: "",
-    id_city: null,
-    id_city2: 0,
-    directory: "",
-    dost: "",
-    oplata: "",
-    city: "",
   });
 
+  const validateBuyerInfo = (): boolean => {
+    let isValid = true;
+    const newWarnings = { ...warnings };
+
+    // Delivery validation
+    if (!buyer.vid_dost) {
+      newWarnings.delivery = "Пожалуйста выберите способ доставки";
+      isValid = false;
+    } else {
+      newWarnings.delivery = "";
+    }
+
+    // Payment validation
+    if (!buyer.id_vopl) {
+      newWarnings.payment = "Пожалуйста выберите способ оплаты";
+      isValid = false;
+    } else {
+      newWarnings.payment = "";
+    }
+
+    // Phone number validation
+    const numericPhoneNumber = buyer.tel;
+    let expectedLength = 0;
+    switch (currentCodeCountry.code) {
+      case 996:
+        expectedLength = 12;
+        break;
+      case 7:
+        expectedLength = 11;
+        break;
+      default:
+        expectedLength = 12;
+        break;
+    }
+
+    if (!authToken) {
+      if (!numericPhoneNumber) {
+        newWarnings.phone = "Это поле не может быть пустым.";
+        isValid = false;
+      } else if (numericPhoneNumber.length !== expectedLength) {
+        newWarnings.phone = "Номер введен не полностью.";
+        isValid = false;
+      } else {
+        newWarnings.phone = "";
+      }
+    }
+
+    // Surname validation
+    if (!buyer.fio && !authToken) {
+      newWarnings.surname = "Пожалуйста укажите вашу фамилию";
+      isValid = false;
+    } else {
+      newWarnings.surname = "";
+    }
+
+    // Name validation
+    if (!buyer.name && !authToken) {
+      newWarnings.name = "Пожалуйста укажите ваше имя";
+      isValid = false;
+    } else {
+      newWarnings.name = "";
+    }
+
+    setWarnings(newWarnings);
+    return isValid;
+  };
+
+  const orderHandler = async () => {
+    if (validateBuyerInfo()) {
+      if (!authToken) {
+        setRegVisible(true);
+      } else {
+        try {
+          const data = await postBoxOrder(
+            authToken,
+            buyer.tel,
+            buyer.vid_dost,
+            buyer.id_vopl,
+            buyer.fio,
+            buyer.name,
+            nds,
+            buyer.org,
+            buyer.org_inn,
+            buyer.id_city?.toString(),
+            buyer.directory
+          );
+          router.push(`/profile/orders/${data.id}`);
+        } catch (error) {
+          console.error("Не удалось получить данные:", error);
+        }
+      }
+    }
+  };
+  const handleBuyerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
+      [name]: value,
+    }));
+  };
   // Функция удаления товара
   const removeFromCart = (id_tov: number) => {
     openModal();
@@ -284,6 +504,58 @@ const updateCartItems = (newItems: any[]) => {
       id_city: newCity,
     }));
   };
+  const [visible, setVisible] = useState<string>("");
+  const visibleHandler = (current: string) => {
+    setVisible((prevVisible) => (prevVisible !== current ? current : ""));
+  };
+  const codeCountryHandler = useCallback((country: CountryKey) => {
+    const selectedCountry = codesCountry[country];
+    setCurrentCodeCountry(selectedCountry);
+    setBuyer((prevBuyer) => ({
+      ...prevBuyer,
+      phone: `${selectedCountry.code}`,
+    }));
+    setMask(getMaskForCountry(selectedCountry.code));
+    setVisible("");
+  }, []);
+  const [currentCodeCountry, setCurrentCodeCountry] = useState<Country>(
+    codesCountry.kg
+  );
+
+  const getMaskForCountry = (code: number) => {
+    switch (code) {
+      case 996:
+        return "\\+\\9\\96 (999) 99-99-99";
+      case 7:
+        return "\\+\\7 (999) 999-99-99";
+      default:
+        return "\\+\\9\\96 (999) 99-99-99";
+    }
+  };
+
+  const [mask, setMask] = useState(getMaskForCountry(currentCodeCountry.code));
+
+  const countryOptions = useMemo(() => {
+    return Object.entries(codesCountry).map(([key, country]) => (
+      <button
+        key={key}
+        onClick={() => codeCountryHandler(key as CountryKey)}
+        className={styles.wrap_phone_dropdown_button}
+      >
+        <Image
+          className={styles.wrap_phone_dropdown_button_img}
+          src={country.img}
+          width={30}
+          height={30}
+          alt={country.name}
+        />
+        {country.name}
+        <span className={styles.wrap_phone_dropdown_button_code}>
+          +{country.code}
+        </span>
+      </button>
+    ));
+  }, [codeCountryHandler]);
 
   useEffect(() => {
     const body = document.body;
@@ -361,70 +633,30 @@ const updateCartItems = (newItems: any[]) => {
               onCheckboxChange={handleCheckboxChange}
               cartData={items}
             />
-            <div className={styles.order_box}>
-              <button
-                className={clsx(
-                  styles.choose__delivery,
-                  buyer.vid_dost != 0 && styles.choosed__delivery
-                )}
-                onClick={() => {
-                  setView("curier"); // Устанавливаем вид для "curier"
-                  openModal();
-                }}
-              >
-                <span className={styles.expoint}>
-                  <DeliveryCurierIcon />
-                </span>
-                {buyer.vid_dost != 0 ? (
-                  <div className={styles.delivery__info}>
-                    <p className={styles.delivery__info_dostavka}>
-                      {buyer.dost}
-                    </p>
-                    {buyer.id_city !== null &&
-                      buyer.vid_dost !== 1 &&
-                      buyer.vid_dost !== 2 && (
-                        <p className={styles.delivery__info_address}>
-                          Адрес: {buyer.city}
-                          {location.directory.street &&
-                            "," + location.directory.street}
-                          {location.directory.house &&
-                            "," + location.directory.house}
-                          {location.directory.apartament &&
-                            "," + location.directory.apartament}
-                        </p>
-                      )}
-                  </div>
-                ) : (
-                  "Выберите способ доставки"
-                )}
-
-                {buyer.vid_dost != 0 ? (
-                  <DeliveryApproveIcon />
-                ) : (
-                  <DeliverExPointIcons />
-                )}
-              </button>
-              <button
-                className={clsx(
-                  styles.choose__delivery,
-                  buyer.id_vopl != 0 && styles.choosed__delivery
-                )}
-                onClick={() => {
-                  setView("oplata");
-                  openModal();
-                }}
-              >
-                <span className={styles.expoint}>
-                  <PaymentIcon />
-                </span>
-                {buyer.id_vopl != 0 ? buyer.oplata : "Выберите способ оплаты"}
-                {buyer.id_vopl != 0 ? (
-                  <DeliveryApproveIcon />
-                ) : (
-                  <DeliverExPointIcons />
-                )}
-              </button>
-            </div>
+            <BasketOrder
+              totalDiscount={totalDiscount}
+              nds={nds}
+              formattedTotalPrice={formattedTotalPrice}
+              warnings={warnings}
+              orderHandler={orderHandler}
+              ndsHandler={ndsHandler}
+              handleAnotherRecipientChange={handleAnotherRecipientChange}
+              anotherRecipient={anotherRecipient}
+              anotherStatus={anotherStatus}
+              handleAnotherRecipientBlur={handleAnotherRecipientBlur}
+              totalQuantity={totalQuantity}
+              currentCodeCountry={currentCodeCountry}
+              countryOptions={countryOptions}
+              mask={mask}
+              visibleHandler={visibleHandler}
+              authToken={authToken}
+              buyer={buyer}
+              location={location}
+              openModal={openModal}
+              setView={setView}
+              handleBuyerChange={handleBuyerChange}
+              visible={visible}
+            />
           </div>
         </div>
       ) : (

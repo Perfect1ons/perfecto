@@ -73,6 +73,11 @@ const BasketOrder = ({
   const regVisibleHandle = () => {
     setRegVisible(false);
   };
+  const [nds, setNds] = useState<boolean>(true);
+
+  const ndsHandler = () => {
+    setNds((prevNds) => !prevNds);
+  };
 
   const [variableBuyer, setVariableBuyer] = useState<{
     payment: {
@@ -134,7 +139,6 @@ const BasketOrder = ({
   });
 
   const [anotherStatus, setAnotherStatus] = useState("");
-  const [nds, setNds] = useState<boolean>(true);
   const [buyer, setBuyer] = useState<Buyer>({
     tel: "",
     vid_dost: variableBuyer.delivery.id,
@@ -245,9 +249,6 @@ const BasketOrder = ({
 
   const visibleHandler = (current: string) => {
     setVisible((prevVisible) => (prevVisible !== current ? current : ""));
-  };
-  const ndsHandler = () => {
-    setNds((prevNds) => !prevNds);
   };
 
   const handleBuyerChange = (e: ChangeEvent<HTMLInputElement>) => {

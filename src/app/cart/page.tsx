@@ -13,10 +13,8 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 const Abdu = dynamic(() => import("@/components/Abdu/Abdu"), {
   ssr: false,
-  loading: () => <MainLoader/>,
+  loading: () => <MainLoader />,
 });
-
-
 
 export default async function Page() {
   const cookieStore = cookies();
@@ -33,7 +31,7 @@ export default async function Page() {
     } else if (cart) {
       const response = await getProductBasket(1, cartId ?? 0);
       cartData = response?.model ?? []; // Ensure cartData is always an array or default value
-    } else{
+    } else {
       cartData = [];
     }
   } catch (error) {
