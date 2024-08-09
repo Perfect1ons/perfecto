@@ -147,6 +147,8 @@ const Abdu = ({
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       dispatch(removeProductFromCart(choosed));
+      console.log(choosed);
+
       closeModal();
 
       let response;
