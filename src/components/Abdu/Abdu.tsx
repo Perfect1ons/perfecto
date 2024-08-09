@@ -26,7 +26,7 @@ import {
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
 import { useDispatch, useSelector } from "react-redux";
-import { removeProductFromCart } from "@/store/reducers/cart.reducer";
+import { addProductToCart, removeProductFromCart } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 import BasketsItems from "./BasketsItems/BasketsItems";
 
@@ -63,22 +63,27 @@ const Abdu = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [items, setItems] = useState<any[]>(cart);
   useEffect(() => {
-    updateCartItems(cart);
-  }, [cart]);
+    if (cart.length === initialItems.length) {
+      setItems(initialItems.reverse());
+    } else {
+      updateCartItems(cart);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cart, dispatch, addProductToCart]);
 
-const updateCartItems = (newItems: any[]) => {
-  setItems((prevItems) => {
-    const itemsMap = new Map<number, any>();
+  const updateCartItems = (newItems: any[]) => {
+    setItems((prevItems) => {
+      const itemsMap = new Map<number, any>();
 
-    newItems.forEach((item) => {
-      itemsMap.set(item.id_tov, item);
+      newItems.forEach((item) => {
+        itemsMap.set(item.id_tov, item);
+      });
+
+      const updatedItems = Array.from(itemsMap.values());
+
+      return updatedItems.reverse();
     });
-
-    const updatedItems = Array.from(itemsMap.values());
-
-    return updatedItems;
-  });
-};
+  };
 
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"

@@ -60,13 +60,19 @@ const AuthForm = ({
         break;
     }
 
-    if (numericPhoneNumber.length !== expectedLength) {
-      setWarning("Номер введен не полностью.");
-      return false;
-    } else if (!numericPhoneNumber) {
+    if (!numericPhoneNumber) {
       setWarning("Это поле не может быть пустым.");
       return false;
+    } else if (numericPhoneNumber.length !== expectedLength) {
+      setWarning("Номер введен не полностью.");
+      return false;
     }
+
+    // if (numericPhoneNumber.length !== expectedLength) {
+    // } else if (numericPhoneNumber == null) {
+    //   setWarning("Это поле не может быть пустым.");
+    //   return false;
+    // }
     postLoginCode(numericPhoneNumber);
     setView("confirm");
     return true;
@@ -77,19 +83,6 @@ const AuthForm = ({
 
     if (validatePhoneNumber()) {
       setView("confirm");
-    }
-  };
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      if (validatePhoneNumber()) {
-        // Trigger form submit when Enter key is pressed and phone number is valid
-        const form = event.currentTarget.closest("form");
-        if (form) {
-          form.requestSubmit();
-        }
-      }
     }
   };
 
