@@ -23,7 +23,7 @@ import {
 import { AuthContext } from "@/context/AuthContext";
 
 interface ICartReducerBtnProps {
-  removeItem?: () => void;
+  removeItem?: (id_tov: number) => void;
   token?: any;
   cartId?: any;
   data: IItemItems;
@@ -40,7 +40,7 @@ const ReducerBtn = ({
   onFocusHandled,
 }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
-  const { cartId } = useContext(AuthContext)
+  const { cartId } = useContext(AuthContext);
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [inputValue, setInputValue] = useState<string>(
@@ -171,17 +171,19 @@ const removeFromCart = async () => {
     if (product) {
       const currentQuantity = product.quantity ?? 0;
       if (currentQuantity <= data.minQty) {
-        dispatch(removeProductFromCart(data.id));
+        dispatch(removeProductFromCart(data.id)); 
+        if (removeItem) {
+          removeItem(data.id_tov); 
+        }
         if (token) {
           await deleteAuthedTovars(token, data.id_tov.toString());
         } else {
           await deleteTovar(cartId, data.id_tov);
         }
-        setInputValue(data.minQty.toString()); // Устанавливаем значение инпута в минимальное количество
       } else {
         const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-        dispatch(deleteProductQuantity(data.id));
-        setInputValue(newQuantity.toString()); // Обновляем значение инпута после уменьшения количества
+        dispatch(deleteProductQuantity(data.id)); 
+        setInputValue(newQuantity.toString()); 
         if (token) {
           debouncedUpdateTovar(data.id_tov, newQuantity);
         } else {
@@ -190,7 +192,7 @@ const removeFromCart = async () => {
       }
     }
   } catch (error) {
-    console.error("Error removing from cart:", error);
+    console.error("Ошибка при удалении из корзины:", error);
   }
 };
 
