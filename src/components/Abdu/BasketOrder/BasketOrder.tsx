@@ -67,8 +67,6 @@ const BasketOrder = ({
   nds,
   totalDiscount,
 }: IBasketOrderProps) => {
-  const [anotherVisible, setAnotherVisible] = useState(false);
-
   return (
     <div className={styles.order_box}>
       <div className={styles.currentButtonHeader}>
@@ -239,12 +237,12 @@ const BasketOrder = ({
       {authToken && (
         <div className={styles.wrap_anotherRecipient}>
           <button
-            onClick={() => setAnotherVisible(!anotherVisible)}
+            onClick={() => visibleHandler("anotherVisible")}
             className={styles.wrap_anotherRecipient_dropdownToggler}
           >
             <span
               className={cn(
-                anotherVisible
+                visible === "anotherVisible"
                   ? styles.wrap_anotherRecipient_dropdownToggler_arrow__active
                   : styles.wrap_anotherRecipient_dropdownToggler_arrow
               )}
@@ -255,12 +253,12 @@ const BasketOrder = ({
           </button>
           <div
             className={cn(
-              anotherVisible
+              visible === "anotherVisible"
                 ? styles.wrap_anotherRecipient_dropdown__active
                 : styles.wrap_anotherRecipient_dropdown
             )}
           >
-            {anotherVisible && (
+            {visible === "anotherVisible" && (
               <p
                 className={cn(
                   styles.wrap_anotherRecipient_dropdown__active_anotherStatus,
