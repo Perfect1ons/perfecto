@@ -164,7 +164,6 @@ const Abdu = ({
       }
       setChoosed(undefined);
     } else {
-      dispatch(removeProductFromCart(parseInt(selectedIds)));
       let response;
       if (authToken) {
         response = await deleteAuthedTovars(authToken, selectedIds);

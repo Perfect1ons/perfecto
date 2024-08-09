@@ -38,8 +38,8 @@ const cartSlice = createSlice({
 
     removeProductFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      state.cart = state.cart.filter((product) => product.id_tov !== id); 
-      localStorage.setItem("basket", JSON.stringify(state.cart)); 
+      state.cart = state.cart.filter((product) => product.id_tov !== id);
+      localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 
     addProductQuantity: (state, action: PayloadAction<number>) => {
@@ -64,19 +64,20 @@ const cartSlice = createSlice({
         if (product.quantity > minQty) {
           product.quantity -= 1;
         } else if (product.quantity === minQty) {
-          state.cart = state.cart.filter((p) => p.id !== id);
+          // Не удаляем продукт, а устанавливаем его количество на минимальное значение
+          product.quantity = minQty;
         }
         localStorage.setItem("basket", JSON.stringify(state.cart));
       }
     },
-
     clearCart: (state) => {
       state.cart = [];
       localStorage.removeItem("basket");
     },
 
-    clearSelectedProducts: (state) => {
-      state.cart = state.cart.filter((product) => !product.selected);
+    clearSelectedProducts: (state, action: PayloadAction<number>) => {
+      const id = action.payload;
+      state.cart = state.cart.filter((product) => product.id_tov !== id);
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 

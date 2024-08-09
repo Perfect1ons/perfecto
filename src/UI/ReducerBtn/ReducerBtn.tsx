@@ -54,6 +54,7 @@ const ReducerBtn = ({
     () =>
       debounce(async (id_tov: number, value: number) => {
         try {
+          console.log(`Updating tovar ${id_tov} with value ${value}`);
           if (token) {
             await postAuthedTovar(token, id_tov, value);
           } else {
@@ -61,7 +62,6 @@ const ReducerBtn = ({
           }
         } catch (error) {
           console.error("Error updating tovar:", error);
-          // Можно добавить обработку ошибок, например, уведомления пользователю
         }
       }, 300),
     [token]
@@ -95,48 +95,37 @@ const ReducerBtn = ({
     setInputValue(e.target.value);
 
     if (value >= data.minQty) {
-      if (product) {
-        dispatch(
-          updateProductQuantity({ id: data.id, quantity: finalQuantity })
-        );
-        debouncedUpdateTovar(data.id_tov, finalQuantity);
-      } else {
-        const newProduct = { ...data, quantity: finalQuantity };
-        dispatch(addProductToCart(newProduct));
-        debouncedUpdateTovar(data.id_tov, finalQuantity);
-      }
+      // Убедитесь, что обновление состояния корректно
+      dispatch(updateProductQuantity({ id: data.id, quantity: finalQuantity }));
+      debouncedUpdateTovar(data.id_tov, finalQuantity);
     }
   };
 
-  const handleBlur = useMemo(
-    () =>
-      debounce(() => {
-        const numericInputValue = Number(inputValue);
-        let finalQuantity: number;
+  const handleBlur = () => {
+    const numericInputValue = Number(inputValue);
+    let finalQuantity: number;
 
-        if (product) {
-          finalQuantity = Math.min(
-            Number(product.balance) || 0,
-            Math.max(numericInputValue, data.minQty)
-          );
-          if (product.quantity !== finalQuantity) {
-            dispatch(
-              updateProductQuantity({ id: data.id, quantity: finalQuantity })
-            );
-          }
-        } else {
-          finalQuantity = Math.min(Number(data.balance) || 0, data.minQty);
-          if (numericInputValue !== finalQuantity) {
-            dispatch(
-              updateProductQuantity({ id: data.id, quantity: finalQuantity })
-            );
-          }
-        }
+    if (product) {
+      finalQuantity = Math.min(
+        Number(product.balance) || 0,
+        Math.max(numericInputValue, data.minQty)
+      );
+      if (product.quantity !== finalQuantity) {
+        dispatch(
+          updateProductQuantity({ id: data.id, quantity: finalQuantity })
+        );
+      }
+    } else {
+      finalQuantity = Math.min(Number(data.balance) || 0, data.minQty);
+      if (numericInputValue !== finalQuantity) {
+        dispatch(
+          updateProductQuantity({ id: data.id, quantity: finalQuantity })
+        );
+      }
+    }
 
-        setInputValue(finalQuantity.toString());
-      }, 500),
-    [product, data.minQty, inputValue, dispatch, data.id, data.balance]
-  );
+    setInputValue(finalQuantity.toString());
+  };
 
   const addToCart = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -172,10 +161,12 @@ const ReducerBtn = ({
     try {
       if (product) {
         const currentQuantity = product.quantity ?? 0;
-        if (pathname !== "/cart") {
-          dispatch(removeProductFromCart(product.id_tov));
-        }
+
         if (currentQuantity <= data.minQty) {
+          if (pathname !== "/cart") {
+            dispatch(removeProductFromCart(product.id_tov));
+          }
+
           if (removeItem) {
             removeItem(product.id_tov);
           }
@@ -186,7 +177,9 @@ const ReducerBtn = ({
           }
         } else {
           const newQuantity = Math.max(currentQuantity - 1, data.minQty);
-          dispatch(deleteProductQuantity(product.id));
+          dispatch(
+            updateProductQuantity({ id: product.id, quantity: newQuantity })
+          );
           setInputValue(newQuantity.toString());
           if (token) {
             debouncedUpdateTovar(data.id_tov, newQuantity);
