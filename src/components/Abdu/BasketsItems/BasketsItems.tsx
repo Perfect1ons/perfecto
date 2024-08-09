@@ -24,7 +24,7 @@ const BasketsItems = ({
   return (
     <div className={styles.cards}>
       {cartData.map((item) => {
-        const isChecked = selectedIds.includes(item.id_tov.toString());
+        const isChecked = selectedIds.includes(item.id_tov);
         const imageUrl =
           item.photos.length > 0
             ? item.photos[0]?.url_part.startsWith("https://goods")

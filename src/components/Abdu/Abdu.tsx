@@ -63,13 +63,22 @@ const Abdu = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [items, setItems] = useState<any[]>(cart);
   useEffect(() => {
-    if (cart.length === initialItems.length) {
-      setItems(initialItems);
-    } else {
-      const reversedCart = [...cart].reverse();
-      setItems(reversedCart);
-    }
-  }, [cart, initialItems]);
+    updateCartItems(cart);
+  }, [cart]);
+
+const updateCartItems = (newItems: any[]) => {
+  setItems((prevItems) => {
+    const itemsMap = new Map<number, any>();
+
+    newItems.forEach((item) => {
+      itemsMap.set(item.id_tov, item);
+    });
+
+    const updatedItems = Array.from(itemsMap.values());
+
+    return updatedItems;
+  });
+};
 
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
