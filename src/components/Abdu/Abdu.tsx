@@ -63,8 +63,12 @@ const Abdu = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [items, setItems] = useState<any[]>(cart);
   useEffect(() => {
-    const reversedCart = [...cart].reverse();
-    setItems(reversedCart);
+    if (cart.length === initialItems.length) {
+      setItems(initialItems);
+    } else {
+      const reversedCart = [...cart].reverse();
+      setItems(reversedCart);
+    }
   }, [cart, initialItems]);
 
   const [view, setView] = useState<
@@ -140,7 +144,7 @@ const Abdu = ({
   // Функция для подтверждения удаления товаров
   const removeTovars = async () => {
     if (choosedModal && choosed) {
-      dispatch(removeProductFromCart([]));
+      dispatch(removeProductFromCart([choosed]));
 
       closeModal();
 
