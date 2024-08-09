@@ -42,13 +42,13 @@ const ReducerBtn = ({
 }: ICartReducerBtnProps) => {
   const dispatch = useDispatch();
   const { cartId } = useContext(AuthContext);
-  const pathname = usePathname();
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.id);
   const [inputValue, setInputValue] = useState<string>(
     product?.quantity?.toString() ?? data.minQty.toString()
   );
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const pathname = usePathname();
 
   const debouncedUpdateTovar = useMemo(
     () =>
