@@ -23,6 +23,7 @@ export interface ICatalogProps {
   loading: boolean;
   setMobileModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isMobileModalOpen: boolean;
+  favCount: number | undefined;
 }
 
 export interface UserCoordinates {
@@ -38,6 +39,7 @@ const Header = ({
   loading,
   isMobileModalOpen,
   setMobileModalOpen,
+  favCount,
 }: ICatalogProps) => {
   //! Функционал и стейты для быстрого в Header
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -197,7 +199,7 @@ const Header = ({
           </div>
 
           <div className={styles.header__nav} onClick={onClose}>
-            <HeaderNav isAuthed={isAuthed} />
+            <HeaderNav isAuthed={isAuthed} favCount={favCount} />
           </div>
         </div>
 

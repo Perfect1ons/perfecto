@@ -8,14 +8,17 @@ const MobileNav = dynamic(
   () => import("@/components/MobileMenu/MobileNav/MobileNav")
 );
 
-
-
 interface IHeaderProps {
   isAuthed: any;
   searchHistory: string[];
+  favCount: number | undefined;
 }
 
-export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
+export default function HeaderWrap({
+  isAuthed,
+  searchHistory,
+  favCount,
+}: IHeaderProps) {
   const [catalog, setCatalog] = useState<ICatalogMenu>();
   const [isCatalogFetched, setIsCatalogFetched] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,6 +51,7 @@ export default function HeaderWrap({ isAuthed, searchHistory }: IHeaderProps) {
         loading={loading}
         isMobileModalOpen={isMobileModalOpen}
         setMobileModalOpen={setMobileModalOpen}
+        favCount={favCount}
       />
       <MobileNav
         isAuthed={isAuthed}

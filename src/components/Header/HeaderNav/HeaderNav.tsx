@@ -38,9 +38,10 @@ const navLinks: ILinks[] = [
 
 interface IHeaderNav {
   isAuthed: boolean;
+  favCount: number | undefined;
 }
 
-const HeaderNav = ({ isAuthed }: IHeaderNav) => {
+const HeaderNav = ({ isAuthed, favCount }: IHeaderNav) => {
   const [isAuthVisible, setAuthVisible] = useState(false);
   const [authStatus, setAuthStatus] = useState<boolean>(isAuthed);
   const [links, setLinks] = useState(navLinks);
@@ -49,7 +50,14 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const cart = useSelector((state: RootState) => state.cart.cart);
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-  
+
+  useEffect(() => {
+    if (favCount) {
+      localStorage.setItem("favCount", favCount.toString());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     const updateCounts = () => {
       const favCount = localStorage.getItem("favCount");

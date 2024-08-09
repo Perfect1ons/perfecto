@@ -11,6 +11,7 @@ import { ModalProvider } from "@/context/ModalContext/ModalContext";
 import {
   getBasket,
   getCurrentOrders,
+  getFavorites,
   getNotification,
   getProductBasket,
 } from "@/api/requests";
@@ -71,21 +72,22 @@ export default async function RootLayout({
   let notifications;
   let orders;
   let cartData: any;
+  let favData: any;
 
   try {
     if (isAuthed && userId) {
       notifications = await getNotification(parseInt(userId));
       orders = await getCurrentOrders(isAuthed);
       cartData = await getBasket(isAuthed, 1);
+      favData = await getFavorites(isAuthed, "1");
     } else if (cart) {
       const response = await getProductBasket(1, cartId ?? 0);
-      cartData = response?.model ?? []; 
+      cartData = response?.model ?? [];
     }
   } catch (error) {
     console.error("Ошибка при получении данных корзины:", error);
-    cartData = []; 
+    cartData = [];
   }
-
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
@@ -100,7 +102,11 @@ export default async function RootLayout({
               isAuthed={isAuthed}
               personId={userId}
             >
-              <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
+              <HeaderWrap
+                isAuthed={isAuthed}
+                searchHistory={searchHistory}
+                favCount={favData?.count}
+              />
               <DownloadAppMobile />
               <Provider>
                 <ModalProvider>
