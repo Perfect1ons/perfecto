@@ -6,7 +6,9 @@ interface CartState {
   selected?: boolean;
 }
 
-const loadCartFromLocalStorage = (cartData: IItemItems[] = []): IItemItems[] => {
+const loadCartFromLocalStorage = (
+  cartData: IItemItems[] = []
+): IItemItems[] => {
   if (typeof window === "undefined") {
     return [];
   }
@@ -14,12 +16,10 @@ const loadCartFromLocalStorage = (cartData: IItemItems[] = []): IItemItems[] => 
   return savedCart ? JSON.parse(savedCart) : cartData;
 };
 
-
 const initialState: CartState = {
   cart: loadCartFromLocalStorage(), // Без аргумента
   selected: false,
 };
-
 
 const cartSlice = createSlice({
   name: "cart",
@@ -37,8 +37,8 @@ const cartSlice = createSlice({
     },
 
     removeProductFromCart: (state, action: PayloadAction<number>) => {
-      const id = action.payload;
-      state.cart = state.cart.filter((product) => product.id !== id);
+      const id_tov = action.payload;
+      state.cart = state.cart.filter((product) => product.id_tov !== id_tov);
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
 

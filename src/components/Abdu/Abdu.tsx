@@ -25,9 +25,8 @@ import {
   deleteTovar,
 } from "@/api/clientRequest";
 import BasketEmpty from "./BasketEmpty/BasketEmpty";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeProductFromCart } from "@/store/reducers/cart.reducer";
-import { RootState } from "@/store";
 const BasketsItems = dynamic(() => import("./BasketsItems/BasketsItems"), {
   ssr: false,
   loading: () => <h1>loading...</h1>,
@@ -59,17 +58,7 @@ const Abdu = ({
   items: initialItems,
 }: IBasketProps) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const [items, setItems] = useState<any[]>([]);
-  useEffect(() => {
-    if (cart.length === initialItems.length) {
-      setItems(initialItems);
-    } else {
-      const reversedCart = [...cart].reverse();
-      setItems(reversedCart);
-    }
-  }, [cart, initialItems]);
-
+  const [items, setItems] = useState<IBasketItems[]>(initialItems);
   const [view, setView] = useState<
     "delivery" | "curier" | "oplata" | "confirm"
   >("curier");
@@ -140,6 +129,8 @@ const Abdu = ({
   const removeTovars = async () => {
     if (choosedModal && choosed) {
       dispatch(removeProductFromCart(choosed));
+      console.log(choosed);
+
       closeModal();
       window.dispatchEvent(new Event("cartUpdated"));
 
