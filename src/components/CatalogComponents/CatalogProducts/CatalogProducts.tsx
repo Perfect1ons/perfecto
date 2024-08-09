@@ -514,7 +514,7 @@ export default function CatalogProducts({
         </>
       ) : (
         <div className={cn("container", styles.filterSticky)}>
-          <div className="sort__buttons">
+          <div className="sort__buttons container">
             <CatalogFiltres
               handleSortChange={handleSortChange}
               clearAllCrumbs={clearAllCrumbs}

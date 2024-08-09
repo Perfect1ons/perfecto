@@ -8,7 +8,7 @@ import {
   GrayStar,
   YellowStar,
 } from "../../../../public/Icons/Icons";
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import { useEffect, useState } from "react";
 import cn from "clsx";
 import ReviewDate from "./ReviewDate/ReviewDate";
@@ -18,7 +18,7 @@ import clsx from "clsx";
 import AuthModal from "@/components/AuthModal/AuthModal";
 
 interface IProductReviewProps {
-  data: Items;
+  data: IItemItems;
   func: () => void;
   authToken: string | undefined;
 }
@@ -117,7 +117,7 @@ const ProductReview = ({ data, func, authToken }: IProductReviewProps) => {
             disabled={data.status !== 6}
             onClick={handleOtz}
             className={cn(
-              "default__buttons_showMore",
+              "showMore__button",
               data.status !== 6 && "notallowed"
             )}
           >

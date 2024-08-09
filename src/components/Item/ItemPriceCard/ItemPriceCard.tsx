@@ -3,7 +3,7 @@ import { ICardProductItems } from "@/types/CardProduct/cardProduct";
 import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   ArrowDropdown,
   CardFavoritesIcon,
@@ -13,7 +13,6 @@ import {
 } from "../../../../public/Icons/Icons";
 import cn from "clsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import UserInfoModal from "@/components/UI/UserInfoModal/UserInfoModal";
 import { RootState } from "@/store";
 import Link from "next/link";
@@ -26,10 +25,14 @@ import {
   postBasketProduct,
   postBasketProductAuthed,
   postFavorite,
+  postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
+import useFavorites from "@/hooks/useFavorites";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -37,56 +40,12 @@ interface IPriceProps {
 }
 
 const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
-  const { isAuth, token } = useContext(AuthContext);
-
+  const { isAuth, token, cartId } = useContext(AuthContext);
+  const dispatch = useDispatch();
   const isMobile = useMediaQuery("(max-width: 992px)");
-
-  // логика добавления в корзину в редакс
   const cart = useSelector((state: RootState) => state.cart.cart);
   const product = cart.find((item) => item.id === data.items.id);
 
-  const addToCart = async () => {
-    if (token) {
-      try {
-        const item = await postBasketProductAuthed(
-          token,
-          `${data.items.minQty}`,
-          `${data.items.id_tov}`
-        );
-
-        if (item) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
-          cartItems.push(item);
-
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    } else {
-      try {
-        const item = await postBasketProduct(
-          data.items.minQty,
-          data.items.id_tov
-        );
-
-        if (item) {
-          let cartItems = JSON.parse(
-            localStorage.getItem("cartItemsGuest") || "[]"
-          );
-
-          cartItems.push(item);
-
-          localStorage.setItem("cartItemsGuest", JSON.stringify(cartItems));
-        }
-      } catch (error) {
-        console.log("error", error);
-      }
-    }
-    setAdded(true);
-  };
-  // копирования ссылки
   const [copy, setCopy] = useState(false);
   const [dropdownActive, setDropdownActive] = useState(false);
 
@@ -117,6 +76,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState<string | JSX.Element>("");
   const [added, setAdded] = useState(false);
+  const { postFav, deleteFav } = useFavorites();
 
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
@@ -143,27 +103,31 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
         );
         message = "Товар удален из избранного.";
         if (token) {
-          await deleteFavoritesProductAuthed(token, data.items.id_tov);
+          deleteFav(data.items.id_tov);
         }
+        setIsFavorite(!isFavorite);
       } else {
-        // Добавляем товар в избранное
-        const response = await postFavorite(data.items.id_tov, 1, token);
-        if (response) {
-          favorites.push(response);
-          message = (
-            <>
-              Товар добавлен в избранное.{" "}
-              <Link className="linkCart" href="/favorites">
-                Нажмите, чтобы перейти к списку.
-              </Link>
-            </>
-          );
-        } else {
-          message = "Не удалось добавить товар в избранное.";
+        try {
+          const response = await postFav(data.items.id_tov, 1);
+          if (response) {
+            favorites.push(response);
+            message = (
+              <>
+                Товар добавлен в избранное.{" "}
+                <Link className="linkCart" href="/favorites">
+                  Нажмите, чтобы перейти к списку.
+                </Link>
+              </>
+            );
+            setIsFavorite(!isFavorite);
+          } else {
+            message = <p>Не удалось добавить товар в избранное.</p>;
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
       localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsFavorite(!isFavorite);
       window.dispatchEvent(new Event("favoritesUpdated"));
       setModalMessage(message);
       setModalVisible(true);
@@ -172,9 +136,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       setModalMessage("Произошла ошибка при обработке запроса.");
       setModalVisible(true);
     }
-  };
-  const handleCartEmpty = () => {
-    setAdded(false);
   };
 
   // для открытия модалки ИП (не айпи)
@@ -190,24 +151,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     setIpOpen(!ipOpen);
   };
 
-  // для перевода фокуса на инпут
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-
-  const handleAddToCart = () => {
-    addToCart();
-    setShouldFocusInput(true);
-    setModalMessage(
-      <>
-        Товар добавлен в корзину.{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Нажмите, чтобы перейти к списку.
-        </Link>
-      </>
-    );
-    setModalVisible(true);
-  };
-
-  // для отображения MobileBuyBtn на мобильных устройствах
   const sectionRef = useRef(null);
   const [isSectionVisible, setIsSectionVisible] = useState(true);
 
@@ -237,16 +181,55 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
     setModalVisible(false);
   };
 
+  const [cartModal, setCartModal] = useState(false);
+
+  const addToCart = async () => {
+    if (token) {
+      try {
+        setCartModal(true);
+        dispatch(addProductToCart(data.items));
+        setTimeout(() => setCartModal(false), 3000);
+        await postBasketProductAuthed(
+          token,
+          `${data.items.minQty}`,
+          `${data.items.id_tov}`
+        );
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      try {
+        setCartModal(true);
+        dispatch(addProductToCart(data.items));
+        setTimeout(() => setCartModal(false), 3000);
+        await postTovar(data.items.id_tov, data.items.minQty);
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  };
+
+  const handleAddToCart = () => {
+    addToCart();
+    setShouldFocusInput(true);
+  };
+
+  const closeModalCart = () => {
+    setCartModal(false);
+  };
+
   return (
     <>
       {!isSectionVisible && (
-        <MobileBuyBtn
-          data={data}
-          handleCartEmpty={handleCartEmpty}
-          product={product}
-          addToCart={addToCart}
-        />
+        <MobileBuyBtn data={data} product={product} addToCart={addToCart} />
       )}
+      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
+        Ваш товар добавлен в корзину. <br />
+        Перейдите в корзину чтобы оформить заказ!{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Перейти в корзину
+        </Link>
+      </UserInfoModal>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
@@ -308,7 +291,7 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
             <span className={styles.ItemPriceCard__minQty_none}></span>
           )}
           <div className={styles.ItemPriceCard__buttons}>
-            {!added && (
+            {!product?.quantity && (
               <button
                 title="Добавить в корзину"
                 aria-label="add to cart"
@@ -321,13 +304,13 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
                 В корзину
               </button>
             )}
-            {added && (
-              <CartReducerBtn
+            {product?.quantity && (
+              <ReducerBtn
+                cartId={cartId}
+                token={token}
                 data={data.items}
-                onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                id_cart={id_cart}
               />
             )}
             {data.items?.cenaok < 1000 ? null : (

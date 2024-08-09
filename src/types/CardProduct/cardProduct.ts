@@ -1,10 +1,10 @@
 export interface ICardProductItems {
-  items: Items;
+  items: IItemItems;
   seller: Seller;
   meta: Meta;
 }
 
-export interface Items {
+export interface IItemItems {
   id: number;
   art3: any;
   art: number;
@@ -20,6 +20,7 @@ export interface Items {
   url: string;
   prim?: string;
   img: string;
+  cart_id?: number;
   idt?: any;
   notfound: number;
   id_city: number;

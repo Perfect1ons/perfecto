@@ -18,9 +18,10 @@ import BasketBackdrop from "../BasketBackdrop/AbduBackdrop";
 import BasketConfirmModal from "../ModalCase/BasketConfirmModal/BasketConfirmModal";
 
 interface ModalProps {
-  handleClearCart: () => void;
-
+  setChoosed: (id?: number) => void; 
+  setChoosedModal: (state: boolean) => void;
   buyer: IBuyer;
+  removeTovars: () => void;
   location: ICityBuyer;
   setCity: (newCity: { name: string; id: number }) => void;
   variableBuyer: IVariableBuyer;
@@ -45,7 +46,9 @@ interface ModalProps {
 }
 
 const AbduModal = ({
-  handleClearCart,
+  setChoosed,
+  setChoosedModal,
+  removeTovars,
   changeAdress,
   buyer,
   saveCity,
@@ -126,10 +129,13 @@ const AbduModal = ({
 
   const { title, content } = renderFormContent();
 
-  const closeModals = () => {
-    close();
-    closeCityModal();
-  };
+const closeModals = () => {
+  setChoosedModal(false);
+  setChoosed(undefined); // Очищаем значение choosed
+  close();
+  closeCityModal();
+};
+
 
   return (
     <>
@@ -144,24 +150,23 @@ const AbduModal = ({
       >
         <div className={styles.modal__intro}>
           <p className={styles.modal__title}>{title}</p>
-          <button className={styles.modal__exit} onClick={close}>
+          <button className={styles.modal__exit} onClick={closeModals}>
             <XMark />
           </button>
         </div>
-        {view == "delivery" ||
-          (view == "curier" && (
-            <DeliveryToggler
-              close={closeCityModal}
-              setView={setView}
-              view={view}
-            />
-          ))}
+        {view == "curier" || view == "delivery" ? (
+          <DeliveryToggler
+            close={closeCityModal}
+            setView={setView}
+            view={view}
+          />
+        ) : null}
 
         {content}
         {view == "confirm" ? (
           <button
-            onClick={handleClearCart}
             aria-label="remove from cart"
+            onClick={removeTovars}
             className={styles.button}
           >
             Удалить

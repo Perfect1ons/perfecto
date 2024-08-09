@@ -1,4 +1,3 @@
-import { Items } from "@/types/CardProduct/cardProduct";
 import { ICatalogsProducts } from "@/types/Catalog/catalogProducts";
 import { IMetaData } from "@/types/MetaData/MetaData";
 

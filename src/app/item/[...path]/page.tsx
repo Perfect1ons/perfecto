@@ -4,7 +4,6 @@ import {
   getSimilarProduct,
 } from "@/api/requests";
 import ItemPage from "@/components/Item/Item";
-import ItemMainSkeleton from "@/components/Item/ItemMainSkeleton/ItemMainSkeleton";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { cookies } from "next/headers";

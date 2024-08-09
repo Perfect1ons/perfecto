@@ -1,13 +1,13 @@
 import {
-  getBasketAuthed,
+  getBasket,
   getCity,
   getDeliveryMethod,
   getMetaKorzinaPage,
   getPaymentMethod,
-  getPersonalDataProfileServer,
   getProductBasket,
 } from "@/api/requests";
-import Basket from "@/components/BasketComponents/Basket";
+import Abdu from "@/components/Abdu/Abdu";
+import BasketEmpty from "@/components/Abdu/BasketEmpty/BasketEmpty";
 import { generatePageMetadata } from "@/utils/metadata";
 import { cookies } from "next/headers";
 
@@ -17,16 +17,21 @@ export default async function Page() {
   const authToken = cookieStore.get("identify")?.value;
   const cart = cookieStore.get("cart")?.value;
   const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
-  const cartId = match && match[1];
-
+  const cartId = match && match[1] ? parseInt(match[1], 10) : undefined;
   let cartData: any;
-  let profileData: any;
 
-  if (!authToken) {
-    cartData = (await getProductBasket(1, cartId)).model;
-  } else {
-    cartData = await getBasketAuthed(authToken, 1);
-    profileData = await getPersonalDataProfileServer(authToken);
+  try {
+    if (authToken) {
+      cartData = await getBasket(authToken, 1);
+    } else if (cart) {
+      const response = await getProductBasket(1, cartId ?? 0);
+      cartData = response?.model ?? []; // Ensure cartData is always an array or default value
+    } else{
+      cartData = [];
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных корзины:", error);
+    cartData = []; // Default to an empty array if there's an error
   }
 
   const [paymentMethod, deliveryMethod, deliveryCity] = await Promise.all([
@@ -35,17 +40,20 @@ export default async function Page() {
     getCity(),
   ]);
 
-  return (
-    <Basket
-      deliveryCity={deliveryCity}
-      paymentMethod={paymentMethod}
-      deliveryMethod={deliveryMethod}
-      authToken={authToken}
-      cart={cartData}
-      cartId={cartId}
-      user={profileData}
-    />
-  );
+  if (cartData && cartData.length > 0) {
+    return (
+      <Abdu
+        cartId={cartId}
+        authToken={authToken}
+        cities={deliveryCity}
+        deliveryMethod={deliveryMethod}
+        paymentMethod={paymentMethod}
+        items={cartData}
+      />
+    );
+  }
+
+  return <BasketEmpty />;
 }
 
 export async function generateMetadata() {

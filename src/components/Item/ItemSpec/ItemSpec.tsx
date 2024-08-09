@@ -1,12 +1,11 @@
 "use client";
-
-import { Items } from "@/types/CardProduct/cardProduct";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 import DOMPurify from "isomorphic-dompurify";
 import styles from "./style.module.scss";
 import { useState, useEffect } from "react";
 
 export interface IItemsProps {
-  data: Items;
+  data: IItemItems;
   openItemModalDescription: () => void;
 }
 

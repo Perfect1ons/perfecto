@@ -338,14 +338,6 @@ export const getSelectCity = (): Promise<SelectCityType> => {
   return maxkg.get(`naltovarok/city`).json();
 };
 
-export const getProductBasket = (
-  page: number,
-  cart_id: string | null | undefined
-): Promise<getBasketProductsType> => {
-  return maxkgnocache
-    .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
-    .json();
-};
 
 export const getOrderHistoryOrderRating = (
   token: string | undefined,
@@ -361,8 +353,6 @@ export const getOrderHistoryOrderRating = (
     .json();
 };
 
-//получение корзины для зареганных юзеров
-
 export const getBasket = (
   token: string,
   page: number
@@ -375,28 +365,6 @@ export const getBasket = (
       },
     })
     .json();
-};
-
-export const getBasketAuthed = (
-  token: string,
-  page: number
-): Promise<BasketAuth> => {
-  return maxkgnocache
-    .get(`box?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-    .json();
-};
-
-export const getResents = (): Promise<any[]> => {
-  return maxkg.get("naltovarok/getresent").json();
-};
-
-export const postResents = (): Promise<any[]> => {
-  return maxkg.post("naltovarok/getresent").json();
 };
 
 export const getFavorites = (
@@ -427,3 +395,16 @@ export const getUserInfo = (token: string): Promise<IProfileData> => {
     })
     .json();
 };
+
+
+//! Запросы для корзины неавторизованного пользователя
+
+export const getProductBasket = (
+  page: number,
+  cart_id: number
+): Promise<getBasketProductsType> => {
+  return maxkgnocache
+    .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
+    .json();
+};
+

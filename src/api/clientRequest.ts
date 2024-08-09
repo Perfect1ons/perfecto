@@ -15,9 +15,6 @@ import { IScrolledCatalog } from "@/types/catalogProduct/catalogProduct";
 import { IFiltersBrand } from "@/types/filtersBrand";
 import { IBoughts } from "@/types/lastBoughts";
 import { IPopularGood } from "@/types/popularGoods";
-
-//! Импорт библиотеки
-import ky from "ky";
 import { SelectRegionType } from "@/types/Basket/SelectRegion";
 import { ResponsePostBasket } from "@/types/Basket/ResponsePostBasket";
 import { PostOrderResponse } from "@/types/Basket/PostOrderResponse";
@@ -26,9 +23,14 @@ import { IExitsUser } from "@/types/Basket/ExitsUser";
 import { IProfileData } from "@/types/Profile/PersonalData";
 import { IPaymentMethod } from "@/types/Basket/PaymentMethod";
 import { IDeliveryMethod } from "@/types/Basket/DeliveryMethod";
+import { getBasketProductsType } from "@/types/Basket/getBasketProduct";
+import { BasketAuth } from "@/types/BasketAuth/basketAuthType";
+import { IFavorites } from "@/types/Favorites/favorites";
+
+//! Импорт библиотеки
+import ky from "ky";
 
 //! Используем библиотеку ky для fetch запросов
-//  Как им пользоваться вам расскажет ютуб :)
 const maxkg = ky.create({
   prefixUrl: "/api/",
 });
@@ -43,7 +45,6 @@ export const getCatalogsMenu = (): Promise<ICatalogMenu> => {
   return maxkg.get("catalog/cat-list-menu").json();
 };
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! GET запросы сделаны для загрузки по скроллу и по клику - передаем номер page
 export const getPopularGoodsByClient = (
   page: number
@@ -54,9 +55,7 @@ export const getPopularGoodsByClient = (
 export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
   return maxkg.get(`site/lastz?page=${page}`).json();
 };
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! GET запрос на фильтрацию и условии для запроса фильтрации!
 // Важно передавать все значение по порядку строго по порядку то есть сначала --->
 //1) Передать id категории
@@ -66,7 +65,6 @@ export const getBoughtsByClient = (page: number): Promise<IBoughts> => {
 //5) Передать максимальную цену
 //6) Передать время доставки
 //7) Передать дополнительные фильтры
-
 export const getCatalogProductsFiltered = (
   id: number,
   page?: number,
@@ -83,6 +81,7 @@ export const getCatalogProductsFiltered = (
     )
     .json();
 };
+
 export const getSearchItem = (slug: string, id: number): Promise<ISeek> => {
   return maxkg.get(`naltovarok/seek?search=${slug}&page=${id}`).json();
 };
@@ -105,8 +104,6 @@ export const getCatalogProductsFilters = (
     )
     .json();
 };
-// max.kg/api/catalog/cat-product/28631?page=1&start=1&limit=20&VNaltovaroksearch[brand]=Lenovo&sort=-cenaok
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 export const getFiltersBrandByClient = (
   id: number,
@@ -123,7 +120,7 @@ export const getFiltersBrandByAClient = (
     .get(`catalog/listfilter?id_cat=${id}}&id_filter=${idfil}`)
     .json();
 };
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
 //! POST запросы для отзывов
 export const postOtz = (otz: IUser) => {
   return maxkg.post("otz/create", { json: otz });
@@ -131,9 +128,7 @@ export const postOtz = (otz: IUser) => {
 export const postRating = (ocenka: IOcenka) => {
   return maxkg.post("otz/set-ocenka", { json: ocenka });
 };
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //! GET запросы для поиска
 export const getUserSearch = (slug: string): Promise<ISearch> => {
   return maxkg.get(`naltovarok/seek?${slug}`).json();
@@ -142,7 +137,6 @@ export const getUserSearch = (slug: string): Promise<ISearch> => {
 export const getFastUserSearch = (slug: string): Promise<ISearch> => {
   return maxkg.get(`naltovarok/seek?search=${slug}&page=1`).json();
 };
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 export const postLoginCode = (tel: string) => {
   const params = new URLSearchParams();
@@ -418,83 +412,10 @@ export const getSelectRegion = async (
 
   return data as SelectRegionType;
 };
-export const postBasketProduct = async (
-  kol: number,
-  id_tov: number
-): Promise<ResponsePostBasket> => {
-  const formData = new FormData();
-  formData.append("kol", kol.toString());
-  formData.append("id_tov", id_tov.toString());
 
-  try {
-    const response: ResponsePostBasket = await maxkgnocache
-      .post("box/set-box-guest", {
-        body: formData,
-      })
-      .json();
 
-    // Return the response directly, since it matches the ResponsePostBasket type
-    return response;
-  } catch (error) {
-    console.error("Error posting basket product:", error);
-    throw error; // Optionally re-throw the error for further handling
-  }
-};
-
-export const deleteBasketProduct = (
-  cart_id: string | null | undefined,
-  id_tovar: number
-): Promise<boolean> => {
-  return maxkgnocache
-    .delete(`box/del-box-guest?cart_id=${cart_id}&id_tov=${id_tovar}`)
-    .json();
-};
-
-export const deleteBasketProductAll = async (
-  cart_id: string | null | undefined,
-  ids_tov: number[]
-): Promise<boolean> => {
-  const formData = new FormData();
-  formData.append("cart_id", cart_id || "");
-  formData.append("id_tov", ids_tov.join(","));
-  try {
-    const response = await maxkgnocache.post(`box/del-box-guest-all`, {
-      body: formData,
-    });
-
-    if (response.ok) {
-      return true;
-    } else {
-      const error = await response.json();
-      console.error("Server error:", error);
-      return false;
-    }
-  } catch (error) {
-    console.error("Network error:", error);
-    return false;
-  }
-};
 
 //запросы корзины для зареганных юзеров
-
-export const postBasketProductAuthed = (
-  token: string,
-  kol: string,
-  id_tov: string
-): Promise<postProductAuthResponse> => {
-  const params = new URLSearchParams();
-  params.set("id_tov", id_tov);
-  params.set("kol", kol);
-  return maxkgnocache
-    .post(`box/create`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: params.toString(),
-    })
-    .json();
-};
 
 export const deleteBasketProductAuthed = (
   token: string,
@@ -557,7 +478,6 @@ export const patchBasketProductAuthed = (
     })
     .json();
 };
-
 export const deleteBasketProductAllAuthed = async (
   token: string,
   ids_tov: number[]
@@ -622,7 +542,6 @@ export const removeFavorite = async (
     })
     .json();
 };
-
 export const postFavorite = async (
   id_tov: number,
   kol: number,
@@ -653,11 +572,112 @@ export const postFavorite = async (
     return false;
   }
 };
-
 export const getExitsUser = (tel: string): Promise<IExitsUser> => {
   return maxkgnocache.get(`prof/exists-user?tel=${tel}`).json();
 };
-export const postBasketProductAuthedIdTov = async (
+
+export const postBasketProduct = async (
+  kol: number,
+  id_tov: number
+): Promise<ResponsePostBasket> => {
+  const formData = new FormData();
+  formData.append("kol", kol.toString());
+  formData.append("id_tov", id_tov.toString());
+
+  try {
+    const response: ResponsePostBasket = await maxkgnocache
+      .post("box/set-box-guest", {
+        body: formData,
+      })
+      .json();
+
+    // Return the response directly, since it matches the ResponsePostBasket type
+    return response;
+  } catch (error) {
+    console.error("Error posting basket product:", error);
+    throw error; // Optionally re-throw the error for further handling
+  }
+};
+
+
+
+//! abdu
+// Для получения методов оплаты
+export const getPaymentMethodClient = (
+  idUser: any
+): Promise<IPaymentMethod> => {
+  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+};
+
+// Для получения методов доставки
+export const getDeliveryMethodClient = (
+  idUser: any
+): Promise<IDeliveryMethod> => {
+  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+};
+
+// Для добавления товаров в корзину
+export const postBasketProductAuthed = (
+  token: string,
+  kol: string,
+  id_tov: string
+): Promise<postProductAuthResponse> => {
+  const params = new URLSearchParams();
+  params.set("id_tov", id_tov);
+  params.set("kol", kol);
+  return maxkgnocache
+    .post(`box/create`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: params.toString(),
+    })
+    .json();
+};
+
+// Для удаления товаров зареганного юзера
+export const deleteAuthedTovars = async (
+  token: any,
+  ids_tov: string
+): Promise<boolean> => {
+  const formData = new FormData();
+  formData.append("id_tov", ids_tov);
+  try {
+    const response = await maxkgnocache.post(`box/del-box-all`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};
+
+export const getBasketAuthedClient = (
+  token: string,
+  page: number
+): Promise<BasketAuth[]> => {
+  return maxkgnocache
+    .get(`box?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
+};
+export const postAuthedTovar = async (
   token: string,
   id_tov: number,
   kol: number
@@ -681,16 +701,84 @@ export const postBasketProductAuthedIdTov = async (
   }
 };
 
-//!
-
-export const getPaymentMethodClient = (
-  idUser: any
-): Promise<IPaymentMethod> => {
-  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+export const getFavorites = (
+  token: string,
+  page: string | undefined
+): Promise<IFavorites> => {
+  return maxkgnocache
+    .get(`izb?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+    .json();
 };
 
-export const getDeliveryMethodClient = (
-  idUser: any
-): Promise<IDeliveryMethod> => {
-  return maxkgnocache.get(`naltovarok/voplfront?idUser=${idUser}`).json();
+
+//! Запросы для  корзины НЕАВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
+
+export const getProductBasketClient = (
+  page: number,
+  cart_id: string | null | undefined
+): Promise<getBasketProductsType> => {
+  return maxkg
+    .get(`box/get-box-guest-cart-id?page=${page}&cart_id=${cart_id}`)
+    .json();
+};
+
+export const deleteTovar = (
+  cart_id: string | null | undefined,
+  id_tovar: number
+): Promise<boolean> => {
+  return maxkgnocache
+    .delete(`box/del-box-guest?cart_id=${cart_id}&id_tov=${id_tovar}`)
+    .json();
+};
+
+export const deleteAllTovars = async (
+  cart_id: string | null | undefined,
+  ids_tov: string
+): Promise<boolean> => {
+  const formData = new FormData();
+  formData.append("cart_id", cart_id || "");
+  formData.append("id_tov", ids_tov);
+  try {
+    const response = await maxkgnocache.post(`box/del-box-guest-all`, {
+      body: formData,
+    });
+
+    if (response.ok) {
+      return true;
+    } else {
+      const error = await response.json();
+      console.error("Server error:", error);
+      return false;
+    }
+  } catch (error) {
+    console.error("Network error:", error);
+    return false;
+  }
+};
+
+export const postTovar = async (
+  id_tov: number,
+  kol: number,
+): Promise<ResponsePostBasket> => {
+  const formData = new FormData();
+  formData.append("id_tov", id_tov.toString());
+  formData.append("kol", kol.toString());
+
+  try {
+    const response: ResponsePostBasket = await maxkgnocache
+      .post("box/set-box-guest", {
+        body: formData,
+      })
+      .json();
+
+    return response;
+  } catch (error) {
+    console.error("Error posting basket product:", error);
+    throw error; 
+  }
 };

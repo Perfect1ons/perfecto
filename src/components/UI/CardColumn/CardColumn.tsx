@@ -1,13 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import cn from "clsx";
 import {
   CardFavoritesIcon,
   CartIcon,
-  GrayFavoritesIcon,
   GrayStar,
-  VioletFavoritesIcon,
   YellowStar,
 } from "../../../../public/Icons/Icons";
 import { url } from "@/components/temporary/data";
@@ -16,10 +13,10 @@ import { ICard } from "@/types/Card/card";
 import FavoriteModal from "@/components/FavoritesComponents/FavoritesModal/FavoritesModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
-import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
-import UserInfoModal from "../UserInfoModal/UserInfoModal";
 import Link from "next/link";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
+import InformationModal from "../InformationModal/InformationModal";
 
 interface ICardDataProps {
   cardData: ICard;
@@ -37,9 +34,8 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
 
   const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isRedirect, setIsRedirect] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [modalMessage, setModalMessage] = useState("");
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
@@ -59,11 +55,9 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
         (fav: ICard) => fav.id_tov !== cardData.id_tov
       );
       message = "Товар удален из избранного.";
-      setIsRedirect(false);
     } else {
       favorites.push(cardData);
       message = "Товар добавлен в избранное. Нажмите, чтобы перейти к списку.";
-      setIsRedirect(true);
     }
 
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -77,7 +71,6 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
   const handleModalClose = () => {
     setModalVisible(false);
   };
-  const [added, setAdded] = useState(false);
   const [cartModal, setCartModal] = useState(false);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
 
@@ -85,45 +78,36 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
     window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
   };
   const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart.cart);
-  const product = cart.find((item) => item.id === cardData.id);
   const addToCart = () => {
     dispatch(addProductToCart(cardData));
-    setAdded(true);
     setCartModal(true);
     setTimeout(() => setCartModal(false), 5000);
   };
 
-  const handleAddToCart = (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    event.preventDefault();
-    event.stopPropagation();
+
+
+  const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
+    setModalMessage(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+    setModalVisible(true);
   };
-  const handleCartEmpty = () => {
-    setAdded(false);
-  };
-  const closeModalCart = () => {
-    setCartModal(false);
-  };
+
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === cardData.id);
 
   return (
     <div className="default__card_column" onClick={handleCardClick}>
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
-      <FavoriteModal
-        isVisible={isModalVisible}
-        message={modalMessage}
-        isRedirect={isRedirect}
-        onClose={handleModalClose}
-      />
+      <InformationModal visible={isModalVisible} onClose={handleModalClose}>
+        {modalMessage}
+      </InformationModal>
       <div className="default__card_column_right">
         <div className="default__card_images_column">
           <Image
@@ -217,9 +201,8 @@ const CardColumn = ({ cardData }: ICardDataProps) => {
             </button>
           )}
           {product?.quantity && (
-            <CartReducerBtn
+            <ReducerBtn
               data={cardData}
-              onCartEmpty={handleCartEmpty}
               shouldFocusInput={shouldFocusInput}
               onFocusHandled={() => setShouldFocusInput(false)}
             />

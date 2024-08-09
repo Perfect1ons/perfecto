@@ -1,56 +1,56 @@
-"use client";
-import { Items } from "@/types/CardProduct/cardProduct";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IItemItems } from "@/types/CardProduct/cardProduct";
 
 interface CartState {
-  cart: Items[];
+  cart: IItemItems[];
   selected?: boolean;
 }
-const loadCartFromLocalStorage = (): Items[] => {
-  // Проверяем наличие localStorage перед его использованием
-  if (typeof window === "undefined") {
-    return []; // Возвращаем пустой массив в случае SSR
-  }
 
+const loadCartFromLocalStorage = (cartData: IItemItems[] = []): IItemItems[] => {
+  if (typeof window === "undefined") {
+    return [];
+  }
   const savedCart = localStorage.getItem("basket");
-  return savedCart ? JSON.parse(savedCart) : [];
+  return savedCart ? JSON.parse(savedCart) : cartData;
 };
+
+
 const initialState: CartState = {
-  cart: loadCartFromLocalStorage(), // Initialize cart state from local storage
+  cart: loadCartFromLocalStorage(), // Без аргумента
   selected: false,
 };
+
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addProductToCart: (state, action: PayloadAction<Items>) => {
+    addProductToCart: (state, action: PayloadAction<IItemItems>) => {
       const product = action.payload;
       const existingProduct = state.cart.find((p) => p.id === product.id);
       if (existingProduct) {
-        existingProduct.quantity =
-          (existingProduct.quantity || 1) + product.minQty;
+        existingProduct.quantity = product.minQty;
       } else {
         state.cart.push({ ...product, quantity: product.minQty });
       }
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
+
     removeProductFromCart: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       state.cart = state.cart.filter((product) => product.id !== id);
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
+
     addProductQuantity: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
-
       if (product) {
         const quantity = product.quantity || 0;
         const balance = Number(product.balance) || 0;
-        const minQty = product.minQty || 1; // Убедитесь, что minQty существует и имеет значение по умолчанию
-
+        const minQty = product.minQty || 1;
         if (quantity < balance) {
-          product.quantity = Math.max(quantity + 1, minQty); // Убедитесь, что количество не меньше минимального
+          product.quantity = Math.max(quantity + 1, minQty);
           localStorage.setItem("basket", JSON.stringify(state.cart));
         }
       }
@@ -69,14 +69,17 @@ const cartSlice = createSlice({
         localStorage.setItem("basket", JSON.stringify(state.cart));
       }
     },
+
     clearCart: (state) => {
       state.cart = [];
       localStorage.removeItem("basket");
     },
+
     clearSelectedProducts: (state) => {
       state.cart = state.cart.filter((product) => !product.selected);
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
+
     updateProductQuantity: (
       state,
       action: PayloadAction<{ id: number; quantity: number }>
@@ -91,19 +94,32 @@ const cartSlice = createSlice({
         }
       }
     },
+
     toggleProductSelection: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const product = state.cart.find((p) => p.id === id);
       if (product) {
-        product.selected = !product.selected; // Toggle selected state
+        product.selected = !product.selected;
         localStorage.setItem("basket", JSON.stringify(state.cart));
       }
     },
+
     toggleSelectAllProducts: (state) => {
       const allSelected = state.cart.every((product) => product.selected);
       state.cart.forEach((product) => {
         product.selected = !allSelected;
       });
+      localStorage.setItem("basket", JSON.stringify(state.cart));
+    },
+
+    updateCartFromLocalStorage: (
+      state,
+      action: PayloadAction<IItemItems[]>
+    ) => {
+      state.cart = action.payload.map((product) => ({
+        ...product,
+        quantity: product.kol || 1,
+      }));
       localStorage.setItem("basket", JSON.stringify(state.cart));
     },
   },
@@ -119,5 +135,7 @@ export const {
   deleteProductQuantity,
   updateProductQuantity,
   clearSelectedProducts,
+  updateCartFromLocalStorage,
 } = cartSlice.actions;
+
 export default cartSlice.reducer;

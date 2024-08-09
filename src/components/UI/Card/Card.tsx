@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { url } from "@/components/temporary/data";
 import {
   CardFavoritesIcon,
@@ -11,19 +11,18 @@ import Link from "next/link";
 import { truncateText } from "@/utils/utils";
 import { ICard } from "@/types/Card/card";
 import Image from "next/image";
-import CartReducerBtn from "../CartReducerBtn/CartReducerBtn";
-import ImageSlider from "@/components/UI/Card/ImageSlider/ImageSlider";
-import AuthModal from "@/components/AuthModal/AuthModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { AuthContext } from "@/context/AuthContext";
-import {
-  deleteFavoritesProductAuthed,
-  postBasketProduct,
-  postBasketProductAuthed,
-  postFavorite,
-} from "@/api/clientRequest";
-import InformationModal from "../InformationModal/InformationModal";
+import { postBasketProductAuthed, postTovar } from "@/api/clientRequest";
+import { addProductToCart } from "@/store/reducers/cart.reducer";
+import useFavorites from "@/hooks/useFavorites";
 import { IFavoritesModel } from "@/types/Favorites/favorites";
+import InformationModal from "../InformationModal/InformationModal";
+import ImageSlider from "./ImageSlider/ImageSlider";
 import cn from "clsx";
+import AuthModal from "@/components/AuthModal/AuthModal";
 
 interface IcardDataProps {
   cardData: ICard;
@@ -31,7 +30,7 @@ interface IcardDataProps {
   selectedIds?: number[];
   isSelected?: boolean;
   handleSelectionToggle?: (id_tov: number) => void;
-  deleteFav?: (id_tov: number[]) => void;
+  deleteFavorites?: (id_tov: number[]) => void;
 }
 
 const Card = ({
@@ -40,30 +39,22 @@ const Card = ({
   isSelected,
   selectedIds,
   handleSelectionToggle,
-  deleteFav,
+  deleteFavorites,
 }: IcardDataProps) => {
-  const { isAuth, token } = useContext(AuthContext);
+  const { isAuth, token, cartId } = useContext(AuthContext);
   const maxLength = 40;
   const maxLengthDdos = 32;
   const truncatedTitle = truncateText(cardData.naim, maxLength);
   const truncatedDdos = truncateText(cardData.ddos, maxLengthDdos);
-  const [added, setAdded] = useState(false);
   const [shouldFocusInput, setShouldFocusInput] = useState(false);
-  const [rating, setRating] = useState(0);
   const [isAuthVisible, setAuthVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
+  const [rating, setRating] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [quantity, setQuantity] = useState(0);
-  const [modalMessage, setModalMessage] = useState<React.ReactNode>();
   const openAuthModal = () => setAuthVisible(true);
   const closeAuthModal = () => setAuthVisible(false);
-  const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
-    e.stopPropagation();
-
-    if (handleSelectionToggle) {
-      handleSelectionToggle(cardData.id_tov);
-    }
-  };
+  const { postFav, deleteFav } = useFavorites();
   const [images, setImages] = useState<string[]>(() => {
     const newImages = cardData.photos.map((photo) =>
       photo.url_part.startsWith("https://goods-photos")
@@ -80,27 +71,13 @@ const Card = ({
     return newImages;
   });
 
-  useEffect(() => {
-    const getStoredBasket = (key: string) => {
-      return JSON.parse(localStorage.getItem(key) || "[]");
-    };
-    const findCardInBasket = (basket: any[], id: number) => {
-      return basket.find((item: any) => parseInt(item.id_tov) === id);
-    };
-    const storedBasket = token
-      ? getStoredBasket("cartItems")
-      : getStoredBasket("cartItemsGuest");
-    const kolCard = findCardInBasket(storedBasket, cardData.id_tov);
-    if (kolCard) {
-      setQuantity(parseInt(kolCard.quantity) || parseInt(kolCard.kol) || 0);
-      setAdded(true);
-    } else {
-      setQuantity(0);
-      setAdded(false);
-    }
+  const handleSelectedToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData.id_tov, cardData.minQty, token]);
+    if (handleSelectionToggle) {
+      handleSelectionToggle(cardData.id_tov);
+    }
+  };
 
   useEffect(() => {
     setRating(Math.floor(cardData.ocenka));
@@ -109,6 +86,7 @@ const Card = ({
       favorites.some((fav: IFavoritesModel) => fav.id_tov === cardData.id_tov)
     );
   }, [cardData.ocenka, cardData.id_tov]);
+
   const handleFavoriteClick = async (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
 
@@ -125,30 +103,34 @@ const Card = ({
         );
         message = "Товар удален из избранного.";
         if (token) {
-          await deleteFavoritesProductAuthed(token, cardData.id_tov);
-          if (deleteFav) {
-            deleteFav([cardData.id_tov]);
+          deleteFav(cardData.id_tov);
+          if (deleteFavorites) {
+            deleteFavorites([cardData.id_tov]);
           }
+          setIsFavorite(!isFavorite);
         }
       } else {
-        // Добавляем товар в избранное
-        const response = await postFavorite(cardData.id_tov, 1, token);
-        if (response) {
-          favorites.push(response);
-          message = (
-            <>
-              Товар добавлен в избранное.{" "}
-              <Link className="linkCart" href="/favorites">
-                Нажмите, чтобы перейти к списку.
-              </Link>
-            </>
-          );
-        } else {
-          message = "Не удалось добавить товар в избранное.";
+        try {
+          const response = await postFav(cardData.id_tov, 1);
+          if (response) {
+            favorites.push(response);
+            message = (
+              <>
+                Товар добавлен в избранное.{" "}
+                <Link className="linkCart" href="/favorites">
+                  Нажмите, чтобы перейти к списку.
+                </Link>
+              </>
+            );
+            setIsFavorite(!isFavorite);
+          } else {
+            message = <p>Не удалось добавить товар в избранное.</p>;
+          }
+        } catch (error) {
+          console.log(error);
         }
       }
       localStorage.setItem("favorites", JSON.stringify(favorites));
-      setIsFavorite(!isFavorite);
       window.dispatchEvent(new Event("favoritesUpdated"));
       setModalMessage(message);
       setModalVisible(true);
@@ -163,60 +145,32 @@ const Card = ({
     setModalVisible(false);
   };
 
-  const handleCardClick = async () => {
-    window.location.href = `/item/${cardData.id_tov}/${cardData.url}`;
-  };
-
-  const handleCartEmpty = () => {
-    setAdded(false);
-    setQuantity(0);
-  };
-  // Функция обновления корзины в localStorage
+  const dispatch = useDispatch();
 
   const addToCart = async () => {
     if (token) {
       try {
-        const data = await postBasketProductAuthed(
+        dispatch(addProductToCart(cardData));
+        await postBasketProductAuthed(
           token,
           `${cardData.minQty}`,
           `${cardData.id_tov}`
         );
-
-        if (data) {
-          let cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
-
-          cartItems.push(data);
-          localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
-        }
       } catch (error) {
         console.log("error", error);
       }
     } else {
       try {
-        const data = await postBasketProduct(cardData.minQty, cardData.id_tov);
-
-        if (data) {
-          let cartItemsGuest = JSON.parse(
-            localStorage.getItem("cartItemsGuest") || "[]"
-          );
-
-          cartItemsGuest.push(data);
-          localStorage.setItem(
-            "cartItemsGuest",
-            JSON.stringify(cartItemsGuest)
-          );
-          window.dispatchEvent(new Event("cartUpdated")); // Вызов события после добавления в корзину
-        }
+        dispatch(addProductToCart(cardData));
+        await postTovar(cardData.id_tov, cardData.minQty);
       } catch (error) {
         console.log("error", error);
       }
     }
-    setAdded(true);
   };
 
-  const handleAddToCart = async () => {
-    await addToCart();
+  const handleAddToCart = () => {
+    addToCart();
     setShouldFocusInput(true);
     setModalMessage(
       <>
@@ -229,25 +183,16 @@ const Card = ({
     setModalVisible(true);
   };
 
-  const [isHomePage, setIsHomePage] = useState(false);
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((item) => item.id === cardData.id);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsHomePage(window.location.pathname === "/");
-    }
-  }, []);
   return (
     <>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}
       </InformationModal>
-      <div className="card" onClick={handleCardClick}>
-        {cardData.status !== 6 && (
-          <div className="card__notAvailable">
-            <span className="card__notAvailable_title">СНЯТ С ПРОДАЖИ</span>
-          </div>
-        )}
+      <div className="card">
         <div className="card__images">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
@@ -301,6 +246,7 @@ const Card = ({
             </div>
           )}
         </div>
+
         <div className="card__info">
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
@@ -338,12 +284,11 @@ const Card = ({
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
           >
-            <p className="card__info_title">{truncatedTitle}</p>
+            <h1 className="card__info_title">{truncatedTitle}</h1>
           </Link>
           <Link
             href={`/item/${cardData.id_tov}/${cardData.url}`}
             className="link"
-            aria-label="check item rating"
           >
             <div className="card__info_rating">
               {[...Array(5)].map((_, index) => (
@@ -368,13 +313,12 @@ const Card = ({
               <p className="card__info_ddos_desc">{truncatedDdos}</p>
             </div>
           </Link>
-          {!added && (
+          {!product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button"
             >
               <button
-                disabled={cardData.status !== 6}
                 title="Добавить в корзину"
                 aria-label="add to cart"
                 className="card__info_addproduct"
@@ -387,17 +331,17 @@ const Card = ({
               </button>
             </div>
           )}
-          {added && (
+          {product?.quantity && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="card__info_button_active"
             >
-              <CartReducerBtn
+              <ReducerBtn
+                cartId={cartId}
+                token={token}
                 data={cardData}
-                onCartEmpty={handleCartEmpty}
                 shouldFocusInput={shouldFocusInput}
                 onFocusHandled={() => setShouldFocusInput(false)}
-                id_cart={id_cart}
               />
             </div>
           )}

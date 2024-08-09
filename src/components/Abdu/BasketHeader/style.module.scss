@@ -1,0 +1,33 @@
+@use '../../../assets/scss/common/mixins' as mixin;
+
+
+.checkBoxContainer {
+  @include mixin.flex(center, null, null, 4px);
+  @include mixin.font(14px, 400, null, null);
+  background: var(--super-light-white);
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.controlContainer {
+  @include mixin.flex(center, null, null, 10px);
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.trashButton {
+  cursor: pointer;
+  @include mixin.flex(center, center, null, null);
+  color: var(--light-gray);
+  background: var(--super-light-white);
+  border-radius: 5px;
+  padding: 7px 7px;
+
+  &:disabled {
+    cursor: not-allowed;
+    // opacity: 0.5;
+  }
+}
+.basketTilte {
+  @include mixin.font(18px, 600, null, var(--dark));
+}

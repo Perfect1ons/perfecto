@@ -1,37 +1,114 @@
-import cn from "clsx";
-import styles from './style.module.scss'
+"use client";
+import React, { useState, useEffect, useCallback } from "react";
+import styles from "./style.module.scss";
 import Image from "next/image";
 import { url } from "@/components/temporary/data";
-import CartReducerBtn from "@/components/UI/CartReducerBtn/CartReducerBtn";
 import Link from "next/link";
-import { GrayStar,  YellowStar } from "../../../../public/Icons/Icons";
+import {
+  CheckIcons,
+  FavoritesIcons,
+  GrayStar,
+  TrashIcon,
+  YellowStar,
+} from "../../../../public/Icons/Icons";
+import clsx from "clsx";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 interface IBasketCardProps {
+  token?: any;
+  setShouldFocusInput: () => void;
+  shouldFocusInput: boolean;
+  removeFromCart: (id_tov: number) => void;
+  isChecked: boolean;
+  onCheckboxChange: (id_tov: number, isChecked: boolean) => void;
   item: any;
   imageUrl: string;
-  handleToggleSelection: () => void;
   rating: number;
-  removeFromCart: (e: any) => void;
-  handleCartEmpty: () => void;
-  shouldFocusInput: boolean;
-  setShouldFocusInput: () => void;
 }
 
 const BasketsCard = ({
+  token,
+  setShouldFocusInput,
+  shouldFocusInput,
+  removeFromCart,
+  isChecked,
+  onCheckboxChange,
   item,
   imageUrl,
-  handleToggleSelection,
   rating,
-  removeFromCart,
-  handleCartEmpty,
-  shouldFocusInput,
-  setShouldFocusInput
 }: IBasketCardProps) => {
-  const totalPrice = item.cenaok * item.quantity;
+  const [animatedPrice, setAnimatedPrice] = useState<number>(
+    item.cenaok * (item.quantity ?? item.minQty)
+  );
+
+  const formatNumber = (number: number) => {
+    if (number >= 1e9) {
+      return (
+        (Math.floor((number / 1e9) * 1000) / 1000)
+          .toFixed(3)
+          .replace(/(\.[0-9]*[1-9])0+$/, "$1") + " млрд"
+      );
+    } else if (number >= 1e6) {
+      return (
+        (Math.floor((number / 1e6) * 1000) / 1000)
+          .toFixed(3)
+          .replace(/(\.[0-9]*[1-9])0+$/, "$1") + " млн"
+      );
+    } else {
+      return number.toLocaleString("ru-RU");
+    }
+  };
+
+  const cart = useSelector((state: RootState) => state.cart.cart);
+  const product = cart.find((data) => data.id === item.id);
+  const quantity = product?.quantity ?? item.minQty;
+  const totalPrice = item.cenaok * quantity;
+  const formattedPrice = formatNumber(totalPrice);
+
+  const animatePrice = useCallback((startValue: number, endValue: number) => {
+    const duration = 300;
+    const start = performance.now();
+
+    const update = (currentTime: number) => {
+      const elapsed = currentTime - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const newValue = Math.round(
+        startValue + (endValue - startValue) * progress
+      );
+
+      setAnimatedPrice(newValue);
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      }
+    };
+
+    requestAnimationFrame(update);
+  }, []);
+
+  useEffect(() => {
+    animatePrice(animatedPrice, totalPrice);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quantity, totalPrice, animatePrice]);
+
+  const handleCheckboxClick = () => {
+    onCheckboxChange(item.id_tov, !isChecked);
+  };
+
   return (
     <div className={styles.cardsContainer}>
       <div className={styles.leftPart}>
-
+        <div onClick={handleCheckboxClick} className={styles.checkBoxContainer}>
+          <span
+            className={clsx("showFiltersUlContainer__check", {
+              ["showFiltersUlContainer__checkActive"]: isChecked,
+            })}
+          >
+            {isChecked ? <CheckIcons /> : null}
+          </span>
+        </div>
         <div className={styles.leftPart__imageContainer}>
           <Image
             className={styles.leftPart__imageContainer__image}
@@ -39,33 +116,8 @@ const BasketsCard = ({
             width={200}
             height={200}
             alt={item.naim}
-            quality={100}
             loading="lazy"
           />
-          <div className={styles.checkBoxPosition}>
-            <span
-              onClick={handleToggleSelection}
-              className={cn("showFiltersUlContainer__check", {
-                ["showFiltersUlContainer__checkActive"]: item.selected,
-              })}
-            >
-              {item.selected ? (
-                <Image
-                  src="/img/checkIconWhite.svg"
-                  width={15}
-                  height={15}
-                  alt="check"
-                />
-              ) : (
-                <Image
-                  src="/img/checkIconWhite.svg"
-                  width={15}
-                  height={15}
-                  alt="check"
-                />
-              )}
-            </span>
-          </div>
         </div>
 
         <div className={styles.leftPart__informationContainer}>
@@ -98,7 +150,6 @@ const BasketsCard = ({
             </p>
           </div>
         </div>
-
       </div>
 
       <div className={styles.rigthPart}>
@@ -129,38 +180,29 @@ const BasketsCard = ({
               </span>
             </div>
           )}
-          {/* <div className={styles.rigthPart__priceContainer__buttons}>
-            <button
-              onClick={handleFavoriteClick}
-              title={
-                isFavorite ? "Удалить из избранного" : "Добавить в избранное"
-              }
-              className={cn("add__to_fav", {
-                ["add__to_fav_active"]: isFavorite,
-              })}
-            >
-              <span className="add__to_fav_icon">
-                {isFavorite ? <VioletFavoritesIcon /> : <GrayFavoritesIcon />}
-              </span>
-            </button>
-            <button
-              onClick={removeFromCart}
-              title="Удалить товар"
-              className={cn("add__to_fav")}
-            >
-              <span className="add__to_fav_icon">
-                <TrashIcon />
-              </span>
-            </button>
-          </div> */}
-          <div className={styles.quantityContainer}>
+
+          <div
+            title={formattedPrice + " Сом"}
+            className={styles.quantityContainer}
+          >
             <span className={styles.priceCustomContainer}>
-              кол-во: {item.kol} шт =
+              кол-во: {quantity} шт =
             </span>
             <span className={styles.priceCustomContainer}>
-              {totalPrice.toLocaleString("ru-RU")}
+              {animatedPrice.toLocaleString("ru-RU")}
               <span className={styles.priceCustom}>с</span>
             </span>
+          </div>
+          <div className={styles.rigthPart__priceContainer__buttons}>
+            <button
+              className={styles.iconBasket}
+              onClick={() => removeFromCart(item.id_tov)}
+            >
+              <TrashIcon />
+            </button>
+            <button className={styles.faviconBasket}>
+              <FavoritesIcons />
+            </button>
           </div>
         </div>
         {item.minQty > 1 ? (
@@ -168,14 +210,14 @@ const BasketsCard = ({
             минимальное количество к заказу от {item.minQty} шт.
           </h3>
         ) : null}
-        <div className={styles.add__to_cart_column}>
-          <CartReducerBtn
-            data={item}
-            onCartEmpty={handleCartEmpty}
-            shouldFocusInput={shouldFocusInput}
-            onFocusHandled={setShouldFocusInput}
-          />
-        </div>
+      </div>
+      <div className={styles.add__to_cart_column}>
+        <ReducerBtn
+          token={token}
+          data={item}
+          shouldFocusInput={shouldFocusInput}
+          onFocusHandled={setShouldFocusInput}
+        />
       </div>
     </div>
   );

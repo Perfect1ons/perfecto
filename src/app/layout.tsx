@@ -8,7 +8,12 @@ import ReactProvider from "@/ReactProvider";
 import { cookies } from "next/headers";
 import AuthProvider from "@/context/AuthContext";
 import { ModalProvider } from "@/context/ModalContext/ModalContext";
-import { getCurrentOrders, getNotification } from "@/api/requests";
+import {
+  getBasket,
+  getCurrentOrders,
+  getNotification,
+  getProductBasket,
+} from "@/api/requests";
 const DynamicMessageModal = dynamic(
   () => import("@/components/UI/MessageModal/MessageModal"),
   {
@@ -38,7 +43,7 @@ const ScrollToTopButton = dynamic(
 const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
   variable: "--font-rubik",
-  display: "swap"
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -60,26 +65,41 @@ export default async function RootLayout({
   );
   const isAuthed = cookieStore.get("identify")?.value;
   const userId = cookieStore.get("userId")?.value;
-
+  const cart = cookieStore.get("cart")?.value;
+  const match = cart?.match(/s:7:"cart_id";i:(\d+)/);
+  const cartId = match && match[1] ? parseInt(match[1], 10) : undefined;
   let notifications;
   let orders;
+  let cartData: any;
 
-  if (isAuthed && userId) {
-    notifications = await getNotification(parseInt(userId));
-    orders = await getCurrentOrders(isAuthed);
+  try {
+    if (isAuthed && userId) {
+      notifications = await getNotification(parseInt(userId));
+      orders = await getCurrentOrders(isAuthed);
+      cartData = await getBasket(isAuthed, 1);
+    } else if (cart) {
+      const response = await getProductBasket(1, cartId ?? 0);
+      cartData = response?.model ?? []; 
+    }
+  } catch (error) {
+    console.error("Ошибка при получении данных корзины:", error);
+    cartData = []; 
   }
+
 
   return (
     <html lang="ru" className={`${rubik.variable}`}>
       <body className={rubik.className}>
         <div id="__next">
-          <AuthProvider
-            notifCount={notifications}
-            ordersCount={orders}
-            isAuthed={isAuthed}
-            personId={userId}
-          >
-            <ReactProvider>
+          <ReactProvider>
+            <AuthProvider
+              cartData={cartData}
+              cartId={cartId}
+              notifCount={notifications}
+              ordersCount={orders}
+              isAuthed={isAuthed}
+              personId={userId}
+            >
               <HeaderWrap isAuthed={isAuthed} searchHistory={searchHistory} />
               <DownloadAppMobile />
               <Provider>
@@ -91,8 +111,8 @@ export default async function RootLayout({
               </Provider>
               <Application />
               <Footer />
-            </ReactProvider>
-          </AuthProvider>
+            </AuthProvider>
+          </ReactProvider>
         </div>
       </body>
     </html>

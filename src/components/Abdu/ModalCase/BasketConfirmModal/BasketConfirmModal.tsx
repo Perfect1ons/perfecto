@@ -1,7 +1,5 @@
 import styles from "./styles.module.scss";
 
-
-
 const BasketConfirmModal = () => {
   return (
     <p className={styles.confirm}>

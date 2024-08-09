@@ -12,6 +12,8 @@ import {
   CartIcon,
   FavoritesIcon,
 } from "../../../../public/Icons/Icons";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 interface ILinks {
   href: string;
@@ -44,52 +46,45 @@ const HeaderNav = ({ isAuthed }: IHeaderNav) => {
   const [links, setLinks] = useState(navLinks);
   const pathname = usePathname();
   const { notif } = useContext(AuthContext);
-
+  const cart = useSelector((state: RootState) => state.cart.cart);
   const openAuthModal = () => setAuthVisible(true);
   const closeModals = () => setAuthVisible(false);
-  const addToFavorite = () => setAuthVisible(false);
-useEffect(() => {
-  const updateCounts = () => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    const cartCount = JSON.parse(localStorage.getItem("cartItems") || "[]");
-    const cartCountGuest = JSON.parse(
-      localStorage.getItem("cartItemsGuest") || "[]"
-    );
+  
+  useEffect(() => {
+    const updateCounts = () => {
+      const favCount = localStorage.getItem("favCount");
 
-    setLinks((prevLinks) =>
-      prevLinks.map((link) => {
-        if (link.href === "/favorites") {
-          return { ...link, count: authStatus ? favorites.length : 0 };
-        }
-        if (link.href === "/profile") {
-          return { ...link, count: notif };
-        }
-        if (link.href === "/cart") {
-          if (isAuthed) {
-            return { ...link, count: cartCount.length };
-          } else {
-            return { ...link, count: cartCountGuest.length };
+      const baskets = JSON.parse(localStorage.getItem("basket") || "[]");
+
+      setLinks((prevLinks) =>
+        prevLinks.map((link) => {
+          if (link.href === "/favorites") {
+            return { ...link, count: authStatus ? favCount : 0 };
           }
-        }
-        return link;
-      })
-    );
-  };
+          if (link.href === "/profile") {
+            return { ...link, count: notif };
+          }
+          if (link.href === "/cart") {
+            return { ...link, count: baskets.length };
+          }
+          return link;
+        })
+      );
+    };
 
-  updateCounts();
+    updateCounts();
 
-  const favoritesListener = () => updateCounts();
-  const cartListener = () => updateCounts();
+    const favoritesListener = () => updateCounts();
+    const cartListener = () => updateCounts();
 
-  window.addEventListener("favoritesUpdated", favoritesListener);
-  window.addEventListener("cartUpdated", cartListener);
+    window.addEventListener("favoritesUpdated", favoritesListener);
+    window.addEventListener("cartUpdated", cartListener);
 
-  return () => {
-    window.removeEventListener("favoritesUpdated", favoritesListener);
-    window.removeEventListener("cartUpdated", cartListener);
-  };
-}, [notif, authStatus, isAuthed]);
-
+    return () => {
+      window.removeEventListener("favoritesUpdated", favoritesListener);
+      window.removeEventListener("cartUpdated", cartListener);
+    };
+  }, [notif, authStatus, isAuthed, cart]);
 
   return (
     <nav className={styles.nav}>
