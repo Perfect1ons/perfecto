@@ -23,7 +23,7 @@ import {
 import { AuthContext } from "@/context/AuthContext";
 
 interface ICartReducerBtnProps {
-  removeItem?: (id_tov: number) => void;
+  removeItem?: () => void;
   token?: any;
   cartId?: any;
   data: IItemItems;
@@ -173,7 +173,7 @@ const removeFromCart = async () => {
       if (currentQuantity <= data.minQty) {
         dispatch(removeProductFromCart(data.id)); 
         if (removeItem) {
-          removeItem(data.id_tov); 
+          removeItem(); 
         }
         if (token) {
           await deleteAuthedTovars(token, data.id_tov.toString());
