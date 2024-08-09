@@ -41,3 +41,10 @@ export interface ICityBuyer {
     apartament: string;
   };
 }
+export interface BasketOrdersWarnings {
+  delivery: string;
+  payment: string;
+  phone: string;
+  surname: string;
+  name: string;
+}

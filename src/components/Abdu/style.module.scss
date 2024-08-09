@@ -30,10 +30,12 @@
   background: var(--light);
   padding: 15px;
   border-radius: 5px;
+  position: sticky;
+  top: 0;
 }
 
 .delivery__info {
-  @include mixin.flex(center, center, column,3px);
+  @include mixin.flex(center, center, column, 3px);
   &_dostavka {
     @include mixin.font(16px, 400, 100%, var(--dark));
   }
@@ -43,9 +45,8 @@
   }
 }
 
-
-.basket__container{
-  @include mixin.flex(flex-start,space-between,null,15px);
+.basket__container {
+  @include mixin.flex(flex-start, space-between, null, 15px);
   width: 100%;
 }
 
@@ -78,4 +79,454 @@
 }
 .basketTilte {
   @include mixin.font(18px, 600, null, var(--dark));
+}
+.wrap {
+  user-select: none;
+  @include mixin.flex(center, center, column, null);
+  background: var(--white);
+  box-shadow: 0 0 5px #d7d7d7;
+  padding: 15px;
+  border-radius: 10px;
+  max-width: 380px;
+  position: sticky;
+  top: 0;
+  @media screen and (max-width: 992px) {
+    width: 100%;
+    align-self: center;
+  }
+  &_warning {
+    @include mixin.font(1rem, 400, null, var(--violet));
+    width: 100%;
+  }
+  &_delivery {
+    @include mixin.flex(center, space-between, null, 5px);
+    padding: 5px 10px;
+    width: 100%;
+    border: 2px solid var(--violet);
+    background: var(--white);
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.2s all;
+    &_success {
+      border: 2px solid var(--success);
+    }
+    &_title {
+      @include mixin.font(1rem, 400, null, var(--dark));
+      text-wrap: nowrap;
+    }
+    &_expoint {
+      color: var(--violet);
+      padding-top: 5px;
+    }
+    &_approve {
+      color: var(--success);
+      padding-top: 5px;
+    }
+  }
+  &_phone {
+    position: relative;
+    @include mixin.flex(center, center, column, null);
+    width: 100%;
+    &_control {
+      width: 100%;
+      @include mixin.flex(center, center, null, null);
+      &_selectCountry {
+        position: relative;
+        border-right: 2px solid #f6f6f6;
+        background: var(--white);
+        border-radius: 5px 0px 0px 5px;
+        padding: 8.2px 5px;
+        padding-right: 20px;
+        cursor: pointer;
+        @include mixin.flex(center, center, null, null);
+        &_img {
+          border-radius: 5px;
+        }
+        &_arrow {
+          position: absolute;
+          right: -2px;
+          top: 25%;
+          @include mixin.flex(center, center, null, null);
+          &__active {
+            @include mixin.flex(center, center, null, null);
+            position: absolute;
+            right: -2px;
+            top: 15%;
+            transform: rotate(-180deg);
+          }
+        }
+      }
+      &_input {
+        @include mixin.font(16px, 400, null, var(--dark));
+        width: 100%;
+        background: var(--white);
+        padding: 10px 5px;
+        border-radius: 0px 5px 5px 0px;
+        border: 2px solid var(--white);
+        &:focus {
+          border: 2px solid var(--dark-blue);
+        }
+      }
+    }
+    &_dropdown {
+      border-radius: 5px;
+      padding: 5px;
+      background: var(--white);
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      @include mixin.flex(flex-start, center, column, 5px);
+      position: absolute;
+      z-index: 10;
+      left: 0;
+      bottom: -165px;
+
+      &_button {
+        @include mixin.flex(center, flex-start, null, 0.875rem);
+        cursor: pointer;
+        width: 100%;
+        border-radius: 5px;
+        padding: 8px 8px;
+
+        &_img {
+          border-radius: 5px;
+        }
+        &_code {
+          padding-top: 2px;
+          @include mixin.font(14px, 400, null, var(--secondary));
+        }
+        &:hover {
+          background: #f6f6f6;
+        }
+      }
+    }
+  }
+
+  &_anotherRecipient {
+    @include mixin.flex(flex-start, center, column, null);
+    width: 100%;
+    &_dropdownToggler {
+      padding: 0px 20px;
+      cursor: pointer;
+      position: relative;
+      @include mixin.font(0.875rem, 700, null, var(--dark));
+      @include mixin.flex(center, flex-start, null, null);
+      width: 100%;
+      transition: 0.2s all;
+      &:hover {
+        color: var(--violet);
+        > span {
+          color: var(--violet);
+        }
+      }
+      &_arrow {
+        color: var(--dark);
+        left: 0;
+        top: -5px;
+        position: absolute;
+        transform: rotate(-90deg);
+        transition: 0.2s all;
+        &__active {
+          color: var(--dark);
+          left: 0;
+          top: -2px;
+          position: absolute;
+          transition: 0.2s all;
+          transform: rotate(0deg);
+        }
+      }
+    }
+    &_dropdown {
+      height: 0;
+      overflow-y: hidden;
+      transition: 0.3s all;
+      width: 100%;
+
+      &__active {
+        position: relative;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: 150px;
+        transition: 0.3s all;
+
+        &_anotherStatus {
+          opacity: 0;
+          @include mixin.font(1rem, 400, null, var(--dark-blue));
+          border-radius: 2px;
+          z-index: 10;
+          top: -20px;
+          right: 0;
+          position: absolute;
+          align-self: flex-start;
+          visibility: hidden;
+          margin-bottom: 5px;
+          transition: 0.3s ease-in-out;
+
+          &_active {
+            opacity: 1;
+            visibility: visible;
+            transition: 0.3s ease-in-out;
+
+            &_bad {
+              opacity: 1;
+              visibility: visible;
+              transition: 0.3s ease-in-out;
+              color: var(--violet);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &_organization {
+    @include mixin.flex(flex-start, center, column, null);
+    width: 100%;
+    &_dropdownToggler {
+      padding: 0px 20px;
+      cursor: pointer;
+      position: relative;
+      @include mixin.font(0.875rem, 700, null, var(--dark));
+      @include mixin.flex(center, flex-start, null, null);
+      width: 100%;
+      transition: 0.2s all;
+      &:hover {
+        color: var(--violet);
+        > span {
+          color: var(--violet);
+        }
+      }
+      &_arrow {
+        color: var(--dark);
+        left: 0;
+        top: -5px;
+        position: absolute;
+        transform: rotate(-90deg);
+        transition: 0.2s all;
+        &__active {
+          color: var(--dark);
+          left: 0;
+          top: -2px;
+          position: absolute;
+          transition: 0.2s all;
+          transform: rotate(0deg);
+        }
+      }
+    }
+    &_dropdown {
+      height: 0;
+      overflow-y: hidden;
+      transition: 0.3s all;
+      width: 100%;
+
+      &__active {
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        height: 150px;
+        transition: 0.3s all;
+      }
+      &__name {
+        @include mixin.font(16px, 400, null, var(--dark));
+        width: 100%;
+        background: var(--white);
+        padding: 10px 5px;
+        border-radius: 5px;
+        border: 2px solid var(--white);
+        &:focus {
+          border: 2px solid var(--dark-blue);
+        }
+      }
+      &_nds {
+        margin-top: 15px;
+        @include mixin.flex(baseline, flex-start, null, 5px);
+
+        &_switch {
+          font-size: 17px;
+          position: relative;
+          display: inline-block;
+          width: 52px;
+          height: 22px;
+
+          > input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          &__slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--dark-blue);
+            border: 1px solid var(--dark-blue);
+            transition: 0.2s;
+            border-radius: 30px;
+
+            &::before {
+              position: absolute;
+              content: "";
+              height: 16px;
+              width: 24px;
+              border-radius: 20px;
+              left: 3px;
+              bottom: 2px;
+              background-color: #fff;
+              transition: 0.2s;
+              transform: translateX(21px);
+            }
+          }
+
+          input:checked + &__slider {
+            background-color: #fff;
+            border: 1px solid #adb5bd;
+          }
+
+          input:focus + &__slider {
+            box-shadow: 0 0 1px var(--dark-blue);
+          }
+
+          input:checked + &__slider::before {
+            transform: translateX(0);
+            background-color: var(--dark-blue);
+          }
+        }
+      }
+    }
+  }
+  &_price {
+    width: 100%;
+    @include mixin.flex(center, flex-start, column, null);
+    &_good {
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_count {
+        @include mixin.font(1rem, 400, null, var(--dark));
+        position: relative;
+        width: 45%;
+        text-wrap: nowrap;
+      }
+      &_finalPrice {
+        @include mixin.font(1rem, 400, null, var(--dark));
+      }
+    }
+    &_nds {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_text {
+        @include mixin.font(1rem, 400, null, var(--dark));
+        position: relative;
+        width: 50%;
+        text-wrap: nowrap;
+      }
+      &_price {
+        @include mixin.font(1rem, 400, null, var(--dark));
+      }
+    }
+    &_priceTotal {
+      @include mixin.flex(center, space-between, null, null);
+      width: 100%;
+      &_totalTitle {
+        @include mixin.font(1.125rem, 700, null, var(--dark));
+        position: relative;
+        width: 55%;
+        text-wrap: nowrap;
+      }
+      &_price {
+        @include mixin.font(1.125rem, 700, null, var(--dark));
+      }
+    }
+  }
+  &_orderRequest {
+    @include mixin.flex(center, center, null, null);
+    @include mixin.font(1rem, 400, null, var(--white));
+    background: var(--dark-blue);
+    cursor: pointer;
+    width: 100%;
+    padding: 10px 0px;
+    border-radius: 5px;
+    text-transform: uppercase;
+  }
+  &_privacy {
+    text-align: center;
+    align-self: center;
+    width: 100%;
+    margin-top: 15px;
+    @include mixin.font(0.75rem, 400, null, var(--dark));
+  }
+}
+.auth__input {
+  position: relative;
+  @include mixin.font(16px, 600, null, var(--dark));
+  width: 100%;
+  padding: 10px 5px 10px 70px;
+  border-radius: 5px;
+  border: 2px solid var(--secondary);
+
+  &:focus + .select__country {
+    border-color: var(--dark-blue);
+  }
+  &:focus {
+    border-color: var(--dark-blue);
+  }
+
+  &::placeholder {
+    @include mixin.font(16px, 400, null, var(--secondary));
+    padding: 10px 7px;
+  }
+}
+.select__country {
+  position: absolute;
+  left: 5px;
+  border-radius: 5px 0px 0px 5px;
+  padding: 7px 5px;
+  border-right: 2px solid var(--secondary);
+  padding-right: 20px;
+  cursor: pointer;
+  @include mixin.flex(center, center, null, null);
+  &:hover {
+    .select__country_arrow {
+      svg {
+        path {
+          fill: var(--dark);
+        }
+      }
+    }
+  }
+
+  &_img {
+    border-radius: 50px;
+  }
+  &_arrow {
+    position: absolute;
+    right: -2px;
+    top: 25%;
+    @include mixin.flex(center, center, null, null);
+
+    svg {
+      path {
+        fill: var(--gray);
+      }
+    }
+
+    &__active {
+      @include mixin.flex(center, center, null, null);
+      position: absolute;
+      right: -2px;
+      top: 15%;
+      transform: rotate(-180deg);
+      svg {
+        path {
+          fill: var(--dark);
+        }
+      }
+    }
+  }
+}
+.currentButtonHeader {
+  width: 100%;
 }

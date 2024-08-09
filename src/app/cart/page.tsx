@@ -13,10 +13,8 @@ import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 const Abdu = dynamic(() => import("@/components/Abdu/Abdu"), {
   ssr: false,
-  loading: () => <MainLoader/>,
+  loading: () => <MainLoader />,
 });
-
-
 
 export default async function Page() {
   const cookieStore = cookies();
