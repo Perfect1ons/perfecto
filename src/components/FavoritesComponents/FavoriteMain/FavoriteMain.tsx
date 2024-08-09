@@ -11,9 +11,10 @@ import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useSearchParams } from "next/navigation";
 import useFavorites from "@/hooks/useFavorites";
+import { initial } from "lodash";
 
 interface IFavoritesProps {
-  favoriteData: IFavoritesModel[];
+  favoriteData: any[];
   authToken: string | undefined;
   favCount: number;
 }
@@ -28,49 +29,75 @@ export default function Favorites({
   const [isModalVisible, setIsModalVisible] = useState(false);
   const searchParams = useSearchParams();
   const initialPage = parseInt(searchParams?.get("page") || "1", 10);
-  const { deleteFavAll } = useFavorites();
+
+  const { deleteFavAll, refreshFav } = useFavorites();
 
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const pageCount = favCount / 20;
+  const [favoriteCount, setFavoriteCount] = useState<number>(0);
+
+  const pageCount = Math.ceil(favCount / 20);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const { refreshFav } = useFavorites();
+  const fetchFav = async (page: number) => {
+    try {
+      const response = await refreshFav(page);
+
+      if (response) {
+        const existingFavorites = JSON.parse(
+          localStorage.getItem("favorites") || "[]"
+        );
+
+        const newFavorites = response.model.filter(
+          (fav) =>
+            !existingFavorites.some(
+              (existingFav: any) => existingFav.id_tov === fav.id_tov
+            )
+        );
+
+        const updatedFavorites = [...existingFavorites, ...newFavorites];
+        setFavorites(updatedFavorites);
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+        window.scrollTo(0, 0);
+      }
+    } catch (e) {
+      console.log("favorite fetching error:", e);
+    }
+  };
 
   const openModal = () => {
     setIsModalVisible(!isModalVisible);
   };
 
   useEffect(() => {
-    if (favCount) {
-      localStorage.setItem("favCount", JSON.stringify(favCount));
+    const count = localStorage.getItem("favCount");
+    if (count) {
+      setFavoriteCount(parseInt(count));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    window.dispatchEvent(new Event("favUpdated"));
+  }, [favorites]);
 
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favoriteData));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (typeof window !== "undefined") {
+      const existingFavorites = JSON.parse(
+        localStorage.getItem("favorites") || "[]"
+      );
 
-  useEffect(() => {
-    const fetchFav = async () => {
-      try {
-        const response = await refreshFav(initialPage);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        if (response) {
-          setFavorites(response.model);
-          localStorage.setItem("favorites", JSON.stringify(response.model));
-        }
-      } catch (e) {
-        console.log("favorite fetching error:", e);
-      }
-    };
-    fetchFav();
+      const newFavorites = favoriteData.filter(
+        (fav) =>
+          !existingFavorites.some(
+            (existingFav: any) => existingFav.id_tov === fav.id_tov
+          )
+      );
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialPage]);
+      const updatedFavorites = [...existingFavorites, ...newFavorites];
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      localStorage.setItem("favCount", JSON.stringify(favCount));
+
+      setFavoriteCount(Number(localStorage.getItem("favCount")));
+    }
+  }, [favoriteData, favCount]);
 
   const handleSelectAll = () => {
     if (selectedIds.length === favorites.length) {
@@ -99,13 +126,6 @@ export default function Favorites({
           setSelectedIds([]);
           openModal();
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-          if (updatedFavorites.length <= 0 && currentPage !== 1) {
-            setCurrentPage(currentPage - 1);
-            updateUrl(currentPage - 1);
-            window.location.reload();
-          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
-            window.location.reload();
-          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
@@ -122,13 +142,6 @@ export default function Favorites({
           );
           setFavorites(updatedFavorites);
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-          if (updatedFavorites.length <= 0 && currentPage !== 1) {
-            setCurrentPage(currentPage - 1);
-            updateUrl(currentPage - 1);
-            window.location.reload();
-          } else if (updatedFavorites.length >= 1 && currentPage === 1) {
-            window.location.reload();
-          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
@@ -154,19 +167,22 @@ export default function Favorites({
     }
   }, [isModalVisible]);
 
-  const updateUrl = (selected: number) => {
+  const updateUrl = (newPage: number) => {
     const params = new URLSearchParams();
 
-    params.set("page", selected.toString());
+    params.set("page", newPage.toString());
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     window.history.replaceState({ path: newUrl }, "", newUrl);
   };
 
   const pageClick = ({ selected }: { selected: number }) => {
-    setCurrentPage(selected);
-    updateUrl(selected + 1);
-    window.scrollTo({ top: 500, behavior: "auto" });
+    const newPage = selected + 1;
+    fetchFav(newPage);
+    setCurrentPage(newPage);
+    updateUrl(newPage);
+
+    window.location.reload();
   };
 
   return (
@@ -201,12 +217,14 @@ export default function Favorites({
           <div onClick={openModal} className={styles.modalBackdrop}></div>
         )}
       </>
-      {favorites.length > 0 ? (
+      {favoriteData.length > 0 ? (
         <>
           <div className={cn(styles.favorites__card_header, "container")}>
             <h1 className={styles.favorites__card_title}>
               В избранном{" "}
-              <span className={styles.favorites__card_count}>{favCount}</span>{" "}
+              <span className={styles.favorites__card_count}>
+                {favoriteCount}
+              </span>{" "}
               {favorites.length % 10 === 1 && favorites.length % 100 !== 11
                 ? "товар"
                 : favorites.length % 10 >= 2 &&
@@ -257,7 +275,7 @@ export default function Favorites({
           </div>
 
           <div className="cards">
-            {favorites.map((item, index) => {
+            {favoriteData.map((item, index) => {
               return (
                 <Card
                   cardData={item}
@@ -270,7 +288,7 @@ export default function Favorites({
               );
             })}
           </div>
-          {favCount > 20 && (
+          {favoriteCount > 20 && (
             <FavoritesPagination
               isMobile={isMobile}
               handlePageClick={pageClick}

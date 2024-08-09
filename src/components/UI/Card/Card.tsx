@@ -113,7 +113,9 @@ const Card = ({
         try {
           const response = await postFav(cardData.id_tov, 1);
           if (response) {
-            favorites.push(response);
+            favorites.push(cardData);
+            console.log(cardData);
+
             message = (
               <>
                 Товар добавлен в избранное.{" "}

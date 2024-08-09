@@ -413,8 +413,6 @@ export const getSelectRegion = async (
   return data as SelectRegionType;
 };
 
-
-
 //запросы корзины для зареганных юзеров
 
 export const deleteBasketProductAuthed = (
@@ -599,8 +597,6 @@ export const postBasketProduct = async (
   }
 };
 
-
-
 //! abdu
 // Для получения методов оплаты
 export const getPaymentMethodClient = (
@@ -703,7 +699,7 @@ export const postAuthedTovar = async (
 
 export const getFavorites = (
   token: string,
-  page: string | undefined
+  page: string
 ): Promise<IFavorites> => {
   return maxkgnocache
     .get(`izb?page=${page}`, {
@@ -714,7 +710,6 @@ export const getFavorites = (
     })
     .json();
 };
-
 
 //! Запросы для  корзины НЕАВТОРИЗОВАННОГО ПОЛЬЗОВАТЕЛЯ
 
@@ -763,7 +758,7 @@ export const deleteAllTovars = async (
 
 export const postTovar = async (
   id_tov: number,
-  kol: number,
+  kol: number
 ): Promise<ResponsePostBasket> => {
   const formData = new FormData();
   formData.append("id_tov", id_tov.toString());
@@ -779,6 +774,6 @@ export const postTovar = async (
     return response;
   } catch (error) {
     console.error("Error posting basket product:", error);
-    throw error; 
+    throw error;
   }
 };
