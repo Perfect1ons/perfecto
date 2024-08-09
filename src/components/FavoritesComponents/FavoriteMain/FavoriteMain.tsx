@@ -11,7 +11,6 @@ import FavoritesPagination from "../FavoritesPagination/FavoritesPagination";
 import useMediaQuery from "@/hooks/useMediaQuery";
 import { useSearchParams } from "next/navigation";
 import useFavorites from "@/hooks/useFavorites";
-import { initial } from "lodash";
 
 interface IFavoritesProps {
   favoriteData: any[];
@@ -79,7 +78,7 @@ export default function Favorites({
   }, [favorites]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && favoriteData.length > 0) {
       const existingFavorites = JSON.parse(
         localStorage.getItem("favorites") || "[]"
       );
@@ -126,6 +125,9 @@ export default function Favorites({
           setSelectedIds([]);
           openModal();
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+          if (updatedFavorites.length === 0 && currentPage !== 1) {
+            updateUrl(currentPage - 1);
+          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
@@ -142,6 +144,9 @@ export default function Favorites({
           );
           setFavorites(updatedFavorites);
           localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+          if (updatedFavorites.length === 0 && currentPage !== 1) {
+            updateUrl(currentPage - 1);
+          }
         })
         .catch((error) => {
           console.error("Failed to clear favorites:", error);
