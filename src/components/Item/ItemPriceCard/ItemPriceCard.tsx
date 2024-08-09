@@ -212,6 +212,15 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
   const handleAddToCart = () => {
     addToCart();
     setShouldFocusInput(true);
+    setModalMessage(
+      <>
+        Товар добавлен в корзину.{" "}
+        <Link className="linkCart" href={"/cart"}>
+          Нажмите, чтобы перейти к списку.
+        </Link>
+      </>
+    );
+    setModalVisible(true);
   };
 
   const closeModalCart = () => {
@@ -223,13 +232,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
       {!isSectionVisible && (
         <MobileBuyBtn data={data} product={product} addToCart={addToCart} />
       )}
-      <UserInfoModal visible={cartModal} onClose={closeModalCart}>
-        Ваш товар добавлен в корзину. <br />
-        Перейдите в корзину чтобы оформить заказ!{" "}
-        <Link className="linkCart" href={"/cart"}>
-          Перейти в корзину
-        </Link>
-      </UserInfoModal>
       <AuthModal isVisible={isAuthVisible} close={closeAuthModal} />
       <InformationModal visible={isModalVisible} onClose={handleModalClose}>
         {modalMessage}

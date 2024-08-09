@@ -63,12 +63,8 @@ const Abdu = ({
   const cart = useSelector((state: RootState) => state.cart.cart);
   const [items, setItems] = useState<any[]>(cart);
   useEffect(() => {
-    if (cart.length === initialItems.length) {
-      setItems(initialItems);
-    } else {
-      const reversedCart = [...cart].reverse();
-      setItems(reversedCart);
-    }
+    const reversedCart = [...cart].reverse();
+    setItems(reversedCart);
   }, [cart, initialItems]);
 
   const [view, setView] = useState<
