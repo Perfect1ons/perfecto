@@ -1,0 +1,42 @@
+@use "../../../assets/scss/common/mixins" as mixin;
+
+.order_box {
+  @include mixin.flex(flex-start, center, column, 10px);
+  max-width: 400px;
+  width: 100%;
+  background: var(--light);
+  padding: 15px;
+  border-radius: 5px;
+  position: sticky;
+  top: 10px;
+
+  &_counts {
+    @include mixin.flex(center, space-between, null, 20px);
+    width: 100%;
+  }
+
+  &_total {
+    @include mixin.flex(center, space-between, null, 20px);
+    @include mixin.font(18px, 600, 100%, var(--dark));
+    width: 100%;
+  }
+
+  &_title {
+    @include mixin.font(20px, 600, 100%, var(--dark));
+  }
+}
+
+.tovars_price,
+.total__price {
+  @include mixin.flex(center, center, null, 3px);
+}
+
+.som {
+  border-bottom: 1px solid var(--dark);
+  line-height: 100%;
+}
+
+.total__som {
+  border-bottom: 2px solid var(--dark);
+  line-height: 100%;
+}

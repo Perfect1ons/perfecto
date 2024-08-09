@@ -21,18 +21,15 @@ import useMediaQuery from "@/hooks/useMediaQuery";
 import MobileBuyBtn from "../MobileBuyBtn/MobileBuyBtn";
 import { ICard } from "@/types/Card/card";
 import {
-  deleteFavoritesProductAuthed,
-  postBasketProduct,
   postBasketProductAuthed,
-  postFavorite,
   postTovar,
 } from "@/api/clientRequest";
 import { AuthContext } from "@/context/AuthContext";
 import AuthModal from "@/components/AuthModal/AuthModal";
 import InformationModal from "@/components/UI/InformationModal/InformationModal";
-import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 import { addProductToCart } from "@/store/reducers/cart.reducer";
 import useFavorites from "@/hooks/useFavorites";
+import ReducerBtn from "@/UI/ReducerBtn/ReducerBtn";
 
 interface IPriceProps {
   data: ICardProductItems;
@@ -469,12 +466,6 @@ const ItemPriceCard = ({ data, id_cart }: IPriceProps) => {
             className={styles.share_btnControl}
             onClick={handleFavoriteClick}
           >
-            {/* <FavoriteModal
-              isVisible={isModalVisible}
-              message={modalMessage}
-              isRedirect={isRedirect}
-              onClose={handleModalClose}
-            /> */}
             <button
               aria-label="add to favorites"
               title={
