@@ -164,7 +164,7 @@ const ReducerBtn = ({
 
         if (currentQuantity <= data.minQty) {
           if (pathname !== "/cart") {
-            dispatch(removeProductFromCart(product.id_tov));
+            dispatch(removeProductFromCart([product.id_tov]));
           }
 
           if (removeItem) {

@@ -30,7 +30,6 @@ import { removeProductFromCart } from "@/store/reducers/cart.reducer";
 import { RootState } from "@/store";
 import BasketsItems from "./BasketsItems/BasketsItems";
 
-
 const AbduModal = dynamic(() => import("./AbduModal/AbduModal"), {
   ssr: false,
 });
@@ -142,11 +141,10 @@ const Abdu = ({
     setChoosed(id_tov);
   };
 
-
   // Функция для подтверждения удаления товаров
   const removeTovars = async () => {
     if (choosedModal && choosed) {
-      dispatch(removeProductFromCart(choosed));
+      dispatch(removeProductFromCart([]));
 
       closeModal();
 
@@ -172,6 +170,7 @@ const Abdu = ({
       }
 
       const selectedIdsArray = selectedIds.split(",").map((id) => parseInt(id));
+      dispatch(removeProductFromCart(selectedIdsArray));
       setItems((prevItems) =>
         prevItems.filter((item) => !selectedIdsArray.includes(item.id_tov))
       );
