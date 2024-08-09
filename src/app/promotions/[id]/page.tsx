@@ -6,6 +6,15 @@ import {
 import PromoById from "@/components/HomeComponents/Promotion/PromoById/PromoById";
 import { IPromoById, IPromoProduct } from "@/types/Promo/PromoById";
 
+export async function generateMetadata({ params: { id } }: any) {
+  const data = await getPromoByIdOne(id);
+
+  const title = data.ak.naim;
+  return {
+    title: title,
+  };
+}
+
 export default async function IDPage({ params: { id } }: any) {
   const [dataOne, dataTwo, dataThree]: IPromoById[] = await Promise.all([
     getPromoByIdOne(id),
