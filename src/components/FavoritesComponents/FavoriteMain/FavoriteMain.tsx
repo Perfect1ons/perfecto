@@ -32,7 +32,7 @@ export default function Favorites({
 
   const [currentPage, setCurrentPage] = useState(initialPage);
 
-  const favoriteCount = localStorage.getItem("favCount");
+  const [favoriteCount, setFavoriteCount] = useState<number | null>(null);
 
   const pageCount = favCount / 20;
 
@@ -45,25 +45,33 @@ export default function Favorites({
   };
 
   useEffect(() => {
-    const existingFavorites = JSON.parse(
-      localStorage.getItem("favorites") || "[]"
-    );
+    const count = localStorage.getItem("favCount");
+    if (count) {
+      setFavoriteCount(parseInt(count));
+    }
+    window.dispatchEvent(new Event("favUpdated"));
+  }, [favorites]);
 
-    const newFavorites = favoriteData.filter(
-      (fav) =>
-        !existingFavorites.some(
-          (existingFav: any) => existingFav.id_tov === fav.id_tov
-        )
-    );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const existingFavorites = JSON.parse(
+        localStorage.getItem("favorites") || "[]"
+      );
 
-    const updatedFavorites = [...existingFavorites, ...newFavorites];
+      const newFavorites = favoriteData.filter(
+        (fav) =>
+          !existingFavorites.some(
+            (existingFav: any) => existingFav.id_tov === fav.id_tov
+          )
+      );
 
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      const updatedFavorites = [...existingFavorites, ...newFavorites];
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      localStorage.setItem("favCount", JSON.stringify(favCount));
 
-    localStorage.setItem("favCount", JSON.stringify(favCount));
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      setFavoriteCount(Number(localStorage.getItem("favCount")));
+    }
+  }, [favoriteData, favCount]);
 
   useEffect(() => {
     const fetchFav = async () => {
